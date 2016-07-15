@@ -1,0 +1,559 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="selectPage">
+
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+
+	<typeAlias alias="ZcEbEvalReport"
+		type="com.ufgov.zc.common.zc.model.ZcEbEvalReport" />
+
+	<resultMap id="zcBAgencyMap" class="com.ufgov.zc.common.zc.model.ZcBAgency">
+		<result column="AGENCY" property="agency" jdbcType="VARCHAR" />
+		<result column="ZC_DIYU_DAIMA" property="zcDiyuDaima" jdbcType="VARCHAR" />
+		<result column="AGENCY_NAME" property="agencyName" jdbcType="VARCHAR" />
+		<result column="ZC_AGEY_JGDM" property="zcAgeyJgdm" jdbcType="VARCHAR" />
+		<result column="ZC_AGEY_ADDR" property="zcAgeyAddr" jdbcType="VARCHAR" />
+		<result column="ZC_AGEY_ZIP" property="zcAgeyZip" jdbcType="VARCHAR" />
+		<result column="ZC_AGEY_LINKMAN" property="zcAgeyLinkman"
+			jdbcType="VARCHAR" />
+		<result column="ZC_AGEY_TEL" property="zcAgeyTel" jdbcType="VARCHAR" />
+		<result column="ZC_AGEY_TYPE" property="zcAgeyType" jdbcType="VARCHAR" />
+		<result column="ZC_RANDOM_ID" property="zcRandomId" jdbcType="DECIMAL" />
+		<result column="ZC_INPUT_EMP_CODE" property="zcInputEmpCode"
+			jdbcType="VARCHAR" />
+		<result column="ZC_INPUT_DATE" property="zcInputDate" jdbcType="TIMESTAMP" />
+		<result column="ZC_INPUT_EMP_NAME" property="zcInputEmpName"
+			jdbcType="VARCHAR" />
+		<result column="ZC_AUDIT_EMP_CODE" property="zcAuditEmpCode"
+			jdbcType="VARCHAR" />
+		<result column="ZC_AUDIT_DATE" property="zcAuditDate" jdbcType="TIMESTAMP" />
+		<result column="ZC_AUDIT_EMP_NAME" property="zcAuditEmpName"
+			jdbcType="VARCHAR" />
+		<result column="ZC_STAT_CODE" property="zcStatCode" jdbcType="VARCHAR" />
+	</resultMap>
+	<resultMap class="com.ufgov.zc.common.zc.model.ZcXmcgHt" id="ZcXmcgHtForHt">
+		<result column="ZC_MAKE_CODE" jdbcType="VARCHAR" property="zcPProMake.zcMakeCode" />
+		<result column="ZC_MAKE_NAME" jdbcType="VARCHAR" property="zcPProMake.zcMakeName" />
+		<result column="ZC_MONEY_BI_SUM" jdbcType="VARCHAR"
+			property="zcPProMake.zcMoneyBiSum" />
+		<result column="ZC_PIFU_CGFS" jdbcType="VARCHAR" property="zcPProMake.zcPifuCgfs" />
+		<result column="ZC_BID_CODE" jdbcType="VARCHAR" property="zcBidCode" />
+		<result column="CO_CODE" jdbcType="VARCHAR" property="coCode" />
+		<result column="ND" jdbcType="NUMBER" property="nd" />
+		<result column="ZC_SU_NAME" jdbcType="VARCHAR" property="zcSuName" />
+		<result column="ZC_HT_NUM" jdbcType="DECIMAL" property="zcHtNum" />
+		<result column="ZC_SU_CODE" jdbcType="VARCHAR" property="zcSuCode" />
+		<result column="ZC_ZB_NAME" jdbcType="VARCHAR" property="zcZbName" />
+		<result column="ZC_ZB_CODE" jdbcType="VARCHAR" property="zcZbCode" />
+		<result column="ZC_CG_LEIXING" jdbcType="VARCHAR" property="zcCgLeixing" />
+		<result column="ZC_BID_CONTENT" jdbcType="VARCHAR" property="zcBidContent" />
+	</resultMap>
+	<resultMap class="com.ufgov.zc.common.zc.model.ZcXmcgHt" id="ZcXmcgHtForZxHt"
+		extends="ZcXmcgHtForHt">
+		<result column="lxr" jdbcType="VARCHAR" property="zcPProMake.zcMakeLinkman" />
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="projName" column="PROJ_NAME" />
+	</resultMap>
+
+	<resultMap id="ZcEbEvalReportResult" class="ZcEbEvalReport">
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="projName" column="PROJ_NAME" />
+		<result property="packCode" column="PACK_CODE" />
+		<result property="packName" column="PACK_NAME" />
+		<result property="recordCode" column="RECORD_CODE" />
+		<result property="reportCode" column="REPORT_CODE" />
+		<result property="status" column="STATUS" />
+		<result property="remark" column="REMARK" />
+		<result property="executor" column="EXECUTOR" />
+		<result property="tsqkDescription" column="TSQK_DESCRIPTION" />
+		<result property="evalDescription" column="EVAL_DESCRIPTION" />
+		<result property="reportAttachBlobid" column="REPORT_ATTACH_BLOBID" />
+		<result property="signReportAttachBlobid" column="SIGN_REPORT_ATTACH_BLOBID" />
+		<result property="executeDate" column="EXECUTE_DATE" />
+		<result property="bidDate" column="BID_DATE" />
+		<result property="bidLocation" column="BID_LOCATION" />
+		<result property="purType" column="PUR_TYPE" />
+		<result property="superviseOpinion" column="SUPERVISE_OPINION" />
+		<result property="callBidOpinion" column="CALL_BID_OPINION" />
+		<result property="providerName" column="PROVIDER_NAME" />
+		<result property="providerCode" column="PROVIDER_CODE" />
+		<result property="bidEvalOpinion" column="BID_EVAL_OPINION" />
+		<result property="processInstId" column="PROCESS_INST_ID" />
+		<result property="nd" column="ND" />
+		<result property="isGoonAudit" column="IS_GOON_AUDIT" />
+		<result property="bidSum" column="BID_SUM" />
+		<result property="coCode" column="CO_CODE" />
+		<result property="coName" column="CO_NAME" />
+		<result property="zcCoLinkMan" column="ZC_CO_LINKMAN" />
+		<result property="agency" column="AGENCY" />
+		<result property="orgCode" column="ORG_CODE" />
+		<result property="expertOpinion" column="EXPERT_OPINION"
+			jdbcType="CLOB" javaType="java.lang.String" />
+	</resultMap>
+
+	<sql id="zcBAgency_Example_Where_Clause">
+		<iterate property="oredCriteria" conjunction="or" prepend="where"
+			removeFirstPrepend="iterate">
+			<isEqual property="oredCriteria[].valid" compareValue="true">
+				(
+				<iterate prepend="and" property="oredCriteria[].criteriaWithoutValue"
+					conjunction="and">
+					$oredCriteria[].criteriaWithoutValue[]$
+				</iterate>
+				<iterate prepend="and" property="oredCriteria[].criteriaWithSingleValue"
+					conjunction="and">
+					$oredCriteria[].criteriaWithSingleValue[].condition$
+					#oredCriteria[].criteriaWithSingleValue[].value#
+				</iterate>
+				<iterate prepend="and" property="oredCriteria[].criteriaWithListValue"
+					conjunction="and">
+					$oredCriteria[].criteriaWithListValue[].condition$
+					<iterate property="oredCriteria[].criteriaWithListValue[].values"
+						open="(" close=")" conjunction=",">
+						#oredCriteria[].criteriaWithListValue[].values[]#
+					</iterate>
+				</iterate>
+				<iterate prepend="and" property="oredCriteria[].criteriaWithBetweenValue"
+					conjunction="and">
+					$oredCriteria[].criteriaWithBetweenValue[].condition$
+					#oredCriteria[].criteriaWithBetweenValue[].values[0]# and
+					#oredCriteria[].criteriaWithBetweenValue[].values[1]#
+				</iterate>
+				)
+			</isEqual>
+		</iterate>
+	</sql>
+	<select id="zcBAgency_selectByExample" resultMap="zcBAgencyMap"
+		parameterClass="com.ufgov.zc.common.zc.model.ZcBAgencyExample">
+		select AGENCY, ZC_DIYU_DAIMA, AGENCY_NAME, ZC_AGEY_JGDM,
+		ZC_AGEY_ADDR,
+		ZC_AGEY_ZIP,
+		ZC_AGEY_LINKMAN, ZC_AGEY_TEL, ZC_AGEY_TYPE,
+		ZC_RANDOM_ID,
+		ZC_INPUT_EMP_CODE,
+		ZC_INPUT_DATE,
+		ZC_INPUT_EMP_NAME,
+		ZC_AUDIT_EMP_CODE,
+		ZC_AUDIT_DATE, ZC_AUDIT_EMP_NAME, ZC_STAT_CODE
+		from
+		ZC_B_AGENCY
+		<isParameterPresent>
+			<include refid="selectPage.zcBAgency_Example_Where_Clause" />
+			<isNotNull property="orderByClause">
+				order by $orderByClause$
+			</isNotNull>
+		</isParameterPresent>
+	</select>
+
+	<resultMap class="com.ufgov.zc.common.zc.model.ZcBCatalogue"
+		id="zcBCatalogueMap">
+		<result column="ZC_CATALOGUE_CODE" jdbcType="VARCHAR" property="code" />
+		<result column="ZC_CATALOGUE_NAME" jdbcType="VARCHAR" property="name" />
+		<result column="ZC_CATALOGUE_CODE_PAR" jdbcType="VARCHAR"
+			property="parentCode" />
+		<result column="ZC_CATALOGUE_CODE" jdbcType="VARCHAR" property="zcCatalogueCode" />
+		<result column="ZC_DIYU_DAIMA" jdbcType="VARCHAR" property="zcDiyuDaima" />
+		<result column="ZC_YEAR" jdbcType="CHAR" property="zcYear" />
+		<result column="ZC_CATALOGUE_NAME" jdbcType="VARCHAR" property="zcCatalogueName" />
+		<result column="ZC_CATALOGUE_CODE_PAR" jdbcType="VARCHAR"
+			property="zcCatalogueCodePar" />
+		<result column="ZC_CATALOGUE_TYPE" jdbcType="VARCHAR" property="zcCatalogueType" />
+		<result column="ZC_QUOTA" jdbcType="DECIMAL" property="zcQuota" />
+		<result column="ZC_METRIC_UNIT" jdbcType="VARCHAR" property="zcMetricUnit" />
+		<result column="ZC_IS_VITAL" jdbcType="CHAR" property="zcIsVital" />
+		<result column="ZC_IS_USED" jdbcType="CHAR" property="zcIsUsed" />
+		<result column="ZC_TARGET_TYPE" jdbcType="VARCHAR" property="zcTargetType" />
+		<result column="ZC_PINMU_CTLG" jdbcType="VARCHAR" property="zcPinmuCtlg" />
+		<result column="ZC_IS_CGZX_ZG" jdbcType="VARCHAR" property="zcIsCgzxZg" />
+		<result column="ZC_IS_GENERAL" jdbcType="VARCHAR" property="zcIsGeneral" />
+		<result column="ZC_YEAR_PAR" jdbcType="CHAR" property="zcYearPar" />
+		<result column="ZC_QUOTA_UNIT" jdbcType="DECIMAL" property="zcQuotaUnit" />
+		<result column="ZC_CG_LEIXING" jdbcType="VARCHAR" property="zcCgLeixing" />
+		<result column="ZC_ZCGZ_STD" jdbcType="VARCHAR" property="zcZcgzStd" />
+		<result column="ZC_IS_ASSERT" jdbcType="CHAR" property="zcIsAssert" />
+	</resultMap>
+	<sql id="zcBCatalogue_Example_Where_Clause">
+		<iterate conjunction="or" prepend="where" property="oredCriteria"
+			removeFirstPrepend="iterate">
+			<isEqual compareValue="true" property="oredCriteria[].valid">
+				(
+				<iterate conjunction="and" prepend="and"
+					property="oredCriteria[].criteriaWithoutValue">
+					$oredCriteria[].criteriaWithoutValue[]$
+				</iterate>
+				<iterate conjunction="and" prepend="and"
+					property="oredCriteria[].criteriaWithSingleValue">
+					$oredCriteria[].criteriaWithSingleValue[].condition$
+					#oredCriteria[].criteriaWithSingleValue[].value#
+				</iterate>
+				<iterate conjunction="and" prepend="and"
+					property="oredCriteria[].criteriaWithListValue">
+					$oredCriteria[].criteriaWithListValue[].condition$
+					<iterate close=")" conjunction="," open="("
+						property="oredCriteria[].criteriaWithListValue[].values">
+						#oredCriteria[].criteriaWithListValue[].values[]#
+					</iterate>
+				</iterate>
+				<iterate conjunction="and" prepend="and"
+					property="oredCriteria[].criteriaWithBetweenValue">
+					$oredCriteria[].criteriaWithBetweenValue[].condition$
+					#oredCriteria[].criteriaWithBetweenValue[].values[0]# and
+					#oredCriteria[].criteriaWithBetweenValue[].values[1]#
+				</iterate>
+				)
+			</isEqual>
+		</iterate>
+	</sql>
+	<select id="zcBCatalogue_selectByExample" parameterClass="com.ufgov.zc.common.zc.model.ZcBCatalogueExample"
+		resultMap="zcBCatalogueMap">
+		select ZC_CATALOGUE_CODE, ZC_DIYU_DAIMA, ZC_YEAR, ZC_CATALOGUE_NAME,
+		ZC_CATALOGUE_CODE_PAR,
+		ZC_CATALOGUE_TYPE, ZC_QUOTA, ZC_METRIC_UNIT,
+		ZC_IS_VITAL, ZC_IS_USED, ZC_TARGET_TYPE,
+		ZC_PINMU_CTLG, ZC_IS_CGZX_ZG,
+		ZC_IS_GENERAL, ZC_YEAR_PAR,
+		ZC_QUOTA_UNIT, ZC_CG_LEIXING,
+		ZC_ZCGZ_STD,
+		ZC_IS_ASSERT
+		from ZC_B_CATALOGUE
+		<isParameterPresent>
+			<include refid="selectPage.zcBCatalogue_Example_Where_Clause" />
+			<isNotNull property="orderByClause">
+				order by $orderByClause$
+			</isNotNull>
+		</isParameterPresent>
+	</select>
+
+	<select id="zcBXYCatalogue_selectByExample" parameterClass="elementCondition"
+		resultMap="zcBCatalogueMap">
+		SELECT ZC_CATALOGUE_CODE,
+		ZC_DIYU_DAIMA,
+		ZC_YEAR,
+		ZC_CATALOGUE_NAME,
+		ZC_CATALOGUE_CODE_PAR,
+		ZC_CATALOGUE_TYPE,
+		ZC_QUOTA,
+		ZC_METRIC_UNIT,
+		ZC_IS_VITAL,
+		ZC_IS_USED,
+		ZC_TARGET_TYPE,
+		ZC_PINMU_CTLG,
+		ZC_IS_CGZX_ZG,
+		ZC_IS_GENERAL,
+		ZC_YEAR_PAR,
+		ZC_QUOTA_UNIT,
+		ZC_CG_LEIXING,
+		ZC_ZCGZ_STD,
+		ZC_IS_ASSERT
+		from ZC_B_CATALOGUE
+		WHERE (ZC_YEAR =
+		#zcText0:VARCHAR#)
+		AND
+		ZC_CATALOGUE_CODE IN(
+		SELECT distinct
+		ZE.ZC_CATALOGUE_CODE FROM
+		ZC_B_MERCHANDISE ZE WHERE
+		ZE.ZC_YEAR=#zcText0:VARCHAR#
+		)
+		order by
+		ZC_CATALOGUE_CODE
+	</select>
+	<select id="zcBCatalogue_selectByExampleLimit" parameterClass="elementCondition"
+		resultMap="zcBCatalogueMap">
+		select ZC_CATALOGUE_CODE, ZC_DIYU_DAIMA, ZC_YEAR, ZC_CATALOGUE_NAME,
+		ZC_CATALOGUE_CODE_PAR,
+		ZC_CATALOGUE_TYPE, ZC_QUOTA, ZC_METRIC_UNIT,
+		ZC_IS_VITAL, ZC_IS_USED, ZC_TARGET_TYPE,
+		ZC_PINMU_CTLG, ZC_IS_CGZX_ZG,
+		ZC_IS_GENERAL, ZC_YEAR_PAR,
+		ZC_QUOTA_UNIT, ZC_CG_LEIXING,
+		ZC_ZCGZ_STD,
+		ZC_IS_ASSERT
+		from ZC_B_CATALOGUE
+		where ZC_IS_DIANZI_TOUBIAO='1'
+		<isNotNull prepend="and" property="zcText0">
+			ZC_YEAR=#zcText0:VARCHAR#
+		</isNotNull>
+		order by ZC_CATALOGUE_CODE
+	</select>
+	<!-- ZcPProMakeForHt -->
+	<resultMap class="com.ufgov.zc.common.zc.model.ZcXmcgHt" id="zcXmcgHtMap">
+		<result column="ZC_MAKE_CODE" jdbcType="VARCHAR" property="zcMakeCode" />
+		<result column="ZC_MAKE_NAME" jdbcType="VARCHAR" property="zcPProMake.zcMakeName" />
+		<result column="ZC_MONEY_BI_SUM" jdbcType="DECIMAL"
+			property="zcPProMake.zcMoneyBiSum" />
+	</resultMap>
+	<select id="zcPProMakeForHt_selectByExample" parameterClass="elementCondition"
+		resultMap="zcXmcgHtMap">
+		select ZC_MAKE_CODE, ZC_MAKE_NAME, ZC_MONEY_BI_SUM
+		from ZC_P_PRO_MAKE
+		master
+		where master.ZC_MAKE_STATUS = 'exec'
+		<isNotNull prepend="and" property="coCodeFilter">
+			master.CO_CODE=#coCodeFilter:VARCHAR#
+		</isNotNull>
+		<!-- <isNotNull prepend="and" property="zcText0"> master.ZC_FUKUAN_TYPE=#zcText0# 
+			</isNotNull> -->
+	</select>
+
+	<!-- ZcPProMakeForHt -->
+	<resultMap class="com.ufgov.zc.common.zc.model.ZcEbProjChange"
+		id="zcProjChgMap">
+		<result column="PROJ_SRC_CODE" jdbcType="VARCHAR" property="projSrcCode" />
+		<result column="PROJ_CODE" jdbcType="VARCHAR" property="projCode" />
+		<result column="PROJ_NAME" jdbcType="VARCHAR" property="projName" />
+		<result column="ND" jdbcType="DECIMAL" property="nd" />
+		<result column="PUR_TYPE" jdbcType="DECIMAL" property="purType" />
+		<result column="PUR_SRC_TYPE" jdbcType="DECIMAL" property="purSrcType" />
+		<result column="PROJ_SRC_SUM" jdbcType="DECIMAL" property="projSrcSum" />
+		<result column="PROJ_SUM" jdbcType="DECIMAL" property="projSum" />
+		<result column="CHG_TIMES" jdbcType="DECIMAL" property="chgTimes" />
+		<result column="CO_CODE" jdbcType="VARCHAR" property="coCode" />
+		<result column="CO_NAME" jdbcType="VARCHAR" property="coName" />
+	</resultMap>
+	<select id="zcProjChange_selectByExample" parameterClass="elementCondition"
+		resultMap="zcProjChgMap">
+		select
+		PROJ_SRC_CODE,PROJ_CODE,PROJ_NAME,ND,PUR_TYPE,PUR_SRC_TYPE,PROJ_SRC_SUM,PROJ_SUM,CO_CODE,CO_NAME,CHG_TIMES
+		from ZC_EB_PROJ_CHG master
+		<!--isNotNull prepend="and" property="billStatus"> master.ZC_MAKE_STATUS 
+			=#billStatus:VARCHAR# </isNotNull -->
+	</select>
+
+
+	<select id="selectProjectForCaiGouHt" parameterClass="elementCondition"
+		resultMap="ZcXmcgHtForHt">
+		select v.CO_CODE CO_CODE,
+	       v.zc_su_code ZC_SU_CODE,
+	       v.zc_su_code ZC_ZB_CODE,
+	       v.zc_su_name ZC_ZB_NAME,
+	       v.zc_su_name ZC_SU_NAME,
+	       v.zc_make_code ZC_MAKE_CODE,
+	       v.zc_make_name ZC_MAKE_NAME,
+	       0 ZC_MONEY_BI_SUM,
+	       v.pack_code ZC_BID_CODE,
+	       v.pack_name ZC_BID_CONTENT,
+	       v.nd ND,
+	       v.ecbj_sum ZC_HT_NUM,
+	       '' ZC_PIFU_CGFS,
+	       v.zc_fukuan_type ZC_CG_LEIXING
+	  from select_project_for_contract_v v
+	  left join (select zc_make_code,
+	                    nvl(sum(ZC_HT_NUM), 0) ZC_HT_NUM,
+	                    max(zc_ht_code) zc_ht_code
+	               from zc_xmcg_ht
+	              group by zc_make_code) ht
+	    on v.zc_make_code = ht.zc_make_code
+	 where (ht.zc_ht_code is null or v.zc_money_bi_sum > ht.ZC_HT_NUM)
+	   and not exists (select b.zc_bal_id
+	          from zc_p_pro_bal b
+	         where b.zc_make_code = v.zc_make_code
+	           and b.is_last_pay = 'Y')
+		<isNotNull prepend="and" property="coCodeFilter">
+			v.zc_su_code =
+			#coCodeFilter:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="and" property="coCode">
+			v.CO_CODE =
+			#coCode:VARCHAR#
+		</isNotNull>
+		<!-- <isNotNull prepend="and" property="zcText0"> master.ZC_FUKUAN_TYPE=#zcText0# 
+			</isNotNull> -->
+	</select>
+
+	<select id="selectProjectForCaiGouHtSup" parameterClass="elementCondition"
+		resultMap="ZcXmcgHtForHt">
+		select
+		v.CO_CODE CO_CODE,
+		v.zc_su_code ZC_SU_CODE,
+		v.zc_su_code
+		ZC_ZB_CODE,
+		v.zc_su_name ZC_ZB_NAME,
+		v.zc_su_name ZC_SU_NAME,
+		v.zc_make_code ZC_MAKE_CODE,
+		v.zc_make_name ZC_MAKE_NAME,
+		0
+		ZC_MONEY_BI_SUM,
+		v.pack_code
+		ZC_BID_CODE,
+		v.pack_name ZC_BID_CONTENT,
+		v.nd ND,
+		v.ecbj_sum
+		ZC_HT_NUM,
+		'' ZC_PIFU_CGFS,
+		v.zc_fukuan_type
+		ZC_CG_LEIXING
+		from select_project_for_contract_v v
+		left join
+		(select
+		zc_make_code,
+		nvl(sum(ZC_HT_NUM),0) ZC_HT_NUM,
+		max(zc_ht_code)
+		zc_ht_code
+		from zc_xmcg_ht
+		where zc_parht_code is null
+		and
+		zc_ht_status='exec'
+		group by zc_make_code) ht
+		on v.zc_make_code =
+		ht.zc_make_code
+		where
+		ht.zc_ht_code is not null
+		and not exists (select
+		b.zc_bal_id from
+		zc_p_pro_bal b where b.zc_make_code=v.zc_make_code and
+		b.is_last_pay='Y')
+		and ZC_FUKUAN_TYPE ='Z01'
+		<isNotNull prepend="and" property="coCodeFilter">
+			v.zc_su_code =
+			#coCodeFilter:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="and" property="coCode">
+			v.CO_CODE =
+			#coCode:VARCHAR#
+		</isNotNull>
+	</select>
+	<select id="selectPackForCaiGouHt" parameterClass="elementCondition"
+		resultMap="zcXmcgHtMap">
+		select zr.pack_code ZC_MAKE_CODE,zr.pack_name ZC_MAKE_NAME,0
+		ZC_MONEY_BI_SUM
+		from Zc_Eb_Eval_Report zr
+		where zr.proj_code =
+		#projectCode:VARCHAR#
+
+		<!-- <isNotNull prepend="and" property="zcText0"> master.ZC_FUKUAN_TYPE=#zcText0# 
+			</isNotNull> -->
+	</select>
+	<!--获取项目性质，竣工处使用 -->
+	<select id="selectProjectXZ" parameterClass="integer" resultMap="zcBCatalogueMap">
+		select ca.*,0 ZC_ZCGZ_STD from Zc_B_Catalogue ca where
+		length(ca.zc_catalogue_code) = 1 and ca.zc_year = #value# order by
+		ca.zc_catalogue_code
+	</select>
+
+	<select id="selectProjectForZxCaiGouHt" parameterClass="elementCondition"
+		resultMap="ZcXmcgHtForZxHt">
+		select p.co_code CO_CODE,
+			e.zc_make_linkman lxr,
+			decode(pj.pur_type,'5',r.win_bid_provider_code,v.PROVIDER_CODE) ZC_SU_CODE,
+			p.PACK_NAME ZC_ZB_CODE,
+			decode(pj.pur_type,'5',r.win_bid_provider_name,v.PROVIDER_NAME)
+			ZC_ZB_NAME,
+			decode(pj.pur_type,'5',r.win_bid_provider_name,v.PROVIDER_NAME)
+			ZC_SU_NAME,
+			e.zc_make_code ZC_MAKE_CODE,
+			e.zc_make_name ZC_MAKE_NAME,
+			e.zc_money_bi_sum ZC_MONEY_BI_SUM,
+			p.pack_code ZC_BID_CODE,
+			p.PACK_DESC ZC_BID_CONTENT,
+			p.nd ND,
+			decode(pj.pur_type, '5', r.win_bid_sum, v.bid_sum) ZC_HT_NUM,
+			p.pur_type
+			ZC_PIFU_CGFS,
+			av.val ZC_CG_LEIXING,
+			pj.proj_code,
+			pj.proj_name
+		from zc_eb_proj pj,
+			zc_eb_duty_audit_sheet sh,
+			zc_eb_entrust e,
+			zc_eb_pack p,
+			zc_eb_eval_report v,
+			zc_eb_rfq_pack r,
+			ZC_EB_NOTICE n,
+			zc_xmcg_ht ht,
+			(select * from as_val where valset_id='ZC_VS_PITEM_OPIWAY') av
+		where pj.proj_code =
+			p.proj_code
+			and p.entrust_code = sh.sn
+			and sh.sn = e.sn
+			and p.pack_code = v.PACK_CODE(+)
+			and p.pack_code = r.PACK_CODE(+)
+			and p.proj_code = r.proj_code(+)
+			and p.pack_code = n.pack_code(+)
+			and
+			p.pack_code = ht.zc_bid_code(+)
+			and ht.zc_ht_code is null
+			and
+			(p.pur_type = '4' or
+			(p.pur_type != '4' and n.notice_status is not
+			null))
+			and (v.proj_code is not null or r.open_bid_status='1')
+			and p.pur_type = av.val_id(+)
+			<isNotNull prepend="and" property="userId">
+				(
+				r.win_bid_provider_code=#userId#
+				or
+				v.PROVIDER_CODE=#userId#
+				)
+			</isNotNull>
+	</select>
+
+
+	<select id="selectProjectForDdcgHt" parameterClass="elementCondition"
+		resultMap="ZcXmcgHtForHt">
+		SELECT P.CO_CODE CO_CODE,
+		'' ZC_SU_CODE,
+		P.PACK_NAME ZC_ZB_CODE,
+		''
+		ZC_ZB_NAME,
+		'' ZC_SU_NAME,
+		P.PROJ_CODE ZC_MAKE_CODE,
+		PJ.PROJ_NAME
+		ZC_MAKE_NAME,
+		PJ.PROJ_SUM ZC_MONEY_BI_SUM,
+		P.PACK_CODE ZC_BID_CODE,
+		P.PACK_DESC ZC_BID_CONTENT,
+		P.ND ND,
+		P.PACK_BUDGET ZC_HT_NUM,
+		P.PUR_TYPE
+		ZC_PIFU_CGFS,
+		av.val ZC_CG_LEIXING
+		FROM ZC_EB_PROJ PJ,
+		ZC_EB_DUTY_AUDIT_SHEET SH,
+		ZC_EB_PACK P,
+		ZC_EB_EVAL_REPORT V,
+		ZC_EB_ENTRUST ZE,
+		(select * from as_val where
+		valset_id='ZC_VS_PITEM_OPIWAY') av
+		WHERE
+		PJ.PROJ_CODE = P.PROJ_CODE
+		AND
+		P.ENTRUST_CODE = SH.SN
+		AND ZE.SN =
+		P.ENTRUST_CODE
+		AND ZE.SN = SH.SN
+		AND
+		P.PACK_CODE = V.PACK_CODE(+)
+		and p.pur_type = av.val_id(+)
+		AND
+		ZE.ZC_FUKUAN_TYPE = 'Z02'
+		<isNotNull prepend="and" property="userId">
+			sh.ATTN = #userId:VARCHAR#
+		</isNotNull>
+	</select>
+
+
+	<!-- 供应商编制合同时，选择中标分包 -->
+	<select id="selectPackForHtBySupplier" parameterClass="elementCondition"
+		resultMap="ZcXmcgHtForZxHt">
+		select r.*
+		from zc_eb_eval_report r, zc_eb_notice n
+		where
+		r.proj_code = n.proj_code
+		and r.pack_code = n.pack_code
+		and
+		n.provider_code = #userId:VARCHAR#
+		and n.NOTICE_STATUS = 'exec'
+		and not
+		exists (select ht.zc_ht_code
+		from zc_xmcg_ht ht
+		where ht.zc_bid_code =
+		n.pack_code)
+	</select>
+	
+</sqlMap>

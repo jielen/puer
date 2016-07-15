@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="UserFunc">
+	<typeAlias alias="userFuncDto" type="com.ufgov.zc.common.system.dto.UserFuncDto" />
+
+	<resultMap id="userFuncResult"
+		class="com.ufgov.zc.common.system.model.UserFunc">
+		<result property="userId" column="user_id" />
+		<result property="compoId" column="compo_id" />
+		<result property="funcId" column="func_id" />
+	</resultMap>
+
+	<select id="getUserGrantFunc" resultMap="userFuncResult"
+		parameterClass="userFuncDto">
+		SELECT * FROM ( select user_id,compo_id,func_id from
+		v_as_emp_func where USER_ID=#userId:VARCHAR# and
+		COMPO_ID=#compoId:VARCHAR#
+		<isNotNull prepend="AND" property="coCode">
+			co_code = #coCode:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="AND" property="orgCode">
+			org_code = #orgCode:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="AND" property="posiCode">
+			posi_code = #posiCode:VARCHAR#
+		</isNotNull>
+		union all select user_id,compo_id,func_id from v_as_usr_func
+		where USER_ID=#userId:VARCHAR# and COMPO_ID=#compoId:VARCHAR#
+		union all select '$userId$' user_id ,'$compoId$'
+		compo_id,func_id from as_func t where t.is_grant_to_all='Y' or
+		t.is_grant_to_all='y' ) grantFunc WHERE NOT EXISTS (select *
+		from AS_COMPO_FUNC TT WHERE TT.COMPO_ID=grantFunc.compo_id AND
+		TT.FUNC_ID =grantFunc.FUNC_ID AND (TT.IS_NEVER_USE='Y' or
+		TT.IS_NEVER_USE='y'))
+	</select>
+
+	<select id="getUsedCompoFunc" resultClass="string"
+		parameterClass="string">
+		select func_id from AS_COMPO_FUNC TT WHERE
+		TT.COMPO_ID=#compoId:VARCHAR# AND (TT.IS_NEVER_USE ='N' or
+		TT.IS_NEVER_USE='n' or TT.IS_NEVER_USE is null)
+	</select>
+
+
+</sqlMap>

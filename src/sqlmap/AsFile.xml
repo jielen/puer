@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="AsFile">
+	<typeAlias alias="gkAsFile" type="com.ufgov.zc.common.system.model.AsFile" />
+
+	<resultMap id="asFileResult" class="gkAsFile">
+		<result property="fileId" column="FILE_ID" />
+		<result property="fileName" column="FULL_NAME" />
+		<result property="mimeType" column="SUFFIX_NAME" />
+		<result property="filePath" column="FILE_PATH" />
+		<result property="fileContent" column="FILE_CONTENT" typeHandler="org.springframework.orm.ibatis.support.BlobByteArrayTypeHandler"/>   
+	</resultMap>
+	
+	<resultMap id="largeAsFileResult" class="gkAsFile">
+		<result property="fileId" column="FILE_ID" />
+		<result property="fileName" column="FULL_NAME" />
+		<result property="mimeType" column="SUFFIX_NAME" />
+		<result property="largeFileStream" column="FILE_CONTENT" typeHandler="com.ufgov.zc.server.zc.fileResumeBroken.largeFileOperate.StreamHandler"/>   
+	</resultMap>
+	
+    <resultMap id="AsFileDirectory" class="gkAsFile">
+		<result property="fileId" column="FILE_ID" />
+		<result property="fileName" column="FULL_NAME" />
+		<result property="mimeType" column="SUFFIX_NAME" />
+		<result property="filePath" column="FILE_PATH"/>
+	</resultMap>
+
+	<insert id="insertAsFile" parameterClass="gkAsFile">
+		insert into AS_FILE ( FILE_ID, FULL_NAME, SUFFIX_NAME,FILE_CONTENT,FILE_PATH) values (
+		#fileId#, #fileName#, #mimeType#,#fileContent,handler=org.springframework.orm.ibatis.support.BlobByteArrayTypeHandler#,#filePath#)
+	</insert>
+	
+	<insert id="insertAsFileDirectory" parameterClass="gkAsFile">
+		insert into AS_FILE ( FILE_ID, FULL_NAME, SUFFIX_NAME, FILE_PATH) values (
+		#fileId#, #fileName#, #mimeType#, #filePath#)
+	</insert>
+		
+	<insert id="insertLargeAsFile" parameterClass="gkAsFile">
+		insert into AS_FILE ( FILE_ID, FULL_NAME, SUFFIX_NAME,FILE_CONTENT) values (
+		#fileId#, #fileName#, #mimeType#,#largeFileContent,handler=com.ufgov.zc.server.zc.fileResumeBroken.largeFileOperate.StreamHandler#)	
+	</insert>
+
+	<select id="getAsFileById" resultMap="asFileResult"
+		parameterClass="string">
+		select FILE_ID, FULL_NAME, SUFFIX_NAME,FILE_CONTENT,FILE_PATH from AS_FILE where
+		FILE_ID = #value:VARCHAR#
+	</select>
+	
+	<select id="getLargeAsFileById" resultMap="largeAsFileResult"
+		parameterClass="string">
+		select FILE_ID, FULL_NAME, SUFFIX_NAME,FILE_CONTENT from AS_FILE where
+		FILE_ID = #value:VARCHAR#
+	</select>
+
+	<select id="getLargeAsFile" resultMap="largeAsFileResult"
+		parameterClass="java.util.HashMap">
+		select FILE_ID, FULL_NAME, SUFFIX_NAME,FILE_CONTENT from AS_FILE 
+        <dynamic prepend="where">
+          <isNotNull prepend="AND">
+            FILE_ID IN
+            <iterate property="fileIdList" open="(" close=")" conjunction=",">
+               #fileIdList[]#
+            </iterate>
+          </isNotNull>        
+        </dynamic>
+	</select>
+
+	<delete id="deleteAsFileById" parameterClass="string">
+		delete from AS_FILE where FILE_ID = #value#
+	</delete>
+
+	<update id="updateAsFileById" parameterClass="gkAsFile">
+		update 
+		       AS_FILE
+		   set
+		       FULL_NAME = #fileName#, 
+		       SUFFIX_NAME = #mimeType#,
+		       FILE_CONTENT = #fileContent,handler=org.springframework.orm.ibatis.support.BlobByteArrayTypeHandler#
+		 where
+		       FILE_ID = #fileId#
+	</update>
+
+	<select id="getAsFileByIdNoContent" resultMap="AsFileDirectory"
+		parameterClass="string">
+		select FILE_ID, FULL_NAME, SUFFIX_NAME,FILE_PATH from AS_FILE where
+		FILE_ID = #value:VARCHAR#
+	</select>
+</sqlMap>

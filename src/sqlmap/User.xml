@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+   
+<sqlMap namespace="User">
+	<typeAlias alias="asEmp" type="com.ufgov.zc.common.console.model.AsEmp"/>
+	<typeAlias alias="asUserGroup" type="com.ufgov.zc.common.console.model.AsUserGroup"/>
+	<typeAlias alias="asEmpPosition" type="com.ufgov.zc.common.commonbiz.model.Position"/>
+	
+	<resultMap id="userResult" class="com.ufgov.zc.common.system.model.User">
+		<result property="userId" column="user_id" />
+		<result property="userName" column="user_name" />
+		<result property="password" column="passwd" />
+	</resultMap>
+		
+	<resultMap class="asEmp" id="asEmpResult">
+		<result property="empCode" column="EMP_CODE"></result>
+		<result property="empName" column="EMP_NAME"></result>
+		<result property="userId" column="USER_ID"></result>
+        <result property="caSerial" column="CA_SERIAL"></result>
+		<result property="isLogin" column="IS_LOGIN"></result>
+	</resultMap>
+	
+	<resultMap class="asEmpPosition" id="asEmpPositionResult">
+		<result property="empCode" column="EMP_CODE"></result>
+		<result property="posiCode" column="POSI_CODE"></result>
+		<result property="orgCode" column="ORG_CODE"></result>
+		<result property="coCode" column="CO_CODE"></result>
+		<result property="empPosiId" column="EMP_POSI_ID"></result>
+		<result property="nd" column="ND"></result>
+	</resultMap>
+ 
+	
+	<resultMap id="asUserGroupResult" class="com.ufgov.zc.common.console.model.AsUserGroup">
+		<result property="userId" column="user_id" />
+		<result property="groupId" column="group_id" />
+	</resultMap>
+
+
+	<select id="getUserById" resultMap="userResult"
+		parameterClass="string">
+		Select user_id,user_name,passwd From as_user t Where
+		user_id=#userId:VARCHAR#
+	</select>
+	<select id="getUserByIdByMap" resultMap="userResult"
+		parameterClass="map">
+		Select user_id,user_name,passwd From as_user t Where
+		user_id=#userId:VARCHAR#
+	</select>
+	<insert id="insertUser" parameterClass="com.ufgov.zc.common.system.model.User">
+		INSERT INTO AS_USER
+		  (user_id,user_name,passwd)
+		VALUES
+		  (#userId:VARCHAR#,#userName:VARCHAR#,#password:VARCHAR#)
+	</insert>
+ 
+ 
+ 	<delete id="deleteUserById" parameterClass="string">
+		delete From as_user t Where user_id=#userId:VARCHAR#
+	</delete>
+	<select id="getAsEmpByUserId" resultMap="asEmpResult"
+		parameterClass="string">
+		Select t.* From as_emp t Where
+		user_id=#userId:VARCHAR#
+	</select>
+	<insert id="insertAsEmp" parameterClass="asEmp">
+		INSERT INTO AS_EMP
+		  (EMP_CODE,EMP_NAME,USER_ID,IS_LOGIN,CA_SERIAL)
+		VALUES
+		  (#empCode:VARCHAR#,#empName:VARCHAR#,#userId:VARCHAR#,#isLogin#,#caSerial:VARCHAR#)
+	</insert>
+	<insert id="insertAsEmpForDataExchange" parameterClass="asEmp">
+		INSERT INTO AS_EMP
+		  (EMP_CODE,EMP_NAME,USER_ID,IS_LOGIN,CA_SERIAL)
+		VALUES
+		  (#empCode:VARCHAR#,#empName:VARCHAR#,#userId:VARCHAR#,#isLogin#,#caSerial:VARCHAR#)
+	</insert>
+
+	<insert id="insertAsEmpLogin" parameterClass="asEmp">
+		INSERT INTO AS_EMP
+		  (EMP_CODE,EMP_NAME,USER_ID,IS_LOGIN,CA_SERIAL)
+		VALUES
+		  (#empCode:VARCHAR#,#empName:VARCHAR#,#userId:VARCHAR#,#isLogin:VARCHAR#,#caSerial:VARCHAR#)
+	</insert>
+
+	<update id="updateAsEmpLogin" parameterClass="asEmp">
+		UPDATE AS_EMP
+		  SET IS_LOGIN=#isLogin:VARCHAR#
+		WHERE EMP_CODE=#empCode:VARCHAR#
+ 	
+	</update>	
+	<delete id="deleteAsEmpByUserId" parameterClass="string">
+		delete From as_emp t Where user_id=#userId:VARCHAR#
+	</delete>
+
+	<select id="getAsEmpPosiByEmpCode" resultMap="asEmpPositionResult"
+		parameterClass="map">
+ 
+		select EMP_CODE, POSI_CODE, ORG_CODE, CO_CODE, EMP_POSI_ID, ND
+  	from AS_EMP_POSITION 
+	where 1=1
+	<isNotNull prepend="AND" property="EMP_CODE">
+	EMP_CODE = #EMP_CODE:VARCHAR# 
+	</isNotNull>
+	<isNotNull prepend="AND" property="POSI_CODE">
+	POSI_CODE = #POSI_CODE:VARCHAR# 
+	</isNotNull>
+	<isNotNull prepend="AND" property="CO_CODE">
+	CO_CODE = #CO_CODE:VARCHAR# 
+	</isNotNull>
+	<isNotNull property="ND">
+		<isNotEqual prepend="and" property="ND" compareValue="0">
+		 ND = #ND:VARCHAR#
+		</isNotEqual>
+	</isNotNull>
+	</select>
+	<insert id="insertAsEmpPosition" parameterClass="asEmpPosition">
+		INSERT INTO AS_EMP_POSITION
+		  (EMP_CODE,POSI_CODE,ORG_CODE,CO_CODE,EMP_POSI_ID,ND)
+		VALUES
+		  (#empCode:VARCHAR#,#posiCode:VARCHAR#,#orgCode:VARCHAR#,#coCode:VARCHAR#,#empPosiId:VARCHAR#,#nd:VARCHAR#)
+	</insert>
+ 
+ 
+	<delete id="deleteAsEmpPosiByEmpCode" parameterClass="map">
+  
+		delete from AS_EMP_POSITION where EMP_CODE = #EMP_CODE:VARCHAR# and ND = #ND:VARCHAR#
+	</delete>
+
+	
+	<select id="getAsUserGroupByUserId" resultMap="asUserGroupResult"
+		parameterClass="string">
+		Select USER_ID, GROUP_ID From as_user_group t Where
+		user_id=#userId:VARCHAR#
+	</select>
+	<insert id="insertAsUserGroup" parameterClass="asUserGroup">
+		INSERT INTO AS_USER_GROUP
+		  (GROUP_ID,USER_ID)
+		VALUES
+		  (#groupId:VARCHAR#,#userId:VARCHAR#)
+	</insert>
+ 
+	<delete id="deleteAsUserGroupByUserId" parameterClass="string">
+		delete From as_user_group t Where
+ user_id=#userId:VARCHAR#
+	</delete>
+
+    <select id="getEmpByCaSerial" resultMap="asEmpResult" parameterClass="asEmp">
+        select * from as_emp e where e.ca_serial=#caSerial:VARCHAR# 
+    </select>
+    
+    <update id="updateEmpCaSerial" parameterClass="asEmp">
+        update as_emp set ca_serial=#caSerial:VARCHAR# where emp_code=#empCode:VARCHAR#
+    </update>    
+    
+	<insert id="insertAsOrgPosition" parameterClass="java.util.HashMap">
+		INSERT INTO as_org_position
+		  (CO_CODE,POSI_CODE,ORG_CODE,LEADER_POSI_ID,ORG_POSI_ID,ND)
+		VALUES
+		  (#cocode:VARCHAR#,#posicode:VARCHAR#,#orgcode:VARCHAR#,#leaderposiid:VARCHAR#,#nd:VARCHAR#)
+	</insert>
+	
+</sqlMap>

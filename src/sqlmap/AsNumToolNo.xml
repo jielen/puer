@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="AsNumToolNo">
+	
+	<resultMap id="AsNumToolNoResult" class="com.ufgov.zc.common.system.model.AsNumToolNo">
+		<result column="ALT_PREFIX" property="altPrefix" jdbcType="VARCHAR"/>
+		<result column="FIX_PREFIX" property="fixPrefix" jdbcType="VARCHAR"/>
+		<result column="NUM_TOOL_ID" property="numToolId" jdbcType="VARCHAR"/>
+		<result column="NUM_NO" property="numNo" jdbcType="DECIMAL"/>
+	</resultMap>
+	
+	<select id="getAsNumToolNo" resultMap="AsNumToolNoResult" parameterClass="map">
+		select ALT_PREFIX, FIX_PREFIX, NUM_TOOL_ID, NUM_NO from AS_NUM_TOOL_NO 
+		where NUM_TOOL_ID = #numToolId:VARCHAR#
+		<isNotNull prepend="AND" property="altPrefix"> 
+			ALT_PREFIX = #altPrefix:VARCHAR# 
+		</isNotNull>
+		<isNotNull prepend="AND" property="fixPrefix"> 
+			FIX_PREFIX = #fixPrefix:VARCHAR# 
+		</isNotNull> 
+	</select>
+	
+	<insert id="insertAsNumToolNo" parameterClass="com.ufgov.zc.common.system.model.AsNumToolNo"> 
+		insert into AS_NUM_TOOL_NO
+		(ALT_PREFIX, FIX_PREFIX, NUM_TOOL_ID, NUM_NO) values 
+		(#altPrefix:VARCHAR#, #fixPrefix:VARCHAR#, #numToolId:VARCHAR#, #numNo:DECIMAL#) 
+	</insert>
+	
+	<update id="incNumNo" parameterClass="map"> 
+		update AS_NUM_TOOL_NO set NUM_NO = NUM_NO + 1 where NUM_TOOL_ID = #numToolId:VARCHAR#
+		<isNotNull prepend="AND" property="altPrefix"> 
+			ALT_PREFIX = #altPrefix:VARCHAR# 
+		</isNotNull>
+		<isNotNull prepend="AND" property="fixPrefix"> 
+			FIX_PREFIX = #fixPrefix:VARCHAR# 
+		</isNotNull> 
+	</update>
+	
+	<update id="updateNumNo" parameterClass="map"> 
+		update AS_NUM_TOOL_NO set NUM_NO = #numNo:DECIMAL# where NUM_TOOL_ID = #numToolId:VARCHAR#
+		<isNotNull prepend="AND" property="altPrefix"> 
+			ALT_PREFIX = #altPrefix:VARCHAR# 
+		</isNotNull>
+		<isNotNull prepend="AND" property="fixPrefix"> 
+			FIX_PREFIX = #fixPrefix:VARCHAR# 
+		</isNotNull> 
+	</update>
+	
+	<update id="updateAsNo"  parameterClass="map"> 
+		update as_no set cur_index = cur_index + 1 where compo_id =#compoId:VARCHAR#  and fix_segs = #fixSegs:VARCHAR# 
+	</update>
+	<insert id="insertAsNo" parameterClass="map"> 
+	 	insert into as_no(compo_id,fix_segs,cur_index) values(#compoId:VARCHAR# , #fixSegs:VARCHAR#, 1)
+	</insert>
+	
+	<select id="getAsNoCurIndex" resultClass="long" parameterClass="map">
+       	select CUR_INDEX from AS_NO where COMPO_ID = #compoId:VARCHAR# and FIX_SEGS = #fixSegs:VARCHAR#
+	</select>
+	
+</sqlMap>

@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ZcEbEcbjItem">
+
+	<typeAlias alias="ZcEbEcbjItem" type="com.ufgov.zc.common.zc.model.ZcEbEcbjItem" />
+	<typeAlias alias="ZcEbEcbj" type="com.ufgov.zc.common.zc.model.ZcEbEcbj" />
+	<typeAlias alias="ZcEbEcbjPlan" type="com.ufgov.zc.common.zc.model.ZcEbEcbjPlan" />
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<resultMap id="ZcEbEcbjItemResult" class="ZcEbEcbjItem">
+		<result property="signupPackId" column="SIGNUP_PACK_ID" />
+		<result property="bjNo" column="BJNO" />
+		<result property="bjSum" column="BJSUM" />
+		<result property="fileId" column="FILE_ID" />
+		<result property="fileName" column="FILE_NAME" />
+		<result property="bjTime" column="BJ_TIME" />
+		<result property="upLoadType" column="UPLOAD_TYPE" />
+		<result property="upLoader" column="UPLOADER" />
+		<result property="status" column="STATUS" />
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="projName" column="PROJ_NAME" />
+		<result property="packCode" column="PACK_CODE" />
+		<result property="packName" column="PACK_NAME" />
+		<result property="providerCode" column="PROVIDER_CODE" />
+		<result property="providerName" column="PROVIDER_NAME" />
+		<result property="openBidTime" column="OPEN_BID_TIME" />
+		<result property="openFailReason" column="OPEN_FAIL_REASON" />
+		<result property="remark" column="REMARK" />
+		<result property="promiseWorkDate" column="PROMISE_WORK_DATE" />		<result property="orgCode" column="ORG_CODE" />		<result property="agency" column="AGENCY" />		<result property="nd" column="ND" />		<result property="executor" column="EXECUTOR" />		<result property="executeDate" column="EXECUTE_DATE" />
+	</resultMap>
+
+	<resultMap id="ZcEbEcbjResult" class="ZcEbEcbj">
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="projName" column="PROJ_NAME" />
+		<result property="packCode" column="PACK_CODE" />
+		<result property="packName" column="PACK_NAME" />
+		<result property="providerCode" column="PROVIDER_CODE" />
+		<result property="providerName" column="PROVIDER_NAME" />
+		<result property="signupId" column="SIGNUP_ID" />
+		<result property="signupPackId" column="SIGNUP_PACK_ID" />
+		<result property="openBidStatus" column="OPEN_BID_STATUS" />
+		<result property="packStatus" column="PACK_STATUS" />
+		<result property="openBidRemark" column="OPEN_BID_REMARK" />
+		<result property="openBidDate" column="OPEN_BID_DATE" />
+		<result property="ecbjSum" column="ECBJ_SUM" />
+		<result property="bjSum" column="BID_SUM" />
+	</resultMap>
+
+	<resultMap id="ZcEbEcbjPlanResult" class="ZcEbEcbjPlan">
+		<result property="planCode" column="PLAN_CODE" />
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="packCode" column="PACK_CODE" />
+		<result property="bjCount" column="BJ_COUNT" />
+		<result property="startTime" column="START_TIME" />
+		<result property="endTime" column="END_TIME" />
+		<result property="openBidTime" column="OPEN_BID_TIME" />
+		<result property="openBidAddress" column="OPEN_BID_ADDRESS" />
+		<result property="remark" column="REMARK" />
+	</resultMap>
+	<select id="getZcEbEcBjList" resultMap="ZcEbEcbjResult"
+		parameterClass="elementCondition">
+		SELECT
+		PROJ.PROJ_CODE,
+		PROJ.PROJ_NAME,
+		PACK.PACK_CODE,
+		PACK.PACK_NAME,
+		ZC_EB_SIGNUP.PROVIDER_CODE,
+		ZC_EB_SIGNUP.PROVIDER_NAME,
+		ZC_EB_SIGNUP.SIGNUP_ID,
+		C.SIGNUP_PACK_ID,
+		C.ECBJ_SUM,
+		C.BID_SUM,
+		CASE
+		WHEN
+		c.open_bid_status IS NULL THEN
+		'0'
+		ELSE
+		c.open_bid_status
+		END AS
+		OPEN_BID_STATUS,
+		PACK.STATUS AS PACK_STATUS,
+		C.OPEN_BID_REMARK,
+		C.OPEN_BID_DATE,
+		C.IS_PAY_GUARANTEE
+		FROM ZC_EB_PROJ PROJ, ZC_EB_PACK
+		PACK, ZC_EB_SIGNUP ZC_EB_SIGNUP,
+		ZC_EB_SIGNUP_PACK C
+		WHERE
+		PROJ.PROJ_CODE = PACK.PROJ_CODE
+		AND PACK.PACK_CODE = C.PACK_CODE
+		AND
+		PROJ.PROJ_CODE = ZC_EB_SIGNUP.PROJ_CODE
+		AND ZC_EB_SIGNUP.SIGNUP_ID =
+		C.SIGNUP_ID
+		AND C.IS_PAY_GUARANTEE in ('1', '2')
+		AND C.IS_SUBMIT_BID_DOC
+		= 'Y'
+		<isNotNull prepend="AND" property="status">
+			<isEqual property="status" compareValue="all">
+				1=1
+			</isEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="projCode">
+			PROJ.proj_code=#projCode#
+		</isNotNull>
+		<isNotNull prepend="AND" property="zcText0">
+			( PACK.pack_code like
+			'%'||#zcText0#||'%' or PACK.pack_name like '%'||#zcText0#||'%' )
+		</isNotNull>
+		<isNotNull prepend="AND" property="billStatus">
+			C.OPEN_BID_STATUS=#billStatus#
+		</isNotNull>
+		ORDER BY PROJ.PROJ_CODE DESC
+	</select>
+	<select id="getZcEbEcbjItemList" resultMap="ZcEbEcbjItemResult"
+		parameterClass="elementCondition">
+		select ZC_EB_ECBJ_ITEM.*
+		from ZC_EB_ECBJ_ITEM ZC_EB_ECBJ_ITEM
+		WHERE 1=1
+		<isNotNull prepend="AND" property="nd">
+			<isGreaterThan property="nd" compareValue="0">
+				ZC_EB_ECBJ_ITEM.ND=#nd#
+			</isGreaterThan>
+		</isNotNull>
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		<isNotNull prepend="AND" property="zcText0">
+			ZC_EB_ECBJ_ITEM.SIGNUP_PACK_ID=#zcText0#
+		</isNotNull>
+		<isNotNull prepend="AND" property="zcText1">
+			ZC_EB_ECBJ_ITEM.PROVIDER_CODE=#zcText1#
+		</isNotNull>
+		<isNotNull prepend="AND" property="status">
+			<isEqual property="status" compareValue="todo">			<!-- 等待开标的通过二次报价的开标时间进行控制 -->				ZC_EB_ECBJ_ITEM.status='0'				<![CDATA[		 		AND  exists(				SELECT ZC_EB_ECBJ_PLAN.PROJ_CODE FROM ZC_EB_ECBJ_PLAN ZC_EB_ECBJ_PLAN				WHERE ZC_EB_ECBJ_PLAN.OPEN_BID_TIME < SYSDATE				AND ZC_EB_ECBJ_PLAN.PROJ_CODE=ZC_EB_ECBJ_ITEM.PROJ_CODE				AND ZC_EB_ECBJ_PLAN.PACK_CODE=ZC_EB_ECBJ_ITEM.PACK_CODE				)         ]]>
+			</isEqual>
+			<isEqual property="status" compareValue="success">
+				ZC_EB_ECBJ_ITEM.status='1'
+			</isEqual>
+			<isEqual property="status" compareValue="fail">
+				ZC_EB_ECBJ_ITEM.status='2'
+			</isEqual>
+			<isEqual property="status" compareValue="all">
+				1=1
+			</isEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="projCode">
+			ZC_EB_ECBJ_ITEM.proj_code=#projCode#
+		</isNotNull>
+		<isNotNull prepend="AND" property="packCode">
+			ZC_EB_ECBJ_ITEM.pack_code=#packCode#
+		</isNotNull>
+		order by
+		ZC_EB_ECBJ_ITEM.BJ_TIME,ZC_EB_ECBJ_ITEM.BJNO
+	</select>
+
+	<select id="getZcEbEcbjPlanList" resultMap="ZcEbEcbjPlanResult"
+		parameterClass="elementCondition">
+		select *
+		from
+		ZC_EB_ECBJ_PLAN master
+		where
+		1=1
+		<isNotNull prepend="AND" property="projCode">
+			master.proj_code=#projCode#
+		</isNotNull>
+		<isNotNull prepend="AND" property="packCode">
+			master.pack_code=#packCode#
+		</isNotNull>
+		<isNotNull prepend="AND" property="startDate">
+		  <![CDATA[master.START_TIME >= #startDate#]]>
+		</isNotNull>
+		<isNotNull prepend="AND" property="endDate">
+		  <![CDATA[master.END_TIME <= #endDate#]]>
+		</isNotNull>
+		order by
+		master.BJ_COUNT
+	</select>
+
+	<select id="getZcEbEcbjItemCount" resultClass="java.lang.Integer"
+		parameterClass="elementCondition">
+		select count(*)
+		from
+		ZC_EB_ECBJ_ITEM master
+		where
+		1=1
+		<isNotNull prepend="AND" property="projCode">
+			master.PROJ_CODE=#projCode#
+		</isNotNull>
+		<isNotNull prepend="AND" property="packCode">
+			master.PACK_CODE=#packCode#
+		</isNotNull>
+		<isNotNull prepend="AND" property="zcText0">
+			master.SIGNUP_PACK_ID=#zcText0#
+		</isNotNull>
+		<isNotNull prepend="AND" property="status">
+			master.STATUS=#status#
+		</isNotNull>
+	</select>
+
+	<insert id="insertZcEbEcbjItem" parameterClass="ZcEbEcbjItem">
+		INSERT INTO
+		ZC_EB_ECBJ_ITEM
+		( SIGNUP_PACK_ID,
+		BJNO,
+		BJSUM,
+		FILE_ID,
+		FILE_NAME,
+		BJ_TIME ,
+		UPLOAD_TYPE,
+		STATUS,
+		UPLOADER,
+		PROJ_CODE,
+		PROJ_NAME,
+		PACK_CODE,
+		PACK_NAME,
+		PROVIDER_CODE,
+		PROVIDER_NAME,
+		OPEN_BID_TIME,
+		OPEN_FAIL_REASON,
+		REMARK,
+		PROMISE_WORK_DATE, AGENCY, EXECUTE_DATE, EXECUTOR, ORG_CODE, ND
+		)VALUES(
+		#signupPackId#,#bjNo#,#bjSum#, #fileId#,
+		#fileName#,#bjTime#,
+		#upLoadType#,#status#,
+		#upLoader#,#projCode#,
+		#projName#,#packCode#,
+		#packName#,#providerCode#,#providerName#,#openBidTime#,#openFailReason#,
+		#remark#,#promiseWorkDate#,
+		#agency#,#executeDate#,#executor#,#orgCode#,#nd#
+		)
+	</insert>
+	<insert id="insertZcEbEcbjPlan" parameterClass="ZcEbEcbjPlan">
+		INSERT INTO
+		ZC_EB_ECBJ_PLAN(
+		PLAN_CODE,
+		PROJ_CODE,
+		PACK_CODE,
+		BJ_COUNT,
+		START_TIME,
+		END_TIME,
+		OPEN_BID_TIME,
+		OPEN_BID_ADDRESS,
+		REMARK
+		)VALUES(
+		#planCode#,#projCode#,#packCode#, #bjCount#, #startTime#,#endTime#,
+		#openBidTime#,#openBidAddress#,#remark#
+		)
+	</insert>
+	<update id="updateZcEbEcbjItem" parameterClass="ZcEbEcbjItem">
+		UPDATE
+		ZC_EB_ECBJ_ITEM
+		SET
+		BJNO=#bjNo#,
+		BJSUM=#bjSum#,
+		FILE_ID=#fileId#,
+		FILE_NAME=#fileName#,
+		BJ_TIME=#bjTime#,
+		UPLOAD_TYPE=#upLoadType# ,
+		STATUS=#status#,
+		UPLOADER=#upLoader#,
+		OPEN_BID_TIME=#openBidTime#,
+		OPEN_FAIL_REASON=#openFailReason#,
+		REMARK=#remark#,
+		PROMISE_WORK_DATE=#promiseWorkDate#, AGENCY=#agency#,
+		EXECUTE_DATE=#executeDate#, ORG_CODE=#orgCode#, EXECUTOR=#executor#,
+		ND=#nd#
+		WHERE
+		SIGNUP_PACK_ID
+		=#signupPackId:VARCHAR#
+		AND
+		BJNO=#bjNo:VARCHAR#
+	</update>
+	<update id="updateZcEbEcbjPlan" parameterClass="ZcEbEcbjPlan">
+		UPDATE
+		ZC_EB_ECBJ_PLAN
+		SET
+		START_TIME=#startTime#,
+		END_TIME=#endTime#,
+		OPEN_BID_TIME=#openBidTime#,
+		OPEN_BID_ADDRESS=#openBidAddress#,
+		REMARK=#remark#
+		WHERE
+		PLAN_CODE=#planCode:VARCHAR#
+	</update>
+	<delete id="deleteZcEbEcbjItemList" parameterClass="string">
+		DELETE
+		FROM
+		ZC_EB_ECBJ_ITEM
+		WHERE
+		SIGNUP_PACK_ID=#signupPackId#
+	</delete>
+	<delete id="deleteZcEbEcbjItem" parameterClass="elementCondition">
+		DELETE
+		FROM
+		ZC_EB_ECBJ_ITEM
+		WHERE
+		SIGNUP_PACK_ID=#extField1#
+		AND
+		STATUS=#extField2#
+		<isNotNull prepend="AND" property="extField3">
+			BJNO=#extField3#
+		</isNotNull>
+		<isNotNull prepend="AND" property="extField4">
+			Provider_Code=#extField4#
+		</isNotNull>
+	</delete>
+	<delete id="deleteZcEbEcbjPlan" parameterClass="string">
+		DELETE
+		FROM
+		ZC_EB_ECBJ_PLAN
+		WHERE
+		PLAN_CODE=#planCode#
+	</delete>
+	<update id="updateZcEbSinupPack" parameterClass="ZcEbEcbjItem">
+		UPDATE
+		ZC_EB_SIGNUP_PACK C
+		SET C.OPEN_BID_STATUS=#status#,
+		C.ECBJ_SUM=#bjSum#,
+		C.TBYLB_FILE_ID=#fileId#,
+		C.TBYLB_FILE_NAME=#fileName#,
+		C.PROMISE_WORK_DATE=#promiseWorkDate#
+		WHERE
+		C.SIGNUP_PACK_ID=#signupPackId#
+	</update>
+</sqlMap>

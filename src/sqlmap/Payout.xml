@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Payout">
+<typeAlias alias="elementCondition"	type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<resultMap id="payout" class="com.ufgov.zc.common.commonbiz.model.Payout">
+		<result property="nd" column="nd" />
+		<result property="code" column="payout_code" />
+		<result property="name" column="payout_name" />
+		<result property="level" column="current_level" />
+		<result property="parentCode" column="parent_code" />
+		
+	</resultMap>
+    
+	<select id="getPayout" resultMap="payout" parameterClass="elementCondition">
+		select nd,payout_code,payout_name,current_level,parent_code  from ma_cp_payout
+		 where nd=#nd# and is_used='1'
+		  <include refid="BusiNumLim.BusiNumLimStr" />
+		  <include refid="GkGetDataRuleCondi.GkGetDataRuleCondiStr" />
+		  order by payout_code
+	</select>
+
+
+</sqlMap>

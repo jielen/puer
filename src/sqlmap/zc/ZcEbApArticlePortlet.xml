@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ZcEbApArticlePortlet">
+
+	<typeAlias alias="ApArticlePortlet"
+		type="com.ufgov.zc.common.zc.model.ZcEbApArticlePortlet" />
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+
+	<resultMap id="ZcEbArticlePorletResult" class="ApArticlePortlet">
+		<result property="pgPletID" column="PG_PLET_ID" />
+		<result property="articleID" column="ARTICLE_ID" />
+		<result property="portletType" column="PORTLET_TYPE" />
+    	<result property="pubTime" column="PUB_TIME" />
+	</resultMap>
+	
+  	<select id="getZcEbApArticle" resultMap="ZcEbArticlePorletResult" parameterClass="elementCondition">
+		select T.PG_PLET_ID,
+		       T.ARTICLE_ID,
+		       T.PORTLET_TYPE,
+		       T.PUB_TIME
+	    from 
+	       	   AP_ARTICLE_PORTLET T 
+	    where 
+	           1=1
+	</select>
+	
+  	<select id="queryArticlesByPortletID" resultMap="ZcEbArticlePorletResult" parameterClass="elementCondition">
+		select T.PG_PLET_ID,
+		       T.ARTICLE_ID,
+		       T.PORTLET_TYPE,
+		       T.PUB_TIME
+	    from 
+	       	   AP_ARTICLE_PORTLET T 
+	    where 
+	           T.PG_PLET_ID =#dattr1:VARCHAR#	
+	</select>	
+  
+  <insert id="insertArticlePortlet" parameterClass="com.ufgov.zc.common.zc.model.ZcEbApArticlePortlet">
+    insert into 
+      	AP_ARTICLE_PORTLET (PG_PLET_ID,ARTICLE_ID,PORTLET_TYPE,PUB_TIME)
+    values 
+    	(#pgPletID:VARCHAR#, #articleID:VARCHAR#, #portletType:VARCHAR#,#pubTime:TIMESTAMP#)
+  </insert>
+  
+  <delete id="deleteByPrimaryKey" parameterClass="com.ufgov.zc.common.zc.model.ZcEbApArticlePortlet">
+    delete from 
+      	AP_ARTICLE_PORTLET
+    where 
+      	ARTICLE_ID = #articleID:VARCHAR#
+    AND 
+        PG_PLET_ID = #pgPletID:VARCHAR# 	
+  </delete>
+  
+  <delete id="deleteByArticleAndPortletID" parameterClass="elementCondition">
+    delete from 
+      	AP_ARTICLE_PORTLET
+    where 
+      	PG_PLET_ID = #dattr2:VARCHAR#
+	<iterate prepend="AND" property="pmAdjustCodeList" open="("	close=")" conjunction="or">
+		ARTICLE_ID=#pmAdjustCodeList[]#
+	</iterate>
+  </delete> 
+</sqlMap>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="AsOrg">
+
+	<typeAlias alias="asOrg" type="com.ufgov.zc.common.console.model.AsOrg"/>
+
+	<resultMap class="asOrg" id="asOrgResult">
+		<result property="nd" column="nd"></result>
+		<result property="code" column="code"></result>
+		<result property="name" column="name"></result>
+		<result property="parentCode" column="p_code"></result>
+		<result property="coCode" column="co_code"></result>
+		<result property="orgCode" column="org_code"></result>
+		<result property="posiCode" column="posi_code"></result>
+		<result property="empCode" column="emp_code"></result>
+		<result property="userId" column="user_id"></result>
+		<result property="normImg" column="norm_img"></result>
+	</resultMap>
+	
+	<resultMap class="asOrg" id="asOrgResultSim">
+		<result property="nd" column="nd"></result>
+		<result property="coCode" column="co_code"></result>
+		<result property="orgCode" column="org_code"></result>
+		<result property="name" column="org_name"></result>
+	</resultMap>
+
+	<select id="getAsOrg" resultMap="asOrgResult" parameterClass="int">
+		select v.* from v_as_organization_new_tree v, ma_company c
+		where v.nd=#nd# and c.nd=#nd# and c.co_type_code! = '02' and v.co_code=c.co_code
+		order by nvl(v.co_code, -1), nvl(org_code, -1), nvl(posi_code, -1), nvl(emp_code, -1)
+	</select>
+    <select id="getChildAsOrg" resultMap="asOrgResult" parameterClass="Map">
+		select * from v_as_organization_new_tree
+		where nd=#nd#
+		<isNotNull prepend="AND" property="coCode">
+          co_code = #coCode#
+		</isNotNull>
+	</select>
+	
+	<select id="getAsOrgByCocode" resultMap="asOrgResultSim" parameterClass="map">
+		select t.nd, t.co_code, t.org_code, t.org_name
+		  from as_org t
+		 where t.nd = #nd#
+		   and t.co_code = #cocode#
+	</select>
+
+</sqlMap>

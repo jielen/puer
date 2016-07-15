@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ZcEbSecurityRecord">
+	<typeAlias alias="secRecord" type="com.ufgov.zc.common.zc.model.ZcEbSecurityRecord" />
+	<typeAlias alias="waitDecodeItem" type="com.ufgov.zc.common.zc.model.ZcEbWaitingDecodeItem" />
+	<typeAlias alias="dto" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+
+	<resultMap class="secRecord" id="ZcEbSecurityRecordResult">
+		<result column="ID" property="id" jdbcType="VARCHAR" />
+		<result column="ZC_IS_PROVIDER_CODED" property="zcIsProviderCoded" jdbcType="VARCHAR" />
+		<result column="ZC_IS_MASTER_CODED" property="zcIsMasterCoded" jdbcType="VARCHAR" />
+		<result column="ZC_PROVIDER_DECODED_STATUS" property="zcProviderDecodedStatus" jdbcType="VARCHAR" />
+		<result column="ZC_MASTER_DECODED_STATUS" property="zcMasterDecodedStatus" jdbcType="VARCHAR" />
+		<result column="ZC_PWD_ORIG_CONTENT" property="zcPwdOrigContent" jdbcType="VARCHAR"/>
+		<result column="ZC_PROGRESS_CONTENT" property="zcProgressContent" typeHandler="org.springframework.orm.ibatis.support.BlobByteArrayTypeHandler"/>
+		<result column="ZC_CODED_FILE_ID" property="zcCodedFileID" jdbcType="VARCHAR" />
+		<result column="ZC_DIGITAL_ENVLOPE" property="zcDigitalEnvlope" typeHandler="org.springframework.orm.ibatis.support.BlobByteArrayTypeHandler"/>
+		<result column="ZC_BUSINESS_INDEX" property="zcBusinessIndex" jdbcType="VARCHAR" />
+		<result column="ZC_PROVIDER_DECODED_TIME" property="zcProviderDecodedTime" jdbcType="DATE" />
+		<result column="ZC_MASTER_DECODED_TIME" property="zcMasterDecodedTime" jdbcType="DATE" />
+		<result column="ZC_CODED_FILE_MD5" property="zcCodedFileMD5" jdbcType="VARCHAR" />
+		<result column="ZC_ZTB_FILE_MD5" property="zcZtbFileMD5" jdbcType="VARCHAR" />
+		<result column="ZC_OTHER_EXT_CONTENT" property="zcOtherExtContent" jdbcType="VARCHAR" />
+		<result column="ZC_MEMO" property="zcMemo" jdbcType="VARCHAR" />
+		<result column="UPLOAD_MOLD" property="uploadMold" jdbcType="VARCHAR" />
+		<result column="ZC_PROVIDER_DECODED_COUNT" property="zcProviderDecodedCount" jdbcType="VARCHAR" />
+		<result column="ZC_MASTER_DECODED_COUNT" property="zcMasterDecodedCount" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap class="waitDecodeItem" id="ZcEbWaitingDecodeItemResult">
+		<result column="PROVIDER_NAME" property="providerName" jdbcType="VARCHAR" />
+		<result column="PROVIDER_CODE" property="providerCode" jdbcType="VARCHAR" />
+		<result column="PROJ_NAME" property="projName" jdbcType="VARCHAR" />
+		<result column="PROJ_CODE" property="projCode" jdbcType="VARCHAR" />
+		<result column="PROJ_STATUS" property="projStatus" jdbcType="VARCHAR" />
+		<result column="PACK_NAME" property="packName" jdbcType="VARCHAR" />
+		<result column="PACK_CODE" property="packCode" jdbcType="VARCHAR" />
+		<result column="PACK_STATUS" property="packStatus" jdbcType="VARCHAR" />
+		<result column="ID" property="zcEbSecurityRecord.id" jdbcType="VARCHAR" />
+		<result column="ZC_IS_PROVIDER_CODED" property="zcEbSecurityRecord.zcIsProviderCoded" jdbcType="VARCHAR" />
+		<result column="ZC_IS_MASTER_CODED" property="zcEbSecurityRecord.zcIsMasterCoded" jdbcType="VARCHAR" />
+		<result column="ZC_PROVIDER_DECODED_STATUS" property="zcEbSecurityRecord.zcProviderDecodedStatus" jdbcType="VARCHAR" />
+		<result column="ZC_MASTER_DECODED_STATUS" property="zcEbSecurityRecord.zcMasterDecodedStatus" jdbcType="VARCHAR" />
+		<result column="ZC_PWD_ORIG_CONTENT" property="zcEbSecurityRecord.zcPwdOrigContent" typeHandler="org.springframework.orm.ibatis.support.BlobByteArrayTypeHandler"/>
+		<result column="ZC_PROGRESS_CONTENT" property="zcEbSecurityRecord.zcProgressContent" typeHandler="org.springframework.orm.ibatis.support.BlobByteArrayTypeHandler"/>
+		<result column="ZC_CODED_FILE_ID" property="zcEbSecurityRecord.zcCodedFileID" jdbcType="VARCHAR" />
+		<result column="ZC_DIGITAL_ENVLOPE" property="zcEbSecurityRecord.zcDigitalEnvlope" typeHandler="org.springframework.orm.ibatis.support.BlobByteArrayTypeHandler"/>
+		<result column="ZC_BUSINESS_INDEX" property="zcEbSecurityRecord.zcBusinessIndex" jdbcType="VARCHAR" />
+		<result column="ZC_PROVIDER_DECODED_TIME" property="zcEbSecurityRecord.zcProviderDecodedTime" jdbcType="VARCHAR" />
+		<result column="ZC_MASTER_DECODED_TIME" property="zcEbSecurityRecord.zcMasterDecodedTime" jdbcType="VARCHAR" />
+		<result column="ZC_CODED_FILE_MD5" property="zcEbSecurityRecord.zcCodedFileMD5" jdbcType="VARCHAR" />
+		<result column="ZC_ZTB_FILE_MD5" property="zcEbSecurityRecord.zcZtbFileMD5" jdbcType="VARCHAR" />
+		<result column="ZC_OTHER_EXT_CONTENT" property="zcEbSecurityRecord.zcOtherExtContent" jdbcType="VARCHAR" />
+		<result column="ZC_MEMO" property="zcEbSecurityRecord.zcMemo" jdbcType="VARCHAR" />
+		<result column="ZC_IS_DECODED_FINISH" property="zcEbSecurityRecord.zcIsDecodedFinish" jdbcType="VARCHAR" />
+		<result column="ZC_PROVIDER_DECODED_COUNT" property="zcEbSecurityRecord.zcProviderDecodedCount" jdbcType="VARCHAR" />
+		<result column="ZC_MASTER_DECODED_COUNT" property="zcEbSecurityRecord.zcMasterDecodedCount" jdbcType="VARCHAR" />
+		<result column="UPLOAD_MOLD" property="zcEbSecurityRecord.uploadMold" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="getZcEbSecurityRecords" resultMap="ZcEbSecurityRecordResult" parameterClass="secRecord">
+		SELECT * FROM ZC_EB_SECURITY_RECORD S
+		WHERE 1=1
+		<isNotNull prepend="AND" property="zcProviderDecodedStatus">
+			S.ZC_PROVIDER_DECODED_STATUS=#zcProviderDecodedStatus#
+		</isNotNull>
+		<isNotNull prepend="AND" property="zcMasterDecodedStatus">
+			S.ZC_MASTER_DECODED_STATUS=#zcMasterDecodedStatus#
+		</isNotNull>
+		<isNotNull prepend="AND" property="zcIsProviderCoded">
+			S.ZC_IS_PROVIDER_CODED=#zcIsProviderCoded#
+		</isNotNull>
+		<isNotNull prepend="AND" property="zcIsMasterCoded">
+			S.ZC_IS_MASTER_CODED=#zcIsMasterCoded#
+		</isNotNull>
+		<isNotNull prepend="AND" property="zcCodedFileID">
+			S.ZC_CODED_FILE_ID=#zcCodedFileID#
+		</isNotNull>
+		<isNotNull prepend="AND" property="leftLikeBusinessIndex">
+			S.ZC_BUSINESS_INDEX LIKE '%'||#leftLikeBusinessIndex#
+		</isNotNull>
+		<isNotNull prepend="AND" property="midLikeBusinessIndex">
+			S.ZC_BUSINESS_INDEX LIKE '%'||#midLikeBusinessIndex#||'%'
+		</isNotNull>
+		<isNotNull prepend="AND" property="rightLikeBusinessIndex">
+			S.ZC_BUSINESS_INDEX LIKE #rightLikeBusinessIndex#||'%'
+		</isNotNull>
+		<isNotNull prepend="AND" property="zcOtherExtContent">
+			ZC_OTHER_EXT_CONTENT LIKE '%'||#zcOtherExtContent#||'%'
+		</isNotNull>
+		<isNotNull prepend="AND" property="id">
+			S.ID=#id#
+		</isNotNull>
+	</select>
+	<select id="getZcEbSecurityRecordByBusinessIndex" resultMap="ZcEbSecurityRecordResult" parameterClass="dto">
+		SELECT * FROM ZC_EB_SECURITY_RECORD S
+		WHERE 1=1
+		<isNotNull prepend="AND" property="zcBusinessIndex">
+			S.ZC_BUSINESS_INDEX = #zcBusinessIndex#
+		</isNotNull>
+	</select>
+	<select id="getWaitingDecodingItems" resultMap="ZcEbWaitingDecodeItemResult" parameterClass="waitDecodeItem">
+		SELECT PJ.PROJ_CODE, PJ.PROJ_NAME, PJ.STATUS PROJ_STATUS, PK.PACK_CODE, PK.PACK_NAME, PK.STATUS PACK_STATUS, 
+										SN.PROVIDER_CODE, SN.PROVIDER_NAME, SP.BID_DOC_ID, SR.ID,SR.ZC_IS_PROVIDER_CODED,SR.ZC_IS_MASTER_CODED,
+										SR.ZC_PROVIDER_DECODED_STATUS,SR.ZC_MASTER_DECODED_STATUS,SR.ZC_CODED_FILE_ID,SR.ZC_BUSINESS_INDEX,
+										SR.ZC_PROVIDER_DECODED_TIME,SR.ZC_MASTER_DECODED_TIME,SR.ZC_CODED_FILE_MD5,SR.ZC_ZTB_FILE_MD5,
+										SR.ZC_OTHER_EXT_CONTENT,SR.ZC_MEMO,SR.ZC_IS_DECODED_FINISH,SR.ZC_PROVIDER_DECODED_COUNT,SR.ZC_MASTER_DECODED_COUNT,
+										SR.ZC_PWD_ORIG_CONTENT,SR.ZC_PROGRESS_CONTENT,SR.ZC_DIGITAL_ENVLOPE,SR.UPLOAD_MOLD 
+    FROM ZC_EB_PACK PK 
+    JOIN ZC_EB_SIGNUP SN 
+    ON PK.PROJ_CODE = SN.PROJ_CODE
+    JOIN ZC_EB_SIGNUP_PACK SP 
+    ON(SN.SIGNUP_ID = SP.SIGNUP_ID AND SP.PACK_CODE = PK.PACK_CODE) 
+    JOIN ZC_EB_SECURITY_RECORD SR 
+    ON SR.ZC_BUSINESS_INDEX=PK.PROJ_CODE || '@' || PK.PACK_CODE || '@' || SN.PROVIDER_CODE 
+    JOIN ZC_EB_PLAN PL 
+    ON PL.PROJ_CODE = SN.PROJ_CODE
+    JOIN ZC_EB_PROJ PJ
+    ON PL.PROJ_CODE = PJ.PROJ_CODE
+		WHERE SYSDATE >= PL.BID_END_TIME
+		<isNotNull prepend="AND" property="projStatus">
+			PJ.STATUS = #projStatus#
+		</isNotNull>
+		<isNotNull prepend="AND" property="packStatus">
+			PK.STATUS = #packStatus#
+		</isNotNull>
+		<isNotNull prepend="AND" property="providerCode">
+			SN.PROVIDER_CODE = #providerCode#
+		</isNotNull>
+		<isNotNull prepend="AND" property="zcEbSecurityRecord.zcProviderDecodedStatus">
+			SR.ZC_PROVIDER_DECODED_STATUS = #zcEbSecurityRecord.zcProviderDecodedStatus#
+		</isNotNull>
+		<isNotNull prepend="AND" property="zcEbSecurityRecord.zcMasterDecodedStatus">
+			SR.ZC_MASTER_DECODED_STATUS = #zcEbSecurityRecord.zcMasterDecodedStatus#
+		</isNotNull>
+		<isNotNull prepend="AND" property="projCode">
+			SN.PROJ_CODE = #projCode#
+		</isNotNull>
+		ORDER BY PJ.PROJ_CODE, PK.PACK_CODE
+	</select>
+
+	<insert id="insertZcEbSecurityRecord" parameterClass="secRecord">
+	  INSERT INTO ZC_EB_SECURITY_RECORD( 
+	  	ID,ZC_IS_PROVIDER_CODED, ZC_IS_MASTER_CODED, ZC_PROVIDER_DECODED_STATUS, ZC_MASTER_DECODED_STATUS,
+	   	ZC_PWD_ORIG_CONTENT, ZC_PROGRESS_CONTENT, ZC_CODED_FILE_ID, ZC_DIGITAL_ENVLOPE,ZC_IS_DECODED_FINISH,
+	   	ZC_BUSINESS_INDEX, ZC_PROVIDER_DECODED_TIME, ZC_MASTER_DECODED_TIME, ZC_CODED_FILE_MD5,
+	   	ZC_ZTB_FILE_MD5, ZC_OTHER_EXT_CONTENT, ZC_PROVIDER_DECODED_COUNT,ZC_MASTER_DECODED_COUNT,ZC_MEMO,UPLOAD_MOLD)
+	  VALUES (
+	    #id:VARCHAR#,
+      #zcIsProviderCoded:VARCHAR#, 
+	  	#zcIsMasterCoded:VARCHAR#,
+	  	#zcProviderDecodedStatus:VARCHAR#,
+	  	#zcMasterDecodedStatus:VARCHAR#,
+	  	#zcPwdOrigContent,handler=org.springframework.orm.ibatis.support.BlobByteArrayTypeHandler#,
+	  	#zcProgressContent,handler=org.springframework.orm.ibatis.support.BlobByteArrayTypeHandler#,
+	  	#zcCodedFileID:VARCHAR#,
+	  	#zcDigitalEnvlope,handler=org.springframework.orm.ibatis.support.BlobByteArrayTypeHandler#,
+	  	#zcIsDecodedFinish:VARCHAR#,
+	  	#zcBusinessIndex:VARCHAR#,
+	  	#zcProviderDecodedTime#,
+	  	#zcMasterDecodedTime#,
+	  	#zcCodedFileMD5:VARCHAR#,
+	  	#zcZtbFileMD5:VARCHAR#,
+	  	#zcOtherExtContent:VARCHAR#,
+	  	#zcProviderDecodedCount:NUMBER#,
+	  	#zcMasterDecodedCount:NUMBER#,
+	  	#zcMemo:VARCHAR#,
+	  	#uploadMold:VARCHAR#
+	  )
+	</insert>
+	<update id="updateZcEbSecurityRecord" parameterClass="secRecord">
+	  UPDATE ZC_EB_SECURITY_RECORD 
+	  SET 
+	  	ZC_IS_PROVIDER_CODED=#zcIsProviderCoded:VARCHAR#,
+	  	ZC_IS_MASTER_CODED=#zcIsMasterCoded:VARCHAR#, 
+	  	ZC_PROVIDER_DECODED_STATUS=#zcProviderDecodedStatus:VARCHAR#, 
+	  	ZC_MASTER_DECODED_STATUS=#zcMasterDecodedStatus:VARCHAR#,
+	   	ZC_PWD_ORIG_CONTENT=#zcPwdOrigContent,handler=org.springframework.orm.ibatis.support.BlobByteArrayTypeHandler#, 
+	   	ZC_PROGRESS_CONTENT=#zcProgressContent,handler=org.springframework.orm.ibatis.support.BlobByteArrayTypeHandler#, 
+	   	ZC_CODED_FILE_ID=#zcCodedFileID:VARCHAR#, 
+	   	ZC_DIGITAL_ENVLOPE=#zcDigitalEnvlope,handler=org.springframework.orm.ibatis.support.BlobByteArrayTypeHandler#,
+	   	ZC_BUSINESS_INDEX=#zcBusinessIndex:VARCHAR#, 
+	   	ZC_PROVIDER_DECODED_TIME=#zcProviderDecodedTime#, 
+	   	ZC_MASTER_DECODED_TIME=#zcMasterDecodedTime#, 
+	   	ZC_CODED_FILE_MD5=#zcCodedFileMD5:VARCHAR#,
+	   	ZC_ZTB_FILE_MD5=#zcZtbFileMD5:VARCHAR#,
+	   	ZC_OTHER_EXT_CONTENT=#zcOtherExtContent#,
+	   	ZC_PROVIDER_DECODED_COUNT=#zcProviderDecodedCount:NUMBER#,
+	  	ZC_MASTER_DECODED_COUNT=#zcMasterDecodedCount:NUMBER#,
+	   	ZC_MEMO=#zcMemo:VARCHAR#,
+	   	UPLOAD_MOLD=#uploadMold#,
+	   	ZC_IS_DECODED_FINISH=#zcIsDecodedFinish:VARCHAR#
+	  WHERE ID=#id#
+	</update>
+	<delete id="deleteZcEbSecurityRecord" parameterClass="secRecord">
+	  DELETE FROM ZC_EB_SECURITY_RECORD 
+	  WHERE 
+	  ID=#id# 
+	  OR 
+	  ZC_BUSINESS_INDEX=#zcBusinessIndex#
+	</delete>
+</sqlMap>

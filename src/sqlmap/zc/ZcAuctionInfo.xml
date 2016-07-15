@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ZcAuctionInfo">
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<resultMap id="ZcAuctionInfoResult" class="com.ufgov.zc.common.zc.model.ZcAuctionInfo">
+		<result column="ZC_AUCTION_ID" jdbcType="VARCHAR" property="zcAuctionId" />
+		<result column="ZC_MER_CODE" jdbcType="VARCHAR" property="zcMerCode" />
+		<result column="ZC_AUCTION_AMOUNT" jdbcType="DECIMAL" property="zcAuctionAmount" />
+		<result column="ZC_AUCTION_STARTTIME" jdbcType="DATE"
+			property="zcAuctionStarttime" />
+		<result column="ZC_AUCTION_ENDTIME" jdbcType="DATE" property="zcAuctionEndtime" />
+		<result column="ZC_AUCTION_START_PRICE" jdbcType="DECIMAL"
+			property="zcAuctionStartPrice" />
+		<result column="ZC_AUCTION_MINIMUM_BID" jdbcType="DECIMAL"
+			property="zcAuctionMinimumBid" />
+		<result column="ZC_AUCTION_FOUNDER_USERID" jdbcType="VARCHAR"
+			property="zcAuctionFounderUserid" />
+		<result column="ZC_AUCTION_ACHIEVE_USERID" jdbcType="VARCHAR"
+			property="zcAuctionAchieveUserid" />
+		<result column="ZC_AUCTION_STATUS" jdbcType="VARCHAR" property="zcAuctionStatus" />
+	</resultMap>
+	<select id="selectAuctionInfoById" resultMap="ZcAuctionInfoResult"
+		parameterClass="String"> select * from ZC_AUCTION_INFO info where
+		info.ZC_AUCTION_ID = #auctionId:VARCHAR#</select>
+	<select id="selectAuctionInfoAll" resultMap="ZcAuctionInfoResult"
+		parameterClass="String"> select * from ZC_AUCTION_INFO info </select>
+</sqlMap>

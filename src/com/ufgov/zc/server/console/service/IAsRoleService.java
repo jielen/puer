@@ -1,0 +1,1 @@
+package com.ufgov.zc.server.console.service;import java.util.List;import com.ufgov.zc.common.console.model.AsRole;public interface IAsRoleService {  List getAsRole(int nd);  AsRole getAsRoleById(String id);  public List getAsRoleByPosi(String posi);}

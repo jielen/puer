@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="AsRole">
+	
+	<typeAlias alias="asRole" type="com.ufgov.zc.common.console.model.AsRole"/>
+	
+	<resultMap class="asRole" id="asRoleResult">
+		<result property="roleId" column="role_id"></result>
+		<result property="roleName" column="role_name"></result>
+		<result property="roleDesc" column="role_desc"></result>
+		<result property="coCode" column="co_code"></result>
+	</resultMap>
+	
+	<select id="getAsRole" resultMap="asRoleResult" parameterClass="int">
+		SELECT DISTINCT R.*
+		  FROM AS_ROLE R, AS_POSI_ROLE E, AS_EMP_POSITION P, MA_COMPANY C
+		 WHERE R.ROLE_ID = E.ROLE_ID
+		   AND E.POSI_CODE = P.POSI_CODE
+		   AND P.CO_CODE = C.CO_CODE
+		 and c.nd=#nd# and p.nd=#nd# order by r.role_id
+	</select>
+	
+	<select id="getAsRoleById" resultMap="asRoleResult" parameterClass="string">
+		select * from as_role where role_id=#role_id#
+	</select>
+	
+	<select id="getAsRoleByPosi" resultMap="asRoleResult" parameterClass="string">
+		select r.*
+		  from as_posi_role t
+		 inner join as_role r on t.role_id = r.role_id
+		 where t.posi_code = #value#
+	</select>
+
+</sqlMap>

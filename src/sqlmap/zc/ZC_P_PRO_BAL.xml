@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ZC_P_PRO_BAL">
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<typeAlias alias="ZcPProBal" type="com.ufgov.zc.common.zc.model.ZcPProBal" />
+	<typeAlias alias="ZcPProReturnBi"
+		type="com.ufgov.zc.common.zc.model.ZcPProReturnBi" />
+	<resultMap class="ZcPProBal" id="ZcPProBalResult">
+		<result column="ZC_BAL_ID" jdbcType="VARCHAR" property="zcBalId" />
+		<result column="ZC_SU_ACC_CODE" jdbcType="VARCHAR" property="zcSuAccCode" />
+		<result column="ZC_SU_ACC_NAME" jdbcType="VARCHAR" property="zcSuAccName" />
+		<result column="ZC_SU_BANK_CODE" jdbcType="VARCHAR" property="zcSuBankCode" />
+		<result column="ZC_SU_BANK_NAME" jdbcType="VARCHAR" property="zcSuBankName" />
+		<result column="ZC_BAL_STATUS" jdbcType="VARCHAR" property="zcBalStatus" />
+		<result column="ZC_BAL_SUM" jdbcType="DECIMAL" property="zcBalSum" />
+		<result column="ZC_BAL_APP" jdbcType="VARCHAR" property="zcBalApp" />
+		<result column="ZC_BAL_APP_DATE" jdbcType="VARCHAR" property="zcBalAppDate" />
+		<result column="ZC_BAL_AUT" jdbcType="VARCHAR" property="zcBalAut" />
+		<result column="ZC_BAL_AUT_DATE" jdbcType="VARCHAR" property="zcBalAutDate" />
+		<result column="ZC_BAL_APF_NO" jdbcType="VARCHAR" property="zcBalApfNo" />
+		<result column="ZC_REMARK" jdbcType="VARCHAR" property="zcRemark" />
+		<result column="ZC_BAL_FLAG" jdbcType="VARCHAR" property="zcBalFlag" />
+		<result column="ZC_IS_RTN" jdbcType="VARCHAR" property="zcIsRin" />
+		<result column="ZC_BID_CODE" jdbcType="VARCHAR" property="zcBidCode" />
+		<result column="ORG_CODE" jdbcType="VARCHAR" property="orgCode" />
+		<result column="PROCESS_INST_ID" jdbcType="DECIMAL" property="processInstId" />
+		<result column="ZC_MAKE_CODE" jdbcType="VARCHAR" property="zcMakeCode" />
+		<result column="ZC_MAKE_NAME" jdbcType="VARCHAR" property="zcMakeName" />
+		<result column="CO_CODE" jdbcType="VARCHAR" property="coCode" />
+		<result column="ND" jdbcType="VARCHAR" property="nd" />
+		<result column="ZC_YSJG_NA" jdbcType="VARCHAR" property="zcYsjgNa" />
+		<result column="ZC_REQ_CODE" jdbcType="VARCHAR" property="zcReqCode" />
+		<result column="ZC_SU_NAME" jdbcType="VARCHAR" property="zcSuName" />
+		<result column="ZC_SU_CODE" jdbcType="VARCHAR" property="zcSuCode" />
+		<result column="ZC_BAL_TYPE" jdbcType="VARCHAR" property="zcBalType" />
+		<result column="ZC_DIYU_DAIMA" jdbcType="VARCHAR" property="zcDiyuDaima" />
+		<result column="ZC_HT_CODE" jdbcType="VARCHAR" property="zcHtCode" />
+		<result column="ZC_HT_NAME" jdbcType="VARCHAR" property="zcHtName" />
+		<result column="ZC_SU_TEL" jdbcType="VARCHAR" property="zcSuTel" />
+		<result column="ZC_SU_LINKMAN" jdbcType="VARCHAR" property="zcSuLinkMan" />
+		<result column="ZC_HANGYE_CTG" jdbcType="VARCHAR" property="zcHangyeCtg" />
+		<result column="ZC_INVOICE_CODE" jdbcType="VARCHAR" property="zcInvoiceCode" />
+		<result column="ZC_SK_REN" jdbcType="VARCHAR" property="zcSkRen" />
+		<result column="ZC_ZB_NAME" jdbcType="VARCHAR" property="zcZbName" />
+		<result column="ZC_ZB_CODE" jdbcType="VARCHAR" property="zcZbCode" />
+		<result column="PAYTYPE_CODE" jdbcType="VARCHAR" property="payTypeCode" />
+		<result column="OUTLAY_CODE" jdbcType="VARCHAR" property="outLayCode" />
+		<result column="ZC_BI_SUM" jdbcType="DECIMAL" property="zcBiSum" />
+		<result column="ZC_BI_NO" jdbcType="VARCHAR" property="zcBiNo" />
+		<result column="ZC_CO_TYPE" jdbcType="VARCHAR" property="zcCoType" />
+		<result column="ZC_INPUT_CODE" jdbcType="VARCHAR" property="zcInputCode" />
+		<result column="ZC_INPUT_DATE" jdbcType="TIMESTAMP" property="zcInputDate" />
+		<result column="ZC_INPUT_NAME" jdbcType="VARCHAR" property="zcInputName" />
+		<result column="ZC_MONEY_BI_SUM" jdbcType="DECIMAL" property="zcMoneyBiSum" />
+		<result column="ZC_HT_NUM" jdbcType="DECIMAL" property="zcHtNum" />
+		<result column="ZC_CO_ACC_CODE" jdbcType="VARCHAR" property="zcCoAccCode" />
+		<result column="ZC_CO_ACC_NAME" jdbcType="VARCHAR" property="zcCoAccName" />
+		<result column="ZC_CO_BANK_CODE" jdbcType="VARCHAR" property="zcCoBankCode" />
+		<result column="ZC_CO_BANK_NAME" jdbcType="VARCHAR" property="zcCoBankName" />
+		<result column="PAY_ORDER" jdbcType="VARCHAR" property="payOrder" />
+		<result column="IS_LAST_PAY" jdbcType="VARCHAR" property="isLastPay" />
+
+	</resultMap>
+	<resultMap class="ZcPProReturnBi" id="ZcPProReturnBiResult">
+		<result column="zc_bi_no" jdbcType="VARCHAR" property="zcBiNo" />
+		<result column="zc_bi_bal" jdbcType="DECIMAL" property="zcBiBal" />
+		<result column="senddoc_name" jdbcType="VARCHAR" property="sendDocName" />
+		<result column="paytype_code" jdbcType="VARCHAR" property="zcPaytypeCode" />
+	</resultMap>
+	<select id="getZcPProBalList" resultMap="ZcPProBalResult"
+		parameterClass="elementCondition">
+		SELECT ZC_BAL_ID,
+		ZC_SU_BANK_CODE,
+		ZC_SU_BANK_NAME,
+		ZC_SU_ACC_NAME,
+		ZC_SU_ACC_CODE,
+		ZC_CO_BANK_CODE,
+		ZC_CO_BANK_NAME,
+		ZC_CO_ACC_NAME,
+		ZC_CO_ACC_CODE,
+		ZC_BAL_STATUS,
+		ZC_BAL_SUM,
+		ZC_INPUT_CODE,
+		ZC_INPUT_DATE,
+		ZC_BAL_APP,
+		ZC_BAL_APP_DATE,
+		ZC_BAL_AUT,
+		ZC_BAL_AUT_DATE,
+		ZC_BAL_APF_NO,
+		ZC_BAL_FLAG,
+		ZC_IS_RTN,
+		ZC_BID_CODE,
+		ORG_CODE,
+		PROCESS_INST_ID,
+		ZC_MAKE_CODE,
+		CO_CODE,
+		ND,
+		ZC_YSJG_NA,
+		ZC_REQ_CODE,
+		ZC_SU_CODE,
+		ZC_SU_NAME,
+		ZC_BAL_TYPE,
+		ZC_DIYU_DAIMA,
+		ZC_HT_CODE,
+		ZC_SU_TEL,
+		ZC_SU_LINKMAN,
+		ZC_HANGYE_CTG,
+		ZC_INVOICE_CODE,
+		ZC_SK_REN,
+		ZC_REMARK,
+		ZC_ZB_NAME,
+		ZC_ZB_CODE,
+		PAYTYPE_CODE,
+		OUTLAY_CODE,
+		ZC_BI_SUM,
+		ZC_BI_NO,
+		ZC_CO_TYPE,
+		ZC_INPUT_NAME,
+		ZC_MONEY_BI_SUM,
+		ZC_HT_NUM,
+		(select m.ZC_MAKE_NAME
+		from
+		ZC_P_PRO_MAKE m
+		where m.zc_make_code = master.zc_make_code) as
+		ZC_MAKE_NAME,
+		(select ht.ZC_HT_NAME
+		from ZC_XMCG_HT ht
+		where
+		ht.zc_ht_code = master.zc_ht_code) as ZC_HT_NAME,
+		PAY_ORDER,
+		IS_LAST_PAY
+		FROM ZC_P_PRO_BAL
+		master
+		where 1=1
+
+		<include refid="BusiNumLim.BusiNumLimStr" />
+
+		<isNotNull prepend="and" property="status">
+			<isEqual property="status" compareValue="todo">
+				exists (select
+				instance_id from v_wf_current_task_gk53 where executor =#executor#
+				and instance_id = master.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				exists (select
+				instance_id from V_WF_ACTION_HISTORY_GK53 where executor =
+				#executor# and instance_id = master.process_inst_id)
+				and
+				master.ZC_BAL_STATUS!='cancel'
+				and master.ZC_BAL_STATUS!='exec'
+				and master.ZC_BAL_STATUS!='sendGk'
+			</isEqual>
+			<isEqual property="status" compareValue="exec">
+				(master.ZC_BAL_STATUS in ('exec','sendGk'))
+			</isEqual>
+			<isEqual property="status" compareValue="draft">
+				exists (select
+				WF_DRAFT_NAME from as_wf_draft where user_id=#executor# and
+				compo_id=#wfcompoId# and WF_DRAFT_ID=master.process_inst_id)
+				or
+				master.process_inst_id = -1
+			</isEqual>
+			<isEqual property="status" compareValue="all">
+				1=1
+			</isEqual>
+			<isEqual property="status" compareValue="untread">
+				exists (select instance_id from V_WF_CURRENT_TASK_ZC_UNTREAD where
+				executor =#executor# and instance_id = master.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="fail">
+				master.ZC_BAL_STATUS ='exec'
+				and exists ( select
+				bi.zc_bal_id
+				from zc_p_pro_bal_bi bi
+				where bi.zc_am_billno is null and bi.zc_bi_no is not null and zc_bal_id=master.zc_bal_id)
+			</isEqual>
+			<isEqual property="status" compareValue="sendGk">
+				master.ZC_BAL_STATUS='sendGk'
+			</isEqual>
+		</isNotNull>
+		<isNotEqual prepend="AND" compareValue="0" property="nd">
+			master.ND = #nd#
+		</isNotEqual>
+		order by ZC_INPUT_NAME DESC
+	</select>
+	<select id="getZcPProBalByPrimaryKey" resultMap="ZcPProBalResult"
+		parameterClass="String">
+		SELECT ZC_BAL_ID,
+		ZC_SU_ACC_CODE,
+		ZC_SU_ACC_NAME,
+		ZC_SU_BANK_CODE,
+		ZC_SU_BANK_NAME,
+		ZC_CO_ACC_CODE,
+		ZC_CO_ACC_NAME,
+		ZC_CO_BANK_CODE,
+		ZC_CO_BANK_NAME,
+		ZC_BAL_STATUS,
+		ZC_BAL_SUM,
+		ZC_INPUT_CODE,
+		ZC_INPUT_DATE,
+		ZC_INPUT_NAME,
+		ZC_BAL_APP,
+		ZC_BAL_APP_DATE,
+		ZC_BAL_AUT,
+		ZC_BAL_AUT_DATE,
+		ZC_BAL_APF_NO,
+		ZC_BAL_FLAG,
+		ZC_IS_RTN,
+		ZC_BID_CODE,
+		ORG_CODE,
+		PROCESS_INST_ID,
+		ZC_MAKE_CODE,
+		CO_CODE,
+		ND,
+		ZC_YSJG_NA,
+		ZC_REQ_CODE,
+		ZC_SU_CODE,
+		ZC_SU_NAME,
+		ZC_BAL_TYPE,
+		ZC_DIYU_DAIMA,
+		ZC_HT_CODE,
+		ZC_SU_TEL,
+		ZC_SU_LINKMAN,
+		ZC_HANGYE_CTG,
+		ZC_INVOICE_CODE,
+		ZC_SK_REN,
+		ZC_REMARK,
+		ZC_ZB_NAME,
+		ZC_ZB_CODE,
+		PAYTYPE_CODE,
+		OUTLAY_CODE,
+		ZC_BI_SUM,
+		ZC_BI_NO,
+		ZC_CO_TYPE,
+		ZC_MONEY_BI_SUM,
+		ZC_HT_NUM,
+		(select
+		m.ZC_MAKE_NAME from
+		ZC_P_PRO_MAKE m
+		where m.zc_make_code =
+		master.zc_make_code) as
+		ZC_MAKE_NAME,
+		(select
+		ht.ZC_HT_NAME from
+		ZC_XMCG_HT ht where
+		ht.zc_ht_code =
+		master.zc_ht_code) as
+		ZC_HT_NAME,
+		PAY_ORDER,
+		IS_LAST_PAY
+		FROM ZC_P_PRO_BAL
+		master
+		WHERE
+		master.ZC_BAL_ID=#zcBalid:VARCHAR#
+	</select>
+	<delete id="deleteZcPProBalById" parameterClass="String">
+		delete from
+		ZC_P_PRO_BAL
+		WHERE
+		ZC_BAL_ID=#zcBalId:VARCHAR#
+	</delete>
+	<insert id="insertZcPProBal" parameterClass="ZcPProBal">
+		insert into
+		ZC_P_PRO_BAL
+		(ZC_BAL_ID,
+		ZC_SU_BANK_CODE,
+		ZC_SU_BANK_NAME,
+		ZC_SU_ACC_CODE,
+		ZC_SU_ACC_NAME,
+		ZC_CO_BANK_CODE,
+		ZC_CO_BANK_NAME,
+		ZC_CO_ACC_CODE,
+		ZC_CO_ACC_NAME,
+		ZC_BAL_STATUS,
+		ZC_BAL_SUM,
+		ZC_INPUT_CODE,
+		ZC_INPUT_DATE,
+		ZC_INPUT_NAME,
+		ZC_BAL_APP,
+		ZC_BAL_APP_DATE,
+		ZC_BAL_AUT,
+		ZC_BAL_AUT_DATE,
+		ZC_BAL_APF_NO,
+		ZC_BAL_FLAG,
+		ZC_IS_RTN,
+		ZC_BID_CODE,
+		ORG_CODE,
+		PROCESS_INST_ID,
+		ZC_MAKE_CODE,
+		CO_CODE,
+		ND,
+		ZC_YSJG_NA,
+		ZC_REQ_CODE,
+		ZC_SU_CODE,
+		ZC_SU_NAME,
+		ZC_BAL_TYPE,
+		ZC_DIYU_DAIMA,
+		ZC_HT_CODE,
+		ZC_SU_TEL,
+		ZC_SU_LINKMAN,
+		ZC_HANGYE_CTG,
+		ZC_INVOICE_CODE,
+		ZC_SK_REN,
+		ZC_REMARK,
+		ZC_ZB_NAME,
+		ZC_ZB_CODE,
+		PAYTYPE_CODE,
+		OUTLAY_CODE,
+		ZC_BI_SUM,
+		ZC_BI_NO,
+		ZC_CO_TYPE,
+		ZC_MONEY_BI_SUM,
+		ZC_HT_NUM,
+		PAY_ORDER,
+		IS_LAST_PAY)
+		values
+		(#zcBalId:VARCHAR#,
+		#zcSuBankCode:VARCHAR#,
+		#zcSuBankName:VARCHAR#,
+		#zcSuAccCode:VARCHAR#,
+		#zcSuAccName:VARCHAR#,
+		#zcCoBankCode:VARCHAR#,
+		#zcCoBankName:VARCHAR#,
+		#zcCoAccCode:VARCHAR#,
+		#zcCoAccName:VARCHAR#,
+		#zcBalStatus:VARCHAR#,
+		#zcBalSum:DECIMAL#,
+		#zcInputCode:VARCHAR#,
+		#zcInputDate:VARCHAR#,
+		#zcInputName:VARCHAR#,
+		#zcBalApp:VARCHAR#,
+		#zcBalAppDate:VARCHAR#,
+		#zcBalAut:VARCHAR#,
+		#zcBalAutDate:VARCHAR#,
+		#zcBalApfNo:VARCHAR#,
+		#zcBalFlag:VARCHAR#,
+		#zcIsRin:VARCHAR#,
+		#zcBidCode:VARCHAR#,
+		#orgCode:VARCHAR#,
+		#processInstId:VARCHAR#,
+		#zcMakeCode:VARCHAR#,
+		#coCode:VARCHAR#,
+		#nd:VARCHAR#,
+		#zcYsjgNa:VARCHAR#,
+		#zcReqCode:VARCHAR#,
+		#zcSuCode:VARCHAR#,
+		#zcSuName:VARCHAR#,
+		#zcBalType:VARCHAR#,
+		#zcDiyuDaima:VARCHAR#,
+		#zcHtCode:VARCHAR#,
+		#zcSuTel:VARCHAR#,
+		#zcSuLinkMan:VARCHAR#,
+		#zcHangyeCtg:VARCHAR#,
+		#zcInvoiceCode:VARCHAR#,
+		#zcSkRen:VARCHAR#,
+		#zcRemark:VARCHAR#,
+		#zcZbName:VARCHAR#,
+		#zcZbCode:VARCHAR#,
+		#payTypeCode:VARCHAR#,
+		#outLayCode:VARCHAR#,
+		#zcBiSum:VARCHAR#,
+		#zcBiNo:VARCHAR#,
+		#zcCoType:VARCHAR#,
+		#zcMoneyBiSum:VARCHAR#,
+		#zcHtNum:VARCHAR#,
+		#payOrder:VARCHAR#,
+		#isLastPay:VARCHAR#)
+	</insert>
+	<update id="updateZcPProBal" parameterClass="ZcPProBal">
+		update ZC_P_PRO_BAL
+		Set ZC_SU_BANK_CODE = #zcSuBankCode:VARCHAR#,
+		ZC_SU_BANK_NAME = #zcSuBankName:VARCHAR#,
+		ZC_SU_ACC_CODE = #zcSuAccCode:VARCHAR#,
+		ZC_SU_ACC_NAME = #zcSuAccName:VARCHAR#,
+		ZC_CO_BANK_CODE = #zcCoBankCode:VARCHAR#,
+		ZC_CO_BANK_NAME = #zcCoBankName:VARCHAR#,
+		ZC_CO_ACC_CODE = #zcCoAccCode:VARCHAR#,
+		ZC_CO_ACC_NAME = #zcCoAccName:VARCHAR#,
+		ZC_BAL_STATUS = #zcBalStatus:VARCHAR#,
+		ZC_BAL_SUM = #zcBalSum:DECIMAL#,
+		ZC_INPUT_CODE = #zcInputCode:VARCHAR#,
+		ZC_INPUT_DATE = #zcInputDate:VARCHAR#,
+		ZC_INPUT_NAME = #zcInputName:VARCHAR#,
+		ZC_BAL_APP = #zcBalApp:VARCHAR#,
+		ZC_BAL_APP_DATE = #zcBalAppDate:VARCHAR#,
+		ZC_BAL_AUT = #zcBalAut:VARCHAR#,
+		ZC_BAL_AUT_DATE = #zcBalAutDate:VARCHAR#,
+		ZC_BAL_APF_NO = #zcBalApfNo:VARCHAR#,
+		ZC_BAL_FLAG = #zcBalFlag:VARCHAR#,
+		ZC_IS_RTN = #zcIsRin:VARCHAR#,
+		ZC_BID_CODE = #zcBidCode:VARCHAR#,
+		ORG_CODE = #orgCode:VARCHAR#,
+		PROCESS_INST_ID = #processInstId:VARCHAR#,
+		ZC_MAKE_CODE = #zcMakeCode:VARCHAR#,
+		CO_CODE = #coCode:VARCHAR#,
+		ND = #nd:VARCHAR#,
+		ZC_YSJG_NA = #zcYsjgNa:VARCHAR#,
+		ZC_REQ_CODE = #zcReqCode:VARCHAR#,
+		ZC_SU_CODE = #zcSuCode:VARCHAR#,
+		ZC_SU_NAME = #zcSuName:VARCHAR#,
+		ZC_BAL_TYPE = #zcBalType:VARCHAR#,
+		ZC_DIYU_DAIMA = #zcDiyuDaima:VARCHAR#,
+		ZC_HT_CODE = #zcHtCode:VARCHAR#,
+		ZC_SU_TEL = #zcSuTel:VARCHAR#,
+		ZC_SU_LINKMAN = #zcSuLinkMan:VARCHAR#,
+		ZC_HANGYE_CTG = #zcHangyeCtg:VARCHAR#,
+		ZC_INVOICE_CODE = #zcInvoiceCode:VARCHAR#,
+		ZC_SK_REN = #zcSkRen:VARCHAR#,
+		ZC_REMARK = #zcRemark:VARCHAR#,
+		ZC_ZB_NAME = #zcZbName:VARCHAR#,
+		ZC_ZB_CODE = #zcZbCode:VARCHAR#,
+		PAYTYPE_CODE = #payTypeCode:VARCHAR#,
+		OUTLAY_CODE = #outLayCode:VARCHAR#,
+		ZC_BI_SUM = #zcBiSum:VARCHAR#,
+		ZC_BI_NO = #zcBiNo:VARCHAR#,
+		ZC_CO_TYPE = #zcCoType:VARCHAR#,
+		ZC_MONEY_BI_SUM = #zcMoneyBiSum:VARCHAR#,
+		ZC_HT_NUM = #zcHtNum:VARCHAR#,
+		PAY_ORDER = #payOrder:VARCHAR#,
+		IS_LAST_PAY = #isLastPay:VARCHAR#
+
+		WHERE ZC_BAL_ID = #zcBalId:VARCHAR#
+	</update>
+	<!-- 获得合同下所有已经结算的资金之和,包括审批中，不包括作废的和自己当前这条支付申请 -->
+	<select id="getSumZcBalSum" resultClass="java.math.BigDecimal"
+		parameterClass="Map">
+		SELECT sum(ZC_BAL_SUM)
+		FROM ZC_P_PRO_BAL
+		WHERE
+		ZC_BAL_STATUS!='cancel'
+		AND ZC_MAKE_CODE=#zcMakeCode:VARCHAR#
+		AND
+		ZC_HT_CODE=#zcHtCode:VARCHAR#
+	<isNotNull prepend="and" property="balId">
+		ZC_BAL_ID!=#balId#
+	</isNotNull>
+	</select>
+	<select id="getOverMoneyByZcMakeCode" parameterClass="Map"
+		resultClass="java.math.BigDecimal">
+		select nvl(sum(bi.zc_bi_jhua_sum), 0) - nvl(sum(zc_bi_bcjs_sum), 0)
+		from (select zc_make_code,sum(zc_bi_jhua_sum) zc_bi_jhua_sum from
+		(select mb.zc_make_code, mb.zc_bi_jhua_sum
+		from zc_p_pro_mitem_bi mb
+		where zc_make_code = #makeCode:VARCHAR#
+		and mb.zc_bi_no is not null
+		union all
+		(select ht.zc_make_code, sum(hb.zc_bi_bcsy_sum)
+		from zc_xmcg_ht_bi hb, zc_xmcg_ht ht
+		where hb.zc_ht_code = ht.zc_ht_code
+		and ht.zc_make_code = #makeCode:VARCHAR#
+		and ht.zc_parht_code is not null
+		and ht.zc_ht_status = 'exec'
+		and hb.zc_bi_no is not null
+		group by ht.zc_make_code)) group by zc_make_code) bi,
+		(select ba.zc_make_code, sum(bb.zc_bi_bcjs_sum) zc_bi_bcjs_sum
+		from zc_p_pro_bal_bi bb, zc_p_pro_bal ba
+		where bb.zc_bal_id = ba.zc_bal_id
+		and ba.zc_make_code = #makeCode:VARCHAR#
+		and bb.zc_bal_id != #balId:VARCHAR#
+		and bb.zc_bi_no is not null
+		group by ba.zc_make_code) bbi
+		where bi.zc_make_code = bbi.zc_make_code(+)
+	</select>
+	<select id="getReturnMoneyByZcMakeCode" parameterClass="Map"
+		resultMap="ZcPProReturnBiResult">
+select mk.zc_bi_no,
+       zc_bi_jhua_sum - nvl(zc_bi_bcjs_sum, 0) zc_bi_bal,
+       mk.senddoc_name,
+       mk.paytype_code
+  from (select zc_bi_no,
+               nvl(sum(zc_bi_jhua_sum), 0) zc_bi_jhua_sum,
+               senddoc_name,
+               paytype_code
+          from (select zc_make_code,
+                       zc_bi_no,
+                       zc_bi_jhua_sum,
+                       senddoc_name,
+                       paytype_code
+                  from Zc_p_Pro_Mitem_Bi
+                 where zc_make_code = #makeCode:VARCHAR#
+                   and zc_bi_no is not null
+                union all
+                select ht.zc_make_code,
+                       zc_bi_no,
+                       hb.zc_bi_bcsy_sum zc_bi_jhua_sum,
+                       senddoc_name,
+                       paytype_code
+                  from zc_xmcg_ht_bi hb, zc_xmcg_ht ht
+                 where hb.zc_ht_code = ht.zc_ht_code
+                   and ht.zc_make_code = #makeCode:VARCHAR#
+                   and ht.zc_parht_code is not null
+                   and ht.zc_ht_status = 'exec'
+                   and hb.zc_bi_no is not null)
+         group by zc_bi_no, senddoc_name, paytype_code) mk,
+       (select bi.zc_bi_no, nvl(sum(bi.zc_bi_bcjs_sum), 0) zc_bi_bcjs_sum
+          from zc_p_pro_bal bal, zc_p_pro_bal_bi bi
+         where bal.zc_bal_id != #balId:VARCHAR#
+           and bal.zc_make_code = #makeCode:VARCHAR#
+           and bi.zc_bal_id = bal.zc_bal_id
+           and bi.zc_bi_no is not null
+           and bi.zc_am_billno is not null
+         group by bi.zc_bi_no) bb
+ where bb.zc_bi_no(+) = mk.zc_bi_no
+   and mk.zc_bi_no is not null
+   and zc_bi_jhua_sum > nvl(zc_bi_bcjs_sum, 0)
+
+	</select>
+
+	<select id="checkExistsSending" parameterClass="Map"
+		resultClass="Integer">
+		select count(*) from zc_p_pro_bal bal
+         where bal.zc_bal_id != #balId:VARCHAR#
+           and bal.zc_make_code = #makeCode:VARCHAR#
+           and bal.zc_bal_status not in ('sendGk','exec')
+	</select>
+	<update id="updateZcPProBalStatus" parameterClass="ZcPProBal">
+		update ZC_P_PRO_BAL
+		Set
+		ZC_BAL_STATUS = #zcBalStatus:VARCHAR#
+		WHERE ZC_BAL_ID = #zcBalId:VARCHAR#
+	</update>
+</sqlMap>

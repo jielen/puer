@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ZcEbGuarantee">
+
+	<typeAlias alias="ZcEbGuarantee" type="com.ufgov.zc.common.zc.model.ZcEbGuarantee" />
+	<typeAlias alias="ZcEbGuaranteeDetail"
+		type="com.ufgov.zc.common.zc.model.ZcEbGuaranteeDetail" />
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+
+	<resultMap id="ZcEbGuaranteeResult" class="ZcEbGuarantee">
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="projName" column="PROJ_NAME" />
+		<result property="providerCode" column="PROVIDER_CODE" />
+		<result property="providerName" column="PROVIDER_NAME" />
+		<result property="linkMan" column="LINKMAN" />
+		<result property="phone" column="PHONE" />
+		<result property="isPayGuarantee" column="IS_PAY_GUARANTEE" />
+		<result property="payDate" column="GUARANTEE_DATE" />
+		<result property="operator" column="GUARANTEE_OPERATOR" />
+		<result property="guaranteeSum" column="GUARANTEE_SUM" />
+		<result property="address" column="ADDRESS" />
+		<result property="signupId" column="SIGNUP_ID" />
+		<result property="payType" column="GUARANTEE_PAY_TYPE" />
+		<result property="payBillNum" column="GUARANTEE_PAY_BILL" />
+		<result property="accCode" column="ZC_SU_ACC_CODE" />
+		<result property="bankName" column="ZC_SU_BANK_NAME" />
+	</resultMap>
+	<resultMap class="ZcEbGuaranteeDetail" id="ZcEbGuaranteeDetailResult">
+		<result property="packCode" column="PACK_CODE" />
+		<result property="packName" column="PACK_NAME" />
+		<result property="packDesc" column="PACK_DESC" />
+		<result property="isPayGuarantee" column="IS_PAY_GUARANTEE" />
+		<result property="guaranteeDesc" column="GUARANTEE_DESC" />
+		<result property="bidDeposit" column="BID_DEPOSIT" />
+		<result property="signupPackId" column="SIGNUP_PACK_ID" />
+		<result property="signupId" column="SIGNUP_ID" />
+	</resultMap>
+
+	<select id="getZcEbGuarantee" resultMap="ZcEbGuaranteeResult" parameterClass="elementCondition">
+	    SELECT S.PROJ_CODE,           P.PROJ_NAME,           S.PROVIDER_CODE,           SP.ZC_SU_NAME PROVIDER_NAME,           SP.ZC_SU_LINKMAN LINKMAN,           SP.ZC_SU_TEL PHONE,           SP.ZC_SU_ACC_CODE,           SP.ZC_SU_BANK_NAME,           S.IS_PAY_GUARANTEE,           S.GUARANTEE_DATE,           S.GUARANTEE_OPERATOR,           NVL(S.GUARANTEE_SUM, 0) GUARANTEE_SUM,           SP.ZC_SU_ADDR ADDRESS,           S.SIGNUP_ID,           S.GUARANTEE_PAY_TYPE,           S.GUARANTEE_PAY_BILL      FROM ZC_EB_SIGNUP S, ZC_B_SUPPLIER SP,ZC_EB_PROJ P     WHERE S.PROVIDER_CODE = SP.ZC_SU_CODE      AND P.PROJ_CODE=S.PROJ_CODE
+	<isNotEqual prepend="AND" compareValue="0" property="nd">
+			S.ND = #nd#
+	</isNotEqual>
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		<isNotNull prepend="AND" property="billStatus">
+			S.IS_PAY_GUARANTEE=#billStatus#
+		</isNotNull>
+		<isNotNull prepend="AND" property="projCode">
+			S.PROJ_CODE=#projCode#
+		</isNotNull>
+		<isNotNull prepend="AND" property="status">
+			<isEqual property="status" compareValue="nopay">
+				S.IS_PAY_GUARANTEE='0'
+			</isEqual>
+			<isEqual property="status" compareValue="pay">
+				S.IS_PAY_GUARANTEE='1'
+	  		</isEqual>
+			<isEqual property="status" compareValue="return">
+				S.IS_PAY_GUARANTEE='2'
+			</isEqual>
+			<isEqual property="status" compareValue="bankReturn">
+				S.IS_PAY_GUARANTEE='3'
+			</isEqual>
+			<isEqual property="status" compareValue="all">
+				1=1
+			</isEqual>
+		</isNotNull>
+		ORDER BY S.PROJ_CODE DESC
+	</select>
+	<select id="getZcEbGuaranteeDetail" resultMap="ZcEbGuaranteeDetailResult"
+		parameterClass="string">
+		SELECT 
+			SP.SIGNUP_PACK_ID,
+			S.SIGNUP_ID,
+			PK.PACK_CODE,
+			PK.PACK_NAME,
+			PK.PACK_DESC,
+			SP.IS_PAY_GUARANTEE,
+			SP.GUARANTEE_DESC,
+			PK.BID_DEPOSIT
+		FROM
+		    ZC_EB_PROJ P, 
+		    ZC_EB_PACK PK, 
+		    ZC_EB_SIGNUP S, 
+		    ZC_EB_SIGNUP_PACK SP
+		WHERE 
+		    P.PROJ_CODE = PK.PROJ_CODE
+		AND 
+		    P.PROJ_CODE = S.PROJ_CODE
+		AND
+		    S.SIGNUP_ID = SP.SIGNUP_ID
+		AND 
+		    SP.PACK_CODE = PK.PACK_CODE
+		AND
+		    S.SIGNUP_ID=#value#
+	</select>
+
+	<update id="updateZcEbGuarantee" parameterClass="ZcEbGuarantee">
+		UPDATE
+		zc_eb_signup s
+		SET s.guarantee_date=#payDate:DATE#,
+		s.is_pay_guarantee=#isPayGuarantee#,
+		s.guarantee_operator=#operator#,
+		s.guarantee_sum=#guaranteeSum#,
+		S.GUARANTEE_PAY_TYPE=#payType#,
+		S.GUARANTEE_PAY_BILL=#payBillNum#
+		WHERE s.signup_id=#signupId#
+	</update>
+
+	<update id="updateZcEbGuaranteeDetail" parameterClass="ZcEbGuaranteeDetail">
+		UPDATE
+		zc_eb_signup_pack d
+		SET d.Is_Pay_Guarantee=#isPayGuarantee#,
+		d.guarantee_desc=#guaranteeDesc#
+		WHERE d.signup_pack_id=#signupPackId#
+		AND d.signup_id=#signupId#
+	</update>
+
+</sqlMap>

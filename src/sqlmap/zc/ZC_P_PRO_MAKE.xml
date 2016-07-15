@@ -1,0 +1,2194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ZC_P_PRO_MAKE">
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<resultMap class="com.ufgov.zc.common.zc.model.ZcPProMake"
+		id="ibatorgenerated_BaseResultMap">
+		<result column="ZC_MAKE_CODE" jdbcType="VARCHAR" property="zcMakeCode" />
+		<result column="ZC_MAKE_NAME" jdbcType="VARCHAR" property="zcMakeName" />
+		<result column="CO_CODE" jdbcType="VARCHAR" property="coCode" />
+		<result column="ND" jdbcType="CHAR" property="nd" />
+		<result column="ZC_MAKE_LINKMAN" jdbcType="VARCHAR" property="zcMakeLinkman" />
+		<result column="ZC_MAKE_TEL" jdbcType="VARCHAR" property="zcMakeTel" />
+		<result column="ZC_MAKE_STATUS" jdbcType="VARCHAR" property="zcMakeStatus" />
+		<result column="ZC_INPUT_CODE" jdbcType="VARCHAR" property="zcInputCode" />
+		<result column="ZC_INPUT_DATE" jdbcType="TIMESTAMP" property="zcInputDate" />
+		<result column="ZC_PRO_REMARK" jdbcType="VARCHAR" property="zcProRemark" />
+		<result column="ZC_MONEY_BI_SUM" jdbcType="DECIMAL" property="zcMoneyBiSum" />
+		<result column="ZC_MONEY_ZC_SUM" jdbcType="DECIMAL" property="zcMoneyZcSum" />
+		<result column="ZC_MAKE_APPR_SNO" jdbcType="VARCHAR" property="zcMakeApprSno" />
+		<result column="ZC_MAKE_APPR" jdbcType="VARCHAR" property="zcMakeAppr" />
+		<result column="ZC_MAKE_APPR_BLOBID" jdbcType="VARCHAR"
+			property="zcMakeApprBlobid" />
+		<result column="ZC_REMARK" jdbcType="VARCHAR" property="zcRemark" />
+		<result column="PROCESS_INST_ID" jdbcType="DECIMAL" property="processInstId" />
+		<result column="ZC_MAKE_FROM" jdbcType="VARCHAR" property="zcMakeFrom" />
+		<result column="AGENCY" jdbcType="VARCHAR" property="agency" />
+		<result column="ZC_IS_AGENCY" jdbcType="VARCHAR" property="zcIsAgency" />
+		<result column="ZC_MAKE_ZHAOBIAO" jdbcType="VARCHAR" property="zcMakeZhaobiao" />
+		<result column="ZC_MAKE_ZHAOBIAO_BLOBID" jdbcType="VARCHAR"
+			property="zcMakeZhaobiaoBlobid" />
+		<result column="ZC_MAKE_ZHAOGG" jdbcType="VARCHAR" property="zcMakeZhaogg" />
+		<result column="ZC_MAKE_ZHAOGG_BLOBID" jdbcType="VARCHAR"
+			property="zcMakeZhaoggBlobid" />
+		<result column="ZC_MAKE_ZHONGBIAO" jdbcType="VARCHAR" property="zcMakeZhongbiao" />
+		<result column="ZC_MAKE_ZHONGBIAO_BLOBID" jdbcType="VARCHAR"
+			property="zcMakeZhongbiaoBlobid" />
+		<result column="ZC_MAKE_ZHONGGG" jdbcType="VARCHAR" property="zcMakeZhonggg" />
+		<result column="ZC_MAKE_ZHONGGG_BLOBID" jdbcType="VARCHAR"
+			property="zcMakeZhongggBlobid" />
+		<result column="ZC_IS_TO_CGZX" jdbcType="VARCHAR" property="zcIsToCgzx" />
+		<result column="ZC_MAKE_FLAG" jdbcType="VARCHAR" property="zcMakeFlag" />
+		<result column="ORG_CODE" jdbcType="VARCHAR" property="orgCode" />
+		<result column="ZC_PITEM_OPIWAY" jdbcType="VARCHAR" property="zcPitemOpiway" />
+		<result column="ZC_PIFU_CGFS" jdbcType="VARCHAR" property="zcPifuCgfs" />
+		<result column="ZC_PITEM_MODE" jdbcType="VARCHAR" property="zcPitemMode" />
+		<result column="ZC_CD_AWDAREA" jdbcType="VARCHAR" property="zcCdAwdarea" />
+		<result column="ZC_IS_ZXQY_ZB" jdbcType="VARCHAR" property="zcIsZxqyZb" />
+		<result column="ZC_HANGYE_CTG" jdbcType="VARCHAR" property="zcHangyeCtg" />
+		<result column="ORG_NAME" jdbcType="VARCHAR" property="orgName" />
+		<result column="ZC_MONEY_BI_YZX" jdbcType="DECIMAL" property="zcMoneyBiYzx" />
+		<result column="ZC_MONEY_KY_BGS" jdbcType="DECIMAL" property="zcMoneyKyBgs" />
+		<result column="ZC_MONEY_BG_ZXS" jdbcType="DECIMAL" property="zcMoneyBgZxs" />
+		<result column="ZC_FGKZBFS_SMWJ_BLOBID" jdbcType="VARCHAR"
+			property="zcFgkzbfsSmwjBlobid" />
+		<result column="ZC_FGKZBFS_SMWJ" jdbcType="VARCHAR" property="zcFgkzbfsSmwj" />
+		<result column="AGENCY_NAME" jdbcType="VARCHAR" property="agencyName" />
+		<result column="ZC_DIYU_DAIMA" jdbcType="VARCHAR" property="zcDiyuDaima" />
+		<result column="ZC_MONEY_HT_YBA" jdbcType="DECIMAL" property="zcMoneyHtYba" />
+		<result column="ZC_FUKUAN_TYPE" jdbcType="VARCHAR" property="zcFukuanType" />
+		<result column="ZC_WEITO_DATE" jdbcType="TIMESTAMP" property="zcWeitoDate" />
+		<result column="ZC_YEP_FLAG" jdbcType="VARCHAR" property="zcYepFlag" />
+		<result column="ZC_YEP_SUM" jdbcType="DECIMAL" property="zcYepSum" />
+		<result column="ZC_BI_NZJZ_SUM" jdbcType="DECIMAL" property="zcBiNzjzSum" />
+		<result column="ZC_PROJ_ORIGN" jdbcType="VARCHAR" property="zcProjOrign" />
+		<result column="ZC_DIYU_DAIMA_ZJ" jdbcType="VARCHAR" property="zcDiyuDaimaZj" />
+		<result column="ZC_IS_NOTARY" jdbcType="VARCHAR" property="zcIsNotary" />
+		<result column="ZC_IS_IMP" jdbcType="VARCHAR" property="zcIsImp" />
+		<result column="ZC_IS_REMARK" jdbcType="VARCHAR" property="zcIsRemark" />
+		<result column="ZC_IMP_FILE" jdbcType="VARCHAR" property="zcImpFile" />
+		<result column="ZC_IMP_FILE_BLOBID" jdbcType="VARCHAR"
+			property="zcImpFileBlobid" />
+		<result column="ZC_PRINT_STATUS" jdbcType="VARCHAR" property="zcPrintStatus" />
+		<result column="ZC_MAKE_SEQUENCE" jdbcType="VARCHAR" property="zcMakeSequence" />
+		<result column="ZC_IS_BUDGET" jdbcType="VARCHAR" property="zcIsBudget" />
+		<result column="ZC_XIEYI_END_DATE" jdbcType="TIMESTAMP"
+			property="zcXieYiEndDate" />
+		<result column="ZC_ATTR1" jdbcType="VARCHAR" property="zcAttr1" />
+		<result column="ZC_ATTR2" jdbcType="VARCHAR" property="zcAttr2" />
+		<result column="ZC_ATTR3" jdbcType="VARCHAR" property="zcAttr3" />
+		<result column="ZC_ATTR4" jdbcType="VARCHAR" property="zcAttr4" />
+		<result column="ZC_ATTR5" jdbcType="VARCHAR" property="zcAttr5" />
+		<result column="ZC_TEMP_MAKE_CODE" jdbcType="VARCHAR" property="zcTempMakeCode" />		<result column="pro_id" jdbcType="VARCHAR" property="proId" />		<result column="pro_name" jdbcType="VARCHAR" property="proName" />		<result column="ZC_MAKE_PF_SEQUENCE" jdbcType="VARCHAR"			property="zcMakePfSequence" />		<result column="is_des_sup" jdbcType="VARCHAR" property="isDesSup" />		<result column="is_pub" jdbcType="VARCHAR" property="isPub" />		<result column="is_car" jdbcType="VARCHAR" property="isCar" />
+	</resultMap>
+
+	<resultMap class="com.ufgov.zc.common.zc.model.ZcVBiDetail"
+		id="vBiResult">
+		<result column="ZC_BI_NO" jdbcType="VARCHAR" property="zcBiNo" />
+		<result column="ZC_BI_DO_SUM" jdbcType="DECIMAL" property="zcBiDoSum" />
+		<result column="FUND_CODE" jdbcType="VARCHAR" property="zcFundCode" />
+		<result column="FUND_NAME" jdbcType="VARCHAR" property="zcFundName" />
+		<result column="ORIGIN_CODE" jdbcType="VARCHAR" property="orginCode" />
+		<result column="ORIGIN_NAME" jdbcType="VARCHAR" property="orginName" />
+		<result column="PAYTYPE_CODE" jdbcType="VARCHAR" property="paytypeCode" />
+		<result column="PAYTYPE_NAME" jdbcType="VARCHAR" property="paytypeName" />
+		<result column="SENDDOC_CODE" jdbcType="VARCHAR" property="senddocCode" />
+		<result column="SENDDOC_NAME" jdbcType="VARCHAR" property="senddocName" />
+	</resultMap>
+	<resultMap class="com.ufgov.zc.common.zc.model.ZcPProMakeExt"
+		id="extResult">
+		<!-- WARNING - This element is automatically generated by Apache iBATIS 
+			ibator, do not modify. This element was generated on Thu Apr 29 16:50:54 
+			CST 2010. -->
+		<result column="ZC_MAKE_CODE" jdbcType="VARCHAR" property="zcMakeCode" />
+		<result column="ZC_MAKE_NAME" jdbcType="VARCHAR" property="zcMakeName" />
+		<result column="CO_CODE" jdbcType="VARCHAR" property="coCode" />
+		<result column="ND" jdbcType="CHAR" property="nd" />
+		<result column="ZC_MAKE_LINKMAN" jdbcType="VARCHAR" property="zcMakeLinkman" />
+		<result column="ZC_MAKE_TEL" jdbcType="VARCHAR" property="zcMakeTel" />
+		<result column="ZC_MAKE_STATUS" jdbcType="VARCHAR" property="zcMakeStatus" />
+		<result column="ZC_INPUT_CODE" jdbcType="VARCHAR" property="zcInputCode" />
+		<result column="ZC_INPUT_DATE" jdbcType="TIMESTAMP" property="zcInputDate" />
+		<result column="ZC_PRO_REMARK" jdbcType="VARCHAR" property="zcProRemark" />
+		<result column="ZC_MONEY_BI_SUM" jdbcType="DECIMAL" property="zcMoneyBiSum" />
+		<result column="ZC_MONEY_ZC_SUM" jdbcType="DECIMAL" property="zcMoneyZcSum" />
+		<result column="ZC_MAKE_APPR_SNO" jdbcType="VARCHAR" property="zcMakeApprSno" />
+		<result column="ZC_MAKE_APPR" jdbcType="VARCHAR" property="zcMakeAppr" />
+		<result column="ZC_MAKE_APPR_BLOBID" jdbcType="VARCHAR"
+			property="zcMakeApprBlobid" />
+		<result column="ZC_REMARK" jdbcType="VARCHAR" property="zcRemark" />
+		<result column="PROCESS_INST_ID" jdbcType="DECIMAL" property="processInstId" />
+		<result column="ZC_MAKE_FROM" jdbcType="VARCHAR" property="zcMakeFrom" />
+		<result column="AGENCY" jdbcType="VARCHAR" property="agency" />
+		<result column="ZC_IS_AGENCY" jdbcType="VARCHAR" property="zcIsAgency" />
+		<result column="ZC_MAKE_ZHAOBIAO" jdbcType="VARCHAR" property="zcMakeZhaobiao" />
+		<result column="ZC_MAKE_ZHAOBIAO_BLOBID" jdbcType="VARCHAR"
+			property="zcMakeZhaobiaoBlobid" />
+		<result column="ZC_MAKE_ZHAOGG" jdbcType="VARCHAR" property="zcMakeZhaogg" />
+		<result column="ZC_MAKE_ZHAOGG_BLOBID" jdbcType="VARCHAR"
+			property="zcMakeZhaoggBlobid" />
+		<result column="ZC_MAKE_ZHONGBIAO" jdbcType="VARCHAR" property="zcMakeZhongbiao" />
+		<result column="ZC_MAKE_ZHONGBIAO_BLOBID" jdbcType="VARCHAR"
+			property="zcMakeZhongbiaoBlobid" />
+		<result column="ZC_MAKE_ZHONGGG" jdbcType="VARCHAR" property="zcMakeZhonggg" />
+		<result column="ZC_MAKE_ZHONGGG_BLOBID" jdbcType="VARCHAR"
+			property="zcMakeZhongggBlobid" />
+		<result column="ZC_IS_TO_CGZX" jdbcType="VARCHAR" property="zcIsToCgzx" />
+		<result column="ZC_MAKE_FLAG" jdbcType="VARCHAR" property="zcMakeFlag" />
+		<result column="ORG_CODE" jdbcType="VARCHAR" property="orgCode" />
+		<result column="ZC_PITEM_OPIWAY" jdbcType="VARCHAR" property="zcPitemOpiway" />
+		<result column="ZC_PIFU_CGFS" jdbcType="VARCHAR" property="zcPifuCgfs" />
+		<result column="ZC_PITEM_MODE" jdbcType="VARCHAR" property="zcPitemMode" />
+		<result column="ZC_CD_AWDAREA" jdbcType="VARCHAR" property="zcCdAwdarea" />
+		<result column="ZC_IS_ZXQY_ZB" jdbcType="VARCHAR" property="zcIsZxqyZb" />
+		<result column="ZC_HANGYE_CTG" jdbcType="VARCHAR" property="zcHangyeCtg" />
+		<result column="ORG_NAME" jdbcType="VARCHAR" property="orgName" />
+		<result column="ZC_MONEY_BI_YZX" jdbcType="DECIMAL" property="zcMoneyBiYzx" />
+		<result column="ZC_MONEY_KY_BGS" jdbcType="DECIMAL" property="zcMoneyKyBgs" />
+		<result column="ZC_MONEY_BG_ZXS" jdbcType="DECIMAL" property="zcMoneyBgZxs" />
+		<result column="ZC_FGKZBFS_SMWJ_BLOBID" jdbcType="VARCHAR"
+			property="zcFgkzbfsSmwjBlobid" />
+		<result column="ZC_FGKZBFS_SMWJ" jdbcType="VARCHAR" property="zcFgkzbfsSmwj" />
+		<result column="AGENCY_NAME" jdbcType="VARCHAR" property="agencyName" />
+		<result column="ZC_DIYU_DAIMA" jdbcType="VARCHAR" property="zcDiyuDaima" />
+		<result column="ZC_MONEY_HT_YBA" jdbcType="DECIMAL" property="zcMoneyHtYba" />
+		<result column="ZC_FUKUAN_TYPE" jdbcType="VARCHAR" property="zcFukuanType" />
+		<result column="ZC_WEITO_DATE" jdbcType="TIMESTAMP" property="zcWeitoDate" />
+		<result column="ZC_YEP_FLAG" jdbcType="VARCHAR" property="zcYepFlag" />
+		<result column="ZC_YEP_SUM" jdbcType="DECIMAL" property="zcYepSum" />
+		<result column="ZC_BI_NZJZ_SUM" jdbcType="DECIMAL" property="zcBiNzjzSum" />
+		<result column="ZC_PROJ_ORIGN" jdbcType="VARCHAR" property="zcProjOrign" />
+		<result column="ZC_DIYU_DAIMA_ZJ" jdbcType="VARCHAR" property="zcDiyuDaimaZj" />
+		<result column="ZC_IS_NOTARY" jdbcType="VARCHAR" property="zcIsNotary" />
+		<result column="ZC_IS_IMP" jdbcType="VARCHAR" property="zcIsImp" />
+		<result column="ZC_IS_REMARK" jdbcType="VARCHAR" property="zcIsRemark" />
+		<result column="ZC_IMP_FILE" jdbcType="VARCHAR" property="zcImpFile" />
+		<result column="ZC_IMP_FILE_BLOBID" jdbcType="VARCHAR"
+			property="zcImpFileBlobid" />
+		<result column="ZC_PRINT_STATUS" jdbcType="VARCHAR" property="zcPrintStatus" />
+		<result column="ZC_MAKE_SEQUENCE" jdbcType="VARCHAR" property="zcMakeSequence" />
+		<result column="ZC_IS_BUDGET" jdbcType="VARCHAR" property="zcIsBudget" />
+		<result column="CO_NAME" jdbcType="VARCHAR" property="zcCoName" />
+		<result column="ZC_ATTR1" jdbcType="VARCHAR" property="zcAttr1" />
+		<result column="ZC_ATTR2" jdbcType="VARCHAR" property="zcAttr2" />
+		<result column="ZC_ATTR3" jdbcType="VARCHAR" property="zcAttr3" />
+		<result column="ZC_ATTR4" jdbcType="VARCHAR" property="zcAttr4" />
+		<result column="ZC_ATTR5" jdbcType="VARCHAR" property="zcAttr5" />
+	</resultMap>
+	<resultMap id="ZcPProMake" class="com.ufgov.zc.common.zc.model.ZcPProMake">
+		<result column="ZC_MAKE_CODE" jdbcType="VARCHAR" property="zcMakeCode" />
+		<result column="ZC_MAKE_NAME" jdbcType="VARCHAR" property="zcMakeName" />
+		<result column="ZC_XIEYI_END_DATE" jdbcType="VARCHAR" property="zcXieYiEndDate" />
+		<result column="ZC_FUKUAN_TYPE" jdbcType="VARCHAR" property="zcFukuanType" />
+	</resultMap>
+
+	<resultMap id="ZcPProMakeShow" class="com.ufgov.zc.common.zc.model.ZcPProMakeShow">
+		<result column="ZC_ATTR5" jdbcType="VARCHAR" property="zcAttr5" />
+		<result column="ZC_XIEYI_END_DATE" jdbcType="TIMESTAMP"
+			property="zcXieYiEndDatd" />
+		<result column="ZC_MAKE_NAME" jdbcType="VARCHAR" property="zcMakeName" />
+		<result column="ZC_BRA_NAME" jdbcType="VARCHAR" property="zcBraName" />
+		<result column="ZC_MER_CODE" jdbcType="VARCHAR" property="zcMerCode" />
+		<result column="ZC_MER_NAME" jdbcType="VARCHAR" property="zcMerName" />
+		<result column="ZC_BASE_GGYQ" jdbcType="VARCHAR" property="zcBaseGgyq" />
+		<result column="ZC_CAIG_NUM" jdbcType="DECIMAL" property="zcCaigNum" />
+		<result column="zc_su_code" jdbcType="VARCHAR" property="zcSuCode" />
+		<result column="zc_item_sum" jdbcType="DECIMAL" property="zcItemSum" />
+	</resultMap>
+	<select id="getMakeIndexList" resultMap="ZcPProMake">
+	 <![CDATA[
+	   select t.*,rownum from (select ZC_MAKE_CODE,ZC_MAKE_NAME,ZC_XIEYI_END_DATE,(select val from as_val where valset_id='ZC_VS_FUKUAN_TYPE' and val_id='G03') as zc_fukuan_type
+	   	from zc_p_pro_make where ZC_XIEYI_END_DATE>sysdate and zc_fukuan_type='G03' order by ZC_XIEYI_END_DATE) t where rownum < 7  
+	   	]]>
+	</select>
+	<select id="getMakeListCount" resultClass="java.lang.Integer">
+     <![CDATA[
+	  select
+	        count(*) as COUNT_NUM
+	   from
+	        zc_p_pro_make
+	  ]]>
+
+	</select>
+
+	<select id="getMakeList" resultMap="ibatorgenerated_BaseResultMap"
+		parameterClass="Map">
+		<![CDATA[
+		   select * from (select row_.*,rownum rownum_ from (
+		        select make.*,'' pro_name from zc_p_pro_make	make
+		 ) row_ where rownum <= #end# ) where rownum_ >=  #start#
+		  ]]>
+	</select>
+	<select id="findMakeByCode" resultMap="ZcPProMakeShow"
+		parameterClass="Map">
+	<![CDATA[
+		select 
+	       make.zc_attr5,
+	       make.ZC_XIEYI_END_DATE,
+	       make.zc_make_name,
+	       pp.zc_bra_name,
+	       mer.zc_mer_code,
+	       mer.zc_mer_name,
+	       itemmer.zc_base_ggyq,
+	       itemmer.zc_caig_num,
+		   itemmer.zc_su_code,
+           itemmer.zc_item_sum
+		 from 
+		   zc_p_pro_make make,
+		   zc_p_pro_mitem item,
+		   zc_p_pro_mitem_mer  itemmer,
+		   zc_b_merchandise mer,
+		   zc_zb_pinp pp 
+		 where 
+		   make.zc_make_code = item.zc_make_code and 
+		   make.zc_make_code = itemmer.zc_make_code and		   		   item.zc_pitem_code=itemmer.zc_pitem_code and 
+		   itemmer.zc_mer_code = mer.zc_mer_code and 
+		   item.zc_bra_code = pp.zc_bra_code and
+		   make.zc_make_code = #zcMakeCode#
+	]]>
+	</select>
+	<sql id="ibatorgenerated_Example_Where_Clause">
+		<!-- WARNING - This element is automatically generated by Apache iBATIS 
+			ibator, do not modify. This element was generated on Thu Apr 29 16:50:54 
+			CST 2010. -->
+		<iterate conjunction="or" prepend="where" property="oredCriteria"
+			removeFirstPrepend="iterate">
+			<isEqual compareValue="true" property="oredCriteria[].valid">
+				(
+				<iterate conjunction="and" prepend="and"
+					property="oredCriteria[].criteriaWithoutValue">
+					$oredCriteria[].criteriaWithoutValue[]$
+				</iterate>
+				<iterate conjunction="and" prepend="and"
+					property="oredCriteria[].criteriaWithSingleValue">
+					$oredCriteria[].criteriaWithSingleValue[].condition$
+					#oredCriteria[].criteriaWithSingleValue[].value#
+				</iterate>
+				<iterate conjunction="and" prepend="and"
+					property="oredCriteria[].criteriaWithListValue">
+					$oredCriteria[].criteriaWithListValue[].condition$
+					<iterate close=")" conjunction="," open="("
+						property="oredCriteria[].criteriaWithListValue[].values">
+						#oredCriteria[].criteriaWithListValue[].values[]#
+					</iterate>
+				</iterate>
+				<iterate conjunction="and" prepend="and"
+					property="oredCriteria[].criteriaWithBetweenValue">
+					$oredCriteria[].criteriaWithBetweenValue[].condition$
+					#oredCriteria[].criteriaWithBetweenValue[].values[0]# and
+					#oredCriteria[].criteriaWithBetweenValue[].values[1]#
+				</iterate>
+				)
+			</isEqual>
+		</iterate>
+	</sql>
+	<select id="ibatorgenerated_selectByExample" parameterClass="elementCondition"
+		resultMap="ibatorgenerated_BaseResultMap">
+		select ZC_MAKE_CODE, ZC_MAKE_NAME, CO_CODE, ND,
+		ZC_MAKE_LINKMAN,
+		ZC_MAKE_TEL,
+		ZC_MAKE_STATUS, ZC_INPUT_CODE,
+		ZC_INPUT_DATE,
+		ZC_PRO_REMARK, ZC_MONEY_BI_SUM,
+		ZC_MONEY_ZC_SUM,
+		ZC_MAKE_APPR_SNO,
+		ZC_MAKE_APPR, ZC_MAKE_APPR_BLOBID, ZC_REMARK,
+		ZC_P_PRO_MAKE.PROCESS_INST_ID,
+		ZC_MAKE_FROM,
+		AGENCY, ZC_IS_AGENCY,
+		ZC_MAKE_ZHAOBIAO, ZC_MAKE_ZHAOBIAO_BLOBID,
+		ZC_MAKE_ZHAOGG,
+		ZC_MAKE_ZHAOGG_BLOBID, ZC_MAKE_ZHONGBIAO, ZC_MAKE_ZHONGBIAO_BLOBID,
+		ZC_MAKE_ZHONGGG,
+		ZC_MAKE_ZHONGGG_BLOBID, ZC_IS_TO_CGZX, ZC_MAKE_FLAG,
+		ORG_CODE,
+		ZC_PITEM_OPIWAY,
+		ZC_PIFU_CGFS, ZC_PITEM_MODE,
+		ZC_CD_AWDAREA,
+		ZC_IS_ZXQY_ZB, ZC_HANGYE_CTG,
+		ORG_NAME,
+		ZC_MONEY_BI_YZX,
+		ZC_MONEY_KY_BGS, ZC_MONEY_BG_ZXS,
+		ZC_FGKZBFS_SMWJ_BLOBID,
+		ZC_FGKZBFS_SMWJ,
+		AGENCY_NAME, ZC_DIYU_DAIMA,
+		ZC_MONEY_HT_YBA,
+		ZC_FUKUAN_TYPE, ZC_WEITO_DATE,
+		ZC_YEP_FLAG,
+		ZC_YEP_SUM, ZC_BI_NZJZ_SUM,
+		ZC_PROJ_ORIGN, ZC_DIYU_DAIMA_ZJ,
+		ZC_IS_NOTARY,
+		ZC_IS_IMP,
+		ZC_IS_REMARK,
+		ZC_IMP_FILE, ZC_IMP_FILE_BLOBID,
+		ZC_PRINT_STATUS, ZC_MAKE_SEQUENCE,
+		ZC_IS_BUDGET,
+		ZC_XIEYI_END_DATE,ZC_NO_SHIP_REASON,ZC_ATTR1,ZC_ATTR2,ZC_ATTR3,ZC_ATTR4,ZC_ATTR5,ZC_TEMP_MAKE_CODE,pro_id,''
+		pro_name ,ZC_MAKE_PF_SEQUENCE,is_des_sup,is_pub,is_car
+		from
+		ZC_P_PRO_MAKE ZC_P_PRO_MAKE,
+		(SELECT
+		h.instance_id,MAX(to_date(h.execute_time,'yyyy-mm-dd hh24:mi:ss')) AS
+		d
+		FROM wf_action h
+		GROUP BY h.instance_id) wh
+		where
+		ZC_P_PRO_MAKE.process_inst_id=wh.instance_id(+) and
+		ZC_P_PRO_MAKE.ND =
+		#nd:INTEGER#
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		<isNotNull prepend="AND" property="status">
+			<isEqual property="status" compareValue="todo">
+				exists (select
+				instance_id from V_WF_CURRENT_TASK_ZC_TODO where executor
+				=#executor# and instance_id = ZC_P_PRO_MAKE.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="untread">
+				exists (select
+				instance_id from V_WF_CURRENT_TASK_ZC_UNTREAD where
+				executor
+				=#executor# and instance_id =
+				ZC_P_PRO_MAKE.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				exists (select
+				instance_id from V_WF_ACTION_HISTORY_GK53 where executor =
+				#executor# and instance_id = ZC_P_PRO_MAKE.process_inst_id)
+				and
+				ZC_P_PRO_MAKE.ZC_MAKE_STATUS!='cancel'
+				and
+				ZC_P_PRO_MAKE.ZC_MAKE_STATUS!='exec'
+				and
+				ZC_P_PRO_MAKE.ZC_MAKE_STATUS!='jingjiaing'
+				and
+				ZC_P_PRO_MAKE.ZC_MAKE_STATUS!='jingjiaycj'
+			</isEqual>
+			<isEqual property="status" compareValue="exec">
+				ZC_P_PRO_MAKE.ZC_MAKE_STATUS ='exec'
+			</isEqual>
+
+			<isEqual property="status" compareValue="notconfirm">
+				ZC_P_PRO_MAKE.ZC_FUKUAN_TYPE = 'G01' and
+				ZC_P_PRO_MAKE.ZC_MAKE_STATUS = 'exec' and
+				ZC_P_PRO_MAKE.zc_make_code
+				in
+				(select zc_make_code
+				from zc_p_pro_mitem item
+				where
+				item.zc_is_cheng_jiao
+				is null
+				and item.zc_su_code = #zcText0#
+				)
+			</isEqual>
+			<isEqual property="status" compareValue="confirm">
+				ZC_P_PRO_MAKE.ZC_FUKUAN_TYPE = 'G01' and
+				ZC_P_PRO_MAKE.zc_make_code
+				in
+				(select
+				zc_make_code
+				from zc_p_pro_mitem item
+				where
+				item.zc_is_cheng_jiao =
+				'2'
+				and item.zc_su_code = #zcText0#
+				)
+			</isEqual>
+			<isEqual property="status" compareValue="allconfirm">
+				ZC_P_PRO_MAKE.ZC_FUKUAN_TYPE = 'G01' and
+				ZC_P_PRO_MAKE.ZC_MAKE_STATUS =
+				'confirm'
+			</isEqual>
+			<isEqual property="status" compareValue="draft">
+				( exists (select
+				WF_DRAFT_NAME from as_wf_draft where
+				user_id=#executor# and
+				compo_id=#wfcompoId# and
+				WF_DRAFT_ID=ZC_P_PRO_MAKE.process_inst_id)
+				or
+				ZC_P_PRO_MAKE.process_inst_id = -1 )
+				and
+				ZC_P_PRO_MAKE.ZC_MAKE_STATUS !='cancel'
+			</isEqual>
+			<isEqual property="status" compareValue="xieyi">
+				(ZC_P_PRO_MAKE.ZC_MAKE_STATUS ='exec')
+				and
+				ZC_P_PRO_MAKE.ZC_FUKUAN_TYPE in
+				('G01')
+			</isEqual>
+			<isEqual property="status" compareValue="cancel">
+				(ZC_P_PRO_MAKE.ZC_MAKE_STATUS ='cancel')
+			</isEqual>
+			<isEqual property="status" compareValue="jingjiaing">
+				<!-- 正在竞价 :省厅状态是exec -->
+				<!--del shijia 20111020<![CDATA[(ZC_P_PRO_MAKE.ZC_MAKE_STATUS ='exec' 
+					and ZC_P_PRO_MAKE.ZC_XIEYI_END_DATE>=sysdate)]]> -->
+				<![CDATA[(ZC_P_PRO_MAKE.ZC_MAKE_STATUS ='exec' and ZC_P_PRO_MAKE.ZC_XIEYI_END_DATE>=sysdate)]]>
+			</isEqual>
+			<isEqual property="status" compareValue="jingjiawcj">
+				<!-- 竞价结束未成交：省厅状态是exec -->
+				<!--del shijia 20111020 <![CDATA[(ZC_P_PRO_MAKE.ZC_MAKE_STATUS ='exec' 
+					and ZC_P_PRO_MAKE.ZC_XIEYI_END_DATE<sysdate)]]> -->
+				<![CDATA[(ZC_P_PRO_MAKE.ZC_MAKE_STATUS ='exec' and ZC_P_PRO_MAKE.ZC_XIEYI_END_DATE<sysdate)]]>
+			</isEqual>
+			<isEqual property="status" compareValue="jingjiaycj"><!-- 竞价结束已成交 -->
+				<![CDATA[(ZC_P_PRO_MAKE.ZC_MAKE_STATUS ='jingjiaycj' and ZC_P_PRO_MAKE.ZC_XIEYI_END_DATE<sysdate)]]>
+			</isEqual>
+			<isEqual property="status" compareValue="all"> 1=1
+			</isEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="coCode">
+			ZC_P_PRO_MAKE.CO_CODE=#coCode:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="AND" property="zcText2">
+			<isEqual property="zcText2" compareValue="FXY">				<!-- 当协议供货、电子竞价以外的，包括项目采购Z01、分散采购F03、协议二次竞价G02 -->				(ZC_P_PRO_MAKE.ZC_FUKUAN_TYPE = 'Z01' or				ZC_P_PRO_MAKE.ZC_FUKUAN_TYPE = 'G02' or ZC_P_PRO_MAKE.ZC_FUKUAN_TYPE				= 'F03')
+			</isEqual>
+			<isEqual property="zcText2" compareValue="G01">
+				<!-- 协议供货G01 -->
+				(ZC_P_PRO_MAKE.ZC_FUKUAN_TYPE = 'G01')
+			</isEqual>			<isEqual property="zcText2" compareValue="G03">				<!-- 电子竞价G03 -->				( ZC_P_PRO_MAKE.ZC_FUKUAN_TYPE = 'G03')			</isEqual>
+		</isNotNull>
+		<!--order by ZC_P_PRO_MAKE.Zc_Input_Date desc -->
+		ORDER BY WH.D DESC
+	</select>
+	<select id="ibatorgenerated_selectByExampleXieYi"
+		parameterClass="elementCondition" resultMap="ibatorgenerated_BaseResultMap">
+		select ZC_MAKE_CODE, ZC_MAKE_NAME, CO_CODE, ND,
+		ZC_MAKE_LINKMAN,
+		ZC_MAKE_TEL,
+		ZC_MAKE_STATUS, ZC_INPUT_CODE,
+		ZC_INPUT_DATE,
+		ZC_PRO_REMARK, ZC_MONEY_BI_SUM,
+		ZC_MONEY_ZC_SUM,
+		ZC_MAKE_APPR_SNO,
+		ZC_MAKE_APPR, ZC_MAKE_APPR_BLOBID, ZC_REMARK,
+		PROCESS_INST_ID,
+		ZC_MAKE_FROM,
+		AGENCY, ZC_IS_AGENCY,
+		ZC_MAKE_ZHAOBIAO,
+		ZC_MAKE_ZHAOBIAO_BLOBID,
+		ZC_MAKE_ZHAOGG,
+		ZC_MAKE_ZHAOGG_BLOBID,
+		ZC_MAKE_ZHONGBIAO, ZC_MAKE_ZHONGBIAO_BLOBID,
+		ZC_MAKE_ZHONGGG,
+		ZC_MAKE_ZHONGGG_BLOBID, ZC_IS_TO_CGZX, ZC_MAKE_FLAG,
+		ORG_CODE,
+		ZC_PITEM_OPIWAY,
+		ZC_PIFU_CGFS, ZC_PITEM_MODE,
+		ZC_CD_AWDAREA,
+		ZC_IS_ZXQY_ZB, ZC_HANGYE_CTG,
+		ORG_NAME,
+		ZC_MONEY_BI_YZX,
+		ZC_MONEY_KY_BGS, ZC_MONEY_BG_ZXS,
+		ZC_FGKZBFS_SMWJ_BLOBID,
+		ZC_FGKZBFS_SMWJ,
+		AGENCY_NAME, ZC_DIYU_DAIMA,
+		ZC_MONEY_HT_YBA,
+		ZC_FUKUAN_TYPE, ZC_WEITO_DATE,
+		ZC_YEP_FLAG,
+		ZC_YEP_SUM, ZC_BI_NZJZ_SUM,
+		ZC_PROJ_ORIGN, ZC_DIYU_DAIMA_ZJ,
+		ZC_IS_NOTARY,
+		ZC_IS_IMP,
+		ZC_IS_REMARK,
+		ZC_IMP_FILE, ZC_IMP_FILE_BLOBID,
+		ZC_PRINT_STATUS, ZC_MAKE_SEQUENCE,
+		ZC_IS_BUDGET,
+		ZC_XIEYI_END_DATE,ZC_NO_SHIP_REASON,ZC_ATTR1,ZC_ATTR2,ZC_ATTR3,ZC_ATTR4,ZC_ATTR5,ZC_TEMP_MAKE_CODE,pro_id,''
+		pro_name ,ZC_MAKE_PF_SEQUENCE,is_des_sup,is_pub,is_car
+		from
+		ZC_P_PRO_MAKE ZC_P_PRO_MAKE
+		where
+		ZC_P_PRO_MAKE.ND = #nd:INTEGER#
+		<isNotNull prepend="AND" property="coCode">
+			ZC_P_PRO_MAKE.CO_CODE=#coCode:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="AND" property="status">
+			<isEqual property="status" compareValue="all"><!-- 查看全部 -->
+				( (ZC_P_PRO_MAKE.ZC_FUKUAN_TYPE ='G03' <!-- 查看全部电子竞价 -->
+				<isNotNull prepend="AND" property="executor">			   <![CDATA[ZC_P_PRO_MAKE.ZC_MAKE_CODE IN  (SELECT ZC_P_PRO_MITEM.ZC_MAKE_CODE 				  FROM ZC_P_PRO_MITEM ,         (select distinct zc_b_merchandise.zc_bra_code,                          zc_b_mer_discount.zc_su_code            from zc_b_merchandise, zc_b_mer_discount           where zc_b_merchandise.zc_mer_code = zc_b_mer_discount.zc_mer_code) bra_su     WHERE ZC_P_PRO_MITEM.zc_bra_code = bra_su.zc_bra_code     AND bra_su.ZC_SU_CODE =#executor:VARCHAR#)]]>
+				</isNotNull>
+				) or ( ZC_P_PRO_MAKE.ZC_FUKUAN_TYPE ='G01' <!-- 查看全部自己的直接订货 -->				<isNotNull prepend="AND" property="executor">			   <![CDATA[ZC_P_PRO_MAKE.ZC_MAKE_CODE IN  (SELECT ZC_P_PRO_MITEM.ZC_MAKE_CODE                                                   FROM ZC_P_PRO_MITEM                                                   WHERE  ZC_P_PRO_MITEM.ZC_SU_CODE=#executor:VARCHAR#)]]>				</isNotNull>				)				)
+			</isEqual>
+			<isEqual property="status" compareValue="biding"><!-- 正在竞价 -->
+                <![CDATA[ZC_P_PRO_MAKE.ZC_FUKUAN_TYPE='G03'
+                  and ZC_P_PRO_MAKE.ZC_XIEYI_END_DATE>=sysdate ]]>
+				<isNotNull prepend="AND" property="executor">
+			   <![CDATA[ZC_P_PRO_MAKE.ZC_MAKE_CODE IN  (SELECT ZC_P_PRO_MITEM.ZC_MAKE_CODE 
+				  FROM ZC_P_PRO_MITEM ,         (select distinct zc_b_merchandise.zc_bra_code,                          zc_b_mer_discount.zc_su_code            from zc_b_merchandise, zc_b_mer_discount           where zc_b_merchandise.zc_mer_code = zc_b_mer_discount.zc_mer_code) bra_su     WHERE ZC_P_PRO_MITEM.zc_bra_code = bra_su.zc_bra_code     AND bra_su.ZC_SU_CODE =#executor:VARCHAR#)]]>
+				</isNotNull>
+			</isEqual>
+			<isEqual property="status" compareValue="complete"><!-- 竞价结束 -->
+                <![CDATA[ZC_P_PRO_MAKE.ZC_FUKUAN_TYPE='G03'
+                and ZC_P_PRO_MAKE.ZC_XIEYI_END_DATE<sysdate]]>
+				<isNotNull prepend="AND" property="executor">
+			   <![CDATA[ZC_P_PRO_MAKE.ZC_MAKE_CODE IN  (SELECT ZC_P_PRO_MITEM.ZC_MAKE_CODE 
+				  FROM ZC_P_PRO_MITEM,          (select distinct zc_b_merchandise.zc_bra_code,                          zc_b_mer_discount.zc_su_code            from zc_b_merchandise, zc_b_mer_discount           where zc_b_merchandise.zc_mer_code = zc_b_mer_discount.zc_mer_code) bra_su     WHERE ZC_P_PRO_MITEM.zc_bra_code = bra_su.zc_bra_code     AND bra_su.ZC_SU_CODE =#executor:VARCHAR#)]]>
+				</isNotNull>
+			</isEqual>
+			<isEqual property="status" compareValue="mybiding"><!-- 我的竞价 -->
+				ZC_P_PRO_MAKE.ZC_FUKUAN_TYPE='G03'
+				<isNotNull prepend="AND" property="executor">
+			   <![CDATA[ZC_P_PRO_MAKE.ZC_MAKE_CODE IN  (SELECT ZC_P_PRO_MITEM.ZC_MAKE_CODE 
+                                                  FROM ZC_P_PRO_MITEM 
+                                                  WHERE  ZC_P_PRO_MITEM.ZC_SU_CODE=#executor:VARCHAR#)]]>
+				</isNotNull>
+			</isEqual>
+			<isEqual property="status" compareValue="direct"><!-- 直接订货 -->
+				ZC_P_PRO_MAKE.ZC_FUKUAN_TYPE='G01' and
+				ZC_P_PRO_MAKE.ZC_MAKE_CODE IN
+				(SELECT
+				ZC_P_PRO_MITEM.ZC_MAKE_CODE
+				FROM ZC_P_PRO_MITEM
+				WHERE
+				ZC_P_PRO_MITEM.ZC_SU_CODE IS NOT NULL)
+				<isNotNull prepend="AND" property="executor">
+			   <![CDATA[ZC_P_PRO_MAKE.ZC_MAKE_CODE IN  (SELECT ZC_P_PRO_MITEM.ZC_MAKE_CODE 
+                                                  FROM ZC_P_PRO_MITEM 
+                                                  WHERE  ZC_P_PRO_MITEM.ZC_SU_CODE=#executor:VARCHAR#)]]>
+				</isNotNull>
+			</isEqual>
+			and ZC_P_PRO_MAKE.ZC_MAKE_STATUS='exec'
+		</isNotNull>
+		order by ZC_P_PRO_MAKE.ZC_INPUT_DATE desc
+	</select>
+	<select id="ibatorgenerated_selectByPrimaryKey" parameterClass="com.ufgov.zc.common.zc.model.ZcPProMake"
+		resultMap="ibatorgenerated_BaseResultMap">
+		<!-- WARNING - This element is automatically generated by Apache iBATIS 
+			ibator, do not modify. This element was generated on Thu Apr 29 16:50:54 
+			CST 2010. -->
+		select ZC_MAKE_CODE, ZC_MAKE_NAME, CO_CODE,ND,
+		ZC_MAKE_LINKMAN,
+		ZC_MAKE_TEL,
+		ZC_MAKE_STATUS, ZC_INPUT_CODE,
+		ZC_INPUT_DATE,
+		ZC_PRO_REMARK, ZC_MONEY_BI_SUM,
+		ZC_MONEY_ZC_SUM,
+		ZC_MAKE_APPR_SNO,
+		ZC_MAKE_APPR, ZC_MAKE_APPR_BLOBID, ZC_REMARK,
+		PROCESS_INST_ID,
+		ZC_MAKE_FROM,
+		AGENCY, ZC_IS_AGENCY,
+		ZC_MAKE_ZHAOBIAO,
+		ZC_MAKE_ZHAOBIAO_BLOBID,
+		ZC_MAKE_ZHAOGG,
+		ZC_MAKE_ZHAOGG_BLOBID,
+		ZC_MAKE_ZHONGBIAO, ZC_MAKE_ZHONGBIAO_BLOBID,
+		ZC_MAKE_ZHONGGG,
+		ZC_MAKE_ZHONGGG_BLOBID, ZC_IS_TO_CGZX, ZC_MAKE_FLAG,
+		ORG_CODE,
+		ZC_PITEM_OPIWAY,
+		ZC_PIFU_CGFS, ZC_PITEM_MODE,
+		ZC_CD_AWDAREA,
+		ZC_IS_ZXQY_ZB, ZC_HANGYE_CTG,
+		ORG_NAME,
+		ZC_MONEY_BI_YZX,
+		ZC_MONEY_KY_BGS, ZC_MONEY_BG_ZXS,
+		ZC_FGKZBFS_SMWJ_BLOBID,
+		ZC_FGKZBFS_SMWJ,
+		AGENCY_NAME, ZC_DIYU_DAIMA,
+		ZC_MONEY_HT_YBA,
+		ZC_FUKUAN_TYPE, ZC_WEITO_DATE,
+		ZC_YEP_FLAG,
+		ZC_YEP_SUM, ZC_BI_NZJZ_SUM,
+		ZC_PROJ_ORIGN, ZC_DIYU_DAIMA_ZJ,
+		ZC_IS_NOTARY,
+		ZC_IS_IMP,
+		ZC_IS_REMARK,
+		ZC_IMP_FILE, ZC_IMP_FILE_BLOBID,
+		ZC_PRINT_STATUS, ZC_MAKE_SEQUENCE,
+		ZC_IS_BUDGET,
+		ZC_XIEYI_END_DATE,ZC_NO_SHIP_REASON,ZC_ATTR1,ZC_ATTR2,ZC_ATTR3,ZC_ATTR4,ZC_ATTR5,ZC_TEMP_MAKE_CODE
+		,pro_id,(select CHR_NAME from zc_p_pro where CHR_ID =
+		ZC_P_PRO_MAKE.pro_id) pro_name,ZC_MAKE_PF_SEQUENCE,
+		is_des_sup,is_pub,is_car
+		from ZC_P_PRO_MAKE
+		where ZC_MAKE_CODE =
+		#zcMakeCode:VARCHAR#
+
+	</select>
+	<delete id="ibatorgenerated_deleteByPrimaryKey" parameterClass="com.ufgov.zc.common.zc.model.ZcPProMake">
+		<!-- WARNING - This element is automatically generated by Apache iBATIS 
+			ibator, do not modify. This element was generated on Thu Apr 29 16:50:54 
+			CST 2010. -->
+		delete from ZC_P_PRO_MAKE
+		where ZC_MAKE_CODE = #zcMakeCode:VARCHAR#
+	</delete>
+	<delete id="ibatorgenerated_deleteByExample" parameterClass="com.ufgov.zc.common.zc.model.ZcPProMakeExample">
+		<!-- WARNING - This element is automatically generated by Apache iBATIS 
+			ibator, do not modify. This element was generated on Thu Apr 29 16:50:54 
+			CST 2010. -->
+		delete from ZC_P_PRO_MAKE
+		<include refid="ZC_P_PRO_MAKE.ibatorgenerated_Example_Where_Clause" />
+	</delete>
+	<insert id="ibatorgenerated_insert" parameterClass="com.ufgov.zc.common.zc.model.ZcPProMake">
+		<!-- WARNING - This element is automatically generated by Apache iBATIS 
+			ibator, do not modify. This element was generated on Thu Apr 29 16:50:54 
+			CST 2010. -->
+		insert into ZC_P_PRO_MAKE (ZC_MAKE_CODE, ZC_MAKE_NAME, CO_CODE,
+		ND,
+		ZC_MAKE_LINKMAN, ZC_MAKE_TEL, ZC_MAKE_STATUS,
+		ZC_INPUT_CODE,
+		ZC_INPUT_DATE,
+		ZC_PRO_REMARK,
+		ZC_MONEY_BI_SUM,
+		ZC_MONEY_ZC_SUM,
+		ZC_MAKE_APPR_SNO, ZC_MAKE_APPR, ZC_MAKE_APPR_BLOBID,
+		ZC_REMARK,
+		PROCESS_INST_ID, ZC_MAKE_FROM, AGENCY, ZC_IS_AGENCY,
+		ZC_MAKE_ZHAOBIAO,
+		ZC_MAKE_ZHAOBIAO_BLOBID, ZC_MAKE_ZHAOGG,
+		ZC_MAKE_ZHAOGG_BLOBID,
+		ZC_MAKE_ZHONGBIAO,
+		ZC_MAKE_ZHONGBIAO_BLOBID,
+		ZC_MAKE_ZHONGGG,
+		ZC_MAKE_ZHONGGG_BLOBID,
+		ZC_IS_TO_CGZX,
+		ZC_MAKE_FLAG,
+		ORG_CODE,
+		ZC_PITEM_OPIWAY, ZC_PIFU_CGFS, ZC_PITEM_MODE,
+		ZC_CD_AWDAREA,
+		ZC_IS_ZXQY_ZB, ZC_HANGYE_CTG, ORG_NAME,
+		ZC_MONEY_BI_YZX,
+		ZC_MONEY_KY_BGS,
+		ZC_MONEY_BG_ZXS,
+		ZC_FGKZBFS_SMWJ_BLOBID,
+		ZC_FGKZBFS_SMWJ,
+		AGENCY_NAME, ZC_DIYU_DAIMA,
+		ZC_MONEY_HT_YBA,
+		ZC_FUKUAN_TYPE, ZC_WEITO_DATE, ZC_YEP_FLAG,
+		ZC_YEP_SUM,
+		ZC_BI_NZJZ_SUM,
+		ZC_PROJ_ORIGN, ZC_DIYU_DAIMA_ZJ,
+		ZC_IS_NOTARY, ZC_IS_IMP, ZC_IS_REMARK,
+		ZC_IMP_FILE,
+		ZC_IMP_FILE_BLOBID, ZC_PRINT_STATUS, ZC_MAKE_SEQUENCE,
+		ZC_IS_BUDGET,ZC_XIEYI_END_DATE,
+		ZC_NO_SHIP_REASON,ZC_ATTR2,ZC_ATTR3,ZC_TEMP_MAKE_CODE,PRO_ID,ZC_MAKE_PF_SEQUENCE,is_des_sup,is_pub,is_car)
+		values
+		(#zcMakeCode:VARCHAR#, #zcMakeName:VARCHAR#, #coCode:VARCHAR#,
+		#nd:CHAR#,
+		#zcMakeLinkman:VARCHAR#, #zcMakeTel:VARCHAR#,
+		#zcMakeStatus:VARCHAR#, #zcInputCode:VARCHAR#,
+		#zcInputDate:TIMESTAMP#, #zcProRemark:VARCHAR#,
+		#zcMoneyBiSum:DECIMAL#,
+		#zcMoneyZcSum:DECIMAL#,
+		#zcMakeApprSno:VARCHAR#, #zcMakeAppr:VARCHAR#,
+		#zcMakeApprBlobid:VARCHAR#, #zcRemark:VARCHAR#,
+		#processInstId:DECIMAL#, #zcMakeFrom:VARCHAR#,
+		#agency:VARCHAR#,
+		#zcIsAgency:VARCHAR#, #zcMakeZhaobiao:VARCHAR#,
+		#zcMakeZhaobiaoBlobid:VARCHAR#, #zcMakeZhaogg:VARCHAR#,
+		#zcMakeZhaoggBlobid:VARCHAR#,
+		#zcMakeZhongbiao:VARCHAR#,
+		#zcMakeZhongbiaoBlobid:VARCHAR#, #zcMakeZhonggg:VARCHAR#,
+		#zcMakeZhongggBlobid:VARCHAR#, #zcIsToCgzx:VARCHAR#,
+		#zcMakeFlag:VARCHAR#,
+		#orgCode:VARCHAR#, #zcPitemOpiway:VARCHAR#,
+		#zcPifuCgfs:VARCHAR#, #zcPitemMode:VARCHAR#,
+		#zcCdAwdarea:VARCHAR#,
+		#zcIsZxqyZb:VARCHAR#, #zcHangyeCtg:VARCHAR#,
+		#orgName:VARCHAR#,
+		#zcMoneyBiYzx:DECIMAL#, #zcMoneyKyBgs:DECIMAL#,
+		#zcMoneyBgZxs:DECIMAL#,
+		#zcFgkzbfsSmwjBlobid:VARCHAR#,
+		#zcFgkzbfsSmwj:VARCHAR#,
+		#agencyName:VARCHAR#,
+		#zcDiyuDaima:VARCHAR#,
+		#zcMoneyHtYba:DECIMAL#, #zcFukuanType:VARCHAR#,
+		#zcWeitoDate:TIMESTAMP#, #zcYepFlag:VARCHAR#, #zcYepSum:DECIMAL#,
+		#zcBiNzjzSum:DECIMAL#,
+		#zcProjOrign:VARCHAR#, #zcDiyuDaimaZj:VARCHAR#,
+		#zcIsNotary:VARCHAR#, #zcIsImp:VARCHAR#,
+		#zcIsRemark:VARCHAR#,
+		#zcImpFile:VARCHAR#, #zcImpFileBlobid:VARCHAR#,
+		#zcPrintStatus:VARCHAR#,
+		#zcMakeSequence:VARCHAR#,
+		#zcIsBudget:VARCHAR#,#zcXieYiEndDate:TIMESTAMP#,#zcNoShipReason:VARCHAR#,#zcAttr2:VARCHAR#,#zcAttr3:VARCHAR#,#zcTempMakeCode:VARCHAR#,#proId:VARCHAR#,#zcMakePfSequence:VARCHAR#,
+		#isDesSup:VARCHAR#,#isPub:VARCHAR#,#isCar:VARCHAR#)
+	</insert>
+	<insert id="ibatorgenerated_insertSelective" parameterClass="com.ufgov.zc.common.zc.model.ZcPProMake">
+		<!-- WARNING - This element is automatically generated by Apache iBATIS 
+			ibator, do not modify. This element was generated on Thu Apr 29 16:50:54 
+			CST 2010. -->
+		insert into ZC_P_PRO_MAKE
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="zcMakeCode">
+				ZC_MAKE_CODE
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeName">
+				ZC_MAKE_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="coCode">
+				CO_CODE
+			</isNotNull>
+			<isNotNull prepend="," property="nd">
+				ND
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeLinkman">
+				ZC_MAKE_LINKMAN
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeTel">
+				ZC_MAKE_TEL
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeStatus">
+				ZC_MAKE_STATUS
+			</isNotNull>
+			<isNotNull prepend="," property="zcInputCode">
+				ZC_INPUT_CODE
+			</isNotNull>
+			<isNotNull prepend="," property="zcInputDate">
+				ZC_INPUT_DATE
+			</isNotNull>
+			<isNotNull prepend="," property="zcProRemark">
+				ZC_PRO_REMARK
+			</isNotNull>
+			<isNotNull prepend="," property="zcMoneyBiSum">
+				ZC_MONEY_BI_SUM
+			</isNotNull>
+			<isNotNull prepend="," property="zcMoneyZcSum">
+				ZC_MONEY_ZC_SUM
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeApprSno">
+				ZC_MAKE_APPR_SNO
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeAppr">
+				ZC_MAKE_APPR
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeApprBlobid">
+				ZC_MAKE_APPR_BLOBID
+			</isNotNull>
+			<isNotNull prepend="," property="zcRemark">
+				ZC_REMARK
+			</isNotNull>
+			<isNotNull prepend="," property="processInstId">
+				PROCESS_INST_ID
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeFrom">
+				ZC_MAKE_FROM
+			</isNotNull>
+			<isNotNull prepend="," property="agency">
+				AGENCY
+			</isNotNull>
+			<isNotNull prepend="," property="zcIsAgency">
+				ZC_IS_AGENCY
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeZhaobiao">
+				ZC_MAKE_ZHAOBIAO
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeZhaobiaoBlobid">
+				ZC_MAKE_ZHAOBIAO_BLOBID
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeZhaogg">
+				ZC_MAKE_ZHAOGG
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeZhaoggBlobid">
+				ZC_MAKE_ZHAOGG_BLOBID
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeZhongbiao">
+				ZC_MAKE_ZHONGBIAO
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeZhongbiaoBlobid">
+				ZC_MAKE_ZHONGBIAO_BLOBID
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeZhonggg">
+				ZC_MAKE_ZHONGGG
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeZhongggBlobid">
+				ZC_MAKE_ZHONGGG_BLOBID
+			</isNotNull>
+			<isNotNull prepend="," property="zcIsToCgzx">
+				ZC_IS_TO_CGZX
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeFlag">
+				ZC_MAKE_FLAG
+			</isNotNull>
+			<isNotNull prepend="," property="orgCode">
+				ORG_CODE
+			</isNotNull>
+			<isNotNull prepend="," property="zcPitemOpiway">
+				ZC_PITEM_OPIWAY
+			</isNotNull>
+			<isNotNull prepend="," property="zcPifuCgfs">
+				ZC_PIFU_CGFS
+			</isNotNull>
+			<isNotNull prepend="," property="zcPitemMode">
+				ZC_PITEM_MODE
+			</isNotNull>
+			<isNotNull prepend="," property="zcCdAwdarea">
+				ZC_CD_AWDAREA
+			</isNotNull>
+			<isNotNull prepend="," property="zcIsZxqyZb">
+				ZC_IS_ZXQY_ZB
+			</isNotNull>
+			<isNotNull prepend="," property="zcHangyeCtg">
+				ZC_HANGYE_CTG
+			</isNotNull>
+			<isNotNull prepend="," property="orgName">
+				ORG_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="zcMoneyBiYzx">
+				ZC_MONEY_BI_YZX
+			</isNotNull>
+			<isNotNull prepend="," property="zcMoneyKyBgs">
+				ZC_MONEY_KY_BGS
+			</isNotNull>
+			<isNotNull prepend="," property="zcMoneyBgZxs">
+				ZC_MONEY_BG_ZXS
+			</isNotNull>
+			<isNotNull prepend="," property="zcFgkzbfsSmwjBlobid">
+				ZC_FGKZBFS_SMWJ_BLOBID
+			</isNotNull>
+			<isNotNull prepend="," property="zcFgkzbfsSmwj">
+				ZC_FGKZBFS_SMWJ
+			</isNotNull>
+			<isNotNull prepend="," property="agencyName">
+				AGENCY_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="zcDiyuDaima">
+				ZC_DIYU_DAIMA
+			</isNotNull>
+			<isNotNull prepend="," property="zcMoneyHtYba">
+				ZC_MONEY_HT_YBA
+			</isNotNull>
+			<isNotNull prepend="," property="zcFukuanType">
+				ZC_FUKUAN_TYPE
+			</isNotNull>
+			<isNotNull prepend="," property="zcWeitoDate">
+				ZC_WEITO_DATE
+			</isNotNull>
+			<isNotNull prepend="," property="zcYepFlag">
+				ZC_YEP_FLAG
+			</isNotNull>
+			<isNotNull prepend="," property="zcYepSum">
+				ZC_YEP_SUM
+			</isNotNull>
+			<isNotNull prepend="," property="zcBiNzjzSum">
+				ZC_BI_NZJZ_SUM
+			</isNotNull>
+			<isNotNull prepend="," property="zcProjOrign">
+				ZC_PROJ_ORIGN
+			</isNotNull>
+			<isNotNull prepend="," property="zcDiyuDaimaZj">
+				ZC_DIYU_DAIMA_ZJ
+			</isNotNull>
+			<isNotNull prepend="," property="zcIsNotary">
+				ZC_IS_NOTARY
+			</isNotNull>
+			<isNotNull prepend="," property="zcIsImp">
+				ZC_IS_IMP
+			</isNotNull>
+			<isNotNull prepend="," property="zcIsRemark">
+				ZC_IS_REMARK
+			</isNotNull>
+			<isNotNull prepend="," property="zcImpFile">
+				ZC_IMP_FILE
+			</isNotNull>
+			<isNotNull prepend="," property="zcImpFileBlobid">
+				ZC_IMP_FILE_BLOBID
+			</isNotNull>
+			<isNotNull prepend="," property="zcPrintStatus">
+				ZC_PRINT_STATUS
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeSequence">
+				ZC_MAKE_SEQUENCE
+			</isNotNull>
+			<isNotNull prepend="," property="zcXieYiEndDate">
+				ZC_XIEYI_END_DATE
+			</isNotNull>
+			<isNotNull prepend="," property="zcNoShipReason">
+				ZC_NO_SHIP_REASON
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="zcMakeCode">
+				#zcMakeCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeName">
+				#zcMakeName:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="coCode">
+				#coCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="nd">
+				#nd:CHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeLinkman">
+				#zcMakeLinkman:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeTel">
+				#zcMakeTel:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeStatus">
+				#zcMakeStatus:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcInputCode">
+				#zcInputCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcInputDate">
+				#zcInputDate:TIMESTAMP#
+			</isNotNull>
+			<isNotNull prepend="," property="zcProRemark">
+				#zcProRemark:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMoneyBiSum">
+				#zcMoneyBiSum:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMoneyZcSum">
+				#zcMoneyZcSum:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeApprSno">
+				#zcMakeApprSno:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeAppr">
+				#zcMakeAppr:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeApprBlobid">
+				#zcMakeApprBlobid:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcRemark">
+				#zcRemark:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="processInstId">
+				#processInstId:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeFrom">
+				#zcMakeFrom:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="agency">
+				#agency:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcIsAgency">
+				#zcIsAgency:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeZhaobiao">
+				#zcMakeZhaobiao:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeZhaobiaoBlobid">
+				#zcMakeZhaobiaoBlobid:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeZhaogg">
+				#zcMakeZhaogg:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeZhaoggBlobid">
+				#zcMakeZhaoggBlobid:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeZhongbiao">
+				#zcMakeZhongbiao:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeZhongbiaoBlobid">
+				#zcMakeZhongbiaoBlobid:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeZhonggg">
+				#zcMakeZhonggg:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeZhongggBlobid">
+				#zcMakeZhongggBlobid:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcIsToCgzx">
+				#zcIsToCgzx:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeFlag">
+				#zcMakeFlag:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="orgCode">
+				#orgCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcPitemOpiway">
+				#zcPitemOpiway:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcPifuCgfs">
+				#zcPifuCgfs:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcPitemMode">
+				#zcPitemMode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcCdAwdarea">
+				#zcCdAwdarea:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcIsZxqyZb">
+				#zcIsZxqyZb:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcHangyeCtg">
+				#zcHangyeCtg:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="orgName">
+				#orgName:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMoneyBiYzx">
+				#zcMoneyBiYzx:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMoneyKyBgs">
+				#zcMoneyKyBgs:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMoneyBgZxs">
+				#zcMoneyBgZxs:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="zcFgkzbfsSmwjBlobid">
+				#zcFgkzbfsSmwjBlobid:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcFgkzbfsSmwj">
+				#zcFgkzbfsSmwj:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="agencyName">
+				#agencyName:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcDiyuDaima">
+				#zcDiyuDaima:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMoneyHtYba">
+				#zcMoneyHtYba:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="zcFukuanType">
+				#zcFukuanType:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcWeitoDate">
+				#zcWeitoDate:TIMESTAMP#
+			</isNotNull>
+			<isNotNull prepend="," property="zcYepFlag">
+				#zcYepFlag:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcYepSum">
+				#zcYepSum:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="zcBiNzjzSum">
+				#zcBiNzjzSum:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="zcProjOrign">
+				#zcProjOrign:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcDiyuDaimaZj">
+				#zcDiyuDaimaZj:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcIsNotary">
+				#zcIsNotary:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcIsImp">
+				#zcIsImp:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcIsRemark">
+				#zcIsRemark:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcImpFile">
+				#zcImpFile:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcImpFileBlobid">
+				#zcImpFileBlobid:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcPrintStatus">
+				#zcPrintStatus:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeSequence">
+				#zcMakeSequence:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcXieYiEndDate">
+				#zcXieYiEndDate:TIMESTAMP#
+			</isNotNull>
+			<isNotNull prepend="," property="zcNoShipReason">
+				#zcNoShipReason:VARCHAR#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	<select id="ibatorgenerated_countByExample" parameterClass="com.ufgov.zc.common.zc.model.ZcPProMakeExample"
+		resultClass="java.lang.Integer">
+		<!-- WARNING - This element is automatically generated by Apache iBATIS 
+			ibator, do not modify. This element was generated on Thu Apr 29 16:50:54 
+			CST 2010. -->
+		select count(*) from ZC_P_PRO_MAKE
+		<include refid="ZC_P_PRO_MAKE.ibatorgenerated_Example_Where_Clause" />
+	</select>
+	<update id="ibatorgenerated_updateByExampleSelective">
+		<!-- WARNING - This element is automatically generated by Apache iBATIS 
+			ibator, do not modify. This element was generated on Thu Apr 29 16:50:54 
+			CST 2010. -->
+		update ZC_P_PRO_MAKE
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="record.zcMakeCode">
+				ZC_MAKE_CODE =
+				#record.zcMakeCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcMakeName">
+				ZC_MAKE_NAME =
+				#record.zcMakeName:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.coCode">
+				CO_CODE =
+				#record.coCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.nd">
+				ND =
+				#record.nd:CHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcMakeLinkman">
+				ZC_MAKE_LINKMAN =
+				#record.zcMakeLinkman:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcMakeTel">
+				ZC_MAKE_TEL =
+				#record.zcMakeTel:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcMakeStatus">
+				ZC_MAKE_STATUS =
+				#record.zcMakeStatus:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcInputCode">
+				ZC_INPUT_CODE =
+				#record.zcInputCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcInputDate">
+				ZC_INPUT_DATE =
+				#record.zcInputDate:TIMESTAMP#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcProRemark">
+				ZC_PRO_REMARK =
+				#record.zcProRemark:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcMoneyBiSum">
+				ZC_MONEY_BI_SUM =
+				#record.zcMoneyBiSum:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcMoneyZcSum">
+				ZC_MONEY_ZC_SUM =
+				#record.zcMoneyZcSum:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcMakeApprSno">
+				ZC_MAKE_APPR_SNO =
+				#record.zcMakeApprSno:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcMakeAppr">
+				ZC_MAKE_APPR =
+				#record.zcMakeAppr:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcMakeApprBlobid">
+				ZC_MAKE_APPR_BLOBID =
+				#record.zcMakeApprBlobid:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcRemark">
+				ZC_REMARK =
+				#record.zcRemark:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.processInstId">
+				PROCESS_INST_ID =
+				#record.processInstId:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcMakeFrom">
+				ZC_MAKE_FROM =
+				#record.zcMakeFrom:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.agency">
+				AGENCY =
+				#record.agency:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcIsAgency">
+				ZC_IS_AGENCY =
+				#record.zcIsAgency:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcMakeZhaobiao">
+				ZC_MAKE_ZHAOBIAO =
+				#record.zcMakeZhaobiao:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcMakeZhaobiaoBlobid">
+				ZC_MAKE_ZHAOBIAO_BLOBID =
+				#record.zcMakeZhaobiaoBlobid:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcMakeZhaogg">
+				ZC_MAKE_ZHAOGG =
+				#record.zcMakeZhaogg:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcMakeZhaoggBlobid">
+				ZC_MAKE_ZHAOGG_BLOBID =
+				#record.zcMakeZhaoggBlobid:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcMakeZhongbiao">
+				ZC_MAKE_ZHONGBIAO =
+				#record.zcMakeZhongbiao:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcMakeZhongbiaoBlobid">
+				ZC_MAKE_ZHONGBIAO_BLOBID =
+				#record.zcMakeZhongbiaoBlobid:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcMakeZhonggg">
+				ZC_MAKE_ZHONGGG =
+				#record.zcMakeZhonggg:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcMakeZhongggBlobid">
+				ZC_MAKE_ZHONGGG_BLOBID =
+				#record.zcMakeZhongggBlobid:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcIsToCgzx">
+				ZC_IS_TO_CGZX =
+				#record.zcIsToCgzx:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcMakeFlag">
+				ZC_MAKE_FLAG =
+				#record.zcMakeFlag:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.orgCode">
+				ORG_CODE =
+				#record.orgCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcPitemOpiway">
+				ZC_PITEM_OPIWAY =
+				#record.zcPitemOpiway:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcPifuCgfs">
+				ZC_PIFU_CGFS =
+				#record.zcPifuCgfs:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcPitemMode">
+				ZC_PITEM_MODE =
+				#record.zcPitemMode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcCdAwdarea">
+				ZC_CD_AWDAREA =
+				#record.zcCdAwdarea:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcIsZxqyZb">
+				ZC_IS_ZXQY_ZB =
+				#record.zcIsZxqyZb:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcHangyeCtg">
+				ZC_HANGYE_CTG =
+				#record.zcHangyeCtg:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.orgName">
+				ORG_NAME =
+				#record.orgName:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcMoneyBiYzx">
+				ZC_MONEY_BI_YZX =
+				#record.zcMoneyBiYzx:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcMoneyKyBgs">
+				ZC_MONEY_KY_BGS =
+				#record.zcMoneyKyBgs:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcMoneyBgZxs">
+				ZC_MONEY_BG_ZXS =
+				#record.zcMoneyBgZxs:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcFgkzbfsSmwjBlobid">
+				ZC_FGKZBFS_SMWJ_BLOBID =
+				#record.zcFgkzbfsSmwjBlobid:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcFgkzbfsSmwj">
+				ZC_FGKZBFS_SMWJ =
+				#record.zcFgkzbfsSmwj:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.agencyName">
+				AGENCY_NAME =
+				#record.agencyName:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcDiyuDaima">
+				ZC_DIYU_DAIMA =
+				#record.zcDiyuDaima:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcMoneyHtYba">
+				ZC_MONEY_HT_YBA =
+				#record.zcMoneyHtYba:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcFukuanType">
+				ZC_FUKUAN_TYPE =
+				#record.zcFukuanType:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcWeitoDate">
+				ZC_WEITO_DATE =
+				#record.zcWeitoDate:TIMESTAMP#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcYepFlag">
+				ZC_YEP_FLAG =
+				#record.zcYepFlag:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcYepSum">
+				ZC_YEP_SUM =
+				#record.zcYepSum:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcBiNzjzSum">
+				ZC_BI_NZJZ_SUM =
+				#record.zcBiNzjzSum:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcProjOrign">
+				ZC_PROJ_ORIGN =
+				#record.zcProjOrign:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcDiyuDaimaZj">
+				ZC_DIYU_DAIMA_ZJ =
+				#record.zcDiyuDaimaZj:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcIsNotary">
+				ZC_IS_NOTARY =
+				#record.zcIsNotary:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcIsImp">
+				ZC_IS_IMP =
+				#record.zcIsImp:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcIsRemark">
+				ZC_IS_REMARK =
+				#record.zcIsRemark:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcImpFile">
+				ZC_IMP_FILE =
+				#record.zcImpFile:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcImpFileBlobid">
+				ZC_IMP_FILE_BLOBID =
+				#record.zcImpFileBlobid:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcPrintStatus">
+				ZC_PRINT_STATUS =
+				#record.zcPrintStatus:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="record.zcMakeSequence">
+				ZC_MAKE_SEQUENCE =
+				#record.zcMakeSequence:VARCHAR#
+			</isNotNull>
+		</dynamic>
+		<isParameterPresent>
+			<include refid="ZC_P_PRO_MAKE.ibatorgenerated_Example_Where_Clause" />
+		</isParameterPresent>
+	</update>
+	<update id="ibatorgenerated_updateByExample">
+		<!-- WARNING - This element is automatically generated by Apache iBATIS 
+			ibator, do not modify. This element was generated on Thu Apr 29 16:50:54 
+			CST 2010. -->
+		update ZC_P_PRO_MAKE
+		set ZC_MAKE_CODE = #record.zcMakeCode:VARCHAR#,
+		ZC_MAKE_NAME = #record.zcMakeName:VARCHAR#,
+		CO_CODE =
+		#record.coCode:VARCHAR#,
+		ND = #record.nd:CHAR#,
+		ZC_MAKE_LINKMAN =
+		#record.zcMakeLinkman:VARCHAR#,
+		ZC_MAKE_TEL =
+		#record.zcMakeTel:VARCHAR#,
+		ZC_MAKE_STATUS =
+		#record.zcMakeStatus:VARCHAR#,
+		ZC_INPUT_CODE =
+		#record.zcInputCode:VARCHAR#,
+		ZC_INPUT_DATE =
+		#record.zcInputDate:TIMESTAMP#,
+		ZC_PRO_REMARK =
+		#record.zcProRemark:VARCHAR#,
+		ZC_MONEY_BI_SUM =
+		#record.zcMoneyBiSum:DECIMAL#,
+		ZC_MONEY_ZC_SUM =
+		#record.zcMoneyZcSum:DECIMAL#,
+		ZC_MAKE_APPR_SNO =
+		#record.zcMakeApprSno:VARCHAR#,
+		ZC_MAKE_APPR =
+		#record.zcMakeAppr:VARCHAR#,
+		ZC_MAKE_APPR_BLOBID =
+		#record.zcMakeApprBlobid:VARCHAR#,
+		ZC_REMARK =
+		#record.zcRemark:VARCHAR#,
+		PROCESS_INST_ID =
+		#record.processInstId:DECIMAL#,
+		ZC_MAKE_FROM =
+		#record.zcMakeFrom:VARCHAR#,
+		AGENCY =
+		#record.agency:VARCHAR#,
+		ZC_IS_AGENCY =
+		#record.zcIsAgency:VARCHAR#,
+		ZC_MAKE_ZHAOBIAO =
+		#record.zcMakeZhaobiao:VARCHAR#,
+		ZC_MAKE_ZHAOBIAO_BLOBID =
+		#record.zcMakeZhaobiaoBlobid:VARCHAR#,
+		ZC_MAKE_ZHAOGG =
+		#record.zcMakeZhaogg:VARCHAR#,
+		ZC_MAKE_ZHAOGG_BLOBID =
+		#record.zcMakeZhaoggBlobid:VARCHAR#,
+		ZC_MAKE_ZHONGBIAO =
+		#record.zcMakeZhongbiao:VARCHAR#,
+		ZC_MAKE_ZHONGBIAO_BLOBID =
+		#record.zcMakeZhongbiaoBlobid:VARCHAR#,
+		ZC_MAKE_ZHONGGG =
+		#record.zcMakeZhonggg:VARCHAR#,
+		ZC_MAKE_ZHONGGG_BLOBID =
+		#record.zcMakeZhongggBlobid:VARCHAR#,
+		ZC_IS_TO_CGZX =
+		#record.zcIsToCgzx:VARCHAR#,
+		ZC_MAKE_FLAG =
+		#record.zcMakeFlag:VARCHAR#,
+		ORG_CODE =
+		#record.orgCode:VARCHAR#,
+		ZC_PITEM_OPIWAY =
+		#record.zcPitemOpiway:VARCHAR#,
+		ZC_PIFU_CGFS =
+		#record.zcPifuCgfs:VARCHAR#,
+		ZC_PITEM_MODE =
+		#record.zcPitemMode:VARCHAR#,
+		ZC_CD_AWDAREA =
+		#record.zcCdAwdarea:VARCHAR#,
+		ZC_IS_ZXQY_ZB =
+		#record.zcIsZxqyZb:VARCHAR#,
+		ZC_HANGYE_CTG =
+		#record.zcHangyeCtg:VARCHAR#,
+		ORG_NAME =
+		#record.orgName:VARCHAR#,
+		ZC_MONEY_BI_YZX =
+		#record.zcMoneyBiYzx:DECIMAL#,
+		ZC_MONEY_KY_BGS =
+		#record.zcMoneyKyBgs:DECIMAL#,
+		ZC_MONEY_BG_ZXS =
+		#record.zcMoneyBgZxs:DECIMAL#,
+		ZC_FGKZBFS_SMWJ_BLOBID =
+		#record.zcFgkzbfsSmwjBlobid:VARCHAR#,
+		ZC_FGKZBFS_SMWJ =
+		#record.zcFgkzbfsSmwj:VARCHAR#,
+		AGENCY_NAME =
+		#record.agencyName:VARCHAR#,
+		ZC_DIYU_DAIMA =
+		#record.zcDiyuDaima:VARCHAR#,
+		ZC_MONEY_HT_YBA =
+		#record.zcMoneyHtYba:DECIMAL#,
+		ZC_FUKUAN_TYPE =
+		#record.zcFukuanType:VARCHAR#,
+		ZC_WEITO_DATE =
+		#record.zcWeitoDate:TIMESTAMP#,
+		ZC_YEP_FLAG =
+		#record.zcYepFlag:VARCHAR#,
+		ZC_YEP_SUM = #record.zcYepSum:DECIMAL#,
+		ZC_BI_NZJZ_SUM = #record.zcBiNzjzSum:DECIMAL#,
+		ZC_PROJ_ORIGN =
+		#record.zcProjOrign:VARCHAR#,
+		ZC_DIYU_DAIMA_ZJ =
+		#record.zcDiyuDaimaZj:VARCHAR#,
+		ZC_IS_NOTARY =
+		#record.zcIsNotary:VARCHAR#,
+		ZC_IS_IMP = #record.zcIsImp:VARCHAR#,
+		ZC_IS_REMARK = #record.zcIsRemark:VARCHAR#,
+		ZC_IMP_FILE =
+		#record.zcImpFile:VARCHAR#,
+		ZC_IMP_FILE_BLOBID =
+		#record.zcImpFileBlobid:VARCHAR#,
+		ZC_PRINT_STATUS =
+		#record.zcPrintStatus:VARCHAR#,
+		ZC_MAKE_SEQUENCE =
+		#record.zcMakeSequence:VARCHAR#
+		<isParameterPresent>
+			<include refid="ZC_P_PRO_MAKE.ibatorgenerated_Example_Where_Clause" />
+		</isParameterPresent>
+	</update>
+	<update id="ibatorgenerated_updateByPrimaryKeySelective"
+		parameterClass="com.ufgov.zc.common.zc.model.ZcPProMake">
+		<!-- WARNING - This element is automatically generated by Apache iBATIS 
+			ibator, do not modify. This element was generated on Thu Apr 29 16:50:54 
+			CST 2010. -->
+		update ZC_P_PRO_MAKE
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="zcMakeName">
+				ZC_MAKE_NAME =
+				#zcMakeName:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="coCode">
+				CO_CODE =
+				#coCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="nd">
+				ND =
+				#nd:CHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeLinkman">
+				ZC_MAKE_LINKMAN =
+				#zcMakeLinkman:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeTel">
+				ZC_MAKE_TEL =
+				#zcMakeTel:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeStatus">
+				ZC_MAKE_STATUS =
+				#zcMakeStatus:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcInputCode">
+				ZC_INPUT_CODE =
+				#zcInputCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcInputDate">
+				ZC_INPUT_DATE =
+				#zcInputDate:TIMESTAMP#
+			</isNotNull>
+			<isNotNull prepend="," property="zcProRemark">
+				ZC_PRO_REMARK =
+				#zcProRemark:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMoneyBiSum">
+				ZC_MONEY_BI_SUM =
+				#zcMoneyBiSum:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMoneyZcSum">
+				ZC_MONEY_ZC_SUM =
+				#zcMoneyZcSum:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeApprSno">
+				ZC_MAKE_APPR_SNO =
+				#zcMakeApprSno:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeAppr">
+				ZC_MAKE_APPR =
+				#zcMakeAppr:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeApprBlobid">
+				ZC_MAKE_APPR_BLOBID =
+				#zcMakeApprBlobid:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcRemark">
+				ZC_REMARK =
+				#zcRemark:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="processInstId">
+				PROCESS_INST_ID =
+				#processInstId:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeFrom">
+				ZC_MAKE_FROM =
+				#zcMakeFrom:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="agency">
+				AGENCY =
+				#agency:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcIsAgency">
+				ZC_IS_AGENCY =
+				#zcIsAgency:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeZhaobiao">
+				ZC_MAKE_ZHAOBIAO =
+				#zcMakeZhaobiao:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeZhaobiaoBlobid">
+				ZC_MAKE_ZHAOBIAO_BLOBID =
+				#zcMakeZhaobiaoBlobid:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeZhaogg">
+				ZC_MAKE_ZHAOGG =
+				#zcMakeZhaogg:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeZhaoggBlobid">
+				ZC_MAKE_ZHAOGG_BLOBID =
+				#zcMakeZhaoggBlobid:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeZhongbiao">
+				ZC_MAKE_ZHONGBIAO =
+				#zcMakeZhongbiao:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeZhongbiaoBlobid">
+				ZC_MAKE_ZHONGBIAO_BLOBID =
+				#zcMakeZhongbiaoBlobid:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeZhonggg">
+				ZC_MAKE_ZHONGGG =
+				#zcMakeZhonggg:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeZhongggBlobid">
+				ZC_MAKE_ZHONGGG_BLOBID =
+				#zcMakeZhongggBlobid:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcIsToCgzx">
+				ZC_IS_TO_CGZX =
+				#zcIsToCgzx:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeFlag">
+				ZC_MAKE_FLAG =
+				#zcMakeFlag:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="orgCode">
+				ORG_CODE =
+				#orgCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcPitemOpiway">
+				ZC_PITEM_OPIWAY =
+				#zcPitemOpiway:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcPifuCgfs">
+				ZC_PIFU_CGFS =
+				#zcPifuCgfs:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcPitemMode">
+				ZC_PITEM_MODE =
+				#zcPitemMode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcCdAwdarea">
+				ZC_CD_AWDAREA =
+				#zcCdAwdarea:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcIsZxqyZb">
+				ZC_IS_ZXQY_ZB =
+				#zcIsZxqyZb:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcHangyeCtg">
+				ZC_HANGYE_CTG =
+				#zcHangyeCtg:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="orgName">
+				ORG_NAME =
+				#orgName:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMoneyBiYzx">
+				ZC_MONEY_BI_YZX =
+				#zcMoneyBiYzx:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMoneyKyBgs">
+				ZC_MONEY_KY_BGS =
+				#zcMoneyKyBgs:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMoneyBgZxs">
+				ZC_MONEY_BG_ZXS =
+				#zcMoneyBgZxs:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="zcFgkzbfsSmwjBlobid">
+				ZC_FGKZBFS_SMWJ_BLOBID =
+				#zcFgkzbfsSmwjBlobid:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcFgkzbfsSmwj">
+				ZC_FGKZBFS_SMWJ =
+				#zcFgkzbfsSmwj:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="agencyName">
+				AGENCY_NAME =
+				#agencyName:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcDiyuDaima">
+				ZC_DIYU_DAIMA =
+				#zcDiyuDaima:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMoneyHtYba">
+				ZC_MONEY_HT_YBA =
+				#zcMoneyHtYba:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="zcFukuanType">
+				ZC_FUKUAN_TYPE =
+				#zcFukuanType:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcWeitoDate">
+				ZC_WEITO_DATE =
+				#zcWeitoDate:TIMESTAMP#
+			</isNotNull>
+			<isNotNull prepend="," property="zcYepFlag">
+				ZC_YEP_FLAG =
+				#zcYepFlag:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcYepSum">
+				ZC_YEP_SUM =
+				#zcYepSum:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="zcBiNzjzSum">
+				ZC_BI_NZJZ_SUM =
+				#zcBiNzjzSum:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="zcProjOrign">
+				ZC_PROJ_ORIGN =
+				#zcProjOrign:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcDiyuDaimaZj">
+				ZC_DIYU_DAIMA_ZJ =
+				#zcDiyuDaimaZj:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcIsNotary">
+				ZC_IS_NOTARY =
+				#zcIsNotary:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcIsImp">
+				ZC_IS_IMP =
+				#zcIsImp:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcIsRemark">
+				ZC_IS_REMARK =
+				#zcIsRemark:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcImpFile">
+				ZC_IMP_FILE =
+				#zcImpFile:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcImpFileBlobid">
+				ZC_IMP_FILE_BLOBID =
+				#zcImpFileBlobid:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcPrintStatus">
+				ZC_PRINT_STATUS =
+				#zcPrintStatus:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeSequence">
+				ZC_MAKE_SEQUENCE =
+				#zcMakeSequence:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcXieYiEndDate">
+				ZC_XIEYI_END_DATE =
+				#zcXieYiEndDate:TIMESTAMP#
+			</isNotNull>
+			<isNotNull prepend="," property="zcNoShipReason">
+				ZC_NO_SHIP_REASON =
+				#zcNoShipReason:VARCHAR#
+			</isNotNull>
+		</dynamic>
+		where ZC_MAKE_CODE = #zcMakeCode:VARCHAR#
+	</update>
+	<update id="ibatorgenerated_updateByPrimaryKey" parameterClass="com.ufgov.zc.common.zc.model.ZcPProMake">
+		<!-- WARNING - This element is automatically generated by Apache iBATIS 
+			ibator, do not modify. This element was generated on Thu Apr 29 16:50:54 
+			CST 2010. -->
+		update ZC_P_PRO_MAKE
+		set ZC_MAKE_NAME = #zcMakeName:VARCHAR#,
+		CO_CODE =
+		#coCode:VARCHAR#,
+		ND = #nd:CHAR#,
+		ZC_MAKE_LINKMAN =
+		#zcMakeLinkman:VARCHAR#,
+		ZC_MAKE_TEL =
+		#zcMakeTel:VARCHAR#,
+		ZC_MAKE_STATUS = #zcMakeStatus:VARCHAR#,
+		ZC_INPUT_CODE =
+		#zcInputCode:VARCHAR#,
+		ZC_INPUT_DATE =
+		#zcInputDate:TIMESTAMP#,
+		ZC_PRO_REMARK = #zcProRemark:VARCHAR#,
+		ZC_MONEY_BI_SUM =
+		#zcMoneyBiSum:DECIMAL#,
+		ZC_MONEY_ZC_SUM =
+		#zcMoneyZcSum:DECIMAL#,
+		ZC_MAKE_APPR_SNO = #zcMakeApprSno:VARCHAR#,
+		ZC_MAKE_APPR =
+		#zcMakeAppr:VARCHAR#,
+		ZC_MAKE_APPR_BLOBID =
+		#zcMakeApprBlobid:VARCHAR#,
+		ZC_REMARK = #zcRemark:VARCHAR#,
+		PROCESS_INST_ID =
+		#processInstId:DECIMAL#,
+		ZC_MAKE_FROM =
+		#zcMakeFrom:VARCHAR#,
+		AGENCY =
+		#agency:VARCHAR#,
+		ZC_IS_AGENCY
+		= #zcIsAgency:VARCHAR#,
+		ZC_MAKE_ZHAOBIAO =
+		#zcMakeZhaobiao:VARCHAR#,
+		ZC_MAKE_ZHAOBIAO_BLOBID =
+		#zcMakeZhaobiaoBlobid:VARCHAR#,
+		ZC_MAKE_ZHAOGG =
+		#zcMakeZhaogg:VARCHAR#,
+		ZC_MAKE_ZHAOGG_BLOBID =
+		#zcMakeZhaoggBlobid:VARCHAR#,
+		ZC_MAKE_ZHONGBIAO =
+		#zcMakeZhongbiao:VARCHAR#,
+		ZC_MAKE_ZHONGBIAO_BLOBID =
+		#zcMakeZhongbiaoBlobid:VARCHAR#,
+		ZC_MAKE_ZHONGGG =
+		#zcMakeZhonggg:VARCHAR#,
+		ZC_MAKE_ZHONGGG_BLOBID =
+		#zcMakeZhongggBlobid:VARCHAR#,
+		ZC_IS_TO_CGZX = #zcIsToCgzx:VARCHAR#,
+		ZC_MAKE_FLAG = #zcMakeFlag:VARCHAR#,
+		ORG_CODE =
+		#orgCode:VARCHAR#,
+		ZC_PITEM_OPIWAY = #zcPitemOpiway:VARCHAR#,
+		ZC_PIFU_CGFS =
+		#zcPifuCgfs:VARCHAR#,
+		ZC_PITEM_MODE =
+		#zcPitemMode:VARCHAR#,
+		ZC_CD_AWDAREA = #zcCdAwdarea:VARCHAR#,
+		ZC_IS_ZXQY_ZB =
+		#zcIsZxqyZb:VARCHAR#,
+		ZC_HANGYE_CTG =
+		#zcHangyeCtg:VARCHAR#,
+		ORG_NAME =
+		#orgName:VARCHAR#,
+		ZC_MONEY_BI_YZX = #zcMoneyBiYzx:DECIMAL#,
+		ZC_MONEY_KY_BGS =
+		#zcMoneyKyBgs:DECIMAL#,
+		ZC_MONEY_BG_ZXS =
+		#zcMoneyBgZxs:DECIMAL#,
+		ZC_FGKZBFS_SMWJ_BLOBID =
+		#zcFgkzbfsSmwjBlobid:VARCHAR#,
+		ZC_FGKZBFS_SMWJ =
+		#zcFgkzbfsSmwj:VARCHAR#,
+		AGENCY_NAME =
+		#agencyName:VARCHAR#,
+		ZC_DIYU_DAIMA = #zcDiyuDaima:VARCHAR#,
+		ZC_MONEY_HT_YBA =
+		#zcMoneyHtYba:DECIMAL#,
+		ZC_FUKUAN_TYPE =
+		#zcFukuanType:VARCHAR#,
+		ZC_WEITO_DATE = #zcWeitoDate:TIMESTAMP#,
+		ZC_YEP_FLAG =
+		#zcYepFlag:VARCHAR#,
+		ZC_YEP_SUM = #zcYepSum:DECIMAL#,
+		ZC_BI_NZJZ_SUM =
+		#zcBiNzjzSum:DECIMAL#,
+		ZC_PROJ_ORIGN =
+		#zcProjOrign:VARCHAR#,
+		ZC_DIYU_DAIMA_ZJ = #zcDiyuDaimaZj:VARCHAR#,
+		ZC_IS_NOTARY =
+		#zcIsNotary:VARCHAR#,
+		ZC_IS_IMP = #zcIsImp:VARCHAR#,
+		ZC_IS_REMARK =
+		#zcIsRemark:VARCHAR#,
+		ZC_IMP_FILE = #zcImpFile:VARCHAR#,
+		ZC_IMP_FILE_BLOBID = #zcImpFileBlobid:VARCHAR#,
+		ZC_PRINT_STATUS =
+		#zcPrintStatus:VARCHAR#,
+		ZC_MAKE_SEQUENCE = #zcMakeSequence:VARCHAR#,
+		ZC_IS_BUDGET = #zcIsBudget:VARCHAR#,
+		ZC_XIEYI_END_DATE =
+		#zcXieYiEndDate:TIMESTAMP#,
+		ZC_NO_SHIP_REASON =
+		#zcNoShipReason:VARCHAR#, PRO_ID=#proId:VARCHAR#,
+		ZC_MAKE_PF_SEQUENCE=#zcMakePfSequence:VARCHAR#,
+		is_des_sup=#isDesSup:VARCHAR#, is_pub=#isPub:VARCHAR#,
+		is_car=#isCar:VARCHAR#
+		where ZC_MAKE_CODE = #zcMakeCode:VARCHAR#
+	</update>
+
+	<update id="ibatorgenerated_updatePrimaryKeyByTempCode"
+		parameterClass="com.ufgov.zc.common.zc.model.ZcPProMake">
+		<!-- WARNING - This element is automatically generated by Apache iBATIS 
+			ibator, do not modify. This element was generated on Thu Apr 29 16:50:54 
+			CST 2010. -->
+		update ZC_P_PRO_MAKE
+		set ZC_MAKE_CODE = #zcMakeCode:VARCHAR#,
+		ZC_MAKE_NAME = #zcMakeName:VARCHAR#,
+		CO_CODE = #coCode:VARCHAR#,
+		ND =
+		#nd:CHAR#,
+		ZC_MAKE_LINKMAN =
+		#zcMakeLinkman:VARCHAR#,
+		ZC_MAKE_TEL =
+		#zcMakeTel:VARCHAR#,
+		ZC_MAKE_STATUS = #zcMakeStatus:VARCHAR#,
+		ZC_INPUT_CODE =
+		#zcInputCode:VARCHAR#,
+		ZC_INPUT_DATE =
+		#zcInputDate:TIMESTAMP#,
+		ZC_PRO_REMARK = #zcProRemark:VARCHAR#,
+		ZC_MONEY_BI_SUM =
+		#zcMoneyBiSum:DECIMAL#,
+		ZC_MONEY_ZC_SUM =
+		#zcMoneyZcSum:DECIMAL#,
+		ZC_MAKE_APPR_SNO = #zcMakeApprSno:VARCHAR#,
+		ZC_MAKE_APPR =
+		#zcMakeAppr:VARCHAR#,
+		ZC_MAKE_APPR_BLOBID =
+		#zcMakeApprBlobid:VARCHAR#,
+		ZC_REMARK = #zcRemark:VARCHAR#,
+		PROCESS_INST_ID =
+		#processInstId:DECIMAL#,
+		ZC_MAKE_FROM =
+		#zcMakeFrom:VARCHAR#,
+		AGENCY = #agency:VARCHAR#,
+		ZC_IS_AGENCY
+		=
+		#zcIsAgency:VARCHAR#,
+		ZC_MAKE_ZHAOBIAO = #zcMakeZhaobiao:VARCHAR#,
+		ZC_MAKE_ZHAOBIAO_BLOBID = #zcMakeZhaobiaoBlobid:VARCHAR#,
+		ZC_MAKE_ZHAOGG = #zcMakeZhaogg:VARCHAR#,
+		ZC_MAKE_ZHAOGG_BLOBID =
+		#zcMakeZhaoggBlobid:VARCHAR#,
+		ZC_MAKE_ZHONGBIAO =
+		#zcMakeZhongbiao:VARCHAR#,
+		ZC_MAKE_ZHONGBIAO_BLOBID =
+		#zcMakeZhongbiaoBlobid:VARCHAR#,
+		ZC_MAKE_ZHONGGG =
+		#zcMakeZhonggg:VARCHAR#,
+		ZC_MAKE_ZHONGGG_BLOBID =
+		#zcMakeZhongggBlobid:VARCHAR#,
+		ZC_IS_TO_CGZX = #zcIsToCgzx:VARCHAR#,
+		ZC_MAKE_FLAG = #zcMakeFlag:VARCHAR#,
+		ORG_CODE =
+		#orgCode:VARCHAR#,
+		ZC_PITEM_OPIWAY = #zcPitemOpiway:VARCHAR#,
+		ZC_PIFU_CGFS =
+		#zcPifuCgfs:VARCHAR#,
+		ZC_PITEM_MODE =
+		#zcPitemMode:VARCHAR#,
+		ZC_CD_AWDAREA = #zcCdAwdarea:VARCHAR#,
+		ZC_IS_ZXQY_ZB =
+		#zcIsZxqyZb:VARCHAR#,
+		ZC_HANGYE_CTG =
+		#zcHangyeCtg:VARCHAR#,
+		ORG_NAME =
+		#orgName:VARCHAR#,
+		ZC_MONEY_BI_YZX = #zcMoneyBiYzx:DECIMAL#,
+		ZC_MONEY_KY_BGS =
+		#zcMoneyKyBgs:DECIMAL#,
+		ZC_MONEY_BG_ZXS =
+		#zcMoneyBgZxs:DECIMAL#,
+		ZC_FGKZBFS_SMWJ_BLOBID =
+		#zcFgkzbfsSmwjBlobid:VARCHAR#,
+		ZC_FGKZBFS_SMWJ =
+		#zcFgkzbfsSmwj:VARCHAR#,
+		AGENCY_NAME =
+		#agencyName:VARCHAR#,
+		ZC_DIYU_DAIMA = #zcDiyuDaima:VARCHAR#,
+		ZC_MONEY_HT_YBA =
+		#zcMoneyHtYba:DECIMAL#,
+		ZC_FUKUAN_TYPE =
+		#zcFukuanType:VARCHAR#,
+		ZC_WEITO_DATE = #zcWeitoDate:TIMESTAMP#,
+		ZC_YEP_FLAG =
+		#zcYepFlag:VARCHAR#,
+		ZC_YEP_SUM = #zcYepSum:DECIMAL#,
+		ZC_BI_NZJZ_SUM =
+		#zcBiNzjzSum:DECIMAL#,
+		ZC_PROJ_ORIGN =
+		#zcProjOrign:VARCHAR#,
+		ZC_DIYU_DAIMA_ZJ = #zcDiyuDaimaZj:VARCHAR#,
+		ZC_IS_NOTARY =
+		#zcIsNotary:VARCHAR#,
+		ZC_IS_IMP = #zcIsImp:VARCHAR#,
+		ZC_IS_REMARK =
+		#zcIsRemark:VARCHAR#,
+		ZC_IMP_FILE = #zcImpFile:VARCHAR#,
+		ZC_IMP_FILE_BLOBID = #zcImpFileBlobid:VARCHAR#,
+		ZC_PRINT_STATUS =
+		#zcPrintStatus:VARCHAR#,
+		ZC_MAKE_SEQUENCE = #zcMakeSequence:VARCHAR#,
+		ZC_IS_BUDGET = #zcIsBudget:VARCHAR#,
+		ZC_XIEYI_END_DATE =
+		#zcXieYiEndDate:TIMESTAMP#,
+		ZC_NO_SHIP_REASON =
+		#zcNoShipReason:VARCHAR#, is_des_sup=#isDesSup:VARCHAR#,
+		is_pub=#isPub:VARCHAR#,
+		is_car=#isCar:VARCHAR#
+		where ZC_TEMP_MAKE_CODE =
+		#zcTempMakeCode:VARCHAR#
+	</update>
+
+	<update id="updateXmMoneyBiYzx" parameterClass="java.util.Map">
+		update
+		ZC_P_PRO_MAKE
+		set
+		ZC_MONEY_BI_YZX = (ZC_MONEY_BI_YZX +
+		#bidUseMoneySum:DECIMAL#)
+		where
+		ZC_MAKE_CODE = #makeCode#
+	</update>
+
+	<update id="updateAttrsByPrimaryKey" parameterClass="com.ufgov.zc.common.zc.model.ZcPProMake">
+		update
+		ZC_P_PRO_MAKE
+		set
+		ZC_ATTR1 = #zcAttr1:VARCHAR#,
+		ZC_ATTR2 =
+		#zcAttr2:VARCHAR#,
+		ZC_ATTR3 = #zcAttr3:VARCHAR#,
+		ZC_ATTR4 =
+		#zcAttr4:VARCHAR#,
+		ZC_ATTR5 = #zcAttr5:VARCHAR#
+		where
+		ZC_MAKE_CODE =
+		#zcMakeCode:VARCHAR#
+	</update>
+
+	<!-- //add shijia 20111031 -->
+	<select id="getWfActionLastUser" parameterClass="string"
+		resultClass="string">
+		SELECT OWNER
+		FROM WF_ACTION
+		WHERE ACTION_ID =
+		(SELECT
+		MAX(ACTION_ID) FROM WF_ACTION WHERE INSTANCE_ID = #ProcessInstId#)
+	</select>
+
+	<select id="getInstanceIdByMakeCode" parameterClass="string"
+		resultClass="Long">
+		select PROCESS_INST_ID from ZC_P_PRO_MAKE where
+		ZC_MAKE_CODE = #value#
+	</select>
+
+	<select id="getAllZcPProMakeByConditions" resultMap="ibatorgenerated_BaseResultMap"
+		parameterClass="elementCondition">
+		select ZC_P_PRO_MAKE.*,'' pro_name from ZC_P_PRO_MAKE ZC_P_PRO_MAKE
+		where 1=1
+		<isNotNull prepend="and" property="coCodeFilter">
+			ZC_P_PRO_MAKE.CO_CODE=#coCodeFilter:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="and" property="billStatus">
+			ZC_P_PRO_MAKE.ZC_MAKE_STATUS=#billStatus:VARCHAR#
+		</isNotNull>
+		<!--变更选择项目时 过滤项目采购，只有项目采购采购有变更 -->
+		<isNotNull prepend="AND" property="zcText0">
+			ZC_P_PRO_MAKE.ZC_FUKUAN_TYPE=#zcText0:VARCHAR#
+		</isNotNull>
+	</select>
+	<select id="getProMake" parameterClass="elementCondition"
+		resultMap="extResult">
+		<!-- WARNING - This element is automatically generated by Apache iBATIS 
+			ibator, do not modify. This element was generated on Thu Apr 29 16:50:54 
+			CST 2010. -->
+		select p.*
+		,m.co_name as CO_NAME
+		from ZC_P_PRO_MAKE p
+		,ma_company m
+		where
+		p.CO_CODE=m.co_code
+		<isNotNull prepend="AND" property="nd">
+			p.ND =#nd# and
+			m.nd=#nd#
+		</isNotNull>
+		<isNotNull prepend="AND" property="zcText0">
+			p.ZC_MAKE_STATUS=#zcText0:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="AND" property="coCode">
+			p.CO_CODE=#coCode:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="AND" property="status">
+			p.ZC_MAKE_STATUS=#status:VARCHAR#
+		</isNotNull>
+		<!-- 中标部件使用的过滤条件，只选择项目采购来录入中标 -->
+		<isNotNull prepend="AND" property="zcText2">
+			p.ZC_FUKUAN_TYPE=#zcText2:VARCHAR#
+		</isNotNull>
+		order by p.ZC_INPUT_DATE desc
+	</select>
+
+	<!-- 追加资金模块 -->
+	<select id="ibatorgenerated_selectSuppleMentByExample"
+		parameterClass="elementCondition" resultMap="ibatorgenerated_BaseResultMap">
+		select ZC_P_PRO_MAKE.ZC_MAKE_CODE, ZC_P_PRO_MAKE.ZC_MAKE_NAME,
+		ZC_P_PRO_MAKE.CO_CODE,
+		ZC_P_PRO_MAKE.ND, ZC_P_PRO_MAKE.ZC_MAKE_LINKMAN,
+		ZC_P_PRO_MAKE.ZC_MAKE_TEL,
+		ZC_P_PRO_MAKE.ZC_MAKE_STATUS,
+		ZC_P_PRO_MAKE.ZC_INPUT_CODE,
+		ZC_P_PRO_MAKE.ZC_INPUT_DATE,
+		ZC_P_PRO_MAKE.ZC_PRO_REMARK, ZC_P_PRO_MAKE.ZC_MONEY_BI_SUM,
+		ZC_P_PRO_MAKE.ZC_MONEY_ZC_SUM,
+		ZC_P_PRO_MAKE.ZC_MAKE_APPR_SNO,
+		ZC_P_PRO_MAKE.ZC_MAKE_APPR,
+		ZC_P_PRO_MAKE.ZC_MAKE_APPR_BLOBID,
+		ZC_P_PRO_MAKE.ZC_REMARK,
+		ZC_P_PRO_MAKE.PROCESS_INST_ID,
+		ZC_P_PRO_MAKE.ZC_MAKE_FROM,
+		ZC_P_PRO_MAKE.AGENCY,
+		ZC_P_PRO_MAKE.ZC_IS_AGENCY,
+		ZC_P_PRO_MAKE.ZC_MAKE_ZHAOBIAO,
+		ZC_P_PRO_MAKE.ZC_MAKE_ZHAOBIAO_BLOBID,
+		ZC_P_PRO_MAKE.ZC_MAKE_ZHAOGG,
+		ZC_P_PRO_MAKE.ZC_MAKE_ZHAOGG_BLOBID,
+		ZC_P_PRO_MAKE.ZC_MAKE_ZHONGBIAO,
+		ZC_P_PRO_MAKE.ZC_MAKE_ZHONGBIAO_BLOBID,
+		ZC_P_PRO_MAKE.ZC_MAKE_ZHONGGG,
+		ZC_P_PRO_MAKE.ZC_MAKE_ZHONGGG_BLOBID,
+		ZC_P_PRO_MAKE.ZC_IS_TO_CGZX,
+		ZC_P_PRO_MAKE.ZC_MAKE_FLAG, ZC_P_PRO_MAKE.ORG_CODE,
+		ZC_P_PRO_MAKE.ZC_PITEM_OPIWAY,
+		ZC_P_PRO_MAKE.ZC_PIFU_CGFS,
+		ZC_P_PRO_MAKE.ZC_PITEM_MODE,
+		ZC_P_PRO_MAKE.ZC_CD_AWDAREA,
+		ZC_P_PRO_MAKE.ZC_IS_ZXQY_ZB, ZC_P_PRO_MAKE.ZC_HANGYE_CTG,
+		ZC_P_PRO_MAKE.ORG_NAME,
+		ZC_P_PRO_MAKE.ZC_MONEY_BI_YZX,
+		ZC_P_PRO_MAKE.ZC_MONEY_KY_BGS,
+		ZC_P_PRO_MAKE.ZC_MONEY_BG_ZXS,
+		ZC_P_PRO_MAKE.ZC_FGKZBFS_SMWJ_BLOBID,
+		ZC_P_PRO_MAKE.ZC_FGKZBFS_SMWJ,
+		ZC_P_PRO_MAKE.AGENCY_NAME, ZC_P_PRO_MAKE.ZC_DIYU_DAIMA,
+		ZC_P_PRO_MAKE.ZC_MONEY_HT_YBA, ZC_P_PRO_MAKE.ZC_FUKUAN_TYPE,
+		ZC_P_PRO_MAKE.ZC_WEITO_DATE,
+		ZC_P_PRO_MAKE.ZC_YEP_FLAG,
+		ZC_P_PRO_MAKE.ZC_YEP_SUM, ZC_P_PRO_MAKE.ZC_BI_NZJZ_SUM,
+		ZC_P_PRO_MAKE.ZC_PROJ_ORIGN, ZC_P_PRO_MAKE.ZC_DIYU_DAIMA_ZJ,
+		ZC_P_PRO_MAKE.ZC_IS_NOTARY,
+		ZC_P_PRO_MAKE.ZC_IS_IMP,
+		ZC_P_PRO_MAKE.ZC_IS_REMARK, ZC_P_PRO_MAKE.ZC_IMP_FILE,
+		ZC_P_PRO_MAKE.ZC_IMP_FILE_BLOBID,
+		ZC_P_PRO_MAKE.ZC_PRINT_STATUS,
+		ZC_P_PRO_MAKE.ZC_MAKE_SEQUENCE,
+		ZC_P_PRO_MAKE.ZC_IS_BUDGET,ZC_P_PRO_MAKE.pro_id,'' pro_name
+		,ZC_MAKE_PF_SEQUENCE,is_des_sup,is_pub,is_car
+		from ZC_P_PRO_MAKE
+		ZC_P_PRO_MAKE,ZC_P_PRO_MAKE_SUPPLEMENT supplement
+		WHERE
+		supplement.zc_make_code(+)=ZC_P_PRO_MAKE.zc_make_code
+		AND
+		ZC_P_PRO_MAKE.ZC_MAKE_STATUS='exec'
+		<isNotNull prepend="AND" property="status">
+			<isEqual property="status" compareValue="todo">
+				exists (select
+				instance_id from v_wf_current_task_gk53 where executor =#executor#
+				and instance_id = supplement.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				exists (select
+				instance_id from V_WF_ACTION_HISTORY_GK53 where executor =
+				#executor# and instance_id = supplement.process_inst_id)
+				and
+				supplement.SUPPLEMENT_STATUS!='cancel'
+				and
+				supplement.SUPPLEMENT_STATUS!='exec'
+			</isEqual>
+			<isEqual property="status" compareValue="exec">
+				(supplement.SUPPLEMENT_STATUS ='exec')
+			</isEqual>
+			<isEqual property="status" compareValue="draft">
+
+			</isEqual>
+			<isEqual property="status" compareValue="all">
+				1=1
+			</isEqual>
+		</isNotNull>
+		order by ZC_P_PRO_MAKE.ZC_MAKE_CODE desc
+	</select>
+	<select id="foreignSelection" parameterClass="elementCondition"
+		resultMap="ibatorgenerated_BaseResultMap">
+		SELECT ZC_P_PRO_MAKE.*,'' pro_name FROM ZC_P_PRO_MAKE
+		<isNotNull prepend="" property="nd">
+			where ND =#nd#
+		</isNotNull>
+		ORDER BY ZC_INPUT_DATE DESC
+	</select>
+
+
+	<select id="getZcVBiDetail" resultMap="vBiResult"
+		parameterClass="elementCondition">
+		select d.ZC_BI_NO,
+		d.ZC_BI_DO_SUM,
+		d.FUND_CODE,
+		d.FUND_NAME,
+		d.ORIGIN_CODE,
+		d.ORIGIN_NAME,
+		d.PAYTYPE_CODE,
+		d.PAYTYPE_NAME,
+		d.SENDDOC_CODE,
+		d.SENDDOC_NAME
+		from ZC_V_BI_DETAIL d;
+	</select>
+	<select id="getWfActionDescription" resultClass="java.util.HashMap"
+		parameterClass="java.util.HashMap">
+
+		select h.description,
+		(select u.user_name from as_user u
+		where u.user_id = h.executor) || '' ||
+		(select p.posi_name
+		from
+		as_position p
+		where p.posi_code in
+		(select ep.posi_code
+		from
+		as_emp_position ep
+		where ep.emp_code = h.executor)) as executor from
+		wf_action_history h
+		where h.instance_id in
+		(select m.process_inst_id
+		from zc_p_pro_make m
+		where
+		m.process_inst_id=#id:LONG#
+		)
+	</select>
+	<!-- 通过项目编号获取采购计划 -->
+	<select id="getZcPProMakeListByProjCode" resultMap="ibatorgenerated_BaseResultMap"
+		parameterClass="String">
+		select make.*,'' pro_name from Zc_p_Pro_Make make,
+		(
+		select distinct zt.zc_make_code
+		from Zc_Eb_Entrust zt , Zc_Eb_Pack zp
+		where zt.sn = zp.entrust_code
+		and zp.proj_code = #projCode#
+		) aa
+		where
+		make.zc_make_code = aa.zc_make_code
+	</select>	<select id="selectProjectForJSXM" parameterClass="elementCondition"		resultMap="ibatorgenerated_BaseResultMap">		select ZC_MAKE_CODE,		ZC_TEMP_MAKE_CODE,		ZC_MAKE_NAME,		CO_CODE,		ND,		ZC_MAKE_LINKMAN,		ZC_MAKE_TEL,		ZC_MAKE_STATUS,		ZC_INPUT_CODE,		ZC_INPUT_DATE,		ZC_PRO_REMARK,		ZC_MONEY_BI_SUM,		ZC_MONEY_ZC_SUM,		ZC_MAKE_APPR_SNO,		ZC_MAKE_APPR,		ZC_MAKE_APPR_BLOBID,		ZC_REMARK,		PROCESS_INST_ID,		ZC_MAKE_FROM,		AGENCY,		ZC_IS_AGENCY,		ZC_MAKE_ZHAOBIAO,		ZC_MAKE_ZHAOBIAO_BLOBID,		ZC_MAKE_ZHAOGG,		ZC_MAKE_ZHAOGG_BLOBID,		ZC_MAKE_ZHONGBIAO,		ZC_MAKE_ZHONGBIAO_BLOBID,		ZC_MAKE_ZHONGGG,		ZC_MAKE_ZHONGGG_BLOBID,		ZC_IS_TO_CGZX,		ZC_MAKE_FLAG,		ORG_CODE,		ZC_PITEM_OPIWAY,		ZC_PIFU_CGFS,		ZC_PITEM_MODE,		ZC_CD_AWDAREA,		ZC_IS_ZXQY_ZB,		ZC_HANGYE_CTG,		ORG_NAME,		ZC_MONEY_BI_YZX,		ZC_MONEY_KY_BGS,		ZC_MONEY_BG_ZXS,		ZC_FGKZBFS_SMWJ_BLOBID,		ZC_FGKZBFS_SMWJ,		AGENCY_NAME,		ZC_DIYU_DAIMA,		ZC_MONEY_HT_YBA,		ZC_FUKUAN_TYPE,		ZC_WEITO_DATE,		ZC_YEP_FLAG,		ZC_YEP_SUM,		ZC_BI_NZJZ_SUM,		ZC_PROJ_ORIGN,		ZC_DIYU_DAIMA_ZJ,		ZC_IS_NOTARY,		ZC_IS_IMP,		ZC_IS_REMARK,		ZC_IMP_FILE,		ZC_IMP_FILE_BLOBID,		ZC_PRINT_STATUS,		ZC_MAKE_SEQUENCE,		ZC_IS_BUDGET,		ZC_XIEYI_END_DATE,		ZC_NO_SHIP_REASON,		ZC_ATTR1,		ZC_ATTR2,		ZC_ATTR3,		ZC_ATTR4,		ZC_ATTR5,		nvl((select m.zc_item_sum		from zc_p_pro_mitem m		where m.zc_make_code =		ZC_P_PRO_MAKE.zc_make_code		and m.zc_is_cheng_jiao = '2'),		0)		zc_item_sum,pro_id,'' pro_name,ZC_MAKE_PF_SEQUENCE		,is_des_sup,is_pub,is_car		from zc_p_pro_make		where		ZC_MAKE_STATUS ='exec'		<isNotNull prepend="and" property="coCode">			zc_p_pro_make.co_code =			#coCode:VARCHAR#		</isNotNull>		<isNotNull prepend="and" property="zcText0">			zc_fukuan_type =			#zcText0:VARCHAR#		</isNotNull>		and not exists (select b.zc_bal_id from zc_p_pro_bal b where		b.zc_make_code=zc_p_pro_make.zc_make_code and b.is_last_pay='Y'		<isNotNull prepend="and" property="zcMakeCode">			b.zc_make_code !=			#zcMakeCode:VARCHAR#		</isNotNull>		)		AND exists (select h.zc_make_code		from ZC_XMCG_HT h		where h.nd =		#nd:VARCHAR#		and h.zc_ht_status = 'exec'		and		h.zc_make_code=ZC_P_PRO_MAKE.zc_make_code		<isNotNull prepend="and" property="coCode">			h.co_code =			#coCode:VARCHAR#		</isNotNull>		)	</select>	<select id="getZcPProMakeNoHtList" resultMap="ibatorgenerated_BaseResultMap"		parameterClass="elementCondition">		select make.*, '' pro_name from Zc_p_Pro_Make make		where make.zc_input_code = #zcText0:VARCHAR# and nd = #nd:VARCHAR#		and		not exists (select * from zc_xmcg_ht ht where ht.zc_make_code =		make.zc_make_code)	</select>	<select id="getSpecialBrands" resultClass="String">		select * from		v_zc_Special_Brand	</select>	<select id="getZcPProMitmemerIfExistsHongqi" resultClass="java.lang.Integer"		parameterClass="java.lang.String">		select count(zc_p_pro_make.zc_make_code)		from		v_zc_p_pro_make_xy_hongqi zc_p_pro_make		where		zc_p_pro_make.zc_make_code=#zcMakeCode#	</select>	<select id="getZcPProXySum" resultClass="java.math.BigDecimal"		parameterClass="elementCondition">		SELECT		sum(T.XY_SUM)		FROM v_zc_p_xy_sum T		WHERE T.CO_CODE=#coCode#		AND T.ND=#nd#		<isNotNull prepend="AND" property="zcMakeCode">		T.ZC_MAKE_CODE! =#zcMakeCode:VARCHAR#		</isNotNull>	</select>	<select id="getZcPProMakeByProcessId" resultMap="ibatorgenerated_BaseResultMap"		parameterClass="java.lang.String">		SELECT		t.*,		'' as pro_name 		FROM Zc_p_Pro_Make T		WHERE T.PROCESS_INST_ID=#value#			</select>	<select id="queryExportsDatas" resultMap="ibatorgenerated_BaseResultMap"		parameterClass="elementCondition">		SELECT		t.*,		'' as pro_name 		FROM Zc_p_Pro_Make T		<isNotEmpty property="pmAdjustCodeList" prepend="where">            t.ZC_MAKE_CODE in            <iterate property="pmAdjustCodeList"  conjunction="," open="(" close=")">                #pmAdjustCodeList[]#            </iterate>        </isNotEmpty>		</select>
+</sqlMap>

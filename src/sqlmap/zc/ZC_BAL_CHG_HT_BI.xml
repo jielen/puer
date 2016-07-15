@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ZC_BAL_CHG_HT_BI">
+
+	<resultMap class="com.ufgov.zc.common.zc.model.ZcBalChgHtBi"
+		id="ibatorgenerated_AllResultMap">
+		<result column="ZC_HT_CODE" jdbcType="VARCHAR" property="zcHtCode" />
+		<result column="ZC_BI_NO" jdbcType="VARCHAR" property="zcBiNo" />
+		<result column="ZC_BI_BCSY_SUM" jdbcType="DECIMAL" property="zcBiBcsySum" />
+		<result column="ZC_MAKE_CODE" jdbcType="VARCHAR" property="zcMakeCode" />
+		<result column="ZC_BI_YJJS_SUM" jdbcType="DECIMAL" property="zcBiYjjsSum" />
+		<result column="ZC_BI_HTBA_SUM" jdbcType="DECIMAL" property="zcBiHtbaSum" />
+		<result column="ZC_BI_YJCH_SUM" jdbcType="DECIMAL" property="zcBiYjchSum" />
+		<result column="ZC_BI_NZJZ_SUM" jdbcType="DECIMAL" property="zcBiNzjzSum" />
+		<result column="ZC_PRO_BI_SEQ" jdbcType="VARCHAR" property="zcProBiSeq" />
+
+		<result column="zc_bi_sum" jdbcType="DECIMAL" property="zcBiSum" />
+		<result column="zc_bi_do_sum" jdbcType="DECIMAL" property="zcBiDoSum" />
+		<result column="zc_bi_yjba_sum" jdbcType="DECIMAL" property="zcBiYjbaSum" />
+		<result column="bi_target_code" jdbcType="VARCHAR" property="biTargetCode" />
+		<result column="b_acc_code" jdbcType="VARCHAR" property="bAccCode" />
+		<result column="b_acc_name" jdbcType="VARCHAR" property="bAccName" />
+		<result column="co_code" jdbcType="VARCHAR" property="coCode" />
+		<result column="co_name" jdbcType="VARCHAR" property="coName" />
+		<result column="dec_money" jdbcType="DECIMAL" property="decMoney" />
+		<result column="fund_code" jdbcType="VARCHAR" property="fundCode" />
+		<result column="fund_name" jdbcType="VARCHAR" property="fundName" />
+		<result column="inceptdoc_code" jdbcType="VARCHAR" property="inceptdocCode" />
+		<result column="inceptdoc_name" jdbcType="VARCHAR" property="inceptdocName" />
+		<result column="manage_code" jdbcType="VARCHAR" property="manageCode" />
+		<result column="manage_name" jdbcType="VARCHAR" property="manageName" />
+		<result column="nd" jdbcType="VARCHAR" property="nd" />
+		<result column="org_name" jdbcType="VARCHAR" property="orgName" />
+		<result column="origin_code" jdbcType="VARCHAR" property="originCode" />
+		<result column="origin_name" jdbcType="VARCHAR" property="originName" />
+		<result column="outlay_code" jdbcType="VARCHAR" property="outlayCode" />
+		<result column="outlay_name" jdbcType="VARCHAR" property="outlayName" />
+		<result column="payout_code" jdbcType="VARCHAR" property="payoutCode" />
+		<result column="payout_name" jdbcType="VARCHAR" property="payoutName" />
+		<result column="paytype_code" jdbcType="VARCHAR" property="paytypeCode" />
+		<result column="paytype_name" jdbcType="VARCHAR" property="paytypeName" />
+		<result column="project_code" jdbcType="VARCHAR" property="projectCode" />
+		<result column="project_name" jdbcType="VARCHAR" property="projectName" />
+		<result column="project_type_code" jdbcType="VARCHAR" property="projectTypeCode" />
+		<result column="project_type_name" jdbcType="VARCHAR" property="projectTypeName" />
+		<result column="senddoc_code" jdbcType="VARCHAR" property="senddocCode" />
+		<result column="senddoc_name" jdbcType="VARCHAR" property="senddocName" />
+		<result column="senddoc_type_code" jdbcType="VARCHAR" property="senddocTypeCode" />
+		<result column="senddoc_type_name" jdbcType="VARCHAR" property="senddocTypeName" />
+		<result column="zc_cg_type" jdbcType="VARCHAR" property="zcCgType" />
+		<result column="zc_plan_type" jdbcType="VARCHAR" property="zcPlanType" />
+		<result column="zc_save_num" jdbcType="DECIMAL" property="zcSaveNum" />
+		<result column="zc_catalogue_code" jdbcType="VARCHAR" property="zcCatalogueCode" />
+		<result column="zc_catalogue_name" jdbcType="VARCHAR" property="zcCatalogueName" />
+		<result column="zc_year" jdbcType="VARCHAR" property="zcYear" />
+		<result column="zc_yep_sum" jdbcType="DECIMAL" property="zcYepSum" />
+		<result column="zc_bi_apd_flag" jdbcType="VARCHAR" property="zcBiApdFlag" />
+		<result column="zc_fund_remark" jdbcType="VARCHAR" property="zcFundRemark" />
+		<result column="zc_use_bi_id" jdbcType="VARCHAR" property="zcUseBiId" />
+		<result column="zc_fund_file" jdbcType="VARCHAR" property="zcFundFile" />
+		<result column="zc_fund_file_blobid" jdbcType="VARCHAR" property="zcFundFileBlobid" />
+		
+		<result column="BAL_CHG_ID" jdbcType="VARCHAR" property="balChgId" />
+
+	</resultMap>
+
+
+	<insert id="ibatorgenerated_insert" parameterClass="java.util.HashMap">
+
+		insert into ZC_BAL_CHG_HT_BI (ZC_HT_CODE, ZC_BI_NO, ZC_BI_BCSY_SUM,
+		ZC_MAKE_CODE, ZC_BI_YJJS_SUM,
+		ZC_BI_HTBA_SUM, ZC_BI_YJCH_SUM, ZC_BI_NZJZ_SUM,ZC_PRO_BI_SEQ,
+		ZC_BI_SUM,ZC_BI_DO_SUM,ZC_BI_YJBA_SUM,BI_TARGET_CODE,B_ACC_CODE,
+		B_ACC_NAME,CO_CODE,CO_NAME,DEC_MONEY,FUND_CODE,FUND_NAME,
+		INCEPTDOC_CODE,INCEPTDOC_NAME,MANAGE_CODE,MANAGE_NAME,ND,
+		ORG_CODE,ORG_NAME,ORIGIN_CODE,ORIGIN_NAME,OUTLAY_CODE,OUTLAY_NAME,
+		PAYOUT_CODE,PAYOUT_NAME,PAYTYPE_CODE,PAYTYPE_NAME,PROJECT_CODE,
+		PROJECT_NAME,PROJECT_TYPE_CODE,PROJECT_TYPE_NAME,SENDDOC_CODE,
+		SENDDOC_NAME,SENDDOC_TYPE_CODE,SENDDOC_TYPE_NAME,ZC_CG_TYPE,
+		ZC_PLAN_TYPE,ZC_SAVE_NUM,ZC_CATALOGUE_CODE,ZC_CATALOGUE_NAME,
+		ZC_YEAR,ZC_YEP_SUM,ZC_BI_APD_FLAG,ZC_FUND_REMARK,ZC_FUND_FILE,
+		ZC_FUND_FILE_BLOBID,ZC_USE_BI_ID,BAL_CHG_ID)
+		values (#bi.zcHtCode:VARCHAR#, #bi.zcBiNo:VARCHAR#, #bi.zcBiBcsySum:DECIMAL#,
+		#bi.zcMakeCode:VARCHAR#,
+		#bi.zcBiYjjsSum:DECIMAL#, #bi.zcBiHtbaSum:DECIMAL#, #bi.zcBiYjchSum:DECIMAL#,
+		#bi.zcBiNzjzSum:DECIMAL#,
+		<isNull prepend="" property="zcProBiSeq">
+			SEQ_ZC_PRO_BI.NEXTVAL
+		</isNull>
+		<isNotNull prepend="" property="zcProBiSeq">
+			#bi.zcProBiSeq#
+		</isNotNull>
+		,#bi.zcBiSum:DECIMAL#,#bi.zcBiDoSum:DECIMAL#,#bi.zcBiYjbaSum:DECIMAL#,
+		#bi.biTargetCode:VARCHAR#,#bi.bAccCode:VARCHAR#,#bi.bAccName:VARCHAR#,
+		#bi.coCode:VARCHAR#,#bi.coName:VARCHAR#,#bi.decMoney:DECIMAL#,
+		#bi.fundCode:VARCHAR#,#bi.fundName:VARCHAR#,#bi.inceptdocCode:VARCHAR#,
+		#bi.inceptdocName:VARCHAR#,#bi.manageCode:VARCHAR#,#bi.manageName:VARCHAR#,
+		#bi.nd:VARCHAR#,#bi.orgCode:VARCHAR#,#bi.orgName:VARCHAR#,
+		#bi.originCode:VARCHAR#,#bi.originName:VARCHAR#,#bi.outlayCode:VARCHAR#,
+		#bi.outlayName:VARCHAR#,#bi.payoutCode:VARCHAR#,#bi.payoutName:VARCHAR#,
+		#bi.paytypeCode:VARCHAR#,#bi.paytypeName:VARCHAR#,#bi.projectCode:VARCHAR#,
+		#bi.projectName:VARCHAR#,#bi.projectTypeCode:VARCHAR#,
+		#bi.projectTypeName:VARCHAR#,#bi.senddocCode:VARCHAR#,
+		#bi.senddocName:VARCHAR#,#bi.senddocTypeCode:VARCHAR#,
+		#bi.senddocTypeName:VARCHAR#,#bi.zcCgType:VARCHAR#,#bi.zcPlanType:VARCHAR#,
+		#bi.zcSaveNum:DECIMAL#,#bi.zcCatalogueCode:VARCHAR#,
+		#bi.zcCatalogueName:VARCHAR#,#bi.zcYear:VARCHAR#,#bi.zcYepSum:DECIMAL#,
+		#bi.zcBiApdFlag:VARCHAR#,#bi.zcFundRemark:VARCHAR#,#bi.zcFundFile:VARCHAR#,
+		#bi.zcFundFileBlobid:VARCHAR#,#bi.zcUseBiId:VARCHAR#,#balChgId:VARCHAR#)
+	</insert>
+
+	<delete id="deleteByChgCode" parameterClass="string">		
+		delete
+		from ZC_BAL_CHG_HT_BI BI
+		where
+		BI.BAL_CHG_ID=#BAL_CHG_ID#
+	</delete>
+
+	<select id="ibatorgenerated_selectBiByChgCode" parameterClass="java.util.Map"
+		resultMap="ibatorgenerated_AllResultMap">
+select BAL_CHG_ID,ZC_HT_CODE,ZC_BI_NO,ZC_BI_BCSY_SUM,ZC_MAKE_CODE,ZC_BI_YJJS_SUM,ZC_BI_HTBA_SUM,ZC_BI_YJCH_SUM,ZC_BI_NZJZ_SUM,ZC_PRO_BI_SEQ,
+zc_bi_sum,zc_bi_do_sum,zc_bi_yjba_sum,bi_target_code,b_acc_code,b_acc_name,co_code,co_name,dec_money,fund_code,fund_name,
+inceptdoc_code,inceptdoc_name,manage_code,manage_name,nd,org_name,origin_code,origin_name,outlay_code,outlay_name,payout_code,payout_name,
+paytype_code,paytype_name,project_code,project_name,project_type_code,project_type_name,senddoc_code,senddoc_name,senddoc_type_code,senddoc_type_name,
+zc_cg_type,zc_plan_type,zc_save_num,zc_catalogue_code,zc_catalogue_name,zc_year,zc_yep_sum,zc_bi_apd_flag,zc_fund_remark,zc_use_bi_id,zc_fund_file,zc_fund_file_blobid
+		FROM ZC_BAL_CHG_HT_BI MASTER
+		where BAL_CHG_ID=#BAL_CHG_ID:VARCHAR# and ZC_HT_CODE=#ZC_HT_CODE:VARCHAR# order by zc_pro_bi_seq
+	</select>
+
+	<select id="ibatorgenerated_selectCountByChgCode" parameterClass="java.lang.String"
+		resultClass="Integer">
+select count(*) FROM ZC_BAL_CHG_HT_BI MASTER where BAL_CHG_ID=#BAL_CHG_ID:VARCHAR# 
+	</select>
+</sqlMap>

@@ -1,0 +1,1 @@
+package com.ufgov.zc.client.component.button;public class BankInfoEditButton extends FuncButton {  private static final long serialVersionUID = 5079497176450987469L;  public BankInfoEditButton() {    super();  }  protected void init() {    this.funcId = "fedit_bank_info";    this.defaultText = "修改银行信息";    super.init();  }}

@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ZcBMerchandise">
+
+	<typeAlias alias="elementCondition"		
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<resultMap id="ZcBMerchandiseResult" class="com.ufgov.zc.common.zc.model.ZcBMerchandise">
+		<result column="ZC_MER_CODE" jdbcType="VARCHAR" property="zcMerCode" />		<result column="ZC_MER_NAME" jdbcType="VARCHAR" property="zcMerName" />		<result column="ZC_CATALOGUE_CODE" jdbcType="VARCHAR" property="zcCatalogueCode" />		<result column="ZC_CATALOGUE_NAME" jdbcType="VARCHAR" property="zcCatalogueName" />		<result column="ZC_BRA_CODE" jdbcType="VARCHAR" property="zcBraCode" />		<result column="ZC_BRA_NAME" jdbcType="VARCHAR" property="zcBraName" />		<result column="ZC_MER_COLLOCATE" jdbcType="VARCHAR" property="zcMerCollocate" />		<result column="ZC_MER_SPEC" jdbcType="VARCHAR" property="zcMerSpec" />		<result column="ZC_MER_M_PRICE" jdbcType="DECIMAL" property="zcMerMPrice" />		<result column="ZC_MER_TAX" jdbcType="DECIMAL" property="zcMerTax" />		<result column="ZC_YHL" jdbcType="DECIMAL" property="zcYhl" />		<result column="ZC_CJSL" jdbcType="DECIMAL" property="zcCjsl" />		<result column="ZC_REMARK" jdbcType="DECIMAL" property="zcRemark" />		<result column="ZC_MER_PIC_BLOBID" property="zcMerPicBlobid" />		<result column="ZC_MER_UNIT" property="zcMerUnit" />		<result column="ZC_YEAR" jdbcType="VARCHAR" property="zcYear" />		<result column="ZC_PROJ_ID" jdbcType="VARCHAR" property="zcProjId" />				<result column="ZC_PROJ_NAME" jdbcType="VARCHAR" property="zcProjName" />		<result column="ZC_IS_JNJS" jdbcType="VARCHAR" property="zcIsJnjs" />		<result column="ZC_IS_SHARED" jdbcType="VARCHAR" property="zcIsShared" />		<result column="ZC_MER_IS_ZZCX" jdbcType="VARCHAR" property="zcMerIsZzcx" />		<result column="ZC_MER_IS_LSHB" jdbcType="VARCHAR" property="zcMerIsLshb" />		<result column="ZC_DIYU_DAIMA" jdbcType="VARCHAR" property="zcDiyuDaima" />				<result column="ZC_DIYU_NAME" jdbcType="VARCHAR" property="zcDiyuName" />				<result column="ZC_SUP_MER_CODE"   jdbcType="VARCHAR" property="zcSupMerCode"  />                                                                                            		<result column="ZC_CG_LEIXING"     jdbcType="VARCHAR" property="zcCgLeixing"  />                                                                                             		<result column="ZC_MER_IS_ATTACH"  jdbcType="VARCHAR" property="zcMerIsAttach"  />                                                                                           		<result column="ZC_MER_PIC"        jdbcType="VARCHAR" property="zcMerPic"  />                                                                                                		<result column="ZC_SUP_PROJ_ID"    jdbcType="VARCHAR" property="zcSupProjID"  />                                                                                             		<result column="ZC_MD_TYPE"        jdbcType="VARCHAR" property="zcMdType"  />                                                                                                		<result column="ZC_CATALOGUE_YEAR" jdbcType="VARCHAR" property="zcCatalogueYear"  />        		<result column="ZC_MER_STATUS" jdbcType="VARCHAR" property="zcMerStatus"  />        
+	</resultMap>	
+	<resultMap id="ZcBMerchandisePriceInfoResult" class="com.ufgov.zc.common.zc.model.ZcBMerPrice">
+		<result column="ZC_MER_CODE" jdbcType="VARCHAR" property="ZC_MER_CODE" />
+		<result column="ZC_BRA_CODE" jdbcType="VARCHAR" property="ZC_BRA_CODE" />
+		<result column="ZC_PROJ_ID" jdbcType="VARCHAR" property="ZC_PROJ_ID" />
+		<result column="ZC_SU_CODE" jdbcType="VARCHAR" property="ZC_SU_CODE" />
+		<result column="ZC_MER_CG_PRICE" jdbcType="DECIMAL" property="ZC_MER_CG_PRICE" />
+	</resultMap>
+
+	<resultMap id="ZcBMerPicResult" class="com.ufgov.zc.common.zc.model.ZcBMerPic">
+		<result column="ZC_MER_CODE" jdbcType="VARCHAR" property="zcMerCode" />
+		<result column="ZC_PIC_ID" jdbcType="VARCHAR" property="zcPicID" />
+	</resultMap>	
+
+
+	<sql id="ZcBMerchandise.page_start">
+	<![CDATA[
+		   select * from (select row_.*,rownum rownum_ from (
+	]]>
+	</sql>
+
+	<sql id="ZcBMerchandise.page_end">
+	<![CDATA[
+		   ) row_ where rownum <= #end# ) where rownum_ >=  #start#
+	]]>
+	</sql>
+
+	<sql id="ZcBMerchandise.parameter">
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="keyWords">
+				(
+				ZC_MER_NAME like '%'||#keyWords#||'%' or
+				ZC_MER_SPEC like '%'||#keyWords#||'%' or
+				ZC_BRA_NAME like '%'||#keyWords#||'%'
+				)
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="youhl1">
+			<![CDATA[(case when nvl(ZC_MER_TAX,0) > 0 then round(((ZC_MER_TAX-ZC_MER_M_PRICE)/ZC_MER_TAX)*100,2) else 0 end) >= #youhl1#]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="youhl2">
+			<![CDATA[(case when nvl(ZC_MER_TAX,0) > 0 then round(((ZC_MER_TAX-ZC_MER_M_PRICE)/ZC_MER_TAX)*100,2) else 0 end) <= #youhl2#]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="xyPrice1">
+			<![CDATA[ZC_MER_M_PRICE >= #xyPrice1#]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="xyPrice2">
+			<![CDATA[ZC_MER_M_PRICE <= #xyPrice2#]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="status">
+				ZC_MER_STATUS = #status#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="catalogueId">
+				ZC_CATALOGUE_CODE = #catalogueId#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="brandId">
+				ZC_BRA_CODE = #brandId#
+			</isNotEmpty>
+		</dynamic>
+	</sql>
+	
+	<sql id="ZcBMerchandise.parameterElementConditionDto">
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="zcText0">
+				ZC_MER_STATUS = #zcText0#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="zcText1">
+				ZC_CATALOGUE_CODE = #zcText1#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="zcText2">
+				ZC_BRA_CODE = #zcText2#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="zcText3">
+				ZC_SU_CODE = #zcText3#
+			</isNotEmpty>
+
+		</dynamic>
+
+	</sql>
+
+	<sql id="ZcBMerchandise.mainSelect">
+	<![CDATA[
+		 select
+				ZC_MER_CODE,                                                    			   ZC_MER_NAME,                                                    			   ZC_SUP_MER_CODE,			   ZC_CATALOGUE_CODE,                                              			   (select distinct ZC_CATALOGUE_NAME from ZC_B_CATALOGUE where    			   ZC_B_CATALOGUE.ZC_CATALOGUE_CODE = ZC_B_MERCHANDISE.ZC_CATALOGUE_CODE    			   and ZC_B_CATALOGUE.ZC_YEAR = ZC_B_MERCHANDISE.ZC_CATALOGUE_YEAR)  ZC_CATALOGUE_NAME,                                              			   ZC_BRA_CODE,                                                    			   ZC_BRA_NAME,                                                    			   ZC_MER_COLLOCATE,                                               			   ZC_MER_SPEC,                                                    			   ZC_MER_TAX,                                                     			   ZC_YEAR,                                                     				   ZC_MER_M_PRICE,                                                			   ZC_MER_UNIT,                                                   			   case when nvl(ZC_MER_TAX,0) > 0 then                           			   round(((ZC_MER_TAX-ZC_MER_M_PRICE)/ZC_MER_TAX)*100,2) else 0 end as  			   ZC_YHL,                                                        			   null as ZC_CJSL,                                               			   ZC_MER_PIC_BLOBID,                                             			   ZC_REMARK ,                                                     			   ZC_PROJ_ID,       			   (select distinct ZC_SPPC_NA from ZC_XYGH_SPPC where ZC_XYGH_SPPC.ZC_SPPC_ID = ZC_B_MERCHANDISE.ZC_PROJ_ID )  ZC_PROJ_NAME,                                              			   ZC_IS_JNJS,                                                    			   ZC_IS_SHARED,                                                  			   ZC_MER_IS_ZZCX,                                                			   ZC_MER_IS_LSHB,                                                 				 ZC_DIYU_DAIMA,                                                			  (select distinct ZC_DIYU_NAME from ZC_DIYU_CTG where ZC_DIYU_CTG.ZC_DIYU_DAIMA = ZC_B_MERCHANDISE.ZC_DIYU_DAIMA )  ZC_DIYU_NAME,				 ZC_CG_LEIXING,                                                			   ZC_MER_IS_ATTACH,                                              			   ZC_MER_PIC,                                                    			   ZC_SUP_PROJ_ID,                                                			   ZC_MD_TYPE,                                                    			   ZC_CATALOGUE_YEAR,			   ZC_MER_STATUS 
+		   from
+				ZC_B_MERCHANDISE
+	]]>
+	</sql>
+	
+	<select id="getMerchandise" resultMap="ZcBMerchandiseResult"		
+		parameterClass="Map">
+		<include refid="ZcBMerchandise.page_start" />
+		<include refid="ZcBMerchandise.mainSelect" />
+		<include refid="ZcBMerchandise.parameter" />
+		<iterate prepend="order by" property="orders" conjunction=",">
+			$orders[]$
+		</iterate>
+		<include refid="ZcBMerchandise.page_end" />
+	</select>
+
+	<select id="getMerchandiseWebBySupplier" resultMap="ZcBMerchandiseResult"		
+		parameterClass="Map">
+		<include refid="ZcBMerchandise.page_start" />
+		
+		select mer.ZC_MER_CODE,
+	       mer.ZC_MER_NAME,
+	       mer.ZC_CATALOGUE_CODE,
+	       (select distinct ZC_CATALOGUE_NAME
+	          from ZC_B_CATALOGUE
+	         where ZC_B_CATALOGUE.ZC_CATALOGUE_CODE = mer.ZC_CATALOGUE_CODE
+	           and ZC_B_CATALOGUE.ZC_YEAR = mer.ZC_CATALOGUE_YEAR) as ZC_CATALOGUE_NAME,
+	       mer.ZC_BRA_CODE,
+	       mer.ZC_BRA_NAME,
+	       mer.ZC_MER_COLLOCATE,
+	       mer.ZC_MER_SPEC,
+	       mer.ZC_MER_TAX,
+	       mer.ZC_MER_M_PRICE,
+	       case
+	         when nvl(ZC_MER_TAX, 0) > 0 then
+	          round(((ZC_MER_TAX - ZC_MER_M_PRICE) / ZC_MER_TAX) * 100, 2)
+	         else
+	          0
+	       end as ZC_YHL,
+	       null as ZC_CJSL,
+	       ZC_MER_PIC_BLOBID,	       	       ZC_MER_STATUS
+	  from zc_b_merchandise_web mer
+	 where mer.zc_bra_code in
+	       (select zc_bra_code from zc_zb_pinp where zc_su_code = #SuppliersCode#)
+		<isNotEmpty prepend="and" property="keyWords">
+				(
+				ZC_MER_NAME like '%'||#keyWords#||'%' or
+				ZC_MER_SPEC like '%'||#keyWords#||'%' or
+				ZC_BRA_NAME like '%'||#keyWords#||'%'
+				)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="youhl1">
+		<![CDATA[(case when nvl(ZC_MER_TAX,0) > 0 then round(((ZC_MER_TAX-ZC_MER_M_PRICE)/ZC_MER_TAX)*100,2) else 0 end) >= #youhl1#]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="youhl2">
+		<![CDATA[(case when nvl(ZC_MER_TAX,0) > 0 then round(((ZC_MER_TAX-ZC_MER_M_PRICE)/ZC_MER_TAX)*100,2) else 0 end) <= #youhl2#]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="xyPrice1">
+		<![CDATA[ZC_MER_M_PRICE >= #xyPrice1#]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="xyPrice2">
+		<![CDATA[ZC_MER_M_PRICE <= #xyPrice2#]]>
+		</isNotEmpty>
+		<iterate prepend="order by" property="orders" conjunction=",">
+			$orders[]$
+		</iterate>
+		<include refid="ZcBMerchandise.page_end" />
+	</select>
+
+	<select id="getZcMerPicID" resultMap="ZcBMerPicResult"		
+		parameterClass="string">
+		select * from zc_mer_pic where ZC_MER_CODE = #zcMerCode#
+	</select>
+	
+	<select id="getMerchandiseBySupplier" resultMap="ZcBMerchandiseResult"		
+		parameterClass="Map">
+		<include refid="ZcBMerchandise.page_start" />
+		 select 
+		  		
+				mer.ZC_MER_CODE,
+                mer.ZC_MER_NAME,
+                mer.ZC_CATALOGUE_CODE,
+                (select distinct ZC_CATALOGUE_NAME from ZC_B_CATALOGUE where ZC_B_CATALOGUE.ZC_CATALOGUE_CODE = mer.ZC_CATALOGUE_CODE and ZC_B_CATALOGUE.ZC_YEAR = mer.ZC_CATALOGUE_YEAR ) as ZC_CATALOGUE_NAME,
+                mer.ZC_BRA_CODE,
+                mer.ZC_BRA_NAME,
+                mer.ZC_MER_COLLOCATE,
+                mer.ZC_MER_SPEC,
+                mer.ZC_MER_TAX,
+                mer.ZC_MER_M_PRICE,
+                case when nvl(ZC_MER_TAX,0) > 0 then round(((ZC_MER_TAX-ZC_MER_M_PRICE)/ZC_MER_TAX)*100,2) else 0 end as ZC_YHL,
+                null as ZC_CJSL,
+                ZC_MER_PIC_BLOBID,                                ZC_MER_STATUS
+         from ZC_B_MERCHANDISE mer,
+               Zc_b_Mer_Price   price,
+               ZC_B_SUPPLIER    sup
+         where mer.zc_mer_code = price.zc_mer_code
+           and sup.zc_su_code = price.zc_su_code
+           and price.zc_su_code =  #SuppliersCode# 
+		
+		<include refid="ZcBMerchandise.page_end" />
+	</select>
+	
+	<insert id="addMerchandise" parameterClass="com.ufgov.zc.common.zc.model.ZcBMerchandise">
+	<![CDATA[
+		insert into zc_b_merchandise_web( 
+		ZC_MER_CODE,
+		ZC_MER_NAME,
+		ZC_PROJ_ID,
+		ZC_MER_STATUS,
+		ZC_MER_COLLOCATE,
+		ZC_MER_SPEC,
+		ZC_CATALOGUE_CODE,		ZC_CATALOGUE_YEAR,
+		ZC_BRA_CODE,
+		ZC_BRA_NAME,
+		ZC_MER_M_PRICE,
+		ZC_MER_TAX,
+		ZC_MER_PIC_BLOBID,
+		ZC_REMARK,
+		ZC_MER_IS_LSHB) values (
+		#zcMerCode#,
+		#zcMerName#,
+		#zcProjId#, 
+		#zcMerStatus#,
+		#zcMerCollocate#,
+		#zcMerSpec#,
+		#zcCatalogueCode#,		#zcCatalogueYear#,
+		#zcBraCode#,
+		#zcBraName#,
+		#zcMerMPrice#,
+		#zcMerTax#,
+		#zcMerPicBlobid#,
+		#zcRemark#,
+		#zcMerIsLshb#) 
+	]]>
+	</insert>
+	
+	<insert id="addMerchandisePrice" parameterClass="com.ufgov.zc.common.zc.model.ZcBMerPrice">
+	<![CDATA[
+		insert into zc_b_mer_price_web( ZC_MER_CODE,ZC_BRA_CODE,ZC_PROJ_ID ,ZC_SU_CODE,ZC_MER_CG_PRICE) values (
+		#ZC_MER_CODE#,
+		#ZC_BRA_CODE#,
+		20110605,
+		#ZC_SU_CODE#,
+		#ZC_MER_CG_PRICE#
+		) 
+	]]>
+	</insert>
+	<select id="getMerchandise2" resultMap="ZcBMerchandiseResult"		
+		parameterClass="elementCondition">
+		<include refid="ZcBMerchandise.mainSelect" />
+		<include refid="ZcBMerchandise.parameterElementConditionDto" />
+		order by ZC_MER_NAME,ZC_MER_M_PRICE
+	</select>
+
+	<select id="getMerchandiseForBaoJia" resultMap="ZcBMerchandiseResult"		
+		parameterClass="elementCondition">
+
+		select
+		m.ZC_MER_CODE,
+		m.ZC_MER_NAME,
+		m.ZC_CATALOGUE_CODE,
+		(select distinct ZC_CATALOGUE_NAME from ZC_B_CATALOGUE where
+		ZC_B_CATALOGUE.ZC_CATALOGUE_CODE = m.ZC_CATALOGUE_CODE
+		and ZC_B_CATALOGUE.ZC_YEAR = m.ZC_CATALOGUE_YEAR ) as
+		ZC_CATALOGUE_NAME,
+		m.ZC_BRA_CODE,
+		m.ZC_BRA_NAME,
+		m.ZC_MER_COLLOCATE,
+		m.ZC_MER_SPEC,
+		m.ZC_MER_TAX,
+		m.ZC_MER_M_PRICE,
+		case when nvl(m.ZC_MER_TAX,0) > 0 then
+		round(((m.ZC_MER_TAX-ZC_MER_M_PRICE)/m.ZC_MER_TAX)*100,2) else 0 end
+		as
+		ZC_YHL,
+		null as ZC_CJSL,
+		m.ZC_MER_PIC_BLOBID,				m.ZC_MER_STATUS
+		from
+		ZC_B_MERCHANDISE m,zc_b_mer_price p
+		where
+		m.zc_mer_code=p.zc_mer_code
+
+		<isNotEmpty prepend="and" property="zcText0">
+			m.ZC_MER_STATUS = #zcText0#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="zcText1">
+			m.ZC_CATALOGUE_CODE = #zcText1#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="zcText2">
+			m.ZC_BRA_CODE = #zcText2#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="zcText3">
+			p.ZC_SU_CODE = #zcText3#
+		</isNotEmpty>
+		order by m.ZC_MER_NAME,m.ZC_MER_M_PRICE
+	</select>
+	<select id="getMerchandiseCount" resultClass="java.lang.Integer"		
+		parameterClass="Map">
+	<![CDATA[
+		 select
+				count(*) as COUNT_NUM
+		   from
+				ZC_B_MERCHANDISE
+	]]>
+		<include refid="ZcBMerchandise.parameter" />
+	</select>
+	
+	<select id="getMerchandiseCountWebBySupplier" resultClass="java.lang.Integer"		
+		parameterClass="Map">
+	 select 
+	 		count(*)
+  	 from zc_b_merchandise_web
+ 	 where 
+ 	 		zc_bra_code in
+       		(select zc_bra_code from zc_zb_pinp a where a.zc_su_code = #SuppliersCode#)
+		<isNotEmpty prepend="and" property="keyWords">
+			(
+			ZC_MER_NAME like '%'||#keyWords#||'%' or
+			ZC_MER_SPEC like '%'||#keyWords#||'%' or
+			ZC_BRA_NAME like '%'||#keyWords#||'%'
+			)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="youhl1">
+		<![CDATA[(case when nvl(ZC_MER_TAX,0) > 0 then round(((ZC_MER_TAX-ZC_MER_M_PRICE)/ZC_MER_TAX)*100,2) else 0 end) >= #youhl1#]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="youhl2">
+		<![CDATA[(case when nvl(ZC_MER_TAX,0) > 0 then round(((ZC_MER_TAX-ZC_MER_M_PRICE)/ZC_MER_TAX)*100,2) else 0 end) <= #youhl2#]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="xyPrice1">
+		<![CDATA[ZC_MER_M_PRICE >= #xyPrice1#]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="xyPrice2">
+		<![CDATA[ZC_MER_M_PRICE <= #xyPrice2#]]>
+		</isNotEmpty>
+	</select>
+	
+	<select id="getSuplyGoodsCount" resultClass="java.lang.Integer"		
+		parameterClass="Map">
+	<![CDATA[
+		  select count(*)
+				from ZC_B_MERCHANDISE mer,
+					 Zc_b_Mer_Price   price,
+					 ZC_B_SUPPLIER    sup
+			   where mer.zc_mer_code = price.zc_mer_code
+				 and sup.zc_su_code = price.zc_su_code
+				 and price.zc_su_code = #SuppliersCode#
+	]]>
+	</select>
+	<select id="getMerchandiseInfo" resultMap="ZcBMerchandiseResult"		
+		parameterClass="String">
+		  select                                                                                                                                       ZC_MER_CODE,                                                                                                                                         ZC_MER_NAME,                                                                                            ZC_SUP_MER_CODE,                                                                                     ZC_CATALOGUE_CODE,                                                                                                                                   (select distinct ZC_CATALOGUE_NAME from ZC_B_CATALOGUE where                                                                                         ZC_B_CATALOGUE.ZC_CATALOGUE_CODE = ZC_B_MERCHANDISE.ZC_CATALOGUE_CODE                                                                                         and ZC_B_CATALOGUE.ZC_YEAR = ZC_B_MERCHANDISE.ZC_CATALOGUE_YEAR )  ZC_CATALOGUE_NAME,                                                                                                                                   ZC_BRA_CODE,                                                                                                                                         ZC_BRA_NAME,                                                                                                                                         ZC_MER_COLLOCATE,                                                                                                                                    ZC_MER_SPEC,                                                                                                                                         ZC_MER_TAX,                                                                                                                                          ZC_YEAR,                                                     	           	                                                                         ZC_MER_M_PRICE,                                                                                                                                     ZC_MER_UNIT,                                                                                                                                        case when nvl(ZC_MER_TAX,0) > 0 then                                                                                                                round(((ZC_MER_TAX-ZC_MER_M_PRICE)/ZC_MER_TAX)*100,2) else 0  end as                                                                                      ZC_YHL,                                                                                                                                             null as ZC_CJSL,                                                                                                                                    ZC_MER_PIC_BLOBID,                                                                                                                                  ZC_REMARK,                                                                                                                                           ZC_PROJ_ID,                               (select distinct ZC_SPPC_NA from ZC_XYGH_SPPC where ZC_XYGH_SPPC.ZC_SPPC_ID = ZC_B_MERCHANDISE.ZC_PROJ_ID )  ZC_PROJ_NAME,                                                                                                                                     ZC_IS_JNJS,                                                                                                                                         ZC_IS_SHARED,                                                                                                                                 ZC_MER_IS_ZZCX,                                                                                                                                   ZC_MER_IS_LSHB,                                                                                                                             	   ZC_DIYU_DAIMA,                     	       	   (select distinct ZC_DIYU_NAME from ZC_DIYU_CTG where ZC_DIYU_CTG.ZC_DIYU_DAIMA = ZC_B_MERCHANDISE.ZC_DIYU_DAIMA )  ZC_DIYU_NAME,                                    	                                                                      	   ZC_CG_LEIXING,                                                                                                                                   ZC_MER_IS_ATTACH,                                                                                                                                 ZC_MER_PIC,                                                                                                                                       ZC_SUP_PROJ_ID,                                                                                                                                   ZC_MD_TYPE,                                                                                                                                       ZC_CATALOGUE_YEAR,                      ZC_MER_STATUS                                                                                                                       from                                                                                                                                          ZC_B_MERCHANDISE                                                                                                                        where                                                                                                                                        ZC_MER_CODE = #value#        
+	</select>
+
+	<select id="getMerchandiseInfoWeb" resultMap="ZcBMerchandiseResult"		
+		parameterClass="string">
+		select
+		ZC_MER_CODE,
+		ZC_MER_NAME,
+		ZC_CATALOGUE_CODE,
+		(select distinct ZC_CATALOGUE_NAME from ZC_B_CATALOGUE where
+		ZC_B_CATALOGUE.ZC_CATALOGUE_CODE = zc_b_merchandise_web.ZC_CATALOGUE_CODE
+		and ZC_B_CATALOGUE.ZC_YEAR = zc_b_merchandise_web.ZC_CATALOGUE_YEAR ) as
+		ZC_CATALOGUE_NAME,
+		ZC_BRA_CODE,
+		ZC_BRA_NAME,
+		ZC_MER_COLLOCATE,
+		ZC_MER_SPEC,
+		ZC_MER_TAX,
+		ZC_YEAR,
+		ZC_MER_M_PRICE,
+		ZC_MER_UNIT,
+		case when nvl(ZC_MER_TAX,0) > 0 then
+		round(((ZC_MER_TAX-ZC_MER_M_PRICE)/ZC_MER_TAX)*100,2) else 0 end as
+		ZC_YHL,
+		null as ZC_CJSL,
+		ZC_MER_PIC_BLOBID,
+		ZC_REMARK,
+		ZC_PROJ_ID,        (select distinct ZC_SPPC_NA from ZC_XYGH_SPPC where ZC_XYGH_SPPC.ZC_SPPC_ID = ZC_B_MERCHANDISE.ZC_PROJ_ID )  ZC_PROJ_NAME, 
+		ZC_IS_JNJS,
+		ZC_IS_SHARED,
+		ZC_MER_IS_ZZCX,
+		ZC_MER_IS_LSHB,
+		ZC_DIYU_DAIMA,				(select distinct ZC_DIYU_NAME from ZC_DIYU_CTG where ZC_DIYU_CTG.ZC_DIYU_DAIMA = ZC_B_MERCHANDISE.ZC_DIYU_DAIMA )  ZC_DIYU_NAME, 				ZC_CG_LEIXING,                              ZC_MER_IS_ATTACH,                           ZC_MER_PIC,                                 ZC_SUP_PROJ_ID,                             ZC_MD_TYPE,                                 ZC_CATALOGUE_YEAR		
+		from
+		zc_b_merchandise_web
+		where
+		ZC_MER_CODE = #zcMerCode#
+	</select>
+
+	<insert id="addMerchandiseNW" parameterClass="com.ufgov.zc.common.zc.model.ZcBMerchandise">
+	<![CDATA[
+		insert into zc_b_merchandise( 
+		ZC_MER_CODE,
+		ZC_MER_NAME,
+		ZC_PROJ_ID,
+		ZC_MER_STATUS,
+		ZC_YEAR,
+		ZC_CATALOGUE_YEAR,
+		ZC_MER_COLLOCATE,
+		ZC_MER_UNIT,
+		ZC_MER_SPEC,
+		ZC_CATALOGUE_CODE,
+		ZC_BRA_CODE,
+		ZC_BRA_NAME,
+		ZC_MER_M_PRICE,
+		ZC_MER_TAX,
+		ZC_DIYU_DAIMA,
+		ZC_MD_TYPE,
+		ZC_MER_PIC_BLOBID,
+		ZC_REMARK,
+		ZC_IS_JNJS,
+		ZC_IS_SHARED,
+		ZC_MER_IS_ZZCX,
+		ZC_MER_IS_LSHB) values (
+		#zcMerCode#,
+		#zcMerName#,
+		#zcProjId#,
+		#zcMerStatus#,
+		#zcYear#,
+		#zcCatalogueYear#,
+		#zcMerCollocate#,
+		#zcMerUnit#,
+		#zcMerSpec#,
+		#zcCatalogueCode#,
+		#zcBraCode#,
+		#zcBraName#,
+		#zcMerMPrice#,
+		#zcMerTax#,
+		#zcDiyuDaima#,
+		#zcMdType#,
+		#zcMerPicBlobid#,
+		#zcRemark#,
+		#zcIsJnjs#,
+		#zcIsShared#,
+		#zcMerIsZzcx#,
+		#zcMerIsLshb#) 
+	]]>
+	</insert>
+	<update id="updateMerchandiseWW" parameterClass="com.ufgov.zc.common.zc.model.ZcBMerchandise">	<![CDATA[		update zc_b_merchandise_web 			set ZC_MER_NAME = #zcMerName#,				ZC_PROJ_ID = #zcProjId#,				ZC_MER_STATUS = #zcMerStatus#,				ZC_YEAR = #zcYear#,				ZC_CATALOGUE_YEAR = #zcCatalogueYear#,				ZC_MER_COLLOCATE = #zcMerCollocate#,				ZC_MER_UNIT = #zcMerUnit#,				ZC_MER_SPEC = #zcMerSpec#,				ZC_CATALOGUE_CODE = #zcCatalogueCode#,				ZC_BRA_CODE = #zcBraCode#,				ZC_BRA_NAME = #zcBraName#,				ZC_MER_M_PRICE = #zcMerMPrice#,				ZC_MER_TAX = #zcMerTax#,				ZC_DIYU_DAIMA = #zcDiyuDaima#,				ZC_MD_TYPE = #zcMdType#,				ZC_MER_PIC_BLOBID = #zcMerPicBlobid#,				ZC_REMARK = #zcRemark#,				ZC_IS_JNJS = #zcIsJnjs#,				ZC_IS_SHARED = #zcIsShared#,				ZC_MER_IS_ZZCX = #zcMerIsZzcx#,				ZC_MER_IS_LSHB = #zcMerIsLshb#		where ZC_MER_CODE = #zcMerCode#	]]>	</update>
+	<update id="updateMerchandiseNW" parameterClass="com.ufgov.zc.common.zc.model.ZcBMerchandise">
+	<![CDATA[
+		update zc_b_merchandise 
+			set ZC_MER_NAME = #zcMerName#,
+				ZC_PROJ_ID = #zcProjId#,
+				ZC_MER_STATUS = #zcMerStatus#,
+				ZC_YEAR = #zcYear#,
+				ZC_CATALOGUE_YEAR = #zcCatalogueYear#,
+				ZC_MER_COLLOCATE = #zcMerCollocate#,
+				ZC_MER_UNIT = #zcMerUnit#,
+				ZC_MER_SPEC = #zcMerSpec#,
+				ZC_CATALOGUE_CODE = #zcCatalogueCode#,
+				ZC_BRA_CODE = #zcBraCode#,
+				ZC_BRA_NAME = #zcBraName#,
+				ZC_MER_M_PRICE = #zcMerMPrice#,
+				ZC_MER_TAX = #zcMerTax#,
+				ZC_DIYU_DAIMA = #zcDiyuDaima#,
+				ZC_MD_TYPE = #zcMdType#,
+				ZC_MER_PIC_BLOBID = #zcMerPicBlobid#,
+				ZC_REMARK = #zcRemark#,
+				ZC_IS_JNJS = #zcIsJnjs#,
+				ZC_IS_SHARED = #zcIsShared#,
+				ZC_MER_IS_ZZCX = #zcMerIsZzcx#,
+				ZC_MER_IS_LSHB = #zcMerIsLshb#
+		where ZC_MER_CODE = #zcMerCode#
+	]]>
+	</update>
+	
+	<insert id="addZcMerCataPropNW" parameterClass="com.ufgov.zc.common.zc.model.ZcBMerCatalogueProp">
+	<![CDATA[
+		insert into ZC_MER_CATALOGUE_PROP( 
+		ZC_MER_CODE,
+		ZC_CATALOGUE_CODE,
+		ZC_CATA_PROP_EN_NAME,
+		ZC_CATA_PROP_VALUE,
+		ZC_CATA_PROP_ORDER) values (
+		#zcMerCode#,
+		#zcCatalogueCode#,
+		#zcCataPropEnName#,
+		#zcCataPropValue#,
+		#zcCataPropOrder#) 
+	]]>
+	</insert>
+
+	<insert id="updateZcMerCataPropNW" parameterClass="com.ufgov.zc.common.zc.model.ZcBMerCatalogueProp">
+	<![CDATA[
+		update ZC_MER_CATALOGUE_PROP
+			set ZC_CATA_PROP_VALUE = #zcCataPropValue#
+		where ZC_MER_CODE = #zcMerCode#
+	]]>
+	</insert>
+	
+	<delete id="deleteMerchandiseByZcMakeCode" parameterClass="string" >
+		delete from zc_b_merchandise_web
+		where ZC_MER_CODE = #zcMerCode#
+	</delete>		<delete id="deleteMerchandise" parameterClass="com.ufgov.zc.common.zc.model.ZcBMerchandise">		delete from ZC_B_MERCHANDISE t		<dynamic prepend="WHERE">			<isNotNull prepend="AND" property="zcMerCode">				t.ZC_MER_CODE = #zcMerCode#			</isNotNull>			<isNotNull prepend="AND" property="zcBraCode">				t.ZC_BRA_CODE = #zcBraCode#			</isNotNull>			<isNotNull prepend="AND" property="zcProjId">				t.ZC_PROJ_ID = #zcProjId#			</isNotNull>		</dynamic>	</delete>
+	
+	<insert id="addZcMerPic" parameterClass="com.ufgov.zc.common.zc.model.ZcBMerPic">
+	<![CDATA[
+		insert into zc_mer_pic( 
+		ZC_MER_CODE,
+		ZC_PIC_ID) values (
+		#zcMerCode#,
+		#zcPicID#) 
+	]]>
+	</insert>
+	<delete id="deleteZcMerPicByMerCode" parameterClass="string">
+	<![CDATA[
+		delete from zc_mer_pic
+		where ZC_MER_CODE = #zcMerCode#
+	]]>
+	</delete>
+	
+	<delete id="deleteZcMerPicByMerCodeAndImgID" parameterClass="Map">
+	<![CDATA[
+		delete from zc_mer_pic
+		where ZC_MER_CODE = #zcMerCode# and ZC_PIC_ID = #imageId#
+	]]>
+	</delete>		<select id="getMerchandiseList" resultMap="ZcBMerchandiseResult"				parameterClass="elementCondition">		<include refid="ZcBMerchandise.mainSelect" />		<dynamic prepend="WHERE">			<isNotNull prepend="AND" property="status">				<isEqual property="status" compareValue="draft">					ZC_B_MERCHANDISE.ZC_MER_STATUS='0'				</isEqual>				<isEqual property="status" compareValue="enable">					ZC_B_MERCHANDISE.ZC_MER_STATUS='exec'				</isEqual>				<isEqual property="status" compareValue="unable">					ZC_B_MERCHANDISE.ZC_MER_STATUS='suspended'				</isEqual>				<isEqual property="status" compareValue="cancel">					ZC_B_MERCHANDISE.ZC_MER_STATUS='cancel'				</isEqual>								<isEqual property="status" compareValue="all">					1=1				</isEqual>			</isNotNull>			<isNotNull prepend="AND" property="zcText0">			    (ZC_B_MERCHANDISE.ZC_MER_CODE LIKE '%'||#zcText0:VARCHAR#||'%' 			 or ZC_B_MERCHANDISE.ZC_MER_NAME LIKE '%'||#zcText0:VARCHAR#||'%') 			</isNotNull>			<isNotNull prepend="AND" property="zcText1">			    ZC_B_MERCHANDISE.ZC_BRA_CODE = #zcText1:VARCHAR#			</isNotNull>			<include refid="BusiNumLim.BusiNumLimStr" />		</dynamic>			ORDER BY ZC_B_MERCHANDISE.ZC_MER_CODE	</select>
+</sqlMap>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.ufgov.zc.server.sf.dao.SfXysxMapper" >
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+  <resultMap id="BaseResultMap" class="com.ufgov.zc.common.sf.model.SfXysx" > 
+    <result column="ENTRUST_ID" property="entrustId" jdbcType="DECIMAL" />
+    <result column="INPUT_CONTENT" property="inputContent" jdbcType="CLOB"  typeHandler="org.springframework.orm.ibatis.support.ClobStringTypeHandler"/>
+    <result column="XYSX_TYPE_ID" property="xysxTypeId" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" > 
+    ENTRUST_ID, XYSX_TYPE_ID, INPUT_CONTENT
+  </sql>
+  <!-- 获取协议事项，如果第一次读取，entrustId为null，则获取空的列表，用于用户填写 -->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="java.math.BigDecimal" > 
+    select 
+   	ENTRUST_ID, XYSX_TYPE_ID, INPUT_CONTENT
+    from SF_XYSX 
+    where 
+    	ENTRUST_ID = #value:DECIMAL# 
+    order by XYSX_TYPE_ID
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="java.math.BigDecimal" > 
+    delete from SF_XYSX
+    where ENTRUST_ID = #entrustId:DECIMAL#
+  </delete>
+  <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfXysx" > 
+    insert into SF_XYSX (ENTRUST_ID, XYSX_TYPE_ID, INPUT_CONTENT
+      )
+    values (#entrustId:DECIMAL#, #xysxTypeId:DECIMAL#, #inputContent,handler=org.springframework.orm.ibatis.support.ClobStringTypeHandler#
+      )
+  </insert>
+</sqlMap>

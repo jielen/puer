@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ZcSuppleMentBi">
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<typeAlias alias="ZcSuppleMentBi"
+		type="com.ufgov.zc.common.zc.model.ZcSuppleMentBi" />
+	<resultMap class="ZcSuppleMentBi" id="zcSuppleMentBiResult">
+		<result column="ZC_MAKE_BI_NO" jdbcType="VARCHAR" property="zcMakeBiNo" />
+		<result column="ZC_MAKE_CODE" jdbcType="VARCHAR" property="zcMakeCode" />
+		<result column="ZC_SUPPLEMENT_BI_NO" jdbcType="VARCHAR"
+			property="zcSuppleMentBiNo" />
+		<result column="ZC_MAKE_SUPPLEMENT_CODE" jdbcType="VARCHAR"
+			property="zcMakeSuppleMentCode" />
+		<result column="ORG_CODE" jdbcType="VARCHAR" property="orgCode" />
+		<result column="ND" jdbcType="VARCHAR" property="nd" />
+		<result column="ZC_ORIGIN_CODE" jdbcType="VARCHAR" property="originCode" />
+		<result column="SENDDOC_CODE" jdbcType="VARCHAR" property="senddocCode" />
+		<result column="ZC_FUND_CODE" jdbcType="VARCHAR" property="fundCode" />
+		<result column="ZC_FUND_FILE" jdbcType="VARCHAR" property="zcFundFile" />
+		<result column="ZC_FUND_FILE_BLOBID" jdbcType="VARCHAR"
+			property="zcFundFileBlobid" />
+		<result column="ZC_FUND_REMARK" jdbcType="VARCHAR" property="zcFundRemark" />
+		<result column="PAYTYPE_CODE" jdbcType="VARCHAR" property="paytypeCode" />
+		<result column="SUPPLEMENT_AMOUNT" jdbcType="DECIMAL" property="suppleMentAmount" />
+		<result column="ZC_BI_JHUA_SUM" jdbcType="DECIMAL" property="zcBiJhuaSum" />
+		<result column="ZC_BI_YJBA_SUM" jdbcType="DECIMAL" property="zcBiYjbaSum" />
+		<result column="ZC_BI_SUM" jdbcType="DECIMAL" property="zcBiSum" />
+	</resultMap>
+	<select id="selectZcSuppleMentBiList" resultMap="zcSuppleMentBiResult"
+		parameterClass="String">
+
+		select * from Zc_p_Pro_Make_Supplement_Bi
+		WHERE
+		ZC_MAKE_SUPPLEMENT_CODE=#zcMakeSuppleMentCode:VARCHAR#
+	</select>
+
+	<insert id="insertZcSuppleMentBi" parameterClass="ZcSuppleMentBi">
+
+		insert into Zc_p_Pro_Make_Supplement_Bi
+		<dynamic prepend="(">
+
+			<isNotNull prepend="," property="zcMakeBiNo">
+				ZC_MAKE_BI_NO
+      		</isNotNull>
+			<isNotNull prepend="," property="zcSuppleMentBiNo">
+				ZC_SUPPLEMENT_BI_NO
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeSuppleMentCode">
+				ZC_MAKE_SUPPLEMENT_CODE
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeCode">
+				ZC_MAKE_CODE
+      		</isNotNull>
+			<isNotNull prepend="," property="originCode">
+				ZC_ORIGIN_CODE
+      		</isNotNull>
+			<isNotNull prepend="," property="originCode">
+				ORG_CODE
+      		</isNotNull>
+			<isNotNull prepend="," property="nd">
+				ND
+      		</isNotNull>
+			<isNotNull prepend="," property="senddocCode">
+				SENDDOC_CODE
+      		</isNotNull>
+			<isNotNull prepend="," property="fundCode">
+				ZC_FUND_CODE
+      		</isNotNull>
+			<isNotNull prepend="," property="zcFundFile">
+				ZC_FUND_FILE
+      		</isNotNull>
+			<isNotNull prepend="," property="zcFundFileBlobid">
+				ZC_FUND_FILE_BLOBID
+			</isNotNull>
+			<isNotNull prepend="," property="zcFundRemark">
+				ZC_FUND_REMARK
+      		</isNotNull>
+			<isNotNull prepend="," property="paytypeCode">
+				PAYTYPE_CODE
+      		</isNotNull>
+			<isNotNull prepend="," property="suppleMentAmount">
+				SUPPLEMENT_AMOUNT
+			</isNotNull>
+			<isNotNull prepend="," property="zcBiJhuaSum">
+				ZC_BI_JHUA_SUM
+      		</isNotNull>
+			<isNotNull prepend="," property="zcBiSum">
+				ZC_BI_SUM
+      		</isNotNull>
+			<isNotNull prepend="," property="zcBiYjbaSum">
+				ZC_BI_YJBA_SUM
+            </isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+
+			<isNotNull prepend="," property="zcMakeBiNo">
+				#zcMakeBiNo:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcSuppleMentBiNo">
+				#zcSuppleMentBiNo:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeSuppleMentCode">
+				#zcMakeSuppleMentCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeCode">
+				#zcMakeCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="originCode">
+				#originCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="nd">
+				#nd:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="originCode">
+				#originCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="senddocCode">
+				#senddocCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="fundCode">
+				#fundCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcFundFile">
+				#zcFundFile:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcFundFileBlobid">
+				#zcFundFileBlobid:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcFundRemark">
+				#zcFundRemark:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="paytypeCode">
+				#paytypeCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="suppleMentAmount">
+				#suppleMentAmount:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="zcBiJhuaSum">
+				#zcBiJhuaSum:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="zcBiYjbaSum">
+				#zcBiYjbaSum:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="zcBiSum">
+				#zcBiSum:DECIMAL#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	<update id="updateZcSuppleMent" parameterClass="String">
+		update Zc_p_Pro_Make_Supplement_Bi
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="zcMakeBiNo">
+				ZC_MAKE_BI_NO=#zcMakeBiNo:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeCode">
+				ZC_MAKE_CODE=#zcMakeCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcMakeSuppleMentCode">
+				ZC_MAKE_SUPPLEMENT_CODE=#zcMakeSuppleMentCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="originCode">
+				ORG_CODE=#originCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="nd">
+				ND=#nd:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="originCode">
+				ZC_ORIGIN_CODE=#originCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="senddocCode">
+				SENDDOC_CODE=#senddocCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="fundCode">
+				FUND_CODE=#fundCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcFundFile">
+				ZC_FUND_FILE=#zcFundFile:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcFundFileBlobid">
+				ZC_FUND_FILE_BLOBID=#zcFundFileBlobid:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcFundRemark">
+				ZC_FUND_REMARK=#zcFundRemark:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="paytypeCode">
+				PAYTYPE_CODE=#paytypeCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="suppleMentAmount">
+				SUPPLEMENT_AMOUNT=#suppleMentAmount:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="zcBiJhuaSum">
+				ZC_BI_JHUA_SUM=#zcBiJhuaSum:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="zcBiYjbaSum">
+				ZC_BI_YJBA_SUM=#zcBiYjbaSum:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="zcBiSum">
+				ZC_BI_SUM=#zcBiSum:DECIMAL#
+			</isNotNull>
+		</dynamic>
+		WHERE ZC_SUPPLEMENT_BI_NO=#zcSuppleMentBiNo:VARCHAR#
+	</update>
+	<delete id="deleteZcSuppleMentByBiNo" parameterClass="String">
+		delete from
+		Zc_p_Pro_Make_Supplement_Bi
+		WHERE
+		ZC_MAKE_SUPPLEMENT_CODE=#zcMakeSuppleMentCode:VARCHAR#
+    </delete>
+	<!-- 获得某一资金构成已经追加的金额 -->
+	<select id="getSumZcSuppleMentBiSum" resultClass="java.math.BigDecimal"
+		parameterClass="Map">
+		SELECT sum(SUPPLEMENT_AMOUNT)
+		FROM
+		Zc_p_Pro_Make_Supplement_Bi
+		WHERE
+		ZC_MAKE_BI_NO=#zcMakeBiNo:VARCHAR#
+		AND
+		ZC_MAKE_CODE=#zcMakeCode:VARCHAR#
+	</select>
+
+</sqlMap>

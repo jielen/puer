@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+
+
+<!DOCTYPE sqlMap      
+
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="consoleChart">
+
+	<select id="getProCodeByMakeCode" resultClass="string"
+		parameterClass="string">
+		select pa.proj_code from zc_eb_pack pa,zc_eb_entrust en
+		where pa.entrust_code = en.sn
+		and en.zc_make_code = #value#
+		and rownum =
+		1
+	</select>
+
+	<select id="getMakeCodeByProCode" resultClass="string"
+		parameterClass="string">
+		select en.zc_make_code from zc_eb_pack pa,zc_eb_entrust
+		en
+		where pa.entrust_code = en.sn
+		and pa.proj_code = #value#
+		and rownum =
+		1
+	</select>
+
+	<select id="getEntrustCodeByProCode" resultClass="string"
+		parameterClass="string">
+
+		select en.sn_code from zc_eb_pack pa,zc_eb_entrust en
+
+		where pa.entrust_code = en.sn
+
+		and pa.proj_code = #value#
+
+		and rownum = 1
+
+	</select>
+
+	<select id="getEntrustCodeByMakeCode" resultClass="string"
+		parameterClass="string">
+
+		select en.sn_code from zc_eb_entrust en
+		where
+		en.zc_make_code = #value#
+		and rownum = 1
+
+	</select>
+
+	<select id="countBaoZhengJinByProjCode" resultClass="Integer"
+		parameterClass="string">
+		select count(*) cnt from zc_eb_signup si where
+		si.proj_code = #value# and
+		si.GUARANTEE_SUM is not null and
+		si.GUARANTEE_SUM > 0
+	</select>
+
+	<select id="countBidReportByProjCode" resultClass="Integer"
+		parameterClass="string">
+		select count(*) cnt from zc_eb_bulletin bu where
+		bu.PROJ_CODE = #value#
+		and bu.bulletin_type = 'B'
+	</select>
+
+	<select id="countCommentBidByProjCode" resultClass="Integer"
+		parameterClass="string">
+	    SELECT count(*) FROM V_ZC_EB_EXPERT E 
+	    WHERE 1 = 1
+		AND E.PROJ_CODE= #value#
+		GROUP BY E.PROJ_CODE ORDER BY E.PROJ_CODE DESC 
+	</select>
+	<select id="countContractByProjCode" resultClass="Integer"
+		parameterClass="string">
+		select count(*) cnt from zc_xmcg_ht Ht where
+		ht.ZC_MAKE_CODE = #value#
+	</select>
+
+	<select id="countEvalReportByProjCode" resultClass="Integer"
+		parameterClass="string">
+		select count(*) cnt from zc_eb_eval_report rep where
+		rep.proj_code = #value#
+	</select>
+
+	<select id="countGuiDangByProjCode" resultClass="Integer"
+		parameterClass="string">
+		select count(*) cnt from zc_eb_guidang_bill gd where
+		gd.proj_code = #value#
+	</select>
+
+	<select id="countJunGongByProjCode" resultClass="Integer"
+		parameterClass="string">
+		select count(*) cnt from zc_eb_pro_completion co where
+		co.pro_code = #value#
+	</select>
+
+	<select id="countOpenBidByProjCode" resultClass="Integer"
+		parameterClass="string">
+		select count(*) cnt from zc_eb_signup_pack
+		sp,zc_eb_pack pa
+		where sp.pack_code = pa.pack_code and pa.proj_code =
+		#value# and
+		sp.OPEN_BID_STATUS in (1,2)
+
+	</select>
+
+	<select id="countPiBanDanByMakeCode" resultClass="Integer"
+		parameterClass="string">
+		select count(*) cnt from zc_eb_duty_audit_sheet
+		sh,zc_eb_entrust en where
+		sh.sn = en.sn and en.zc_make_code = #value#
+	</select>
+
+	<select id="countProjArgueByMakeCode" resultClass="Integer"
+		parameterClass="string">
+		select count(*) cnt from zc_eb_pro_argue arg where
+		arg.pro_code = #value#
+	</select>
+
+	<select id="countProjectByMakeCode" resultClass="Integer"
+		parameterClass="string">
+		select count(*) from zc_eb_proj pr
+		where pr.proj_code =
+		#value#
+	</select>
+
+	<select id="countProtocalByMakeCode" resultClass="Integer"
+		parameterClass="string">
+		select count(*) cnt from zc_eb_protocol prt where
+		prt.PROT_CODE = #value#
+	</select>
+	<select id="countReqByMakeCode" resultClass="Integer"
+		parameterClass="string"> select count(*) cnt from Zc_Eb_Requirement req,
+		zc_eb_entrust en where en.sn = req.sn and en.zc_make_code = #value#
+	</select>
+	<select id="countBulletinOpnByMakeCode" resultClass="Integer"
+		parameterClass="string">
+		select count(*) cnt from ZC_EB_BULLETIN bulletin where
+		bulletin.proj_code =
+		#value# and bulletin.bulletin_type = 'O'
+	</select>
+	<select id="countBulletinChgByProjCode" resultClass="Integer"
+		parameterClass="string">
+		select count(*) cnt from ZC_EB_BULLETIN bulletin where
+		bulletin.proj_code =
+		#value# and bulletin.bulletin_type = 'C'
+	</select>
+	<select id="countBulletinDlyByProjCode" resultClass="Integer"
+		parameterClass="string">
+		select count(*) cnt from ZC_EB_BULLETIN bulletin where
+		bulletin.PROJ_CODE =
+		#value# and bulletin.bulletin_type = 'D'
+	</select>
+	<select id="countPurTypeChgByMakeCode" resultClass="Integer"
+		parameterClass="string">
+		select count(*) cnt from Zc_Eb_Proj_Chg chg where
+		chg.PROJ_CODE = #value#
+	</select>
+	<select id="countBulletinWinByProjCode" resultClass="Integer"
+		parameterClass="string">
+		select count(*) cnt from ZC_EB_BULLETIN bulletin where
+		bulletin.PROJ_CODE =
+		#value# and bulletin.bulletin_type = 'W'
+	</select>
+	<select id="countRenWuByMakeCode" resultClass="Integer"
+		parameterClass="string">
+		select count(*) cnt from zc_eb_entrust en where
+		en.zc_make_code = #value#
+	</select>
+	<select id="countBulletinYzbByProjCode" resultClass="Integer"
+		parameterClass="string">
+		select count(*) cnt from ZC_EB_BULLETIN bulletin where
+		bulletin.PROJ_CODE =
+		#value# and bulletin.bulletin_type = 'YZB'
+	</select>
+	<select id="countBulletinCjByProjCode" resultClass="Integer"
+		parameterClass="string">
+		select count(*) cnt from ZC_EB_BULLETIN bulletin where
+		bulletin.PROJ_CODE =
+		#value# and bulletin.bulletin_type = 'W'
+	</select>
+	<select id="countBulletinCgByProjCode" resultClass="Integer"
+		parameterClass="string">
+		select count(*) cnt from ZC_EB_BULLETIN bulletin where
+		bulletin.PROJ_CODE =
+		#value# and bulletin.bulletin_type = 'B'
+	</select>
+	<select id="countBulletinJgByProjCode" resultClass="Integer"
+		parameterClass="string">
+		select count(*) cnt from ZC_EB_BULLETIN bulletin where
+		bulletin.PROJ_CODE =
+		#value# and bulletin.bulletin_type = 'W'
+	</select>
+	<select id="countBulletinXunJiaBidByProjCode" resultClass="Integer"
+		parameterClass="string">
+		select count(*) cnt from ZC_EB_BULLETIN bulletin where
+		bulletin.PROJ_CODE =
+		#value# and bulletin.bulletin_type = 'XB'
+	</select>
+	<select id="countBulletinGsByProjCode" resultClass="Integer"
+		parameterClass="string">
+		select count(*) cnt from ZC_EB_BULLETIN bulletin where
+		bulletin.PROJ_CODE =
+		#value# and bulletin.bulletin_type = 'GS'
+	</select>
+
+	<select id="countSigupByProjCode" resultClass="Integer"
+		parameterClass="string">
+		SELECT count(*) FROM ZC_EB_ENTRUST E,
+		ZC_EB_DUTY_AUDIT_SHEET ST, ZC_EB_PACK PK, ZC_EB_PROJ PJ, (SELECT
+		S.PROJ_CODE, COUNT(S.PROJ_CODE) SUPPORT_CNT FROM ZC_EB_SIGNUP S GROUP
+		BY S.PROJ_CODE) SP WHERE E.SN = PK.ENTRUST_CODE AND E.SN_CODE =
+		ST.SN_CODE AND PK.PROJ_CODE = PJ.PROJ_CODE AND PJ.PROJ_CODE =
+		SP.PROJ_CODE AND PJ.proj_code = #value#
+	</select>
+	<select id="countWinNoticeByProjCode" resultClass="Integer"
+		parameterClass="string">
+		select count(*) cnt from zc_eb_notice nt where
+		nt.PROJ_CODE = #value#
+	</select>
+
+	<select id="countKaiQiBaoJiaByProjCode" resultClass="Integer"
+		parameterClass="string">
+		select count(*) cnt from zc_eb_rfq_pack pa where
+		pa.proj_code = #value#
+	</select>
+
+	<select id="countGysBaoJiaByProjCode" resultClass="Integer"
+		parameterClass="string">
+		select count(*) cnt from zc_eb_xunjia_baojia bj where
+		bj.proj_code = #value#
+	</select>
+
+	<select id="countBulletinZgysByMakeCode" resultClass="Integer"
+		parameterClass="string">
+		select count(*) cnt from ZC_EB_BULLETIN bulletin where
+		bulletin.proj_code =
+		#value# and bulletin.bulletin_type = 'ZGYS'
+	</select>
+
+	<select id="getCgfsByMakeCode" resultClass="string"
+		parameterClass="string">
+		select en.zc_pifu_cgfs from zc_eb_entrust en where
+		en.zc_make_code = #value#
+	</select>
+
+	<select id="getCgfsByProjCode" resultClass="string"
+		parameterClass="string">
+		select pr.pur_type from zc_eb_proj pr where
+		pr.proj_code = #value#
+	</select>
+
+	<select id="getCompoCurrentTaskByUserId" resultClass="HashMap"
+		parameterClass="Map">
+		select distinct ac.compo_id,nvl(ta.gk_send_status,'1')
+		status
+		from
+		wf_current_task ta,
+		wf_instance ins,
+		as_compo ac
+		where
+		ta.instance_id = ins.instance_id and ac.default_wf_template =
+		ins.template_id
+		and ta.executor = #svUserID#
+		and substr(ins.start_time,0,4)=#svNd#
+	</select>
+
+	<select id="getCompoTableById" resultClass="String"
+		parameterClass="string">
+		select master_tab_id from as_compo where compo_id=#value#
+	</select>
+
+	<select id="getCompoCurrentTaskByCompoAndUserId" resultClass="String"
+		parameterClass="Map">	
+select distinct ac.compo_id from wf_current_task ta, wf_instance ins, as_compo ac, $table$ t
+ where  ta.instance_id = ins.instance_id and ac.default_wf_template=ins.template_id
+		and ta.executor =#userId:VARCHAR# and ta.instance_id=t.process_inst_id and ac.compo_id=#compo_id:VARCHAR#
+	</select>
+</sqlMap>

@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ZcebZb">
+	<typeAlias alias="ZcebZb" type="com.ufgov.zc.common.zc.model.ZcebZb" />
+
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+
+	<typeAlias alias="ZcebZbItem" type="com.ufgov.zc.common.zc.model.ZcebZbItem" />
+
+	<resultMap id="ZcebZbResult" class="ZcebZb">
+		<result column="BID_CODE" property="bidCode" jdbcType="VARCHAR" />
+		<result column="MAKE_CODE" property="makeCode" jdbcType="VARCHAR" />
+		<result column="MAKE_NAME" property="makeName" jdbcType="VARCHAR" />
+		<result column="CO_CODE" property="coCode" jdbcType="VARCHAR" />
+		<result column="CO_NAME" property="coName" jdbcType="VARCHAR" />
+		<result column="PROJECT_CODE" property="projectCode" jdbcType="VARCHAR" />
+		<result column="BUY_SUM" property="buySum" jdbcType="DECIMAL" />
+		<result column="SU_CODE" property="suCode" jdbcType="VARCHAR" />
+		<result column="SU_NAME" property="suName" jdbcType="VARCHAR" />
+		<result column="SU_ADDRESS" property="suAddress" jdbcType="VARCHAR" />
+		<result column="SU_TEL" property="suTel" jdbcType="VARCHAR" />
+		<result column="SU_LINKMAN" property="suLinkman" jdbcType="VARCHAR" />
+		<result column="BID_SUM" property="bidSum" jdbcType="DECIMAL" />
+		<result column="BID_NOTICE" property="bidNotice" jdbcType="VARCHAR" />
+		<result column="BID_NOTICE_BLOBID" property="bidNoticeBlobid"
+			jdbcType="VARCHAR" />
+		<result column="BID_CONTENT" property="bidContent" jdbcType="VARCHAR" />
+		<result column="STATUS" property="status" jdbcType="VARCHAR" />
+		<result column="INPUTOR" property="inputor" jdbcType="VARCHAR" />
+		<result column="INPUT_DATE" property="inputDate" jdbcType="DATE" />
+		<result column="PROCESS_INST_ID" property="processInstId"
+			jdbcType="VARCHAR" />
+		<result column="SNW" property="snw" jdbcType="VARCHAR" />
+		<result column="GNW" property="gnw" jdbcType="VARCHAR" />
+		<result column="IS_ZXQY" property="isZxqy" jdbcType="VARCHAR" />
+		<result column="ND" property="nd" jdbcType="DECIMAL" />
+		<result column="PACK_SUM" property="packSum" jdbcType="DECIMAL" />
+		<result column="CHG_BILL_CODE" property="chgBillCode" jdbcType="VARCHAR" />
+		<result column="PUR_TYPE" property="bidType" jdbcType="VARCHAR" />
+		<result column="CHG_PUR_TYPE" property="realBidType" jdbcType="VARCHAR" />
+		<result column="CHG_REASON" property="chgBillName" jdbcType="VARCHAR" />
+		<result column="CHG_BID_SUM" property="chgBidSum" jdbcType="DECIMAL" />
+	</resultMap>
+	<resultMap id="ZcebZbResultPast" class="ZcebZb">
+		<result column="BID_CODE" property="bidCode" jdbcType="VARCHAR" />
+		<result column="SU_CODE" property="suCode" jdbcType="VARCHAR" />
+		<result column="SU_NAME" property="suName" jdbcType="VARCHAR" />
+		<result column="BID_SUM" property="bidSum" jdbcType="DECIMAL" />
+		<result column="BID_CONTENT" property="bidContent" jdbcType="VARCHAR" />
+		<result column="STATUS" property="status" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="ZcebZbItemResult" class="ZcebZbItem">
+		<result column="BID_CODE" property="bidCode" jdbcType="VARCHAR" />
+		<result column="CATALOGUE_CODE" property="catalogueCode"
+			jdbcType="VARCHAR" />
+		<result column="CATALOGUE_NAME" property="catalogueName"
+			jdbcType="VARCHAR" />
+		<result column="SP_NAME" property="spName" jdbcType="VARCHAR" />
+		<result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+		<result column="PRICE" property="price" jdbcType="DECIMAL" />
+		<result column="SUMS" property="sums" jdbcType="DECIMAL" />
+		<result column="SP_SPEC" property="spSpec" jdbcType="VARCHAR" />
+		<result column="IS_JNJS" property="isJnjs" jdbcType="VARCHAR" />
+		<result column="IS_ZZCX" property="isZzcx" jdbcType="VARCHAR" />
+		<result column="IS_LSHB" property="isLshb" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="getZcebZb" resultMap="ZcebZbResult" parameterClass="elementCondition">
+		SELECT ZC_EB_ZB.BID_CODE,
+		ZC_EB_ZB.MAKE_CODE,
+		M.ZC_MAKE_NAME AS MAKE_NAME,
+		M.CO_CODE AS CO_CODE,
+		MC.CO_NAME AS CO_NAME,
+		ZC_EB_ZB.PROJECT_CODE,
+		ZC_EB_ZB.BUY_SUM,
+		S.ZC_SU_CODE AS
+		SU_CODE,
+		S.ZC_SU_NAME AS
+		SU_NAME,
+		S.ZC_SU_ADDR
+		AS SU_ADDRESS,
+		S.ZC_SU_TEL
+		AS SU_TEL,
+		S.ZC_SU_LINKMAN AS SU_LINKMAN,
+		ZC_EB_ZB.BID_SUM,
+		ZC_EB_ZB.BID_NOTICE,
+		ZC_EB_ZB.BID_NOTICE_BLOBID,
+		ZC_EB_ZB.BID_CONTENT,
+		ZC_EB_ZB.STATUS,
+		ZC_EB_ZB.INPUTOR,
+		ZC_EB_ZB.INPUT_DATE,
+		ZC_EB_ZB.PROCESS_INST_ID,
+		ZC_EB_ZB.SNW,
+		ZC_EB_ZB.GNW,
+		ZC_EB_ZB.IS_ZXQY,
+		ZC_EB_ZB.ND,
+		ZC_EB_ZB.PACK_SUM,
+       (SELECT C.PROJ_CODE FROM ZC_EB_PROJ_CHG c WHERE c.proj_code=ZC_EB_ZB.chg_bill_code ) AS CHG_BILL_CODE,
+       (SELECT C.PROJ_SUM FROM ZC_EB_PROJ_CHG c WHERE c.proj_code=ZC_EB_ZB.chg_bill_code ) AS CHG_BID_SUM,
+       (SELECT C.CHANGE_REASON_MEMO FROM ZC_EB_PROJ_CHG c WHERE c.proj_code=ZC_EB_ZB.chg_bill_code ) AS CHG_REASON,
+       (SELECT C.PUR_TYPE FROM ZC_EB_PROJ_CHG c WHERE c.proj_code=ZC_EB_ZB.chg_bill_code) AS CHG_PUR_TYPE,
+		M.ZC_PITEM_OPIWAY AS PUR_TYPE
+		FROM ZC_EB_ZB ZC_EB_ZB
+		,ZC_B_SUPPLIER S
+		,ZC_P_PRO_MAKE M
+		,MA_COMPANY MC
+		
+		WHERE ZC_EB_ZB.SU_CODE=S.ZC_SU_CODE
+		AND
+		ZC_EB_ZB.MAKE_CODE=M.ZC_MAKE_CODE
+		AND M.CO_CODE=MC.CO_CODE
+		AND
+		M.ND=MC.ND
+		<include refid="BusiNumLim.BusiNumLimStr" />		
+		<isNotNull prepend="AND" property="status">
+			<isEqual property="status" compareValue="todo">
+				exists (select instance_id from v_wf_current_task_gk53 where executor =#executor# and instance_id = ZC_EB_ZB.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+			    exists (select instance_id from V_WF_ACTION_HISTORY_GK53 where executor = #executor# and instance_id = ZC_EB_ZB.process_inst_id)
+				and ZC_EB_ZB.STATUS!='cancel'
+				and ZC_EB_ZB.STATUS!='exec'
+			</isEqual>
+			<isEqual property="status" compareValue="exec">
+				(ZC_EB_ZB.STATUS ='exec')
+			</isEqual>
+			<isEqual property="status" compareValue="draft">
+			    exists (select WF_DRAFT_NAME from as_wf_draft where user_id=#executor# and compo_id=#wfcompoId# and WF_DRAFT_ID=ZC_EB_ZB.process_inst_id)
+			    or ZC_EB_ZB.process_inst_id = -1
+			</isEqual>
+			<isEqual property="status" compareValue="all">
+				1=1
+			</isEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="zcText0">
+			ZC_EB_ZB.MAKE_CODE=#zcText0#
+		</isNotNull>
+		<isNotEqual prepend="AND" compareValue="0" property="nd">
+			ZC_EB_ZB.ND=#nd#
+		</isNotEqual>	
+		ORDER BY ZC_EB_ZB.INPUT_DATE DESC 	
+	</select>
+
+	<select id="getZcebZbPast_ProjCode" resultMap="ZcebZbResultPast"
+		parameterClass="elementCondition">
+		SELECT b.BID_CODE,b.BID_CONTENT,b.BID_SUM,b.SU_CODE,b.SU_NAME,b.STATUS
+		FROM ZC_EB_ZB b
+		WHERE 1=1
+		<isNotNull prepend="AND" property="status">
+			b.STATUS=#status#
+		</isNotNull>
+		<isNotNull prepend="AND" property="projectCode">
+			b.MAKE_CODE=#projectCode#
+		</isNotNull>
+	</select>
+
+	<select id="getZcebZbById" resultMap="ZcebZbResult"
+		parameterClass="String">
+		SELECT B.BID_CODE,
+		B.MAKE_CODE,
+		M.ZC_MAKE_NAME AS MAKE_NAME,
+		M.CO_CODE AS CO_CODE,
+		MC.CO_NAME AS CO_NAME,
+		B.PROJECT_CODE,
+		B.BUY_SUM,
+		S.ZC_SU_CODE AS
+		SU_CODE,
+		S.ZC_SU_NAME AS
+		SU_NAME,
+		S.ZC_SU_ADDR AS SU_ADDRESS,
+		S.ZC_SU_TEL
+		AS SU_TEL,
+		S.ZC_SU_LINKMAN AS SU_LINKMAN,
+		B.BID_SUM,
+		B.BID_NOTICE,
+		B.BID_NOTICE_BLOBID,
+		B.BID_CONTENT,
+		B.STATUS,
+		B.INPUTOR,
+		B.INPUT_DATE,
+		B.PROCESS_INST_ID,
+		B.SNW,
+		B.GNW,
+		B.IS_ZXQY,
+		B.ND,
+		B.PACK_SUM,
+		C.PROJ_CODE AS CHG_BILL_CODE,
+		C.PROJ_SUM AS CHG_BID_SUM,
+		C.CHANGE_REASON_MEMO AS CHG_REASON,
+		C.PUR_TYPE AS CHG_PUR_TYPE,
+		M.ZC_PITEM_OPIWAY AS PUR_TYPE
+		FROM ZC_EB_ZB B
+		,ZC_B_SUPPLIER S
+		,ZC_P_PRO_MAKE M
+		,MA_COMPANY MC
+		,ZC_EB_PROJ_CHG C
+		WHERE B.SU_CODE=S.ZC_SU_CODE
+		AND B.MAKE_CODE=M.ZC_MAKE_CODE
+		AND M.CO_CODE=MC.CO_CODE
+		AND M.ND=MC.ND
+		AND B.CHG_BILL_CODE=C.PROJ_CODE(+)
+		and
+		b.bid_code=#VALUE#
+	</select>
+
+	<select id="getZcebZbItem" resultMap="ZcebZbItemResult"
+		parameterClass="String">
+		SELECT i.*,c.zc_catalogue_name AS catalogue_name
+		FROM
+		zc_eb_zb_item i,
+		zc_b_catalogue c,
+		zc_eb_zb z
+		WHERE z.bid_code=i.bid_code
+		and i.catalogue_code=c.zc_catalogue_code(+)
+		AND
+		c.zc_year  = z.nd
+		AND 
+		i.bid_code =#VALUE#
+	</select>
+	<select id="ZcebZbBidSumResult" parameterClass="String"
+		resultClass="java.math.BigDecimal">
+		SELECT SUM(BID_SUM) as BIDSUM
+		FROM ZC_EB_ZB z
+		WHERE
+		z.MAKE_CODE=#VALUE#
+	</select>
+
+	<insert id="insertZcebZb" parameterClass="ZcebZb">
+		insert into ZC_EB_ZB
+		(BID_CODE, MAKE_CODE, PROJECT_CODE, BUY_SUM,
+		SU_CODE, SU_NAME,
+		SU_ADDRESS,
+		SU_TEL, SU_LINKMAN, BID_SUM, BID_NOTICE, BID_NOTICE_BLOBID,
+		BID_CONTENT,
+		STATUS, INPUTOR,
+		INPUT_DATE, PROCESS_INST_ID, SNW, GNW,
+		IS_ZXQY,nd,pack_sum,CHG_BILL_CODE,ZHAOBIAO_TYPE,CO_CODE)
+		values
+		(#bidCode:VARCHAR#, #makeCode:VARCHAR#, #projectCode:VARCHAR#,
+		#buySum:DECIMAL#,
+		#suCode:VARCHAR#, #suName:VARCHAR#,
+		#suAddress:VARCHAR#, #suTel:VARCHAR#,
+		#suLinkman:VARCHAR#,
+		#bidSum:DECIMAL#, #bidNotice:VARCHAR#, #bidNoticeBlobid:VARCHAR#,
+		#bidContent:VARCHAR#,
+		#status:VARCHAR#, #inputor:VARCHAR#,
+		#inputDate:DATE#,
+		#processInstId:VARCHAR#, #snw:VARCHAR#,
+		#gnw:VARCHAR#,
+		#isZxqy:VARCHAR#,#nd:DECIMAL#,#packSum:DECIMAL#,#chgBillCode:VARCHAR#,
+		#zhaobiaoType:varchar#,
+		#coCode:VARCHAR#
+		)
+  </insert>
+	<insert id="insertZcebZbItem" parameterClass="ZcebZbItem">
+		insert into
+		ZC_EB_ZB_ITEM (BID_CODE, CATALOGUE_CODE, SP_NAME, PRICE,
+		SUMS, SP_SPEC,
+		IS_JNJS,
+		IS_ZZCX, IS_LSHB, AMOUNT)
+		values (#bidCode:VARCHAR#,
+		#catalogueCode:VARCHAR#, #spName:VARCHAR#,
+		#price:DECIMAL#,
+		#sums:DECIMAL#, #spSpec:VARCHAR#, #isJnjs:VARCHAR#, #isZzcx:VARCHAR#,
+		#isLshb:VARCHAR#,
+		#amount:LONGVARCHAR#)
+  </insert>
+	<update id="updateZcebZb" parameterClass="ZcebZb">
+		update ZC_EB_ZB
+		set
+		MAKE_CODE = #makeCode:VARCHAR#,
+		PROJECT_CODE = #projectCode:VARCHAR#,
+		BUY_SUM = #buySum:DECIMAL#,
+		SU_CODE = #suCode:VARCHAR#,
+		SU_NAME =
+		#suName:VARCHAR#,
+		SU_ADDRESS = #suAddress:VARCHAR#,
+		SU_TEL =
+		#suTel:VARCHAR#,
+		SU_LINKMAN = #suLinkman:VARCHAR#,
+		BID_SUM =
+		#bidSum:DECIMAL#,
+		BID_NOTICE = #bidNotice:VARCHAR#,
+		BID_NOTICE_BLOBID =
+		#bidNoticeBlobid:VARCHAR#,
+		BID_CONTENT = #bidContent:VARCHAR#,
+		STATUS =
+		#status:VARCHAR#,
+		INPUTOR = #inputor:VARCHAR#,
+		INPUT_DATE =
+		#inputDate:DATE#,
+		PROCESS_INST_ID = #processInstId:VARCHAR#,
+		SNW =
+		#snw:VARCHAR#,
+		GNW = #gnw:VARCHAR#,
+		IS_ZXQY = #isZxqy:VARCHAR#,
+		nd=#nd:DECIMAL#,
+		PACK_SUM=#packSum:DECIMAL#,
+		CHG_BILL_CODE=#chgBillCode:VARCHAR#,
+		ZHAOBIAO_TYPE=#zhaobiaoType:varchar#,
+		CO_CODE=#coCode:VARCHAR#
+		where BID_CODE = #bidCode:VARCHAR#
+	</update>
+	<update id="updateZcebZbItem" parameterClass="ZcebZbItem">
+		update
+		ZC_EB_ZB_ITEM
+		set
+		CATALOGUE_CODE = #catalogueCode:VARCHAR#,
+		SP_NAME =
+		#spName:VARCHAR#,
+		PRICE = #price:DECIMAL#,
+		SUMS = #sums:DECIMAL#,
+		SP_SPEC = #spSpec:VARCHAR#,
+		IS_JNJS = #isJnjs:VARCHAR#,
+		IS_ZZCX =
+		#isZzcx:VARCHAR#,
+		IS_LSHB = #isLshb:VARCHAR#,
+		AMOUNT =
+		#amount:LONGVARCHAR#
+		WHERE BID_CODE = #bidCode:VARCHAR#
+  </update>
+	<delete id="deleteZcebZb" parameterClass="String">
+		delete from ZC_EB_ZB
+		where BID_CODE = #VALUE#
+  </delete>
+	<delete id="deleteZcebZbItem" parameterClass="String">
+		delete from
+		ZC_EB_ZB_ITEM
+		where BID_CODE = #VALUE#
+  </delete>
+	<select id="getOtherBidSums1" resultClass="java.math.BigDecimal"
+		parameterClass="ZcebZb">
+		SELECT SUM(b.bid_sum) AS totalBidSum FROM zc_eb_zb b
+		WHERE b.make_code=#makeCode:VARCHAR#
+  </select>
+	<select id="getOtherBidSums2" resultClass="java.math.BigDecimal"
+		parameterClass="ZcebZb">
+		SELECT SUM(b.bid_sum) AS totalBidSum FROM zc_eb_zb b
+		WHERE b.make_code=#makeCode:VARCHAR# and b.bid_code!=#bidCode:VARCHAR#
+	</select>
+	<select id="getZcebZbHavingHt" resultMap="ZcebZbResult"
+		parameterClass="String">
+		SELECT zb.* FROM zc_eb_zb zb,zc_xmcg_ht ht WHERE
+		zb.bid_code=ht.zc_bid_code AND zb.bid_code=#VALUE#
+		</select>
+</sqlMap>

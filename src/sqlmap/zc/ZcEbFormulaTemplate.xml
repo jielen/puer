@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ZcEbFormulaTemplate">
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<typeAlias alias="ZcEbFormulaTemplate"
+		type="com.ufgov.zc.common.zc.model.ZcEbFormulaTemplate" />
+	<typeAlias alias="ZcEbFormulaTemplateItem"
+		type="com.ufgov.zc.common.zc.model.ZcEbFormulaTemplateItem" />
+	<typeAlias alias="ZcEbFormulaTemplateParam"
+		type="com.ufgov.zc.common.zc.model.ZcEbFormulaTemplateParam" />
+	<resultMap id="ZcEbFormulaTemplateResult" class="ZcEbFormulaTemplate">
+		<result property="templateCode" column="TEMPLATE_CODE" />
+		<result property="templateName" column="TEMPLATE_NAME" />
+		<result property="complianceRate" column="COMPLIANCE_RATE" />
+		<result property="complianceDesc" column="COMPLIANCE_DESC" />
+		<result property="factorFullScore" column="FACTOR_FULL_SCORE" />
+		<result property="factorType" column="FACTOR_TYPE" />
+		<result property="creator" column="CREATOR" />
+		<result property="executeDate" column="CREATE_DATE" />
+		<result property="markMode" column="MARK_MODE" />
+		<result property="evalueType" column="EVALUE_TYPE" />
+		<result property="remark" column="REMARK" />
+		<result property="isConform" column="IS_CONFORM" />
+		<result property="isUsed" column="IS_USED" />
+		<result property="formulaDescription" column="FORMULA_DESC"
+			jdbcType="BLOB"/>
+	</resultMap>
+	<resultMap id="ZcEbFormulaTemplateItemResult" class="ZcEbFormulaTemplateItem">
+		<result property="itemCode" column="ITEM_CODE" />
+		<result property="indx" column="INDX" />
+		<result property="name" column="NAME" />
+		<result property="weight" column="WEIGHT" />
+		<result property="isRequiredField" column="IS_REQUIRED_FIELD" />
+		<result property="isAddScore" column="IS_ADD_SCORE" />
+		<result property="creator" column="CREATOR" />
+		<result property="maxAddScore" column="MAX_ADD_SCORE" />
+		<result property="maxMinusScore" column="MAX_MINUS_SCORE" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="itemType" column="ITEM_TYPE" />
+		<result property="parentItemCode" column="PARENT_ITEM_CODE" />
+		<result property="parentItemName" column="PARENT_ITEM_NAME" />
+		<result property="templateCode" column="TEMPLATE_CODE" />
+		<result property="description" column="DESCRIPTION" />
+		<result property="formula" column="FORMULA" />
+		<result property="standardScore" column="STANDARD_SCORE" />
+		<result property="baseScore" column="BASE_SCORE" />
+		<result property="complianceValue" column="COMPLIANCE_VALUE" />
+		<result property="leastScore" column="LEAST_SCORE" />
+		<result property="isPriceTarget" column="IS_PRICE_TARGET" />
+		<result property="remark" column="REMARK" />
+		<result property="formulaExpression" column="FORMULA_EXPRESSION" />
+		<result property="scoreSumWay" column="SCORE_SUM_WAY" />
+	</resultMap>
+	<resultMap id="ZcEbTemplateParamResult" class="ZcEbFormulaTemplateParam">
+		<result property="paramCode" column="PARAM_CODE" />
+		<result property="paramName" column="PARAM_NAME" />
+		<result property="value" column="VALUE" />
+		<result property="defaultValue" column="DEFAULT_VALUE" />
+		<result property="description" column="DESCRIPTION" />
+		<result property="templateCode" column="TEMPLATE_CODE" />
+		<result property="isManSet" column="IS_MAN_SET" />
+	</resultMap>
+	<select id="getZcEbFormulaTemplateList" resultMap="ZcEbFormulaTemplateResult"
+		parameterClass="elementCondition">
+		SELECT * FROM ZC_EB_FORMULA_TEMPLATE 
+		<isNotNull prepend="" property="status">
+			WHERE IS_USED=
+			#status:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="AND" property="dattr1">
+			IS_CONFORM=
+			#dattr1:VARCHAR#
+		</isNotNull>				<isNotNull prepend="AND" property="type">			FACTOR_TYPE=			#type:VARCHAR#		</isNotNull>
+		ORDER BY CREATE_DATE DESC
+	</select>
+	<select id="getZcEbFormulaTemplateItemList" resultMap="ZcEbFormulaTemplateItemResult"
+		parameterClass="map">
+		SELECT
+		F1.ITEM_CODE,
+		F1.NAME,
+		F1.INDX,
+		F1.WEIGHT,
+		F1.IS_REQUIRED_FIELD,
+		F1.IS_ADD_SCORE,
+		F1.CREATOR,
+		F1.MAX_ADD_SCORE,
+		F1.MAX_MINUS_SCORE,
+		F1.CREATE_TIME,
+		F1.FORMULA,
+		F1.ITEM_TYPE,
+		F1.PARENT_ITEM_CODE,
+		F2.NAME AS
+		PARENT_ITEM_NAME,
+		F1.TEMPLATE_CODE,
+		F1.DESCRIPTION,
+		F1.STANDARD_SCORE,
+		F1.BASE_SCORE,
+		F1.COMPLIANCE_VALUE,
+		F1.LEAST_SCORE,
+		F1.IS_PRICE_TARGET,
+		F1.REMARK,
+		F1.FORMULA_EXPRESSION,
+		F1.SCORE_SUM_WAY
+		FROM
+		ZC_EB_FORMULA_ITEM_TEMPLATE F1
+		,ZC_EB_FORMULA_ITEM_TEMPLATE F2
+		WHERE
+		F1.PARENT_ITEM_CODE=F2.ITEM_CODE(+)
+		<isNotNull prepend="AND" property="templateCode">
+			F1.TEMPLATE_CODE =
+			#templateCode:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="AND" property="itemType">
+			F1.ITEM_TYPE =
+			#itemType:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend=" " property="itemCode">
+			START WITH
+			F1.parent_item_code =#itemCode:VARCHAR#
+			CONNECT BY PRIOR F1.item_code
+			=
+			F1.parent_item_code
+		</isNotNull>
+		ORDER BY F1.ITEM_CODE
+	</select>
+	<select id="getZcEbFormulaTemplateItemByPcode" resultMap="ZcEbFormulaTemplateItemResult"
+		parameterClass="map">
+		SELECT
+		F1.ITEM_CODE,
+		F1.NAME,
+		F1.INDX,
+		F1.WEIGHT,
+		F1.IS_REQUIRED_FIELD,
+		F1.IS_ADD_SCORE,
+		F1.CREATOR,
+		F1.MAX_ADD_SCORE,
+		F1.MAX_MINUS_SCORE,
+		F1.CREATE_TIME,
+		F1.FORMULA,
+		F1.ITEM_TYPE,
+		F1.PARENT_ITEM_CODE,
+		F2.NAME AS
+		PARENT_ITEM_NAME,
+		F1.TEMPLATE_CODE,
+		F1.DESCRIPTION,
+		F1.STANDARD_SCORE,
+		F1.BASE_SCORE,
+		F1.COMPLIANCE_VALUE,
+		F1.LEAST_SCORE,
+		F1.IS_PRICE_TARGET,
+		F1.REMARK,
+		F1.FORMULA_EXPRESSION,
+		F1.SCORE_SUM_WAY
+		FROM ZC_EB_FORMULA_ITEM_TEMPLATE F1
+		,ZC_EB_FORMULA_ITEM_TEMPLATE F2
+		WHERE
+		F1.PARENT_ITEM_CODE=F2.ITEM_CODE(+) and
+		F1.TEMPLATE_CODE=#templateCode:VARCHAR# AND
+		F1.PARENT_ITEM_CODE=#pcode:VARCHAR#
+	</select>
+	<select id="getTemplateParamList" resultMap="ZcEbTemplateParamResult"
+		parameterClass="string">
+		SELECT * FROM ZC_EB_TEMPLATE_PARAM WHERE
+		TEMPLATE_CODE=#templateCode:VARCHAR#
+	</select>
+	<select id="getZcEbFormulaTemplate" resultMap="ZcEbFormulaTemplateResult"
+		parameterClass="string">
+		SELECT *
+		FROM ZC_EB_FORMULA_TEMPLATE
+		WHERE
+		TEMPLATE_CODE=#templateCode:VARCHAR#
+	</select>
+	<select id="getZcEbFormulaTemplateItemByName" resultMap="ZcEbFormulaTemplateItemResult"
+		parameterClass="map">
+		SELECT
+		F1.ITEM_CODE,
+		F1.NAME,
+		F1.INDX,
+		F1.WEIGHT,
+		F1.IS_REQUIRED_FIELD,
+		F1.IS_ADD_SCORE,
+		F1.CREATOR,
+		F1.MAX_ADD_SCORE,
+		F1.MAX_MINUS_SCORE,
+		F1.CREATE_TIME,
+		F1.FORMULA,
+		F1.ITEM_TYPE,
+		F1.PARENT_ITEM_CODE,
+		F2.NAME AS
+		PARENT_ITEM_NAME,
+		F1.TEMPLATE_CODE,
+		F1.DESCRIPTION,
+		F1.STANDARD_SCORE,
+		F1.BASE_SCORE,
+		F1.COMPLIANCE_VALUE,
+		F1.LEAST_SCORE,
+		F1.IS_PRICE_TARGET,
+		F1.REMARK,
+		F1.FORMULA_EXPRESSION,
+		F1.SCORE_SUM_WAY
+		FROM
+		ZC_EB_FORMULA_ITEM_TEMPLATE F1
+		,ZC_EB_FORMULA_ITEM_TEMPLATE F2
+		WHERE
+		F1.PARENT_ITEM_CODE=F2.ITEM_CODE(+) and
+		F1.TEMPLATE_CODE=#templateCode:VARCHAR# and
+		F1.NAME =
+		#itemName:VARCHAR#
+		<isNotNull prepend="and" property="itemCode">
+			F1.ITEM_CODE !=#itemCode:VARCHAR#
+		</isNotNull>
+	</select>
+	<select id="getZcEbFormulaTemplateItem" resultMap="ZcEbFormulaTemplateItemResult"
+		parameterClass="string">
+		SELECT
+		F1.ITEM_CODE,
+		F1.NAME,
+		F1.INDX,
+		F1.WEIGHT,
+		F1.IS_REQUIRED_FIELD,
+		F1.IS_ADD_SCORE,
+		F1.CREATOR,
+		F1.MAX_ADD_SCORE,
+		F1.MAX_MINUS_SCORE,
+		F1.CREATE_TIME,
+		F1.FORMULA,
+		F1.ITEM_TYPE,
+		F1.PARENT_ITEM_CODE,
+		F2.NAME AS
+		PARENT_ITEM_NAME,
+		F1.TEMPLATE_CODE,
+		F1.DESCRIPTION,
+		F1.STANDARD_SCORE,
+		F1.BASE_SCORE,
+		F1.COMPLIANCE_VALUE,
+		F1.LEAST_SCORE,
+		F1.IS_PRICE_TARGET,
+		F1.REMARK,
+		F1.FORMULA_EXPRESSION,
+		F1.SCORE_SUM_WAY
+		FROM ZC_EB_FORMULA_ITEM_TEMPLATE F1
+		,ZC_EB_FORMULA_ITEM_TEMPLATE F2
+		WHERE
+		F1.PARENT_ITEM_CODE=F2.ITEM_CODE(+) and
+		F1.ITEM_CODE
+		=#itemCode:VARCHAR#
+	</select>
+	<delete id="deleteZcEbFormulaTemplate" parameterClass="string">
+		delete
+		from
+		ZC_EB_FORMULA_TEMPLATE where TEMPLATE_CODE=#templateCode:VARCHAR#
+	</delete>
+	<delete id="deleteZcEbFormulaTemplateItem" parameterClass="string">
+		delete from
+		ZC_EB_FORMULA_ITEM_TEMPLATE where
+		ITEM_CODE=#itemCode:VARCHAR#
+	</delete>
+	<delete id="deleteZcEbFormulaTemplateItemByTemplateCode"
+		parameterClass="string">
+		delete from
+		ZC_EB_FORMULA_ITEM_TEMPLATE where
+		TEMPLATE_CODE=#templateCode:VARCHAR#
+	</delete>
+	<delete id="deleteZcEbFormulaTemplateParam" parameterClass="string">
+		delete from
+		ZC_EB_TEMPLATE_PARAM where
+		TEMPLATE_CODE=#templateCode:VARCHAR#
+	</delete>
+	<update id="updateZcEbFormulaTemplate" parameterClass="ZcEbFormulaTemplate">
+		UPDATE
+		ZC_EB_FORMULA_TEMPLATE SET
+		TEMPLATE_NAME=#templateName:VARCHAR#,
+		COMPLIANCE_RATE = #complianceRate:VARCHAR#,
+		COMPLIANCE_DESC =#complianceDesc:VARCHAR#,
+		FACTOR_FULL_SCORE=#factorFullScore:VARCHAR#,
+		FACTOR_TYPE =#factorType:VARCHAR#,
+		CREATOR = #creator:VARCHAR#,
+		CREATE_DATE =#executeDate:VARCHAR#,
+		MARK_MODE = #markMode:VARCHAR#,
+		EVALUE_TYPE =#evalueType:VARCHAR#,
+		REMARK=#remark:VARCHAR#,
+		IS_USED=#isUsed:VARCHAR#,
+		IS_CONFORM=#isConform:VARCHAR#
+		where
+		TEMPLATE_CODE =
+		#templateCode:VARCHAR#
+  </update>
+	<update id="updateZcEbFormulaTemplateItem" parameterClass="ZcEbFormulaTemplateItem">
+		UPDATE
+		ZC_EB_FORMULA_ITEM_TEMPLATE SET
+		NAME = #name:VARCHAR#,
+		IS_REQUIRED_FIELD=#isRequiredField:VARCHAR#,
+		IS_ADD_SCORE =
+		#isAddScore:VARCHAR#,
+		MAX_ADD_SCORE = #maxMinusScore:VARCHAR#,
+		DESCRIPTION = #description:VARCHAR#,
+		FORMULA = #formula:VARCHAR#,
+		FORMULA_EXPRESSION = #formulaExpression:VARCHAR#,
+		STANDARD_SCORE =
+		#standardScore:VARCHAR#,
+		BASE_SCORE = #baseScore:VARCHAR#,
+		COMPLIANCE_VALUE = #complianceValue:VARCHAR#,
+		LEAST_SCORE =
+		#leastScore:VARCHAR#,
+		IS_PRICE_TARGET = #isPriceTarget:VARCHAR#,
+		SCORE_SUM_WAY = #scoreSumWay:VARCHAR#,
+		REMARK=#remark:VARCHAR#
+		where
+		ITEM_CODE =
+		#itemCode:VARCHAR#
+  </update>
+	<insert id="insertZcEbFormulaTemplate" parameterClass="ZcEbFormulaTemplate">
+		insert into 
+		ZC_EB_FORMULA_TEMPLATE(TEMPLATE_CODE,TEMPLATE_NAME,COMPLIANCE_RATE,COMPLIANCE_DESC,
+		FACTOR_FULL_SCORE,FACTOR_TYPE,CREATOR,
+		CREATE_DATE,MARK_MODE,EVALUE_TYPE,
+		REMARK,ND,IS_CONFORM,IS_USED)
+		values
+		(#templateCode:VARCHAR#,#templateName:VARCHAR#,
+		#complianceRate:VARCHAR#,#complianceDesc:VARCHAR#,
+		#factorFullScore:VARCHAR#,#factorType:VARCHAR#,#creator:VARCHAR#,
+		#executeDate:VARCHAR#,#markMode:VARCHAR#,#evalueType:VARCHAR#,
+		#remark:VARCHAR#,#nd:VARCHAR#,#isConform:VARCHAR#,#isUsed:VARCHAR#)
+	</insert>
+	<insert id="insertZcEbFormulaTemplateItem" parameterClass="ZcEbFormulaTemplateItem">
+		insert into
+		ZC_EB_FORMULA_ITEM_TEMPLATE
+		(ITEM_CODE,INDX,NAME,
+		WEIGHT,IS_REQUIRED_FIELD,IS_ADD_SCORE,
+		CREATOR,MAX_ADD_SCORE,MAX_MINUS_SCORE,
+		CREATE_TIME,ITEM_TYPE,PARENT_ITEM_CODE,
+		TEMPLATE_CODE,DESCRIPTION,FORMULA,FORMULA_EXPRESSION,
+		STANDARD_SCORE,BASE_SCORE,COMPLIANCE_VALUE,
+		LEAST_SCORE,IS_PRICE_TARGET,REMARK,SCORE_SUM_WAY)
+		values
+		(#itemCode:VARCHAR#,
+		#indx:VARCHAR#,#name:VARCHAR#,
+		#weight:VARCHAR#,#isRequiredField:VARCHAR#,#isAddScore:VARCHAR#,
+		#creator:VARCHAR#,#maxAddScore:VARCHAR#,#maxMinusScore:VARCHAR#,
+		#createTime:VARCHAR#, #itemType:VARCHAR#,#parentItemCode:VARCHAR#,
+		#templateCode:VARCHAR#,
+		#description:VARCHAR#,#formula:VARCHAR#,#formulaExpression:VARCHAR#,
+		#standardScore:VARCHAR#,#baseScore:VARCHAR#,#complianceValue:VARCHAR#,
+		#leastScore:VARCHAR#,#isPriceTarget:VARCHAR#,#remark:VARCHAR#,#scoreSumWay:VARCHAR#)
+	</insert>
+	<insert id="insertZcEbFormulaTemplateParam" parameterClass="ZcEbFormulaTemplateParam">
+		<selectKey resultClass="String" keyProperty="paramCode">
+			SELECT
+			ZC_SEQ_FORMULA_PARAM.NEXTVAL AS paramCode FROM DUAL
+		</selectKey>
+		insert into
+		ZC_EB_TEMPLATE_PARAM (PARAM_CODE, PARAM_NAME, VALUE,
+		DEFAULT_VALUE,IS_MAN_SET,DESCRIPTION,TEMPLATE_CODE)
+		values
+		(#paramCode:VARCHAR#,#paramName:VARCHAR#,
+		#value:VARCHAR#,#defaultValue:VARCHAR#,#isManSet:VARCHAR#,
+		#description:VARCHAR#,#templateCode:VARCHAR#)
+	</insert>
+</sqlMap>

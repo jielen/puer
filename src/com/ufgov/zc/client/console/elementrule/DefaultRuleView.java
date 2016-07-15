@@ -1,0 +1,1 @@
+package com.ufgov.zc.client.console.elementrule;public class DefaultRuleView extends RuleView {  @Override  public void initWithRuleEntryModel(RuleEntryModel model) {    // TCJLODO Auto-generated method stub  }}

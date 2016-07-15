@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="AsNoRule" >
+	
+	<resultMap id="AsNoRuleResult" class="com.ufgov.zc.common.system.model.AsNoRule">
+		<result column="COMPO_ID" property="compoId" jdbcType="VARCHAR"/>
+		<result column="RULE_CODE" property="ruleCode" jdbcType="VARCHAR"/>
+		<result column="RULE_NAME" property="ruleName" jdbcType="VARCHAR"/>
+		<result column="NO_PREFIX" property="noPrefix" jdbcType="VARCHAR"/>
+		<result column="NO_AFTFIX" property="noAftfix" jdbcType="VARCHAR"/>
+		<result column="IS_FILL_ZERO" property="isFillZero" jdbcType="VARCHAR" nullValue="N"/>
+		<result column="NO_INDEX_LEN" property="noIndexLen" jdbcType="DECIMAL"/>
+		<result column="IS_CONT" property="isCont" jdbcType="CHAR"/>
+		<result column="NUM_TOOL_ID" property="numToolId" jdbcType="VARCHAR"/>
+		<result column="NO_FIELD" property="noField" jdbcType="VARCHAR"/>
+		<result column="IS_INCL_ATOZ" property="isInclAtoz" jdbcType="CHAR"/>
+	</resultMap>
+
+  <select id="getAsNoRule" resultMap="AsNoRuleResult" parameterClass="map" >
+    select COMPO_ID, RULE_CODE, RULE_NAME, NO_PREFIX, NO_AFTFIX, IS_FILL_ZERO, NO_INDEX_LEN, 
+	  IS_CONT, NUM_TOOL_ID, NO_FIELD, IS_INCL_ATOZ
+    from AS_NO_RULE
+    where COMPO_ID = #compoId:VARCHAR#
+      and NO_FIELD = #noField:VARCHAR#
+  </select>
+    <select id="getAsNoRuleByCompoId" resultMap="AsNoRuleResult" parameterClass="string" >
+    select COMPO_ID, RULE_CODE, RULE_NAME, NO_PREFIX, NO_AFTFIX, IS_FILL_ZERO, NO_INDEX_LEN, 
+	  IS_CONT, NUM_TOOL_ID, NO_FIELD, IS_INCL_ATOZ
+    from AS_NO_RULE
+    where COMPO_ID = #compoId:VARCHAR#
+      and NUM_TOOL_ID is null
+  </select>
+<insert id="abatorgenerated_insert" parameterClass="com.ufgov.zc.common.system.model.AsNoRule">
+    insert into AS_NO_RULE (COMPO_ID, RULE_CODE, RULE_NAME, NO_PREFIX, NO_INDEX_LEN, IS_CONT,
+      NUM_TOOL_ID, NO_FIELD, IS_INCL_ATOZ, IS_FILL_ZERO, NO_AFTFIX)
+    values (#compoId:VARCHAR#, #ruleCode:VARCHAR#, #ruleName:VARCHAR#, #noPrefix:VARCHAR#,
+      #noIndexLen:DECIMAL#, #isCont:CHAR#, #numToolId:VARCHAR#, #noField:VARCHAR#,
+      #isInclAtoz:CHAR#, #isFillZero:CHAR#, #noAftfix:VARCHAR#)
+  </insert>
+</sqlMap>

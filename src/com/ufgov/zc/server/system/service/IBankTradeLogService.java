@@ -1,0 +1,1 @@
+package com.ufgov.zc.server.system.service;import com.ufgov.zc.common.system.model.ResultInfo;public interface IBankTradeLogService {  public void saveLog(ResultInfo result);}

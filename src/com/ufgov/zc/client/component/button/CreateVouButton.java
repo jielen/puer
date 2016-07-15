@@ -1,0 +1,1 @@
+package com.ufgov.zc.client.component.button;public class CreateVouButton extends FuncButton {  public CreateVouButton() {    super();  }  @Override  protected void init() {    this.funcId = "fbatchamvou";    this.defaultText = "生成拨款凭证";    super.init();  }}

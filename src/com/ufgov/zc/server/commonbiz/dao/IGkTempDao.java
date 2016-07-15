@@ -1,0 +1,1 @@
+package com.ufgov.zc.server.commonbiz.dao;public interface IGkTempDao {  String insert(String[] values);}

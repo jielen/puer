@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="AsUserNumLim">
+	
+	<typeAlias type="com.ufgov.zc.common.console.model.AsUserNumLim" alias="asUserNumLim"/>
+	
+	<resultMap class="asUserNumLim" id="asUserNumLimResult">
+		<result property="userId" column="user_id"></result>
+		<result property="funcId" column="func_id"></result>
+		<result property="compoId" column="compo_id"></result>
+		<result property="ctrlField" column="ctrl_field"></result>
+		<result property="granRange" column="gran_range"></result>
+		<result property="revoRange" column="revo_range"></result>
+		<result property="isGran" column="is_gran"></result>
+		<result property="isRelation" column="is_relation"></result>
+	</resultMap>
+	
+	<select id="getAsUserNumLim" resultMap="asUserNumLimResult" parameterClass="map">
+		select * from as_user_num_lim where user_id=#user_id#
+		<isNotNull prepend="AND" property="compo_id">
+			compo_id=#compo_id#
+		</isNotNull>
+		<isNotNull prepend="AND" property="func_id">
+			func_id=#func_id#
+		</isNotNull>
+		<isNotNull prepend="AND" property="ctrl_field">
+			ctrl_field=#ctrl_field#
+		</isNotNull>
+		order by user_id, compo_id
+	</select>
+
+	<delete id="deleteAsUserNumLim" parameterClass="map">
+		delete from as_user_num_lim where user_id=#user_id#
+		<isNotNull prepend="AND" property="compo_id">
+			compo_id=#compo_id#
+		</isNotNull>
+		<isNotNull prepend="AND" property="func_id">
+			func_id=#func_id#
+		</isNotNull>
+		<isNotNull prepend="AND" property="ctrl_field">
+			ctrl_field=#ctrl_field#
+		</isNotNull>
+	</delete>
+
+	<insert id="insertAsUserNumLim" parameterClass="asUserNumLim">
+		insert into as_user_num_lim (
+			user_id,func_id,compo_id,ctrl_field,gran_range,revo_range,is_gran,is_relation)
+		values (
+			#userId:VARCHAR#, #funcId:VARCHAR#, #compoId:VARCHAR#, #ctrlField:VARCHAR#,
+			#granRange:VARCHAR#, #revoRange:VARCHAR#, #isGran:CHAR#, #isRelation:CHAR#
+		)
+	</insert>
+	
+</sqlMap>

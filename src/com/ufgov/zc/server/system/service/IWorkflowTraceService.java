@@ -1,0 +1,1 @@
+/** *  */package com.ufgov.zc.server.system.service;import com.kingdrive.workflow.model.runtime.TraceInfoModel;/** * @author ufwangfei *  流程跟踪 */public interface IWorkflowTraceService {  TraceInfoModel getTraceInfo(Long instanceId);}

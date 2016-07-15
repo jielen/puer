@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MaCpElementMapping">
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<typeAlias alias="maCpElementMapping"
+		type="com.ufgov.zc.common.commonbiz.model.MaCpElementMapping" />
+	<resultMap id="maCpElementMappingResult"
+		class="com.ufgov.zc.common.commonbiz.model.MaCpElementMapping">
+		<result property="nd" column="nd" />
+		<result property="curYearCode" column="cur_year_code" />
+		<result property="curYearName" column="cur_year_name" />
+		<result property="nextYearCode" column="next_year_code" />
+		<result property="nextYearName" column="next_year_name" />
+		<result property="type" column="type" />
+		<result property="useType" column="use_type" />
+	</resultMap>
+
+	<select id="getMaCpElementMapping"
+		resultMap="maCpElementMappingResult"
+		parameterClass="elementCondition">
+		select nd, cur_year_code,cur_year_code as cur_year_name,
+		next_year_code, next_year_code as next_year_name,type,use_type
+		from ma_cp_element_mapping master where nd=#nd#
+		<isNotNull prepend="AND" property="kind">
+			type=#kind:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="AND" property="useType">
+			use_type=#useType:VARCHAR#
+		</isNotNull>
+	</select>
+
+	<insert id="insert" parameterClass="maCpElementMapping">
+		insert into ma_cp_element_mapping(
+		ND,cur_year_code,next_year_code,type,use_type ) values (
+		#nd:INTEGER#,#curYearCode:VARCHAR#,#nextYearCode:VARCHAR#,#type:VARCHAR#,#useType:VARCHAR#)
+	</insert>
+
+	<update id="update" parameterClass="maCpElementMapping">
+		update ma_cp_element_mapping set
+		next_year_code=#nextYearCode:VARCHAR# where nd=#nd:INTEGER# and
+		cur_year_code= #curYearCode:VARCHAR# and type=#type:VARCHAR# and
+		use_type=#useType:VARCHAR#
+	</update>
+
+	<delete id="delete" parameterClass="map">
+		delete from ma_cp_element_mapping where nd=#nd:INTEGER# and
+		type=#type:VARCHAR# and use_type=#useType:VARCHAR#
+	</delete>
+
+</sqlMap>

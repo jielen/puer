@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ZcEbProMakeOuter">
+
+
+	<typeAlias alias="ZcEbProMakeOuter"
+		type="com.ufgov.zc.common.zc.model.ZcEbProMakeOuter"></typeAlias>
+	<typeAlias alias="ZcEbProMakeOuterPack"
+		type="com.ufgov.zc.common.zc.model.ZcEbPack"></typeAlias>
+
+
+
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+
+	<resultMap class="ZcEbProMakeOuter" id="ZcEbPlanResult">
+
+		<result column="CODE" jdbcType="VARCHAR" property="code" />
+		<result column="NAME" jdbcType="VARCHAR" property="name" />
+		<result column="OPERATOR" jdbcType="VARCHAR" property="operator" />
+		<result column="OPER_DATE" jdbcType="DATE" property="operDate" />
+		<result column="CO_NAME" jdbcType="VARCHAR" property="coName" />
+		<result column="PURCHASE_TYPE" jdbcType="VARCHAR" property="purchaseType" />
+		<result column="OPEN_BID_DATE" jdbcType="DATE" property="openBidDate" />
+		<result column="OPEN_BID_ADDRESS" jdbcType="VARCHAR" property="openBidAddress" />
+		<result column="CONTACTOR" jdbcType="VARCHAR" property="contactor" />
+		<result column="PHONE" jdbcType="VARCHAR" property="phone" />
+		<result column="AGENT_NAME" jdbcType="VARCHAR" property="agentName" />
+		<result column="AGENT_CONTACTOR" jdbcType="VARCHAR" property="agentContactor" />
+		<result column="AGENT_PHONE" jdbcType="VARCHAR" property="agentPhone" />
+		<result column="REMARK" jdbcType="VARCHAR" property="remark" />
+		<result column="ND" jdbcType="VARCHAR" property="nd" />
+	</resultMap>
+
+	<resultMap class="ZcEbProMakeOuterPack" id="ZcEbPlanPackResult">
+
+		<result column="PACK_CODE" jdbcType="VARCHAR" property="packCode" />
+		<result column="PACK_NAME" jdbcType="VARCHAR" property="packName" />
+		<result column="CONTENT" jdbcType="VARCHAR" property="purContent" />
+		<result column="PROMAKE_CODE" jdbcType="VARCHAR" property="projCode" />
+	</resultMap>
+	<select id="getproMake" resultMap="ZcEbPlanResult"
+		parameterClass="elementCondition">
+		SELECT * from zc_eb_promake_outer b
+		where 
+		1=1
+		<isNotEqual prepend="AND" compareValue="0" property="nd">
+			b.ND=#nd#
+		</isNotEqual>
+		<isNotNull prepend="AND" property="zcText0">
+			b.name=#zcText0#
+		</isNotNull>
+		<isNotNull prepend="AND" property="zcText1">
+			b.co_name=#zcText1#
+		</isNotNull>
+	</select>
+	<select id="getPack" resultMap="ZcEbPlanPackResult"
+		parameterClass="String">
+		SELECT * FROM ZC_EB_PROMAKE_OUTER_PACK 
+		WHERE PROMAKE_CODE=#VALUE#
+	</select>
+	<select id="getproMakeById" resultMap="ZcEbPlanResult"
+		parameterClass="String">
+		SELECT * from zc_eb_promake_outer
+		WHERE code=#VALUE#
+	</select>
+	<insert id="insert" parameterClass="ZcEbProMakeOuter">
+		insert into
+		zc_eb_promake_outer (
+		CODE,
+		NAME,
+		OPERATOR,
+		OPER_DATE,
+		CO_NAME,
+		PURCHASE_TYPE,
+		OPEN_BID_DATE,
+		OPEN_BID_ADDRESS,
+		CONTACTOR,
+		PHONE,
+		REMARK,
+		AGENT_NAME,
+		AGENT_CONTACTOR,
+		AGENT_PHONE,
+		ND
+		) values (
+		#code:VARCHAR#,
+		#name:VARCHAR#,
+		#operator:VARCHAR#,
+		#operDate:DATE#,
+		#coName:VARCHAR#,
+		#purchaseType:VARCHAR#,
+		#openBidDate:DATE#,
+		#openBidAddress:VARCHAR#,
+		#contactor:VARCHAR#,
+		#phone:VARCHAR#,
+		#remark:VARCHAR#,
+		#agentName:VARCHAR#,
+		#agentContactor:VARCHAR#,
+		#agentPhone:VARCHAR#,
+		#nd:VARCHAR#
+		)
+	</insert>
+	<insert id="insertPack" parameterClass="ZcEbProMakeOuterPack">
+		insert into ZC_EB_PROMAKE_OUTER_PACK(PACK_CODE,PACK_NAME,CONTENT,PROMAKE_CODE) values(
+		#packCode:VARCHAR#,
+		#packName:VARCHAR#,
+		#purContent:VARCHAR#,
+		#projCode:VARCHAR#
+		)
+	</insert>
+
+	<update id="updateByPrimaryKey" parameterClass="ZcEbProMakeOuter">
+		update
+		zc_eb_promake_outer set
+		CODE=#code:VARCHAR#,
+		NAME=#name:VARCHAR#,
+		OPERATOR=#operator:VARCHAR#,
+		OPER_DATE=#operDate:DATE#,
+		CO_NAME=#coName:VARCHAR#,
+		PURCHASE_TYPE=#purchaseType:VARCHAR#,
+		OPEN_BID_DATE=#openBidDate:DATE#,
+		OPEN_BID_ADDRESS=#openBidAddress:VARCHAR#,
+		CONTACTOR=#contactor:VARCHAR#,
+		PHONE=#phone:VARCHAR#,
+		REMARK=#remark:VARCHAR#,
+		AGENT_NAME=#agentName:VARCHAR#,
+		AGENT_CONTACTOR=#agentContactor:VARCHAR#,
+		AGENT_PHONE=#agentPhone:VARCHAR#,
+		ND=#nd:VARCHAR#
+		where
+		CODE = #code:VARCHAR#
+	</update>
+
+	<delete id="deleteZcProMake" parameterClass="String">
+		delete
+		from
+		zc_eb_promake_outer
+		where CODE=#value#
+	</delete>
+	<delete id="deletePack" parameterClass="String">
+		delete from ZC_EB_PROMAKE_OUTER_PACK 
+		WHERE PROMAKE_CODE=#VALUE#
+	</delete>
+
+</sqlMap>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Fund">
+<typeAlias alias="biFund" type="com.ufgov.zc.common.commonbiz.model.Fund" />
+<typeAlias alias="elementCondition"	type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<resultMap id="fund" class="com.ufgov.zc.common.commonbiz.model.Fund">
+		<result property="nd" column="nd" />
+		<result property="code" column="fund_code" />
+		<result property="name" column="fund_name" />
+		<result property="level" column="current_level" />
+		<result property="parentCode" column="parent_code" />
+	</resultMap>
+
+	<resultMap id="biFundMap" class="com.ufgov.zc.common.commonbiz.model.Fund">
+		<result property="nd" column="nd" />
+		<result property="code" column="fund_code" />
+		<result property="name" column="fund_name" />
+		<result property="level" column="current_level" />
+		<result property="parentCode" column="parent_code" />
+		<result property="oid" column="GUID" />
+	</resultMap>
+
+	<select id="getFund" resultMap="fund" parameterClass="elementCondition">
+		select nd,fund_code,fund_name ,current_level,parent_code from ma_cp_fund
+		where nd=#nd# and is_used='1'
+	    <include refid="BusiNumLim.BusiNumLimStr" />
+		order by fund_code
+	</select>
+
+    <select id="getBiXJFund" resultMap="biFundMap" parameterClass="elementCondition">
+		select nd,fund_code,fund_name ,current_level,parent_code,GUID from ma_xj_bi_fund
+		where nd=#nd# and is_used='1'
+	    <include refid="BusiNumLim.BusiNumLimStr" />
+		order by fund_code
+	</select>
+
+	<insert id="insertBiFund" parameterClass="biFund">
+		insert into ma_xj_bi_fund (
+		ND, FUND_CODE, FUND_NAME, QUIC_CODE,
+		PARENT_CODE, IS_LOWEST, CURRENT_LEVEL,
+		 IS_USED, INPUTOR_ID, CDATE, REMARK,GUID)
+        values ( #nd:DECIMAL#, #code:VARCHAR#, #name:VARCHAR#, '',
+         '', 'Y', 1, '1', 'sa', Sysdate, '',#oid:VARCHAR#)
+  </insert>
+	<update id="updateBiFund" parameterClass="biFund">
+		update ma_xj_bi_fund set
+		FUND_CODE = #code:VARCHAR#,
+		fund_name = #name:VARCHAR#
+		where GUID = #oid:VARCHAR#
+		and ND = #nd:DECIMAL#
+  </update>
+
+   <delete id="deleteFund" parameterClass="Map">
+		delete from ma_xj_bi_fund
+		<dynamic prepend="WHERE">
+			<iterate prepend="AND" property="idList" open="("
+				close=")" conjunction="OR">
+				FUND_CODE=#idList[]# </iterate>
+		</dynamic>
+	</delete>
+
+</sqlMap>

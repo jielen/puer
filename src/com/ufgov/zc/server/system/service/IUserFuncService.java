@@ -1,0 +1,1 @@
+package com.ufgov.zc.server.system.service;import java.util.List;import com.ufgov.zc.common.system.dto.UserFuncDto;public interface IUserFuncService {  List getUserGrantFunc(UserFuncDto userFuncDto);  List getUsedCompoFunc(String compoId);}

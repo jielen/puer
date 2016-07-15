@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+
+
+<!DOCTYPE sqlMap      
+
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+
+<sqlMap namespace="ZcEbSupplierType">
+
+	<typeAlias alias="ZcEbSupplierType" type="com.ufgov.zc.common.zc.model.ZcEbSupplierType" />
+
+	<typeAlias alias="elementCondition"
+
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+
+
+
+	<resultMap id="ZcEbSupplierTypeResult" class="ZcEbSupplierType">
+
+		<result property="zcSuCode" column="ZC_SU_CODE" />
+		<result property="typeCode" column="TYPE_CODE" />
+		<result property="typeName" column="TYPE_NAME" />
+
+	</resultMap>
+
+
+
+	<delete id="delete" parameterClass="String">
+
+		DELETE
+
+		FROM
+
+		  ZC_B_SUPPLIER_TYPE Q
+
+		WHERE Q.ZC_SU_CODE=#VALUE#
+
+	</delete>
+
+
+
+	<select id="getZcEbSupplierTypeByCode" resultMap="ZcEbSupplierTypeResult" parameterClass="String">
+
+		SELECT Q.*
+
+		FROM ZC_B_SUPPLIER_TYPE Q
+
+		WHERE
+
+		Q.ZC_SU_CODE=#VALUE#
+
+	</select>
+
+
+
+	<insert id="insert" parameterClass="ZcEbSupplierType">
+
+		insert into
+
+		ZC_B_SUPPLIER_TYPE(
+
+		ZC_SU_CODE,
+
+		TYPE_CODE,
+
+		TYPE_NAME
+
+		)
+		values(
+		#zcSuCode#
+
+		,#typeCode#
+
+		,#typeName#
+		)
+
+	</insert>
+
+	<update id="update" parameterClass="ZcEbSupplierType">
+
+		update
+			ZC_B_SUPPLIER_TYPE 
+		set
+			TYPE_CODE=#typeCode#,
+			TYPE_NAME=#typeName#
+		where 
+			ZC_SU_CODE=#zcSuCode# 
+	</update>
+
+</sqlMap>
+

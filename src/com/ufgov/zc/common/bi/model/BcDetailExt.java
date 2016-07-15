@@ -1,0 +1,1 @@
+package com.ufgov.zc.common.bi.model;public class BcDetailExt extends BcDetail {  private String markId;  public BcDetailExt() {    super();  }}

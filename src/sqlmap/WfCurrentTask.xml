@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="WfCurrentTask">
+
+	<resultMap id="message" class="com.ufgov.zc.common.zc.model.MessageInfor">
+			<result property="name" column="NAME" />
+			<result property="count" column="CNT" />
+			<result property="status" column="STATUS" />
+	</resultMap>
+	<select id="getWfCurrentTaskCountByUserId" resultMap="message" parameterClass="map">
+		select tem.name,count(*) cnt,nvl(ta.gk_send_status,'1') status
+		from  
+		wf_current_task ta, 
+		wf_instance ins,
+		wf_template tem
+		where ta.instance_id = ins.instance_id and ins.template_id = tem.template_id and ta.executor = #userId#
+		group by tem.name,ta.gk_send_status
+		order by name
+	</select>
+</sqlMap>

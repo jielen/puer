@@ -1,0 +1,1 @@
+package com.ufgov.zc.common.system;/** *  * @author Administrator * *标识接口 */public interface Publishable {}

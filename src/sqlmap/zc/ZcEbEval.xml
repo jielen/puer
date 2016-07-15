@@ -1,0 +1,1446 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ZcEbEval">
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto"></typeAlias>
+	<typeAlias alias="ZcEbEvalReport"		type="com.ufgov.zc.common.zc.model.ZcEbEvalReport" />
+	<typeAlias alias="ZcEbEvalPack" type="com.ufgov.zc.common.zc.model.ZcEbEvalPack" />
+	<typeAlias alias="ZcEbProj" type="com.ufgov.zc.common.zc.model.ZcEbProj" />
+	<typeAlias alias="ZcEbExpertChengNuo"
+		type="com.ufgov.zc.common.zc.model.ZcEbExpertChengNuo" />
+	<typeAlias alias="ZcEbEvalItemResult"
+		type="com.ufgov.zc.common.zc.model.ZcEbEvalItemResult" />
+	<typeAlias alias="ZcEbEvalFormulaItem"
+		type="com.ufgov.zc.common.zc.model.ZcEbEvalFormulaItem" />
+	<typeAlias alias="EvalPackProvider"
+		type="com.ufgov.zc.common.zc.model.EvalPackProvider" />
+	<typeAlias alias="ZcEbEvalParam" type="com.ufgov.zc.common.zc.model.ZcEbEvalParam" />
+	<typeAlias alias="EvalExpert" type="com.ufgov.zc.common.zc.model.EvalExpert" />
+	<typeAlias alias="ZcEbPackEvalResult"
+		type="com.ufgov.zc.common.zc.model.ZcEbPackEvalResult" />
+	<typeAlias alias="ZcEbExpertEvalResult"
+		type="com.ufgov.zc.common.zc.model.ZcEbExpertEvalResult" />
+	<typeAlias alias="ZcEbCalWay" type="com.ufgov.zc.common.zc.model.ZcEbCalWay" />
+	<typeAlias alias="ZcEbFormulaItem"
+		type="com.ufgov.zc.common.zc.model.ZcEbFormulaItem" />
+	<typeAlias alias="ZcEbExpertOpinion"
+		type="com.ufgov.zc.common.zc.model.ZcEbExpertOpinion" />
+	<resultMap id="ZcEbFormulaItemReport" class="ZcEbFormulaItem">
+		<result column="ITEM_CODE" property="itemCode" jdbcType="VARCHAR" />
+		<result column="NAME" property="name" jdbcType="VARCHAR" />
+		<result column="PARENT_ITEM_CODE" property="parentItemCode"
+			jdbcType="VARCHAR" />
+		<result column="STANDARD_SCORE" property="standardScore"
+			jdbcType="DECIMAL" />
+		<result column="LEVELS" property="levels" />
+		<result column="ISLEAF" property="isleaf" />
+		<result column="LEAFCOUNT" property="leafcount" />
+	</resultMap>
+	<resultMap id="ZcEbCalWayResult" class="ZcEbCalWay">
+		<result property="calWayID" column="CAL_WAY_ID" />
+		<result property="calWay" column="CAL_WAY" />
+		<result property="calClass" column="CAL_CLASS" />
+	</resultMap>
+	<resultMap id="ZcEbPackEvalResult" class="ZcEbPackEvalResult">
+		<result property="resultCode" column="RESULT_CODE" />
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="packCode" column="PACK_CODE" />
+		<result property="providerCode" column="PROVIDER_CODE" />
+		<result property="providerName" column="PROVIDER_NAME" />
+		<result property="providerTotalPrice" column="PROVIDER_TOTAL_PRICE" />
+		<result property="evalScore" column="EVAL_SCORE" />
+		<result property="evalResult" column="EVAL_RESULT" />
+		<result property="remark" column="REMARK" />
+		<result property="indx" column="ORD_INDX" />
+		<result property="adjustScore" column="ADJUST_SCORE" />
+		<result property="isComplianceResult" column="IS_COMPLIANCE_RESULT" />
+		<result property="complianceEvalValue" column="COMPLIANCE_EVAL_VALUE" />
+		<result property="complianceEvalResult" column="COMPLIANCE_EVAL_RESULT" />
+		<result property="complianceUnpassReason" column="COMPLIANCE_UNPASS_REASON" />
+		<result property="expertCode" column="EXPERT_CODE" />
+		<result property="expertName" column="EXPERT_NAME" />
+		<result property="sumWay" column="SUM_WAY" />
+	</resultMap>
+	<resultMap id="ZcEbProjResult" class="ZcEbProj">
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="projSrcCode" column="PROJ_SRC_CODE" />
+		<result property="projName" column="PROJ_NAME" />
+		<result property="projSum" column="PROJ_SUM" />
+		<result property="purType" column="PUR_TYPE" />
+		<result property="manager" column="EXECUTOR_NAME" />
+		<result property="managerCode" column="EXECUTOR" />
+		<result property="projDate" column="PROJ_DATE" />
+		<result property="isSplitPack" column="IS_SPLIT_PACK" />
+		<result property="phone" column="PHONE" />
+		<result property="email" column="EMAIL" />
+		<result property="fax" column="FAX" />
+		<result property="status" column="STATUS" />
+		<result property="nd" column="ND" />
+		<result property="agency" column="AGENCY" />
+		<result property="isPubPurBulletin" column="IS_PUB_PUR_BULLETIN" />
+		<result property="isPubPurResult" column="IS_PUB_PUR_RESULT" />
+		<result property="processInstId" column="PROCESS_INST_ID"
+			jdbcType="DECIMAL" />
+		<result property="inputor" column="INPUTOR" />
+		<result property="inputDate" column="EXECUTE_DATE" />
+		<result property="org" column="ORG_CODE" />
+		<result property="remark" column="REMARK" />
+		<result property="isGoonAudit" column="IS_GOON_AUDIT" />
+	</resultMap>
+	<resultMap class="ZcEbPack" id="ZcEbPackResult">
+		<result property="packCode" column="PACK_CODE" />
+		<result property="packName" column="PACK_NAME" />
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="purContent" column="PUR_CONTENT" />
+		<result property="packBudget" column="PACK_BUDGET" jdbcType="DECIMAL"
+			javaType="java.math.BigDecimal" />
+		<result property="entrustCode" column="ENTRUST_CODE" />
+		<result property="isCheckQualification" column="IS_CHECK_QUALIFICATION" />
+		<result property="purType" column="PUR_TYPE" />
+		<result property="analyseType" column="ANALYSE_TYPE" />
+		<result property="bidLocation" column="BID_LOCATION" />
+		<result property="bidDeposit" column="BID_DEPOSIT" />
+		<result property="isFailed" column="IS_FAILED" />
+		<result property="techRequire" column="TECH_REQUIRE" />
+		<result property="qualificationRequire" column="QUALIFICATION_REQUIRE" />
+		<result property="packDesc" column="PACK_DESC" />
+		<result property="status" column="STATUS" />
+		<result property="isSeleSupplier" column="IS_SELE_SUPPLIER" />
+		<result property="seleType" column="SELE_TYPE" />
+		<result property="seleNum" column="SELE_NUM" />
+		<result property="isShowBudget" column="IS_SHOW_BUDGET" />
+		<result property="failedReason" column="FAILED_REASON" />
+
+		<!-- ZcEbEntrust -->
+		<result property="lastStatus" column="LAST_STATUS" />
+
+		<!-- ZcEbEntrust -->
+		<result property="entrust.sn" column="SN" />
+		<result property="entrust.zcMakeCode" column="ZC_MAKE_CODE" />
+		<result property="entrust.zcMakeName" column="ZC_MAKE_NAME" />
+		<result property="entrust.coCode" column="CO_CODE" />
+		<result property="entrust.nd" column="ND" />
+		<result property="entrust.zcMakeLinkman" column="ZC_MAKE_LINKMAN" />
+		<result property="entrust.zcMakeTel" column="ZC_MAKE_TEL" />
+		<result property="entrust.zcInputCode" column="ZC_INPUT_CODE" />
+		<result property="entrust.zcInputDate" column="ZC_INPUT_DATE" />
+		<result property="entrust.zcMoneyBiSum" column="ZC_MONEY_BI_SUM" />
+		<result property="entrust.remark" column="REMARK" />
+		<result property="entrust.processInstId" column="PROCESS_INST_ID" />
+		<result property="entrust.agency" column="AGENCY" />
+		<result property="entrust.zcPifuCgfs" column="ZC_PIFU_CGFS" />
+		<result property="entrust.agencyName" column="AGENCY_NAME" />
+		<result property="entrust.zcDiyuDaima" column="ZC_DIYU_DAIMA" />
+		<result property="entrust.zcWeitoDate" column="ZC_WEITO_DATE" />
+		<result property="entrust.zcIsNotary" column="ZC_IS_NOTARY" />
+		<result property="entrust.zcIsImp" column="ZC_IS_IMP" />
+		<result property="entrust.zcImpFile" column="ZC_IMP_FILE" />
+		<result property="entrust.zcImpFileBlobid" column="ZC_IMP_FILE_BLOBID" />
+		<result property="entrust.untreadReason" column="UNTREAD_REASON" />
+		<result property="entrust.executeDate" column="EXECUTE_DATE" />
+		<result property="entrust.leaderId" column="LEADER_ID" />
+		<result property="entrust.leaderTel" column="LEADER_TEL" />
+		<result property="entrust.orgCode" column="ORG_CODE" />
+	</resultMap>
+
+
+
+	<resultMap id="ZcEbEvalExpertResultClass" class="EvalExpert">
+		<result property="expertCode" column="EXPERT_CODE" />
+		<result property="expertName" column="EXPERT_NAME" />
+	</resultMap>
+	<resultMap id="ZcEbEvalReportResult" class="ZcEbEvalReport">
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="projName" column="PROJ_NAME" />
+		<result property="packCode" column="PACK_CODE" />
+		<result property="packName" column="PACK_NAME" />
+		<result property="recordCode" column="RECORD_CODE" />
+		<result property="reportCode" column="REPORT_CODE" />
+		<result property="status" column="STATUS" />
+		<result property="remark" column="REMARK" />
+		<result property="executor" column="EXECUTOR" />
+		<result property="tsqkDescription" column="TSQK_DESCRIPTION" />
+		<result property="evalDescription" column="EVAL_DESCRIPTION" />
+		<result property="reportAttachBlobid" column="REPORT_ATTACH_BLOBID" />
+		<result property="signReportAttachBlobid" column="SIGN_REPORT_ATTACH_BLOBID" />
+		<result property="executeDate" column="EXECUTE_DATE" />
+		<result property="bidDate" column="BID_DATE" />
+		<result property="bidLocation" column="BID_LOCATION" />
+		<result property="purType" column="PUR_TYPE" />
+		<result property="superviseOpinion" column="SUPERVISE_OPINION" />
+		<result property="callBidOpinion" column="CALL_BID_OPINION" />
+		<result property="providerName" column="PROVIDER_NAME" />
+		<result property="providerCode" column="PROVIDER_CODE" />
+		<result property="bidEvalOpinion" column="BID_EVAL_OPINION" />
+		<result property="processInstId" column="PROCESS_INST_ID" />
+		<result property="nd" column="ND" />
+		<result property="isGoonAudit" column="IS_GOON_AUDIT" />
+		<result property="bidSum" column="BID_SUM" />
+		<result property="coCode" column="CO_CODE" />
+		<result property="coName" column="CO_NAME" />
+		<result property="zcCoLinkMan" column="ZC_CO_LINKMAN" />
+		<result property="agency" column="AGENCY" />		<result property="orgCode" column="ORG_CODE" />
+		<result property="expertOpinion" column="EXPERT_OPINION"
+			jdbcType="CLOB" javaType="java.lang.String" />
+	</resultMap>	<resultMap id="ZcEbEvalReportBaseResult" class="ZcEbEvalReport">		<result property="projCode" column="PROJ_CODE" />		<result property="projName" column="PROJ_NAME" />		<result property="packCode" column="PACK_CODE" />		<result property="packName" column="PACK_NAME" />		<result property="recordCode" column="RECORD_CODE" />		<result property="reportCode" column="REPORT_CODE" />		<result property="status" column="STATUS" />		<result property="remark" column="REMARK" />		<result property="executor" column="EXECUTOR" />		<result property="executeDate" column="EXECUTE_DATE" />		<result property="bidDate" column="BID_DATE" />		<result property="bidLocation" column="BID_LOCATION" />		<result property="purType" column="PUR_TYPE" />		<result property="providerName" column="PROVIDER_NAME" />		<result property="providerCode" column="PROVIDER_CODE" />		<result property="processInstId" column="PROCESS_INST_ID" />		<result property="nd" column="ND" />		<result property="isGoonAudit" column="IS_GOON_AUDIT" />		<result property="bidSum" column="BID_SUM" />		<result property="coCode" column="CO_CODE" />		<result property="coName" column="CO_NAME" />		<result property="zcCoLinkMan" column="ZC_CO_LINKMAN" />		<result property="agency" column="AGENCY" />		<result property="orgCode" column="ORG_CODE" />	</resultMap>
+	<resultMap id="ZcEbEvalPackResult" class="ZcEbEvalPack">
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="projName" column="PROJ_NAME" />
+		<result property="zbFileID" column="FILE_ID" />
+		<result property="packCode" column="PACK_CODE" />
+		<result property="packName" column="PACK_NAME" />
+		<result property="pack.packCode" column="PACK_CODE" />
+		<result property="pack.packName" column="PACK_NAME" />
+		<result property="pack.packDesc" column="PACK_DESC" />
+		<result property="pack.coCode" column="CO_CODE" />
+		<result property="packStatus" column="STATUS" />
+		<result property="formulaCode" column="FORMULA_CODE" />
+		<result property="factorType" column="FACTOR_TYPE" />
+		<result property="formulaName" column="FORMULA_NAME" />
+		<result property="evalLeader" column="EVAL_LEADER" />
+	</resultMap>
+	<resultMap id="ZcEbFormulaItemResult" class="ZcEbEvalFormulaItem">
+		<result property="itemCode" column="ITEM_CODE" />
+		<result property="parentItemCode" column="PARENT_ITEM_CODE" />
+		<result property="name" column="NAME" />
+		<result property="itemType" column="ITEM_TYPE" />
+		<!-- result property="isLeaf" column="IS_LEAF" /> -->
+	</resultMap>
+
+	<resultMap id="ZcEbEvalItemResultClass" class="ZcEbEvalItemResult">
+		<result column="PROJ_CODE" property="projCode" jdbcType="VARCHAR" />
+		<result column="PACK_CODE" property="packCode" jdbcType="VARCHAR" />
+		<result column="RESULT_CODE" property="resultCode" jdbcType="VARCHAR" />
+		<result column="FORMULA_CODE" property="formulaCode" jdbcType="VARCHAR" />
+		<result column="PROVIDER_CODE" property="providerCode"
+			jdbcType="VARCHAR" />
+		<result column="PROVIDER_NAME" property="providerName"
+			jdbcType="VARCHAR" />
+		<result column="PARENT_ITEM_CODE" property="parentItemCode"
+			jdbcType="VARCHAR" />
+		<result column="ITEM_CODE" property="itemCode" jdbcType="VARCHAR" />
+		<result column="ITEM_NAME" property="itemName" jdbcType="VARCHAR" />
+		<result column="DESCRIPTION" property="description" jdbcType="VARCHAR" />
+		<result column="INDX" property="indx" jdbcType="INTEGER" />
+		<result column="ITEM_TYPE" property="itemType" jdbcType="VARCHAR" />
+		<result column="EVAL_EXPERT" property="evalExpert" jdbcType="VARCHAR" />
+		<result column="EVAL_DATE" property="evalDate" jdbcType="TIMESTAMP" />
+		<result column="COMPLIANCE_EVAL_VALUE" property="complianceEvalValue"
+			jdbcType="VARCHAR" />
+		<result column="COMPLIANCE_UNPASS_REASON" property="complianceUnpassReason"
+			jdbcType="VARCHAR" />
+		<result column="EXPERT_EVAL_SCORE" property="expertEvalScore"
+			jdbcType="DECIMAL" />
+		<result column="STANDARD_SCORE" property="standardScore"
+			jdbcType="DECIMAL" />
+		<result column="WEIGHT" property="weight" jdbcType="DECIMAL" />
+		<result column="BASE_SCORE" property="baseScore" jdbcType="DECIMAL" />
+		<result column="LEAST_SCORE" property="leastScore" jdbcType="DECIMAL" />
+		<result column="MAX_ADD_SCORE" property="maxAddScore" jdbcType="DECIMAL" />
+		<result column="MAX_MINUS_SCORE" property="maxMinusScore"
+			jdbcType="DECIMAL" />
+		<result column="ADJUST_SCORE" property="adjustScore" jdbcType="DECIMAL" />
+		<result column="ADJUST_REASON" property="adjustReason"
+			jdbcType="VARCHAR" />
+		<result column="EVAL_RESULT" property="evalResult" jdbcType="VARCHAR" />
+		<result column="IS_COMPOSITE_RESULT" property="isCompositeResult"
+			jdbcType="VARCHAR" />
+		<result column="REMARK" property="remark" jdbcType="VARCHAR" />
+		<result column="EVAL_EXPERT_CODE" property="evalExpertCode"
+			jdbcType="VARCHAR" />
+		<result column="IS_PRICE_TARGET" property="isPriceTarget"
+			jdbcType="VARCHAR" />
+		<result column="IS_ADD_SCORE" property="isAddScore" jdbcType="VARCHAR" />
+		<result column="FORMULA" property="formula" jdbcType="VARCHAR" />
+		<result column="FORMULA_ITEM_REMARK" property="formulaItemRemark"
+			jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="ZcEbEvalFirstLevelComplianceItemResultClass"
+		class="ZcEbEvalItemResult">
+		<result column="PROVIDER_CODE" property="providerCode"
+			jdbcType="VARCHAR" />
+		<result column="PROVIDER_NAME" property="providerName"
+			jdbcType="VARCHAR" />
+		<result column="ITEM_NAME" property="itemName" jdbcType="VARCHAR" />
+		<result column="DESCRIPTION" property="description" jdbcType="VARCHAR" />
+		<result column="COMPLIANCE_EVAL_VALUE" property="complianceEvalValue"
+			jdbcType="VARCHAR" />
+		<result column="COMPLIANCE_UNPASS_REASON" property="complianceUnpassReason"
+			jdbcType="VARCHAR" />
+		<result column="EVAL_EXPERT" property="evalExpert" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="ZcEbEvalFirstLevelScoreItemResultClass" class="ZcEbEvalItemResult">
+		<result column="PROVIDER_CODE" property="providerCode"
+			jdbcType="VARCHAR" />
+		<result column="PROVIDER_NAME" property="providerName"
+			jdbcType="VARCHAR" />
+		<result column="ITEM_NAME" property="itemName" jdbcType="VARCHAR" />
+		<result column="EVAL_EXPERT" property="evalExpert" jdbcType="VARCHAR" />
+		<result column="EXPERT_EVAL_SCORE" property="expertEvalScore"
+			jdbcType="DECIMAL" />
+	</resultMap>
+	<resultMap id="EvalPackProviderResult" class="EvalPackProvider">
+		<result column="PROVIDER_CODE" property="providerCode"
+			jdbcType="VARCHAR" />
+		<result column="PROVIDER_NAME" property="providerName"
+			jdbcType="VARCHAR" />
+		<result column="PACK_CODE" property="packCode" jdbcType="VARCHAR" />
+		<result column="PACK_NAME" property="packName" jdbcType="VARCHAR" />
+		<result column="PROJ_CODE" property="projCode" jdbcType="VARCHAR" />
+		<result column="BID_DOC_ID" property="tbFileID" jdbcType="VARCHAR" />
+		<result column="BID_SUM" property="bidSum" jdbcType="DECIMAL" />
+	</resultMap>
+	<resultMap id="ZcEbEvalParamResult" class="ZcEbEvalParam">
+		<result column="FORMULA_CODE" property="formulaCode" jdbcType="VARCHAR" />
+		<result column="PACK_CODE" property="packCode" jdbcType="VARCHAR" />
+		<result column="PROJ_CODE" property="projCode" jdbcType="VARCHAR" />
+		<result column="PARAM_CODE" property="paramCode" jdbcType="VARCHAR" />
+		<result column="DEFAULT_VALUE" property="defaultValue"
+			jdbcType="VARCHAR" />
+		<result column="VALUE" property="value" jdbcType="VARCHAR" />
+		<result column="DESCRIPTION" property="description" jdbcType="VARCHAR" />
+		<result column="PARAM_NAME" property="paramName" jdbcType="VARCHAR" />
+		<result column="SETTOR" property="settor" jdbcType="VARCHAR" />
+		<result column="SETDATE" property="setDate" jdbcType="Date" />
+		<result column="IS_MAN_SET" property="isManSet" />
+	</resultMap>
+	<resultMap id="ZcEbExpertEvalResult" class="ZcEbExpertEvalResult">
+		<result column="PACK_CODE" property="packCode" jdbcType="VARCHAR" />
+		<result column="PROJ_CODE" property="projCode" jdbcType="VARCHAR" />
+		<result column="PROVIDER_CODE" property="providerCode"
+			jdbcType="VARCHAR" />
+		<result column="PROVIDER_NAME" property="providerName"
+			jdbcType="VARCHAR" />
+		<result column="FORMULA_CODE" property="formulaCode" jdbcType="VARCHAR" />
+		<result property="expertCode" column="EXPERT_CODE" />
+		<result property="expertName" column="EXPERT_NAME" />
+		<result property="itemCode" column="ITEM_CODE" />
+		<result column="EVAL_SCORE" property="scoreEvalResult" />
+		<result column="COMPLIANCE_UNPASS_REASON" property="unPassReason" />
+		<result column="Compliance_Eval_Value" property="complianceValue"
+			jdbcType="VARCHAR" />
+	</resultMap>
+	<resultMap id="ZcEbExpertOpinionResult" class="ZcEbExpertOpinion">
+		<result column="PACK_CODE" property="packCode" jdbcType="VARCHAR" />
+		<result column="PROJ_CODE" property="projCode" jdbcType="VARCHAR" />
+		<result column="PROJ_NAME" property="projName" jdbcType="VARCHAR" />
+		<result column="PACK_NAME" property="packName" jdbcType="VARCHAR" />
+		<result column="OPINION" property="opinion" jdbcType="VARCHAR" />
+		<result property="expertCode" column="EXPERT_CODE" />
+		<result property="expertName" column="EXPERT_NAME" />
+		<result property="time" column="TIME" />
+
+	</resultMap>
+	<!-- 专家承诺书 -->
+	<resultMap id="ZcEbExpertChengNuoResult" class="ZcEbExpertChengNuo">
+		<result column="PACK_CODE" property="packCode" jdbcType="VARCHAR" />
+		<result column="PROJ_CODE" property="projCode" jdbcType="VARCHAR" />
+		<result property="chengNuo" column="IS_CHENGNUO" />
+		<result property="expertName" column="EXPERT_NAME" />
+		<result property="chengNuoDate" column="CHENGNUO_DATE"
+			jdbcType="TIMESTAMP" />
+		<result property="expertCode" column="EXPERT_CODE" />
+	</resultMap>
+	<!-- 评审报告列表页面 -->
+	<select id="getZcEbEvalReportList" resultMap="ZcEbEvalReportResult"
+		parameterClass="elementCondition">
+		select * from ZC_EB_EVAL_REPORT ZC_EB_EVAL_REPORT
+		where 1=1
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		<isNotEqual prepend="AND" property="nd" compareValue="0">
+			ZC_EB_EVAL_REPORT.ND=#nd#
+		</isNotEqual>
+		<isNotNull prepend="AND" property="status">
+			<isEqual property="status" compareValue="todo">
+				exists (select
+				instance_id from V_WF_CURRENT_TASK_ZC_TODO where executor
+				=#executor#
+				and instance_id = ZC_EB_EVAL_REPORT.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="untread">
+				exists ( select
+				instance_id from V_WF_CURRENT_TASK_ZC_UNTREAD where
+				executor
+				=#executor# and
+
+				instance_id = ZC_EB_EVAL_REPORT.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="accepted">
+				status='save'
+			</isEqual>
+			<isEqual property="status" compareValue="exec"> exists (select
+				instance_id from V_WF_ACTION_HISTORY_GK53 where executor =
+				#executor# and instance_id = ZC_EB_EVAL_REPORT.process_inst_id) and
+				status='exec'
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				exists (select
+				instance_id from V_WF_ACTION_HISTORY_GK53 where executor =
+				#executor# and instance_id = ZC_EB_EVAL_REPORT.process_inst_id) and
+				status!='back' and
+				status!='exec' and status!='cancel'
+			</isEqual>
+			<isEqual property="status" compareValue="draft">
+				(exists (select
+				WF_DRAFT_NAME from as_wf_draft where user_id=#executor# and
+				compo_id=#wfcompoId# and
+				WF_DRAFT_ID=ZC_EB_EVAL_REPORT.process_inst_id) or
+				ZC_EB_EVAL_REPORT.process_inst_id is null) and status!='cancel'
+			</isEqual>
+			<isEqual property="status" compareValue="all">
+				1=1
+			</isEqual>			<isEqual property="status" compareValue="cancel">				status='cancel'			</isEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="billStatus">
+			ZC_EB_EVAL_REPORT.status
+			=#billStatus:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="AND" property="projCode">
+			ZC_EB_EVAL_REPORT.PROJ_CODE
+			=#projCode:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="AND" property="packCode">
+			ZC_EB_EVAL_REPORT.PACK_CODE
+			=#packCode:VARCHAR#
+		</isNotNull>
+		order by ZC_EB_EVAL_REPORT.EXECUTE_DATE desc
+	</select>
+	<!-- 中标合同用到 -->
+	<select id="getZcEbEvalReportListNotice" resultMap="ZcEbEvalReportBaseResult"  parameterClass="elementCondition">
+		SELECT
+		T.* FROM (SELECT proj_code,       proj_name,       pack_code,       pack_name,       provider_name,       PROVIDER_CODE,       pur_type,       REPORT_CODE,       EXECUTOR,       status,       remark,       RECORD_CODE,       EXECUTE_DATE,       PROCESS_INST_ID,       Nd nd,       BID_LOCATION,       PUR_PEOPLE,       BID_DATE,       IS_GOON_AUDIT,       BID_SUM,       CO_CODE,       CO_NAME,       ZC_CO_LINKMAN,       AGENCY,       ORG_CODE  FROM ZC_EB_EVAL_REPORT          where ZC_EB_EVAL_REPORT.pur_type!='5'  union          select p.proj_code,               p.proj_name,               p.pack_code,               p.pack_name,               p.WIN_BID_PROVIDER_NAME,               p.WIN_BID_PROVIDER_CODE,               '5' pur_type,               p.RFQ_CODE REPORT_CODE,               p.CREATOR EXECUTOR,               p.status,               '' remark,               '' RECORD_CODE,               p.CREATE_DATE,               p.PROCESS_INST_ID,               p.Nd nd,               '' BID_LOCATION,               '' PUR_PEOPLE,               p.OPEN_BID_DATE,               p.IS_GOON_AUDIT,               p.WIN_BID_SUM,               e.co_code,               m.co_name,               m.link_man,               p.AGENCY,               p.ORG_CODE          from zc_eb_rfq_pack p,zc_eb_pack k,zc_eb_entrust e,ma_company m          where p.pack_code=k.pack_code          and k.entrust_code=e.sn            and e.co_code=m.co_code          and e.nd=m.nd            ) T    WHERE 		t.status!='cancel' and t.provider_code is not null	<isNotEmpty prepend="AND" property="userId">			T.EXECUTOR=#userId:VARCHAR#	</isNotEmpty>	   and not exists(   select 1 from zc_eb_notice n where n.pack_code=t.pack_code   )
+	</select>	<!-- 专家评标列表页面 -->
+	<select id="getZcEbPackList" resultMap="ZcEbEvalPackResult"
+		parameterClass="elementCondition">
+		SELECT V_ZC_EB_EVAL_PACK.PACK_CODE,
+		V_ZC_EB_EVAL_PACK.PACK_NAME,
+		V_ZC_EB_EVAL_PACK.PACK_DESC,
+		V_ZC_EB_EVAL_PACK.STATUS,
+		V_ZC_EB_EVAL_PACK.PROJ_CODE,
+		V_ZC_EB_EVAL_PACK.PROJ_NAME,
+		V_ZC_EB_EVAL_PACK.CO_CODE,
+		V_ZC_EB_EVAL_PACK.AGENCY,
+		V_ZC_EB_EVAL_PACK.FILE_ID,
+		V_ZC_EB_EVAL_PACK.FORMULA_CODE,
+		V_ZC_EB_EVAL_PACK.FACTOR_TYPE,
+		V_ZC_EB_EVAL_PACK.FORMULA_NAME,
+		V_ZC_EB_EVAL_PACK.EVAL_LEADER
+		FROM
+		V_ZC_EB_EVAL_PACK V_ZC_EB_EVAL_PACK
+		WHERE 1=1		<isNotEmpty prepend="AND" property="userId">			V_ZC_EB_EVAL_PACK.EXPERT_CODE=#userId:VARCHAR#		</isNotEmpty>
+		<isNotEqual prepend="AND" compareValue="0" property="nd">
+			V_ZC_EB_EVAL_PACK.ND = #nd#
+		</isNotEqual>
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		<isNotEmpty prepend="AND" property="status">
+			<isEqual property="status" compareValue="compliance">
+				V_ZC_EB_EVAL_PACK.STATUS
+				in('2','3','4')
+			</isEqual>
+			<isEqual property="status" compareValue="score">
+				V_ZC_EB_EVAL_PACK.STATUS
+				in('2','3','4') and
+				V_ZC_EB_EVAL_PACK.FACTOR_TYPE!='2'
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				V_ZC_EB_EVAL_PACK.STATUS='4'
+			</isEqual>
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="packCode">
+			V_ZC_EB_EVAL_PACK.PACK_CODE=#packCode:VARCHAR#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="projCode">
+			V_ZC_EB_EVAL_PACK.PROJ_CODE=#projCode:VARCHAR#
+		</isNotEmpty>
+		ORDER BY V_ZC_EB_EVAL_PACK.PROJ_CODE DESC
+	</select>
+	<select id="getZcEbEvalItemResult" resultMap="ZcEbEvalItemResultClass"
+		parameterClass="Map">
+		SELECT R.*,
+		I.NAME ITEM_NAME,
+		I.PARENT_ITEM_CODE,
+		I.DESCRIPTION
+		DESCRIPTION,
+		I.IS_ADD_SCORE,
+		I.STANDARD_SCORE,
+		I.BASE_SCORE,
+		I.MAX_ADD_SCORE,
+		I.MAX_MINUS_SCORE,
+		I.LEAST_SCORE,
+		I.IS_PRICE_TARGET,
+		I.WEIGHT,
+		I.FORMULA,
+		I.REMARK FORMULA_ITEM_REMARK
+		FROM
+		ZC_EB_EVAL_RESULT R
+		JOIN
+		ZC_EB_FORMULA_ITEM I
+		ON I.ITEM_CODE
+		=R.ITEM_CODE
+		AND I.FORMULA_CODE =
+		R.FORMULA_CODE
+		AND I.ITEM_CODE =
+		#ITEM_CODE:VARCHAR#
+		AND I.ITEM_TYPE =
+		#ITEM_TYPE:VARCHAR#
+		WHERE
+		R.EVAL_EXPERT_CODE =
+		#EVAL_EXPERT_CODE:VARCHAR#
+		AND
+		R.FORMULA_CODE=
+		#FORMULA_CODE:VARCHAR#
+		AND
+		R.PROVIDER_CODE =
+		#PROVIDER_CODE:VARCHAR#
+		AND
+		R.PACK_CODE =
+		#PACK_CODE:VARCHAR#
+		AND
+		R.PROJ_CODE =
+		#PROJ_CODE:VARCHAR#
+		AND
+		R.ITEM_CODE =
+		#ITEM_CODE:VARCHAR#
+	</select>
+	<select id="getZcEbEvalReport" resultMap="ZcEbEvalReportResult"
+		parameterClass="string">
+		SELECT * FROM
+		ZC_EB_EVAL_REPORT
+		WHERE
+		REPORT_CODE=#reportCode:VARCHAR#
+	</select>
+	<select id="getZcEbEvalReportByPackCode" resultMap="ZcEbEvalReportResult"
+		parameterClass="Map">
+		SELECT * FROM
+		ZC_EB_EVAL_REPORT
+		WHERE
+		PROJ_CODE=#projCode:VARCHAR#
+		AND
+		PACK_CODE=#packCode:VARCHAR#
+	</select>	<select id="getZcEbEvalReportByProcessid" resultMap="ZcEbEvalReportResult"		parameterClass="string">		SELECT * FROM		ZC_EB_EVAL_REPORT		WHERE		PROCESS_INST_ID=#value#			</select>	<select id="queryExportsDatas" resultMap="ZcEbEvalReportResult"		parameterClass="elementCondition">		SELECT * FROM		ZC_EB_EVAL_REPORT							<isNotEmpty property="pmAdjustCodeList" prepend="where">            REPORT_CODE in            <iterate property="pmAdjustCodeList"  conjunction="," open="(" close=")">                #pmAdjustCodeList[]#            </iterate>        </isNotEmpty>		</select>
+	<select id="getZcEbEvalItemResultList" resultMap="ZcEbEvalItemResultClass"
+		parameterClass="Map">
+		SELECT R.*,
+		I.NAME ITEM_NAME,
+		I.PARENT_ITEM_CODE,
+		I.DESCRIPTION
+		DESCRIPTION,
+		I.IS_ADD_SCORE,
+		I.STANDARD_SCORE,
+		I.BASE_SCORE,
+		I.MAX_ADD_SCORE,
+		I.MAX_MINUS_SCORE,
+		I.LEAST_SCORE,
+		I.IS_PRICE_TARGET,
+		I.WEIGHT,
+		I.FORMULA,
+		I.REMARK FORMULA_ITEM_REMARK
+		FROM
+		ZC_EB_EVAL_RESULT R
+		JOIN
+		ZC_EB_FORMULA_ITEM I
+		ON
+		I.ITEM_CODE(+) = R.ITEM_CODE
+		<isNotNull prepend="AND" property="PARENT_ITEM_CODE">
+			I.PARENT_ITEM_CODE =
+			#PARENT_ITEM_CODE:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="AND" property="ITEM_CODE">
+			R.ITEM_CODE =
+			#ITEM_CODE:VARCHAR#
+		</isNotNull>
+		AND
+		R.ITEM_TYPE =
+		#ITEM_TYPE:VARCHAR#
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="EVAL_EXPERT_CODE">
+				R.EVAL_EXPERT_CODE
+				=#EVAL_EXPERT_CODE#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="FORMULA_CODE">
+				R.FORMULA_CODE
+				=#FORMULA_CODE#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="PROVIDER_CODE">
+				R.PROVIDER_CODE
+				=#PROVIDER_CODE#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="PACK_CODE">
+				R.PACK_CODE
+				=#PACK_CODE#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="PROJ_CODE">
+				R.PROJ_CODE
+				=#PROJ_CODE#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	<select id="getZcEbEvalFormulaItemList" resultMap="ZcEbEvalItemResultClass"
+		parameterClass="Map">
+		SELECT '' RESULT_CODE,''PROJ_CODE,'' PACK_CODE, ''
+		PROVIDER_NAME,
+		T.PARENT_ITEM_CODE,T.ITEM_CODE,T.NAME
+		ITEM_NAME,T.IS_ADD_SCORE,T.MAX_ADD_SCORE,T.MAX_MINUS_SCORE,T.STANDARD_SCORE,
+		T.BASE_SCORE,T.ITEM_TYPE,T.FORMULA_CODE,T.LEAST_SCORE,T.FORMULA,T.DESCRIPTION,T.IS_PRICE_TARGET,
+		T.WEIGHT,T.INDX,T.REMARK FORMULA_ITEM_REMARK,
+		null PROVIDER_CODE,null
+		EVAL_EXPERT,NULL
+		EVAL_DATE,null COMPLIANCE_EVAL_VALUE,null
+		COMPLIANCE_UNPASS_REASON,
+		null
+		EXPERT_EVAL_SCORE,null ADJUST_SCORE,null
+		ADJUST_REASON,null EVAL_RESULT,null IS_COMPOSITE_RESULT,null
+		REMARK,null EVAL_EXPERT_CODE
+		FROM ZC_EB_FORMULA_ITEM T
+		WHERE
+		T.FORMULA_CODE=#FORMULA_CODE:VARCHAR#
+		AND
+		T.ITEM_TYPE=#ITEM_TYPE:VARCHAR#
+		<isNotNull prepend=" " property="ITEM_CODE">
+			START WITH
+			T.PARENT_ITEM_CODE =#ITEM_CODE:VARCHAR#
+			CONNECT BY PRIOR T.ITEM_CODE =
+			T.PARENT_ITEM_CODE
+		</isNotNull>
+	</select>
+	<insert id="insertZcEbEvalItemResult" parameterClass="ZcEbEvalItemResult">
+		insert into
+		ZC_EB_EVAL_RESULT (RESULT_CODE,
+		FORMULA_CODE,
+		PROVIDER_CODE,
+		ITEM_CODE,
+		INDX,
+		ITEM_TYPE, EVAL_EXPERT, EVAL_DATE,
+		COMPLIANCE_EVAL_VALUE,
+		COMPLIANCE_UNPASS_REASON, EXPERT_EVAL_SCORE,
+		ADJUST_SCORE,
+		ADJUST_REASON, EVAL_RESULT,
+		IS_COMPOSITE_RESULT, REMARK,
+		EVAL_EXPERT_CODE,PROVIDER_NAME,PACK_CODE,PROJ_CODE)
+		values
+		(#resultCode:VARCHAR#,
+		#formulaCode:VARCHAR#,
+		#providerCode:VARCHAR#,
+		#itemCode:VARCHAR#,
+		#indx:INTEGER#,
+		#itemType:VARCHAR#,
+		#evalExpert:VARCHAR#,
+		#evalDate:TIMESTAMP#,
+		#complianceEvalValue:VARCHAR#,
+		#complianceUnpassReason:VARCHAR#,
+		#expertEvalScore:DECIMAL#,
+		#adjustScore:DECIMAL#,
+		#adjustReason:VARCHAR#,
+		#evalResult:VARCHAR#,
+		#isCompositeResult:VARCHAR#, #remark:VARCHAR#,
+		#evalExpertCode:VARCHAR#,#providerName:VARCHAR#,#packCode:VARCHAR#,#projCode:VARCHAR#)
+	</insert>
+	<insert id="insertZcEbEvalReport" parameterClass="ZcEbEvalReport">
+		INSERT INTO
+		ZC_EB_EVAL_REPORT(
+		REPORT_CODE,PROJ_NAME,PROJ_CODE,
+		PACK_CODE,PACK_NAME,RECORD_CODE,
+		REMARK,EXECUTOR,TSQK_DESCRIPTION,
+		EVAL_DESCRIPTION,REPORT_ATTACH_BLOBID,
+		SIGN_REPORT_ATTACH_BLOBID,
+		EXECUTE_DATE,BID_DATE,BID_LOCATION, PUR_TYPE,
+		SUPERVISE_OPINION,
+		CALL_BID_OPINION,PROVIDER_NAME,PROVIDER_CODE,
+		BID_EVAL_OPINION,PROCESS_INST_ID,ND,IS_GOON_AUDIT,STATUS,BID_SUM,
+		CO_CODE,CO_NAME,ZC_CO_LINKMAN,AGENCY,EXPERT_OPINION,ORG_CODE
+		)values(
+		#reportCode:VARCHAR#,#projName:VARCHAR#,#projCode:VARCHAR#,
+		#packCode:VARCHAR#,#packName:VARCHAR#,#recordCode:VARCHAR#,
+		#remark:VARCHAR#,#executor:VARCHAR#,#tsqkDescription:VARCHAR#,
+		#evalDescription:VARCHAR#,#reportAttachBlobid:VARCHAR#,#signReportAttachBlobid:VARCHAR#,
+		#executeDate:VARCHAR#,#bidDate:VARCHAR#,#bidLocation:VARCHAR#,
+		#purType:VARCHAR#,#superviseOpinion:VARCHAR#,
+		#callBidOpinion:VARCHAR#,#providerName:VARCHAR#,#providerCode:VARCHAR#,
+		#bidEvalOpinion:VARCHAR#,#processInstId#,#nd:VARCHAR#,#isGoonAudit#,#status#,#bidSum#,
+		#coCode:VARCHAR#,#coName:VARCHAR#,#zcCoLinkMan:VARCHAR#,#agency:VARCHAR#,#expertOpinion#,#orgCode#
+		)
+	</insert>
+	<update id="updateZcEbEvalItemResult" parameterClass="ZcEbEvalItemResult">
+		update
+		ZC_EB_EVAL_RESULT
+		set
+		PROVIDER_CODE = #providerCode:VARCHAR#,
+		ITEM_CODE =
+		#itemCode:VARCHAR#,
+		INDX = #indx:INTEGER#,
+		ITEM_TYPE =
+		#itemType:VARCHAR#,
+		EVAL_EXPERT = #evalExpert:VARCHAR#,
+		EVAL_DATE =
+		#evalDate:TIMESTAMP#,
+		COMPLIANCE_EVAL_VALUE =
+		#complianceEvalValue:VARCHAR#,
+		COMPLIANCE_UNPASS_REASON =
+		#complianceUnpassReason:VARCHAR#,
+		EXPERT_EVAL_SCORE =
+		#expertEvalScore:DECIMAL#,
+		ADJUST_SCORE = #adjustScore:DECIMAL#,
+		ADJUST_REASON = #adjustReason:VARCHAR#,
+		EVAL_RESULT =
+		IS_COMPOSITE_RESULT =
+		#isCompositeResult:VARCHAR#,
+		REMARK =
+		#remark:VARCHAR#,
+		EVAL_EXPERT_CODE = #evalExpertCode:VARCHAR#,
+		FORMULA_CODE =
+		#formulaCode:VARCHAR#,
+		PROVIDER_NAME =
+		#providerName:VARCHAR#,
+		PACK_CODE=#packCode:VARCHAR#,
+		PROJ_CODE=#projCode:VARCHAR#
+		where
+		RESULT_CODE =
+		#resultCode:VARCHAR#
+	</update>
+
+	<delete id="deleteZcEbEvalItemResult" parameterClass="Map">
+		delete from
+		ZC_EB_EVAL_RESULT ZT
+		where
+		ZT.Pack_Code=#packCode:VARCHAR#
+		AND ZT.PROJ_CODE=#projCode:VARCHAR#
+		<isNotNull prepend="AND" property="providerCode">
+			ZT.PROVIDER_CODE=#providerCode:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="AND" property="evalExpertCode">
+			ZT.Eval_Expert_Code=#evalExpertCode:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="AND" property="itemType">
+			ZT.ITEM_TYPE=#itemType:VARCHAR#
+		</isNotNull>
+	</delete>
+	<update id="updateZcEbEvalReport" parameterClass="ZcEbEvalReport">
+		update
+		ZC_EB_EVAL_REPORT
+		set
+		PROJ_NAME=#projName:VARCHAR#,
+		PROJ_CODE
+		=#projCode:VARCHAR#,
+		PACK_CODE =#packCode:VARCHAR#,
+		PACK_NAME
+		=#packName:VARCHAR#,
+		RECORD_CODE =#recordCode:VARCHAR#,
+		REMARK
+		=#remark:VARCHAR#,
+		EXECUTOR =#executor:VARCHAR#,
+		TSQK_DESCRIPTION
+		=#tsqkDescription:VARCHAR#,
+		EVAL_DESCRIPTION
+		=#evalDescription:VARCHAR#,
+		REPORT_ATTACH_BLOBID
+		=#reportAttachBlobid:VARCHAR#,
+		SIGN_REPORT_ATTACH_BLOBID
+		=#signReportAttachBlobid:VARCHAR#,
+		EXECUTE_DATE =#executeDate:VARCHAR#,
+		BID_DATE =#bidDate:VARCHAR#,
+		BID_LOCATION =#bidLocation:VARCHAR#,
+		PUR_TYPE =#purType:VARCHAR#,
+		SUPERVISE_OPINION
+		=#superviseOpinion:VARCHAR#,
+		CALL_BID_OPINION=#callBidOpinion:VARCHAR#,
+		PROVIDER_NAME
+		=#providerName:VARCHAR#,
+		BID_EVAL_OPINION =#bidEvalOpinion:VARCHAR#,
+		PROCESS_INST_ID=#processInstId#,
+		STATUS=#status:VARCHAR#,
+		PROVIDER_CODE=#providerCode:VARCHAR#,
+		IS_GOON_AUDIT=#isGoonAudit#,
+		BID_SUM=#bidSum#,
+		CO_CODE=#coCode:VARCHAR#,
+		CO_NAME=#coName:VARCHAR#,
+		ZC_CO_LINKMAN=#zcCoLinkMan:VARCHAR#,
+		AGENCY=#agency:VARCHAR#,
+		EXPERT_OPINION=#expertOpinion#, ORG_CODE=#orgCode:VARCHAR#
+		where
+		REPORT_CODE =
+		#reportCode:VARCHAR#
+	</update>
+	<select id="getEvalPackProvider" resultMap="EvalPackProviderResult"
+		parameterClass="Map">
+		SELECT S.PROJ_CODE,
+		S.PROVIDER_CODE,S.PROVIDER_NAME,SP.PACK_CODE,P.PACK_NAME,P.STATUS,
+		SP.BID_DOC_ID,CASE
+		WHEN nvl(sp.ecbj_sum,0) > 0 THEN
+		SP.ECBJ_SUM
+		ELSE
+		SP.BID_SUM
+		END BID_SUM FROM
+		ZC_EB_SIGNUP S ,
+		ZC_EB_SIGNUP_PACK SP ,
+		ZC_EB_PACK P
+		WHERE
+		SP.SIGNUP_ID=S.SIGNUP_ID
+		AND P.PACK_CODE=SP.PACK_CODE
+		AND SP.BID_DOC_ID is not null
+		AND SP.OPEN_BID_STATUS='1'
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="PROVIDER_CODE">
+				S.PROVIDER_CODE
+				=#PROVIDER_CODE#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="FILTER_BY_COMPLIANCE_RES">
+				<isEqual property="FILTER_BY_COMPLIANCE_RES" compareValue="Y">
+					S.PROVIDER_CODE in( SELECT ZR.PROVIDER_CODE FROM
+					ZC_EB_PACK_EVAL_RESULT ZR WHERE ZR.COMPLIANCE_EVAL_RESULT='Y'
+					AND
+					ZR.PROJ_CODE=S.PROJ_CODE AND ZR.PACK_CODE=SP.PACK_CODE)
+				</isEqual>
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="packStatus">
+				P.STATUS
+				=#packStatus#
+			</isNotEmpty>
+		</dynamic>
+		AND SP.PACK_CODE=#PACK_CODE:VARCHAR#
+		AND
+		P.PROJ_CODE=#PROJ_CODE:VARCHAR#
+		AND S.PROJ_CODE=#PROJ_CODE:VARCHAR#
+		ORDER BY S.PROVIDER_CODE desc
+	</select>
+	<select id="getEvalPackProviderByForeign" resultMap="EvalPackProviderResult"
+		parameterClass="elementCondition">
+		SELECT S.PROJ_CODE,
+		S.PROVIDER_CODE,S.PROVIDER_NAME,SP.PACK_CODE,P.PACK_NAME,SP.BID_DOC_ID,P.STATUS,
+		SP.BID_DOC_ID,CASE
+		WHEN nvl(sp.ecbj_sum,0) > 0 THEN
+		SP.ECBJ_SUM
+		ELSE
+		SP.BID_SUM
+		END BID_SUM FROM
+		ZC_EB_SIGNUP S ,
+		ZC_EB_SIGNUP_PACK SP ,
+		ZC_EB_PACK P
+		WHERE
+		SP.SIGNUP_ID=S.SIGNUP_ID
+		AND P.PACK_CODE=SP.PACK_CODE
+		AND
+		SP.OPEN_BID_STATUS='1'
+		AND SP.PACK_CODE=#packCode:VARCHAR#
+		AND
+		P.PROJ_CODE=#projCode:VARCHAR#
+		AND S.PROJ_CODE=#projCode:VARCHAR#
+		<dynamic prepend="">
+			<isNotEmpty prepend="AND" property="zcText0">
+				S.PROVIDER_CODE
+				=#zcText0#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="zcText1">
+				<isEqual property="zcText1" compareValue="Y">
+					exists (select 1
+					from
+					zc_eb_pack_eval_result r where
+					r.proj_code=s.proj_code
+					and
+					r.provider_code =s.provider_code and
+					r.pack_code=sp.pack_code and
+					r.is_composite_result='Y' and
+					r.compliance_eval_value='1')
+				</isEqual>
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="status">
+				P.STATUS
+				=#status#
+			</isNotEmpty>
+
+		</dynamic>
+		ORDER BY S.PROVIDER_CODE desc
+	</select>
+
+
+	<select id="getZcEbEvalParamList" resultMap="ZcEbEvalParamResult"
+		parameterClass="Map">
+		SELECT P.*,''PACK_CODE,''PROJ_CODE,''SETTOR,''SETDATE
+		FROM ZC_EB_FORMULA_PARAM P
+		WHERE
+		P.FORMULA_CODE=#formulaCode:VARCHAR#
+		ORDER BY p.PARAM_CODE
+	</select>
+	<select id="getZcEbEvalResultParamList" resultMap="ZcEbEvalParamResult"
+		parameterClass="Map">
+		SELECT
+		PV.*,P.PARAM_NAME,P.DEFAULT_VALUE,P.IS_MAN_SET,P.DESCRIPTION
+		FROM
+		ZC_EB_EVAL_PARAM PV JOIN ZC_EB_FORMULA_PARAM P ON
+		P.PARAM_CODE=PV.PARAM_CODE AND P.FORMULA_CODE=PV.FORMULA_CODE
+		WHERE
+		PV.FORMULA_CODE=#formulaCode:VARCHAR# AND
+		PV.PACK_CODE=#packCode:VARCHAR# AND
+		PV.PROJ_CODE=#projCode:VARCHAR#
+		ORDER BY pv.PARAM_CODE
+	</select>
+
+	<insert id="insertZcEbEvalParam" parameterClass="ZcEbEvalParam">
+		insert into
+		ZC_EB_EVAL_PARAM (FORMULA_CODE, PACK_CODE,PROJ_CODE,SETTOR,SETDATE,
+		PARAM_CODE, VALUE)
+		values
+		(#formulaCode:VARCHAR#,
+		#packCode:VARCHAR#,#projCode:VARCHAR#,#settor:VARCHAR#,#setDate:VARCHAR#
+		,#paramCode:VARCHAR#,#value:VARCHAR#)
+	</insert>
+	<update id="updateZcEbEvalParam" parameterClass="ZcEbEvalParam">
+		update
+		ZC_EB_EVAL_PARAM
+		set VALUE = #value:VARCHAR#
+		where
+		FORMULA_CODE
+		=#formulaCode:VARCHAR#
+		and PACK_CODE = #packCode:VARCHAR#
+		and
+		PARAM_CODE= #paramCode:VARCHAR#
+		and PROJ_CODE=#projCode:VARCHAR#
+	</update>
+	<delete id="deleteZcEbEvalParam" parameterClass="ZcEbEvalParam">
+		delete from
+		ZC_EB_EVAL_PARAM where
+		FORMULA_CODE
+		=#formulaCode:VARCHAR#
+		and PACK_CODE
+		= #packCode:VARCHAR#
+		and
+		PARAM_CODE= #paramCode:VARCHAR#
+		and
+		PROJ_CODE=#projCode:VARCHAR#
+	</delete>
+	<select id="getZcEbExpertEvalResultList" resultMap="ZcEbEvalItemResultClass"
+		parameterClass="elementCondition">
+		SELECT R.*,
+		I.NAME ITEM_NAME,
+		I.PARENT_ITEM_CODE,
+		I.DESCRIPTION
+		DESCRIPTION,
+		I.IS_ADD_SCORE,
+		I.STANDARD_SCORE,
+		I.BASE_SCORE,
+		I.MAX_ADD_SCORE,
+		I.MAX_MINUS_SCORE,
+		I.LEAST_SCORE,
+		I.IS_PRICE_TARGET,
+		I.WEIGHT,
+		I.FORMULA,
+		I.REMARK FORMULA_ITEM_REMARK
+		FROM
+		ZC_EB_EVAL_RESULT R
+		JOIN
+		ZC_EB_FORMULA_ITEM I ON I.ITEM_CODE(+)=R.ITEM_CODE
+		where
+		1=1
+		<isNotEmpty prepend="AND" property="zcText4">
+			<isEqual property="zcText4" compareValue="Y">
+				upper(R.is_composite_result) ='Y'
+			</isEqual>
+			<isEqual property="zcText4" compareValue="N">
+				(upper(R.is_composite_result) !='Y' OR R.IS_COMPOSITE_RESULT IS
+				NULL)
+			</isEqual>
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="zcText1">
+			R.ITEM_TYPE=#zcText1:VARCHAR#
+		</isNotEmpty>		<isNotEmpty prepend="AND" property="dattr1">			R.ITEM_CODE=#dattr1:VARCHAR#		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="zcText2">
+			R.EVAL_EXPERT_CODE=#zcText2:VARCHAR#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="zcText3">
+			R.PROVIDER_CODE=#zcText3:VARCHAR#
+		</isNotEmpty>
+		AND R.FORMULA_CODE=#zcText0:VARCHAR#
+		AND R.PACK_CODE
+		=#packCode:VARCHAR#
+		AND R.PROJ_CODE =#projCode:VARCHAR#
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		ORDER BY
+		R.PROVIDER_CODE,R.EVAL_EXPERT_CODE,
+		R.EXPERT_EVAL_SCORE
+		desc
+	</select>
+	<select id="getZcEbFirstLevelComplianceItemEvalResultList"
+		resultMap="ZcEbEvalFirstLevelComplianceItemResultClass"
+		parameterClass="Map">
+		SELECT R.*,
+		I.NAME
+		ITEM_NAME,
+		I.PARENT_ITEM_CODE,
+		I.DESCRIPTION
+		DESCRIPTION,
+		I.IS_ADD_SCORE,
+		I.STANDARD_SCORE,
+		I.BASE_SCORE,
+		I.MAX_ADD_SCORE,
+		I.MAX_MINUS_SCORE,
+		I.LEAST_SCORE,
+		I.IS_PRICE_TARGET,
+		I.WEIGHT
+		FROM
+		ZC_EB_EVAL_RESULT R
+		JOIN
+		ZC_EB_FORMULA_ITEM I ON I.ITEM_CODE=R.ITEM_CODE AND
+		I.FORMULA_CODE=R.FORMULA_CODE
+		WHERE I.ITEM_TYPE =#ITEM_TYPE:VARCHAR#
+		AND I.PARENT_ITEM_CODE = #PARENT_ITEM_CODE:VARCHAR#
+		AND I.FORMULA_CODE
+		= #FORMULA_CODE:VARCHAR#
+		AND R.PACK_CODE = #PACK_CODE:VARCHAR#
+		ORDER BY
+		R.PROVIDER_CODE,
+		R.EVAL_EXPERT_CODE,R.EXPERT_EVAL_SCORE
+		DESC
+	</select>
+
+	<select id="getZcEbFirstLevelScoreItemEvalResultList" resultMap="ZcEbEvalFirstLevelScoreItemResultClass"
+		parameterClass="Map">
+		SELECT I.NAME ITEM_NAME,
+		I.DESCRIPTION,
+		R.PROVIDER_CODE,
+		R.PROVIDER_NAME,
+		R.EVAL_EXPERT,
+		SUM(R.EXPERT_EVAL_SCORE)
+		EXPERT_EVAL_SCORE
+		FROM
+		ZC_EB_EVAL_RESULT R
+		JOIN ZC_EB_FORMULA_ITEM I
+		ON
+		I.ITEM_CODE =
+		R.ITEM_CODE
+		AND I.FORMULA_CODE = R.FORMULA_CODE
+		WHERE
+		I.ITEM_TYPE =
+		#ITEM_TYPE:VARCHAR#
+		AND I.PARENT_ITEM_CODE =
+		#PARENT_ITEM_CODE:VARCHAR#
+		AND I.FORMULA_CODE = #FORMULA_CODE:VARCHAR#
+		AND R.PACK_CODE =
+		#PACK_CODE:VARCHAR#
+		GROUP BY I.NAME,
+		I.DESCRIPTION,
+		R.PROVIDER_CODE,
+		R.PROVIDER_NAME,R.EVAL_EXPERT
+		ORDER BY
+		R.PROVIDER_CODE,
+		EXPERT_EVAL_SCORE DESC
+	</select>
+	<delete id="deleteZcEbEvalReport" parameterClass="string">
+		delete from
+		ZC_EB_EVAL_REPORT where REPORT_CODE=#reportCode:VARCHAR#
+	</delete>
+	<select id="getEvalExpertList" resultMap="ZcEbEvalExpertResultClass"
+		parameterClass="elementCondition">
+		SELECT ZT.EVAL_EXPERT_CODE EXPERT_CODE,
+		MIN(EVAL_EXPERT)EXPERT_NAME
+		FROM ZC_EB_EVAL_RESULT ZT
+		WHERE
+		ZT.PACK_CODE=#packCode#
+		AND
+		ZT.PROJ_CODE=#projCode#
+		AND
+		ZT.ITEM_TYPE=#zcText1#
+		GROUP BY
+		ZT.EVAL_EXPERT_CODE
+	</select>
+
+	<select id="getZcEbExpertEvalPackResultList" resultMap="ZcEbExpertEvalResult"
+		parameterClass="Map">
+		SELECT ZR1.PROVIDER_CODE,
+		ZR1.PROVIDER_NAME,
+		ZR1.PACK_CODE,
+		ZR1.PROJ_CODE,
+		ZR1.FORMULA_CODE,
+		ZR1.Compliance_Eval_Value,
+		ZR1.Eval_Expert_Code as EXPERT_CODE,
+		ZR1.Eval_Expert as EXPERT_NAME,
+		ZR1.Is_Compliance_Result,
+		ZR1.ITEM_CODE,
+		ZR1.Compliance_Unpass_Reason,
+		ZR1.Provider_Name,
+		CASE
+		WHEN ZR1.COMPLIANCE_EVAL_VALUE='2' THEN
+		0
+		ELSE
+		(SELECT ZR2.Expert_Eval_Score
+		FROM Zc_Eb_Eval_Result ZR2
+		WHERE
+		ZR2.PACK_CODE = ZR1.PACK_CODE
+		AND ZR2.PROJ_CODE = ZR1.PROJ_CODE
+		AND
+		ZR2.Is_Composite_Result='Y'
+		AND ZR2.Item_Code='SC'
+		AND ZR2.PROVIDER_CODE
+		= ZR1.PROVIDER_CODE
+		AND ZR2.EVAL_EXPERT_CODE=ZR1.EVAL_EXPERT_CODE
+		)
+		END
+		EVAL_SCORE
+		FROM Zc_Eb_Eval_Result ZR1
+		WHERE
+		ZR1.Is_Composite_Result='Y'
+		AND ZR1.Item_Code='CP'
+		<isNotEmpty prepend="AND" property="PROJ_CODE">
+			PROJ_CODE =#PROJ_CODE#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="PACK_CODE">
+			PACK_CODE =#PACK_CODE#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="PROVIDER_CODE">
+			PROVIDER_CODE
+			=#PROVIDER_CODE#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="IS_COMPLIANCE_RESULT">
+			ZR1.IS_COMPLIANCE_RESULT
+			=#IS_COMPLIANCE_RESULT#
+		</isNotEmpty>
+		ORDER BY EVAL_SCORE DESC
+	</select>
+	<delete id="deleteZcEbPackSumRes" parameterClass="Map">
+		DELETE FROM ZC_EB_PACK_EVAL_RESULT PR WHERE
+		PR.IS_COMPOSITE_RESULT='Y'
+		<dynamic prepend="AND">
+			<isNotEmpty prepend="AND" property="PROJ_CODE">
+				PROJ_CODE =#PROJ_CODE#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="PACK_CODE">
+				PACK_CODE =#PACK_CODE#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="PROVIDER_CODE">
+				PROVIDER_CODE
+				=#PROVIDER_CODE#
+			</isNotEmpty>
+		</dynamic>
+	</delete>
+	<select id="getCalculatorClass" resultMap="ZcEbCalWayResult"
+		parameterClass="String">
+		SELECT * FROM ZC_EB_PACK_SUM_CALCULATOR C
+		WHERE
+		C.CAL_WAY_ID=#CAL_WAY_ID#
+	</select>
+	<select id="getZcEbEvalPackSumResult" resultMap="ZcEbPackEvalResult"
+		parameterClass="Map">
+		SELECT * FROM ZC_EB_PACK_EVAL_RESULT ZT
+		WHERE 1=1
+		<isNotNull prepend="and" property="PROJ_CODE">
+			ZT.PROJ_CODE =#PROJ_CODE#
+		</isNotNull>
+		<isNotNull prepend="and" property="PACK_CODE">
+			ZT.PACK_CODE =#PACK_CODE#
+		</isNotNull>
+		<isNotNull prepend="and" property="IS_COMPLIANCE_RESULT">
+			ZT.IS_COMPLIANCE_RESULT=#IS_COMPLIANCE_RESULT#
+		</isNotNull>
+		order by ZT.EVAL_SCORE desc
+	</select>
+	<insert id="insertZcEbPackEvalFinalSumResult" parameterClass="ZcEbPackEvalResult">
+		insert into
+		ZC_EB_PACK_EVAL_RESULT (RESULT_CODE,
+		PROJ_CODE,
+		PACK_CODE,
+		PROVIDER_CODE,
+		PROVIDER_NAME,
+		PROVIDER_TOTAL_PRICE,
+		EVAL_SCORE,
+		COMPLIANCE_EVAL_RESULT,
+		EVAL_RESULT,
+		IS_COMPLIANCE_RESULT,
+		ADJUST_SCORE,
+		COMPLIANCE_EVAL_VALUE,
+		COMPLIANCE_UNPASS_REASON,
+		REMARK,
+		EXPERT_CODE,
+		EXPERT_NAME,
+		SUM_WAY
+		)
+		values
+		(#resultCode:VARCHAR#,
+		#projCode:VARCHAR#,
+		#packCode:VARCHAR#,
+		#providerCode:VARCHAR#,
+		#providerName:VARCHAR#,
+		#providerTotalPrice:DECIMAL#,
+		#evalScore:DECIMAL#,
+		#complianceEvalResult:VARCHAR#,
+		#evalResult:VARCHAR#,
+		#isComplianceResult:VARCHAR#,
+		#adjustScore:DECIMAL#,
+		#complianceEvalValue:VARCHAR#,
+		#complianceUnpassReason:VARCHAR#,
+		#remark:VARCHAR#,
+		#expertCode:VARCHAR#,
+		#expertName:VARCHAR#,
+		#sumWay:VARCHAR#)
+	</insert>
+	<update id="updateZcEbPackEvalFinalSumResult" parameterClass="ZcEbPackEvalResult">
+		update
+		ZC_EB_PACK_EVAL_RESULT
+		set EVAL_RESULT = #evalResult:VARCHAR#,
+		EVAL_SCORE = #evalScore:DECIMAL#,
+		ADJUST_SCORE = #adjustScore:DECIMAL#,
+		REMARK = #remark:VARCHAR#,
+		COMPLIANCE_EVAL_VALUE=
+		#complianceEvalValue:VARCHAR#,
+		COMPLIANCE_UNPASS_REASON=
+		#complianceUnpassReason:VARCHAR#,
+		PROVIDER_TOTAL_PRICE=
+		#providerTotalPrice:DECIMAL#,
+		SUM_WAY=
+		#sumWay:VARCHAR#
+		where
+		RESULT_CODE
+		=
+		#resultCode:VARCHAR#
+	</update>
+	<delete id="deleteZcEbPackEvalFinalSumResult" parameterClass="Map">
+		delete from
+		ZC_EB_PACK_EVAL_RESULT where
+		PROJ_CODE=#projCode:VARCHAR#
+		AND PACK_CODE=#packCode:VARCHAR#
+		<isNotNull prepend="AND" property="providerCode">
+			PROVIDER_CODE=#providerCode:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="AND" property="IS_COMPLIANCE_RESULT">
+			IS_COMPLIANCE_RESULT=#IS_COMPLIANCE_RESULT#
+		</isNotNull>
+	</delete>
+	<select id="getZcEbProviderPackEvalResult" resultMap="ZcEbPackEvalResult"
+		parameterClass="Map">
+		SELECT * FROM ZC_EB_PACK_EVAL_RESULT t where
+		t.is_composite_result='Y'
+		and PROJ_CODE =#PROJ_CODE#
+		and PACK_CODE
+		=#PACK_CODE#
+		and PROVIDER_CODE
+		=#PROVIDER_CODE#
+	</select>
+	<select id="getParentResult" resultMap="ZcEbExpertEvalResult"
+		parameterClass="Map">
+		SELECT
+		PROVIDER_CODE,
+		PROVIDER_NAME,
+		PACK_CODE,
+		PROJ_CODE,
+		FORMULA_CODE,
+		Compliance_Eval_Value,
+		Eval_Expert_Code as EXPERT_CODE,
+		Eval_Expert as
+		EXPERT_NAME,
+		IS_COMPLIANCE_RESULT,
+		EXPERT_EVAL_SCORE as EVAL_SCORE,
+		ITEM_CODE,
+		PROVIDER_NAME,
+		COMPLIANCE_UNPASS_REASON
+		FROM
+		ZC_EB_EVAL_RESULT
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="EVAL_EXPERT_CODE">
+				EVAL_EXPERT_CODE
+				=#EVAL_EXPERT_CODE#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="FORMULA_CODE">
+				FORMULA_CODE
+				=#FORMULA_CODE#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="PROVIDER_CODE">
+				PROVIDER_CODE
+				=#PROVIDER_CODE#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="PACK_CODE">
+				PACK_CODE
+				=#PACK_CODE#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="PROJ_CODE">
+				PROJ_CODE
+				=#PROJ_CODE#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="ITEM_CODE">
+				ITEM_CODE
+				=#ITEM_CODE#
+			</isNotEmpty>
+		</dynamic>
+		ORDER BY PROVIDER_CODE desc
+	</select>
+	<select id="getZcEbEvalFormulaItemReportList" resultMap="ZcEbFormulaItemReport"
+		parameterClass="Map">
+		select
+		k.*,
+		CASE WHEN LEAD(LEVELS) OVER(ORDER BY RN) >
+		LEVELS THEN 0 ELSE 1 END ISLEAF
+		from
+		(
+		SELECT
+		ROWNUM RN,
+		a.*,
+		level LEVELS,
+		(SELECT COUNT(1)
+		FROM ZC_EB_FORMULA_ITEM B
+		WHERE LEVEL = (SELECT
+		MAX(LEVEL)
+		FROM ZC_EB_FORMULA_ITEM C
+		START WITH C.ITEM_CODE =
+		A.ITEM_CODE
+		CONNECT BY PRIOR C.ITEM_CODE = C.PARENT_ITEM_CODE)
+		START
+		WITH B.ITEM_CODE = A.ITEM_CODE
+		CONNECT BY PRIOR B.ITEM_CODE =
+		B.PARENT_ITEM_CODE) as leafcount
+		FROM ZC_EB_FORMULA_ITEM a
+		WHERE
+		FORMULA_CODE = (select FORMULA_CODE from ZC_EB_FORMULA where
+		PROJ_CODE
+		= #PROJ_CODE:VARCHAR# and PACK_CODE = #PACK_CODE:VARCHAR#)
+		AND
+		ITEM_TYPE = #ITEM_TYPE:VARCHAR#
+		START WITH PARENT_ITEM_CODE =
+		#ITEM_CODE:VARCHAR#
+		CONNECT BY PRIOR ITEM_CODE = PARENT_ITEM_CODE
+		) k
+	</select>
+
+	<insert id="insertZcEbExpertOpinion" parameterClass="ZcEbExpertOpinion">
+		insert into
+		ZC_EB_EXPERT_OPINION (PROJ_CODE, PACK_CODE,PROJ_NAME,PACK_NAME,
+		OPINION, TIME,EXPERT_CODE,EXPERT_NAME)
+		values
+		(#projCode:VARCHAR#,
+		#packCode:VARCHAR#,#projName:VARCHAR#,#packName:VARCHAR#,#opinion:VARCHAR#,#time:DATE#
+		,#expertCode:VARCHAR#,#expertName:VARCHAR#)
+	</insert>
+	<delete id="deleteZcEbExpertOpinion" parameterClass="ZcEbExpertOpinion">
+		delete from
+		ZC_EB_EXPERT_OPINION
+		where PROJ_CODE = #projCode:VARCHAR#
+		and PACK_CODE
+		= #packCode:VARCHAR#
+		and EXPERT_CODE = #expertCode:VARCHAR#
+	</delete>
+	<select id="getEbExpertOpinionList" resultMap="ZcEbExpertOpinionResult"
+		parameterClass="Map">
+		select *
+		from ZC_EB_EXPERT_OPINION
+		where 1=1
+		<isNotEmpty prepend="AND" property="projCode">
+			PROJ_CODE =
+			#projCode:VARCHAR#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="packCode">
+			PACK_CODE =
+			#packCode:VARCHAR#
+		</isNotEmpty>
+	</select>
+	<select id="getEbExpertOpinion" resultMap="ZcEbExpertOpinionResult"
+		parameterClass="Map">
+		select *
+		from ZC_EB_EXPERT_OPINION
+		where PROJ_CODE =
+		#projCode:VARCHAR#
+		and PACK_CODE = #packCode:VARCHAR#
+		and
+		EXPERT_CODE=#expertCode:VARCHAR#
+	</select>
+	<select id="getZcEbProj" resultMap="ZcEbProjResult"
+		parameterClass="elementCondition">
+		select distinct PROJ.* from ZC_EB_PROJ PROJ, ZC_EB_PACK pack,
+		Zc_Eb_Duty_Audit_Sheet sheet, zc_eb_plan plan where PROJ.proj_code =
+		pack.proj_code and pack.entrust_code = sheet.sn and proj.proj_code =
+		plan.proj_code 		<!-- and pack.status != '0'  -->		and not exists (select
+		Zc_Eb_Eval_Report.Pack_Code from Zc_Eb_Eval_Report Zc_Eb_Eval_Report
+		where Zc_Eb_Eval_Report.Proj_Code = proj.proj_code and
+		Zc_Eb_Eval_Report.Pack_Code = pack.Pack_Code) and sheet.attn =
+		#zcText0# and PROJ.Status != 'cancel'		<isNotEqual prepend="AND" compareValue="0" property="nd">			PROJ.nd = #nd#
+		</isNotEqual>
+	</select>
+	<select id="getZcEbPack" resultMap="ZcEbPackResult"
+		parameterClass="elementCondition">
+		select master.PACK_CODE,
+		master.PROJ_CODE,
+		master.PUR_CONTENT,
+		master.PACK_NAME,
+		master.PACK_BUDGET,
+		master.ENTRUST_CODE,
+		master.IS_CHECK_QUALIFICATION,
+		master.PUR_TYPE,
+		master.ANALYSE_TYPE,
+		master.BID_LOCATION,
+		master.BID_DEPOSIT,
+		master.IS_FAILED,
+		master.TECH_REQUIRE,
+		master.QUALIFICATION_REQUIRE,
+		master.PACK_DESC,
+		master.STATUS,
+		master.IS_SELE_SUPPLIER,
+		master.SELE_TYPE,
+		master.SELE_NUM,
+		master.IS_SHOW_BUDGET,
+		master.FAILED_REASON,
+		master.LAST_STATUS,
+		e.*
+		from ZC_EB_PACK master, ZC_EB_ENTRUST e
+		where
+		e.SN(+) = master.ENTRUST_CODE
+		and master.Status!='0' and
+		master.Status!='cancel' and not exists (select
+		Zc_Eb_Eval_Report.Pack_Code from Zc_Eb_Eval_Report Zc_Eb_Eval_Report
+		where Zc_Eb_Eval_Report.Proj_Code = master.proj_code and
+		Zc_Eb_Eval_Report.Pack_Code = master.pack_code)
+		<isNotNull prepend="and" property="dattr1">
+			master.PROJ_CODE=#dattr1:VARCHAR#
+		</isNotNull>
+		order by
+		to_number(master.PACK_CODE)
+	</select>
+	<select id="getExpertIdCard" resultClass="string"
+		parameterClass="string">
+		select distinct e.EXPERT_ID_CARD
+		from V_ZC_EB_EXPERT E
+		WHERE e.PROJ_CODE = #value#
+	</select>
+
+	<select id="getZcEbExpertChengNuo" resultMap="ZcEbExpertChengNuoResult"
+		parameterClass="map">
+		select * from
+		ZC_EB_EXPERT_CHENGNUO
+		ZC_EB_EXPERT_CHENGNUO
+		WHERE ZC_EB_EXPERT_CHENGNUO.PROJ_CODE =
+		#projCode#
+		AND ZC_EB_EXPERT_CHENGNUO.PACK_CODE=#packCode#
+		AND
+		ZC_EB_EXPERT_CHENGNUO.EXPERT_CODE=#expertCode#
+	</select>
+	<insert id="insertZcEbExpertChengNuo" parameterClass="ZcEbExpertChengNuo">
+		insert into
+		ZC_EB_EXPERT_CHENGNUO (PROJ_CODE,
+		PACK_CODE,EXPERT_CODE,EXPERT_NAME,CHENGNUO_DATE,IS_CHENGNUO)
+		values
+
+
+		(#projCode:VARCHAR#,#packCode:VARCHAR#,#expertCode:VARCHAR#,#expertName:VARCHAR#,#chengNuoDate:TIMESTAMP#,#chengNuo:VARCHAR#)
+	</insert>
+	<update id="updateZcEbExpertChengNuo" parameterClass="ZcEbExpertChengNuo">
+		update
+		ZC_EB_EXPERT_CHENGNUO
+		set
+		IS_CHENGNUO = #chengNuo:VARCHAR#,
+		EXPERT_NAME=#expertName:VARCHAR#
+		where PROJ_CODE
+		= #projCode:VARCHAR#
+		and PACK_CODE = #packCode:VARCHAR#
+		and EXPERT_CODE
+		=
+		#expertCode:VARCHAR#
+	</update>
+
+	<delete id="deleteZcEbExpertChengNuo" parameterClass="ZcEbExpertChengNuo">
+		delete from
+		ZC_EB_EXPERT_CHENGNUO
+		where PROJ_CODE = #projCode:VARCHAR#
+		and PACK_CODE
+		= #packCode:VARCHAR#
+		and EXPERT_CODE = #expertCode:VARCHAR#
+	</delete>
+</sqlMap>

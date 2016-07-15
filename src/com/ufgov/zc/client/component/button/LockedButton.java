@@ -1,0 +1,1 @@
+package com.ufgov.zc.client.component.button;public class LockedButton extends FuncButton {  private static final long serialVersionUID = -4955345464191016108L;  public LockedButton() {    super();  }  protected void init() {    this.funcId = "flocked";    this.defaultText = "锁定";    super.init();  }}

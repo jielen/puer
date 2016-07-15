@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ZC_EB_SUP_PRICE" >
+	
+	<resultMap id="ZcEbSupPriceDetailResult" class="com.ufgov.zc.common.zc.model.SupplierPriceDetail" >
+		<result column="DETAIL_ID" property="detailId" jdbcType="VARCHAR" />
+		<result column="SIGNUP_PACK_ID" property="singupPackId" jdbcType="VARCHAR" />
+		<result column="PROD_NAME" property="prodName" jdbcType="VARCHAR" />
+		<result column="PROD_BRAND" property="prodBrand" jdbcType="VARCHAR" />
+		<result column="PROD_TYPE" property="prodType" jdbcType="VARCHAR" />
+		<result column="PROD_MAIN_PARAM" property="prodMainParam" jdbcType="VARCHAR" />
+		<result column="PROD_AUXILIARY_PARAM" property="prodAuxiliaryParam" jdbcType="VARCHAR" />
+		<result column="PROD_DEVIATION" property="prodDeviation" jdbcType="VARCHAR" />
+		<result column="PROCURE_TYPE" property="procureType" jdbcType="VARCHAR" />
+		<result column="PROD_LOCATION" property="prodLocation" jdbcType="VARCHAR" />
+		<result column="PROD_COMPANY" property="prodCompany" jdbcType="VARCHAR" />
+		<result column="PROD_NUM" property="prodNum" jdbcType="DECIMAL" />
+		<result column="NUM_UNIT" property="numUnit" jdbcType="VARCHAR" />
+		<result column="PROD_PRICE" property="prodPrice" jdbcType="DECIMAL" />
+		<result column="PROD_GUARANTEE_PERIOD" property="prodGuaranteePeriod" jdbcType="VARCHAR" />
+		<result column="PROD_AUTO_EMISSION" property="autoEmission" jdbcType="VARCHAR" />
+		<result column="IS_ENERGY_SAVING" property="isEnergySaving" jdbcType="VARCHAR" />
+		<result column="IS_WARTER_SAVING" property="isWarterSaving" jdbcType="VARCHAR" />
+		<result column="IS_ENVIRONMENT_PROTECTION" property="isEnvironmentProtection" jdbcType="VARCHAR" />
+		<result column="IS_INNOVATIVE" property="isInnovative" jdbcType="VARCHAR" />
+		<result column="STATISTICS_INDICATOR" property="statisticsIndicator" jdbcType="VARCHAR" />
+		<result column="PROCURE_SIZE" property="procureSize" jdbcType="VARCHAR" />
+		<result column="PROCURE_AREA" property="procureArea" jdbcType="VARCHAR" />
+		<result column="GONG_HUO_DATE" property="gongHuoDate" jdbcType="DATE" />
+		
+	</resultMap>
+
+	<select id="selectPriceDetail" resultMap="ZcEbSupPriceDetailResult" parameterClass="com.ufgov.zc.common.zc.model.SupplierPriceDetail" >
+    select DETAIL_ID, PROD_NAME, PROD_BRAND, PROD_TYPE, PROD_MAIN_PARAM, PROD_AUXILIARY_PARAM,
+      PROD_DEVIATION, PROCURE_TYPE, PROD_LOCATION, PROD_COMPANY, PROD_NUM, NUM_UNIT, PROD_PRICE,
+      PROD_GUARANTEE_PERIOD, PROD_AUTO_EMISSION, IS_ENERGY_SAVING,
+      IS_WARTER_SAVING, IS_ENVIRONMENT_PROTECTION, IS_INNOVATIVE, STATISTICS_INDICATOR,
+      PROCURE_SIZE, PROCURE_AREA, SIGNUP_PACK_ID,GONG_HUO_DATE
+    from ZC_EB_SUP_PRICE_DETAIL
+		<dynamic prepend="where">
+			<isNotNull prepend="and" property="singupPackId">
+    		SIGNUP_PACK_ID = #singupPackId:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="and" property="detailId">
+    		DETAIL_ID = #detailId:VARCHAR#
+			</isNotNull>
+		</dynamic>
+	</select>
+	<delete id="deletePriceDetail" parameterClass="com.ufgov.zc.common.zc.model.SupplierPriceDetail" >
+    delete from ZC_EB_SUP_PRICE_DETAIL
+		<dynamic prepend="where">
+			<isNotNull prepend="and" property="singupPackId">
+    		SIGNUP_PACK_ID = #singupPackId:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="and" property="detailId">
+    		DETAIL_ID = #detailId:VARCHAR#
+			</isNotNull>
+		</dynamic>
+	</delete>
+  <insert id="insertPriceDetail" parameterClass="com.ufgov.zc.common.zc.model.SupplierPriceDetail" >
+    insert into ZC_EB_SUP_PRICE_DETAIL (DETAIL_ID, PROD_NAME, PROD_BRAND, PROD_TYPE,
+      PROD_MAIN_PARAM, PROD_AUXILIARY_PARAM, PROD_DEVIATION, PROCURE_TYPE, PROD_LOCATION,
+      PROD_COMPANY, PROD_NUM, NUM_UNIT, PROD_PRICE, PROD_GUARANTEE_PERIOD,
+      PROD_AUTO_EMISSION, IS_ENERGY_SAVING, IS_WARTER_SAVING, IS_ENVIRONMENT_PROTECTION,
+      IS_INNOVATIVE, STATISTICS_INDICATOR, PROCURE_SIZE, PROCURE_AREA, SIGNUP_PACK_ID,GONG_HUO_DATE)
+    values (#detailId:VARCHAR#, #prodName:VARCHAR#, #prodBrand:VARCHAR#, #prodType:VARCHAR#,
+      #prodMainParam:VARCHAR#, #prodAuxiliaryParam:VARCHAR#, #prodDeviation:VARCHAR#,
+      #procureType:VARCHAR#, #prodLocation:VARCHAR#, #prodCompany:VARCHAR#, #prodNum:DECIMAL#,
+      #numUnit:VARCHAR#, #prodPrice:DECIMAL#, #prodGuaranteePeriod:VARCHAR#,
+      #autoEmission:VARCHAR#, #isEnergySaving:VARCHAR#, #isWarterSaving:VARCHAR#,
+      #isEnvironmentProtection:VARCHAR#, #isInnovative:VARCHAR#, #statisticsIndicator:VARCHAR#,
+      #procureSize:VARCHAR#, #procureArea:VARCHAR#, #singupPackId:VARCHAR#,#gongHuoDate:VARCHAR#)
+  </insert>
+  
+  <update id="updateSignPackMoney" parameterClass="com.ufgov.zc.common.zc.model.ZcEbSignupPackDetail">
+  	UPDATE ZC_EB_SIGNUP_PACK T SET T.BID_SUM = to_number(#bidSum#) WHERE T.SIGNUP_PACK_ID = #signupPackId#
+  </update>
+	<select id="selectBidPriceDetailByPackCode" resultMap="ZcEbSupPriceDetailResult" parameterClass="String" >
+    select DETAIL_ID, PROD_NAME, PROD_BRAND, PROD_TYPE, PROD_MAIN_PARAM, PROD_AUXILIARY_PARAM,
+      PROD_DEVIATION, PROCURE_TYPE, PROD_LOCATION, PROD_COMPANY, PROD_NUM, NUM_UNIT, PROD_PRICE,
+      PROD_GUARANTEE_PERIOD, PROD_AUTO_EMISSION, IS_ENERGY_SAVING,
+      IS_WARTER_SAVING, IS_ENVIRONMENT_PROTECTION, IS_INNOVATIVE, STATISTICS_INDICATOR,
+      PROCURE_SIZE, PROCURE_AREA, SIGNUP_PACK_ID,GONG_HUO_DATE
+    from ZC_EB_SUP_PRICE_DETAIL d
+    where d.signup_pack_id in (
+    select p.signup_pack_id from zc_eb_signup_pack p,zc_eb_signup s,zc_eb_eval_report r
+    where r.pack_code=#value#
+    and r.provider_code=s.provider_code
+    and r.proj_code=s.proj_code
+    and r.pack_code=p.pack_code
+    and p.signup_id=s.signup_id
+    )
+    union
+    (select BJ_DETAIL_CODE,SP_NAME,SP_BRAND,'',SP_TECH,'',
+'','','','',xbd.SP_NUM,xbd.UNIT,xbd.SP_PRICE,
+'','','',
+'','','','',
+'','','',xbd.GONG_HUO_DATE
+from zc_eb_xunjia x,zc_eb_xunjia_baojia xb,zc_eb_xunjia_baojia_detail xbd, zc_eb_xunjia_baojia_pack xbp,zc_eb_rfq_pack rf
+where rf.pack_code = x.pack_code
+          and rf.proj_code = x.proj_code
+          and rf.status = '1'
+          and rf.pack_code =#value#
+          and x.xj_code = xbd.xj_code
+          and xbd.bj_code = xbp.bj_code
+          and xbd.bj_code = xb.bj_code
+          and rf.proj_code=xb.proj_code
+          and  x.pack_code = xbp.pack_code
+          and rf.win_bid_provider_code = xb.supplier_code
+          and xbp.status = '2')
+	</select>
+</sqlMap>

@@ -1,0 +1,1 @@
+package com.ufgov.zc.common.system.constants;public class SystemConstants {  public static boolean FUNC_CONTROL = false;}

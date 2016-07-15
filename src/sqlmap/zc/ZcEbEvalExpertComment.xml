@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ZcEbEvalExpertComment">
+
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<typeAlias alias="ZcEbEvalExpertComment"
+		type="com.ufgov.zc.common.zc.model.ZcEbEvalExpertComment" />
+	<resultMap id="ZcEbEvalExpertCommentResult" class="ZcEbEvalExpertComment">
+		<result property="commentCode" column="COMMENT_CODE" />
+		<result property="createDate" column="CREATE_DATE" />
+		<result property="remark" column="REMARK" />
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="projName" column="PROJ_NAME" />
+		<result property="packName" column="PACK_NAME" />
+		<result property="packCode" column="PACK_CODE" />
+		<result property="expertName" column="EXPERT_NAME" />
+		<result property="expertCode" column="EXPERT_CODE" />
+		<result property="commentDesc" column="COMMENT_DESC" />
+		<result property="isSummary" column="IS_SUMMARY" />
+		
+	</resultMap>
+	<select id="getZcExpertCommentList" resultMap="ZcEbEvalExpertCommentResult"
+		parameterClass="map">
+		SELECT * FROM ZC_EB_EVAL_EXPERT_COMMENT
+		<isNotNull prepend=" " property="projCode">
+			WHERE
+			PROJ_CODE=
+			#projCode:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="AND" property="packCode">
+			PACK_CODE=
+			#packCode:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="AND" property="isSummary">
+			PACK_CODE=
+			#isSummary:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="AND" property="expertCode">
+			EXPERT_CODE=
+			#expertCode:VARCHAR#
+		</isNotNull>
+	</select>
+	<delete id="deleteZcExpertComment" parameterClass="string">
+		delete from
+		ZC_EB_EVAL_EXPERT_COMMENT where COMMENT_CODE=#commentCode:VARCHAR#
+	</delete>
+	<delete id="updateZcExpertComment" parameterClass="string">
+		update
+		ZC_EB_EVAL_EXPERT_COMMENT 
+		set
+		REMARK=#remark:VARCHAR#,
+		COMMENT_DESC=#commentDesc:VARCHAR#,
+		IS_SUMMARY=#isSummary:VARCHAR#
+		where 
+		COMMENT_CODE=#commentCode:VARCHAR#
+	</delete>
+	<delete id="deleteZcExpertCommentByExpert" parameterClass="map">
+		delete from
+		ZC_EB_EVAL_EXPERT_COMMENT WHERE
+		<isNotNull prepend=" " property="projCode">
+			PROJ_CODE=
+			#projCode:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="AND" property="packCode">
+			PACK_CODE=
+			#packCode:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="AND" property="expertCode">
+			EXPERT_CODE=
+			#expertCode:VARCHAR#
+		</isNotNull>
+	</delete>
+	<insert id="insertZcEbExpertComment" parameterClass="ZcEbEvalExpertComment">
+		<selectKey resultClass="String" keyProperty="commentCode">
+			SELECT
+			ZC_SEQ_EVAL_COMMENT_ITEM.NEXTVAL AS commentCode FROM DUAL
+		</selectKey>
+		insert into
+		ZC_EB_EVAL_EXPERT_COMMENT (COMMENT_CODE,CREATE_DATE,REMARK,
+		PROJ_CODE,PACK_CODE,EXPERT_CODE,
+		PROJ_NAME,PACK_NAME,EXPERT_NAME,
+		COMMENT_DESC,IS_SUMMARY)
+		values
+		(#commentCode:VARCHAR#,#createDate:VARCHAR#,#remark:VARCHAR#,
+		#projCode:VARCHAR#,#packCode:VARCHAR#,#expertCode:VARCHAR#,
+		#projName:VARCHAR#,#packName:VARCHAR#,#expertName:VARCHAR#,
+		#commentDesc:VARCHAR#,#isSummary:VARCHAR#)
+	</insert>
+</sqlMap>
+

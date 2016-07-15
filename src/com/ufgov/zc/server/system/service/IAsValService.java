@@ -1,0 +1,1 @@
+package com.ufgov.zc.server.system.service;import java.util.List;import java.util.Map;import com.ufgov.zc.common.system.RequestMeta;public interface IAsValService {  List getAsVal(String valSetId);  List getAsVal(String valSetId,RequestMeta meta);  Map getAsValMap(String valSetId);  List getCompanyLevel(String sqlId);}

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.ufgov.zc.server.sf.dao.SfXysxTypeMapper" >
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+  <resultMap id="BaseResultMap" class="com.ufgov.zc.common.sf.model.SfXysxType" >
+    <result column="XYSX_TYPE_ID" property="xysxTypeId" jdbcType="DECIMAL" />
+    <result column="PARENT_ID" property="parentId" jdbcType="DECIMAL" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="DEFAULT_VAL" property="defaultVal" jdbcType="VARCHAR" />
+    <result column="LIST_INDEX" property="listIndex" jdbcType="DECIMAL" />
+    <result column="VAL_TYPE" property="valType" jdbcType="VARCHAR" />
+    <result column="IS_LEAF" property="isLeaf" jdbcType="VARCHAR" />
+    <result column="IS_ENABLE" property="isEnable" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" > 
+    XYSX_TYPE_ID, PARENT_ID, NAME, DEFAULT_VAL, LIST_INDEX, VAL_TYPE, IS_LEAF,IS_ENABLE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="java.math.BigDecimal" > 
+    select 
+    <include refid="Base_Column_List" />
+    from SF_XYSX_TYPE
+    where XYSX_TYPE_ID = #xysxTypeId:DECIMAL#
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="java.math.BigDecimal" > 
+    delete from SF_XYSX_TYPE
+    where XYSX_TYPE_ID = #xysxTypeId:DECIMAL#
+  </delete>
+  <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfXysxType" > 
+    insert into SF_XYSX_TYPE (XYSX_TYPE_ID, PARENT_ID, NAME, 
+      DEFAULT_VAL, LIST_INDEX, VAL_TYPE, 
+      IS_LEAF,IS_ENABLE)
+    values (#xysxTypeId:DECIMAL#, #parentId:DECIMAL#, #name:VARCHAR#, 
+      #defaultVal:VARCHAR#, #listIndex:DECIMAL#, #valType:VARCHAR#, 
+      #isLeaf:VARCHAR#,#isEnable:VARCHAR#)
+  </insert>
+  <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfXysxType" > 
+    update SF_XYSX_TYPE
+    set PARENT_ID = #parentId:DECIMAL#,
+      NAME = #name:VARCHAR#,
+      DEFAULT_VAL = #defaultVal:VARCHAR#,
+      LIST_INDEX = #listIndex:DECIMAL#,
+      VAL_TYPE = #valType:VARCHAR#,
+      IS_LEAF = #isLeaf:VARCHAR#,
+      IS_ENABLE=#isEnable:VARCHAR#
+    where XYSX_TYPE_ID = #xysxTypeId:DECIMAL#
+  </update>
+</sqlMap>

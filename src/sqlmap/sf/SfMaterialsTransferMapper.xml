@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.ufgov.zc.server.sf.dao.SfMaterialsTransferMapper">
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+  <resultMap id="BaseResultMap" class="com.ufgov.zc.common.sf.model.SfMaterialsTransfer">
+    <result column="TRANSFER_ID" jdbcType="DECIMAL" property="transferId" />
+    <result column="ENTRUST_ID" jdbcType="DECIMAL" property="entrustId" />
+    <result column="YI_JIAO_REN" jdbcType="VARCHAR" property="yiJiaoRen" />
+    <result column="JIE_SHOU_REN" jdbcType="VARCHAR" property="jieShouRen" />
+    <result column="YI_JIAO_DATE" jdbcType="DATE" property="yiJiaoDate" />
+    <result column="JIE_SHOU_DATE" jdbcType="DATE" property="jieShouDate" />
+    <result column="YI_JIAO_DESC" jdbcType="VARCHAR" property="yiJiaoDesc" />
+    <result column="JIE_SHOU_DESC" jdbcType="VARCHAR" property="jieShouDesc" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="CL_QUALITY" jdbcType="BIGINT" property="clQuality" />
+    <result column="YB_QUALITY" jdbcType="BIGINT" property="ybQuality" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="ND" jdbcType="DECIMAL" property="nd" />
+    <result column="PROCESS_INST_ID" jdbcType="DECIMAL" property="processInstId" />
+    <result column="ENTRUST_CODE" jdbcType="VARCHAR" property="entrustCode" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="MATERIALS_DESC" jdbcType="VARCHAR" property="materialsDesc" />
+    <result column="COMPLETION_DESC" jdbcType="VARCHAR" property="completionDesc" />
+    <result column="PARENT_ID" jdbcType="DECIMAL" property="parentId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    TRANSFER_ID, ENTRUST_ID, YI_JIAO_REN, JIE_SHOU_REN, YI_JIAO_DATE, JIE_SHOU_DATE, 
+    YI_JIAO_DESC, JIE_SHOU_DESC, REMARK, CL_QUALITY, YB_QUALITY, STATUS, ND, PROCESS_INST_ID, 
+    ENTRUST_CODE, NAME, MATERIALS_DESC, COMPLETION_DESC, PARENT_ID
+  </sql>
+  <select id="selectByPrimaryKey" parameterClass="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SF_MATERIALS_TRANSFER
+    where TRANSFER_ID = #transferId:DECIMAL#
+  </select>
+  <select id="selectMainDataLst" parameterClass="elementCondition" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SF_MATERIALS_TRANSFER
+    where 1=1  
+		<include refid="BusiNumLim.BusiNumLimStr" />   
+		<isNotNull prepend="AND" property="dattr1"> 
+			ENTRUST_ID=#dattr1#
+		</isNotNull> 
+		<!-- 列表界面上的搜索条件 -->
+		<isNotNull prepend="AND" property="dattr5"> 
+			ENTRUST_ID=#dattr5#
+		</isNotNull>   
+	<isNotEqual prepend="and" compareValue="0" property="nd">
+			SF_MATERIALS_TRANSFER.ND = #nd#
+   </isNotEqual>
+		<isNotNull prepend="AND" property="status">
+			<isEqual property="status" compareValue="daiJieShou"><!-- 移交人已经提交，等待接收人接收 -->
+				exists (select instance_id from V_WF_CURRENT_TASK_ZC_TODO where 
+				executor=#executor# and instance_id = SF_MATERIALS_TRANSFER.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="tuihui"> <!-- 接收人拒绝接收，退回的信息 -->
+				exists (select instance_id from V_WF_CURRENT_TASK_ZC_UNTREAD where
+				executor=#executor# and instance_id = SF_MATERIALS_TRANSFER.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="daiYiJiao"><!-- 草稿状态 -->
+				( exists (select WF_DRAFT_NAME from as_wf_draft where
+				user_id=#executor# and
+				compo_id=#wfcompoId# and
+				WF_DRAFT_ID=SF_MATERIALS_TRANSFER.process_inst_id)
+				or
+				SF_MATERIALS_TRANSFER.process_inst_id = -1 )
+				and SF_MATERIALS_TRANSFER.STATUS ='daiYiJiao'
+			</isEqual>
+			<isEqual property="status" compareValue="yiJIeShou"> <!-- 接收人已接收 -->
+				(SF_MATERIALS_TRANSFER.STATUS='yiJIeShou')
+			</isEqual>
+			<isEqual property="status" compareValue="all">
+				1=1
+			</isEqual>
+		</isNotNull>
+		order by TRANSFER_ID desc
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="java.math.BigDecimal">
+    delete from SF_MATERIALS_TRANSFER
+    where TRANSFER_ID = #transferId:DECIMAL#
+  </delete>
+  <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfMaterialsTransfer">
+    insert into SF_MATERIALS_TRANSFER (TRANSFER_ID, ENTRUST_ID, YI_JIAO_REN, 
+      JIE_SHOU_REN, YI_JIAO_DATE, JIE_SHOU_DATE, 
+      YI_JIAO_DESC, JIE_SHOU_DESC, REMARK, 
+      CL_QUALITY, YB_QUALITY, STATUS, 
+      ND, PROCESS_INST_ID, ENTRUST_CODE, 
+      NAME, MATERIALS_DESC, COMPLETION_DESC, 
+      PARENT_ID)
+    values (#transferId:DECIMAL#, #entrustId:DECIMAL#, #yiJiaoRen:VARCHAR#, 
+      #jieShouRen:VARCHAR#, #yiJiaoDate:DATE#, #jieShouDate:DATE#, 
+      #yiJiaoDesc:VARCHAR#, #jieShouDesc:VARCHAR#, #remark:VARCHAR#, 
+      #clQuality:BIGINT#, #ybQuality:BIGINT#, #status:VARCHAR#, 
+      #nd:DECIMAL#, #processInstId:DECIMAL#, #entrustCode:VARCHAR#, 
+      #name:VARCHAR#, #materialsDesc:VARCHAR#, #completionDesc:VARCHAR#, 
+      #parentId:DECIMAL#)
+  </insert>
+  <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfMaterialsTransfer">
+    update SF_MATERIALS_TRANSFER
+    set ENTRUST_ID = #entrustId:DECIMAL#,
+      YI_JIAO_REN = #yiJiaoRen:VARCHAR#,
+      JIE_SHOU_REN = #jieShouRen:VARCHAR#,
+      YI_JIAO_DATE = #yiJiaoDate:DATE#,
+      JIE_SHOU_DATE = #jieShouDate:DATE#,
+      YI_JIAO_DESC = #yiJiaoDesc:VARCHAR#,
+      JIE_SHOU_DESC = #jieShouDesc:VARCHAR#,
+      REMARK = #remark:VARCHAR#,
+      CL_QUALITY = #clQuality:BIGINT#,
+      YB_QUALITY = #ybQuality:BIGINT#,
+      STATUS = #status:VARCHAR#,
+      ND = #nd:DECIMAL#,
+      PROCESS_INST_ID = #processInstId:DECIMAL#,
+      ENTRUST_CODE = #entrustCode:VARCHAR#,
+      NAME = #name:VARCHAR#,
+      MATERIALS_DESC = #materialsDesc:VARCHAR#,
+      COMPLETION_DESC = #completionDesc:VARCHAR#,
+      PARENT_ID = #parentId:DECIMAL#
+    where TRANSFER_ID = #transferId:DECIMAL#
+  </update>
+  
+  <select id="selectByParentId" parameterClass="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SF_MATERIALS_TRANSFER
+    where PARENT_ID = #parentId:DECIMAL#
+  </select>
+</sqlMap>

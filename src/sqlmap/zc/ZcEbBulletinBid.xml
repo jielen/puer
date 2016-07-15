@@ -1,0 +1,637 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ZcEbBulletin">
+
+	<typeAlias alias="ZcEbBulletin" type="com.ufgov.zc.common.zc.model.ZcEbBulletin" />	<typeAlias alias="ZcEbBulletinPack"		type="com.ufgov.zc.common.zc.model.ZcEbBulletinPack" />
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+
+	<resultMap id="ZcEbBulletinResult" class="ZcEbBulletin">
+		<result property="bulletinID" column="BULLETIN_ID" />
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="projName" column="PROJ_NAME" />
+		<result property="bulletinType" column="BULLETIN_TYPE" />
+		<result property="bulletinStatus" column="BULLETIN_STATUS" />
+		<result property="executeDate" column="EXECUTE_DATE" />
+		<result property="executor" column="EXECUTOR" />
+		<result property="effectiveDate" column="EFFECTIVE_DATE" />
+		<result property="remark" column="REMARK" />
+		<result property="nd" column="ND" />
+		<result property="coCode" column="CO_CODE" />
+		<result property="moldName" column="MOLD_NAME" />
+		<result property="moldCode" column="MOLD_CODE" />
+		<result property="fileID" column="FILE_ID" />
+		<result property="isGoonAudit" column="IS_GOON_AUDIT" />
+		<result column="PROCESS_INST_ID" jdbcType="DECIMAL" property="processInstId" />		<result property="agency" column="AGENCY" />		<result property="orgCode" column="ORG_CODE" />		<result property="failureDate" column="FAILURE_DATE" />		<result property="fileId1" column="FILE_ID1" />		<result property="fileName1" column="FILE_NAME1" />		<result property="fileId2" column="FILE_ID2" />		<result property="fileName2" column="FILE_NAME2" />		<result property="openBidTime" jdbcType="TIMESTAMP" column="OPEN_BID_TIME" />		<result property="isExtrac" column="IS_EXTRAC" />		<result property="projectCode" column="PROJECT_CODE" />
+	</resultMap>
+
+	<resultMap id="ZcEbBulletinResultSimple" class="ZcEbBulletin">
+		<result property="bulletinID" column="BULLETIN_ID" />
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="projName" column="PROJ_NAME" />
+		<result property="bulletinType" column="BULLETIN_TYPE" />
+		<result property="bulletinStatus" column="BULLETIN_STATUS" />
+		<result property="executeDate" column="EXECUTE_DATE" />
+		<result property="executor" column="EXECUTOR" />
+		<result property="effectiveDate" column="EFFECTIVE_DATE" />
+		<result property="coCode" column="CO_CODE" />
+		<result property="fileID" column="FILE_ID" />
+		<result property="isGoonAudit" column="IS_GOON_AUDIT" />
+		<result property="isExported" column="IS_EXPORTED" />
+		<result property="moldName" column="MOLD_NAME" />
+		<result property="moldCode" column="MOLD_CODE" />		<result property="agency" column="AGENCY" />		<result property="orgCode" column="ORG_CODE" />		<result property="failureDate" column="FAILURE_DATE" />
+	</resultMap>	<resultMap id="ZcEbBulletinPackResult" class="ZcEbBulletinPack">		<result property="bulletinId" column="BULLETIN_ID" />		<result property="packCode" column="PACK_CODE" />		<result property="pack.projCode" column="PROJ_CODE" />		<result property="pack.packName" column="pack_name" />		<result property="pack.packDesc" column="pack_desc" />	</resultMap>	<resultMap class="com.ufgov.zc.common.zc.model.ZcJingJiaModel"		id="zcJingJiaModelResultMap">		<result column="entrust_code" jdbcType="VARCHAR" property="snCode" />		<result column="linkMan" jdbcType="VARCHAR" property="linkMan" />		<result column="tel" jdbcType="VARCHAR" property="linkTel" />		<result column="endDate" jdbcType="VARCHAR" property="endDate" />		<result column="fax" jdbcType="VARCHAR" property="tax" />		<result column="publishDate" jdbcType="VARCHAR" property="publishDate" />		<result column="maxPrice" jdbcType="VARCHAR" property="maxPrice" />		<result column="address" jdbcType="VARCHAR" property="address" />		<result column="zcPayTypeName" jdbcType="VARCHAR" property="zcPayTypeName" />		<result property="item" select="ZcEbXunJia.getXunJiaByProjCode"			column="PROJ_CODE" />	</resultMap>	<resultMap class="com.ufgov.zc.common.zc.model.ZcHtModel" id="zhongbiaoModelResultMap">		<result column="pack_code" jdbcType="VARCHAR" property="packCode" />		<result column="zb_file_code" jdbcType="VARCHAR" property="zbFileCode" />		<result column="zc_su_addr" jdbcType="VARCHAR" property="zcSuAddr" />		<result column="zc_post_code" jdbcType="VARCHAR" property="zipCode" />		<result column="zc_su_linkman" jdbcType="VARCHAR" property="linkMan" />		<result column="zc_su_tel" jdbcType="VARCHAR" property="linkManPhone" />		<result column="zc_su_bank_name" jdbcType="VARCHAR" property="bankName" />		<result column="zc_su_acc_code" jdbcType="VARCHAR" property="accCode" />		<result column="co_name" jdbcType="VARCHAR" property="coName" />		<result column="pack_name" jdbcType="VARCHAR" property="packName" />		<result column="pack_desc" jdbcType="VARCHAR" property="packDesc" />		<result column="zc_sgn_date" jdbcType="VARCHAR" property="zcSgnDate" />		<result column="win_bid_provider_name" jdbcType="VARCHAR"			property="zcSuName" />		<result column="OPEN_BID_STATUS" jdbcType="VARCHAR" property="openBidStatus" />		<result column="REASON" jdbcType="VARCHAR" property="failReason" />		<result column="WIN_BID_SUM" jdbcType="DECIMAL" javaType="java.math.BigDecimal"			property="winBidSum" />	</resultMap>	<select id="getEvalResultForZhongbgg" resultMap="zhongbiaoModelResultMap"		parameterClass="Map">		SELECT T.*		FROM (SELECT k.entrust_code entrust_code,		r.proj_code,		r.proj_name,		r.pack_code,		r.pack_name,		r.provider_name,		r.PROVIDER_CODE,		r.pur_type,		r.REPORT_CODE,		r.EXECUTOR,		r.status,		r.remark,		r.RECORD_CODE,		r.EXECUTE_DATE,		r.PROCESS_INST_ID,		r.Nd nd,		r.BID_LOCATION,		r.PUR_PEOPLE,		r.BID_DATE,		r.IS_GOON_AUDIT,		r.BID_SUM,		r.CO_CODE,		r.CO_NAME,		r.ZC_CO_LINKMAN,		r.AGENCY,		r.ORG_CODE,        k.failed_reason 		FROM ZC_EB_EVAL_REPORT r,zc_eb_pack k		where r.pur_type != '5'		and r.Status != 'cancel'		and k.pack_code=r.Pack_Code		and k.proj_code=r.Proj_Code		and k.status!='5'		union		select k.entrust_code ,		p.proj_code,		p.proj_name,		k.pack_code,		k.pack_name,		'' provider_name,		'' PROVIDER_CODE,		k.pur_type,		'' REPORT_CODE,		p.attn as EXECUTOR,		k.status,		'' remark,		'' RECORD_CODE,		null EXECUTE_DATE,		null PROCESS_INST_ID,		p.Nd nd,		'' BID_LOCATION,		'' PUR_PEOPLE,		null BID_DATE,		null IS_GOON_AUDIT,		null BID_SUM,		'' CO_CODE,		'' CO_NAME,		'' ZC_CO_LINKMAN,		'' AGENCY,		'' ORG_CODE,        k.failed_reason 		from zc_eb_pack k,zc_eb_proj p		where p.status='5'		and k.proj_code=p.proj_code		) T		WHERE not exists		(select 1 from zc_eb_bulletin_pack bp where bp.pack_code=t.pack_code)				<isNotNull prepend="AND" property="projCode">			T.PROJ_CODE=#projCode:VARCHAR#		</isNotNull>		<isNotNull prepend="AND" property="packCode">			T.pack_code=#packCode:VARCHAR#		</isNotNull>		<isNotNull prepend="AND" property="nd">			T.nd=#nd:VARCHAR#		</isNotNull>		<isNotNull prepend="AND" property="executor">			T.executor=#executor:VARCHAR#		</isNotNull>	</select>
+	<select id="getZcEbBulletinBid" resultMap="ZcEbBulletinResult"
+		parameterClass="elementCondition">
+		select ZC_EB_BULLETIN.*
+		from
+		ZC_EB_BULLETIN
+		ZC_EB_BULLETIN
+		where
+		ZC_EB_BULLETIN.BULLETIN_TYPE='B'
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		<isNotNull prepend="and" property="status">
+			<isEqual property="status" compareValue="todo">
+				exists (select
+				instance_id from V_WF_CURRENT_TASK_ZC_TODO where executor
+				=#executor# and instance_id = ZC_EB_BULLETIN.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="untread">
+				exists (select
+				instance_id from V_WF_CURRENT_TASK_ZC_UNTREAD where
+				executor
+				=#executor# and instance_id =
+				ZC_EB_BULLETIN.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				exists (select
+				instance_id from V_WF_ACTION_HISTORY_GK53 where executor =
+				#executor# and instance_id = ZC_EB_BULLETIN.process_inst_id)
+				and
+				ZC_EB_BULLETIN.BULLETIN_STATUS!='cancel'
+				and
+				ZC_EB_BULLETIN.BULLETIN_STATUS!='exec'
+				and
+				ZC_EB_BULLETIN.BULLETIN_STATUS!='2'
+			</isEqual>
+			<isEqual property="status" compareValue="exec">
+				(ZC_EB_BULLETIN.BULLETIN_STATUS ='exec')
+			</isEqual>
+			<isEqual property="status" compareValue="draft">
+				ZC_EB_BULLETIN.BULLETIN_STATUS='0'
+				and exists (select WF_DRAFT_NAME
+				from as_wf_draft where
+				user_id=#executor# and compo_id=#wfcompoId#
+				and
+				WF_DRAFT_ID=ZC_EB_BULLETIN.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="published">
+				ZC_EB_BULLETIN.BULLETIN_STATUS='2'
+			</isEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="projCode">
+			ZC_EB_BULLETIN.PROJ_CODE=#projCode:VARCHAR#
+		</isNotNull>
+		order by EXECUTE_DATE desc
+	</select>
+
+	<select id="getZcEbBulletinBidForExp" resultMap="ZcEbBulletinResultSimple"
+		parameterClass="elementCondition">
+		select ZC_EB_BULLETIN.BULLETIN_ID,
+		ZC_EB_BULLETIN.PROJ_CODE,
+		ZC_EB_BULLETIN.PROJ_NAME,
+		ZC_EB_BULLETIN.BULLETIN_TYPE,
+		ZC_EB_BULLETIN.BULLETIN_STATUS,
+		ZC_EB_BULLETIN.EXECUTE_DATE,
+		ZC_EB_BULLETIN.EXECUTOR,
+		ZC_EB_BULLETIN.EFFECTIVE_DATE,
+		ZC_EB_BULLETIN.CO_CODE,
+		ZC_EB_BULLETIN.FILE_ID,
+		ZC_EB_BULLETIN.IS_EXPORTED,
+		ZC_EB_BULLETIN.IS_GOON_AUDIT,
+		ZC_EB_BULLETIN.MOLD_NAME,
+		ZC_EB_BULLETIN.MOLD_CODE,
+		ZC_EB_BULLETIN.AGENCY, ZC_EB_BULLETIN.ORG_CODE,
+		ZC_EB_BULLETIN.FAILURE_DATE
+		from
+		ZC_EB_BULLETIN
+		ZC_EB_BULLETIN
+		where
+		ZC_EB_BULLETIN.BULLETIN_TYPE='B'
+		<isNotNull prepend="AND" property="status">
+			ZC_EB_BULLETIN.IS_EXPORTED=#status#
+		</isNotNull>
+		<isNotNull prepend="AND" property="dealState">
+			ZC_EB_BULLETIN.BULLETIN_STATUS=#dealState#
+		</isNotNull>
+	</select>
+
+	<select id="getZcEbBulletinBidDir" resultMap="ZcEbBulletinResult"
+		parameterClass="elementCondition">
+		select ZC_EB_BULLETIN.*
+		from
+		ZC_EB_BULLETIN
+		ZC_EB_BULLETIN
+		where
+		ZC_EB_BULLETIN.BULLETIN_TYPE='B'
+		<isNotNull prepend="and" property="status">
+			<isEqual property="status" compareValue="todo">
+				exists (select
+				instance_id from V_WF_CURRENT_TASK_ZC_TODO where executor
+				=#executor# and instance_id = ZC_EB_BULLETIN.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="untread">
+				exists (select
+				instance_id from V_WF_CURRENT_TASK_ZC_UNTREAD where
+				executor
+				=#executor# and instance_id =
+				ZC_EB_BULLETIN.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				exists (select
+				instance_id from V_WF_ACTION_HISTORY_GK53 where executor =
+				#executor# and instance_id = ZC_EB_BULLETIN.process_inst_id)
+				and
+				ZC_EB_BULLETIN.BULLETIN_STATUS!='cancel'
+				and
+				ZC_EB_BULLETIN.BULLETIN_STATUS!='exec'
+			</isEqual>
+			<isEqual property="status" compareValue="exec">
+				(ZC_EB_BULLETIN.BULLETIN_STATUS ='exec')
+			</isEqual>
+			<isEqual property="status" compareValue="draft">
+				exists (select
+				WF_DRAFT_NAME from as_wf_draft where user_id=#executor# and
+				compo_id=#wfcompoId# and WF_DRAFT_ID=ZC_EB_BULLETIN.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="published">
+				ZC_EB_BULLETIN.BULLETIN_STATUS='2'
+			</isEqual>
+		</isNotNull>
+		order by EXECUTE_DATE desc
+	</select>
+
+	<select id="getZcEbBulletinChg" resultMap="ZcEbBulletinResult"
+		parameterClass="elementCondition">
+		select ZC_EB_BULLETIN.*
+		from
+		ZC_EB_BULLETIN
+		ZC_EB_BULLETIN
+		where
+		ZC_EB_BULLETIN.BULLETIN_TYPE='C'
+		<isNotNull prepend="and" property="status">
+			<isEqual property="status" compareValue="todo">
+				exists (select
+				instance_id from V_WF_CURRENT_TASK_ZC_TODO where executor
+				=#executor# and instance_id = ZC_EB_BULLETIN.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="untread">
+				exists (select
+				instance_id from V_WF_CURRENT_TASK_ZC_UNTREAD where
+				executor
+				=#executor# and instance_id =
+				ZC_EB_BULLETIN.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				exists (select
+				instance_id from V_WF_ACTION_HISTORY_GK53 where executor =
+				#executor# and instance_id = ZC_EB_BULLETIN.process_inst_id)
+				and
+				ZC_EB_BULLETIN.BULLETIN_STATUS!='cancel'
+				and
+				ZC_EB_BULLETIN.BULLETIN_STATUS!='exec'
+				and
+				ZC_EB_BULLETIN.BULLETIN_STATUS!='2'
+			</isEqual>
+			<isEqual property="status" compareValue="exec">
+				(ZC_EB_BULLETIN.BULLETIN_STATUS ='exec')
+			</isEqual>
+			<isEqual property="status" compareValue="draft">
+				ZC_EB_BULLETIN.BULLETIN_STATUS='0'
+				and exists (select WF_DRAFT_NAME
+				from as_wf_draft where
+				user_id=#executor# and compo_id=#wfcompoId#
+				and
+				WF_DRAFT_ID=ZC_EB_BULLETIN.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="published">
+				ZC_EB_BULLETIN.BULLETIN_STATUS='2'
+			</isEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="projCode">
+			ZC_EB_BULLETIN.PROJ_CODE=#projCode:VARCHAR#
+		</isNotNull>
+		order by EXECUTE_DATE desc
+	</select>
+
+	<select id="getZcEbBulletinChgDir" resultMap="ZcEbBulletinResult"
+		parameterClass="elementCondition">
+		select ZC_EB_BULLETIN.*
+		from
+		ZC_EB_BULLETIN
+		ZC_EB_BULLETIN
+		where
+		ZC_EB_BULLETIN.BULLETIN_TYPE='C'
+		<isNotNull prepend="AND" property="status">
+			<isEqual property="status" compareValue="todo">
+				exists ( select
+				INSTANCE_ID from V_WF_CURRENT_TASK_ZC_TODO where EXECUTOR
+				=
+				#executor:VARCHAR# and instance_id =
+				ZC_EB_BULLETIN.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="untread">
+				exists ( select
+				instance_id from V_WF_CURRENT_TASK_ZC_UNTREAD where
+				executor
+				=#executor# and instance_id =
+				ZC_EB_BULLETIN.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				exists ( select
+				INSTANCE_ID from V_WF_ACTION_HISTORY_GK53 where EXECUTOR =
+				#executor:VARCHAR# and instance_id = ZC_EB_BULLETIN.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="all">
+				(exists ( select
+				INSTANCE_ID from V_WF_CURRENT_TASK_GK53 where EXECUTOR =
+				#executor:VARCHAR# ) or ZC_EB_BULLETIN.BULLETIN_STATUS ='exec')
+			</isEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="billStatus">
+			ZC_EB_BULLETIN.BULLETIN_STATUS =#billStatus:VARCHAR#
+		</isNotNull>
+	</select>
+
+	<select id="getZcEbBulletinSpd" resultMap="ZcEbBulletinResult"
+		parameterClass="elementCondition">
+		select ZC_EB_BULLETIN.*
+		from
+		ZC_EB_BULLETIN ZC_EB_BULLETIN
+		where
+		ZC_EB_BULLETIN.BULLETIN_TYPE='S'
+		<isNotNull prepend="and" property="status">
+			<isEqual property="status" compareValue="todo">
+				exists (select
+				instance_id from V_WF_CURRENT_TASK_ZC_TODO where executor
+				=#executor# and instance_id = ZC_EB_BULLETIN.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="untread">
+				exists ( select
+				instance_id from V_WF_CURRENT_TASK_ZC_UNTREAD where
+				executor
+				=#executor# and instance_id =
+				ZC_EB_BULLETIN.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				exists (select
+				instance_id from V_WF_ACTION_HISTORY_GK53 where executor =
+				#executor# and instance_id = ZC_EB_BULLETIN.process_inst_id)
+				and
+				ZC_EB_BULLETIN.BULLETIN_STATUS!='cancel'
+				and
+				ZC_EB_BULLETIN.BULLETIN_STATUS!='exec'
+				and
+				ZC_EB_BULLETIN.BULLETIN_STATUS!='2'
+			</isEqual>
+			<isEqual property="status" compareValue="exec">
+				(ZC_EB_BULLETIN.BULLETIN_STATUS ='exec')
+			</isEqual>
+			<isEqual property="status" compareValue="draft">
+				ZC_EB_BULLETIN.BULLETIN_STATUS='0'
+				and exists (select WF_DRAFT_NAME
+				from as_wf_draft where
+				user_id=#executor# and compo_id=#wfcompoId#
+				and
+				WF_DRAFT_ID=ZC_EB_BULLETIN.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="published">
+				ZC_EB_BULLETIN.BULLETIN_STATUS='2'
+			</isEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="projCode">
+			ZC_EB_BULLETIN.PROJ_CODE=#projCode:VARCHAR#
+		</isNotNull>
+		order by EXECUTE_DATE desc
+	</select>
+
+	<select id="getZcEbBulletinSpdDir" resultMap="ZcEbBulletinResult"
+		parameterClass="elementCondition">
+		select ZC_EB_BULLETIN.*
+		from
+		ZC_EB_BULLETIN ZC_EB_BULLETIN
+		where
+		ZC_EB_BULLETIN.BULLETIN_TYPE='S'
+		<isNotNull prepend="AND" property="status">
+			<isEqual property="status" compareValue="todo">
+				exists (select
+				INSTANCE_ID from V_WF_CURRENT_TASK_ZC_TODO where EXECUTOR =
+				#executor:VARCHAR# and instance_id = ZC_EB_BULLETIN.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="untread">
+				exists ( select
+				instance_id from V_WF_CURRENT_TASK_ZC_UNTREAD where
+				executor
+				=#executor# and instance_id =
+				ZC_EB_BULLETIN.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				exists ( select
+				INSTANCE_ID from V_WF_ACTION_HISTORY_GK53 where EXECUTOR =
+				#executor:VARCHAR# and instance_id = ZC_EB_BULLETIN.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="all">
+				(ZC_EB_BULLETIN.PROCESS_INST_ID in ( select INSTANCE_ID from
+				V_WF_CURRENT_TASK_GK53 where EXECUTOR = #executor:VARCHAR# ) or
+				ZC_EB_BULLETIN.BULLETIN_STATUS ='exec')
+			</isEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="billStatus">
+			ZC_EB_BULLETIN.BULLETIN_STATUS =#billStatus:VARCHAR#
+		</isNotNull>
+	</select>
+
+	<select id="getZcEbBulletinWid" resultMap="ZcEbBulletinResult"
+		parameterClass="elementCondition">
+		select ZC_EB_BULLETIN.*
+		from
+		ZC_EB_BULLETIN ZC_EB_BULLETIN
+		where
+		ZC_EB_BULLETIN.BULLETIN_TYPE='W'
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		<isNotNull prepend="and" property="status">
+			<isEqual property="status" compareValue="todo">
+				exists (select
+				instance_id from V_WF_CURRENT_TASK_ZC_TODO where executor
+				=#executor# and instance_id = ZC_EB_BULLETIN.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="untread">
+				exists ( select
+				instance_id from V_WF_CURRENT_TASK_ZC_UNTREAD where
+				executor
+				=#executor# and instance_id =
+				ZC_EB_BULLETIN.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				exists (select
+				instance_id from V_WF_ACTION_HISTORY_GK53 where executor =
+				#executor# and instance_id = ZC_EB_BULLETIN.process_inst_id)
+				and
+				ZC_EB_BULLETIN.BULLETIN_STATUS!='cancel'
+				and
+				ZC_EB_BULLETIN.BULLETIN_STATUS!='exec'
+				and
+				ZC_EB_BULLETIN.BULLETIN_STATUS!='2'
+			</isEqual>
+			<isEqual property="status" compareValue="exec">
+				(ZC_EB_BULLETIN.BULLETIN_STATUS ='exec')
+			</isEqual>
+			<isEqual property="status" compareValue="draft">
+				ZC_EB_BULLETIN.BULLETIN_STATUS='0'
+				and exists (select WF_DRAFT_NAME
+				from as_wf_draft where
+				user_id=#executor# and compo_id=#wfcompoId#
+				and
+				WF_DRAFT_ID=ZC_EB_BULLETIN.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="published">
+				ZC_EB_BULLETIN.BULLETIN_STATUS='2'
+			</isEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="projCode">
+			ZC_EB_BULLETIN.PROJ_CODE=#projCode:VARCHAR#
+		</isNotNull>
+		order by EXECUTE_DATE desc
+	</select>
+
+	<select id="getZcEbBulletinWidDir" resultMap="ZcEbBulletinResult"
+		parameterClass="elementCondition">
+		select ZC_EB_BULLETIN.*
+		from
+		ZC_EB_BULLETIN ZC_EB_BULLETIN
+		where
+		ZC_EB_BULLETIN.BULLETIN_TYPE='W'
+		<isNotNull prepend="AND" property="status">
+			<isEqual property="status" compareValue="todo">
+				exists (select
+				INSTANCE_ID from V_WF_CURRENT_TASK_ZC_TODO where EXECUTOR =
+				#executor:VARCHAR# and instance_id = ZC_EB_BULLETIN.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="untread">
+				exists ( select
+				instance_id from V_WF_CURRENT_TASK_ZC_UNTREAD where
+				executor
+				=#executor# and instance_id =
+				ZC_EB_BULLETIN.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				exists ( select
+				INSTANCE_ID from
+				V_WF_ACTION_HISTORY_GK53 where EXECUTOR =
+				#executor:VARCHAR# and instance_id = ZC_EB_BULLETIN.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="all">
+				(exists ( select
+				INSTANCE_ID from
+				V_WF_CURRENT_TASK_GK53 where EXECUTOR =
+				#executor:VARCHAR# ) or ZC_EB_BULLETIN.BULLETIN_STATUS ='exec')
+			</isEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="billStatus">
+			ZC_EB_BULLETIN.BULLETIN_STATUS =#billStatus:VARCHAR#
+		</isNotNull>
+	</select>
+
+	<update id="updateByPrimaryKeySelective" parameterClass="com.ufgov.zc.common.zc.model.ZcEbBulletin">
+		update ZC_EB_BULLETIN
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="projCode">
+				PROJ_CODE =
+				#projCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="projName">
+				PROJ_NAME =
+				#projName:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="bulletinStatus">
+				BULLETIN_STATUS =
+				#bulletinStatus:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="remark">
+				REMARK = #remark:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="executeDate">
+				EXECUTE_DATE =
+				#executeDate:TIMESTAMP#
+			</isNotNull>
+			<isNotNull prepend="," property="coCode">
+				CO_CODE = #coCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="moldName">
+				MOLD_NAME =
+				#moldName:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="fileID">
+				FILE_ID = #fileID:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="effectiveDate">
+				EFFECTIVE_DATE =
+				#effectiveDate:TIMESTAMP#
+			</isNotNull>			<isNotNull prepend="," property="failureDate">				FAILURE_DATE =				#failureDate:TIMESTAMP#			</isNotNull>
+			<isNotNull prepend="," property="isExported">
+				IS_EXPORTED =
+				#isExported:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="isGoonAudit">
+				IS_GOON_AUDIT =
+				#isGoonAudit:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="moldCode">
+				MOLD_CODE =
+				#moldCode:VARCHAR#
+			</isNotNull>			<isNotNull prepend="," property="agency">				AGENCY =				#agency:VARCHAR#			</isNotNull>			<isNotNull prepend="," property="orgCode">				ORG_CODE =				#orgCode:VARCHAR#			</isNotNull>			<isNotNull prepend="," property="fileId1">				FILE_ID1 =				#fileId1:VARCHAR#			</isNotNull>			<isNotNull prepend="," property="fileName1">				FILE_NAME1 =				#fileName1:VARCHAR#			</isNotNull>			<isNotNull prepend="," property="fileId2">				FILE_ID2 =				#fileId2:VARCHAR#			</isNotNull>			<isNotNull prepend="," property="fileName2">				FILE_NAME2 =				#fileName2:VARCHAR#			</isNotNull>			<isNotNull prepend="," property="openBidTime">				OPEN_BID_TIME =				#openBidTime:TIMESTAMP#			</isNotNull>
+		</dynamic>
+		where BULLETIN_ID = #bulletinID:VARCHAR#
+	</update>
+
+	<insert id="insert" parameterClass="com.ufgov.zc.common.zc.model.ZcEbBulletin">
+		insert into ZC_EB_BULLETIN
+		(BULLETIN_ID, PROJ_CODE, PROJ_NAME,
+		BULLETIN_TYPE, BULLETIN_STATUS,
+		EXECUTE_DATE, EXECUTOR,
+		REMARK,EFFECTIVE_DATE,PROCESS_INST_ID,ND,CO_CODE,MOLD_NAME,FILE_ID,IS_GOON_AUDIT,MOLD_CODE,AGENCY,ORG_CODE,FAILURE_DATE,
+		FILE_ID1,FILE_NAME1,FILE_ID2,FILE_NAME2,OPEN_BID_TIME,PROJECT_CODE)
+		values
+		(#bulletinID:VARCHAR#, #projCode:VARCHAR#, #projName:DECIMAL#,
+		#bulletinType:VARCHAR#,
+		#bulletinStatus:VARCHAR#,
+		#executeDate:TIMESTAMP#, #executor:VARCHAR#,#remark:VARCHAR#,
+		#effectiveDate:TIMESTAMP#,
+		#processInstId:DECIMAL#,#nd:VARCHAR#,#coCode:VARCHAR#,#moldName:VARCHAR#,#fileID:VARCHAR#,#isGoonAudit:VARCHAR#,#moldCode:VARCHAR#,#agency:VARCHAR#,#orgCode:VARCHAR#,#failureDate:TIMESTAMP#,
+		#fileId1:VARCHAR#,#fileName1:VARCHAR#,#fileId2:VARCHAR#,#fileName2:VARCHAR#,#openBidTime:TIMESTAMP#,#projectCode#
+		)
+	</insert>
+
+	<delete id="deleteByPrimaryKey" parameterClass="com.ufgov.zc.common.zc.model.ZcEbBulletin">
+		delete from
+		ZC_EB_BULLETIN
+		where BULLETIN_ID = #bulletinID:VARCHAR#
+	</delete>
+
+	<select id="readBulletinById" resultMap="ZcEbBulletinResult"
+		parameterClass="map">
+		select * from ZC_EB_BULLETIN
+		where
+		BULLETIN_ID=#BULLETIN_ID:VARCHAR#
+	</select>
+
+	<select id="getZcEbBulletinProjList" resultMap="ZcEbBulletinResult"
+		parameterClass="elementCondition">
+		select ZC_EB_BULLETIN.*
+		from
+		ZC_EB_BULLETIN ZC_EB_BULLETIN
+		where 1=1
+		and
+		ZC_EB_BULLETIN.proj_code=
+		#dattr1#
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		<isNotNull prepend="and" property="billType">
+			ZC_EB_BULLETIN.BULLETIN_TYPE=#billType#
+		</isNotNull>
+
+		<isNotNull prepend="AND" property="projCode">
+			ZC_EB_BULLETIN.PROJ_CODE=#projCode:VARCHAR#
+		</isNotNull>
+		order by EXECUTE_DATE desc
+	</select>	<select id="getZcEbBulletinProjStatsList" resultMap="ZcEbBulletinResult"		parameterClass="elementCondition">		select ZC_EB_BULLETIN.*		from		ZC_EB_BULLETIN ZC_EB_BULLETIN		where 1=1		AND		ZC_EB_BULLETIN.BULLETIN_TYPE like 'zhaobiao%'		<isNotNull prepend="AND" property="projCode">			ZC_EB_BULLETIN.PROJ_CODE=#projCode:VARCHAR#		</isNotNull>		<isNotNull prepend="AND" property="status">			ZC_EB_BULLETIN.BULLETIN_STATUS=#status:VARCHAR#		</isNotNull>		order by EXECUTE_DATE desc	</select>
+	<!-- 备份原来的语句，下面的select是新的查询语句 <select id="getZcEbBulletinList" resultMap="ZcEbBulletinResult" 
+		parameterClass="elementCondition"> select ZC_EB_BULLETIN.BULLETIN_ID <isNotNull 
+		prepend="," property="billType"> <isEqual property="billType" compareValue="C"> 
+		(select pack_name from zc_eb_req_pack where pack_code=ZC_EB_BULLETIN.PROJ_CODE) 
+		PROJ_CODE </isEqual> <isNotEqual property="billType" compareValue="C"> ZC_EB_BULLETIN.PROJ_CODE 
+		</isNotEqual> </isNotNull> <isNull prepend="," property="billType"> ZC_EB_BULLETIN.PROJ_CODE 
+		</isNull> , ZC_EB_BULLETIN.PROJ_NAME, ZC_EB_BULLETIN.BULLETIN_TYPE, ZC_EB_BULLETIN.BULLETIN_STATUS, 
+		ZC_EB_BULLETIN.EXECUTE_DATE, ZC_EB_BULLETIN.EXECUTOR, ZC_EB_BULLETIN.EFFECTIVE_DATE, 
+		ZC_EB_BULLETIN.REMARK, ZC_EB_BULLETIN.ND, ZC_EB_BULLETIN.CO_CODE, ZC_EB_BULLETIN.MOLD_NAME, 
+		ZC_EB_BULLETIN.FILE_ID, ZC_EB_BULLETIN.PROCESS_INST_ID, ZC_EB_BULLETIN.IS_GOON_AUDIT, 
+		ZC_EB_BULLETIN.MOLD_CODE, ZC_EB_BULLETIN.AGENCY, ZC_EB_BULLETIN.ORG_CODE, 
+		ZC_EB_BULLETIN.FAILURE_DATE, ZC_EB_BULLETIN.FILE_ID1, ZC_EB_BULLETIN.FILE_NAME1, 
+		ZC_EB_BULLETIN.FILE_ID2, ZC_EB_BULLETIN.FILE_NAME2, case when ZC_EB_BULLETIN.BULLETIN_TYPE 
+		= 'C' then (select max(zn.open_bid_time) from V_ZC_EB_PACK_PLAN zn where 
+		zn.pack_code = ZC_EB_BULLETIN.Proj_Code) else (select max(zn.open_bid_time) 
+		from V_ZC_EB_PACK_PLAN zn where zn.proj_code = ZC_EB_BULLETIN.Proj_Code) 
+		end OPEN_BID_TIME, ZC_EB_BULLETIN.IS_EXTRAC, ZC_EB_BULLETIN.PROJECT_CODE 
+		from ZC_EB_BULLETIN ZC_EB_BULLETIN where 1=1 <isNotEqual prepend="AND" compareValue="0" 
+		property="nd"> ZC_EB_BULLETIN.ND=#nd# </isNotEqual> <isNotNull prepend="and" 
+		property="billType"> ZC_EB_BULLETIN.BULLETIN_TYPE=#billType# </isNotNull> 
+		<isNotNull prepend="and" property="status"> <isEqual property="status" compareValue="todo"> 
+		exists (select instance_id from V_WF_CURRENT_TASK_ZC_TODO where executor 
+		=#executor# and instance_id = ZC_EB_BULLETIN.process_inst_id) </isEqual> 
+		<isEqual property="status" compareValue="untread"> exists ( select instance_id 
+		from V_WF_CURRENT_TASK_ZC_UNTREAD where executor =#executor# and instance_id 
+		= ZC_EB_BULLETIN.process_inst_id) </isEqual> <isEqual property="status" compareValue="done"> 
+		exists (select instance_id from V_WF_ACTION_HISTORY_GK53 where executor = 
+		#executor# and instance_id = ZC_EB_BULLETIN.process_inst_id) and ZC_EB_BULLETIN.BULLETIN_STATUS!='cancel' 
+		and ZC_EB_BULLETIN.BULLETIN_STATUS!='exec' and ZC_EB_BULLETIN.BULLETIN_STATUS!='2' 
+		</isEqual> <isEqual property="status" compareValue="exec"> (ZC_EB_BULLETIN.BULLETIN_STATUS 
+		='4') </isEqual> <isEqual property="status" compareValue="draft"> ZC_EB_BULLETIN.BULLETIN_STATUS='0' 
+		and exists (select WF_DRAFT_NAME from as_wf_draft where user_id=#executor# 
+		and compo_id=#wfcompoId# and WF_DRAFT_ID=ZC_EB_BULLETIN.process_inst_id) 
+		</isEqual> <isEqual property="status" compareValue="published"> ZC_EB_BULLETIN.BULLETIN_STATUS='exec' 
+		<isNotNull property="zcText0"> <isEqual property="zcText0" compareValue="gys_normal"> 
+		<include refid="BusiNumLim.BusiNumLimStr" /> </isEqual> </isNotNull> </isEqual> 
+		<isEqual property="status" compareValue="cancel"> ZC_EB_BULLETIN.BULLETIN_STATUS='cancel' 
+		<include refid="BusiNumLim.BusiNumLimStr" /> </isEqual> <isEqual property="status" 
+		compareValue="all"> 1=1 <include refid="BusiNumLim.BusiNumLimStr" /> </isEqual> 
+		<isEqual property="status" compareValue="exted"> ZC_EB_BULLETIN.IS_EXTRAC 
+		is not null and ZC_EB_BULLETIN.IS_EXTRAC in ('22','02','20') <include refid="BusiNumLim.BusiNumLimStr" 
+		/> </isEqual> <isEqual property="status" compareValue="toext"> exists (select 
+		proj_code from zc_eb_plan pn where pn.proj_code = ZC_EB_BULLETIN.Proj_Code 
+		and pn.SELL_END_TIME &lt;=sysdate) and ZC_EB_BULLETIN.IS_EXTRAC is not null 
+		and ZC_EB_BULLETIN.IS_EXTRAC in ('12','10','11','01','21') and (exists (select 
+		role_code from sys_user_role_rule rr,as_role r where rr.user_id=#executor# 
+		and rr.role_id=r.role_id and r.role_code='CGZX_XX_EXTRAC' ) or exists (select 
+		Proj_Code from zc_eb_pack pk,zc_eb_duty_audit_sheet sh where pk.entrust_code=sh.sn 
+		and pk.Proj_Code=ZC_EB_BULLETIN.Proj_Code and sh.attn=#executor#) ) <include 
+		refid="BusiNumLim.BusiNumLimStr" /> </isEqual> </isNotNull> <isNotNull prepend="AND" 
+		property="projCode"> ZC_EB_BULLETIN.PROJ_CODE=#projCode:VARCHAR# </isNotNull> 
+		order by EXECUTE_DATE desc </select> -->	<select id="getZcEbBulletinList" resultMap="ZcEbBulletinResult"		parameterClass="elementCondition">		select ZC_EB_BULLETIN.BULLETIN_ID,		ZC_EB_BULLETIN.PROJ_CODE,		ZC_EB_BULLETIN.PROJ_NAME,		ZC_EB_BULLETIN.BULLETIN_TYPE,		ZC_EB_BULLETIN.BULLETIN_STATUS,		ZC_EB_BULLETIN.EXECUTE_DATE,		ZC_EB_BULLETIN.EXECUTOR,		ZC_EB_BULLETIN.EFFECTIVE_DATE,		ZC_EB_BULLETIN.REMARK,		ZC_EB_BULLETIN.ND,		ZC_EB_BULLETIN.CO_CODE,		ZC_EB_BULLETIN.MOLD_NAME,		ZC_EB_BULLETIN.FILE_ID,		ZC_EB_BULLETIN.PROCESS_INST_ID,		ZC_EB_BULLETIN.IS_GOON_AUDIT,		ZC_EB_BULLETIN.MOLD_CODE, ZC_EB_BULLETIN.AGENCY,		ZC_EB_BULLETIN.ORG_CODE, ZC_EB_BULLETIN.FAILURE_DATE,		ZC_EB_BULLETIN.FILE_ID1,		ZC_EB_BULLETIN.FILE_NAME1,		ZC_EB_BULLETIN.FILE_ID2,		ZC_EB_BULLETIN.FILE_NAME2,		(select max(zn.open_bid_time) from V_ZC_EB_PACK_PLAN zn where zn.proj_code =		ZC_EB_BULLETIN.Proj_Code) OPEN_BID_TIME,		ZC_EB_BULLETIN.IS_EXTRAC,		ZC_EB_BULLETIN.PROJECT_CODE		from		ZC_EB_BULLETIN ZC_EB_BULLETIN		where 1=1		<include refid="BusiNumLim.BusiNumLimStr" />		<isNotEqual prepend="AND" compareValue="0" property="nd">			ZC_EB_BULLETIN.ND=#nd#		</isNotEqual>		<isNotNull prepend="and" property="billType">			ZC_EB_BULLETIN.BULLETIN_TYPE like #billType#		</isNotNull>		<isNotNull prepend="and" property="status">			<isEqual property="status" compareValue="todo">				exists (select				instance_id from V_WF_CURRENT_TASK_ZC_TODO where executor				=#executor# and instance_id = ZC_EB_BULLETIN.process_inst_id)			</isEqual>			<isEqual property="status" compareValue="untread">				exists ( select				instance_id from V_WF_CURRENT_TASK_ZC_UNTREAD where				executor				=#executor# and instance_id =				ZC_EB_BULLETIN.process_inst_id)			</isEqual>			<isEqual property="status" compareValue="done">				exists (select				instance_id from V_WF_ACTION_HISTORY_GK53 where executor =				#executor# and instance_id = ZC_EB_BULLETIN.process_inst_id)				and				ZC_EB_BULLETIN.BULLETIN_STATUS!='cancel'			</isEqual>			<isEqual property="status" compareValue="exec">				ZC_EB_BULLETIN.BULLETIN_STATUS ='exec'			</isEqual>			<isEqual property="status" compareValue="draft">				ZC_EB_BULLETIN.BULLETIN_STATUS='0'				and exists (select WF_DRAFT_NAME				from as_wf_draft where				user_id=#executor# and compo_id=#wfcompoId#				and				WF_DRAFT_ID=ZC_EB_BULLETIN.process_inst_id)			</isEqual>			<isEqual property="status" compareValue="published">				ZC_EB_BULLETIN.BULLETIN_STATUS='exec'			</isEqual>			<isEqual property="status" compareValue="cancel">				ZC_EB_BULLETIN.BULLETIN_STATUS='cancel'			</isEqual>			<isEqual property="status" compareValue="all">				1=1			</isEqual>			<isEqual property="status" compareValue="exted">				ZC_EB_BULLETIN.IS_EXTRAC is not null and ZC_EB_BULLETIN.IS_EXTRAC in				('22','02','20')			</isEqual>			<isEqual property="status" compareValue="toext">				exists (select				proj_code from zc_eb_plan pn where pn.proj_code =				ZC_EB_BULLETIN.Proj_Code				and pn.SELL_END_TIME &lt;=sysdate)				and				ZC_EB_BULLETIN.IS_EXTRAC is not null and ZC_EB_BULLETIN.IS_EXTRAC				in				('12','10','11','01','21')				and (exists (select role_code from				sys_user_role_rule rr,as_role r				where rr.user_id=#executor# and				rr.role_id=r.role_id and				r.role_code='CGZX_XX_EXTRAC' )				or exists				(select Proj_Code from zc_eb_pack pk,zc_eb_duty_audit_sheet				sh				where				pk.entrust_code=sh.sn and pk.Proj_Code=ZC_EB_BULLETIN.Proj_Code and				sh.attn=#executor#)				)			</isEqual>		</isNotNull>		<isNotNull prepend="AND" property="projCode">			ZC_EB_BULLETIN.PROJ_CODE=#projCode:VARCHAR#		</isNotNull>		order by EXECUTE_DATE desc	</select>
+	<!--根据采购处专管员，及其预算单位，确定业务上级 -->
+	<select id="getDeputyDirectorName" resultClass="string"
+		parameterClass="map">
+		select aw2.sup_emp_code
+		from as_wf_business_superior aw2
+		where
+		(aw2.jun_emp_code = #cgczgy# or aw2.jun_org_code = #csbh#)
+		and
+		(
+		sup_condition like '%ZC_P_PRO_MAKE.CO_CODE%$CO_CODE$%' or
+		sup_condition like '%ZC_P_PRO_MAKE.ORG_CODE%$csbh$%')
+		and ND = #ND#
+		and
+		ROWNUM = 1
+	</select>
+	<update id="updateZcPProMakeEndDate" parameterClass="map">
+		update
+		zc_p_pro_make make set make.zc_xieyi_end_date = #zcXieYiEndDate#
+		where
+		make.zc_make_code = #projCode#
+	</update>
+	<update id="updateZcEbPlanBidEndDate" parameterClass="com.ufgov.zc.common.zc.model.ZcEbBulletin">
+		update
+		zc_eb_plan plan set
+		plan.sell_end_time=#failureDate:TIMESTAMP#,plan.bid_end_time =
+		#openBidTime:TIMESTAMP#,plan.OPEN_BID_TIME = #openBidTime:TIMESTAMP#
+		where
+		plan.proj_code = #projCode:VARCHAR#
+	</update>
+	<update id="updateZcEbProj" parameterClass="map">
+		update ZC_EB_PROJ zep
+		set zep.status = #status# where zep.proj_code =
+		#projCode#
+	</update>	<select id="selectBulletinByProjCode" resultMap="ZcEbBulletinResult"		parameterClass="String">		select * from ZC_EB_BULLETIN		where		PROJ_CODE=#value# and		BULLETIN_STATUS not in ('exec','cancel')	</select>	<select id="selectBulletinByPackCode" resultMap="ZcEbBulletinResult"		parameterClass="String">		select * from ZC_EB_BULLETIN		where		PROJ_CODE=#value# and		BULLETIN_STATUS not in ('exec','cancel')	</select>	<update id="updateIsExtrac" parameterClass="com.ufgov.zc.common.zc.model.ZcEbBulletin">		update ZC_EB_BULLETIN		set is_extrac=#isExtrac:VARCHAR# where		BULLETIN_ID=#bulletinID:VARCHAR#	</update>	<update id="updateIsExtracByProj" parameterClass="com.ufgov.zc.common.zc.model.ZcEbProjSupport">		update		zc_eb_bulletin set IS_EXTRAC=#isExtrac:VARCHAR# where bulletin_type =		'B' and proj_code = #projCode:VARCHAR# and bulletin_status = 'exec'		and bulletin_id=		(select max(bulletin_id) from zc_eb_bulletin where		bulletin_type='B' and		proj_code=#projCode:VARCHAR# and bulletin_status		= 'exec')	</update>	<insert id="insertBulletinPack" parameterClass="com.ufgov.zc.common.zc.model.ZcEbBulletinPack">		insert into		ZC_EB_BULLETIN_PACK		(BULLETIN_ID, PACK_CODE)		values		(#bulletinId:VARCHAR#, #packCode:VARCHAR# )	</insert>	<delete id="deleteBulletinPackByPrimaryKey" parameterClass="String">		delete from		ZC_EB_BULLETIN_PACK		where BULLETIN_ID = #value:VARCHAR#	</delete>	<select id="getZcEbBulletinPack" parameterClass="com.ufgov.zc.common.zc.model.ZcEbBulletin"		resultMap="ZcEbBulletinPackResult">		select bp.*,p.pack_name,p.pack_desc,p.proj_code from		zc_eb_bulletin_pack bp		, zc_eb_pack p		where bp.pack_code=p.pack_code and		bp.bulletin_id=#bulletinID:VARCHAR# and		p.proj_code=#projCode:VARCHAR#	</select>	<insert id="insertPackPlan" parameterClass="com.ufgov.zc.common.zc.model.ZcEbPackPlan">		insert into		zc_eb_pack_plan		(PACK_CODE, PROJ_CODE, BID_END_TIME, OPEN_BID_TIME,		SELL_END_TIME)		values ( #packCode:VARCHAR# , #projCode:VARCHAR#,		#bidEndTime:TIMESTAMP#, #openBidTime:TIMESTAMP#,		#sellEndTime:TIMESTAMP#)	</insert>	<delete id="deletePackPlanByPrimaryKey" parameterClass="com.ufgov.zc.common.zc.model.ZcEbPackPlan">		delete		from		zc_eb_pack_plan		where PACK_CODE = #packCode:VARCHAR#		and PROJ_CODE =		#projCode:VARCHAR#	</delete>	<select id="selectProjBullCount" resultClass="java.util.HashMap"		parameterClass="String">		select count(*) BUL_NUM, p.proj_code PROJ_CODE		from		(select proj_code		from zc_eb_bulletin		where bulletin_type = 'B'		and		bulletin_status = 'exec') b,		zc_eb_proj p		where p.proj_code =		b.proj_code(+)		and p.proj_code in ($value$)		group by p.proj_code	</select>	<select id="checkPublished" parameterClass="String" resultClass="Integer">		select count(*) from zc_eb_bulletin b where b.proj_code=#value#	</select>	<select id="checkCanSend" parameterClass="String" resultClass="Integer">		select count(*) from zc_eb_proj where proj_code=#value# and		status!='exec'	</select>	<select id="getJingjiaModelsByProjCode" resultMap="zcJingJiaModelResultMap"		parameterClass="String">		select p.proj_code,		p.attn_name linkMan,		p.attn_phone		tel,		p.attn_fax fax,		(select sn_code		from		zc_eb_entrust		where sn in (select entrust_code		from zc_eb_pack pk		where		pk.proj_code = p.proj_code)) entrust_code,		pl.bid_end_time endDate,		''		publishDate,		(select wm_concat(PACK_NAME||'('|| PACK_MAX_PRICE ||')') from zc_eb_pack		where proj_code=p.proj_code and PACK_MAX_PRICE is not null) maxPrice,		'' address,		(select wm_concat(al.val)		from zc_p_pro_mitem_bi bi, as_val al		where al.val_id = bi.paytype_code		and al.valset_id = 'ZC_VS_PAYTYPE_NAME'		and bi.zc_make_code =		(select zc_eb_entrust.zc_make_code		from zc_eb_entrust zc_eb_entrust		where zc_eb_entrust.sn in		(select entrust_code		from zc_eb_pack pk		where pk.proj_code = p.proj_code))) as zcPayTypeName		from zc_eb_proj p, zc_eb_plan pl		where p.proj_code = pl.proj_code		and p.proj_code=#value#	</select>	<insert id="insertDlyBidInfo" parameterClass="String">		insert into		zc_eb_dly_bid_info		(BULLETIN_ID,		PROJ_CODE,		PACK_CODE,		PROVIDER_CODE,		SP_DATE,		OPEN_BID_DATE,SELL_END_TIME,BID_END_TIME)		select b.bulletin_id,		b.proj_code,		bp.pack_code,		s.provider_code,		sp.sp_date,		pp.open_bid_time,pp.SELL_END_TIME,pp.BID_END_TIME		from zc_eb_bulletin		b,		zc_eb_bulletin_pack bp,		zc_eb_signup s,		zc_eb_signup_pack sp,		v_zc_eb_pack_plan pp		where b.bulletin_id = bp.bulletin_id		and		b.proj_code = s.proj_code		and s.signup_id = sp.signup_id		and		bp.pack_code = sp.pack_code		and b.proj_code = pp.proj_code		and		bp.pack_code = pp.pack_code		and sp.sp_status = '1'		and b.bulletin_id =		#value#	</insert>	<select id="selectDlyBidInfo" parameterClass="java.util.Map"		resultClass="String">		select distinct to_char(SELL_END_TIME,'yyyy-mm-dd		hh24:mi:ss') from		zc_eb_dly_bid_info where PROJ_CODE=#PROJ_CODE# and		PACK_code in		(select pack_code from zc_eb_pack where		PROJ_CODE=#PROJ_CODE# and		PACK_name=#PACK_CODE#)	</select>	<select id="selectDlyBidPackInfo" parameterClass="java.util.Map"		resultClass="String">		select p.pack_name from v_zc_eb_pack_plan pp,zc_eb_pack p		where		p.proj_code=pp.proj_code and p.pack_code=pp.pack_code		and		p.PROJ_CODE=#PROJ_CODE# and to_char(pp.OPEN_BID_TIME,'yyyy-mm-dd		hh24:mi:ss')=#OPEN_DATE#	</select>	<!-- 变更公告，首发公告时间 -->	<select id="selectGgPubListDate" parameterClass="String"		resultClass="Date">		select max(TO_DATE(wy.EXECUTE_TIME, 'YYYY-MM-DD		HH24:MI:SS'))		from Zc_Eb_Bulletin zn, wf_action_history wy		where		zn.process_inst_id = wy.instance_id		and zn.proj_code = #projCode#		and		zn.bulletin_type = 'B'	</select>	<select id="getZcEbBulletinXunjiaWidBu" resultMap="ZcEbBulletinResult"		parameterClass="java.util.Map">		select ZC_EB_BULLETIN.*		from		ZC_EB_BULLETIN ZC_EB_BULLETIN		where		ZC_EB_BULLETIN.BULLETIN_TYPE='W'		<isNotNull prepend="AND" property="projCode">			ZC_EB_BULLETIN.PROJ_CODE=#projCode:VARCHAR#		</isNotNull>		<isNotNull prepend="AND" property="packCode">			ZC_EB_BULLETIN.PROJECT_CODE=#packCode:VARCHAR#		</isNotNull>	</select>	<select id="selectGhDate" resultClass="String" parameterClass="String">		select wm_concat(pack_name || '(' || to_char(min(ARR_DATE),'yyyy') ||		'年' || to_char(min(ARR_DATE),'mm') || '月' ||		to_char(min(ARR_DATE),'dd') || '日)' ) from ZC_EB_PACK_REQ		r,ZC_EB_PACK_REQ_DETAIL rd,zc_eb_req_pack rp where		r.detail_code=rd.detail_code and r.pack_code=rp.pack_code and ARR_DATE		is not null		and r.proj_code=#value#		group by rp.pack_code,pack_name	</select>
+</sqlMap>

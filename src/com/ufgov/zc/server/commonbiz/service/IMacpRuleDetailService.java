@@ -1,0 +1,1 @@
+package com.ufgov.zc.server.commonbiz.service;import java.util.Map;public interface IMacpRuleDetailService {  public Map getMacpRuleDetail(Map params);}

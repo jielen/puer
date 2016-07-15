@@ -1,0 +1,2069 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+
+	<!-- 项目终止 -->
+
+	<bean id="cancelEntrustDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcEbCancelEntrustDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+
+
+	<bean id="cancelEntrustService"
+		
+		class="com.ufgov.zc.server.zc.service.impl.ZcEbCancelEntrustService"
+		
+		scope="singleton">
+
+		<property name="wfEngineAdapter" ref="wfEngineAdapter"></property>
+
+		<property name="workflowDao" ref="workflowDao"></property>
+
+		<property name="zcEbCancelEntrustDao" ref="cancelEntrustDao"></property>
+
+		<property name="baseDao" ref="zcBaseDao"></property>
+
+	</bean>
+
+
+
+	<!-- 大会致辞 -->
+
+	<bean id="presentDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcEbPresentDaoImpl"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+
+
+	<bean id="zcEbPresentservice" class="com.ufgov.zc.server.zc.service.impl.ZcEbPresentService"
+		
+		scope="singleton">
+
+		<property name="presentDao" ref="presentDao" />
+
+	</bean>
+
+
+
+	<!-- 供应商诚信审核 -->
+
+	<bean id="supplierIntegrityManageDao"
+		
+		class="com.ufgov.zc.server.zc.dao.ibatis.SupplierIntegrityManageDao">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+	<bean id="integrityManageService"
+		
+		class="com.ufgov.zc.server.zc.service.impl.SupplierIntegrityManageService"
+		
+		scope="singleton">
+
+		<property name="baseDao" ref="zcBaseDao" />
+
+		<property name="workflowDao" ref="workflowDao" />
+
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+
+		<property name="supplierIntegrityManageDao" ref="supplierIntegrityManageDao" />
+
+	</bean>
+
+
+
+	<!-- 质疑 -->
+
+	<bean id="zcQuestionDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZCQuestionDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+
+
+	<bean id="zcQuestionService" class="com.ufgov.zc.server.zc.service.impl.ZCQuestionService"
+		
+		scope="singleton">
+
+		<property name="baseDao" ref="zcBaseDao" />
+
+		<property name="izcQuestionDao" ref="zcQuestionDao" />
+
+		<property name="workflowDao" ref="workflowDao" />
+
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+
+	</bean>
+
+
+
+	<!-- 投诉 -->
+
+	<bean id="complainDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcEbComplainDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+
+
+	<bean id="complainService" class="com.ufgov.zc.server.zc.service.impl.ZcEbComplainService"
+		
+		scope="singleton">
+
+		<property name="complainDao" ref="complainDao" />
+
+		<property name="izcQuestionDao" ref="zcQuestionDao" />
+
+		<property name="workflowDao" ref="workflowDao" />
+
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+
+	</bean>
+
+
+
+	<bean id="zcEbEntrustDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcEbEntrustDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+
+
+	<bean id="zcEbEntrustService" class="com.ufgov.zc.server.zc.service.impl.ZcEbEntrustService"
+		
+		scope="singleton">
+
+		<property name="baseDao" ref="zcBaseDao" />
+
+		<property name="zcEbEntrustDao" ref="zcEbEntrustDao" />
+
+		<property name="zcPProMakeDao" ref="zcPProMakeDao" />
+
+		<property name="workflowDao" ref="workflowDao" />
+
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+
+	</bean>
+
+
+
+
+
+	<bean id="zcEbOptionsDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcEbOptionsDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+
+
+	<bean id="zcEbOptionsService" class="com.ufgov.zc.server.zc.service.impl.ZcEbOptionsService"
+		
+		scope="singleton">
+
+		<property name="zcEbOptionsDao" ref="zcEbOptionsDao" />
+
+
+
+	</bean>
+
+
+
+	<bean id="zcEbProtocolDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcEbProtocolDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+
+
+	<bean id="zcEbProtocolService" class="com.ufgov.zc.server.zc.service.impl.ZcEbProtocolService"
+		
+		scope="singleton">
+
+		<property name="zcEbProtocolDao" ref="zcEbProtocolDao" />
+
+		<property name="workflowDao" ref="workflowDao" />
+
+		<property name="asFileDao" ref="asFileDao" />
+
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+
+		<property name="zcEbEntrustDao" ref="zcEbEntrustDao" />
+
+		<property name="zcXmcgHtDao" ref="zcXmcgHtDao" />
+
+		<property name="baseDao" ref="zcBaseDao" />
+
+	</bean>
+
+
+
+	<bean id="zcEbProjectLivingChangeService"
+		
+		class="com.ufgov.zc.server.zc.service.impl.ZcEbProjectLivingChangeService"
+		
+		scope="singleton">
+
+		<property name="zcEbProjectLivingChangeDao" ref="zcEbProjectLivingChangeDao"></property>
+
+	</bean>
+
+
+
+	<bean id="zcEbProjectLivingChangeDao"
+		
+		class="com.ufgov.zc.server.zc.dao.ibatis.ZcEbProjectLivingChangeDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient"></property>
+
+	</bean>
+
+
+
+	<bean id="zcExpertQuestionService"
+		
+		class="com.ufgov.zc.server.zc.service.impl.ZcExpertQuestionService"
+		
+		scope="singleton">
+
+		<property name="zcExpertQuestionDao" ref="zcExpertQuestionDao"></property>
+
+	</bean>
+
+
+
+	<bean id="zcExpertQuestionContentService"
+		
+		class="com.ufgov.zc.server.zc.service.impl.ZcExpertQuestionContentService"
+		
+		scope="singleton">
+
+		<property name="zcExpertQuestionContentDao" ref="zcExpertQuestionContentDao"></property>
+
+	</bean>
+
+
+
+	<bean id="zcExpertQuestionDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcExpertQuestionDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient"></property>
+
+	</bean>
+
+
+
+	<bean id="zcExpertQuestionContentDao"
+		
+		class="com.ufgov.zc.server.zc.dao.ibatis.ZcExpertQuestionContentDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient"></property>
+
+	</bean>
+
+
+
+	<bean id="zcEbSignupDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcEbSignupDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+
+
+	<bean id="zcAuctionDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcAuctionDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+
+
+	<bean id="zcFileResumeBrokenUploadDao"
+		
+		class="com.ufgov.zc.server.zc.dao.ibatis.ZcFileResumeBrokenUploadDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient"></property>
+
+	</bean>
+
+	<bean id="zcFileResumeBrokenUploadService"
+		
+		class="com.ufgov.zc.server.zc.service.impl.ZcFileResumeBrokenUploadService"
+		
+		scope="singleton">
+
+		<property name="zcFileResumeBrokenUploadDao" ref="zcFileResumeBrokenUploadDao"></property>
+
+	</bean>
+
+	<bean id="zcEbSignupService" class="com.ufgov.zc.server.zc.service.impl.ZcEbSignupService"
+		
+		scope="singleton">
+
+		<property name="zcEbSignupDao" ref="zcEbSignupDao" />
+
+		<property name="workflowDao" ref="workflowDao" />
+
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+
+		<property name="zcEbSupplierDao" ref="zcEbSupplierDao" />
+
+		<property name="dataExchangeDao" ref="dataExchangeDao" />
+
+		<property name="asFileDao" ref="asFileDao" />
+
+		<property name="zcEbSecurityRecordDao" ref="zcEbSecurityRecordDao" />
+
+		<property name="zcEbProjDao" ref="zcEbProjDao" />
+
+		<property name="baseDao" ref="zcBaseDao" />
+
+	</bean>
+
+
+
+	<bean id="zcEbGuaranteeDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcEbGuaranteeDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+
+
+	<bean id="zcEbGuaranteeService"
+		
+		class="com.ufgov.zc.server.zc.service.impl.ZcEbGuaranteeService"
+		
+		scope="singleton">
+
+		<property name="zcEbGuaranteeDao" ref="zcEbGuaranteeDao" />
+
+	</bean>
+
+
+
+	<bean id="zcEbBaseServiceDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcEbBaseServiceDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+
+
+	<bean id="zcEbBaseService" class="com.ufgov.zc.server.zc.service.impl.ZcEbBaseService"
+		
+		scope="singleton">
+
+		<property name="zcEbBaseServiceDao" ref="zcEbBaseServiceDao" />
+		<property name="workflowDao" ref="workflowDao" />
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+	</bean>
+
+
+
+	<bean id="zcEbSupplierDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcEbSupplierDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+
+
+	<bean id="zcEbSupplierService" class="com.ufgov.zc.server.zc.service.impl.ZcEbSupplierService"
+		
+		scope="singleton">
+
+		<property name="zcEbSupplierDao" ref="zcEbSupplierDao" />
+
+		<property name="workflowDao" ref="workflowDao" />
+
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+
+		<property name="sysUsermanageService" ref="sysUsermanageService" />
+
+		<property name="userService" ref="userService" />
+
+		<property name="dataExchangeDao" ref="dataExchangeDao" />
+
+		<property name="baseDao" ref="zcBaseDao" />
+
+	</bean>
+
+
+
+	<bean id="zcEbBulletinDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcEbBulletinDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+
+
+	<bean id="zcEbBulletinService" class="com.ufgov.zc.server.zc.service.impl.ZcEbBulletinService"
+		
+		scope="singleton">
+
+		<property name="baseDao" ref="zcBaseDao" />
+
+		<property name="zcEbBulletinDao" ref="zcEbBulletinDao" />
+
+		<property name="workflowDao" ref="workflowDao" />
+
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+
+		<property name="zcEbProjService" ref="zcEbProjService" />
+
+		<property name="dataExchangeDao" ref="dataExchangeDao" />
+
+		<property name="zcEbPlanService" ref="zcEbPlanService" />
+
+	</bean>
+
+	<bean id="zcEbEvalDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcEbEvalDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+
+
+	<bean id="zcEbEvalService" class="com.ufgov.zc.server.zc.service.impl.ZcEbEvalService"
+		
+		scope="singleton">
+
+		<property name="zcEbEvalDao" ref="zcEbEvalDao" />
+
+		<property name="workflowDao" ref="workflowDao" />
+
+		<property name="baseDao" ref="zcBaseDao" />
+
+		<property name="asOptionDao" ref="asOptionDao" />
+
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+		<property name="zcEbOpenBidDao" ref="zcEbOpenBidDao" />
+
+	</bean>
+
+
+
+	<bean id="zcEbRequirementDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcEbRequirementDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+
+
+	<bean id="zcEbRequirementService"
+		
+		class="com.ufgov.zc.server.zc.service.impl.ZcEbRequirementService"
+		
+		scope="singleton">
+
+		<property name="zcEbRequirementDao" ref="zcEbRequirementDao" />
+		<property name="workflowDao" ref="workflowDao" />
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+		<property name="baseDao" ref="zcBaseDao" />
+		<property name="zcEbFormulaService" ref="zcEbFormulaService" />
+		<property name="zcEbProjDao" ref="zcEbProjDao" />
+	</bean>
+	<bean id="zcEbFormulaDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcEbFormulaDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+
+
+	<bean id="zcEbFormulaService" class="com.ufgov.zc.server.zc.service.impl.ZcEbFormulaService"
+		
+		scope="singleton">
+
+		<property name="zcEbFormulaDao" ref="zcEbFormulaDao" />
+
+		<property name="zcEbBaseServiceDao" ref="zcEbBaseServiceDao" />
+
+	</bean>
+
+
+
+
+
+	<bean id="zcPProMakeDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcPProMakeDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+
+
+	<bean id="zcPProMitemDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcPProMitemDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+	<bean id="zcPProMitemBiDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcPProMitemBiDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+
+	<bean id="zcPProMakeService" class="com.ufgov.zc.server.zc.service.impl.ZcPProMakeService"
+		
+		scope="singleton">
+
+		<property name="zcPProMakeDao" ref="zcPProMakeDao" />
+
+		<property name="zcBMerchandiseDao" ref="zcBMerchandiseDao" />
+
+		<property name="zcPProMitemDao" ref="zcPProMitemDao" />
+
+		<property name="zcPProMitemMerDao" ref="zcPProMitemMerDao" />
+
+		<property name="zcPProMitemBiDao" ref="zcPProMitemBiDao" />
+
+		<property name="zcEbEntrustDao" ref="zcEbEntrustDao" />
+
+		<property name="workflowDao" ref="workflowDao" />
+
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+
+		<property name="dataExchangeDao" ref="dataExchangeDao" />
+
+		<property name="baseDao" ref="zcBaseDao" />
+
+		<property name="apArticleDao" ref="apArticleDao" />
+
+		<property name="catalogueDao" ref="zcBCatalogueDao" />
+
+		<property name="budgetGpDao" ref="budgetGpDao" />
+
+	</bean>
+
+	<bean id="budgetGpDao" class="com.ufgov.zc.server.budget.dao.ibatis.VwBudgetGpDaoImpl"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+
+	<bean id="zcXmcgHtDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcXmcgHtDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+
+
+	<bean id="zcXmcgHtBiDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcXmcgHtBiDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+	<bean id="zcTBchtItemDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcTBchtItemDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+	<bean id="zcXmcgHtService" class="com.ufgov.zc.server.zc.service.impl.ZcXmcgHtService"
+		
+		scope="singleton">
+
+		<property name="zcXmcgHtDao" ref="zcXmcgHtDao" />
+
+		<property name="zcXmcgHtBiDao" ref="zcXmcgHtBiDao" />
+
+		<property name="zcTBchtItemDao" ref="zcTBchtItemDao" />
+
+		<property name="workflowDao" ref="workflowDao" />
+
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+
+		<property name="zcPProMitemBiDao" ref="zcPProMitemBiDao" />
+
+		<property name="zcEbProjDao" ref="zcEbProjDao" />
+
+		<property name="baseDao" ref="zcBaseDao" />
+
+		<property name="zcEbEntrustDao" ref="zcEbEntrustDao" />
+
+
+	</bean>
+
+
+
+	<bean id="zcEbProjDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcEbProjDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+	<bean id="zcEbBulletinWordMoldDao"
+		
+		class="com.ufgov.zc.server.zc.dao.ibatis.ZcEbBulletinWordMoldDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+
+
+	<bean id="zcEbBulletinWordMoldService"
+		
+		class="com.ufgov.zc.server.zc.service.impl.ZcEbBulletinWordMoldService"
+		
+		scope="singleton">
+
+		<property name="zcEbBulletinWordMoldDao" ref="zcEbBulletinWordMoldDao" />
+
+		<property name="zcEbBulletinWordMoldParamDao" ref="zcEbBulletinWordMoldParamDao" />
+
+	</bean>
+
+
+
+	<bean id="zcEbBulletinWordMoldParamDao"
+		
+		class="com.ufgov.zc.server.zc.dao.ibatis.ZcEbBulletinWordMoldParamDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+	<bean id="zcEbOpenBidDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcEbOpenBidDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+	<bean id="zcEbOpenBidService" class="com.ufgov.zc.server.zc.service.impl.ZcEbOpenBidService"
+		
+		scope="singleton">
+
+		<property name="zcEbOpenBidDao" ref="zcEbOpenBidDao" />
+
+	</bean>
+
+	<bean id="zcBAgencyDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcBAgencyDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+	<bean id="zcBCatalogueDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcBCatalogueDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+	<bean id="foreignEntityService"
+		
+		class="com.ufgov.zc.server.zc.service.impl.ForeignEntityService"
+		
+		scope="singleton">
+
+		<property name="zcBAgencyDao" ref="zcBAgencyDao" />
+
+		<property name="zcBCatalogueDao" ref="zcBCatalogueDao" />
+
+	</bean>
+
+	<bean id="zcEbProjService" class="com.ufgov.zc.server.zc.service.impl.ZcEbProjService"
+		
+		scope="singleton">
+
+		<property name="zcEbPlanDao" ref="zcEbPlanDao" />
+
+		<property name="zcEbProjDao" ref="zcEbProjDao" />
+
+		<property name="workflowDao" ref="workflowDao" />
+
+		<property name="baseDao" ref="zcBaseDao" />
+
+		<property name="zcEbFormulaService" ref="zcEbFormulaService" />
+
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+
+	</bean>
+
+	<bean id="zcEbOpenBidTeamDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcEbOpenBidTeamDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+
+
+	<bean id="zcEbOpenBidTeamService"
+		
+		class="com.ufgov.zc.server.zc.service.impl.ZcEbOpenBidTeamService"
+		
+		scope="singleton">
+
+		<property name="zcEbOpenBidTeamDao" ref="zcEbOpenBidTeamDao" />
+
+		<property name="workflowDao" ref="workflowDao" />
+
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+
+	</bean>
+
+	<bean id="zcEbEvalBidTeamDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcEbEvalBidTeamDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+
+
+	<bean id="zcEbEvalBidTeamService"
+		
+		class="com.ufgov.zc.server.zc.service.impl.ZcEbEvalBidTeamService"
+		
+		scope="singleton">
+
+		<property name="zcEbEvalBidTeamDao" ref="zcEbEvalBidTeamDao" />
+		<property name="workflowDao" ref="workflowDao" />
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+		<property name="baseDao" ref="zcBaseDao" />	
+		<property name="userService" ref="userService" />
+
+
+	</bean>
+
+
+
+
+
+	<bean id="zcEbPlanDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcEbPlanDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+
+
+	<bean id="zcEbPlanService" class="com.ufgov.zc.server.zc.service.impl.ZcEbPlanService"
+		
+		scope="singleton">
+
+		<property name="zcEbPlanDao" ref="zcEbPlanDao" />
+
+		<property name="workflowDao" ref="workflowDao" />
+
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+
+		<property name="baseDao" ref="zcBaseDao" />
+
+	</bean>
+
+	<bean id="zcEbNoticeDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcEbNoticeDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+
+
+	<bean id="zcEbNoticeService" class="com.ufgov.zc.server.zc.service.impl.ZcEbNoticeService"
+		
+		scope="singleton">
+
+		<property name="zcEbNoticeDao" ref="zcEbNoticeDao" />
+
+		<property name="workflowDao" ref="workflowDao" />
+
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+
+		<property name="baseDao" ref="zcBaseDao" />
+
+	</bean>
+
+	<bean id="zcEbFormulaTemplateDao"
+		
+		class="com.ufgov.zc.server.zc.dao.ibatis.ZcEbFormulaTemplateDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+	<bean id="zcEbFormulaTemplateService"
+		
+		class="com.ufgov.zc.server.zc.service.impl.ZcEbFormulaTemplateService"
+		
+		scope="singleton">
+
+		<property name="zcEbFormulaTemplateDao" ref="zcEbFormulaTemplateDao" />
+
+	</bean>
+
+
+
+	<bean id="zcEbEvalExpertCommentDao"
+		
+		class="com.ufgov.zc.server.zc.dao.ibatis.ZcEbEvalExpertCommentDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+	<bean id="zcEbEvalExpertCommentService"
+		
+		class="com.ufgov.zc.server.zc.service.impl.ZcEbEvalExpertCommentService"
+		
+		scope="singleton">
+
+		<property name="zcEbEvalExpertCommentDao" ref="zcEbEvalExpertCommentDao" />
+
+	</bean>
+
+	<bean id="zcebZbService" class="com.ufgov.zc.server.zc.service.impl.ZcebZbService"
+		
+		scope="singleton">
+
+		<property name="zcebZbDao" ref="ZcebZbDao" />
+
+		<property name="workflowDao" ref="workflowDao" />
+
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+
+	</bean>
+
+	<bean id="ZcebZbDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcebZbDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+	<bean id="zcEbProjChangeDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcEbProjChangeDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+	<bean id="zcEbProjChangeService"
+		
+		class="com.ufgov.zc.server.zc.service.impl.ZcEbProjChangeService"
+		
+		scope="singleton">
+
+		<property name="zcEbProjChangeDao" ref="zcEbProjChangeDao" />
+
+		<property name="baseDao" ref="zcBaseDao" />
+
+		<property name="workflowDao" ref="workflowDao" />
+
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+
+	</bean>
+
+
+
+	<bean id="zcEbProjectSupervisionService"
+		
+		class="com.ufgov.zc.server.zc.service.impl.ZcEbProjectSupervisionService"
+		
+		scope="singleton">
+
+		<property name="baseDao" ref="zcBaseDao" />
+
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+
+	</bean>
+
+
+
+	<bean id="zcBaseDao" class="com.ufgov.zc.server.zc.dao.ibatis.BaseDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+
+
+	<bean id="zcSuppleMentPProMakeDao"
+		
+		class="com.ufgov.zc.server.zc.dao.ibatis.ZcSuppleMentPProMakeDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+	<bean id="zcSuppleMentBiDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcSuppleMentBiDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+	<bean id="zcSuppleMentPProMakeService"
+		
+		class="com.ufgov.zc.server.zc.service.impl.ZcSuppleMentPProMakeService"
+		
+		scope="singleton">
+
+		<property name="zcPProMakeDao" ref="zcPProMakeDao" />
+
+		<property name="zcPProMitemDao" ref="zcPProMitemDao" />
+
+		<property name="zcPProMitemBiDao" ref="zcPProMitemBiDao" />
+
+		<property name="workflowDao" ref="workflowDao" />
+
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+
+		<property name="zcSuppleMentPProMakeDao" ref="zcSuppleMentPProMakeDao" />
+
+		<property name="zcSuppleMentBiDao" ref="zcSuppleMentBiDao" />
+
+	</bean>
+
+	<bean id="zcPProBalDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcPProBalDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+	<bean id="zcPProBalBiDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcPProBalBiDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+	<bean id="zcPProBalService" class="com.ufgov.zc.server.zc.service.impl.ZcPProBalService"
+		
+		scope="singleton">
+
+		<property name="zcPProBalDao" ref="zcPProBalDao" />
+
+		<property name="zcPProBalBiDao" ref="zcPProBalBiDao" />
+
+		<property name="workflowDao" ref="workflowDao" />
+
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+		<property name="baseDao" ref="zcBaseDao" />
+	</bean>
+
+
+
+
+
+	<!--专家抽取 -->
+
+	<bean id="zcEmExpertSelectionService"
+		
+		class="com.ufgov.zc.server.zc.service.impl.ZcEmExpertSelectionService"
+		
+		scope="singleton">
+
+		<property name="baseDao" ref="zcBaseDao" />
+
+		<property name="workflowDao" ref="workflowDao" />
+
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+
+	</bean>
+
+	<!--批办单 -->
+
+	<bean id="zcEbAuditSheetService"
+		
+		class="com.ufgov.zc.server.zc.service.impl.ZcEbAuditSheetService"
+		
+		scope="singleton">
+
+		<property name="baseDao" ref="zcBaseDao" />
+
+		<property name="workflowDao" ref="workflowDao" />
+
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+
+	</bean>
+
+	<bean id="dataExchangeDao" class="com.ufgov.zc.server.zc.dao.ibatis.DataExchangeDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+
+
+	<bean id="dataExchangeService" class="com.ufgov.zc.server.zc.service.impl.DataExchangeService"
+		
+		scope="singleton">
+
+		<property name="dataExchangeDao" ref="dataExchangeDao" />
+
+	</bean>
+
+
+
+	<!-- 询价管理 -->
+
+	<bean id="zcEbRfqService" class="com.ufgov.zc.server.zc.service.impl.ZcEbRfqService"
+		
+		scope="singleton">
+
+		<property name="baseDao" ref="zcBaseDao" />
+
+		<property name="workflowDao" ref="workflowDao" />
+
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+
+	</bean>
+
+
+
+	<bean id="zcProMakeOuterservice"
+		
+		class="com.ufgov.zc.server.zc.service.impl.ZcProMakeOuterService"
+		
+		scope="singleton">
+
+		<property name="zcProMakeOuterDao" ref="zcProMakeOuterDao" />
+
+	</bean>
+
+	<bean id="zcProMakeOuterDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcProMakeOuterDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+	<!-- 经费开支管理 -->
+
+	<bean id="zcEmFundPaySevice" class="com.ufgov.zc.server.zc.service.impl.ZcEmFundPayService"
+		
+		scope="singleton">
+
+		<property name="baseDao" ref="zcBaseDao" />
+
+		<property name="workflowDao" ref="workflowDao" />
+
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+
+	</bean>
+
+
+
+	<bean id="baoJiaDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcEbXjbjDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+
+
+	<bean id="baoJiaService" class="com.ufgov.zc.server.zc.service.impl.ZcEbXjbjService"
+		
+		scope="singleton">
+
+		<property name="baoJiaDao" ref="baoJiaDao" />
+
+		<property name="dataExchangeDao" ref="dataExchangeDao" />
+
+		<property name="baseDao" ref="zcBaseDao" />
+
+		<property name="zcEbBaseServiceDao" ref="zcEbBaseServiceDao" />
+
+	</bean>
+
+	<bean id="zcEbYanShouBillService"
+		
+		class="com.ufgov.zc.server.zc.service.impl.ZcEbYanShouBillService"
+		
+		scope="singleton">
+
+		<property name="baseDao" ref="zcBaseDao" />
+
+		<property name="workflowDao" ref="workflowDao" />
+
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+
+	</bean>
+
+
+
+	<bean id="zcEmExpertTypeService"
+		
+		class="com.ufgov.zc.server.zc.service.impl.ZcEmExpertTypeService"
+		
+		scope="singleton">
+
+		<property name="baseDao" ref="zcBaseDao" />
+
+	</bean>
+
+	<bean id="zcEbProviderPreAuditService"
+		
+		class="com.ufgov.zc.server.zc.service.impl.ZcEbProviderPreAuditService"
+		
+		scope="singleton">
+
+		<property name="baseDao" ref="zcBaseDao" />
+
+		<property name="workflowDao" ref="workflowDao" />
+
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+
+	</bean>
+
+
+
+	<bean id="zcBrandDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcBrandDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+	<bean id="zcBMerchandiseDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcBMerchandiseDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+	<bean id="menuGoodsService" class="com.ufgov.zc.server.zc.service.impl.MenuGoodsService"
+		
+		scope="singleton">
+
+		<property name="zcBCatalogueDao" ref="zcBCatalogueDao" />
+
+		<property name="zcBrandDao" ref="zcBrandDao" />
+
+		<property name="zcBMerchandiseDao" ref="zcBMerchandiseDao" />
+
+	</bean>
+
+	<bean id="zcBrandService" class="com.ufgov.zc.server.zc.service.impl.ZcBrandService"
+		
+		scope="singleton">
+
+		<property name="zcBrandDao" ref="zcBrandDao" />
+
+	</bean>
+
+	<bean id="zcEmExpertEvaluateService"
+		
+		class="com.ufgov.zc.server.zc.service.impl.ZcEmExpertEvaluateService"
+		
+		scope="singleton">
+
+		<property name="baseDao" ref="zcBaseDao" />
+
+	</bean>
+
+	<bean id="expertDao" class="com.ufgov.zc.server.zc.dao.ibatis.ExpertDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+
+
+	<bean id="expertService" class="com.ufgov.zc.server.zc.service.impl.ExpertService"
+		
+		scope="singleton">
+
+		<property name="expertDao" ref="expertDao"></property>
+
+		<property name="expertTypeJoinDao" ref="expertTypeJoinDao"></property>
+
+		<property name="userService" ref="userService" />
+
+	</bean>
+
+	<bean id="expertTypeJoinDao" class="com.ufgov.zc.server.zc.dao.ibatis.ExpertTypeJoinDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient"></property>
+
+	</bean>
+
+	<bean id="zcEbGongHuoHtService"
+		
+		class="com.ufgov.zc.server.zc.service.impl.ZcEbGongHuoHtService"
+		
+		scope="singleton">
+
+		<property name="baseDao" ref="zcBaseDao" />
+
+		<property name="workflowDao" ref="workflowDao" />
+
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+
+		<property name="zcEbGongHuoHtDao" ref="zcEbGongHuoHtDao" />
+
+	</bean>
+
+
+
+	<bean id="zcEbGongHuoHtDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcEbGongHuoHtDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient"></property>
+
+	</bean>
+
+
+
+	<bean id="zcEbEcbjService" class="com.ufgov.zc.server.zc.service.impl.ZcEbEcbjService"
+		
+		scope="singleton">
+
+		<property name="baseDao" ref="zcBaseDao" />
+
+	</bean>
+
+	<bean id="zcEbProArgueDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcEbProArgueDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient"></property>
+
+	</bean>
+
+	<bean id="zcEbProArgueDetailDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcEbProArgueDetailDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient"></property>
+
+	</bean>
+
+
+
+	<bean id="ZcEbProArgueService" class="com.ufgov.zc.server.zc.service.impl.ZcEbProArgueService"
+		
+		scope="singleton">
+
+		<property name="zcEbProArgueDao" ref="zcEbProArgueDao" />
+
+		<property name="zcEbProArgueDetailDao" ref="zcEbProArgueDetailDao" />
+
+		<property name="workflowDao" ref="workflowDao" />
+
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+
+		<property name="baseDao" ref="zcBaseDao" />
+
+	</bean>
+
+	<!-- 招标文件审核 -->
+
+	<bean id="zcEbZbFileService" class="com.ufgov.zc.server.zc.service.impl.ZcEbZbFileService"
+		
+		scope="singleton">
+
+		<property name="baseDao" ref="zcBaseDao" />
+
+		<property name="workflowDao" ref="workflowDao" />
+
+		<property name="asOptionDao" ref="asOptionDao" />
+
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+
+	</bean>
+
+	<!-- 投标书加解密记录 -->
+
+	<bean id="zcEbSecurityRecordDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcEbSecurityRecordDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient"></property>
+
+	</bean>
+
+	<bean id="zcEbSecurityRecordService"
+		
+		class="com.ufgov.zc.server.zc.service.impl.ZcEbSecurityRecordService"
+		
+		scope="singleton">
+
+		<property name="zcEbSecurityRecordDao" ref="zcEbSecurityRecordDao" />
+
+	</bean>
+
+	<bean id="zcBAgencyService" class="com.ufgov.zc.server.zc.service.impl.ZcBAgencyService"
+		
+		scope="singleton">
+
+		<property name="zcBAgencyDao" ref="zcBAgencyDao" />
+
+	</bean>
+
+
+
+	<bean id="zcPProMitemMerDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcPProMitemMerDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+	<bean id="zcEbXieyiDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcEbXieyiDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient"></property>
+
+	</bean>
+
+	<bean id="zcEbXieyiService" class="com.ufgov.zc.server.zc.service.impl.ZcEbXieyiService"
+		
+		scope="singleton">
+
+		<property name="zcEbXieyiDao" ref="zcEbXieyiDao" />
+
+	</bean>
+
+
+
+	<bean id="apArticleDao" class="com.ufgov.zc.server.zc.dao.ibatis.ApArticleDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+	<bean id="zcEbProCompletionDAO"
+		
+		class="com.ufgov.zc.server.zc.dao.ibatis.ZcEbProCompletionDAOImpl"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+	<bean id="zcEbProCompletionService"
+		
+		class="com.ufgov.zc.server.zc.service.impl.ZcEbProCompletionService"
+		
+		scope="singleton">
+
+		<property name="zcEbProCompletionDAO" ref="zcEbProCompletionDAO" />
+
+		<property name="workflowDao" ref="workflowDao" />
+
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+
+		<property name="zcXmcgHtDao" ref="zcXmcgHtDao" />
+
+		<property name="baseDao" ref="zcBaseDao" />
+
+	</bean>
+
+	<!-- 项目归档 -->
+
+	<bean id="zcEbGuiDangBillService"
+		
+		class="com.ufgov.zc.server.zc.service.impl.ZcEbGuiDangBillService"
+		
+		scope="singleton">
+
+		<property name="baseDao" ref="zcBaseDao" />
+
+		<property name="workflowDao" ref="workflowDao" />
+
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+
+	</bean>
+
+	<!--内网数据提取 -->
+
+	<bean id="intranetDataExpService"
+		
+		class="com.ufgov.zc.server.zc.service.impl.IntranetDataExpService"
+		
+		scope="singleton">
+
+		<property name="asEmpDao" ref="asEmpDao" />
+
+		<property name="asFileDao" ref="asFileDao" />
+
+		<property name="userDao" ref="userDao" />
+
+		<property name="zcEbProjDao" ref="zcEbProjDao" />
+
+		<property name="baseServiceDao" ref="zcEbBaseServiceDao" />
+
+		<property name="zcEbEntrustDao" ref="zcEbEntrustDao" />
+
+		<property name="zcEbFormulaDao" ref="zcEbFormulaDao" />
+
+		<property name="zcEbPlanDao" ref="zcEbPlanDao" />
+
+		<property name="baseDao" ref="zcBaseDao" />
+
+		<property name="zcEbRequirementDao" ref="zcEbRequirementDao" />
+
+		<property name="zcEbSignupDao" ref="zcEbSignupDao" />
+
+		<property name="zcEbSupplierDao" ref="zcEbSupplierDao" />
+
+		<property name="zcPProMakeDao" ref="zcPProMakeDao" />
+
+		<property name="zcPProMitemBiDao" ref="zcPProMitemBiDao" />
+
+		<property name="zcPProMitemDao" ref="zcPProMitemDao" />
+
+	</bean>
+
+	<!--评标网数据导入 -->
+
+	<bean id="bidNetworkDataImpService"
+		
+		class="com.ufgov.zc.server.zc.service.impl.BidNetworkDataImpService"
+		
+		scope="singleton">
+
+		<property name="asEmpDao" ref="asEmpDao" />
+
+		<property name="asFileDao" ref="asFileDao" />
+
+		<property name="userDao" ref="userDao" />
+
+		<property name="zcEbProjDao" ref="zcEbProjDao" />
+
+		<property name="baseServiceDao" ref="zcEbBaseServiceDao" />
+
+		<property name="zcEbEntrustDao" ref="zcEbEntrustDao" />
+
+		<property name="zcEbFormulaDao" ref="zcEbFormulaDao" />
+
+		<property name="zcEbPlanDao" ref="zcEbPlanDao" />
+
+		<property name="baseDao" ref="zcBaseDao" />
+
+		<property name="zcEbRequirementDao" ref="zcEbRequirementDao" />
+
+		<property name="zcEbSignupDao" ref="zcEbSignupDao" />
+
+		<property name="zcEbSupplierDao" ref="zcEbSupplierDao" />
+
+		<property name="zcPProMakeDao" ref="zcPProMakeDao" />
+
+		<property name="zcPProMitemBiDao" ref="zcPProMitemBiDao" />
+
+		<property name="zcPProMitemDao" ref="zcPProMitemDao" />
+
+	</bean>
+
+	<!--评标网数据导出 -->
+
+	<bean id="bidNetworkDataExpService"
+		
+		class="com.ufgov.zc.server.zc.service.impl.BidNetworkDataExpService"
+		
+		scope="singleton">
+
+		<property name="asEmpDao" ref="asEmpDao" />
+
+		<property name="asFileDao" ref="asFileDao" />
+
+		<property name="userDao" ref="userDao" />
+
+		<property name="baseDao" ref="zcBaseDao" />
+
+		<property name="zcEbProjDao" ref="zcEbProjDao" />
+
+		<property name="zcEbSignupDao" ref="zcEbSignupDao" />
+
+	</bean>
+
+	<!--内网数据导入 -->
+
+	<bean id="intranetDataImpService"
+		
+		class="com.ufgov.zc.server.zc.service.impl.IntranetDataImpService"
+		
+		scope="singleton">
+
+		<property name="baseDao" ref="zcBaseDao" />
+
+		<property name="asEmpDao" ref="asEmpDao" />
+
+		<property name="asFileDao" ref="asFileDao" />
+
+		<property name="userDao" ref="userDao" />
+
+	</bean>
+
+	<!-- 外网开标大厅 -->
+
+	<bean id="ZcMakeIndexListDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcMakeIndexListDao"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient"></property>
+
+	</bean>
+
+	<bean id="zcMakeIndexListService"
+		
+		class="com.ufgov.zc.server.zc.service.impl.ZcMakeIndexListService"
+		
+		scope="singleton">
+
+		<property name="zcMakeIndexListDao" ref="ZcMakeIndexListDao" />
+
+	</bean>
+
+
+
+	<!--品目 -->
+
+	<bean id="merCatalogueService" class="com.ufgov.zc.server.zc.service.impl.MerCatalogueService"
+		
+		scope="singleton">
+
+		<property name="zcBCatalogueDao" ref="zcBCatalogueDao" />
+
+	</bean>
+
+	<bean id="zcAuctionInfoService"
+		
+		class="com.ufgov.zc.server.zc.service.impl.ZcAuctionInfoService"
+		
+		scope="singleton">
+
+		<property name="zcBMerchandiseDao" ref="zcBMerchandiseDao" />
+
+		<property name="zcAuctionDao" ref="zcAuctionDao" />
+
+	</bean>
+
+
+
+	<bean id="zcEbPurchaseDepartReviewDAO"
+		
+		class="com.ufgov.zc.server.zc.dao.ibatis.ZcEbPurchaseDepartReviewDAOImpl"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+	<bean id="zcEbPurchaseDepRevDetailDAO"
+		
+		class="com.ufgov.zc.server.zc.dao.ibatis.ZcEbPurchaseDepRevDetailDAOImpl"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+
+
+	<bean id="zcEbPurchaseDepartReviewService"
+		
+		class="com.ufgov.zc.server.zc.service.impl.ZcEbPurchaseDepartReviewService"
+		
+		scope="singleton">
+
+		<property name="zcEbPurchaseDepartReviewDAO" ref="zcEbPurchaseDepartReviewDAO" />
+
+		<property name="zcEbPurchaseDepRevDetailDAO" ref="zcEbPurchaseDepRevDetailDAO" />
+
+		<property name="baseDao" ref="zcBaseDao" />
+
+		<property name="workflowDao" ref="workflowDao" />
+
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+
+	</bean>
+
+
+
+	<bean id="zcEbWenHaoToolDAO" class="com.ufgov.zc.server.zc.dao.ibatis.ZcEbWenHaoToolDAOImpl"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+
+
+	<bean id="zcEbWenHaoToolService"
+		
+		class="com.ufgov.zc.server.zc.service.impl.ZcEbWenHaoToolService"
+		
+		scope="singleton">
+
+		<property name="zcEbWenHaoToolDAO" ref="zcEbWenHaoToolDAO" />
+
+	</bean>
+
+
+	<!-- <bean id="workFlowImpExpService" class="com.ufgov.zc.server.zc.service.impl.WorkFlowImpExpService" 
+		scope="singleton"> <property name="runtimeDao" ref="WFRuntimeDao" /> <property 
+		name="asUserSessionDAO" ref="asUserSessionDAO" /> <property name="asEmpDao" 
+		ref="asEmpDao" /> <property name="userDao" ref="userDao" /> </bean> -->
+
+
+	<bean id="zcDelegJczwDataExchangeDAO"
+		
+		class="com.ufgov.zc.server.zc.dao.ibatis.ZcDelegJczwDataExchangeDAOImpl"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+
+
+	<bean id="zcDelegJczwDataExchangeService"
+		
+		class="com.ufgov.zc.server.zc.service.impl.ZcDelegJczwDataExchangeService"
+		
+		scope="singleton">
+
+		<property name="zcDelegJczwDataExchangeDAO" ref="zcDelegJczwDataExchangeDAO" />
+
+	</bean>
+
+
+
+	<bean id="asUserSessionDAO" class="com.ufgov.zc.server.zc.dao.ibatis.AsUserSessionDAOImpl"
+		
+		scope="singleton">
+
+		<property name="sqlMapClient" ref="sqlMapClient" />
+
+	</bean>
+
+
+
+	<bean id="dljgJczwDataExpService"
+		
+		class="com.ufgov.zc.server.zc.service.impl.DljgJczwDataExpService"
+		
+		scope="singleton">
+
+		<property name="baseServiceDao" ref="zcEbBaseServiceDao" />
+		<!-- <property name="workFlowImpExpService" ref="workFlowImpExpService" 
+			/> -->
+		<property name="zcEbRequirementDao" ref="zcEbRequirementDao" />
+
+		<property name="asFileDao" ref="asFileDao" />
+
+		<property name="zcEbProjDao" ref="zcEbProjDao" />
+
+		<property name="zcEbBulletinDao" ref="zcEbBulletinDao" />
+
+		<property name="zcEbEvalDao" ref="zcEbEvalDao" />
+
+		<property name="zcEbFormulaDao" ref="zcEbFormulaDao" />
+
+		<property name="zcEbPlanDao" ref="zcEbPlanDao" />
+
+		<property name="baseDao" ref="zcBaseDao" />
+
+		<property name="zcEbProtocolDao" ref="zcEbProtocolDao" />
+
+		<property name="zcEbEntrustDao" ref="zcEbEntrustDao" />
+
+
+
+		<property name="zcPProMakeDao" ref="zcPProMakeDao" />
+
+		<property name="zcPProMitemDao" ref="zcPProMitemDao" />
+
+		<property name="zcPProMitemBiDao" ref="zcPProMitemBiDao" />
+
+		<property name="zcPProMitemMerDao" ref="zcPProMitemMerDao" />
+
+		<property name="zcEbSignupDao" ref="zcEbSignupDao" />
+
+	</bean>
+
+
+
+	<bean id="dljgJczwDataImpService"
+		
+		class="com.ufgov.zc.server.zc.service.impl.DljgJczwDataImpService"
+		
+		scope="singleton">
+		<!-- <property name="workFlowImpExpService" ref="workFlowImpExpService" 
+			/> -->
+		<property name="baseDao" ref="zcBaseDao" />
+
+		<property name="zcEbEntrustDao" ref="zcEbEntrustDao" />
+
+		<property name="zcEbRequirementDao" ref="zcEbRequirementDao" />
+
+		<property name="zcEbProtocolDao" ref="zcEbProtocolDao" />
+
+		<property name="zcEbProjDao" ref="zcEbProjDao" />
+
+		<property name="zcEbFormulaDao" ref="zcEbFormulaDao" />
+
+		<property name="zcEbBulletinDao" ref="zcEbBulletinDao" />
+
+		<property name="asFileDao" ref="asFileDao" />
+
+
+
+		<property name="zcPProMakeDao" ref="zcPProMakeDao" />
+
+		<property name="zcPProMitemDao" ref="zcPProMitemDao" />
+
+		<property name="zcPProMitemBiDao" ref="zcPProMitemBiDao" />
+
+		<property name="zcPProMitemMerDao" ref="zcPProMitemMerDao" />
+
+		<property name="workflowDao" ref="workflowDao" />
+
+	</bean>
+	<bean id="zcAgencyDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcAgencyDao"
+		scope="singleton">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	<bean id="zcAgencyService" class="com.ufgov.zc.server.zc.service.impl.ZcAgencyService"
+		scope="singleton">
+		<property name="zcAgencyDao" ref="zcAgencyDao" />
+	</bean>
+
+	<bean id="zcCatalogueDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcCatalogueDao"
+		scope="singleton">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	<bean id="zcCatalogueService" class="com.ufgov.zc.server.zc.service.impl.ZcCatalogueService"
+		scope="singleton">
+		<property name="zcCatalogueDao" ref="zcCatalogueDao" />
+	</bean>
+
+	<!-- 协议供货商品批次 -->
+	<bean id="zcBdSppcDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcBdSppcDao"
+		scope="singleton">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+
+	<bean id="zcBdSppcService" class="com.ufgov.zc.server.zc.service.impl.ZcBdSppcService"
+		scope="singleton">
+		<property name="zcBdSppcDao" ref="zcBdSppcDao"></property>
+	</bean>
+
+	<!-- 中标品牌 -->
+	<bean id="zcBdPinpDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcBdPinpDao"
+		scope="singleton">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+
+	<bean id="zcBdPinpService" class="com.ufgov.zc.server.zc.service.impl.ZcBdPinpService"
+		scope="singleton">
+		<property name="zcBdPinpDao" ref="zcBdPinpDao"></property>
+	</bean>
+
+	<!-- 中标商品 -->
+	<bean id="zcBMerchandiseService"
+		class="com.ufgov.zc.server.zc.service.impl.ZcBMerchandiseService"
+		scope="singleton">
+		<property name="baseDao" ref="zcBaseDao" />
+	</bean>
+
+	<!-- 专家管理 -->
+	<bean id="zcEmExpertService" class="com.ufgov.zc.server.zc.service.impl.ZcEmExpertService"
+		scope="singleton">
+		<property name="baseDao" ref="zcBaseDao" />
+	</bean>
+
+	<!-- 专家能力评审管理 -->
+	<bean id="zcEmExpertAbilityService"
+		class="com.ufgov.zc.server.zc.service.impl.ZcEmExpertAbilityService"
+		scope="singleton">
+		<property name="baseDao" ref="zcBaseDao" />
+	</bean>
+
+
+	<bean id="zcDiYuCtgRepository"
+		class="com.ufgov.zc.server.zc.dao.ibatis.ZCDiYuCtgRepositoryImpl"
+		scope="singleton">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	<bean id="sysUsermanageService"
+		class="com.ufgov.zc.server.system.service.impl.SysUsermanageService"
+		scope="singleton">
+		<property name="baseDao" ref="zcBaseDao" />
+	</bean>
+
+	<bean id="zcPProBalChgService" class="com.ufgov.zc.server.zc.service.impl.ZcPProBalChgService"
+		
+		scope="singleton">
+		<property name="baseDao" ref="zcBaseDao" />
+		<property name="workflowDao" ref="workflowDao" />
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+		<property name="zcPProMakeService" ref="zcPProMakeService" />
+	</bean>
+	<bean id="zcHtPrePayBillService"
+		class="com.ufgov.zc.server.zc.service.impl.ZcHtPrePayBillService"
+		scope="singleton">
+		<property name="baseDao" ref="zcBaseDao" />
+		<property name="workflowDao" ref="workflowDao" />
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+	</bean>
+
+	<bean id="zcPProDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcPProDao"
+		scope="singleton">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	<bean id="zcPProService" class="com.ufgov.zc.server.zc.service.impl.ZcPProService"
+		
+		scope="singleton">
+		<property name="zcPProDao" ref="zcPProDao" />
+	</bean>
+	<bean id="zcYearEndService" class="com.ufgov.zc.server.zc.service.impl.ZcYearEndService"
+		
+		scope="singleton">
+
+		<property name="baseDao" ref="zcBaseDao" />
+
+	</bean>
+	<bean id="zcXmcgHtChgService" class="com.ufgov.zc.server.zc.service.impl.ZcXmcgHtChgService" scope="singleton">
+		<property name="baseDao" ref="zcBaseDao" />
+		<property name="wfEngineAdapter" ref="wfEngineAdapter"></property>
+		<property name="workflowDao" ref="workflowDao"></property>
+	</bean>
+	<bean id="zcNotepadDAO" class="com.ufgov.zc.server.zc.dao.ibatis.ZcNotepadDAOImpl"
+		scope="singleton">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	<bean id="zcNotePadService" class="com.ufgov.zc.server.zc.service.impl.ZcNotePadServiceImp" scope="singleton">
+		<property name="zcNotepadDAO" ref="zcNotepadDAO" />
+	</bean>
+	
+	<!-- 预算单位 采购任务 -->
+	<bean id="zcEbEntrustBulletinDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcEbEntrustBulletinDao"
+		scope="singleton">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	<bean id="zcEbEntrustBulletinService" class="com.ufgov.zc.server.zc.service.impl.ZcEbEntrustBulletinService"
+		scope="singleton">
+		<property name="bullDao" ref="zcEbEntrustBulletinDao" />
+		
+		<property name="workflowDao" ref="workflowDao" />
+
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+	</bean>
+	<bean id="supplierPriceDao" class="com.ufgov.zc.server.zc.dao.ibatis.SupplierPriceDao"
+		scope="singleton">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	<bean id="supplierPriceService" class="com.ufgov.zc.server.zc.service.impl.SupplierPriceService"
+		scope="singleton">
+		<property name="priceDao" ref="supplierPriceDao"></property>
+	</bean>
+	
+	<bean id="zcEbEntrustCancelService" class="com.ufgov.zc.server.zc.service.impl.ZcEbEntrustCancelService" scope="singleton">
+		<property name="baseDao" ref="zcBaseDao" />
+		<property name="wfEngineAdapter" ref="wfEngineAdapter"></property>
+		<property name="workflowDao" ref="workflowDao"></property>
+	</bean>
+	<!-- 取消任务 start -->
+	<bean class="com.ufgov.zc.server.zc.util.ZcProxyUtil"></bean>
+	<bean id="zcEbAuditSheetCancelProxy" class="com.ufgov.zc.server.zc.proxy.impl.ZcEbAuditSheetCancelProxyImpl" scope="singleton">
+	</bean>
+	<bean id="zcEbBullitenCancelProxy" class="com.ufgov.zc.server.zc.proxy.impl.ZcEbBullitenCancelProxyImpl" scope="singleton">
+	</bean>
+	<bean id="zcEbEntrustCancelProxy" class="com.ufgov.zc.server.zc.proxy.impl.ZcEbEntrustCancelProxyImpl" scope="singleton">
+	</bean>
+	<bean id="zcEbEvalCancelProxy" class="com.ufgov.zc.server.zc.proxy.impl.ZcEbEvalCancelProxyImpl" scope="singleton">
+	</bean>
+	<bean id="zcEbProjCancelProxy" class="com.ufgov.zc.server.zc.proxy.impl.ZcEbProjCancelProxyImpl" scope="singleton">
+	</bean>
+	<bean id="zcEbRequirementCancelProxy" class="com.ufgov.zc.server.zc.proxy.impl.ZcEbRequirementCancelProxyImpl" scope="singleton">
+	</bean>
+	<bean id="zcEbSignupCancelProxy" class="com.ufgov.zc.server.zc.proxy.impl.ZcEbSignupCancelProxyImpl" scope="singleton">
+	</bean>
+	<bean id="zcPProMakeCancelProxy" class="com.ufgov.zc.server.zc.proxy.impl.ZcPProMakeCancelProxyImpl" scope="singleton">
+	</bean>
+	<!-- 取消任务 end -->
+	
+	<!-- big screen -->
+	<bean id="animationMetaDao" class="com.ufgov.zc.server.zc.dao.ibatis.AnimationMetaDao"
+		scope="singleton">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	<bean id="animationService" class="com.ufgov.zc.server.zc.service.impl.ZcAnimationService"
+		scope="singleton">
+		<property name="animationDao" ref="animationMetaDao"></property>
+	</bean>
+	<bean id="zcEbSupQualificationService" class="com.ufgov.zc.server.zc.service.impl.ZcEbSupQualificationService"
+		scope="singleton">
+		<property name="baseDao" ref="zcBaseDao"></property>
+	</bean>
+
+	<bean id="zcEbMessageService" class="com.ufgov.zc.server.zc.service.impl.MessageService"
+		scope="singleton">
+		<property name="baseDao" ref="zcBaseDao"></property>
+	</bean>
+	<bean id="zcQuaTypeService" class="com.ufgov.zc.server.zc.service.impl.ZcQuaTypeService"
+		scope="singleton">
+		<property name="baseDao" ref="zcBaseDao"></property>
+	</bean>
+	<bean id="zcEbConsultService" class="com.ufgov.zc.server.zc.service.impl.ZcEbConsultService"
+		scope="singleton">
+		<property name="baseDao" ref="zcBaseDao"></property>
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+		<property name="workflowDao" ref="workflowDao"></property>
+	</bean>
+	<bean id="zcDdcgHtService" class="com.ufgov.zc.server.zc.service.impl.ZcDdcgHtService"
+		scope="singleton">
+		<property name="baseDao" ref="zcBaseDao"></property>
+		<property name="workflowDao" ref="workflowDao"></property>
+	</bean>	
+	<bean id="zcQxService" class="com.ufgov.zc.server.zc.service.impl.ZcQxService"
+		scope="singleton">
+		<property name="baseDao" ref="zcBaseDao"></property>
+		<property name="workflowDao" ref="workflowDao"></property>
+		<property name="qxDao" ref="qxDao"></property>
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+	</bean>	
+	<bean id="qxDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcQxDao"
+		scope="singleton">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	<bean id="zcQbService" class="com.ufgov.zc.server.zc.service.impl.ZcQbService"
+		scope="singleton">
+		<property name="baseDao" ref="zcBaseDao"></property>
+		<property name="workflowDao" ref="workflowDao"></property>
+		<property name="qbDao" ref="qbDao"></property>
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+	</bean>	
+	<bean id="qbDao" class="com.ufgov.zc.server.zc.dao.ibatis.ZcQbDao"
+		scope="singleton">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+</beans>

@@ -1,0 +1,849 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ZC_XMCG_HT_CHG">
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<typeAlias alias="ContractFile" type="com.ufgov.zc.common.system.model.AsFile" />
+	<resultMap class="com.ufgov.zc.common.zc.model.ZcXmcgHtChg" id="HtChgResultMap">
+
+		<result column="ZC_HT_CHG_ID" jdbcType="VARCHAR" property="zcHtChgId" />
+		<result column="ZC_HT_CODE" jdbcType="VARCHAR" property="zcHtCode" />
+		<result column="ZC_DIYU_DAIMA" jdbcType="VARCHAR" property="zcDiyuDaima" />
+		<result column="ZC_HT_NAME" jdbcType="VARCHAR" property="zcHtName" />
+		<result column="ZC_HT_TYPE" jdbcType="VARCHAR" property="zcHtType" />
+		<result column="ZC_REQ_CODE" jdbcType="VARCHAR" property="zcReqCode" />
+		<result column="ZC_MAKE_CODE" jdbcType="VARCHAR" property="zcPProMake.zcMakeCode" />
+		<result column="ZC_MAKE_NAME" jdbcType="VARCHAR" property="zcPProMake.zcMakeName" />
+		<result column="ZC_MONEY_BI_SUM" jdbcType="DECIMAL"
+			property="zcPProMake.zcMoneyBiSum" />
+		<result column="ZC_BID_CODE" jdbcType="VARCHAR" property="zcBidCode" />
+		<result column="CO_CODE" jdbcType="VARCHAR" property="coCode" />
+		<result column="ND" jdbcType="CHAR" property="nd" />
+		<result column="ZC_SGN_DATE" jdbcType="TIMESTAMP" property="zcSgnDate" />
+		<result column="ZC_SU_NAME" jdbcType="VARCHAR" property="zcSuName" />
+		<result column="ZC_JCKDL_MC" jdbcType="VARCHAR" property="zcJckdlMc" />
+		<result column="ZC_HT_NUM" jdbcType="DECIMAL" property="zcHtNum" />
+		<result column="ZC_CZ_LEVEL" jdbcType="VARCHAR" property="zcCzLevel" />
+		<result column="ZC_FUKUAN_TYPE" jdbcType="VARCHAR" property="zcFukuanType" />
+		<result column="ZC_FUKUAN_YUED" jdbcType="VARCHAR" property="zcFukuanYued" />
+		<result column="ZC_CHECK_TYPE" jdbcType="VARCHAR" property="zcCheckType" />
+		<result column="ZC_CON_TEXT" jdbcType="VARCHAR" property="zcConText" />
+		<result column="ZC_CON_TEXT_BLOBID" jdbcType="VARCHAR"
+			property="zcConTextBlobid" />
+		<result column="ZC_HT_STATUS" jdbcType="VARCHAR" property="zcHtStatus" />
+		<result column="AGENCY" jdbcType="VARCHAR" property="agency" />
+		<result column="ORG_CODE" jdbcType="VARCHAR" property="orgCode" />
+		<result column="ZC_SM_PJ1" jdbcType="VARCHAR" property="zcSmPj1" />
+		<result column="ZC_SM_PJ2" jdbcType="VARCHAR" property="zcSmPj2" />
+		<result column="ZC_SM_PJ3" jdbcType="VARCHAR" property="zcSmPj3" />
+		<result column="ZC_SM_PJ4" jdbcType="VARCHAR" property="zcSmPj4" />
+		<result column="EXECUTOR" jdbcType="VARCHAR" property="zcInputCode" />
+		<result column="EXECUTE_DATE" jdbcType="TIMESTAMP" property="zcInputDate" />
+		<result column="PROCESS_INST_ID" jdbcType="DECIMAL" property="processInstId" />
+		<result column="ZC_PARHT_CODE" jdbcType="VARCHAR" property="zcParhtCode" />
+		<result column="ZC_SU_CODE" jdbcType="VARCHAR" property="zcSuCode" />
+		<result column="ZC_SU_ACC_CODE" jdbcType="VARCHAR" property="zcSuAccCode" />
+		<result column="ZC_SU_BANK_CODE" jdbcType="VARCHAR" property="zcSuBankCode" />
+		<result column="ZC_SU_BANK_NAME" jdbcType="VARCHAR" property="zcSuBankName" />
+		<result column="ZC_SU_TEL" jdbcType="VARCHAR" property="zcSuTel" />
+		<result column="ZC_SU_LINKMAN" jdbcType="VARCHAR" property="zcSuLinkman" />
+		<result column="ZC_IS_ZXQY_ZB" jdbcType="VARCHAR" property="zcIsZxqyZb" />
+		<result column="ZC_GNW" jdbcType="VARCHAR" property="zcGnw" />
+		<result column="ZC_SNW" jdbcType="VARCHAR" property="zcSnw" />
+		<result column="ZC_ARRIVE_ADDR" jdbcType="VARCHAR" property="zcArriveAddr" />
+		<result column="ZC_ARRIVE_DATE" jdbcType="TIMESTAMP" property="zcArriveDate" />
+		<result column="ZC_HANGYE_CTG" jdbcType="VARCHAR" property="zcHangyeCtg" />
+		<result column="ZC_SK_REN" jdbcType="VARCHAR" property="zcSkRen" />
+		<result column="ZC_ZB_NAME" jdbcType="VARCHAR" property="zcZbName" />
+		<result column="ZC_ZB_CODE" jdbcType="VARCHAR" property="zcZbCode" />
+		<result column="ZC_BI_NZJZ_SUM" jdbcType="DECIMAL" property="zcBiNzjzSum" />
+		<result column="ZC_ISREWRITE" jdbcType="VARCHAR" property="zcIsrewrite" />
+		<result column="ZC_CG_LEIXING" jdbcType="VARCHAR" property="zcCgLeixing" />
+		<result column="ZC_ZG_CS_NAME" jdbcType="VARCHAR" property="zcZgCsName" />
+		<result column="ZC_BGSP_BH" jdbcType="VARCHAR" property="zcBgspBh" />
+		<result column="ZC_DELIVERY_EVL" jdbcType="VARCHAR" property="zcDeliveryEvl" />
+		<result column="ZC_PRICE_EVL" jdbcType="VARCHAR" property="zcPriceEvl" />
+		<result column="ZC_QUANTITY_EVL" jdbcType="VARCHAR" property="zcQuantityEvl" />
+		<result column="ZC_SERVICE_EVL" jdbcType="VARCHAR" property="zcServiceEvl" />
+		<result column="ZC_MEMO" jdbcType="VARCHAR" property="zcMemo" />
+		<result column="ZC_BID_CONTENT" jdbcType="VARCHAR" property="zcBidContent" />
+
+		<result column="ZC_DELIVERY_DATE" jdbcType="VARCHAR"
+			property="zcDeliveryDate" />
+		<result column="ZC_DELIVERY_ADDR" jdbcType="VARCHAR" property="zcDeliveryAddr" />
+		<result column="ZC_DELIVERY_TYPE" jdbcType="VARCHAR" property="zcDeliveryType" />
+
+		<result column="ZC_PRO_LIMIT_START_DATE" jdbcType="TIMESTAMP" property="zcProLimitStartDate" />
+		<result column="ZC_PRO_LIMIT_END_DATE" jdbcType="TIMESTAMP" property="zcProLimitEndDate" />
+		<result column="ZC_IMP_FILE" jdbcType="VARCHAR" property="zcImpFile" />
+		<result column="ZC_IMP_FILE_BLOBID" jdbcType="VARCHAR" property="zcImpFileBlobid" />
+	</resultMap>
+	<resultMap id="contractFileResult" class="ContractFile">
+		<result property="fileContent" column="FILE_CONTENT"
+			typeHandler="org.springframework.orm.ibatis.support.BlobByteArrayTypeHandler" />
+	</resultMap>
+
+	<resultMap class="com.ufgov.zc.common.zc.model.ZcXmcgHtChg" id="HtChgResultMap">
+
+		<result column="ZC_HT_CHG_ID" jdbcType="VARCHAR" property="zcHtChgId" />
+		<result column="ZC_HT_CODE" jdbcType="VARCHAR" property="zcHtCode" />
+		<result column="ZC_DIYU_DAIMA" jdbcType="VARCHAR" property="zcDiyuDaima" />
+		<result column="ZC_HT_NAME" jdbcType="VARCHAR" property="zcHtName" />
+		<result column="ZC_HT_TYPE" jdbcType="VARCHAR" property="zcHtType" />
+		<result column="ZC_REQ_CODE" jdbcType="VARCHAR" property="zcReqCode" />
+		<result column="ZC_MAKE_CODE" jdbcType="VARCHAR" property="zcPProMake.zcMakeCode" />
+		<result column="ZC_MAKE_NAME" jdbcType="VARCHAR" property="zcPProMake.zcMakeName" />
+		<result column="ZC_MONEY_BI_SUM" jdbcType="DECIMAL"
+			property="zcPProMake.zcMoneyBiSum" />
+		<result column="ZC_BID_CODE" jdbcType="VARCHAR" property="zcBidCode" />
+		<result column="CO_CODE" jdbcType="VARCHAR" property="coCode" />
+		<result column="ND" jdbcType="CHAR" property="nd" />
+		<result column="ZC_SGN_DATE" jdbcType="TIMESTAMP" property="zcSgnDate" />
+		<result column="ZC_SU_NAME" jdbcType="VARCHAR" property="zcSuName" />
+		<result column="ZC_JCKDL_MC" jdbcType="VARCHAR" property="zcJckdlMc" />
+		<result column="ZC_HT_NUM" jdbcType="DECIMAL" property="zcHtNum" />
+		<result column="ZC_CZ_LEVEL" jdbcType="VARCHAR" property="zcCzLevel" />
+		<result column="ZC_FUKUAN_TYPE" jdbcType="VARCHAR" property="zcFukuanType" />
+		<result column="ZC_FUKUAN_YUED" jdbcType="VARCHAR" property="zcFukuanYued" />
+		<result column="ZC_CHECK_TYPE" jdbcType="VARCHAR" property="zcCheckType" />
+		<result column="ZC_CON_TEXT" jdbcType="VARCHAR" property="zcConText" />
+		<result column="ZC_CON_TEXT_BLOBID" jdbcType="VARCHAR"
+			property="zcConTextBlobid" />
+		<result column="ZC_HT_STATUS" jdbcType="VARCHAR" property="zcHtStatus" />
+		<result column="AGENCY" jdbcType="VARCHAR" property="agency" />
+		<result column="ORG_CODE" jdbcType="VARCHAR" property="orgCode" />
+		<result column="ZC_SM_PJ1" jdbcType="VARCHAR" property="zcSmPj1" />
+		<result column="ZC_SM_PJ2" jdbcType="VARCHAR" property="zcSmPj2" />
+		<result column="ZC_SM_PJ3" jdbcType="VARCHAR" property="zcSmPj3" />
+		<result column="ZC_SM_PJ4" jdbcType="VARCHAR" property="zcSmPj4" />
+		<result column="EXECUTOR" jdbcType="VARCHAR" property="zcInputCode" />
+		<result column="EXECUTE_DATE" jdbcType="TIMESTAMP" property="zcInputDate" />
+		<result column="PROCESS_INST_ID" jdbcType="DECIMAL" property="processInstId" />
+		<result column="ZC_PARHT_CODE" jdbcType="VARCHAR" property="zcParhtCode" />
+		<result column="ZC_SU_CODE" jdbcType="VARCHAR" property="zcSuCode" />
+		<result column="ZC_SU_ACC_CODE" jdbcType="VARCHAR" property="zcSuAccCode" />
+		<result column="ZC_SU_BANK_CODE" jdbcType="VARCHAR" property="zcSuBankCode" />
+		<result column="ZC_SU_BANK_NAME" jdbcType="VARCHAR" property="zcSuBankName" />
+		<result column="ZC_SU_TEL" jdbcType="VARCHAR" property="zcSuTel" />
+		<result column="ZC_SU_LINKMAN" jdbcType="VARCHAR" property="zcSuLinkman" />
+		<result column="ZC_IS_ZXQY_ZB" jdbcType="VARCHAR" property="zcIsZxqyZb" />
+		<result column="ZC_GNW" jdbcType="VARCHAR" property="zcGnw" />
+		<result column="ZC_SNW" jdbcType="VARCHAR" property="zcSnw" />
+		<result column="ZC_ARRIVE_ADDR" jdbcType="VARCHAR" property="zcArriveAddr" />
+		<result column="ZC_ARRIVE_DATE" jdbcType="TIMESTAMP" property="zcArriveDate" />
+		<result column="ZC_HANGYE_CTG" jdbcType="VARCHAR" property="zcHangyeCtg" />
+		<result column="ZC_SK_REN" jdbcType="VARCHAR" property="zcSkRen" />
+		<result column="ZC_ZB_NAME" jdbcType="VARCHAR" property="zcZbName" />
+		<result column="ZC_ZB_CODE" jdbcType="VARCHAR" property="zcZbCode" />
+		<result column="ZC_BI_NZJZ_SUM" jdbcType="DECIMAL" property="zcBiNzjzSum" />
+		<result column="ZC_ISREWRITE" jdbcType="VARCHAR" property="zcIsrewrite" />
+		<result column="ZC_CG_LEIXING" jdbcType="VARCHAR" property="zcCgLeixing" />
+		<result column="ZC_ZG_CS_NAME" jdbcType="VARCHAR" property="zcZgCsName" />
+		<result column="ZC_BGSP_BH" jdbcType="VARCHAR" property="zcBgspBh" />
+		<result column="ZC_DELIVERY_EVL" jdbcType="VARCHAR" property="zcDeliveryEvl" />
+		<result column="ZC_PRICE_EVL" jdbcType="VARCHAR" property="zcPriceEvl" />
+		<result column="ZC_QUANTITY_EVL" jdbcType="VARCHAR" property="zcQuantityEvl" />
+		<result column="ZC_SERVICE_EVL" jdbcType="VARCHAR" property="zcServiceEvl" />
+		<result column="ZC_MEMO" jdbcType="VARCHAR" property="zcMemo" />
+		<result column="ZC_BID_CONTENT" jdbcType="VARCHAR" property="zcBidContent" />
+
+		<result column="ZC_DELIVERY_DATE" jdbcType="VARCHAR"
+			property="zcDeliveryDate" />
+		<result column="ZC_DELIVERY_ADDR" jdbcType="VARCHAR" property="zcDeliveryAddr" />
+		<result column="ZC_DELIVERY_TYPE" jdbcType="VARCHAR" property="zcDeliveryType" />
+
+		<result column="ZC_PRO_LIMIT_START_DATE" jdbcType="TIMESTAMP" property="zcProLimitStartDate" />
+		<result column="ZC_PRO_LIMIT_END_DATE" jdbcType="TIMESTAMP" property="zcProLimitEndDate" />
+		<result column="ZC_IMP_FILE" jdbcType="VARCHAR" property="zcImpFile" />
+		<result column="ZC_IMP_FILE_BLOBID" jdbcType="VARCHAR" property="zcImpFileBlobid" />
+	</resultMap>
+
+	<resultMap class="com.ufgov.zc.common.zc.model.ZcXmcgHtBiChg"
+		id="htBiChgResultMap">
+		<result column="ZC_HT_CHG_ID" jdbcType="VARCHAR" property="zcHtChgId" />
+		<result column="ZC_HT_CODE" jdbcType="VARCHAR" property="zcHtCode" />
+		<result column="ZC_BI_NO" jdbcType="VARCHAR" property="zcBiNo" />
+		<result column="ZC_BI_BCSY_SUM" jdbcType="DECIMAL" property="zcBiBcsySum" />
+		<result column="ZC_MAKE_CODE" jdbcType="VARCHAR" property="zcMakeCode" />
+		<result column="ZC_BI_YJJS_SUM" jdbcType="DECIMAL" property="zcBiYjjsSum" />
+		<result column="ZC_BI_HTBA_SUM" jdbcType="DECIMAL" property="zcBiHtbaSum" />
+		<result column="ZC_BI_YJCH_SUM" jdbcType="DECIMAL" property="zcBiYjchSum" />
+		<result column="ZC_BI_NZJZ_SUM" jdbcType="DECIMAL" property="zcBiNzjzSum" />
+		<result column="ZC_PRO_BI_SEQ" jdbcType="VARCHAR" property="zcProBiSeq" />
+		<result column="zc_Can_Use_Sum" jdbcType="DECIMAL" property="zcCanUseSum" />
+		<result column="zc_bi_sum" jdbcType="DECIMAL" property="zcBiSum" />
+	</resultMap>
+
+  <resultMap class="com.ufgov.zc.common.zc.model.ZcTBchtItemChg" id="itemChgResultMap">
+	<result column="ZC_HT_CHG_ID" jdbcType="VARCHAR" property="zcHtChgId" />
+    <result column="ZC_CTGRY_ID" jdbcType="DECIMAL" property="zcCtgryId" />
+    <result column="ZC_HT_CODE" jdbcType="VARCHAR" property="zcHtCode" />
+    <result column="ZC_YEAR" jdbcType="CHAR" property="zcYear" />
+    <result column="ZC_CATALOGUE_CODE" jdbcType="VARCHAR" property="zcCatalogueCode" />
+    <result column="ZC_CATALOGUE_NAME" jdbcType="VARCHAR" property="zcCatalogueName" />
+    <result column="ZC_IS_JNJS" jdbcType="VARCHAR" property="zcIsJnjs" />
+    <result column="ZC_BRA_NAME" jdbcType="VARCHAR" property="zcBraName" />
+    <result column="ZC_MER_SPEC" jdbcType="VARCHAR" property="zcMerSpec" />
+    <result column="ZC_ITEM_VAL" jdbcType="DECIMAL" property="zcItemVal" />
+    <result column="ZC_CAIG_SHL" jdbcType="DECIMAL" property="zcCaigShl" />
+    <result column="ZC_SP_NAME" jdbcType="VARCHAR" property="zcSpName" />
+    <result column="ZC_MER_IS_ZZCX" jdbcType="VARCHAR" property="zcMerIsZzcx" />
+    <result column="ZC_MER_IS_LSHB" jdbcType="VARCHAR" property="zcMerIsLshb" />
+    <result column="ZC_MER_M_PRICE" jdbcType="DECIMAL" property="zcMerMPrice" />
+    <result column="ZC_HT_BI_MONEY" jdbcType="DECIMAL" property="zcHtBiMoney" />
+    <result column="ZC_HT_OTHER_MONEY" jdbcType="DECIMAL" property="zcHtOtherMoney" />
+    <result column="ZC_HT_GK_MONEY" jdbcType="DECIMAL" property="zcHtGkMoney" />
+    <result column="ZC_ITEM_SUM" jdbcType="DECIMAL" property="zcItemSum" />
+    <result column="BUDGET_BI_MONEY" jdbcType="DECIMAL" property="budgetBiMoney" />
+    <result column="BUDGET_OTHER_MONEY" jdbcType="DECIMAL" property="budgetOtherMoney" />
+	<result column="ZC_CAIG_JLDW" jdbcType="VARCHAR" property="zcCaigJldw" />
+	<result column="ZC_CAIG_PRICE" jdbcType="DECIMAL" property="zcCaigPrice" />
+	<result column="ZC_CAIG_MONEY" jdbcType="DECIMAL" property="zcCaigMoney" />
+  </resultMap>
+  <resultMap id="payBillItemResult" class="com.ufgov.zc.common.zc.model.ZcHtPrePayBillItemChg" >
+	<result column="ZC_HT_CHG_ID" jdbcType="VARCHAR" property="zcHtChgId" />
+    <result column="BILL_CODE" property="billCode" jdbcType="VARCHAR" />
+    <result column="PAY_ORDER" property="payOrder" jdbcType="VARCHAR" />
+    <result column="PAY_MONEY" property="payMoney" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="PERCENT" property="percent" jdbcType="VARCHAR" />
+    <result column="PAY_DATE" property="payDate" jdbcType="DATE" />   
+    <result column="PAY_YEAR" property="payYear" jdbcType="VARCHAR" />
+    <result column="PAY_MONTH" property="payMonth" jdbcType="VARCHAR" /> 
+  </resultMap>
+
+	<select id="selectHtChgListByExample" parameterClass="elementCondition"
+		resultMap="HtChgResultMap">
+		select ZC_HT_CHG_ID,ZC_HT_CODE, ZC_DIYU_DAIMA, ZC_HT_NAME, ZC_HT_TYPE, ZC_REQ_CODE,
+		ZC_MAKE_CODE,
+		ZC_BID_CODE, CO_CODE, ND, ZC_SGN_DATE, ZC_SU_NAME, ZC_JCKDL_MC, ZC_HT_NUM,
+		ZC_CZ_LEVEL, ZC_FUKUAN_TYPE, ZC_FUKUAN_YUED, ZC_CHECK_TYPE,
+		ZC_CON_TEXT, ZC_CON_TEXT_BLOBID,
+		ZC_HT_STATUS, AGENCY, ORG_CODE, ZC_SM_PJ1, ZC_SM_PJ2, ZC_SM_PJ3, ZC_SM_PJ4,
+		EXECUTOR, EXECUTE_DATE, PROCESS_INST_ID, ZC_PARHT_CODE, ZC_SU_CODE,
+		ZC_SU_ACC_CODE,
+		ZC_SU_BANK_CODE, ZC_SU_BANK_NAME, ZC_SU_TEL, ZC_SU_LINKMAN, ZC_IS_ZXQY_ZB, ZC_GNW,
+		ZC_SNW,
+		ZC_ARRIVE_ADDR, ZC_ARRIVE_DATE, ZC_HANGYE_CTG, ZC_SK_REN, ZC_ZB_NAME, ZC_ZB_CODE,
+		ZC_BI_NZJZ_SUM, ZC_ISREWRITE, ZC_CG_LEIXING, ZC_ZG_CS_NAME,
+		ZC_BGSP_BH,ZC_DELIVERY_EVL,ZC_PRICE_EVL,
+		ZC_QUANTITY_EVL,ZC_SERVICE_EVL,ZC_MEMO,ZC_BID_CONTENT
+		,
+		(select m.ZC_MAKE_NAME from ZC_P_PRO_MAKE m where m.zc_make_code =
+		ZC_XMCG_HT.zc_make_code)
+		 as ZC_MAKE_NAME
+		,(select m.ZC_MONEY_BI_SUM from ZC_P_PRO_MAKE m where m.zc_make_code =
+		ZC_XMCG_HT.zc_make_code) as ZC_MONEY_BI_SUM,
+		ZC_DELIVERY_DATE,ZC_DELIVERY_ADDR,ZC_DELIVERY_TYPE
+		, ZC_PRO_LIMIT_START_DATE, ZC_PRO_LIMIT_END_DATE, ZC_IMP_FILE, ZC_IMP_FILE_BLOBID
+		from ZC_XMCG_HT_CHG ZC_XMCG_HT
+		where 1=1
+
+		<include refid="BusiNumLim.BusiNumLimStr" />
+
+		<isNotEqual prepend="AND" compareValue="0" property="nd">
+			ZC_XMCG_HT.ND=#nd#
+		</isNotEqual>
+		<isEmpty prepend="AND" property="zcText0">
+			ZC_XMCG_HT.zc_parht_code is
+			null
+		</isEmpty>
+		<isNotEmpty prepend=" " property="zcText0">
+			<isNotEqual prepend="AND" compareValue="sup" property="zcText0">
+				ZC_XMCG_HT.zc_parht_code is null
+			</isNotEqual>
+			<isEqual prepend="AND" compareValue="sup" property="zcText0">
+				ZC_XMCG_HT.zc_parht_code is not null
+			</isEqual>
+		</isNotEmpty>
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		<isNotNull prepend="and" property="status">
+			<isEqual property="status" compareValue="todo">
+				exists (select instance_id from V_WF_CURRENT_TASK_ZC_TODO where executor
+				=#executor# and instance_id = ZC_XMCG_HT.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="untread">
+				exists (select instance_id from V_WF_CURRENT_TASK_ZC_UNTREAD where
+				executor =#executor# and instance_id = ZC_XMCG_HT.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				exists (select instance_id from V_WF_ACTION_HISTORY_GK53 where executor =
+				#executor# and instance_id = ZC_XMCG_HT.process_inst_id)
+				and ZC_XMCG_HT.ZC_HT_STATUS!='cancel'
+				and ZC_XMCG_HT.ZC_HT_STATUS!='exec'
+			</isEqual>
+			<isEqual property="status" compareValue="exec">
+				(ZC_XMCG_HT.ZC_HT_STATUS ='exec')
+			</isEqual>
+			<isEqual property="status" compareValue="draft">
+				exists (select WF_DRAFT_NAME from as_wf_draft where user_id=#executor# and
+				compo_id=#wfcompoId# and WF_DRAFT_ID=ZC_XMCG_HT.process_inst_id)
+			</isEqual>
+		</isNotNull>
+		<isNotNull prepend="and" property="coCode">
+			ZC_XMCG_HT.CO_CODE = #coCode#
+		</isNotNull>
+		<isNotNull prepend="and" property="billStatus">
+			ZC_XMCG_HT.ZC_HT_STATUS = #billStatus#
+		</isNotNull>
+		order by ZC_XMCG_HT.EXECUTE_DATE DESC
+	</select>
+	<select id="selectHtChgByPrimaryKey" parameterClass="String"
+		resultMap="HtChgResultMap">
+		select ZC_HT_CHG_ID,ZC_HT_CODE, ZC_DIYU_DAIMA, ZC_HT_NAME, ZC_HT_TYPE, ZC_REQ_CODE,
+		ZC_MAKE_CODE,
+		ZC_BID_CODE, CO_CODE, ND, ZC_SGN_DATE, ZC_SU_NAME, ZC_JCKDL_MC, ZC_HT_NUM,
+		ZC_CZ_LEVEL, ZC_FUKUAN_TYPE, ZC_FUKUAN_YUED, ZC_CHECK_TYPE,
+		ZC_CON_TEXT, ZC_CON_TEXT_BLOBID,
+		ZC_HT_STATUS, AGENCY, ORG_CODE, ZC_SM_PJ1, ZC_SM_PJ2, ZC_SM_PJ3, ZC_SM_PJ4,
+		EXECUTOR, EXECUTE_DATE, PROCESS_INST_ID, ZC_PARHT_CODE, ZC_SU_CODE,
+		ZC_SU_ACC_CODE,
+		ZC_SU_BANK_CODE, ZC_SU_BANK_NAME, ZC_SU_TEL, ZC_SU_LINKMAN, ZC_IS_ZXQY_ZB, ZC_GNW,
+		ZC_SNW,
+		ZC_ARRIVE_ADDR, ZC_ARRIVE_DATE, ZC_HANGYE_CTG, ZC_SK_REN, ZC_ZB_NAME, ZC_ZB_CODE,
+		ZC_BI_NZJZ_SUM, ZC_ISREWRITE, ZC_CG_LEIXING, ZC_ZG_CS_NAME,
+		ZC_BGSP_BH,ZC_DELIVERY_EVL,ZC_PRICE_EVL,
+		ZC_QUANTITY_EVL,ZC_SERVICE_EVL,ZC_MEMO,ZC_BID_CONTENT
+		,
+		(select m.ZC_MAKE_NAME from ZC_P_PRO_MAKE m where m.zc_make_code =
+		master.zc_make_code)
+		as ZC_MAKE_NAME
+		,(select m.ZC_MONEY_BI_SUM from ZC_P_PRO_MAKE m where m.zc_make_code =
+		master.zc_make_code) as ZC_MONEY_BI_SUM,
+		ZC_DELIVERY_DATE,ZC_DELIVERY_ADDR,ZC_DELIVERY_TYPE
+		, ZC_PRO_LIMIT_START_DATE, ZC_PRO_LIMIT_END_DATE, ZC_IMP_FILE, ZC_IMP_FILE_BLOBID
+		from ZC_XMCG_HT_CHG MASTER
+		where MASTER.ZC_HT_CHG_ID = #zcHtChgId:VARCHAR#
+	</select>
+	<delete id="deleteHtChgByPrimaryKey" parameterClass="String">
+		delete from ZC_XMCG_HT_CHG
+		where ZC_HT_CHG_ID = #value:VARCHAR#
+	</delete>
+
+	<insert id="insertHtChg" parameterClass="com.ufgov.zc.common.zc.model.ZcXmcgHtChg">
+		insert into ZC_XMCG_HT_CHG (ZC_HT_CHG_ID,ZC_HT_CODE, ZC_DIYU_DAIMA, ZC_HT_NAME,
+		ZC_HT_TYPE, ZC_REQ_CODE,
+		ZC_MAKE_CODE, ZC_BID_CODE, CO_CODE, ND, ZC_SGN_DATE, ZC_SU_NAME, ZC_JCKDL_MC,
+		ZC_HT_NUM, ZC_CZ_LEVEL, ZC_FUKUAN_TYPE, ZC_FUKUAN_YUED, ZC_CHECK_TYPE,
+		ZC_CON_TEXT,
+		ZC_CON_TEXT_BLOBID, ZC_HT_STATUS, AGENCY, ORG_CODE, ZC_SM_PJ1, ZC_SM_PJ2,
+		ZC_SM_PJ3, ZC_SM_PJ4, EXECUTOR, EXECUTE_DATE, PROCESS_INST_ID, ZC_PARHT_CODE,
+		ZC_SU_CODE, ZC_SU_ACC_CODE, ZC_SU_BANK_CODE, ZC_SU_BANK_NAME,
+		ZC_SU_TEL, ZC_SU_LINKMAN,
+		ZC_IS_ZXQY_ZB, ZC_GNW, ZC_SNW, ZC_ARRIVE_ADDR, ZC_ARRIVE_DATE, ZC_HANGYE_CTG,
+		ZC_SK_REN,
+		ZC_ZB_NAME, ZC_ZB_CODE, ZC_BI_NZJZ_SUM, ZC_ISREWRITE, ZC_CG_LEIXING,
+		ZC_ZG_CS_NAME,
+		ZC_BGSP_BH,ZC_DELIVERY_EVL,ZC_PRICE_EVL,ZC_QUANTITY_EVL,ZC_SERVICE_EVL,ZC_MEMO,ZC_BID_CONTENT,ZC_DELIVERY_DATE,ZC_DELIVERY_ADDR,ZC_DELIVERY_TYPE
+		, ZC_PRO_LIMIT_START_DATE, ZC_PRO_LIMIT_END_DATE, ZC_IMP_FILE, ZC_IMP_FILE_BLOBID)
+		values (#zcHtChgId:VARCHAR#, #zcHtCode:VARCHAR#, #zcDiyuDaima:VARCHAR#, #zcHtName:VARCHAR#,
+		#zcHtType:VARCHAR#,
+		#zcReqCode:VARCHAR#, #zcMakeCode:VARCHAR#, #zcBidCode:VARCHAR#, #coCode:VARCHAR#,
+		#nd:CHAR#, #zcSgnDate:TIMESTAMP#, #zcSuName:VARCHAR#,
+		#zcJckdlMc:VARCHAR#,
+		#zcHtNum:DECIMAL#, #zcCzLevel:VARCHAR#, #zcFukuanType:VARCHAR#, #zcFukuanYued:VARCHAR#,
+		#zcCheckType:VARCHAR#, #zcConText:VARCHAR#, #zcConTextBlobid:VARCHAR#,
+		#zcHtStatus:VARCHAR#,
+		#agency:VARCHAR#, #orgCode:VARCHAR#, #zcSmPj1:VARCHAR#, #zcSmPj2:VARCHAR#,
+		#zcSmPj3:VARCHAR#, #zcSmPj4:VARCHAR#, #zcInputCode:VARCHAR#,
+		#zcInputDate:TIMESTAMP#,
+		#processInstId:DECIMAL#, #zcParhtCode:VARCHAR#, #zcSuCode:VARCHAR#, #zcSuAccCode:VARCHAR#,
+		#zcSuBankCode:VARCHAR#, #zcSuBankName:VARCHAR#, #zcSuTel:VARCHAR#,
+		#zcSuLinkman:VARCHAR#,
+		#zcIsZxqyZb:VARCHAR#, #zcGnw:VARCHAR#, #zcSnw:VARCHAR#, #zcArriveAddr:VARCHAR#,
+		#zcArriveDate:TIMESTAMP#, #zcHangyeCtg:VARCHAR#, #zcSkRen:VARCHAR#,
+		#zcZbName:VARCHAR#,
+		#zcZbCode:VARCHAR#, #zcBiNzjzSum:DECIMAL#, #zcIsrewrite:VARCHAR#, #zcCgLeixing:VARCHAR#,
+		#zcZgCsName:VARCHAR#,
+		#zcBgspBh:VARCHAR#,#zcDeliveryEvl:VARCHAR#,#zcPriceEvl:VARCHAR#,
+		#zcQuantityEvl:VARCHAR#,#zcServiceEvl:VARCHAR#,#zcMemo:VARCHAR#,#zcBidContent:VARCHAR#,#zcDeliveryDate#,#zcDeliveryAddr#,#zcDeliveryType#
+		, #zcProLimitStartDate:TIMESTAMP#, #zcProLimitEndDate:TIMESTAMP#, #zcImpFile:VARCHAR#, #zcImpFileBlobid:VARCHAR#)
+	</insert>
+
+
+	<update id="updateHtChgByPrimaryKey" parameterClass="com.ufgov.zc.common.zc.model.ZcXmcgHtChg">
+		update ZC_XMCG_HT_CHG
+		set ZC_HT_CHG_ID = #zcHtChgId:VARCHAR#,
+		ZC_DIYU_DAIMA = #zcDiyuDaima:VARCHAR#,
+		ZC_HT_NAME = #zcHtName:VARCHAR#,
+		ZC_HT_TYPE = #zcHtType:VARCHAR#,
+		ZC_REQ_CODE = #zcReqCode:VARCHAR#,
+		ZC_MAKE_CODE = #zcMakeCode:VARCHAR#,
+		ZC_BID_CODE = #zcBidCode:VARCHAR#,
+		CO_CODE = #coCode:VARCHAR#,
+		ND = #nd:CHAR#,
+		ZC_SGN_DATE = #zcSgnDate:TIMESTAMP#,
+		ZC_SU_NAME = #zcSuName:VARCHAR#,
+		ZC_JCKDL_MC = #zcJckdlMc:VARCHAR#,
+		ZC_HT_NUM = #zcHtNum:DECIMAL#,
+		ZC_CZ_LEVEL = #zcCzLevel:VARCHAR#,
+		ZC_FUKUAN_TYPE = #zcFukuanType:VARCHAR#,
+		ZC_FUKUAN_YUED = #zcFukuanYued:VARCHAR#,
+		ZC_CHECK_TYPE = #zcCheckType:VARCHAR#,
+		ZC_CON_TEXT = #zcConText:VARCHAR#,
+		ZC_CON_TEXT_BLOBID = #zcConTextBlobid:VARCHAR#,
+		ZC_HT_STATUS = #zcHtStatus:VARCHAR#,
+		AGENCY = #agency:VARCHAR#,
+		ORG_CODE = #orgCode:VARCHAR#,
+		ZC_SM_PJ1 = #zcSmPj1:VARCHAR#,
+		ZC_SM_PJ2 = #zcSmPj2:VARCHAR#,
+		ZC_SM_PJ3 = #zcSmPj3:VARCHAR#,
+		ZC_SM_PJ4 = #zcSmPj4:VARCHAR#,
+		EXECUTOR = #zcInputCode:VARCHAR#,
+		EXECUTE_DATE = #zcInputDate:TIMESTAMP#,
+		PROCESS_INST_ID = #processInstId:DECIMAL#,
+		ZC_PARHT_CODE = #zcParhtCode:VARCHAR#,
+		ZC_SU_CODE = #zcSuCode:VARCHAR#,
+		ZC_SU_ACC_CODE = #zcSuAccCode:VARCHAR#,
+		ZC_SU_BANK_CODE = #zcSuBankCode:VARCHAR#,
+		ZC_SU_BANK_NAME = #zcSuBankName:VARCHAR#,
+		ZC_SU_TEL = #zcSuTel:VARCHAR#,
+		ZC_SU_LINKMAN = #zcSuLinkman:VARCHAR#,
+		ZC_IS_ZXQY_ZB = #zcIsZxqyZb:VARCHAR#,
+		ZC_GNW = #zcGnw:VARCHAR#,
+		ZC_SNW = #zcSnw:VARCHAR#,
+		ZC_ARRIVE_ADDR = #zcArriveAddr:VARCHAR#,
+		ZC_ARRIVE_DATE = #zcArriveDate:TIMESTAMP#,
+		ZC_HANGYE_CTG = #zcHangyeCtg:VARCHAR#,
+		ZC_SK_REN = #zcSkRen:VARCHAR#,
+		ZC_ZB_NAME = #zcZbName:VARCHAR#,
+		ZC_ZB_CODE = #zcZbCode:VARCHAR#,
+		ZC_BI_NZJZ_SUM = #zcBiNzjzSum:DECIMAL#,
+		ZC_ISREWRITE = #zcIsrewrite:VARCHAR#,
+		ZC_CG_LEIXING = #zcCgLeixing:VARCHAR#,
+		ZC_ZG_CS_NAME = #zcZgCsName:VARCHAR#,
+		ZC_BGSP_BH = #zcBgspBh:VARCHAR#,
+		ZC_DELIVERY_EVL = #zcDeliveryEvl:VARCHAR#,
+		ZC_PRICE_EVL = #zcPriceEvl:VARCHAR#,
+		ZC_QUANTITY_EVL = #zcQuantityEvl:VARCHAR#,
+		ZC_SERVICE_EVL = #zcServiceEvl:VARCHAR#,
+		ZC_MEMO = #zcMemo:VARCHAR#,
+		ZC_BID_CONTENT = #zcBidContent:VARCHAR#,
+
+		ZC_DELIVERY_DATE = #zcDeliveryDate:VARCHAR#,
+		ZC_DELIVERY_ADDR = #zcDeliveryAddr:VARCHAR#,
+		ZC_DELIVERY_TYPE = #zcDeliveryType:VARCHAR#,
+
+		zc_imp_file = #zcImpFile:VARCHAR#,
+		zc_imp_file_blobid = #zcImpFileBlobid:VARCHAR#,
+		zc_pro_limit_start_date = #zcProLimitStartDate:TIMESTAMP#,
+		zc_pro_limit_end_date = #zcProLimitEndDate:TIMESTAMP#
+		where ZC_HT_CODE = #zcHtCode:VARCHAR#
+	</update>
+
+
+	<select id="selectBiChgByChgId" parameterClass="java.lang.String"
+		resultMap="htBiChgResultMap">
+		SELECT MASTER.ZC_HT_CHG_ID,MASTER.ZC_HT_CODE, MASTER.ZC_BI_NO, MASTER.ZC_BI_BCSY_SUM,
+		MASTER.ZC_MAKE_CODE, ( SELECT sum(ZC_P_PRO_BAL_BI.ZC_BI_BCJS_SUM) FROM
+		ZC_P_PRO_BAL_BI where ZC_P_PRO_BAL_BI.Zc_Ht_Bi_No =
+		MASTER.ZC_PRO_BI_SEQ AND ZC_P_PRO_BAL_BI.Zc_Ht_Code =
+		MASTER.ZC_HT_CODE ) as ZC_BI_YJJS_SUM, MASTER.ZC_BI_HTBA_SUM,
+		MASTER.ZC_BI_YJCH_SUM, MASTER.ZC_BI_NZJZ_SUM, MASTER.ZC_PRO_BI_SEQ
+		, (select nvl(zc_bi_jhua_sum,0) from zc_p_pro_mitem_bi where ZC_PRO_BI_SEQ=MASTER.ZC_PRO_BI_SEQ) - (select nvl(sum(ZC_BI_BCSY_SUM), 0) from zc_xmcg_ht_bi ht where ht.ZC_PRO_BI_SEQ = MASTER.ZC_PRO_BI_SEQ and ht.ZC_HT_CODE != MASTER.ZC_HT_CODE)
+		zc_Can_Use_Sum,zc_bi_sum
+		FROM ZC_XMCG_HT_BI_chg MASTER
+		where ZC_HT_CHG_ID=#value:VARCHAR# order by zc_pro_bi_seq
+	</select>
+	<delete id="deletebiChgByChgId" parameterClass="string">		
+		delete
+		from ZC_XMCG_HT_BI_CHG BI
+		where
+		BI.ZC_HT_CHG_ID=#value:VARCHAR#
+	</delete>
+	<insert id="insertbiChg" parameterClass="com.ufgov.zc.common.zc.model.ZcXmcgHtBiChg">
+		insert into ZC_XMCG_HT_BI_CHG (ZC_HT_CHG_ID,ZC_HT_CODE, ZC_BI_NO, ZC_BI_BCSY_SUM,
+		ZC_MAKE_CODE, ZC_BI_YJJS_SUM,
+		ZC_BI_HTBA_SUM, ZC_BI_YJCH_SUM, ZC_BI_NZJZ_SUM,ZC_PRO_BI_SEQ,
+		ZC_BI_SUM,ZC_BI_DO_SUM,ZC_BI_YJBA_SUM,BI_TARGET_CODE,B_ACC_CODE,
+		B_ACC_NAME,CO_CODE,CO_NAME,DEC_MONEY,FUND_CODE,FUND_NAME,
+		INCEPTDOC_CODE,INCEPTDOC_NAME,MANAGE_CODE,MANAGE_NAME,ND,
+		ORG_CODE,ORG_NAME,ORIGIN_CODE,ORIGIN_NAME,OUTLAY_CODE,OUTLAY_NAME,
+		PAYOUT_CODE,PAYOUT_NAME,PAYTYPE_CODE,PAYTYPE_NAME,PROJECT_CODE,
+		PROJECT_NAME,PROJECT_TYPE_CODE,PROJECT_TYPE_NAME,SENDDOC_CODE,
+		SENDDOC_NAME,SENDDOC_TYPE_CODE,SENDDOC_TYPE_NAME,ZC_CG_TYPE,
+		ZC_PLAN_TYPE,ZC_SAVE_NUM,ZC_CATALOGUE_CODE,ZC_CATALOGUE_NAME,
+		ZC_YEAR,ZC_YEP_SUM,ZC_BI_APD_FLAG,ZC_FUND_REMARK,ZC_FUND_FILE,
+		ZC_FUND_FILE_BLOBID,ZC_USE_BI_ID)
+		values (#zcHtChgId:VARCHAR#,#zcHtCode:VARCHAR#, #zcBiNo:VARCHAR#, #zcBiBcsySum:DECIMAL#,
+		#zcMakeCode:VARCHAR#,
+		#zcBiYjjsSum:DECIMAL#, #zcBiHtbaSum:DECIMAL#, #zcBiYjchSum:DECIMAL#,
+		#zcBiNzjzSum:DECIMAL#,
+		<isNull prepend="" property="zcProBiSeq">
+			SEQ_ZC_PRO_BI.NEXTVAL
+		</isNull>
+		<isNotNull prepend="" property="zcProBiSeq">
+			#zcProBiSeq#
+		</isNotNull>
+		,#zcBiSum:DECIMAL#,#zcBiDoSum:DECIMAL#,#zcBiYjbaSum:DECIMAL#,
+		#biTargetCode:VARCHAR#,#bAccCode:VARCHAR#,#bAccName:VARCHAR#,
+		#coCode:VARCHAR#,#coName:VARCHAR#,#decMoney:DECIMAL#,
+		#fundCode:VARCHAR#,#fundName:VARCHAR#,#inceptdocCode:VARCHAR#,
+		#inceptdocName:VARCHAR#,#manageCode:VARCHAR#,#manageName:VARCHAR#,
+		#nd:VARCHAR#,#orgCode:VARCHAR#,#orgName:VARCHAR#,
+		#originCode:VARCHAR#,#originName:VARCHAR#,#outlayCode:VARCHAR#,
+		#outlayName:VARCHAR#,#payoutCode:VARCHAR#,#payoutName:VARCHAR#,
+		#paytypeCode:VARCHAR#,#paytypeName:VARCHAR#,#projectCode:VARCHAR#,
+		#projectName:VARCHAR#,#projectTypeCode:VARCHAR#,
+		#projectTypeName:VARCHAR#,#senddocCode:VARCHAR#,
+		#senddocName:VARCHAR#,#senddocTypeCode:VARCHAR#,
+		#senddocTypeName:VARCHAR#,#zcCgType:VARCHAR#,#zcPlanType:VARCHAR#,
+		#zcSaveNum:DECIMAL#,#zcCatalogueCode:VARCHAR#,
+		#zcCatalogueName:VARCHAR#,#zcYear:VARCHAR#,#zcYepSum:DECIMAL#,
+		#zcBiApdFlag:VARCHAR#,#zcFundRemark:VARCHAR#,#zcFundFile:VARCHAR#,
+		#zcFundFileBlobid:VARCHAR#,#zcUseBiId:VARCHAR#)
+	</insert>
+
+  <select id="selectItemChgByExample" parameterClass="String" resultMap="itemChgResultMap">
+
+      SELECT ZC_HT_CHG_ID,
+      		ZC_HT_CODE,
+             ZC_CTGRY_ID,
+             ZC_YEAR,
+             ZC_CATALOGUE_CODE,
+             ZC_CATALOGUE_NAME,
+             ZC_IS_JNJS,
+             ZC_BRA_NAME,
+             ZC_MER_SPEC,
+             NVL(ZC_ITEM_VAL,0.00) ZC_ITEM_VAL,
+             ZC_CAIG_SHL,
+             ZC_SP_NAME,
+             ZC_MER_IS_ZZCX,
+             ZC_MER_IS_LSHB,
+             NVL(ZC_MER_M_PRICE,0.00) ZC_MER_M_PRICE,
+             NVL(ZC_HT_BI_MONEY,0.00) ZC_HT_BI_MONEY,
+             NVL(ZC_HT_OTHER_MONEY,0.00) ZC_HT_OTHER_MONEY,
+             NVL(ZC_HT_GK_MONEY,0.00) ZC_HT_GK_MONEY,
+             NVL(ZC_ITEM_SUM,0.00) ZC_ITEM_SUM,
+             NVL(BUDGET_BI_MONEY,0.00) BUDGET_BI_MONEY,
+             NVL(BUDGET_OTHER_MONEY,0.00) BUDGET_OTHER_MONEY,
+			NVL(ZC_CAIG_MONEY,0.00) ZC_CAIG_MONEY,
+			NVL(ZC_CAIG_PRICE,0.00) ZC_CAIG_PRICE,
+			 ZC_CAIG_JLDW
+      FROM ZC_T_BCHT_ITEM_CHG
+      where ZC_HT_CHG_ID=#value:VARCHAR#
+  </select>
+  
+  <delete id="deleteItemChgByPrimaryKey" parameterClass="String">
+    delete from ZC_T_BCHT_ITEM_CHG
+
+    where ZC_HT_CHG_ID = #value:VARCHAR#
+
+  </delete>
+  
+  <insert id="insertItemChg" parameterClass="com.ufgov.zc.common.zc.model.ZcTBchtItemChg">
+    insert into ZC_T_BCHT_ITEM_CHG (ZC_HT_CHG_ID,ZC_CTGRY_ID, ZC_HT_CODE, ZC_YEAR, ZC_CATALOGUE_CODE,
+
+      ZC_CATALOGUE_NAME, ZC_IS_JNJS, ZC_BRA_NAME, ZC_MER_SPEC, ZC_ITEM_VAL, ZC_CAIG_SHL, ZC_SP_NAME,
+
+      ZC_MER_IS_ZZCX, ZC_MER_IS_LSHB, ZC_MER_M_PRICE, ZC_HT_BI_MONEY, ZC_HT_OTHER_MONEY,
+
+      ZC_HT_GK_MONEY,ZC_ITEM_SUM,BUDGET_BI_MONEY,BUDGET_OTHER_MONEY,ZC_CAIG_JLDW,ZC_CAIG_PRICE,ZC_CAIG_MONEY)
+
+    values (#zcHtChgId:VARCHAR#,#zcCtgryId:DECIMAL#, #zcHtCode:VARCHAR#, #zcYear:CHAR#, #zcCatalogueCode:VARCHAR#,
+
+      #zcCatalogueName:VARCHAR#, #zcIsJnjs:VARCHAR#, #zcBraName:VARCHAR#, #zcMerSpec:VARCHAR#,
+
+      #zcItemVal:DECIMAL#, #zcCaigShl:DECIMAL#, #zcSpName:VARCHAR#, #zcMerIsZzcx:VARCHAR#,
+
+      #zcMerIsLshb:VARCHAR#, #zcMerMPrice:DECIMAL#, #zcHtBiMoney:DECIMAL#, #zcHtOtherMoney:DECIMAL#,
+
+      #zcHtGkMoney:DECIMAL#,#zcItemSum:DECIMAL#,#budgetBiMoney:DECIMAL#,#budgetOtherMoney:DECIMAL#,#zcCaigJldw#,#zcCaigPrice#,#zcCaigMoney#)
+
+  </insert>
+  
+  <select id="selectBillChgByChgId" resultMap="payBillItemResult" parameterClass="java.lang.String" >
+    select ZC_HT_CHG_ID, BILL_CODE, PAY_ORDER, PAY_MONEY, REMARK,PERCENT,PAY_DATE,to_char(PAY_DATE,'YYYY') PAY_YEAR, to_char(PAY_DATE,'MM') PAY_MONTH
+    from ZC_HT_PRE_PAY_BILL_ITEM_CHG
+    where ZC_HT_CHG_ID=#value#
+    order by PAY_ORDER
+  </select>
+  <delete id="deleteBillChgByChgId" parameterClass="java.lang.String" >
+    delete from ZC_HT_PRE_PAY_BILL_ITEM_CHG
+      where ZC_HT_CHG_ID=#value#
+  </delete>
+  <insert id="insertBillChg" parameterClass="com.ufgov.zc.common.zc.model.ZcHtPrePayBillItemChg" >
+    insert into ZC_HT_PRE_PAY_BILL_ITEM_CHG (ZC_HT_CHG_ID,BILL_CODE, PAY_ORDER, PAY_MONEY, REMARK,PERCENT,PAY_DATE)
+    values (#zcHtChgId:VARCHAR#,#billCode:VARCHAR#, #payOrder:VARCHAR#, #payMoney:DECIMAL#, #remark:VARCHAR#,#percent:VARCHAR#,#payDate:DATE#)
+  </insert>
+	<select id="selectHtHistoryByPrimaryKey" parameterClass="String"
+		resultMap="HtChgResultMap">
+		select ZC_HT_CHG_ID,ZC_HT_CODE, ZC_DIYU_DAIMA, ZC_HT_NAME, ZC_HT_TYPE, ZC_REQ_CODE,
+		ZC_MAKE_CODE,
+		ZC_BID_CODE, CO_CODE, ND, ZC_SGN_DATE, ZC_SU_NAME, ZC_JCKDL_MC, ZC_HT_NUM,
+		ZC_CZ_LEVEL, ZC_FUKUAN_TYPE, ZC_FUKUAN_YUED, ZC_CHECK_TYPE,
+		ZC_CON_TEXT, ZC_CON_TEXT_BLOBID,
+		ZC_HT_STATUS, AGENCY, ORG_CODE, ZC_SM_PJ1, ZC_SM_PJ2, ZC_SM_PJ3, ZC_SM_PJ4,
+		EXECUTOR, EXECUTE_DATE, PROCESS_INST_ID, ZC_PARHT_CODE, ZC_SU_CODE,
+		ZC_SU_ACC_CODE,
+		ZC_SU_BANK_CODE, ZC_SU_BANK_NAME, ZC_SU_TEL, ZC_SU_LINKMAN, ZC_IS_ZXQY_ZB, ZC_GNW,
+		ZC_SNW,
+		ZC_ARRIVE_ADDR, ZC_ARRIVE_DATE, ZC_HANGYE_CTG, ZC_SK_REN, ZC_ZB_NAME, ZC_ZB_CODE,
+		ZC_BI_NZJZ_SUM, ZC_ISREWRITE, ZC_CG_LEIXING, ZC_ZG_CS_NAME,
+		ZC_BGSP_BH,ZC_DELIVERY_EVL,ZC_PRICE_EVL,
+		ZC_QUANTITY_EVL,ZC_SERVICE_EVL,ZC_MEMO,ZC_BID_CONTENT
+		,
+		(select m.ZC_MAKE_NAME from ZC_P_PRO_MAKE m where m.zc_make_code =
+		master.zc_make_code)
+		as ZC_MAKE_NAME
+		,(select m.ZC_MONEY_BI_SUM from ZC_P_PRO_MAKE m where m.zc_make_code =
+		master.zc_make_code) as ZC_MONEY_BI_SUM,
+		ZC_DELIVERY_DATE,ZC_DELIVERY_ADDR,ZC_DELIVERY_TYPE
+		, ZC_PRO_LIMIT_START_DATE, ZC_PRO_LIMIT_END_DATE, ZC_IMP_FILE, ZC_IMP_FILE_BLOBID
+		from ZC_XMCG_HT_HISTORY MASTER
+		where MASTER.ZC_HT_CHG_ID = #zcHtChgId:VARCHAR#
+	</select>
+	<delete id="deleteHtHistoryByPrimaryKey" parameterClass="String">
+		delete from ZC_XMCG_HT_HISTORY
+		where ZC_HT_CHG_ID = #value:VARCHAR#
+	</delete>
+
+	<insert id="insertHtHistory" parameterClass="java.util.Map">
+		insert into ZC_XMCG_HT_HISTORY (ZC_HT_CHG_ID,ZC_HT_CODE, ZC_DIYU_DAIMA, ZC_HT_NAME,
+    ZC_HT_TYPE, ZC_REQ_CODE,
+    ZC_MAKE_CODE, ZC_BID_CODE, CO_CODE, ND, ZC_SGN_DATE, ZC_SU_NAME, ZC_JCKDL_MC,
+    ZC_HT_NUM, ZC_CZ_LEVEL, ZC_FUKUAN_TYPE, ZC_FUKUAN_YUED, ZC_CHECK_TYPE,
+    ZC_CON_TEXT,
+    ZC_CON_TEXT_BLOBID, ZC_HT_STATUS, AGENCY, ORG_CODE, ZC_SM_PJ1, ZC_SM_PJ2,
+    ZC_SM_PJ3, ZC_SM_PJ4, EXECUTOR, EXECUTE_DATE, PROCESS_INST_ID, ZC_PARHT_CODE,
+    ZC_SU_CODE, ZC_SU_ACC_CODE, ZC_SU_BANK_CODE, ZC_SU_BANK_NAME,
+    ZC_SU_TEL, ZC_SU_LINKMAN,
+    ZC_IS_ZXQY_ZB, ZC_GNW, ZC_SNW, ZC_ARRIVE_ADDR, ZC_ARRIVE_DATE, ZC_HANGYE_CTG,
+    ZC_SK_REN,
+    ZC_ZB_NAME, ZC_ZB_CODE, ZC_BI_NZJZ_SUM, ZC_ISREWRITE, ZC_CG_LEIXING,
+    ZC_ZG_CS_NAME,
+    ZC_BGSP_BH,ZC_DELIVERY_EVL,ZC_PRICE_EVL,ZC_QUANTITY_EVL,ZC_SERVICE_EVL,ZC_MEMO,ZC_BID_CONTENT,ZC_DELIVERY_DATE,ZC_DELIVERY_ADDR,ZC_DELIVERY_TYPE
+    , ZC_PRO_LIMIT_START_DATE, ZC_PRO_LIMIT_END_DATE, ZC_IMP_FILE, ZC_IMP_FILE_BLOBID)
+     select #zcHtChgId:VARCHAR#, ZC_HT_CODE, ZC_DIYU_DAIMA, ZC_HT_NAME,
+    ZC_HT_TYPE, ZC_REQ_CODE,
+    ZC_MAKE_CODE, ZC_BID_CODE, CO_CODE, ND, ZC_SGN_DATE, ZC_SU_NAME, ZC_JCKDL_MC,
+    ZC_HT_NUM, ZC_CZ_LEVEL, ZC_FUKUAN_TYPE, ZC_FUKUAN_YUED, ZC_CHECK_TYPE,
+    ZC_CON_TEXT,
+    ZC_CON_TEXT_BLOBID, ZC_HT_STATUS, AGENCY, ORG_CODE, ZC_SM_PJ1, ZC_SM_PJ2,
+    ZC_SM_PJ3, ZC_SM_PJ4, EXECUTOR, EXECUTE_DATE, PROCESS_INST_ID, ZC_PARHT_CODE,
+    ZC_SU_CODE, ZC_SU_ACC_CODE, ZC_SU_BANK_CODE, ZC_SU_BANK_NAME,
+    ZC_SU_TEL, ZC_SU_LINKMAN,
+    ZC_IS_ZXQY_ZB, ZC_GNW, ZC_SNW, ZC_ARRIVE_ADDR, ZC_ARRIVE_DATE, ZC_HANGYE_CTG,
+    ZC_SK_REN,
+    ZC_ZB_NAME, ZC_ZB_CODE, ZC_BI_NZJZ_SUM, ZC_ISREWRITE, ZC_CG_LEIXING,
+    ZC_ZG_CS_NAME,
+    ZC_BGSP_BH,ZC_DELIVERY_EVL,ZC_PRICE_EVL,ZC_QUANTITY_EVL,ZC_SERVICE_EVL,ZC_MEMO,ZC_BID_CONTENT,ZC_DELIVERY_DATE,ZC_DELIVERY_ADDR,ZC_DELIVERY_TYPE
+    , ZC_PRO_LIMIT_START_DATE, ZC_PRO_LIMIT_END_DATE, ZC_IMP_FILE, ZC_IMP_FILE_BLOBID
+    from ZC_XMCG_HT where zc_ht_code=#zcHtCode:VARCHAR#
+	</insert>
+
+	<select id="selectBiHistoryByChgId" parameterClass="java.lang.String"
+		resultMap="htBiChgResultMap">
+		SELECT MASTER.ZC_HT_CHG_ID,MASTER.ZC_HT_CODE, MASTER.ZC_BI_NO, MASTER.ZC_BI_BCSY_SUM,
+		MASTER.ZC_MAKE_CODE, ( SELECT sum(ZC_P_PRO_BAL_BI.ZC_BI_BCJS_SUM) FROM
+		ZC_P_PRO_BAL_BI where ZC_P_PRO_BAL_BI.Zc_Ht_Bi_No =
+		MASTER.ZC_PRO_BI_SEQ AND ZC_P_PRO_BAL_BI.Zc_Ht_Code =
+		MASTER.ZC_HT_CODE ) as ZC_BI_YJJS_SUM, MASTER.ZC_BI_HTBA_SUM,
+		MASTER.ZC_BI_YJCH_SUM, MASTER.ZC_BI_NZJZ_SUM, MASTER.ZC_PRO_BI_SEQ
+		, (select nvl(zc_bi_jhua_sum,0) from zc_p_pro_mitem_bi where ZC_PRO_BI_SEQ=MASTER.ZC_PRO_BI_SEQ) - (select nvl(sum(ZC_BI_BCSY_SUM), 0) from zc_xmcg_ht_bi ht where ht.ZC_PRO_BI_SEQ = MASTER.ZC_PRO_BI_SEQ and ht.ZC_HT_CODE != MASTER.ZC_HT_CODE)
+		zc_Can_Use_Sum,zc_bi_sum
+		FROM ZC_XMCG_HT_BI_HISTORY MASTER
+		where ZC_HT_CHG_ID=#value:VARCHAR# order by zc_pro_bi_seq
+	</select>
+	<delete id="deletebiHistoryByChgId" parameterClass="string">		
+		delete
+		from ZC_XMCG_HT_BI_HISTORY BI
+		where
+		BI.ZC_HT_CHG_ID=#value:VARCHAR#
+	</delete>
+	<insert id="insertbiHistory" parameterClass="java.util.Map">
+    insert into ZC_XMCG_HT_BI_History (ZC_HT_CHG_ID,ZC_HT_CODE, ZC_BI_NO, ZC_BI_BCSY_SUM,
+    ZC_MAKE_CODE, ZC_BI_YJJS_SUM,
+    ZC_BI_HTBA_SUM, ZC_BI_YJCH_SUM, ZC_BI_NZJZ_SUM,ZC_PRO_BI_SEQ,
+    ZC_BI_SUM,ZC_BI_DO_SUM,ZC_BI_YJBA_SUM,BI_TARGET_CODE,B_ACC_CODE,
+    B_ACC_NAME,CO_CODE,CO_NAME,DEC_MONEY,FUND_CODE,FUND_NAME,
+    INCEPTDOC_CODE,INCEPTDOC_NAME,MANAGE_CODE,MANAGE_NAME,ND,
+    ORG_CODE,ORG_NAME,ORIGIN_CODE,ORIGIN_NAME,OUTLAY_CODE,OUTLAY_NAME,
+    PAYOUT_CODE,PAYOUT_NAME,PAYTYPE_CODE,PAYTYPE_NAME,PROJECT_CODE,
+    PROJECT_NAME,PROJECT_TYPE_CODE,PROJECT_TYPE_NAME,SENDDOC_CODE,
+    SENDDOC_NAME,SENDDOC_TYPE_CODE,SENDDOC_TYPE_NAME,ZC_CG_TYPE,
+    ZC_PLAN_TYPE,ZC_SAVE_NUM,ZC_CATALOGUE_CODE,ZC_CATALOGUE_NAME,
+    ZC_YEAR,ZC_YEP_SUM,ZC_BI_APD_FLAG,ZC_FUND_REMARK,ZC_FUND_FILE,
+    ZC_FUND_FILE_BLOBID,ZC_USE_BI_ID)
+    select #zcHtChgId:VARCHAR#,ZC_HT_CODE, ZC_BI_NO, ZC_BI_BCSY_SUM,
+    ZC_MAKE_CODE, ZC_BI_YJJS_SUM,
+    ZC_BI_HTBA_SUM, ZC_BI_YJCH_SUM, ZC_BI_NZJZ_SUM,ZC_PRO_BI_SEQ,
+    ZC_BI_SUM,ZC_BI_DO_SUM,ZC_BI_YJBA_SUM,BI_TARGET_CODE,B_ACC_CODE,
+    B_ACC_NAME,CO_CODE,CO_NAME,DEC_MONEY,FUND_CODE,FUND_NAME,
+    INCEPTDOC_CODE,INCEPTDOC_NAME,MANAGE_CODE,MANAGE_NAME,ND,
+    ORG_CODE,ORG_NAME,ORIGIN_CODE,ORIGIN_NAME,OUTLAY_CODE,OUTLAY_NAME,
+    PAYOUT_CODE,PAYOUT_NAME,PAYTYPE_CODE,PAYTYPE_NAME,PROJECT_CODE,
+    PROJECT_NAME,PROJECT_TYPE_CODE,PROJECT_TYPE_NAME,SENDDOC_CODE,
+    SENDDOC_NAME,SENDDOC_TYPE_CODE,SENDDOC_TYPE_NAME,ZC_CG_TYPE,
+    ZC_PLAN_TYPE,ZC_SAVE_NUM,ZC_CATALOGUE_CODE,ZC_CATALOGUE_NAME,
+    ZC_YEAR,ZC_YEP_SUM,ZC_BI_APD_FLAG,ZC_FUND_REMARK,ZC_FUND_FILE,
+    ZC_FUND_FILE_BLOBID,ZC_USE_BI_ID from ZC_XMCG_HT_BI where zc_ht_code=#zcHtCode:VARCHAR#
+	</insert>
+
+  <select id="selectItemHistoryByExample" parameterClass="String" resultMap="itemChgResultMap">
+
+      SELECT ZC_HT_CHG_ID,
+      		ZC_HT_CODE,
+             ZC_CTGRY_ID,
+             ZC_YEAR,
+             ZC_CATALOGUE_CODE,
+             ZC_CATALOGUE_NAME,
+             ZC_IS_JNJS,
+             ZC_BRA_NAME,
+             ZC_MER_SPEC,
+             NVL(ZC_ITEM_VAL,0.00) ZC_ITEM_VAL,
+             ZC_CAIG_SHL,
+             ZC_SP_NAME,
+             ZC_MER_IS_ZZCX,
+             ZC_MER_IS_LSHB,
+             NVL(ZC_MER_M_PRICE,0.00) ZC_MER_M_PRICE,
+             NVL(ZC_HT_BI_MONEY,0.00) ZC_HT_BI_MONEY,
+             NVL(ZC_HT_OTHER_MONEY,0.00) ZC_HT_OTHER_MONEY,
+             NVL(ZC_HT_GK_MONEY,0.00) ZC_HT_GK_MONEY,
+             NVL(ZC_ITEM_SUM,0.00) ZC_ITEM_SUM,
+             NVL(BUDGET_BI_MONEY,0.00) BUDGET_BI_MONEY,
+             NVL(BUDGET_OTHER_MONEY,0.00) BUDGET_OTHER_MONEY,
+			NVL(ZC_CAIG_MONEY,0.00) ZC_CAIG_MONEY,
+			NVL(ZC_CAIG_PRICE,0.00) ZC_CAIG_PRICE,
+			 ZC_CAIG_JLDW
+      FROM ZC_T_BCHT_ITEM_History
+      where ZC_HT_CHG_ID=#value:VARCHAR#
+  </select>
+  
+  <delete id="deleteItemHistoryByPrimaryKey" parameterClass="String">
+    delete from ZC_T_BCHT_ITEM_History
+
+    where ZC_HT_CHG_ID = #value:VARCHAR#
+
+  </delete>
+  
+  <insert id="insertItemHistory" parameterClass="java.util.Map">
+    insert into ZC_T_BCHT_ITEM_HISTORY (ZC_HT_CHG_ID,ZC_CTGRY_ID, ZC_HT_CODE, ZC_YEAR, ZC_CATALOGUE_CODE,
+      ZC_CATALOGUE_NAME, ZC_IS_JNJS, ZC_BRA_NAME, ZC_MER_SPEC, ZC_ITEM_VAL, ZC_CAIG_SHL, ZC_SP_NAME,
+      ZC_MER_IS_ZZCX, ZC_MER_IS_LSHB, ZC_MER_M_PRICE, ZC_HT_BI_MONEY, ZC_HT_OTHER_MONEY,
+      ZC_HT_GK_MONEY,ZC_ITEM_SUM,BUDGET_BI_MONEY,BUDGET_OTHER_MONEY,ZC_CAIG_JLDW,ZC_CAIG_PRICE,ZC_CAIG_MONEY)
+    select #zcHtChgId:VARCHAR#,ZC_CTGRY_ID, ZC_HT_CODE, ZC_YEAR, ZC_CATALOGUE_CODE,
+      ZC_CATALOGUE_NAME, ZC_IS_JNJS, ZC_BRA_NAME, ZC_MER_SPEC, ZC_ITEM_VAL, ZC_CAIG_SHL, ZC_SP_NAME,
+      ZC_MER_IS_ZZCX, ZC_MER_IS_LSHB, ZC_MER_M_PRICE, ZC_HT_BI_MONEY, ZC_HT_OTHER_MONEY,
+      ZC_HT_GK_MONEY,ZC_ITEM_SUM,BUDGET_BI_MONEY,BUDGET_OTHER_MONEY,ZC_CAIG_JLDW,ZC_CAIG_PRICE,ZC_CAIG_MONEY
+      from ZC_T_BCHT_ITEM where zc_ht_code=#zcHtCode:VARCHAR#
+  </insert>
+  
+  <select id="selectBillHistoryByChgId" resultMap="payBillItemResult" parameterClass="java.lang.String" >
+    select ZC_HT_CHG_ID, BILL_CODE, PAY_ORDER, PAY_MONEY, REMARK,PERCENT,PAY_DATE,to_char(PAY_DATE,'YYYY') PAY_YEAR, to_char(PAY_DATE,'MM') PAY_MONTH
+    from ZC_HT_PAY_BILL_ITEM_HISTORY
+    where ZC_HT_CHG_ID=#value#
+    order by PAY_ORDER
+  </select>
+  <delete id="deleteBillHistoryByChgId" parameterClass="java.lang.String" >
+    delete from ZC_HT_PAY_BILL_ITEM_HISTORY
+      where ZC_HT_CHG_ID=#value#
+  </delete>
+  <insert id="insertBillHistory" parameterClass="java.util.Map" >
+        insert into ZC_HT_PAY_BILL_ITEM_HISTORY (ZC_HT_CHG_ID,BILL_CODE, PAY_ORDER, PAY_MONEY, REMARK,PERCENT,PAY_DATE)
+    select #zcHtChgId:VARCHAR#,BILL_CODE, PAY_ORDER, PAY_MONEY, REMARK,PERCENT,PAY_DATE
+      from ZC_HT_PRE_PAY_BILL_ITEM where bill_code=#zcHtCode:VARCHAR#
+  </insert>
+
+  <delete id="deleteHtByPrimaryKey" parameterClass="String">
+    delete from ZC_XMCG_HT
+    where ZC_HT_CODE = #value:VARCHAR#
+  </delete>
+  <delete id="deleteBiByChgId" parameterClass="string">		
+		delete
+		from ZC_XMCG_HT_BI BI
+		where
+		BI.ZC_HT_CODE=#value:VARCHAR#
+	</delete>
+  <delete id="deleteItemByPrimaryKey" parameterClass="String">
+    delete from ZC_T_BCHT_ITEM
+
+    where ZC_HT_CODE = #value:VARCHAR#
+
+  </delete>
+  <delete id="deleteBillByChgId" parameterClass="java.lang.String" >
+    delete from ZC_HT_PRE_PAY_BILL_ITEM
+      where BILL_CODE=#value#
+  </delete>
+  
+  <insert id="insertHt" parameterClass="String">
+    insert into ZC_XMCG_HT (ZC_HT_CODE, ZC_DIYU_DAIMA, ZC_HT_NAME,
+    ZC_HT_TYPE, ZC_REQ_CODE,
+    ZC_MAKE_CODE, ZC_BID_CODE, CO_CODE, ND, ZC_SGN_DATE, ZC_SU_NAME, ZC_JCKDL_MC,
+    ZC_HT_NUM, ZC_CZ_LEVEL, ZC_FUKUAN_TYPE, ZC_FUKUAN_YUED, ZC_CHECK_TYPE,
+    ZC_CON_TEXT,
+    ZC_CON_TEXT_BLOBID, ZC_HT_STATUS, AGENCY, ORG_CODE, ZC_SM_PJ1, ZC_SM_PJ2,
+    ZC_SM_PJ3, ZC_SM_PJ4, EXECUTOR, EXECUTE_DATE, PROCESS_INST_ID, ZC_PARHT_CODE,
+    ZC_SU_CODE, ZC_SU_ACC_CODE, ZC_SU_BANK_CODE, ZC_SU_BANK_NAME,
+    ZC_SU_TEL, ZC_SU_LINKMAN,
+    ZC_IS_ZXQY_ZB, ZC_GNW, ZC_SNW, ZC_ARRIVE_ADDR, ZC_ARRIVE_DATE, ZC_HANGYE_CTG,
+    ZC_SK_REN,
+    ZC_ZB_NAME, ZC_ZB_CODE, ZC_BI_NZJZ_SUM, ZC_ISREWRITE, ZC_CG_LEIXING,
+    ZC_ZG_CS_NAME,
+    ZC_BGSP_BH,ZC_DELIVERY_EVL,ZC_PRICE_EVL,ZC_QUANTITY_EVL,ZC_SERVICE_EVL,ZC_MEMO,ZC_BID_CONTENT,ZC_DELIVERY_DATE,ZC_DELIVERY_ADDR,ZC_DELIVERY_TYPE
+    , ZC_PRO_LIMIT_START_DATE, ZC_PRO_LIMIT_END_DATE, ZC_IMP_FILE, ZC_IMP_FILE_BLOBID)
+     select ZC_HT_CODE, ZC_DIYU_DAIMA, ZC_HT_NAME,
+    ZC_HT_TYPE, ZC_REQ_CODE,
+    ZC_MAKE_CODE, ZC_BID_CODE, CO_CODE, ND, ZC_SGN_DATE, ZC_SU_NAME, ZC_JCKDL_MC,
+    ZC_HT_NUM, ZC_CZ_LEVEL, ZC_FUKUAN_TYPE, ZC_FUKUAN_YUED, ZC_CHECK_TYPE,
+    ZC_CON_TEXT,
+    ZC_CON_TEXT_BLOBID, 'exec', AGENCY, ORG_CODE, ZC_SM_PJ1, ZC_SM_PJ2,
+    ZC_SM_PJ3, ZC_SM_PJ4, EXECUTOR, EXECUTE_DATE, PROCESS_INST_ID, ZC_PARHT_CODE,
+    ZC_SU_CODE, ZC_SU_ACC_CODE, ZC_SU_BANK_CODE, ZC_SU_BANK_NAME,
+    ZC_SU_TEL, ZC_SU_LINKMAN,
+    ZC_IS_ZXQY_ZB, ZC_GNW, ZC_SNW, ZC_ARRIVE_ADDR, ZC_ARRIVE_DATE, ZC_HANGYE_CTG,
+    ZC_SK_REN,
+    ZC_ZB_NAME, ZC_ZB_CODE, ZC_BI_NZJZ_SUM, ZC_ISREWRITE, ZC_CG_LEIXING,
+    ZC_ZG_CS_NAME,
+    ZC_BGSP_BH,ZC_DELIVERY_EVL,ZC_PRICE_EVL,ZC_QUANTITY_EVL,ZC_SERVICE_EVL,ZC_MEMO,ZC_BID_CONTENT,ZC_DELIVERY_DATE,ZC_DELIVERY_ADDR,ZC_DELIVERY_TYPE
+    , ZC_PRO_LIMIT_START_DATE, ZC_PRO_LIMIT_END_DATE, ZC_IMP_FILE, ZC_IMP_FILE_BLOBID
+    from ZC_XMCG_HT_CHG where ZC_HT_CHG_ID=#value:VARCHAR#
+  </insert>
+  
+	<insert id="insertBi" parameterClass="String">
+    insert into ZC_XMCG_HT_BI (ZC_HT_CODE, ZC_BI_NO, ZC_BI_BCSY_SUM,
+    ZC_MAKE_CODE, ZC_BI_YJJS_SUM,
+    ZC_BI_HTBA_SUM, ZC_BI_YJCH_SUM, ZC_BI_NZJZ_SUM,ZC_PRO_BI_SEQ,
+    ZC_BI_SUM,ZC_BI_DO_SUM,ZC_BI_YJBA_SUM,BI_TARGET_CODE,B_ACC_CODE,
+    B_ACC_NAME,CO_CODE,CO_NAME,DEC_MONEY,FUND_CODE,FUND_NAME,
+    INCEPTDOC_CODE,INCEPTDOC_NAME,MANAGE_CODE,MANAGE_NAME,ND,
+    ORG_CODE,ORG_NAME,ORIGIN_CODE,ORIGIN_NAME,OUTLAY_CODE,OUTLAY_NAME,
+    PAYOUT_CODE,PAYOUT_NAME,PAYTYPE_CODE,PAYTYPE_NAME,PROJECT_CODE,
+    PROJECT_NAME,PROJECT_TYPE_CODE,PROJECT_TYPE_NAME,SENDDOC_CODE,
+    SENDDOC_NAME,SENDDOC_TYPE_CODE,SENDDOC_TYPE_NAME,ZC_CG_TYPE,
+    ZC_PLAN_TYPE,ZC_SAVE_NUM,ZC_CATALOGUE_CODE,ZC_CATALOGUE_NAME,
+    ZC_YEAR,ZC_YEP_SUM,ZC_BI_APD_FLAG,ZC_FUND_REMARK,ZC_FUND_FILE,
+    ZC_FUND_FILE_BLOBID,ZC_USE_BI_ID)
+    select ZC_HT_CODE, ZC_BI_NO, ZC_BI_BCSY_SUM,
+    ZC_MAKE_CODE, ZC_BI_YJJS_SUM,
+    ZC_BI_HTBA_SUM, ZC_BI_YJCH_SUM, ZC_BI_NZJZ_SUM,ZC_PRO_BI_SEQ,
+    ZC_BI_SUM,ZC_BI_DO_SUM,ZC_BI_YJBA_SUM,BI_TARGET_CODE,B_ACC_CODE,
+    B_ACC_NAME,CO_CODE,CO_NAME,DEC_MONEY,FUND_CODE,FUND_NAME,
+    INCEPTDOC_CODE,INCEPTDOC_NAME,MANAGE_CODE,MANAGE_NAME,ND,
+    ORG_CODE,ORG_NAME,ORIGIN_CODE,ORIGIN_NAME,OUTLAY_CODE,OUTLAY_NAME,
+    PAYOUT_CODE,PAYOUT_NAME,PAYTYPE_CODE,PAYTYPE_NAME,PROJECT_CODE,
+    PROJECT_NAME,PROJECT_TYPE_CODE,PROJECT_TYPE_NAME,SENDDOC_CODE,
+    SENDDOC_NAME,SENDDOC_TYPE_CODE,SENDDOC_TYPE_NAME,ZC_CG_TYPE,
+    ZC_PLAN_TYPE,ZC_SAVE_NUM,ZC_CATALOGUE_CODE,ZC_CATALOGUE_NAME,
+    ZC_YEAR,ZC_YEP_SUM,ZC_BI_APD_FLAG,ZC_FUND_REMARK,ZC_FUND_FILE,
+    ZC_FUND_FILE_BLOBID,ZC_USE_BI_ID from Zc_Xmcg_Ht_Bi_Chg where ZC_HT_CHG_ID=#value:VARCHAR#
+	</insert>
+	
+  <insert id="insertItem" parameterClass="String">
+    insert into ZC_T_BCHT_ITEM (ZC_CTGRY_ID, ZC_HT_CODE, ZC_YEAR, ZC_CATALOGUE_CODE,
+      ZC_CATALOGUE_NAME, ZC_IS_JNJS, ZC_BRA_NAME, ZC_MER_SPEC, ZC_ITEM_VAL, ZC_CAIG_SHL, ZC_SP_NAME,
+      ZC_MER_IS_ZZCX, ZC_MER_IS_LSHB, ZC_MER_M_PRICE, ZC_HT_BI_MONEY, ZC_HT_OTHER_MONEY,
+      ZC_HT_GK_MONEY,ZC_ITEM_SUM,BUDGET_BI_MONEY,BUDGET_OTHER_MONEY,ZC_CAIG_JLDW,ZC_CAIG_PRICE,ZC_CAIG_MONEY)
+    select ZC_CTGRY_ID, ZC_HT_CODE, ZC_YEAR, ZC_CATALOGUE_CODE,
+      ZC_CATALOGUE_NAME, ZC_IS_JNJS, ZC_BRA_NAME, ZC_MER_SPEC, ZC_ITEM_VAL, ZC_CAIG_SHL, ZC_SP_NAME,
+      ZC_MER_IS_ZZCX, ZC_MER_IS_LSHB, ZC_MER_M_PRICE, ZC_HT_BI_MONEY, ZC_HT_OTHER_MONEY,
+      ZC_HT_GK_MONEY,ZC_ITEM_SUM,BUDGET_BI_MONEY,BUDGET_OTHER_MONEY,ZC_CAIG_JLDW,ZC_CAIG_PRICE,ZC_CAIG_MONEY
+      from Zc_t_Bcht_Item_Chg where ZC_HT_CHG_ID=#value:VARCHAR#
+  </insert>
+  <insert id="insertBill" parameterClass="String" >
+        insert into ZC_HT_PRE_PAY_BILL_ITEM (BILL_CODE, PAY_ORDER, PAY_MONEY, REMARK,PERCENT,PAY_DATE)
+    select BILL_CODE, PAY_ORDER, PAY_MONEY, REMARK,PERCENT,PAY_DATE
+      from ZC_HT_PRE_PAY_BILL_ITEM_CHG where ZC_HT_CHG_ID=#value:VARCHAR#
+  </insert>
+</sqlMap>

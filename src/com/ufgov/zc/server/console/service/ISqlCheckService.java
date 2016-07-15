@@ -1,0 +1,1 @@
+package com.ufgov.zc.server.console.service;import com.ufgov.zc.common.system.RequestMeta;public interface ISqlCheckService {  void checkSelectSql(String selectSql, RequestMeta requestMeta);}

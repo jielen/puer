@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="GkCompoNewToOld">
+	<resultMap class="com.ufgov.zc.common.console.model.GkCompoNewToOld" id="gkCompoNewToOldResult">
+		<result column="NEW_COMPO_ID" property="newCompoId" jdbcType="VARCHAR"/>
+  		<result column="NEW_COMPO_NAME" property="newCompoName" jdbcType="VARCHAR"/>
+  		<result column="OLD_COMPO_ID" property="oldCompoId" jdbcType="VARCHAR"/>
+  		<result column="OLD_COMPO_NAME" property="oldCompoName" jdbcType="VARCHAR"/>
+  		<result column="TO_TYPE" property="toType" jdbcType="VARCHAR"/>
+	</resultMap>
+	<select id="getGkCompoNewToOld" resultMap="gkCompoNewToOldResult">
+		select * from GK_COMPO_NEW_TO_OLD
+	</select>
+	
+</sqlMap>

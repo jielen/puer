@@ -1,0 +1,1 @@
+package com.ufgov.zc.client.component.button;public class PayoutCheckButton extends FuncButton {  private static final long serialVersionUID = -4220724045871305900L;  public PayoutCheckButton() {    super();  }  protected void init() {    this.funcId = "fpayoutcheck";    this.defaultText = "支出明细";    super.init();  }}

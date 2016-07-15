@@ -1,0 +1,1 @@
+package com.ufgov.zc.common.zc.model;public class ZcPProMakeExt extends ZcPProMake {  /**     *      */  private static final long serialVersionUID = -8787413128317203644L;  private String zcCoName;  public void setZcCoName(String zcCoName) {    this.zcCoName = zcCoName;  }  public String getZcCoName() {    return zcCoName;  }}

@@ -1,0 +1,1 @@
+package com.ufgov.zc.server.system.dao;import com.ufgov.zc.common.system.model.ResultInfo;public interface IBankTradeLogDao {  public void saveLog(ResultInfo result);}

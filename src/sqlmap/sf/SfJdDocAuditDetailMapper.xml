@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.ufgov.zc.server.sf.dao.SfJdDocAuditDetailMapper" >
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+  <resultMap id="BaseResultMap" class="com.ufgov.zc.common.sf.model.SfJdDocAuditDetail" > 
+    <result column="JD_DOC_AUDIT_ID" property="jdDocAuditId" jdbcType="DECIMAL" />
+    <result column="DOC_TYPE_CODE" property="docType.docTypeCode" jdbcType="VARCHAR" />
+    <result column="DOC_TYPE_NAME" property="docType.docTypeName" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" > 
+    JD_DOC_AUDIT_ID, DOC_TYPE_CODE, REMARK
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="java.math.BigDecimal" > 
+    select 
+    d.JD_DOC_AUDIT_ID, t.DOC_TYPE_CODE,t.DOC_TYPE_NAME, d.REMARK
+    from SF_JD_DOC_AUDIT_DETAIL d,SF_JD_DOC_TYPE t
+    where JD_DOC_AUDIT_ID = #jdDocAuditId:DECIMAL#
+    AND D.DOC_TYPE_CODE=t.DOC_TYPE_CODE
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="java.math.BigDecimal" > 
+    delete from SF_JD_DOC_AUDIT_DETAIL
+    where JD_DOC_AUDIT_ID = #jdDocAuditId:DECIMAL#
+  </delete>
+  <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfJdDocAuditDetail" > 
+    insert into SF_JD_DOC_AUDIT_DETAIL (JD_DOC_AUDIT_ID, DOC_TYPE_CODE, REMARK
+      )
+    values (#jdDocAuditId:DECIMAL#, #docTypeCode:VARCHAR#, #remark:VARCHAR#
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfJdDocAuditDetail" > 
+    update SF_JD_DOC_AUDIT_DETAIL
+    set DOC_TYPE_CODE = #docTypeCode:VARCHAR#,
+      REMARK = #remark:VARCHAR#
+    where JD_DOC_AUDIT_ID = #jdDocAuditId:DECIMAL#
+  </update>
+</sqlMap>

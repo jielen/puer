@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Company">
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+
+	<resultMap id="company"
+		class="com.ufgov.zc.common.commonbiz.model.Company">
+		<result property="nd" column="nd" />
+		<result property="code" column="co_code" />
+		<result property="name" column="co_name" />
+		<result property="parentCode" column="parent_co_code" />
+		<result property="coTypeCode" column="co_type_code" />
+	</resultMap>
+
+	<resultMap id="companyAll"
+		class="com.ufgov.zc.common.commonbiz.model.Company">
+		<result property="nd" column="nd" />
+		<result property="code" column="co_code" />
+		<result property="name" column="co_name" />
+		<result property="parentCode" column="parent_co_code" />
+		<result property="coTypeCode" column="co_type_code" />
+		<result property="forgCode" column="f_org_code" />
+	</resultMap>
+
+	<sql id="selectCompany">
+		select distinct nd,co_code,co_name,parent_co_code,co_type_code
+		from ma_company
+	</sql>
+
+	<sql id="selectCompanyAll">
+		select distinct nd,co_code,co_name,parent_co_code,co_type_code,f_org_code
+		from ma_company
+	</sql>
+
+	<select id="getRootCompany" resultMap="company"
+		parameterClass="int">
+		<include refid="selectCompany" />
+		where nd=#nd# and (is_used='Y' or is_used='y') and
+		parent_co_code is null order by co_code
+	</select>
+
+	<select id="getChildrenCompany" resultMap="company"
+		parameterClass="int">
+		<include refid="selectCompany" />
+		where nd=#nd# and (is_used='Y' or is_used='y') and
+		parent_co_code is not null order by co_code
+	</select>
+
+	<select id="getCompany" resultMap="companyAll" parameterClass="elementCondition">
+		<include refid="selectCompanyAll" />
+		where nd=#nd# and (is_used='Y' or is_used='y')
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		<include refid="GkGetDataRuleCondi.GkGetDataRuleCondiStr" />
+		order by co_code
+	</select>
+
+	<select id="getCompanyNumLimTree" resultMap="company"
+		parameterClass="map">
+		<include refid="selectCompany" />
+		start with nd=#nd# and (is_used='Y' or is_used='y') 
+		
+		<isNotNull prepend="AND" property="coCode">
+			 co_Code=#coCode#
+		</isNotNull>
+	
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		<include refid="GkGetDataRuleCondi.GkGetDataRuleCondiStr" />
+		connect by prior parent_co_code =co_code and nd=#nd# order by
+		co_code
+	</select>
+
+	<select id="getCompanyByCoCode" resultMap="companyAll"
+		parameterClass="map">
+		<include refid="selectCompanyAll" />
+		where nd=#nd# and co_code=#coCode#
+	</select>
+
+	<select id="getCompanyChildrenCode" resultMap="company"
+		parameterClass="map">
+		<include refid="selectCompany" />
+		start with nd=#nd# and (is_used = 'Y' or is_used = 'y') and
+		co_code=#coCode# connect by prior co_code = parent_co_code and
+		nd=#nd#
+	</select>
+
+	<select id="getDirectorCompany" resultMap="company"
+		parameterClass="elementCondition">
+		select * from ma_company t where t.nd=#nd# and t.co_code in(
+		select director_code from ma_company mc where
+		mc.co_code=#coCode# and mc.nd=#nd# )
+	</select>
+
+	<select id="getCompanyByUserId" resultMap="company"
+		parameterClass="map">
+		select distinct nd,co_code,co_name,parent_co_code,co_type_code
+		FROM ma_company A WHERE co_code in( SELECT co_code FROM
+		as_emp_position B WHERE A.nd=B.Nd AND emp_code=(SELECT emp_code
+		FROM as_emp WHERE user_id=#userId#) ) AND nd=#nd# order by
+		co_code
+	</select>
+
+</sqlMap>

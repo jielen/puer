@@ -1,0 +1,1 @@
+package com.ufgov.zc.server.commonbiz.service;import java.util.List;public interface IMaCpBankBalService {  public List getMaCpBankBal(int nd, String bankCode, String fundCode);  public List getMaCpBankBalByView(int nd, String bankCode, String fundCode, String maCpBankBalView);  public List getMaCpBankBalList(int nd);}

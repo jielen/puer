@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ZcEbSupplierFeedback">
+
+	<typeAlias alias="ZcEbSupplierFeedback" type="com.ufgov.zc.common.zc.model.ZcEbSupplierFeedback" />
+
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+
+	<resultMap id="ZcEbSupplierFeedbackResult" class="ZcEbSupplierFeedback">
+		<result property="objId" column="objId" />
+		<result property="supplierCode" column="zc_su_code" />
+		<result property="projectName" column="projectName" />
+		<result property="cgr" column="cgr" />
+		<result property="jh" column="jh" />
+		<result property="jg" column="jg" />
+		<result property="zl" column="zl" />
+		<result property="fw" column="fw" />
+		<result property="bz" column="bz" />
+	</resultMap>
+	
+	<select id="getZcEbSupplierFeedbackList" resultMap="ZcEbSupplierFeedbackResult" parameterClass="string">
+		select * from ZC_B_SUPPLIER_FEEDBACK where ZC_SU_CODE=#value# order by ZC_SU_CODE
+	</select>
+	<delete id="deleteZcEbSupplierFeedbackByCode" parameterClass="string" >
+        delete from ZC_B_SUPPLIER_feedback
+        where ZC_SU_CODE = #value#
+    </delete>
+    <insert id="insertZcEbSupplierFeedback" parameterClass="com.ufgov.zc.common.zc.model.ZcEbSupplierFeedback" >
+      
+		insert into ZC_B_SUPPLIER_feedback (OBJID, ZC_SU_CODE, PROJECTNAME, CGR, JH,
+		  JG, ZL, FW, BZ)
+		values ((select NVL(max(objId)+1,1) from ZC_B_SUPPLIER_feedback), #supplierCode:VARCHAR#, #projectName:VARCHAR#, #cgr:VARCHAR#, #jh:VARCHAR#,
+		  #jg:VARCHAR#, #zl:VARCHAR#, #fw:VARCHAR#, #bz:VARCHAR#)
+    </insert>
+</sqlMap>

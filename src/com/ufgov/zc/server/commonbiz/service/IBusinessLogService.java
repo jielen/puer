@@ -1,0 +1,1 @@
+package com.ufgov.zc.server.commonbiz.service;import com.ufgov.zc.common.system.model.AsLog;public interface IBusinessLogService {  void saveLog(AsLog log);}

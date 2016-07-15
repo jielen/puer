@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ZcProjectSupervision">
+	<typeAlias alias="ZcProjectSupervision" type="com.ufgov.zc.common.zc.model.ZcProjectSupervision" />
+
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+
+	<resultMap id="ZcProjectSupervisionRlt" class="ZcProjectSupervision">
+		<result property="zcMoneyBiSum" column="ZC_MONEY_BI_SUM" />
+		<result property="zcMoneyBiYjs" column="ZC_MONEY_BI_YJS" />
+		<result property="zcMoneyHtWQD" column="ZC_MONEY_HT_WQD" />
+		<result property="zcMoneyBiKjz" column="ZC_MONEY_BI_KJZ" />
+		<result property="zcMoneyHtKlz" column="ZC_MONEY_HT_KLZ" />	
+	    <result column="ZC_MAKE_CODE" jdbcType="VARCHAR" property="zcPProMake.zcMakeCode" />
+	    <result column="ZC_MAKE_NAME" jdbcType="VARCHAR" property="zcPProMake.zcMakeName" />
+	    <result column="CO_CODE" jdbcType="VARCHAR" property="zcPProMake.coCode" />
+	    <result column="ND" jdbcType="CHAR" property="zcPProMake.nd" />
+	    <result column="ZC_MAKE_STATUS" jdbcType="VARCHAR" property="zcPProMake.zcMakeStatus" />
+	    <result column="ZC_MONEY_BI_SUM" jdbcType="DECIMAL" property="zcPProMake.zcMoneyBiSum" />
+	    <result column="PROCESS_INST_ID" jdbcType="DECIMAL" property="zcPProMake.processInstId" />
+	    <result column="ZC_PITEM_MODE" jdbcType="VARCHAR" property="zcPProMake.zcPitemMode" />
+	    <result column="ZC_MONEY_BI_YZX" jdbcType="DECIMAL" property="zcPProMake.zcMoneyBiYzx" />
+	    <result column="ZC_MONEY_HT_YBA" jdbcType="DECIMAL" property="zcPProMake.zcMoneyHtYba" />
+	    <result column="ZC_FUKUAN_TYPE" jdbcType="VARCHAR" property="zcPProMake.zcFukuanType" />
+	    <result column="ZC_YEP_FLAG" jdbcType="VARCHAR" property="zcPProMake.zcYepFlag" />
+	    <result column="ZC_YEP_SUM" jdbcType="DECIMAL" property="zcPProMake.zcYepSum" />
+	    <result column="ZC_BI_NZJZ_SUM" jdbcType="DECIMAL" property="zcPProMake.zcBiNzjzSum" />
+	    <result column="ZC_MAKE_SEQUENCE" jdbcType="VARCHAR" property="zcPProMake.zcMakeSequence" />
+	</resultMap>
+
+	<select id="list" resultMap="ZcProjectSupervisionRlt"
+		parameterClass="elementCondition">
+		    select ZC_V_MAKE_YEAREND.ZC_MAKE_CODE,
+		           ZC_V_MAKE_YEAREND.ZC_MAKE_NAME,
+		           ZC_V_MAKE_YEAREND.CO_CODE,
+		           ZC_V_MAKE_YEAREND.ND,
+		           ZC_V_MAKE_YEAREND.ZC_MONEY_BI_SUM,
+		           ZC_V_MAKE_YEAREND.ZC_MONEY_BI_YJS,
+		           ZC_V_MAKE_YEAREND.ZC_MONEY_HT_YBA,
+		           ZC_V_MAKE_YEAREND.PROCESS_INST_ID,
+		           ZC_V_MAKE_YEAREND.ZC_MAKE_STATUS,
+		           ZC_V_MAKE_YEAREND.ORG_CODE,
+		           ZC_V_MAKE_YEAREND.ZC_YEP_FLAG,
+		           ZC_V_MAKE_YEAREND.ZC_MONEY_BI_YZX,
+		           ZC_V_MAKE_YEAREND.ZC_YEP_SUM,
+		           ZC_V_MAKE_YEAREND.ZC_MONEY_HT_WQD,
+		           ZC_V_MAKE_YEAREND.ZC_MONEY_BI_KJZ,
+		           ZC_V_MAKE_YEAREND.ZC_MONEY_HT_KLZ,
+		           ZC_V_MAKE_YEAREND.ZC_BI_NZJZ_SUM,
+		           ZC_V_MAKE_YEAREND.ZC_FUKUAN_TYPE,
+		           ZC_V_MAKE_YEAREND.ZC_MAKE_SEQUENCE,
+		           ZC_V_MAKE_YEAREND.ZC_PITEM_MODE,
+		           ZC_V_MAKE_YEAREND.ZC_INPUT_DATE
+		      from ZC_V_MAKE_YEAREND ZC_V_MAKE_YEAREND
+	     where ZC_V_MAKE_YEAREND.ND = #nd#	
+			<isNotNull prepend="AND" property="status">
+				<isEqual property="status" compareValue="todo">
+					ZC_V_MAKE_YEAREND.ZC_MAKE_STATUS not in ('0', 'cancel', 'exec', 'yjx', 'yjz')
+				</isEqual>
+				<isEqual property="status" compareValue="done">
+					ZC_V_MAKE_YEAREND.ZC_MAKE_STATUS = 'exec'
+				</isEqual>
+				<isEqual property="status" compareValue="yjx">
+					ZC_V_MAKE_YEAREND.ZC_MAKE_STATUS = 'yjx'
+				</isEqual>
+				<isEqual property="status" compareValue="yjz">
+					ZC_V_MAKE_YEAREND.ZC_MAKE_STATUS = 'yjz'
+				</isEqual>
+				<isEqual property="status" compareValue="cancel">
+					ZC_V_MAKE_YEAREND.ZC_MAKE_STATUS = 'cancel'
+				</isEqual>
+				<isEqual property="status" compareValue="all">
+					ZC_V_MAKE_YEAREND.ZC_MAKE_STATUS != '0'
+				</isEqual>
+			</isNotNull> 
+			<isNotNull prepend="AND" property="zcText0">
+				ZC_MAKE_CODE = #zcText0#
+			</isNotNull>     
+			<include refid="BusiNumLim.BusiNumLimStr" />
+			ORDER BY ZC_V_MAKE_YEAREND.ZC_INPUT_DATE DESC
+	</select>
+	<insert id="finishitem" parameterClass="ZcProjectSupervision">
+		UPDATE ZC_P_PRO_MAKE SET ZC_MAKE_STATUS = #zcPProMake.zcMakeStatus#, ZC_YEP_FLAG = #zcPProMake.zcYepFlag# WHERE ZC_MAKE_CODE = #zcPProMake.zcMakeCode#
+	</insert>
+	
+	<insert id="carryDown" parameterClass="elementCondition">
+		call ZC_SP_CARRY_DOWN (#dattr1#, #dattr2#)
+	</insert>
+	
+</sqlMap>

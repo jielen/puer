@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+
+	<aop:config>
+
+		<aop:pointcut id="requestMetaPointcut"
+			expression="execution(* com.ufgov.zc.server.*.publish.impl.*.*(..))" />
+
+		<aop:pointcut id="requestMetaThreadBindingPointcut"
+			expression="execution(* com.ufgov.zc.server.*.publish.impl.*.*(..))" />
+
+		<aop:pointcut id="authenticationPointcut"
+			expression="execution(* com.ufgov.zc.server.*.publish.impl.*.*(..))" />
+
+		<aop:pointcut id="systemLogPointcut"
+			expression="execution(* com.ufgov.zc.server.*.publish.impl.*.*(..))" />
+
+		<aop:pointcut id="gkFuncPointcut"
+			expression="execution(* com.ufgov.zc.server.*.publish.impl.*.*FN(..))" />
+
+
+		<aop:advisor pointcut-ref="requestMetaPointcut"
+			advice-ref="requestMetaValidate" order="0" />
+
+		<aop:advisor pointcut-ref="authenticationPointcut"
+			advice-ref="authentication" order="0" />
+ 
+		<aop:advisor pointcut-ref="gkFuncPointcut"
+			advice-ref="authorization" order="2" />
+			
+		<aop:advisor pointcut-ref="gkFuncPointcut"
+			advice-ref="businessLog" />
+
+		<aop:advisor pointcut-ref="requestMetaThreadBindingPointcut"
+			advice-ref="requestMetaThreadBinding" order="0" />
+
+		<aop:advisor pointcut-ref="systemLogPointcut"
+			advice-ref="systemExceptionLog" />
+
+	</aop:config>
+
+	<bean id="requestMetaValidate"
+		class="com.ufgov.zc.server.system.secure.RequestMetaValidate"
+		scope="singleton">
+	</bean>
+
+	<bean id="requestMetaThreadBinding"
+		class="com.ufgov.zc.server.system.secure.RequestMetaThreadBinding"
+		scope="singleton">
+	</bean>
+
+	<bean id="authentication"
+		class="com.ufgov.zc.server.system.secure.Authentication"
+		scope="singleton">
+	</bean>
+	<bean id="authorization"
+		class="com.ufgov.zc.server.system.secure.Authorization"
+		scope="singleton">
+		<property name="userFuncService" ref="userFuncService" />
+		<property name="asCompoService" ref="asCompoService" />
+	</bean>
+
+	<bean id="businessLog"
+		class="com.ufgov.zc.server.system.log.BusinessLog"
+		scope="singleton">
+		<property name="businessLogService" ref="businessLogService" />
+		<property name="userService" ref="userService" />
+		<property name="langTransService" ref="langTransService" />
+	</bean>
+
+	<bean id="systemExceptionLog"
+		class="com.ufgov.zc.server.system.log.SystemExceptionLog"
+		scope="singleton">
+	</bean>
+
+
+</beans>

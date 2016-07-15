@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="AsLog">
+	<typeAlias alias="asLog"
+		type="com.ufgov.zc.common.system.model.AsLog" />
+
+	<insert id="saveLog" parameterClass="asLog">
+		insert into as_log(GUID, OPER_TIME, USER_ID, FUNC_ID, COMPO_ID,
+		OPER_DESC, COMPO_NAME, IF_SUC, USER_NAME, USER_IP, PK_DESC)
+		values(#guid:VARCHAR#, #operTime:VARCHAR#, #userId:VARCHAR#, #funcId:VARCHAR#, #compoId:VARCHAR#,
+		#operDesc:VARCHAR#, #compoName:VARCHAR#, #ifSuc:VARCHAR#, #userName:VARCHAR#, #userIP:VARCHAR#,
+		#pkDesc:VARCHAR#)
+	</insert>
+
+</sqlMap>

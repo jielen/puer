@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ZC_P_PRO_MITEM_BI_HISTORY">
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<resultMap class="com.ufgov.zc.common.zc.model.ZcPProMitemBiHistory"
+		id="ibatorgenerated_BaseResultMap">
+		<result column="ZC_BI_NO" jdbcType="VARCHAR" property="zcBiNo" />
+		<result column="ZC_MAKE_CODE" jdbcType="VARCHAR" property="zcMakeCode" />
+		<result column="ZC_BI_SUM" jdbcType="DECIMAL" property="zcBiSum" />
+		<result column="ZC_BI_JHUA_SUM" jdbcType="DECIMAL" property="zcBiJhuaSum" />
+		<result column="ZC_BI_DO_SUM" jdbcType="DECIMAL" property="zcBiDoSum" />
+		<result column="ZC_BI_YJBA_SUM" jdbcType="DECIMAL" property="zcBiYjbaSum" />
+		<result column="BI_TARGET_CODE" jdbcType="VARCHAR" property="biTargetCode" />
+		<result column="B_ACC_CODE" jdbcType="VARCHAR" property="bAccCode" />
+		<result column="B_ACC_NAME" jdbcType="VARCHAR" property="bAccName" />
+		<result column="CO_CODE" jdbcType="VARCHAR" property="coCode" />
+		<result column="CO_NAME" jdbcType="VARCHAR" property="coName" />
+		<result column="DEC_MONEY" jdbcType="DECIMAL" property="decMoney" />
+		<result column="FUND_CODE" jdbcType="VARCHAR" property="fundCode" />
+		<result column="FUND_NAME" jdbcType="VARCHAR" property="fundName" />
+		<result column="INCEPTDOC_CODE" jdbcType="VARCHAR" property="inceptdocCode" />
+		<result column="INCEPTDOC_NAME" jdbcType="VARCHAR" property="inceptdocName" />
+		<result column="MANAGE_CODE" jdbcType="VARCHAR" property="manageCode" />
+		<result column="MANAGE_NAME" jdbcType="VARCHAR" property="manageName" />
+		<result column="ND" jdbcType="CHAR" property="nd" />
+		<result column="ORG_CODE" jdbcType="VARCHAR" property="orgCode" />
+		<result column="ORG_NAME" jdbcType="VARCHAR" property="orgName" />
+		<result column="ORIGIN_CODE" jdbcType="VARCHAR" property="originCode" />
+		<result column="ORIGIN_NAME" jdbcType="VARCHAR" property="originName" />
+		<result column="OUTLAY_CODE" jdbcType="VARCHAR" property="outlayCode" />
+		<result column="OUTLAY_NAME" jdbcType="VARCHAR" property="outlayName" />
+		<result column="PAYOUT_CODE" jdbcType="VARCHAR" property="payoutCode" />
+		<result column="PAYOUT_NAME" jdbcType="VARCHAR" property="payoutName" />
+		<result column="PAYTYPE_CODE" jdbcType="VARCHAR" property="paytypeCode" />
+		<result column="PAYTYPE_NAME" jdbcType="VARCHAR" property="paytypeName" />
+		<result column="PROJECT_CODE" jdbcType="VARCHAR" property="projectCode" />
+		<result column="PROJECT_NAME" jdbcType="VARCHAR" property="projectName" />
+		<result column="PROJECT_TYPE_CODE" jdbcType="VARCHAR" property="projectTypeCode" />
+		<result column="PROJECT_TYPE_NAME" jdbcType="VARCHAR" property="projectTypeName" />
+		<result column="SENDDOC_CODE" jdbcType="VARCHAR" property="senddocCode" />
+		<result column="SENDDOC_NAME" jdbcType="VARCHAR" property="senddocName" />
+		<result column="SENDDOC_TYPE_CODE" jdbcType="VARCHAR" property="senddocTypeCode" />
+		<result column="SENDDOC_TYPE_NAME" jdbcType="VARCHAR" property="senddocTypeName" />
+		<result column="ZC_BI_HTBA_SUM" jdbcType="DECIMAL" property="zcBiHtbaSum" />
+		<result column="ZC_CG_TYPE" jdbcType="VARCHAR" property="zcCgType" />
+		<result column="ZC_PLAN_TYPE" jdbcType="VARCHAR" property="zcPlanType" />
+		<result column="ZC_SAVE_NUM" jdbcType="DECIMAL" property="zcSaveNum" />
+		<result column="ZC_CATALOGUE_CODE" jdbcType="VARCHAR" property="zcCatalogueCode" />
+		<result column="ZC_CATALOGUE_NAME" jdbcType="VARCHAR" property="zcCatalogueName" />
+		<result column="ZC_YEAR" jdbcType="VARCHAR" property="zcYear" />
+		<result column="ZC_YEP_SUM" jdbcType="DECIMAL" property="zcYepSum" />
+		<result column="ZC_BI_APD_FLAG" jdbcType="VARCHAR" property="zcBiApdFlag" />
+		<result column="ZC_FUND_REMARK" jdbcType="VARCHAR" property="zcFundRemark" />
+		<result column="ZC_FUND_FILE" jdbcType="VARCHAR" property="zcFundFile" />
+		<result column="ZC_FUND_FILE_BLOBID" jdbcType="VARCHAR"
+			property="zcFundFileBlobid" />
+		<result column="SUPPLEMENT_AMOUNT" jdbcType="DECIMAL"
+			property="allSuppleMentAmount" />
+		<result column="ZC_PRO_BI_SEQ" jdbcType="VARCHAR" property="zcProBiSeq" />
+		
+		<result column="BAL_CHG_ID" jdbcType="VARCHAR" property="balChgId" />
+
+	</resultMap>
+	
+	<select id="selectZcPProMitemBiHisByMakeCode" parameterClass="string"
+		resultMap="ibatorgenerated_BaseResultMap">
+		select * from 
+		 ZC_P_PRO_MITEM_BI_History
+		where  ZC_MAKE_CODE = #zcMakeCode:VARCHAR#
+	</select>
+	
+	<delete id="deleteZcPProMitemBiHisByMakeCode" parameterClass="java.util.Map">
+	
+		delete  ZC_P_PRO_MITEM_BI_History
+		where BAL_CHG_ID = #balChgId:VARCHAR#
+		and ZC_MAKE_CODE = #zcMakeCode:VARCHAR#
+	</delete>
+	
+	<insert id="insertIntoZcPProMitemBiHis" parameterClass="java.util.HashMap">
+		insert into ZC_P_PRO_MITEM_BI_History (ZC_BI_NO, ZC_MAKE_CODE, ZC_BI_SUM,
+		ZC_BI_JHUA_SUM, ZC_BI_DO_SUM,
+		ZC_BI_YJBA_SUM, BI_TARGET_CODE, B_ACC_CODE, B_ACC_NAME, CO_CODE, CO_NAME, DEC_MONEY,
+		FUND_CODE, FUND_NAME, INCEPTDOC_CODE, INCEPTDOC_NAME, MANAGE_CODE,
+		MANAGE_NAME, ND, ORG_CODE,
+		ORG_NAME, ORIGIN_CODE, ORIGIN_NAME, OUTLAY_CODE, OUTLAY_NAME, PAYOUT_CODE,
+		PAYOUT_NAME,
+		PAYTYPE_CODE, PAYTYPE_NAME, PROJECT_CODE, PROJECT_NAME, PROJECT_TYPE_CODE,
+		PROJECT_TYPE_NAME,
+		SENDDOC_CODE, SENDDOC_NAME, SENDDOC_TYPE_CODE, SENDDOC_TYPE_NAME, ZC_BI_HTBA_SUM,
+		ZC_CG_TYPE,
+		ZC_PLAN_TYPE, ZC_SAVE_NUM, ZC_CATALOGUE_CODE, ZC_CATALOGUE_NAME, ZC_YEAR,
+		ZC_YEP_SUM,
+		ZC_BI_APD_FLAG,ZC_FUND_REMARK,ZC_FUND_FILE,ZC_FUND_FILE_BLOBID,SUPPLEMENT_AMOUNT,ZC_PRO_BI_SEQ,BAL_CHG_ID)
+		values (#bi.zcBiNo:VARCHAR#, #bi.zcMakeCode:VARCHAR#, #bi.zcBiSum:DECIMAL#,
+		#bi.zcBiJhuaSum:DECIMAL#,
+		#bi.zcBiDoSum:DECIMAL#, #bi.zcBiYjbaSum:DECIMAL#, #bi.biTargetCode:VARCHAR#, #bi.bAccCode:VARCHAR#,
+		#bi.bAccName:VARCHAR#, #bi.coCode:VARCHAR#, #bi.coName:VARCHAR#,
+		#bi.decMoney:DECIMAL#,
+		#bi.fundCode:VARCHAR#, #bi.fundName:VARCHAR#, #bi.inceptdocCode:VARCHAR#, #bi.inceptdocName:VARCHAR#,
+		#bi.manageCode:VARCHAR#, #bi.manageName:VARCHAR#, #bi.nd:CHAR#,
+		#bi.orgCode:VARCHAR#, #bi.orgName:VARCHAR#,
+		#bi.originCode:VARCHAR#, #bi.originName:VARCHAR#, #bi.outlayCode:VARCHAR#, #bi.outlayName:VARCHAR#,
+		#bi.payoutCode:VARCHAR#, #bi.payoutName:VARCHAR#, #bi.paytypeCode:VARCHAR#,
+		#bi.paytypeName:VARCHAR#,
+		#bi.projectCode:VARCHAR#, #bi.projectName:VARCHAR#, #bi.projectTypeCode:VARCHAR#,
+		#bi.projectTypeName:VARCHAR#, #bi.senddocCode:VARCHAR#,
+		#bi.senddocName:VARCHAR#,
+		#bi.senddocTypeCode:VARCHAR#, #bi.senddocTypeName:VARCHAR#, #bi.zcBiHtbaSum:DECIMAL#,
+		#bi.zcCgType:VARCHAR#, #bi.zcPlanType:VARCHAR#, #bi.zcSaveNum:DECIMAL#, #bi.zcCatalogueCode:VARCHAR#,
+		#bi.zcCatalogueName:VARCHAR#, #bi.zcYear:VARCHAR#, #bi.zcYepSum:DECIMAL#,
+		#bi.zcBiApdFlag:VARCHAR#,#bi.zcFundRemark:VARCHAR#,#bi.zcFundFile:VARCHAR#,
+		#bi.zcFundFileBlobid:VARCHAR#,
+		#bi.allSuppleMentAmount:DECIMAL#,
+		#bi.zcProBiSeq:VARCHAR#,#balChgId:VARCHAR#
+		)
+	</insert>
+</sqlMap>

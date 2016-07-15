@@ -1,0 +1,1 @@
+package com.ufgov.zc.server.cp.dao;import java.util.List;public interface ICpPlanClearListDao {  public List getCpPlanClearList(String planClearBillId);  public List getCpPlanClearList(String planClearBillId, String billType);  List getCpPlanClearListForList(List planClearBillIdList);  void insertCpPlanClearLists(List cpPlanClearLists);}

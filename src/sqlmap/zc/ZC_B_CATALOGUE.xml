@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ZcBCatalogue">
+
+  <typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+
+  <resultMap id="ZcBCatalogueResult" class="com.ufgov.zc.common.zc.model.ZcBCatalogue" >
+    <result column="ZC_CATALOGUE_CODE" jdbcType="VARCHAR" property="code" />
+    <result column="ZC_CATALOGUE_NAME" jdbcType="VARCHAR" property="name" />
+    <result column="ZC_CATALOGUE_CODE_PAR" jdbcType="VARCHAR" property="parentCode" />
+    <result column="ZC_CATALOGUE_CODE" jdbcType="VARCHAR" property="zcCatalogueCode" />
+    <result column="ZC_DIYU_DAIMA" jdbcType="VARCHAR" property="zcDiyuDaima" />
+    <result column="ZC_YEAR" jdbcType="CHAR" property="zcYear" />
+    <result column="ZC_CATALOGUE_NAME" jdbcType="VARCHAR" property="zcCatalogueName" />
+    <result column="ZC_CATALOGUE_CODE_PAR" jdbcType="VARCHAR" property="zcCatalogueCodePar" />
+    <result column="ZC_CATALOGUE_TYPE" jdbcType="VARCHAR" property="zcCatalogueType" />
+    <result column="ZC_QUOTA" jdbcType="DECIMAL" property="zcQuota" />
+    <result column="ZC_METRIC_UNIT" jdbcType="VARCHAR" property="zcMetricUnit" />
+    <result column="ZC_IS_VITAL" jdbcType="CHAR" property="zcIsVital" />
+    <result column="ZC_IS_USED" jdbcType="CHAR" property="zcIsUsed" />
+    <result column="ZC_TARGET_TYPE" jdbcType="VARCHAR" property="zcTargetType" />
+    <result column="ZC_PINMU_CTLG" jdbcType="VARCHAR" property="zcPinmuCtlg" />
+    <result column="ZC_IS_CGZX_ZG" jdbcType="VARCHAR" property="zcIsCgzxZg" />
+    <result column="ZC_IS_GENERAL" jdbcType="VARCHAR" property="zcIsGeneral" />
+    <result column="ZC_YEAR_PAR" jdbcType="CHAR" property="zcYearPar" />
+    <result column="ZC_QUOTA_UNIT" jdbcType="DECIMAL" property="zcQuotaUnit" />
+    <result column="ZC_CG_LEIXING" jdbcType="VARCHAR" property="zcCgLeixing" />
+    <result column="ZC_ZCGZ_STD" jdbcType="VARCHAR" property="zcZcgzStd" />
+    <result column="ZC_IS_ASSERT" jdbcType="CHAR" property="zcIsAssert" />
+    <result column="ZC_JJ_PP_NUM" jdbcType="DECIMAL" property="zcJjPpNum" />
+    <result column="ZC_JJ_PRICE_QUOTA" jdbcType="DECIMAL" property="zcJjPriceQuota" />
+  </resultMap>
+
+  <resultMap id="ZcBCatalogueForMenuGoodsResult" class="com.ufgov.zc.common.zc.model.ZcBCatalogue" >
+    <result column="ZC_CATALOGUE_CODE" jdbcType="VARCHAR" property="zcCatalogueCode" />
+    <result column="ZC_TYPE_CODE" jdbcType="VARCHAR" property="zcTypeCode" />
+    <result column="ZC_TYPE_CODE_PAR" jdbcType="VARCHAR" property="zcTypeCodePar" />
+    <result column="ZC_TYPE_NAME" jdbcType="VARCHAR" property="zcTypeName" />
+    <result column="LEVELS" property="levels" />
+  </resultMap>
+  
+  <resultMap id="ZcBCatalogueForNWResult" class="com.ufgov.zc.common.zc.model.ZcBCatalogue" >
+    <result column="ZC_CATALOGUE_CODE" jdbcType="VARCHAR" property="zcCatalogueCode" />
+    <result column="ZC_TYPE_CODE" jdbcType="VARCHAR" property="zcTypeCode" />
+    <result column="ZC_TYPE_CODE_PAR" jdbcType="VARCHAR" property="zcTypeCodePar" />
+    <result column="ZC_TYPE_NAME" jdbcType="VARCHAR" property="zcTypeName" />
+  </resultMap>
+
+  <resultMap id="ZcBCatalogueForNWResult1" class="com.ufgov.zc.common.zc.model.ZcBCatalogue" >
+    <result column="ZC_CATALOGUE_CODE" jdbcType="VARCHAR" property="zcCatalogueCode" />
+    <result column="ZC_CATALOGUE_NAME" jdbcType="VARCHAR" property="zcCatalogueName" />
+  </resultMap>
+    <resultMap id="CatalogueDiyuList" class="com.ufgov.zc.common.zc.model.ZcBCatalogue" >
+    <result column="ZC_DIYU_DAIMA" property="zcDiyuDaima" jdbcType="VARCHAR" />
+    <result column="ZC_DIYU_NAME" property="zcDiyuName" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="getZcBCatalogue" parameterClass="elementCondition" resultMap="ZcBCatalogueResult">
+    select ZC_CATALOGUE_CODE, ZC_DIYU_DAIMA, ZC_YEAR, ZC_CATALOGUE_NAME, ZC_CATALOGUE_CODE_PAR,
+      ZC_CATALOGUE_TYPE, ZC_QUOTA, ZC_METRIC_UNIT, ZC_IS_VITAL, ZC_IS_USED, ZC_TARGET_TYPE,
+      ZC_PINMU_CTLG, ZC_IS_CGZX_ZG, ZC_IS_GENERAL, ZC_YEAR_PAR, ZC_QUOTA_UNIT, ZC_CG_LEIXING,
+      ZC_ZCGZ_STD, ZC_IS_ASSERT,ZC_JJ_PP_NUM,ZC_JJ_PRICE_QUOTA
+    from ZC_B_CATALOGUE order by ZC_YEAR,ZC_CATALOGUE_CODE
+  </select>
+  
+  <select id="getCatalogueForMenuGoods" resultMap="ZcBCatalogueForMenuGoodsResult">
+	 select
+	        c.zc_type_code,
+	        c.zc_type_code_par,
+	        c.zc_type_name,
+	        c.zc_catalogue_code,
+	        c.zc_orderby,
+	        LEVEL LEVELS
+	   from 
+	        zc_portal_catalogue c
+	  start with  c.zc_type_code_par is null
+	 connect by prior  c.zc_type_code = c.zc_type_code_par
+	  order siblings by c.zc_orderby
+  </select>
+  
+  <select id="getCatalogueforNW" resultMap="ZcBCatalogueForNWResult">
+	 select c.zc_type_code,
+       c.zc_type_code_par,
+       c.zc_type_name,
+       c.zc_catalogue_code,
+       c.zc_orderby
+	from zc_portal_catalogue c
+	where c.zc_type_code not in(select distinct(t.zc_type_code_par) from zc_portal_catalogue t where t.zc_type_code_par is not null)
+	order by c.zc_orderby
+  </select>
+  
+  <select id="getCatalogueforNWBySuCode" resultMap="ZcBCatalogueForNWResult1" parameterClass="string">
+	 select 
+       c.zc_catalogue_name,
+       c.zc_catalogue_code
+	  from zc_b_catalogue c
+	  where c.zc_catalogue_code in (select distinct(zc_catalogue_code) from zc_zb_pinp where zc_su_code = #zcSuCode#)
+	  order by c.zc_catalogue_code
+  </select>
+  <!--  -->
+  
+   <resultMap id="ZcBCatalogueListResult" class="com.ufgov.zc.common.zc.model.ZcBCatalogue" >
+    <result column="ZC_CATALOGUE_CODE" jdbcType="VARCHAR" property="code" />
+    <result column="ZC_CATALOGUE_NAME" jdbcType="VARCHAR" property="name" />
+     <result column="zc_diyu_name" jdbcType="VARCHAR" property="zcDiyuName" />
+    <result column="ZC_CATALOGUE_CODE_PAR" jdbcType="VARCHAR" property="zcCatalogueCodePar" />
+    <result column="ZC_CATALOGUE_CODE" jdbcType="VARCHAR" property="zcCatalogueCode" />
+    <result column="ZC_DIYU_DAIMA" jdbcType="VARCHAR" property="zcDiyuDaima" />
+    <result column="ZC_YEAR" jdbcType="CHAR" property="zcYear" />
+    <result column="ZC_CATALOGUE_NAME" jdbcType="VARCHAR" property="zcCatalogueName" />
+    <result column="ZC_CATALOGUE_NAME_PAR" jdbcType="VARCHAR" property="zcCatalogueNamePar" />
+    <result column="ZC_CATALOGUE_TYPE" jdbcType="VARCHAR" property="zcCatalogueType" />
+    <result column="ZC_QUOTA" jdbcType="DECIMAL" property="zcQuota" />
+    <result column="ZC_METRIC_UNIT" jdbcType="VARCHAR" property="zcMetricUnit" />
+    <result column="ZC_IS_VITAL" jdbcType="CHAR" property="zcIsVital" />
+    <result column="ZC_IS_USED" jdbcType="CHAR" property="zcIsUsed" />
+    <result column="ZC_TARGET_TYPE" jdbcType="VARCHAR" property="zcTargetType" />
+    <result column="ZC_PINMU_CTLG" jdbcType="VARCHAR" property="zcPinmuCtlg" />
+    <result column="ZC_IS_CGZX_ZG" jdbcType="VARCHAR" property="zcIsCgzxZg" />
+    <result column="ZC_IS_GENERAL" jdbcType="VARCHAR" property="zcIsGeneral" />
+    <result column="ZC_YEAR_PAR" jdbcType="CHAR" property="zcYearPar" />
+    <result column="ZC_QUOTA_UNIT" jdbcType="DECIMAL" property="zcQuotaUnit" />
+    <result column="ZC_CG_LEIXING" jdbcType="VARCHAR" property="zcCgLeixing" />
+    <result column="ZC_ZCGZ_STD" jdbcType="VARCHAR" property="zcZcgzStd" />
+    <result column="ZC_IS_ASSERT" jdbcType="CHAR" property="zcIsAssert" />
+    <result column="ZC_IS_DIANZI_TOUBIAO" jdbcType="CHAR" property="zcIsdianZitouBiao" />
+    <result column="ZC_JJ_PP_NUM" jdbcType="DECIMAL" property="zcJjPpNum" />
+    <result column="ZC_JJ_PRICE_QUOTA" jdbcType="DECIMAL" property="zcJjPriceQuota" />
+  </resultMap>
+  
+    <select id="getZcBCatalogueyear" parameterClass="elementCondition" resultMap="ZcBCatalogueResult">
+    select ZC_CATALOGUE_CODE, ZC_DIYU_DAIMA, ZC_YEAR, ZC_CATALOGUE_NAME, ZC_CATALOGUE_CODE_PAR,
+      ZC_CATALOGUE_TYPE, ZC_QUOTA, ZC_METRIC_UNIT, ZC_IS_VITAL, ZC_IS_USED, ZC_TARGET_TYPE,
+      ZC_PINMU_CTLG, ZC_IS_CGZX_ZG, ZC_IS_GENERAL, ZC_YEAR_PAR, ZC_QUOTA_UNIT, ZC_CG_LEIXING,
+      ZC_ZCGZ_STD, ZC_IS_ASSERT,ZC_JJ_PP_NUM,ZC_JJ_PRICE_QUOTA
+    from ZC_B_CATALOGUE
+    where ZC_YEAR=to_char(sysdate,'yyyy')
+     order by ZC_YEAR,ZC_CATALOGUE_CODE
+  </select>
+  
+  <select id="getZcDiyuDaima" resultMap="CatalogueDiyuList"
+		parameterClass="elementCondition">
+ SELECT DIYU.ZC_DIYU_DAIMA,DIYU.ZC_DIYU_NAME FROM ZC_DIYU_CTG DIYU
+ </select>
+ 
+  <select id="getZcBCatalogueList" parameterClass="elementCondition" resultMap="ZcBCatalogueListResult">
+   
+ select * from (
+ select cata.ZC_CATALOGUE_CODE,
+       cata.ZC_DIYU_DAIMA,
+       ctg.zc_diyu_name,
+       cata.ZC_YEAR,
+       cata.ZC_CATALOGUE_NAME,
+       cata.ZC_CATALOGUE_CODE_PAR,
+       zc.zc_catalogue_name ZC_CATALOGUE_NAME_PAR,
+       cata.ZC_CATALOGUE_TYPE,
+       cata.ZC_QUOTA,
+       cata.ZC_METRIC_UNIT,
+       cata.ZC_IS_VITAL,
+       cata.ZC_IS_USED,
+       cata.ZC_TARGET_TYPE,
+       cata.ZC_PINMU_CTLG,
+       cata.ZC_IS_CGZX_ZG,
+       cata.ZC_IS_GENERAL,
+       cata.ZC_YEAR_PAR,
+       cata.ZC_QUOTA_UNIT,
+       cata.ZC_CG_LEIXING,
+       cata.ZC_ZCGZ_STD,
+       cata.ZC_IS_ASSERT,
+       cata.zc_is_dianzi_toubiao,
+       cata.ZC_JJ_PP_NUM,
+       cata.ZC_JJ_PRICE_QUOTA
+  from ZC_B_CATALOGUE cata,zc_diyu_ctg ctg, (select zc_catalogue_code,zc_catalogue_name,ZC_YEAR from ZC_B_CATALOGUE )zc
+  where cata.ZC_DIYU_DAIMA=ctg.zc_diyu_daima(+)
+    and cata.zc_catalogue_code_par(+)=zc.zc_catalogue_code
+    and zc.ZC_YEAR=cata.zc_year
+ 
+ 
+ union all
+ 
+  select cata.ZC_CATALOGUE_CODE,
+       cata.ZC_DIYU_DAIMA,
+       ctg.zc_diyu_name,
+       cata.ZC_YEAR,
+       cata.ZC_CATALOGUE_NAME,
+       null,
+       null,
+       cata.ZC_CATALOGUE_TYPE,
+       cata.ZC_QUOTA,
+       cata.ZC_METRIC_UNIT,
+       cata.ZC_IS_VITAL,
+       cata.ZC_IS_USED,
+       cata.ZC_TARGET_TYPE,
+       cata.ZC_PINMU_CTLG,
+       cata.ZC_IS_CGZX_ZG,
+       cata.ZC_IS_GENERAL,
+       cata.ZC_YEAR_PAR,
+       cata.ZC_QUOTA_UNIT,
+       cata.ZC_CG_LEIXING,
+       cata.ZC_ZCGZ_STD,
+       cata.ZC_IS_ASSERT,
+       cata.zc_is_dianzi_toubiao,
+       cata.ZC_JJ_PP_NUM,
+       cata.ZC_JJ_PRICE_QUOTA
+  from ZC_B_CATALOGUE cata,zc_diyu_ctg ctg
+  where cata.ZC_DIYU_DAIMA=ctg.zc_diyu_daima(+)
+    and cata.zc_catalogue_code_par is null) catalogue
+   
+ order by catalogue.ZC_YEAR desc, catalogue.ZC_CATALOGUE_CODE
+ 
+  </select>
+  
+  
+  <insert id="insertZcBCatalogue" parameterClass="com.ufgov.zc.common.zc.model.ZcBCatalogue">
+		insert into ZC_B_CATALOGUE
+	   (   ZC_DIYU_DAIMA,
+	       ZC_IS_USED,
+	       ZC_CATALOGUE_CODE,
+	       ZC_CATALOGUE_NAME,
+	       ZC_YEAR,
+	       ZC_CATALOGUE_TYPE,
+	       ZC_CATALOGUE_CODE_PAR,
+	       ZC_CATALOGUE_NAME_PAR,
+	       ZC_IS_DIANZI_TOUBIAO,
+	       ZC_IS_VITAL,
+	       ZC_JJ_PP_NUM,
+	       ZC_JJ_PRICE_QUOTA
+		)
+		values
+		(
+			#zcDiyuDaima:VARCHAR#,
+			#zcIsUsed:VARCHAR#,
+			#zcCatalogueCode:VARCHAR#,
+			#zcCatalogueName:VARCHAR#,
+			#zcYear:VARCHAR#,
+			#zcCatalogueType:VARCHAR#,
+			#zcCatalogueCodePar:VARCHAR#,
+			#zcCatalogueNamePar:VARCHAR#,
+			#zcIsdianZitouBiao:VARCHAR#,
+			#zcIsVital:VARCHAR#,
+			#zcJjPpNum:DECIMAL#,
+			#zcJjPriceQuota:DECIMAL#
+			
+		
+		)
+		</insert>
+		
+		 <update id="deleteCatalogu" parameterClass="com.ufgov.zc.common.zc.model.ZcBCatalogue">
+		   delete ZC_B_CATALOGUE  zbc where zbc.zc_year=#zcYear:VARCHAR# and zbc.zc_catalogue_code=#zcCatalogueCode:VARCHAR#
+		</update>
+		
+		
+		<select id="getJjPinPNum" parameterClass="elementCondition" resultMap="ZcBCatalogueResult">
+    
+    	 SELECT * FROM ZC_B_CATALOGUE where 1=1
+			<isNotNull prepend="AND" property="zcText0">
+				zc_year=#zcText0#
+			</isNotNull>
+			<isNotNull prepend="AND" property="zcText1">
+				zc_catalogue_code=#zcText1#
+			</isNotNull>
+  		</select>
+		
+</sqlMap>

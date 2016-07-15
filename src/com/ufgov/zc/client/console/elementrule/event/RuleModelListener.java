@@ -1,0 +1,1 @@
+package com.ufgov.zc.client.console.elementrule.event;import java.util.EventListener;public interface RuleModelListener extends EventListener {  public void ruleChanged(RuleModelEvent event);}

@@ -1,0 +1,1 @@
+package com.ufgov.zc.server.commonbiz.dao;import com.ufgov.zc.common.system.model.AsLog;public interface IBusinessLogDao {  void saveLog(AsLog log);}

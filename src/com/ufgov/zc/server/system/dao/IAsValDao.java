@@ -1,0 +1,1 @@
+package com.ufgov.zc.server.system.dao;import java.util.List;import java.util.Map;import com.ufgov.zc.common.system.RequestMeta;public interface IAsValDao {  List getAsVal(String valSetId);  Map getAsValMap(String valSetId);  List getCompanyLevel(String sqlId);  List getAsVal(String valSetId, RequestMeta meta);}

@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="BankAccount">
+
+	<typeAlias alias="bankAccount"
+		type="com.ufgov.zc.common.commonbiz.model.BankAccount" />
+
+	<resultMap id="payBankAccount" class="bankAccount">
+		<result property="coCode" column="co_code" />
+		<result property="bankAccCode" column="bank_acc_no" />
+		<result property="accName" column="bank_acc_name" />
+		<result property="accCode" column="bank_acc_code" />
+		<result property="bankNo" column="bank_no" />
+		<result property="bankNodeCode" column="banknode_code" />
+		<result property="bankNodeName" column="banknode_name" />
+		<result property="bankCode" column="bank_code" />
+		<result property="bankName" column="bank_name" />
+        <result property="fundCode" column="fund_code" />
+        <result property="userId" column="userid" />
+	</resultMap>
+
+
+	<select id="getPayBank" resultMap="payBankAccount" parameterClass="map">
+		select distinct co_code, co_name, co_fullna, '' bank_acc_code,
+		'' bank_acc_name, '' bank_acc_no, bank_no, banknode_code,
+		banknode_name, bank_code, bank_name,'' fund_code,userid from v_cp_acc_if
+		where nd=#nd#
+		<isNotNull prepend="AND" property="accoType">
+			acco_type=#accoType#
+		</isNotNull>
+
+		<isNotNull prepend="AND" property="coCode">
+			co_code=#coCode#
+		</isNotNull>
+
+		<isNotNull prepend="AND" property="userid">
+			userid like '%[' || #userid# || ']%'
+		</isNotNull>
+
+		order by bank_code
+	</select>
+
+	<select id="getPayBankAccount" resultMap="payBankAccount" parameterClass="map">
+		select co_code, co_name, co_fullna, bank_acc_code,
+		bank_acc_name, bank_acc_no, bank_no, banknode_code,
+		banknode_name, bank_code, bank_name,fund_code,userid from v_cp_acc_if
+		where nd=#nd#
+		<isNotNull prepend="AND" property="accoType">
+			acco_type=#accoType#
+		</isNotNull>
+		<isNotNull prepend="AND" property="accoTypeList">
+			<iterate open="(" close=")" conjunction="or"	property="accoTypeList">
+				ACCO_TYPE = #accoTypeList[]#
+			</iterate>
+		</isNotNull>
+
+		<isNotNull prepend="AND" property="coCode">
+			co_code=#coCode#
+		</isNotNull>
+
+		<isNotNull prepend="AND" property="userid">
+			userid like '%[' || #userid# || ']%'
+		</isNotNull>
+
+		<isNotNull prepend="AND" property="isDefault">
+			is_default=#isDefault#
+		</isNotNull>
+
+		<isNotNull prepend="" property="optFundFilterVal">
+			<isEqual prepend="AND" property="optFundFilterVal" compareValue="Y">
+				fund_code=#fundCode#
+			</isEqual>
+		</isNotNull>
+
+		<isNull prepend="" property="optFundFilterVal">
+			<isNotNull prepend="AND" property="fundCode">
+				fund_code in (
+					select fund_code FROM ma_cp_fund
+					start with  nd=#nd#  AND fund_code=#fundCode# and is_used = '1'
+					connect by prior parent_code =fund_code and nd=#nd#
+				)
+			</isNotNull>
+		</isNull>
+
+		order by co_code, bank_acc_code ,fund_code DESC
+	</select>
+
+
+	<resultMap id="receBankAccountResult" class="bankAccount">
+		<result property="bankInfoId" column="BANKINFOID" />
+		<result property="coCode" column="co_code" />
+		<result property="code" column="rece_code" />
+		<result property="name" column="rece_name" />
+		<result property="accName" column="rece_accname" />
+		<result property="bankAccCode" column="rece_bankacccode" />
+		<result property="bankNodeCode" column="rece_banknodecode" />
+		<result property="bankNodeName" column="rece_banknodename" />
+		<result property="remark" column="remark" />
+	</resultMap>
+
+    <resultMap id="receBankAccountForNo" class="bankAccount">
+		<result property="code" column="rece_code" />
+		<result property="name" column="rece_name" />
+		<result property="bankNodeName" column="rece_banknodename" />
+		<result property="coCode" column="co_code" />
+	</resultMap>
+
+	<select id="getReceBankAccountList"	resultMap="receBankAccountResult" parameterClass="map">
+		SELECT BANKINFOID,CO_CODE,RECE_CODE, RECE_NAME, RECE_ACCNAME, RECE_BANKACCCODE,
+		RECE_BANKNODECODE, RECE_BANKNODENAME,REMARK FROM CP_NEWPROVIDER where
+		 nd=#nd# and is_used='Y'
+		  and  ( inputor_id is null
+		<isNotNull prepend="or" property="userId">
+			inputor_id=#userId#
+		</isNotNull>
+		)
+		order by rece_code
+	</select>
+
+	<select id="getReceBankAccount" resultMap="receBankAccountResult" parameterClass="map">
+		SELECT BANKINFOID,CO_CODE,RECE_CODE, RECE_NAME, RECE_ACCNAME, RECE_BANKACCCODE,
+		RECE_BANKNODECODE, RECE_BANKNODENAME,REMARK FROM CP_NEWPROVIDER
+		where ROWNUM=1 and is_used='Y' and rece_accname=#accName:VARCHAR#
+			and rece_bankacccode=#bankAccCode:VARCHAR#
+			and rece_banknodename=#bankNodeName:VARCHAR#
+			<isNotNull prepend="AND" property="coCode">
+				co_code=#coCode#
+			</isNotNull>
+			<isNotNull prepend="AND" property="inputorId">
+				inputor_id=#inputorId#
+			</isNotNull>
+	</select>
+
+	<delete id="deleteReceBankAccount" parameterClass="bankAccount">
+	  delete CP_NEWPROVIDER where  BANKINFOID = #bankInfoId:VARCHAR#
+	</delete>
+
+	<update id="updateReceBankAccount" parameterClass="bankAccount">
+		update CP_NEWPROVIDER
+	    set rece_accname=#accName#,
+	    	rece_bankacccode=#bankAccCode#,
+	     	rece_banknodename=#bankNodeName#,
+	     	remark=#remark:VARCHAR#
+	    where BANKINFOID = #bankInfoId:VARCHAR# and inputor_id=#inputorId:VARCHAR#
+	</update>
+
+	<insert id="insertReceBankAccount" parameterClass="bankAccount">
+		insert into CP_NEWPROVIDER (bankinfoid, nd, co_code,
+		rece_code, rece_name, rece_accname, rece_bankacccode,
+		rece_banknodecode, rece_banknodename,remark,inputor_id) values
+		(#bankInfoId:VARCHAR#, #nd:NUMBER#, #coCode:VARCHAR#,
+		#accCode:VARCHAR#, #name:VARCHAR#, #accName:VARCHAR#,
+		#bankAccCode:VARCHAR#, #bankNodeCode:VARCHAR#,
+		#bankNodeName:VARCHAR#,#remark:VARCHAR#,#inputorId:VARCHAR#)
+	</insert>
+
+
+	<resultMap id="BaseBankAccount" class="bankAccount">
+		<result property="coCode" column="co_code" />
+		<result property="code" column="rece_code"/>
+		<result property="bankCode" column="bank_code"/>
+	    <result property="bankName" column="bank_name"/>
+	    <result property="accCode" column="rece_acccode"/>
+	    <result property="accName" column="rece_accname"/>
+	    <result property="bankAccCode" column="rece_bankacccode"/>
+	    <result property="bankNodeCode" column="rece_banknodecode"/>
+	    <result property="bankNodeName" column="rece_banknodename"/>
+	    <result property="bankNo" column="rece_bankno"/>
+	    <result property="isDefault" column="is_default"/>
+	</resultMap>
+
+	<select id="getBankAccountList" resultMap="BaseBankAccount" parameterClass="map">
+		SELECT
+			a.co_code ,
+			a.co_code rece_code,
+			a.bank_acc_code rece_acccode ,
+			a.bank_acc_name rece_accname,
+			a.bank_acc_no rece_bankacccode,
+			b.banknode_code rece_banknodecode,
+			b.banknode_name
+			rece_banknodename,
+			b.banknode_no rece_bankno,
+			c.bank_code,
+			c.bank_name,
+			a.is_default
+		FROM ma_bank_acc a, ma_banknode b, ma_bank c
+		WHERE   a.is_used = 'Y'
+			and a.nd = b.nd
+			and a.bank_code = b.bank_code
+			and a.banknode_code = b.banknode_code
+			and a.bank_code =c.bank_code
+			and a.nd = c.nd
+			and a.nd =#nd#
+			<isNotNull prepend="AND" property="coCode">
+				a.co_code = #coCode#
+			</isNotNull>
+			<iterate prepend="AND" property="accoTypeList" open="(" close=")" conjunction="OR">
+				acco_type=#accoTypeList[]#
+			</iterate>
+	</select>
+	<select id="getBankAccountByAccNo" resultMap="receBankAccountForNo" parameterClass="map">
+        SELECT master.bank_acc_name rece_name,master.bank_acc_no rece_code,
+      (SELECT m.banknode_name FROM ma_banknode M WHERE m.bank_code = master.bank_code
+      AND m.nd = master.nd AND ROWNUM =1) rece_banknodename,master.co_code
+      FROM ma_bank_acc MASTER WHERE MASTER.bank_acc_no = #no# and nd = #nd#
+	</select>
+
+
+</sqlMap>

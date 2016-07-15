@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.ufgov.zc.server.sf.dao.SfOutInfoMapper">
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+  <resultMap id="BaseResultMap" class="com.ufgov.zc.common.sf.model.SfOutInfo">
+    <result column="OUT_INFO_ID" jdbcType="DECIMAL" property="outInfoId" />
+    <result column="TGF" jdbcType="VARCHAR" property="tgf" />
+    <result column="TGF_PHONE" jdbcType="VARCHAR" property="tgfPhone" />
+    <result column="INPUTOR" jdbcType="VARCHAR" property="inputor" />
+    <result column="INPUT_DATE" jdbcType="DATE" property="inputDate" />
+    <result column="ACCEPTOR" jdbcType="VARCHAR" property="acceptor" />
+    <result column="ACCEPT_DATE" jdbcType="DATE" property="acceptDate" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="ENTRUST_ID" jdbcType="DECIMAL" property="entrustId" />
+    <result column="ND" jdbcType="DECIMAL" property="nd" />
+    <result column="PROCESS_INST_ID" jdbcType="DECIMAL" property="processInstId" />
+    <result column="ENTRUST_CODE" jdbcType="VARCHAR" property="entrustCode" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="VALIDATOR" jdbcType="VARCHAR" property="validator" />
+    <result column="VALIDAT_DATE" jdbcType="DATE" property="validatDate" />
+    <result column="VALIDAT_OPINION" jdbcType="VARCHAR" property="validatOpinion" />
+    <result column="VALIDAT_IS_PASS" jdbcType="VARCHAR" property="validatIsPass" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    OUT_INFO_ID, TGF, TGF_PHONE, INPUTOR, INPUT_DATE, ACCEPTOR, ACCEPT_DATE, STATUS, 
+    ENTRUST_ID, ND, PROCESS_INST_ID, ENTRUST_CODE, NAME, VALIDATOR, VALIDAT_DATE, VALIDAT_OPINION, 
+    VALIDAT_IS_PASS,REMARK
+  </sql>
+  <select id="selectByPrimaryKey" parameterClass="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SF_OUT_INFO
+    where OUT_INFO_ID = #outInfoId:DECIMAL#
+  </select>
+  <select id="selectMainDataLst" parameterClass="elementCondition" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SF_OUT_INFO
+    where 1=1  
+		<include refid="BusiNumLim.BusiNumLimStr" />   
+		<isNotNull prepend="AND" property="dattr1"> 
+			ENTRUST_ID=#dattr1#
+		</isNotNull> 
+		<!-- 列表界面上的搜索条件 -->
+		<isNotNull prepend="AND" property="dattr5"> 
+			ENTRUST_ID=#dattr5#
+		</isNotNull>    
+	<isNotEqual prepend="and" compareValue="0" property="nd">
+			SF_OUT_INFO.ND = #nd#
+   </isNotEqual>
+		<isNotNull prepend="AND" property="status">
+			<isEqual property="status" compareValue="todo">
+				exists (select instance_id from V_WF_CURRENT_TASK_ZC_TODO where 
+				executor=#executor# and instance_id = SF_OUT_INFO.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="untread">
+				exists (select instance_id from V_WF_CURRENT_TASK_ZC_UNTREAD where
+				executor=#executor# and instance_id = SF_OUT_INFO.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				exists (select instance_id from V_WF_ACTION_HISTORY_GK53 where 
+				executor =#executor# and instance_id = SF_OUT_INFO.process_inst_id)
+				and SF_OUT_INFO.STATUS!= 'cancel' and SF_OUT_INFO.STATUS != 'exec'
+			</isEqual>
+			<isEqual property="status" compareValue="draft">
+				( exists (select WF_DRAFT_NAME from as_wf_draft where
+				user_id=#executor# and
+				compo_id=#wfcompoId# and
+				WF_DRAFT_ID=SF_OUT_INFO.process_inst_id)
+				or
+				SF_OUT_INFO.process_inst_id = -1 )
+				and SF_OUT_INFO.STATUS ='0'
+			</isEqual>
+			<isEqual property="status" compareValue="exec">
+				(SF_OUT_INFO.STATUS='exec')
+			</isEqual>
+			<isEqual property="status" compareValue="all">
+				1=1
+			</isEqual>
+		</isNotNull>
+   order by SF_OUT_INFO.OUT_INFO_ID desc
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="java.math.BigDecimal">
+    delete from SF_OUT_INFO
+    where OUT_INFO_ID = #outInfoId:DECIMAL#
+  </delete>
+  <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfOutInfo">
+    insert into SF_OUT_INFO (OUT_INFO_ID, TGF, TGF_PHONE, 
+      INPUTOR, INPUT_DATE, ACCEPTOR, 
+      ACCEPT_DATE, STATUS, ENTRUST_ID, 
+      ND, PROCESS_INST_ID, ENTRUST_CODE, 
+      NAME, VALIDATOR, VALIDAT_DATE, 
+      VALIDAT_OPINION, VALIDAT_IS_PASS,REMARK)
+    values (#outInfoId:DECIMAL#, #tgf:VARCHAR#, #tgfPhone:VARCHAR#, 
+      #inputor:VARCHAR#, #inputDate:DATE#, #acceptor:VARCHAR#, 
+      #acceptDate:DATE#, #status:VARCHAR#, #entrustId:DECIMAL#, 
+      #nd:DECIMAL#, #processInstId:DECIMAL#, #entrustCode:VARCHAR#, 
+      #name:VARCHAR#, #validator:VARCHAR#, #validatDate:DATE#, 
+      #validatOpinion:VARCHAR#, #validatIsPass:VARCHAR#,#remark#)
+  </insert>
+  <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfOutInfo">
+    update SF_OUT_INFO
+    set TGF = #tgf:VARCHAR#,
+      TGF_PHONE = #tgfPhone:VARCHAR#,
+      INPUTOR = #inputor:VARCHAR#,
+      INPUT_DATE = #inputDate:DATE#,
+      ACCEPTOR = #acceptor:VARCHAR#,
+      ACCEPT_DATE = #acceptDate:DATE#,
+      STATUS = #status:VARCHAR#,
+      ENTRUST_ID = #entrustId:DECIMAL#,
+      ND = #nd:DECIMAL#,
+      PROCESS_INST_ID = #processInstId:DECIMAL#,
+      ENTRUST_CODE = #entrustCode:VARCHAR#,
+      NAME = #name:VARCHAR#,
+      VALIDATOR = #validator:VARCHAR#,
+      VALIDAT_DATE = #validatDate:DATE#,
+      VALIDAT_OPINION = #validatOpinion:VARCHAR#,
+      VALIDAT_IS_PASS = #validatIsPass:VARCHAR#,
+      REMARK=#remark#
+    where OUT_INFO_ID = #outInfoId:DECIMAL#
+  </update>
+</sqlMap>

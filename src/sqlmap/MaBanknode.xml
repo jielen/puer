@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="MaBanknode" >
+  <resultMap id="maBanknodeResult" class="com.ufgov.zc.common.commonbiz.model.MaBanknode" >
+    <result column="BANKNODE_CODE" property="banknodeCode" jdbcType="VARCHAR" />
+    <result column="BANK_CODE" property="bankCode" jdbcType="VARCHAR" />
+    <result column="ND" property="nd" jdbcType="DECIMAL" />
+    <result column="BANKNODE_NAME" property="banknodeName" jdbcType="VARCHAR" />
+    <result column="BANKNODE_NO" property="banknodeNo" jdbcType="VARCHAR" />
+    <result column="BANNODE_ADDR" property="bannodeAddr" jdbcType="VARCHAR" />
+    <result column="POST_CODE" property="postCode" jdbcType="VARCHAR" />
+    <result column="COMM_ADDR" property="commAddr" jdbcType="VARCHAR" />
+    <result column="URL" property="url" jdbcType="VARCHAR" />
+    <result column="LINK_MAN" property="linkMan" jdbcType="VARCHAR" />
+    <result column="MOBI_TELE" property="mobiTele" jdbcType="VARCHAR" />
+    <result column="LOCA_TELE" property="locaTele" jdbcType="VARCHAR" />
+    <result column="LOCA_FAX" property="locaFax" jdbcType="VARCHAR" />
+    <result column="IS_USED" property="isUsed" jdbcType="CHAR" />
+    <result column="BANK_ACCOUNT" property="bankAccount" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectByPrimaryKey" resultMap="maBanknodeResult" parameterClass="com.ufgov.zc.common.commonbiz.model.MaBanknodeKey" >
+    select BANKNODE_CODE, BANK_CODE, ND, BANKNODE_NAME, BANKNODE_NO, BANNODE_ADDR, POST_CODE,
+      COMM_ADDR, URL, LINK_MAN, MOBI_TELE, LOCA_TELE, LOCA_FAX, IS_USED, BANK_ACCOUNT
+    from MA_BANKNODE
+    where BANKNODE_CODE = #banknodeCode:VARCHAR#
+      and BANK_CODE = #bankCode:VARCHAR#
+      and ND = #nd:DECIMAL#
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterClass="com.ufgov.zc.common.commonbiz.model.MaBanknodeKey" >
+    delete from MA_BANKNODE
+    where BANKNODE_CODE = #banknodeCode:VARCHAR#
+      and BANK_CODE = #bankCode:VARCHAR#
+      and ND = #nd:DECIMAL#
+  </delete>
+  
+  <insert id="insert" parameterClass="com.ufgov.zc.common.commonbiz.model.MaBanknode" >
+    insert into MA_BANKNODE (BANKNODE_CODE, BANK_CODE, ND, BANKNODE_NAME, BANKNODE_NO,
+      BANNODE_ADDR, POST_CODE, COMM_ADDR, URL, LINK_MAN, MOBI_TELE, LOCA_TELE, LOCA_FAX, IS_USED,
+      BANK_ACCOUNT)
+    values (#banknodeCode:VARCHAR#, #bankCode:VARCHAR#, #nd:DECIMAL#, #banknodeName:VARCHAR#,
+      #banknodeNo:VARCHAR#, #bannodeAddr:VARCHAR#, #postCode:VARCHAR#, #commAddr:VARCHAR#,
+      #url:VARCHAR#, #linkMan:VARCHAR#, #mobiTele:VARCHAR#, #locaTele:VARCHAR#, #locaFax:VARCHAR#,
+      #isUsed:CHAR#, #bankAccount:VARCHAR#)
+  </insert>
+  
+  <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.commonbiz.model.MaBanknode" >
+    update MA_BANKNODE
+    set BANKNODE_NAME = #banknodeName:VARCHAR#,
+      BANKNODE_NO = #banknodeNo:VARCHAR#,
+      BANNODE_ADDR = #bannodeAddr:VARCHAR#,
+      POST_CODE = #postCode:VARCHAR#,
+      COMM_ADDR = #commAddr:VARCHAR#,
+      URL = #url:VARCHAR#,
+      LINK_MAN = #linkMan:VARCHAR#,
+      MOBI_TELE = #mobiTele:VARCHAR#,
+      LOCA_TELE = #locaTele:VARCHAR#,
+      LOCA_FAX = #locaFax:VARCHAR#,
+      IS_USED = #isUsed:CHAR#,
+      BANK_ACCOUNT = #bankAccount:VARCHAR#
+    where BANKNODE_CODE = #banknodeCode:VARCHAR#
+      and BANK_CODE = #bankCode:VARCHAR#
+      and ND = #nd:DECIMAL#
+  </update>
+
+  <select id="getBanknode" resultMap="maBanknodeResult" parameterClass="map">
+  	select * from MA_BANKNODE where ND=#nd:INTEGER# 
+  	<isNotNull prepend="AND" property="bankCode">
+  		BANK_CODE = #bankCode:VARCHAR#
+  	</isNotNull>
+  </select>
+</sqlMap>

@@ -1,0 +1,1 @@
+package com.ufgov.zc.client.component.button;public class SelectPlanButton extends FuncButton {  /**   *    */  private static final long serialVersionUID = -1120355438445632260L;  public SelectPlanButton() {    super();  }  protected void init() {    this.funcId = "fnew";    this.defaultText = "选择计划";    super.init();  }}

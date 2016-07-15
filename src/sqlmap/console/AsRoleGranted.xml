@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="AsRoleGranted">
+
+	<typeAlias alias="asRoleGranted" type="com.ufgov.zc.common.console.model.AsGrantedRole"/>
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+
+	<resultMap class="asRoleGranted" id="asRoleGrantedResult">
+		<result property="id" column="id"></result>
+		<result property="grantUserId" column="GRANT_USER_ID"></result>
+		<result property="grantedUserId" column="GRANTED_USER_ID"></result>
+		<result property="beginDate" column="GRANT_BEGIN_DATE"></result>
+		<result property="endDate" column="GRANT_END_DATE"></result>
+		<result property="grantUserCoCode" column="GRANT_USER_CO_CODE"></result>
+		<result property="grantUserOrgCode" column="GRANT_USER_ORG_CODE"></result>
+		<result property="grantPosiCode" column="GRANT_USER_POSI_CODE"></result>
+		<result property="grantPosiId" column="GRANT_USER_POSI_ID"></result>
+		<result property="roleId" column="ROLE_ID"></result>
+		<result property="roleName" column="ROLE_NAME"></result>
+	</resultMap>
+
+	<select id="getUserGrantedRole" resultMap="asRoleGrantedResult" parameterClass="elementCondition">
+		select *
+		  from as_posi_role_granted t
+		 where t.grant_user_id = #executor#
+		   and t.granted_user_id = #grantedExecutor#
+		   and t.grant_user_co_code = #coCode#
+		   and t.grant_user_org_code = #orgCode#
+		   and t.grant_user_posi_id = #posiId#
+		   and t.grant_user_posi_code = #posiCode#
+	</select>
+	
+	<insert id="insertGrantedRole" parameterClass="asRoleGranted">
+		insert into as_posi_role_granted
+		  (id,
+		   grant_user_id,
+		   granted_user_id,
+		   grant_begin_date,
+		   grant_end_date,
+		   grant_user_co_code,
+		   grant_user_org_code,
+		   grant_user_posi_code,
+		   grant_user_posi_id,
+		   role_id,
+		   role_name)
+		values
+		  (#id#,
+		   #grantUserId#,
+		   #grantedUserId#,
+		   #beginDate#,
+		   #endDate#,
+		   #grantUserCoCode#,
+		   #grantUserOrgCode#,
+		   #grantPosiCode#,
+		   #grantPosiId#,
+		   #roleId#,
+		   #roleName#)
+	</insert>
+	
+	<delete id="deleteGrantedRoleById" parameterClass="string">
+		delete from as_posi_role_granted t where t.id = #value#
+	</delete>
+	
+	<delete id="deleteGrantedRoleByGranted" parameterClass="elementCondition">
+		delete
+		  from as_posi_role_granted t
+		 where t.grant_user_id = #executor#
+		   and t.granted_user_id = #grantedExecutor#
+		   and t.grant_user_co_code = #coCode#
+		   and t.grant_user_org_code = #orgCode#
+		   and t.grant_user_posi_id = #posiId#
+		   and t.grant_user_posi_code = #posiCode#
+	</delete>
+	
+	<delete id="deleteGrantedRoleByGrant" parameterClass="elementCondition">
+		 delete
+		  from as_posi_role_granted t
+		 where t.grant_user_id = #executor#
+		   and t.grant_user_co_code = #coCode#
+		   and t.grant_user_org_code = #orgCode#
+		   and t.grant_user_posi_id = #posiId#
+		   and t.grant_user_posi_code = #posiCode#
+	</delete>
+	
+	<delete id="deleteAllGrantedTask" parameterClass="string">
+		delete from wf_current_task t where t.granter_id = #value#
+	</delete>
+	
+	<delete id="deleteSelectedGrantedTask" parameterClass="Map">
+		delete from wf_current_task t
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="granter">
+				t.granter_id = #granter#
+			</isNotNull>
+			<isNotNull prepend="AND" property="granted">
+				t.executor=#granted#
+			</isNotNull>
+			<isNotNull prepend="AND" property="granterInfo">
+				t.granter_info=#granterInfo#
+			</isNotNull>
+		</dynamic>
+	</delete>
+
+</sqlMap>

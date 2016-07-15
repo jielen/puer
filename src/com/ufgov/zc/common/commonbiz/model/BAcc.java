@@ -1,0 +1,1 @@
+package com.ufgov.zc.common.commonbiz.model;import java.io.Serializable;public class BAcc extends BaseElement implements Serializable {  /**   *    */  private static final long serialVersionUID = -3600404398241348036L;}

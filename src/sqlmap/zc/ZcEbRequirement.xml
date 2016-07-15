@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ZcEbRequirement">
+
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+
+	<resultMap id="ZcEbRequirementResult" class="com.ufgov.zc.common.zc.model.ZcEbRequirement">
+		<result column="REQ_CODE" property="reqCode" jdbcType="VARCHAR" />
+		<result column="REQ_DATE" property="reqDate" jdbcType="TIMESTAMP" />
+		<result column="STATUS" property="status" jdbcType="VARCHAR" />
+		<result column="PROCESS_INST_ID" property="processInstId"
+			jdbcType="NUMERIC" javaType="java.lang.Long" />
+		<result column="SN" property="sn" jdbcType="VARCHAR" />
+		<result column="REMARK" property="remark" jdbcType="VARCHAR" />
+		<result column="CGZX_MSG" property="cgzxMsg" jdbcType="VARCHAR" />
+		<result column="YSDW_MSG" property="ysdwMsg" jdbcType="VARCHAR" />
+		<result column="IS_GOON_AUDIT" property="isGoonAudit" />
+		<result property="zcEbEntrust.sn" column="SN" jdbcType="VARCHAR" />
+		<result property="zcEbEntrust.snCode" column="SN_CODE"
+			jdbcType="VARCHAR" />
+		<result property="zcEbEntrust.zcMakeCode" column="ZC_MAKE_CODE"
+			jdbcType="VARCHAR" />
+		<result property="zcEbEntrust.zcMakeName" column="ZC_MAKE_NAME"
+			jdbcType="VARCHAR" />
+		<result property="zcEbEntrust.coCode" column="CO_CODE"
+			jdbcType="VARCHAR" />
+		<result property="zcEbEntrust.nd" column="ND" jdbcType="VARCHAR" />
+		<result property="zcEbEntrust.zcMakeLinkman" column="ZC_MAKE_LINKMAN"
+			jdbcType="VARCHAR" />
+		<result property="zcEbEntrust.zcMakeTel" column="ZC_MAKE_TEL"
+			jdbcType="VARCHAR" />
+		<result property="zcEbEntrust.zcMoneyBiSum" column="ZC_MONEY_BI_SUM"
+			jdbcType="DECIMAL" />
+		<result property="zcEbEntrust.zcPifuCgfs" column="ZC_PIFU_CGFS"
+			jdbcType="VARCHAR" />
+		<result property="zcEbEntrust.zcIsImp" column="ZC_IS_IMP"
+			jdbcType="VARCHAR" />
+		<result property="zcEbEntrust.remark" column="MAKE_REMAKE"
+			jdbcType="VARCHAR" />
+		<result property="zcEbAuditSheet.sheetId" column="SHEET_ID" />
+		<!-- -添加批办单的信息 -->
+		<result property="zcEbAuditSheet.superintendentOrg" column="SUPERINTENDENT_ORG" />
+		<result property="zcEbAuditSheet.superintendent" column="SUPERINTENDENT" />
+		<result property="zcEbAuditSheet.superintendentName" column="SUPERINTENDENT_NAME" />
+		<result property="zcEbAuditSheet.attn" column="ATTN" />
+		<result property="zcEbAuditSheet.attnName" column="ATTN_NAME" />
+		<result column="PROVIDER_CODE" property="providerCode"
+			jdbcType="VARCHAR" />
+
+	</resultMap>
+	<resultMap class="com.ufgov.zc.common.zc.model.ZcEbRequirement"
+		id="ZcEbRequirementAllResult" extends="ZcEbRequirementResult">
+		<result column="PROVIDER_NAME" property="providerName"
+			jdbcType="VARCHAR" />
+	</resultMap>
+	<resultMap id="ZcEbRequirementDetailResult"
+		class="com.ufgov.zc.common.zc.model.ZcEbRequirementDetail">
+		<result column="DETAIL_CODE" property="detailCode" jdbcType="INTEGER" />
+		<result column="REQ_CODE" property="reqCode" jdbcType="VARCHAR" />
+		<result column="SND" property="snd" jdbcType="VARCHAR" />
+		<result column="SN" property="sn" jdbcType="VARCHAR" />
+		<result column="ZC_YEAR" property="zcYear" jdbcType="VARCHAR" />
+		<result column="ZC_CATALOGUE_CODE" property="zcCatalogueCode"
+			jdbcType="VARCHAR" />
+		<result column="ZC_CATALOGUE_NAME" property="zcCatalogueName"
+			jdbcType="VARCHAR" />
+		<result column="NAME" property="name" jdbcType="VARCHAR" />
+		<result column="ARR_DATE" property="arrDate" jdbcType="DATE"
+			javaType="java.util.Date" />
+		<result column="BASE_REQ" property="baseReq" jdbcType="VARCHAR" />
+		<result column="ITEM_ATTACH" property="itemAttach" jdbcType="VARCHAR" />
+		<result column="ITEM_ATTACH_BLOBID" property="itemAttachBlobid"
+			jdbcType="VARCHAR" />
+		<result column="NUM" property="num" jdbcType="INTEGER" />
+		<result column="ITEM_SUM" property="itemSum" jdbcType="DECIMAL"
+			javaType="java.math.BigDecimal" />
+		<result column="MER_PRICE" property="merPrice" jdbcType="DECIMAL"
+			javaType="java.math.BigDecimal" />
+		<result column="PAY_COND" property="payCond" jdbcType="VARCHAR" />
+		<result column="SERVICE_PROMISES" property="servicePromises"
+			jdbcType="VARCHAR" />
+		<result column="TYPE" property="type" jdbcType="VARCHAR" />
+		<result column="DESCRIPTION" property="description" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="ZcEbRequirementResultList" class="com.ufgov.zc.common.zc.model.ZcEbRequirement">
+		<result column="REQ_CODE" property="reqCode" jdbcType="VARCHAR" />
+		<result column="REQ_DATE" property="reqDate" jdbcType="TIMESTAMP" />
+		<result column="STATUS" property="status" jdbcType="VARCHAR" />
+		<result column="PROCESS_INST_ID" property="processInstId"
+			jdbcType="NUMERIC" javaType="java.lang.Long" />
+		<result column="SN" property="sn" jdbcType="VARCHAR" />
+		<result column="REMARK" property="remark" jdbcType="VARCHAR" />
+		<result column="CGZX_MSG" property="cgzxMsg" jdbcType="VARCHAR" />
+		<result column="YSDW_MSG" property="ysdwMsg" jdbcType="VARCHAR" />
+		<result column="IS_GOON_AUDIT" property="isGoonAudit" />
+		<result property="zcEbEntrust.sn" column="SN" jdbcType="VARCHAR" />
+		<result property="zcEbEntrust.snCode" column="SN_CODE"
+			jdbcType="VARCHAR" />
+		<result property="zcEbEntrust.zcMakeCode" column="ZC_MAKE_CODE"
+			jdbcType="VARCHAR" />
+		<result property="zcEbEntrust.zcMakeName" column="ZC_MAKE_NAME"
+			jdbcType="VARCHAR" />
+		<result property="zcEbEntrust.coCode" column="CO_CODE"
+			jdbcType="VARCHAR" />
+		<result property="zcEbEntrust.nd" column="ND" jdbcType="VARCHAR" />
+		<result property="zcEbEntrust.zcMakeLinkman" column="ZC_MAKE_LINKMAN"
+			jdbcType="VARCHAR" />
+		<result property="zcEbEntrust.zcMakeTel" column="ZC_MAKE_TEL"
+			jdbcType="VARCHAR" />
+		<result property="zcEbEntrust.zcMoneyBiSum" column="ZC_MONEY_BI_SUM"
+			jdbcType="DECIMAL" />
+		<result property="zcEbEntrust.zcPifuCgfs" column="ZC_PIFU_CGFS"
+			jdbcType="VARCHAR" />
+		<result property="zcEbEntrust.zcIsImp" column="ZC_IS_IMP"
+			jdbcType="VARCHAR" />
+		<result property="zcEbEntrust.remark" column="MAKE_REMAKE"
+			jdbcType="VARCHAR" />
+		<result property="zcEbAuditSheet.sheetId" column="SHEET_ID" />
+		<!-- -添加批办单的信息 -->
+		<result property="zcEbAuditSheet.superintendentOrg" column="SUPERINTENDENT_ORG" />
+		<result property="zcEbAuditSheet.superintendent" column="SUPERINTENDENT" />
+		<result property="zcEbAuditSheet.superintendentName" column="SUPERINTENDENT_NAME" />
+		<result property="zcEbAuditSheet.attn" column="ATTN" />
+		<result property="zcEbAuditSheet.attnName" column="ATTN_NAME" />
+		<result column="PROVIDER_CODE" property="providerCode" jdbcType="VARCHAR" />
+	    <result property="zcEbEntrust.useBudget" column="useBudget"
+			jdbcType="DECIMAL" />
+	</resultMap>
+   <resultMap class="com.ufgov.zc.common.zc.model.ZcEbRequirement" id="ZcEbRequirementAllResult" extends="ZcEbRequirementResultList">
+		<result column="PROVIDER_NAME" property="providerName" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="ZcEbRequirementUseBudget" class="com.ufgov.zc.common.zc.model.ZcEbRequirement">
+	    <result property="zcEbEntrust.useBudget" column="useBudget"
+			jdbcType="DECIMAL" />
+	</resultMap>
+	
+	<resultMap class="com.ufgov.zc.common.zc.model.ZcEbPackQua" id="ZcEbPackQuaAllResult">
+		<result column="proj_code" property="projCode" jdbcType="VARCHAR" />
+		<result column="pack_code" property="packCode" jdbcType="VARCHAR" />
+		<result column="pack_name" property="packName" jdbcType="VARCHAR" />
+		<result column="qualif_id" property="qualifId" jdbcType="VARCHAR" />
+		<result column="qualif_name" property="qualifName" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="getZcEbRequirementList" resultMap="ZcEbRequirementResultList"
+		parameterClass="elementCondition">
+		select req_code,
+       req_date,
+       status,
+       process_inst_id,
+       sn,
+       SN_CODE,
+       remark,
+       CGZX_MSG,
+       YSDW_MSG,
+       IS_GOON_AUDIT,
+       PROVIDER_CODE,
+       zc_make_code,
+       zc_make_name,
+       CO_CODE,
+       ND,
+       zc_make_linkman,
+       zc_make_tel,
+       zc_money_bi_sum,
+       zc_pifu_cgfs,
+       zc_is_imp,
+       org_code,
+       remark as make_remake,
+       Sheet_Id,
+       Superintendent_Org,
+       Superintendent,
+       Superintendent_Name,
+       Attn,
+       Attn_Name,
+       useBudget
+  from (select ZC_EB_REQUIREMENT.req_code,
+               ZC_EB_REQUIREMENT.req_date,
+               ZC_EB_REQUIREMENT.status,
+               ZC_EB_REQUIREMENT.process_inst_id,
+               ZC_EB_REQUIREMENT.sn,
+               ZC_EB_REQUIREMENT.remark,
+               ZC_EB_REQUIREMENT.CGZX_MSG,
+               ZC_EB_REQUIREMENT.YSDW_MSG,
+               ZC_EB_REQUIREMENT.IS_GOON_AUDIT,
+               ZC_EB_REQUIREMENT.PROVIDER_CODE,
+               e.zc_make_code,
+               e.zc_make_name,
+               e.CO_CODE,
+               e.ND,
+               e.zc_make_linkman,
+               e.zc_make_tel,
+               e.zc_money_bi_sum,
+               (select v_zc_p_pro_make.PUR_TYPE  from v_zc_p_pro_make  v_zc_p_pro_make where v_zc_p_pro_make.PROJ_CODE=e.zc_make_code )as zc_pifu_cgfs,
+               e.zc_is_imp,
+               e.remark as make_remake,
+               e.AGENCY,
+               e.SN_CODE,
+               e.ORG_CODE,
+               Zc_Eb_Duty_Audit_Sheet.Sheet_Id,
+               Zc_Eb_Duty_Audit_Sheet.Superintendent_Org,
+               Zc_Eb_Duty_Audit_Sheet.Superintendent,
+               Zc_Eb_Duty_Audit_Sheet.Superintendent_Name,
+               Zc_Eb_Duty_Audit_Sheet.Attn,
+               Zc_Eb_Duty_Audit_Sheet.Attn_Name,
+               (E.Zc_Money_Bi_Sum-pack.budget) useBudget
+          FROM ZC_EB_ENTRUST          E,
+               ZC_EB_REQUIREMENT      ZC_EB_REQUIREMENT,
+               Zc_Eb_Duty_Audit_Sheet Zc_Eb_Duty_Audit_Sheet,
+               (select zerp.entrust_code, 
+               sum(case zerp.bid_sum
+                  when 0 then case zerp.status when '5' then 0 else zerp.pack_budget end
+                else zerp.bid_sum
+                end) budget
+                  from zc_eb_req_pack zerp
+                 where zerp.status != 'cancel'
+                 group by zerp.entrust_code) pack
+         where Zc_Eb_Duty_Audit_Sheet.Sn = e.sn
+           AND E.SN=pack.entrust_code(+)
+           AND ZC_EB_REQUIREMENT.sn = e.sn(+)
+		<isNotEqual prepend="AND" property="nd" compareValue="0">
+			E.ND =
+			#nd#
+		</isNotEqual>
+		<isNotNull prepend="AND" property="coCode">
+			e.CO_CODE =
+			#coCode:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="AND" property="status">
+			<isEqual property="status" compareValue="todo">
+				exists (select
+				instance_id from V_WF_CURRENT_TASK_ZC_TODO where executor
+				=#executor# and instance_id = ZC_EB_REQUIREMENT.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="untread">
+				exists ( select
+				instance_id from V_WF_CURRENT_TASK_ZC_UNTREAD where
+				executor
+				=#executor# and instance_id =ZC_EB_REQUIREMENT.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				exists ( select
+				instance_id from
+				V_WF_ACTION_HISTORY_GK53 where executor =
+				#executor:VARCHAR# and instance_id =
+				ZC_EB_REQUIREMENT.process_inst_id) and
+				ZC_EB_REQUIREMENT.status!='exec' and
+				ZC_EB_REQUIREMENT.status !=
+				'cancel'
+			</isEqual>
+			<isEqual property="status" compareValue="exec">
+				(ZC_EB_REQUIREMENT.status ='exec')
+			</isEqual>
+
+			<isEqual property="status" compareValue="draft">
+				(ZC_EB_REQUIREMENT.status ='0')
+			</isEqual>
+			<isEqual property="status" compareValue="singn">
+				(ZC_EB_REQUIREMENT.status ='0') and exists (select
+				WF_DRAFT_NAME from
+				as_wf_draft where compo_id=#wfcompoId# and
+				WF_DRAFT_ID=ZC_EB_REQUIREMENT.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="all">
+				1=1
+			</isEqual>
+			<isEqual property="status" compareValue="cancel">
+				(ZC_EB_REQUIREMENT.status='cancel')
+			</isEqual>
+			)
+		</isNotNull>
+		where 1=1
+		<include refid="BusiNumLim.BusiNumLimStr" />
+	</select>
+	
+	<select id="getZcEbRequirementDetailByReqCode" resultMap="ZcEbRequirementDetailResult"
+		parameterClass="string">
+		select * from ZC_EB_REQUIREMENT_DETAIL where
+		REQ_CODE=#value# order by DETAIL_CODE
+	</select>
+
+	<select id="getZcEbRequirementDetailBySnWithFN" resultMap="ZcEbRequirementDetailResult"
+		parameterClass="elementCondition">
+		select * from ZC_EB_REQUIREMENT_DETAIL where SN=#zcText0#
+		<isNotNull prepend="and" property="zcText1">
+			TYPE = #zcText1:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="and" property="zcText2">
+			REQ_CODE = #zcText2:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="and" property="zcText3">
+			DETAIL_CODE not in ($zcText3$)
+		</isNotNull>
+		order by REQ_CODE,DETAIL_CODE
+	</select>
+	
+	<insert id="insertZcEbRequirement" parameterClass="com.ufgov.zc.common.zc.model.ZcEbRequirement">
+		insert into
+		ZC_EB_REQUIREMENT (REQ_CODE, REQ_DATE, STATUS,
+		PROCESS_INST_ID, SN,
+		REMARK,CGZX_MSG,YSDW_MSG,IS_GOON_AUDIT,AGENCY,ND,EXECUTOR,ORG_CODE,EXECUTE_DATE,PROVIDER_CODE)
+		values (#reqCode:VARCHAR#, #reqDate:TIMESTAMP#, #status:VARCHAR#,
+		#processInstId:NUMERIC#,
+		#sn:VARCHAR#,
+		#remark:VARCHAR#,#cgzxMsg:VARCHAR#,#ysdwMsg:VARCHAR#,#isGoonAudit#,
+		#agency:VARCHAR#,#nd#,#executor:VARCHAR#,#orgCode:VARCHAR#,#executeDate#,#providerCode:VARCHAR#)
+	</insert>
+
+	<update id="updateZcEbRequirement" parameterClass="com.ufgov.zc.common.zc.model.ZcEbRequirement">
+		update
+		ZC_EB_REQUIREMENT
+		set REQ_DATE = #reqDate:TIMESTAMP#,
+		STATUS
+		=#status:VARCHAR#,
+		SN = #sn:VARCHAR#,
+		REMARK = #remark:VARCHAR#,
+		CGZX_MSG= #cgzxMsg:VARCHAR#,
+		YSDW_MSG =#ysdwMsg:VARCHAR#,
+		IS_GOON_AUDIT
+		=#isGoonAudit#,
+		ND= #nd#,
+		PROCESS_INST_ID=#processInstId#,
+		EXECUTOR =
+		#executor:VARCHAR#,
+		EXECUTE_DATE=#executeDate#,
+		PROVIDER_CODE=#providerCode:VARCHAR#
+
+		where REQ_CODE =
+		#reqCode:VARCHAR#
+	</update>
+
+	<update id="updateZcEbRequirementDetail" parameterClass="com.ufgov.zc.common.zc.model.ZcEbRequirementDetail">
+		update
+		ZC_EB_REQUIREMENT_DETAIL
+		set REQ_CODE = #reqCode#,
+		SN = #sn:VARCHAR#,
+		SND = #snd:VARCHAR#,
+		ZC_YEAR = #zcYear:VARCHAR#,
+		ZC_CATALOGUE_CODE =
+		#zcCatalogueCode:VARCHAR#,
+		ZC_CATALOGUE_NAME =
+		#zcCatalogueName:VARCHAR#,
+		NAME = #name:VARCHAR#,
+		ARR_DATE =
+		#arrDate:TIMESTAMP#,
+		BASE_REQ = #baseReq:VARCHAR#,
+		ITEM_ATTACH =
+		#itemAttach:VARCHAR#,
+		ITEM_ATTACH_BLOBID = #itemAttachBlobid:VARCHAR#,
+		NUM = #num#,
+		ITEM_SUM = #itemSum#,
+		MER_PRICE = #merPrice#,
+		PAY_COND =
+		#payCond#,
+		SERVICE_PROMISES = #servicePromises#,
+		TYPE = #type#,
+		DESCRIPTION = #description#
+		where DETAIL_CODE = #detailCode:VARCHAR#
+	</update>
+
+
+	<select id="getOriginZcEbRequirementById" resultMap="ZcEbRequirementAllResult"
+		parameterClass="string">
+		select master.req_code,
+		master.req_date,
+		master.status,
+		master.process_inst_id,
+		master.sn,
+		master.remark,
+		master.CGZX_MSG,
+		master.YSDW_MSG,
+		master.IS_GOON_AUDIT,
+		e.zc_make_code,
+		e.zc_make_name,
+		e.CO_CODE,
+		e.ND,
+		e.SN_CODE,
+		e.zc_make_linkman,
+		e.zc_make_tel,
+		e.zc_money_bi_sum,
+		(select v_zc_p_pro_make.PUR_TYPE from v_zc_p_pro_make v_zc_p_pro_make where
+		v_zc_p_pro_make.PROJ_CODE=e.zc_make_code )
+		AS zc_pifu_cgfs,
+		e.zc_is_imp,
+		e.remark as make_remake,
+		Sheet_Id,
+		Superintendent_Org,
+		Superintendent,
+		Superintendent_Name,
+		Attn,
+		Attn_Name,
+		PROVIDER_CODE,
+		s.zc_su_name PROVIDER_NAME,
+		(E.Zc_Money_Bi_Sum - pack.budget) useBudget
+		from ZC_EB_REQUIREMENT master,
+		ZC_EB_ENTRUST e,
+		Zc_Eb_Duty_Audit_Sheet Zc_Eb_Duty_Audit_Sheet,zc_b_supplier s,
+               (select zerp.entrust_code, 
+               sum(case zerp.bid_sum
+                  when 0 then case zerp.status when '5' then 0 else zerp.pack_budget end
+                else zerp.bid_sum
+                end) budget
+                  from zc_eb_req_pack zerp
+                 where zerp.status != 'cancel'
+                 group by zerp.entrust_code) pack
+		where Zc_Eb_Duty_Audit_Sheet.Sn = e.sn
+		AND master.sn = e.sn(+)
+		AND e.SN = pack.entrust_code(+)
+        and master.provider_code=s.zc_su_code(+)
+		AND master.req_code = #value#
+	</select>
+	
+	<select id="getZcEbRequirementUseBudget" resultMap="ZcEbRequirementUseBudget"
+		parameterClass="string">
+	  select (zee.zc_money_bi_sum - b.budget) useBudget
+    from zc_eb_entrust zee,
+         ( select zerp.entrust_code, 
+               sum(case zerp.bid_sum
+                  when 0 then case zerp.status when '5' then 0 else zerp.pack_budget end
+                else zerp.bid_sum
+                end) budget
+                  from zc_eb_req_pack zerp
+                 where zerp.status != 'cancel'
+             and zerp.entrust_code = #value#
+           group by zerp.entrust_code) b
+   where zee.sn = b.entrust_code
+     and zee.sn = #value#
+
+	</select>
+
+	<select id="getOriginZcEbRequirementDetailById" resultMap="ZcEbRequirementDetailResult"
+		parameterClass="string">
+		select * from ZC_EB_REQUIREMENT_DETAIL where
+		REQ_CODE=#value# order by DETAIL_CODE
+	</select>
+
+	<delete id="deleteZcEbRequirementDetailByReqCode"
+		parameterClass="string">
+		delete from ZC_EB_REQUIREMENT_DETAIL
+		where REQ_CODE =
+		#value#
+	</delete>
+	<delete id="deleteZcEbRequirementDetailByKey" parameterClass="string">
+		delete from ZC_EB_REQUIREMENT_DETAIL
+		where DETAIL_CODE = #value#
+	</delete>
+	<delete id="deleteZcEbRequirementByReqCode" parameterClass="string">
+		delete from ZC_EB_REQUIREMENT
+		where REQ_CODE = #value#
+	</delete>
+	<insert id="insertZcEbRequirementDetail" parameterClass="com.ufgov.zc.common.zc.model.ZcEbRequirementDetail">
+<!--		<selectKey resultClass="Long" keyProperty="detailCode">-->
+<!--			select-->
+<!--			ZC_SEQ_REQUIREMENT_DETAIL.NEXTVAL AS ID from DUAL-->
+<!--		</selectKey>-->
+		insert into ZC_EB_REQUIREMENT_DETAIL (DETAIL_CODE, REQ_CODE, SND, SN,
+		ZC_YEAR,
+		ZC_CATALOGUE_CODE, ZC_CATALOGUE_NAME, NAME, ARR_DATE,
+		BASE_REQ, ITEM_ATTACH,
+		ITEM_ATTACH_BLOBID, NUM, ITEM_SUM, MER_PRICE,
+		PAY_COND,
+		SERVICE_PROMISES, TYPE, DESCRIPTION)
+		values
+		(#detailCode:DECIMAL#,
+		#reqCode:VARCHAR#, #snd:VARCHAR#, #sn:VARCHAR#,
+		#zcYear:VARCHAR#,
+		#zcCatalogueCode:VARCHAR#, #zcCatalogueName:VARCHAR#,
+		#name:VARCHAR#,
+		#arrDate:TIMESTAMP#,
+		#baseReq:VARCHAR#,
+		#itemAttach:VARCHAR#, #itemAttachBlobid:VARCHAR#, #num:DECIMAL#,
+		#itemSum:DECIMAL#, #merPrice:DECIMAL#, #payCond:VARCHAR#,
+		#servicePromises:VARCHAR#,
+		#type:VARCHAR#, #description:VARCHAR#)
+	</insert>
+
+	<insert id="insertZcEbRequirementDetailHasKey" parameterClass="com.ufgov.zc.common.zc.model.ZcEbRequirementDetail">
+		insert into ZC_EB_REQUIREMENT_DETAIL (DETAIL_CODE, REQ_CODE, SND, SN,
+		ZC_YEAR,
+		ZC_CATALOGUE_CODE, ZC_CATALOGUE_NAME, NAME, ARR_DATE,
+		BASE_REQ, ITEM_ATTACH,
+		ITEM_ATTACH_BLOBID, NUM, ITEM_SUM, MER_PRICE,
+		PAY_COND,
+		SERVICE_PROMISES, TYPE, DESCRIPTION)
+		values
+		(#detailCode:DECIMAL#,
+		#reqCode:VARCHAR#, #snd:VARCHAR#, #sn:VARCHAR#,
+		#zcYear:VARCHAR#,
+		#zcCatalogueCode:VARCHAR#, #zcCatalogueName:VARCHAR#,
+		#name:VARCHAR#,
+		#arrDate:TIMESTAMP#,
+		#baseReq:VARCHAR#,
+		#itemAttach:VARCHAR#, #itemAttachBlobid:VARCHAR#, #num:DECIMAL#,
+		#itemSum:DECIMAL#, #merPrice:DECIMAL#, #payCond:VARCHAR#,
+		#servicePromises:VARCHAR#,
+		#type:VARCHAR#, #description:VARCHAR#)
+	</insert>
+
+	<select id="getNodeCgzxUserId" resultClass="string"
+		parameterClass="long">
+		select wf.executor from wf_action wf where
+		wf.execute_time = (
+		select min(execute_time) from wf_action w where
+		w.instance_id = #value#
+		) and
+		wf.instance_id = #value#
+	</select>
+
+
+	<select id="getOriginZcEbRequirementBySn" resultMap="ZcEbRequirementResult"
+		parameterClass="string">
+		select
+		master.req_code,
+		master.req_date,
+		master.status,
+		master.process_inst_id,
+		master.sn,
+		master.remark,
+		master.CGZX_MSG,
+		master.YSDW_MSG,
+		master.IS_GOON_AUDIT,
+		e.zc_make_code,
+		e.SN_CODE,
+		e.zc_make_name,
+		e.CO_CODE,
+		e.ND,
+		e.zc_make_linkman,
+		e.zc_make_tel,
+		e.zc_money_bi_sum,
+		e.zc_pifu_cgfs,
+		e.zc_is_imp,
+		e.remark as make_remake,
+		Sheet_Id,
+		Superintendent_Org,
+		Superintendent,
+		Superintendent_Name,
+		Attn,
+		Attn_Name,PROVIDER_CODE
+		from
+		ZC_EB_REQUIREMENT master,
+		ZC_EB_ENTRUST e,
+		Zc_Eb_Duty_Audit_Sheet Zc_Eb_Duty_Audit_Sheet
+		where
+		Zc_Eb_Duty_Audit_Sheet.Sn = e.sn
+		AND master.sn = e.sn(+)
+		and
+		master.sn =
+		#value#
+	</select>
+	
+	<select id="getPackCount"  resultClass="java.lang.String"
+		parameterClass="com.ufgov.zc.common.zc.model.ZcEbRequirement">
+		select zerp.pack_name from ZC_EB_REQ_PACK zerp where zerp.entrust_code= #zcEbEntrust.sn#
+		<isNotNull prepend="and" property="reqCode">
+			zerp.req_code != #reqCode#
+		</isNotNull>
+		order by pack_code desc
+	</select>
+	<select id="checkReqStatusByCod" parameterClass="String" resultClass="Integer">
+	select count(*) from zc_eb_pack p,zc_eb_req_pack rp where p.pack_code=rp.pack_code and rp.req_code=#value#
+	</select>
+	<insert id="addPackQua" parameterClass="com.ufgov.zc.common.zc.model.ZcEbPackQua">
+	 insert into zc_eb_pack_qua (proj_code, pack_code, qualif_id) values (#projCode#, #packCode#, #qualifId#)
+	</insert>
+	<delete id="removePackQua" parameterClass="com.ufgov.zc.common.zc.model.ZcEbPackQua">
+	  delete from zc_eb_pack_qua where proj_code=#projCode# and pack_code=#packCode#
+	</delete>
+	<delete id="removePackQuaByProjcode" parameterClass="String">
+	  delete from zc_eb_pack_qua where proj_code =#value#
+	</delete>
+	<select id="selectQuaByPack" parameterClass="com.ufgov.zc.common.zc.model.ZcEbPackQua" resultMap="ZcEbPackQuaAllResult">
+	select rp.proj_code,rp.pack_code, rp.pack_name, sq.qualif_id, sq.qualif_name
+  from zc_eb_pack rp, zc_eb_pack_qua pq, zc_eb_sup_qualification sq
+ where rp.pack_code = pq.pack_code
+   and rp.proj_code = pq.proj_code
+   and pq.qualif_id = sq.qualif_id
+   and rp.proj_code=#projCode# and rp.pack_code=#packCode#
+	</select>
+</sqlMap>

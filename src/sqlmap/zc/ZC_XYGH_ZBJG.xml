@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ZcXyghZbjg">
+
+	<typeAlias alias="ZcXyghZbjg" type="com.ufgov.zc.common.zc.model.ZcXyghZbjg" />
+
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+
+	<resultMap id="ZcXyghZbjgResult" class="ZcXyghZbjg">
+		<result property="zcProjId" column="ZC_PROJ_ID" />
+		<result property="zcProjNa" column="ZC_PROJ_NA" />
+		<result property="zcProjNd" column="ZC_PROJ_ND" />
+		<result property="zcProjStatus" column="ZC_PROJ_STATUS" />
+		<result property="zcBgnDate" column="ZC_BGN_DATE" />
+		<result property="zcEndDate" column="ZC_END_DATE" />
+	</resultMap>
+
+	<select id="getZcXyghZbjg" resultMap="ZcXyghZbjgResult"
+		parameterClass="elementCondition">
+		select * from ZC_XYGH_ZBJG
+	</select>
+	
+	<select id="getZcXyghZbjgByID" resultMap="ZcXyghZbjgResult"
+		parameterClass="string">
+		select * from ZC_XYGH_ZBJG 
+		where ZC_PROJ_ID = #zcProjId#
+	</select>
+	
+</sqlMap>

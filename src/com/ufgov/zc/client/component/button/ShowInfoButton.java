@@ -1,0 +1,1 @@
+package com.ufgov.zc.client.component.button;public class ShowInfoButton extends FuncButton {  private static final long serialVersionUID = -462880324343471026L;  public ShowInfoButton() {    super();  }  protected void init() {    this.funcId = "fShowInfo";    this.defaultText = "显示";    //this.iconName="exit.jpg";    super.init();  }}

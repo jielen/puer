@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ZC_NUM_TOOL">
+	<typeAlias alias="ZcNumTool" type="com.ufgov.zc.common.zc.model.ZcNumTool" />
+	<typeAlias alias="ZcNumNo" type="com.ufgov.zc.common.zc.model.ZcNumNo" />
+	<resultMap class="ZcNumTool" id="ibatorgenerated_BaseResultMap">
+		<result column="COMPO_ID" jdbcType="VARCHAR" property="compoId" />
+		<result column="NO_PREFIX" jdbcType="VARCHAR" property="noPrefix" />
+		<result column="no_nextfix" jdbcType="VARCHAR" property="noNextfix" />
+		<result column="PARA_NAME" jdbcType="VARCHAR" property="paraName" />
+		<result column="DEF_NO" jdbcType="VARCHAR" property="defNo" />
+		<result column="IS_UP" jdbcType="VARCHAR" property="isUp" />
+		<result column="OUT_TAB1" jdbcType="VARCHAR" property="outTab1" />
+		<result column="NUM_COL1" jdbcType="VARCHAR" property="numCol1" />
+		<result column="LINK_COL1" jdbcType="VARCHAR" property="linkCol1" />
+		<result column="OUT_TAB2" jdbcType="VARCHAR" property="outTab2" />
+		<result column="NUM_COL2" jdbcType="VARCHAR" property="numCol2" />
+		<result column="LINK_COL2" jdbcType="VARCHAR" property="linkCol2" />
+		<result column="OUT_TAB3" jdbcType="VARCHAR" property="outTab3" />
+		<result column="NUM_COL3" jdbcType="VARCHAR" property="numCol3" />
+		<result column="LINK_COL3" jdbcType="VARCHAR" property="linkCol3" />
+	</resultMap>
+
+	<resultMap class="ZcNumNo" id="ibatorgenerated_NoResultMap">
+		<result column="COMPO_ID" jdbcType="VARCHAR" property="compoId" />
+		<result column="PRE_NO" jdbcType="VARCHAR" property="preNo" />
+		<result column="NO" jdbcType="DECIMAL" property="no" />
+	</resultMap>
+
+	<select id="selectByCompoId" parameterClass="String"
+		resultMap="ibatorgenerated_BaseResultMap">
+		select * from ZC_NUM_TOOL where COMPO_ID=#value#
+	</select>
+
+	<select id="selectZcNumNoByCompoId" parameterClass="ZcNumNo"
+		resultMap="ibatorgenerated_NoResultMap">
+		select * from ZC_NUM_NO where COMPO_ID=#compoId# and PRE_NO=#preNo#
+	</select>
+	<insert id="ibatorgenerated_insert" parameterClass="ZcNumNo">
+		insert into ZC_NUM_NO (COMPO_ID, PRE_NO, NO)
+		values (#compoId:VARCHAR#, #preNo:VARCHAR#, 1)
+	</insert>
+	<update id="ibatorgenerated_updateByExample"  parameterClass="ZcNumNo">
+		update ZC_NUM_NO
+		set NO = NO + 1
+		where COMPO_ID = #compoId:VARCHAR#
+		and PRE_NO = #preNo:VARCHAR#
+	</update>
+
+	<select id="selectPreStr1" parameterClass="ZcNumTool"
+		resultClass="String">
+		select max($numCol1$) from $outTab1$ where $linkCol1$=#paraVal:VARCHAR#
+	</select>
+
+	<select id="selectPreStr2" parameterClass="ZcNumTool"
+		resultClass="String">
+		select max($numCol2$) from $outTab2$ where $linkCol2$ in (select $numCol1$ from $outTab1$ where $linkCol1$=#paraVal:VARCHAR#)
+	</select>
+
+	<select id="selectPreStr3" parameterClass="ZcNumTool"
+		resultClass="String">
+		select max($numCol3$) from $outTab3$ where $linkCol3$ in (select $numCol2$ from $outTab2$ where $linkCol2$ in (select $numCol1$ from $outTab1$ where $linkCol1$=#paraVal:VARCHAR#))
+	</select>
+</sqlMap>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="AsNumTool">
+	
+	<resultMap id="AsNumToolResult" class="com.ufgov.zc.common.system.model.AsNumTool">
+		<result column="NUM_TOOL_ID" property="numToolId" jdbcType="VARCHAR"/>
+		<result column="NUM_TOOL_NAME" property="numToolName" jdbcType="VARCHAR"/>
+		<result column="IS_CONT" property="isCont" jdbcType="VARCHAR"/>
+		<result column="NUM_TOOL_DESC" property="numToolDesc" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<select id="getAsNumTool" resultMap="AsNumToolResult" parameterClass="string">
+		select * from AS_NUM_TOOL 
+		where NUM_TOOL_ID = #numToolId:VARCHAR#
+	</select>
+	
+</sqlMap>

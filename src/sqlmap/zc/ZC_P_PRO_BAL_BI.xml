@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ZC_P_PRO_BAL_BI">
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<typeAlias alias="ZcPProBalBi" type="com.ufgov.zc.common.zc.model.ZcPProBalBi" />
+	<resultMap class="ZcPProBalBi" id="zcPProBalBiResult">
+
+		<result column="ZC_BAL_ID" jdbcType="VARCHAR" property="zcBalId" />
+		<result column="ZC_FUND_CODE" jdbcType="VARCHAR" property="zcFundCode" />
+		<result column="ZC_ORIGIN_CODE" jdbcType="VARCHAR" property="zcOriginCode" />
+		<result column="ZC_PAYTYPE_CODE" jdbcType="VARCHAR" property="zcPaytypeCode" />
+		<result column="ZC_FUND_NAME" jdbcType="VARCHAR" property="zcFundName" />
+		<result column="ZC_ORIGIN_NAME" jdbcType="VARCHAR" property="zcOriginName" />
+		<result column="ZC_PAYTYPE_NAME" jdbcType="VARCHAR" property="zcPaytypeName" />
+		<result column="ZC_BI_SUM" jdbcType="DECIMAL" property="zcBiSum" />
+		<result column="ZC_BAL_ID" jdbcType="VARCHAR" property="zcBalId" />
+		<result column="ZC_BI_NO" jdbcType="VARCHAR" property="zcBiNo" />
+		<result column="ZC_HT_BI_NO" jdbcType="VARCHAR" property="zcHtBiNo" />
+		<result column="ZC_BI_BCJS_SUM" jdbcType="DECIMAL" property="zcBiBcjsSum" />
+		<result column="ZC_BI_YJJS_SUM" jdbcType="DECIMAL" property="zcBiYjjsSum" />
+		<result column="ZC_BI_BCSY_SUM" jdbcType="DECIMAL" property="zcBiBcsySum" />
+		<result column="ZC_BI_CHBA_SUM" jdbcType="DECIMAL" property="zcBiChbaSum" />
+		<result column="ZC_CODE" jdbcType="VARCHAR" property="zcCode" />
+		<result column="ZC_AM_BILLNO" jdbcType="VARCHAR" property="zcAmBillNo" />
+		<result column="ZC_AM_STATUS" jdbcType="VARCHAR" property="zcAmStatus" />
+		<result column="ZC_HT_CODE" jdbcType="VARCHAR" property="zcHtCode" />
+		<result column="BAL_MODE_CODE" jdbcType="VARCHAR" property="balModeCode" />
+		<result column="OUTLAY_CODE" jdbcType="VARCHAR" property="outLayCode" />
+		<result column="OUTLAY_NAME" jdbcType="VARCHAR" property="outLayName" />
+		<result column="OUT_LAY_IS_LEAF" jdbcType="VARCHAR" property="outLayIsLeaf" />
+		<result column="ZC_CATALOGUE_CODE" jdbcType="VARCHAR" property="zcCatalogueCode" />
+		<result column="ZC_CATALOGUE_NAME" jdbcType="VARCHAR" property="zcCatalogueName" />
+		<result column="ZC_BIS_CODE" jdbcType="VARCHAR" property="zcBisCode" />
+		<result column="ZC_BIS_NAME" jdbcType="VARCHAR" property="zcBisName" />
+		<result column="ZC_B_ACC_CODE" jdbcType="VARCHAR" property="zcBAccCode" />
+		<result column="ZC_B_ACC_NAME" jdbcType="VARCHAR" property="zcBAccName" />
+	</resultMap>
+	<resultMap class="ZcPProBalBi" id="zcPProBalBiBudgetResult">
+		<result column="ZC_BI_BCJS_SUM" jdbcType="DECIMAL" property="zcBiBcjsSum" />
+		<result column="ZC_BI_YJJS_SUM" jdbcType="DECIMAL" property="zcBiYjjsSum" />
+		<result column="ZC_BI_NO" jdbcType="VARCHAR" property="zcBiNo" />
+		<result column="ZC_HT_BI_NO" jdbcType="VARCHAR" property="zcHtBiNo" />
+	</resultMap>
+	<select id="selectZcPProBiList" resultMap="zcPProBalBiResult"
+		parameterClass="String">
+
+		select * from ZC_P_PRO_BAL_BI
+		WHERE
+		ZC_BAL_ID=#zcBalId:VARCHAR#
+	</select>
+
+	<insert id="insertZcPProBi" parameterClass="ZcPProBalBi">
+		insert into ZC_P_PRO_BAL_BI
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="zcBalId">
+				ZC_BAL_ID
+			</isNotNull>
+			<isNotNull prepend="," property="zcFundCode">
+				ZC_FUND_CODE
+			</isNotNull>
+			<isNotNull prepend="," property="zcOriginCode">
+				ZC_ORIGIN_CODE
+			</isNotNull>
+			<isNotNull prepend="," property="zcPaytypeCode">
+				ZC_PAYTYPE_CODE
+			</isNotNull>
+			<isNotNull prepend="," property="zcFundName">
+				ZC_FUND_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="zcOriginName">
+				ZC_ORIGIN_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="zcPaytypeName">
+				ZC_PAYTYPE_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="zcBiSum">
+				ZC_BI_SUM
+			</isNotNull>
+			<isNotNull prepend="," property="zcHtBiNo">
+				ZC_HT_BI_NO
+			</isNotNull>
+			<isNotNull prepend="," property="zcBiNo">
+				ZC_BI_NO
+			</isNotNull>
+			<isNotNull prepend="," property="zcBiBcjsSum">
+				ZC_BI_BCJS_SUM
+			</isNotNull>
+			<isNotNull prepend="," property="zcCode">
+				ZC_CODE
+			</isNotNull>
+			<isNotNull prepend="," property="zcAmBillNo">
+				ZC_AM_BILLNO
+			</isNotNull>
+			<isNotNull prepend="," property="zcAmStatus">
+				ZC_AM_STATUS
+			</isNotNull>
+			<isNotNull prepend="," property="zcHtCode">
+				ZC_HT_CODE
+			</isNotNull>
+
+			<isNotNull prepend="," property="zcBiYjjsSum">
+				ZC_BI_YJJS_SUM
+			</isNotNull>
+			<isNotNull prepend="," property="zcBiChbaSum">
+				ZC_BI_CHBA_SUM
+			</isNotNull>
+			<isNotNull prepend="," property="zcBiBcsySum">
+				ZC_BI_BCSY_SUM
+			</isNotNull>
+
+			<isNotNull prepend="," property="balModeCode">
+				BAL_MODE_CODE
+			</isNotNull>
+			<isNotNull prepend="," property="outLayCode">
+				OUTLAY_CODE
+			</isNotNull>
+			<isNotNull prepend="," property="outLayName">
+				OUTLAY_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="outLayIsLeaf">
+				OUT_LAY_IS_LEAF
+			</isNotNull>
+			<isNotNull prepend="," property="zcCatalogueCode">
+				ZC_CATALOGUE_CODE
+			</isNotNull>
+			<isNotNull prepend="," property="zcCatalogueName">
+				ZC_CATALOGUE_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="zcBisCode">
+				ZC_BIS_CODE
+			</isNotNull>
+			<isNotNull prepend="," property="zcBisName">
+				ZC_BIS_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="zcBAccCode">
+				ZC_B_ACC_CODE
+			</isNotNull>
+			<isNotNull prepend="," property="zcBAccName">
+				ZC_B_ACC_NAME
+			</isNotNull>
+			)
+		</dynamic>
+
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="zcBalId">
+				#zcBalId:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcFundCode">
+				#zcFundCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcOriginCode">
+				#zcOriginCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcPaytypeCode">
+				#zcPaytypeCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcFundName">
+				#zcFundName:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcOriginName">
+				#zcOriginName:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcPaytypeName">
+				#zcPaytypeName:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcBiSum">
+				#zcBiSum:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="zcHtBiNo">
+				#zcHtBiNo:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcBiNo">
+				#zcBiNo:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcBiBcjsSum">
+				#zcBiBcjsSum:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="zcCode">
+				#zcCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcAmBillNo">
+				#zcAmBillNo:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcAmStatus">
+				#zcAmStatus:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcHtCode">
+				#zcHtCode:VARCHAR#
+			</isNotNull>
+
+			<isNotNull prepend="," property="zcBiYjjsSum">
+				#zcBiYjjsSum:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="zcBiChbaSum">
+				#zcBiChbaSum:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="zcBiBcsySum">
+				#zcBiBcsySum:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="balModeCode">
+				#balModeCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="outLayCode">
+				#outLayCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="outLayName">
+				#outLayName#
+			</isNotNull>
+			<isNotNull prepend="," property="outLayIsLeaf">
+				#outLayIsLeaf#
+			</isNotNull>
+			<isNotNull prepend="," property="zcCatalogueCode">
+				#zcCatalogueCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcCatalogueName">
+				#zcCatalogueName:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcBisCode">
+				#zcBisCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcBisName">
+				#zcBisName:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcBAccCode">
+				#zcBAccCode#
+			</isNotNull>
+			<isNotNull prepend="," property="zcBAccName">
+				#zcBAccName#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+
+	<update id="updateZcPProBi" parameterClass="String">
+		update ZC_P_PRO_BAL_BI
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="zcBiNo">
+				ZC_BI_NO=#zcBiNo:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="fundCode">
+				ZC_FUND_CODE=#fundCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="originCode">
+				ZC_ORIGIN_CODE=#originCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcBiSum">
+				ZC_BI_SUM=#zcBiSum:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="zcHtBiNo">
+				ZC_HT_BI_NO=#zcHtBiNo:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcBiBcjsSum">
+				ZC_BI_BCJS_SUM=#zcBiBcjsSum:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="zcCode">
+				ZC_CODE= #zcCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcAmBillNo">
+				ZC_AM_BILL_NO=
+				#zcAmBillNo:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcAmStatus">
+				ZC_AM_STATUS=
+				#zcAmStatus:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcHtCode">
+				ZC_HT_CODE=#zcHtCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcBiYjjsSum">
+				ZC_BI_YJJS_SUM=#zcBiYjjsSum:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="zcBiChbaSum">
+				ZC_BI_CHBA_SUM=
+				#zcBiChbaSum:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="zcBiBcsySum">
+				ZC_BI_BCSY_SUM=
+				#zcBiBcsySum:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="balModeCode">
+				BAL_MODE_CODE=
+				#balModeCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="outLayCode">
+				OUT_LAY_CODE=
+				#outLayCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="outLayName">
+				OUT_LAY_NAME=
+				#outLayName:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="outLayIsLeaf">
+				OUT_LAY_IS_LEAF=
+				#outLayIsLeaf#
+			</isNotNull>
+			<isNotNull prepend="," property="zcBisCode">
+				ZC_BIS_CODE=
+				#zcBisCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcBisName">
+				ZC_BIS_NAME=
+				#zcBisName:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcBAccCode">
+				ZC_B_ACC_CODE=
+				#zcBAccCode#
+			</isNotNull>
+			<isNotNull prepend="," property="zcBAccName">
+				ZC_B_ACC_NAME=
+				#zcBAccName#
+			</isNotNull>
+		</dynamic>
+		WHERE ZC_BAL_ID=#zcBalid:VARCHAR#
+	</update>
+	<delete id="deleteZcPProBiByBiNo" parameterClass="String">
+		delete from
+		ZC_P_PRO_BAL_BI
+		WHERE ZC_BAL_ID=#zcBalid:VARCHAR#
+	</delete>
+	<!-- 获得某一资金构成已经结算的金额 -->
+	<select id="getSumZcBalBiSum" resultClass="java.math.BigDecimal"
+		parameterClass="Map">
+		SELECT sum(ZC_BI_BCJS_SUM)
+		FROM ZC_P_PRO_BAL_BI bi
+		WHERE
+		ZC_HT_CODE=#zcHtCode:VARCHAR#
+		AND ZC_HT_BI_NO=#zcHtBiNo:VARCHAR#
+		and ((ZC_AM_BILLNO is not null and ZC_BI_NO is not null)
+		or (ZC_BI_NO is null and exists (select * from ZC_P_PRO_BAL where ZC_BAL_ID=bi.ZC_BAL_ID and ZC_BAL_STATUS in ('exec','sendGk'))))
+		<isNotNull prepend="AND" property="zcBalId">
+			ZC_BAL_ID!=
+			#zcBalId:VARCHAR#
+		</isNotNull>
+
+
+	</select>
+	<select id="getBalBudget" resultMap="zcPProBalBiBudgetResult"
+		parameterClass="String">
+		select pbb.zc_bi_sum - (select nvl(sum(bb.zc_bi_bcjs_sum), 0)
+		from zc_p_pro_bal_bi bb, zc_p_pro_bal b
+		where bb.zc_bal_id = b.zc_bal_id
+		and bb.zc_bal_id != #zcBalId:VARCHAR#
+		and bb.zc_code = pbb.zc_code
+		and bb.zc_bi_no = pbb.zc_bi_no
+        and bb.zc_ht_bi_no=pbb.zc_ht_bi_no
+        and bb.zc_am_billno is not null) ZC_BI_YJJS_SUM
+		,pbb.zc_bi_bcjs_sum zc_bi_bcjs_sum,hb.zc_use_bi_id ZC_HT_BI_NO,hb.zc_bi_no zc_bi_no
+		from zc_p_pro_bal_bi pbb, zc_xmcg_ht ht,zc_xmcg_ht_bi hb
+		where zc_bal_id = #zcBalId:VARCHAR#
+		and pbb.zc_ht_code=ht.zc_ht_code
+		and hb.zc_ht_code = ht.zc_ht_code
+		and hb.zc_bi_no = pbb.zc_bi_no
+		and ht.zc_parht_code is not null
+        and pbb.zc_am_billno is null
+		union
+		select pbb.zc_bi_sum - (select nvl(sum(bb.zc_bi_bcjs_sum), 0)
+		from zc_p_pro_bal_bi bb, zc_p_pro_bal b
+		where bb.zc_bal_id = b.zc_bal_id
+		and bb.zc_bal_id != #zcBalId:VARCHAR#
+		and bb.zc_code = pbb.zc_code
+		and bb.zc_bi_no = pbb.zc_bi_no
+        and bb.zc_ht_bi_no=pbb.zc_ht_bi_no
+        and bb.zc_am_billno is not null) ZC_BI_YJJS_SUM
+		,pbb.zc_bi_bcjs_sum zc_bi_bcjs_sum,mb.zc_use_bi_id ZC_HT_BI_NO,mb.zc_bi_no zc_bi_no
+		from zc_p_pro_bal_bi pbb, zc_p_pro_mitem_bi mb, zc_xmcg_ht ht
+		where zc_bal_id = #zcBalId:VARCHAR#
+		and mb.zc_make_code = pbb.zc_code
+		and mb.zc_bi_no = pbb.zc_bi_no
+		and pbb.zc_ht_code=ht.zc_ht_code
+		and ht.zc_parht_code is null
+        and pbb.zc_am_billno is null
+
+	</select>
+	<select id="getReturnBudget" resultMap="zcPProBalBiBudgetResult"
+		parameterClass="Map">
+	select nvl(bi.zc_bi_jhua_sum, 0) - nvl(zc_bi_bcjs_sum, 0) zc_bi_bcjs_sum,nvl(bi.zc_bi_jhua_sum, 0) ZC_BI_YJJS_SUM,
+       bi.zc_bi_no,
+       bi.zc_use_bi_id ZC_HT_BI_NO
+  from (select zc_make_code,
+               zc_bi_no,
+               zc_use_bi_id,
+               sum(zc_bi_jhua_sum) zc_bi_jhua_sum
+          from (select mb.zc_make_code,
+                       mb.zc_bi_jhua_sum,
+                       mb.zc_bi_no,
+                       mb.zc_use_bi_id
+                  from zc_p_pro_mitem_bi mb
+                 where mb.zc_bi_no is not null
+                union all (select ht.zc_make_code,
+                                 hb.zc_bi_bcsy_sum,
+                                 hb.zc_bi_no,
+                                 hb.zc_use_bi_id
+                            from zc_xmcg_ht_bi hb, zc_xmcg_ht ht
+                           where hb.zc_ht_code = ht.zc_ht_code
+                             and ht.zc_parht_code is not null
+                             and ht.zc_ht_status = 'exec'
+                             and hb.zc_bi_no is not null))
+         group by zc_make_code, zc_bi_no, zc_use_bi_id ) bi,
+       (select ba.zc_make_code,
+               sum(bb.zc_bi_bcjs_sum) zc_bi_bcjs_sum,
+               bb.zc_bi_no,
+               hb.zc_use_bi_id
+          from zc_p_pro_bal_bi bb, zc_p_pro_bal ba, zc_xmcg_ht_bi hb
+         where bb.zc_bal_id = ba.zc_bal_id
+           and bb.zc_bi_no is not null
+           and bb.zc_ht_code = hb.zc_ht_code
+           and bb.zc_ht_bi_no = hb.zc_pro_bi_seq
+           and bb.zc_bi_no = hb.zc_bi_no
+         group by ba.zc_make_code, bb.zc_bi_no, hb.zc_use_bi_id) bbi
+ where bi.zc_make_code = bbi.zc_make_code(+)
+   and bi.zc_bi_no = bbi.zc_bi_no(+)
+   and bi.zc_use_bi_id = bbi.zc_use_bi_id(+)
+   and bi.zc_make_code = #makeCode#
+   and not exists (select zc_bal_id from zc_p_pro_return_bi rb
+   where rb.zc_bi_no=bi.zc_bi_no and rb.zc_am_bill_no is not null and rb.zc_bal_id=#balId#)
+   and nvl(bi.zc_bi_jhua_sum, 0) > nvl(zc_bi_bcjs_sum, 0)
+	</select>
+
+	<update id="updateZcPProBiZcAmBillNo" parameterClass="com.ufgov.zc.common.zc.model.ZcPProBalBi">
+		update
+		ZC_P_PRO_BAL_BI ZC_P_PRO_BAL_BI
+		SET
+		ZC_P_PRO_BAL_BI.Zc_Am_Billno=#zcAmBillNo:VARCHAR#
+		WHERE ZC_P_PRO_BAL_BI.ZC_BAL_ID=#zcBalId:VARCHAR# and ZC_BI_NO=#zcBiNo:VARCHAR#
+	</update>
+</sqlMap>

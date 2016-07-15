@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="message">
+	<select id="isCgzxGroup" resultClass="Integer" parameterClass="String">	    select count(*) from as_user_group where group_id='caigou' and user_id=#value#
+	</select>
+	<select id="getMessage" resultClass="String" parameterClass="String">select '  '||nd || '年度:,' || wm_concat('nextline    '||todo)  from (select tm.name || ' (' || count(*) || ')条' todo, i.nd          from wf_current_task t,               (select instance_id, template_id, substr(start_time, 0, 4) nd                  from wf_instance) i,               WF_TEMPLATE tm,               V_WF_CURRENT_TASK_ZC_TODO tt         where tt.executor = t.executor           and tt.instance_id = t.instance_id           and t.instance_id = i.instance_id           and i.template_id = tm.template_id           and t.executor = #value#         group by tm.name, i.nd) group by nd order by nd desc
+	</select>	<select id="getYzbMessage" resultClass="java.util.HashMap" parameterClass="String">	select '通知书、合同 项目编号 (' || wm_concat(distinct b.proj_code) || ')' MSG, count(*) SZ   from zc_eb_bulletin b,   zc_user_message m,   zc_eb_proj p,   zc_eb_pack pk,   zc_eb_duty_audit_sheet s  where b.bulletin_type = 'YZB'    and b.failure_date &lt; sysdate    and pk.status not in ('5','cancel')    and not exists (select ht.zc_ht_code from zc_xmcg_ht ht where ht.zc_make_code=p.proj_code and ht.zc_bid_code=pk.pack_code)    and b.proj_code=p.proj_code and p.proj_code=pk.proj_code and pk.entrust_code=s.sn and s.attn=m.user_id(+) and s.attn=#value#    and ((m.user_id is not null and        b.failure_date > m.pre_time) or       m.user_id is null)	</select>	<select id="getSheetMessage" resultClass="java.util.HashMap" parameterClass="String"> select '批办单 任务编号 (' || wm_concat(distinct s.sn_code) || ')' MSG, count(*) SZ   from zc_user_message m,   as_wf_draft dt,   zc_eb_duty_audit_sheet s  where s.status='0'  and s.process_inst_id=dt.wf_draft_id  and dt.compo_id='ZC_EB_AUDIT_SHEET'  and dt.user_id=#value#  and dt.user_id=m.user_id(+)  and ((m.user_id is not null and        s.execute_date > m.pre_time) or       m.user_id is null)	</select>
+	<delete id="deleteHistoryByUserId" parameterClass="String">
+		delete from zc_user_message where user_id=#value#
+	</delete>	<insert id="insertHistoryByUserId"  parameterClass="String">	    insert into zc_user_message (user_id) values (#value#)	</insert>
+</sqlMap>

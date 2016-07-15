@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ZcEbProtocol">
+
+	<typeAlias alias="ZcEbProtocol" type="com.ufgov.zc.common.zc.model.ZcEbProtocol" />
+
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+
+	<typeAlias alias="ProtocolFile" type="com.ufgov.zc.common.system.model.AsFile" />
+
+	<resultMap id="protocolFileResult" class="ProtocolFile">
+		<result property="fileContent" column="FILE_CONTENT"
+			typeHandler="org.springframework.orm.ibatis.support.BlobByteArrayTypeHandler" />
+	</resultMap>
+	<resultMap id="ZcEbProtocolResult" class="ZcEbProtocol">
+		<result column="PROT_CODE" property="protCode" jdbcType="VARCHAR" />
+		<result column="NAME" property="name" jdbcType="VARCHAR" />
+		<result column="SN" property="sn" jdbcType="VARCHAR" />
+		<result column="SIGN_DATE" property="signDate" jdbcType="TIMESTAMP" />
+		<result column="STATUS" property="status" jdbcType="VARCHAR" />
+		<result column="REMARK" property="remark" jdbcType="VARCHAR" />
+		<result column="PROT_FILE" property="protFile" jdbcType="VARCHAR" />
+		<result column="PROT_FILE_BLOBID" property="protFileBlobid"
+			jdbcType="VARCHAR" />
+		<result column="PROCESS_INST_ID" property="processInstId"
+			jdbcType="DECIMAL" />
+		<result column="ZC_MAKE_CODE" property="zcMakeCode" jdbcType="VARCHAR" />
+		<result column="ND" property="nd" />
+		<result column="EXECUTOR" property="executor" />
+		<result column="AGENCY" property="agency" />
+		<result column="EXECUTE_DATE" property="executeDate" />
+		<result column="ORG_CODE" property="orgCode" />
+
+		<!-- zcEbEntrust -->
+		<result property="zcEbEntrust.zcMakeCode" column="ZC_MAKE_CODE" />
+		<result property="zcEbEntrust.zcMakeName" column="ZC_MAKE_NAME" />
+		<result property="zcEbEntrust.coCode" column="CO_CODE" />
+		<result property="zcEbEntrust.nd" column="ND" />
+		<result property="zcEbEntrust.zcMakeLinkman" column="ZC_MAKE_LINKMAN" />
+		<result property="zcEbEntrust.zcMakeTel" column="ZC_MAKE_TEL" />
+		<result property="zcEbEntrust.zcInputCode" column="ZC_INPUT_CODE" />
+		<result property="zcEbEntrust.zcInputDate" column="ZC_INPUT_DATE" />
+		<result property="zcEbEntrust.zcMoneyBiSum" column="ZC_MONEY_BI_SUM" />
+		<result property="zcEbEntrust.agency" column="AGENCY" />
+		<result property="zcEbEntrust.zcPifuCgfs" column="ZC_PIFU_CGFS" />
+		<result property="zcEbEntrust.agencyName" column="AGENCY_NAME" />
+		<result property="zcEbEntrust.zcDiyuDaima" column="ZC_DIYU_DAIMA" />
+		<result property="zcEbEntrust.zcWeitoDate" column="ZC_WEITO_DATE" />
+		<result property="zcEbEntrust.zcIsNotary" column="ZC_IS_NOTARY" />
+		<result property="zcEbEntrust.zcIsImp" column="ZC_IS_IMP" />
+		<result property="zcEbEntrust.zcImpFile" column="ZC_IMP_FILE" />
+		<result property="zcEbEntrust.zcImpFileBlobid" column="ZC_IMP_FILE_BLOBID" />
+		<result property="zcEbEntrust.untreadReason" column="UNTREAD_REASON" />
+		<result property="zcEbEntrust.executeDate" column="EXECUTE_DATE" />
+		<result property="zcEbEntrust.leaderId" column="LEADER_ID" />
+		<result property="zcEbEntrust.leaderTel" column="LEADER_TEL" />
+
+		<!-- ZcEbAuditSheet -->
+		<result property="zcEbAuditSheet.zcFzrUserName" column="ZC_FZR_USER_NAME" />
+		<result property="isGoonAudit" column="IS_GOON_AUDIT" />
+	</resultMap>
+
+	<resultMap id="ZcEbProtocolFullResult" class="com.ufgov.zc.common.zc.model.ZcEbProtocol"
+		extends="ZcEbProtocolResult">
+		<result column="PROT_FILE_CONTENT" property="protFileContent"
+			jdbcType="BLOB" javaType="[B"
+			typeHandler="org.springframework.orm.ibatis.support.BlobByteArrayTypeHandler" />
+		<result property="zcEbAuditSheet.superintendent" column="SUPERINTENDENT" />
+	</resultMap>
+
+	<sql id="queryColumn">
+		ZC_EB_PROTOCOL.*,
+		e.ZC_MAKE_CODE,
+		e.ZC_MAKE_NAME,
+		e.CO_CODE,
+		e.ND,
+		e.ZC_MAKE_LINKMAN,
+		e.ZC_MAKE_TEL,
+		e.ZC_INPUT_CODE,
+		e.ZC_INPUT_DATE,
+		e.ZC_MONEY_BI_SUM,
+		e.AGENCY,
+		e.ZC_PIFU_CGFS,
+		e.AGENCY_NAME,
+		e.ZC_DIYU_DAIMA,
+		e.ZC_WEITO_DATE,
+		e.ZC_IS_NOTARY,
+		e.ZC_IS_IMP,
+		e.ZC_IMP_FILE,
+		e.ZC_IMP_FILE_BLOBID,
+		e.UNTREAD_REASON,
+		e.EXECUTE_DATE,
+		e.LEADER_ID,
+		e.LEADER_TEL,
+		e.AGENCY_NAME
+	</sql>
+
+	<select id="getZcEbProtocolList" resultMap="ZcEbProtocolResult"
+		parameterClass="elementCondition">
+		select
+		<include refid="queryColumn" />
+		,s.ZC_FZR_USER_NAME
+		FROM ZC_EB_ENTRUST E,
+		( select * from 
+       ZC_EB_DUTY_AUDIT_SHEET where 1=1
+       <include refid="BusiNumLim.BusiNumLimStr" />
+       ) S,
+		(SELECT * FROM
+		ZC_EB_PROTOCOL P,
+		(SELECT H.INSTANCE_ID,
+		MAX(TO_DATE(H.EXECUTE_TIME, 'yyyy-mm-dd hh24:mi:ss')) AS D
+		FROM
+		WF_ACTION H
+		GROUP BY H.INSTANCE_ID) WH
+		WHERE WH.INSTANCE_ID(+) =
+		P.PROCESS_INST_ID) ZC_EB_PROTOCOL
+		WHERE E.SN(+) =ZC_EB_PROTOCOL.SN
+		AND
+		S.SN(+) = ZC_EB_PROTOCOL.SN
+		and S.AGENCY=e.agency
+		<isNotEqual prepend="AND" compareValue="0" property="nd">
+			ZC_EB_PROTOCOL.ND = #nd#
+		</isNotEqual>
+		
+		<isNotNull prepend="and" property="status">
+			<isEqual property="status" compareValue="todo">
+				exists (select
+				instance_id from V_WF_CURRENT_TASK_ZC_TODO where executor
+				=#executor# and instance_id = ZC_EB_PROTOCOL.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="untread">
+				exists (select
+				instance_id from V_WF_CURRENT_TASK_ZC_UNTREAD where
+				executor
+				=#executor# and instance_id =
+				ZC_EB_PROTOCOL.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				exists (select
+				instance_id from V_WF_ACTION_HISTORY_GK53 where executor =
+				#executor# and instance_id = ZC_EB_PROTOCOL.process_inst_id)
+				and
+				ZC_EB_PROTOCOL.status!='cancel'
+				and ZC_EB_PROTOCOL.status!='exec'
+			</isEqual>
+			<isEqual property="status" compareValue="exec">
+				(ZC_EB_PROTOCOL.status ='exec')
+			</isEqual>
+			<isEqual property="status" compareValue="draft">
+				exists (select
+				WF_DRAFT_NAME from as_wf_draft where user_id=#executor# and
+				compo_id=#wfcompoId# and WF_DRAFT_ID=ZC_EB_PROTOCOL.process_inst_id)
+			</isEqual>
+		</isNotNull>
+		<isNotNull prepend="and" property="coCode">
+			e.CO_CODE =
+			#coCode:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="and" property="billStatus">
+			<isNotEqual property="billStatus" compareValue="-1">
+				ZC_EB_PROTOCOL.status=#billStatus:VARCHAR#
+			</isNotEqual>
+		</isNotNull>
+<!--		<isNotNull prepend="and" property="coCode">-->
+<!--			ZC_EB_PROTOCOL.CO_CODE =-->
+<!--			#coCode:VARCHAR#-->
+<!--		</isNotNull>-->
+		order by
+		ZC_EB_PROTOCOL.D desc
+	</select>
+
+	<select id="getZcEbProtocolByProtCode" resultMap="ZcEbProtocolFullResult"
+		parameterClass="string">
+		select
+		<include refid="queryColumn" />
+		,
+		s.ZC_FZR_USER_NAME,
+		s.SUPERINTENDENT,
+		(select AS_FILE.FILE_CONTENT from
+		AS_FILE where AS_FILE.FILE_ID =
+		ZC_EB_PROTOCOL.PROT_FILE_BLOBID ) as
+		PROT_FILE_CONTENT
+		from
+		ZC_EB_PROTOCOL,
+		ZC_EB_ENTRUST e,
+		ZC_EB_DUTY_AUDIT_SHEET s
+		where
+		e.SN (+)= ZC_EB_PROTOCOL.SN
+		and
+		ZC_EB_PROTOCOL.PROT_CODE = #value#
+		and
+		s.SN (+)= ZC_EB_PROTOCOL.SN
+	</select>
+
+	<select id="getProtocolDefaultTemplateContent" resultMap="protocolFileResult">
+		select
+		(select AS_FILE.FILE_CONTENT from AS_FILE where AS_FILE.FILE_ID =
+		ZC_EB_BULLETIN_WORD_MOLD.FILE_ID ) as FILE_CONTENT
+		from
+		ZC_EB_BULLETIN_WORD_MOLD
+		where
+		BULLETIN_MOLD_TYPE = 'P'
+		and
+		STATUS = '2'
+	</select>
+
+	<delete id="deleteZcEbProtocolByProtCode" parameterClass="string">
+		delete
+		from ZC_EB_PROTOCOL where PROT_CODE = #value#
+	</delete>
+
+	<insert id="insertZcEbProtocol" parameterClass="ZcEbProtocol">
+		insert into
+		ZC_EB_PROTOCOL (PROT_CODE, NAME, SN, SIGN_DATE, STATUS, REMARK,
+		PROCESS_INST_ID, PROT_FILE,
+		PROT_FILE_BLOBID,IS_GOON_AUDIT,ZC_MAKE_CODE,ND,AGENCY,EXECUTE_DATE,EXECUTOR,ORG_CODE)
+		values
+		(#protCode:VARCHAR#, #name:VARCHAR#, #sn:VARCHAR#,
+		#signDate:TIMESTAMP#, #status:VARCHAR#, #remark:VARCHAR#,
+		#processInstId#, #protFile#,
+		#protFileBlobid#,#isGoonAudit#,#zcMakeCode#,#nd#,#agency#,#executeDate#,#executor#,#orgCode#)
+	</insert>
+
+	<update id="updateZcEbProtocol" parameterClass="ZcEbProtocol">
+		update
+		ZC_EB_PROTOCOL
+		set
+		NAME = #name:VARCHAR#,
+		SN = #sn:VARCHAR#,
+		SIGN_DATE =
+		#signDate:TIMESTAMP#,
+		STATUS = #status:VARCHAR#,
+		REMARK =
+		#remark:VARCHAR#,
+		PROT_FILE = #protFile#,
+		PROT_FILE_BLOBID =
+		#protFileBlobid#,
+		IS_GOON_AUDIT = #isGoonAudit#,
+		ZC_MAKE_CODE =#zcMakeCode#,
+		AGENCY = #agency#,
+		EXECUTE_DATE =#executeDate#,
+		EXECUTOR = #executor#,
+		ORG_CODE =#orgCode#
+		where
+		PROT_CODE = #protCode:VARCHAR#
+	</update>
+
+</sqlMap>

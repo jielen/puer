@@ -1,0 +1,1 @@
+package com.ufgov.zc.common.zc.pagination;/** * * <p>Title: </p> * <p>Description: </p> * <p>Copyright: Copyright (c) 2007</p> * <p>Company: MiracleSoft</p> * @version 1.0 */public interface PaginationStyle {  public String getPaginationString(WebPagination webPagination);  public String getScriptString(WebPagination webPagination);}

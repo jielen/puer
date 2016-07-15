@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.ufgov.zc.server.sf.dao.SfEvaluationMapper">
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+  <resultMap id="BaseResultMap" class="com.ufgov.zc.common.sf.model.SfEvaluation">
+    <result column="EVALUATION_ID" jdbcType="DECIMAL" property="evaluationId" />
+    <result column="EVALUATION_OPINIONS" jdbcType="CLOB" property="evaluationOpinions" typeHandler="org.springframework.orm.ibatis.support.ClobStringTypeHandler"/>
+    <result column="EVALUATE_DATE" jdbcType="DATE" property="evaluateDate" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="INPUTOR" jdbcType="VARCHAR" property="inputor" />
+    <result column="INPUT_DATE" jdbcType="DATE" property="inputDate" />
+    <result column="ENTRUST_ID" jdbcType="DECIMAL" property="entrustId" />
+    <result column="ENTRUST_CODE" jdbcType="VARCHAR" property="entrustCode" />
+    <result column="ND" jdbcType="DECIMAL" property="nd" />    
+	<result column="PROCESS_INST_ID" jdbcType="DECIMAL" property="processInstId" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="EVALUATE_ADDRESS" jdbcType="VARCHAR" property="evaluateAddress" />
+    <result column="REMARK" jdbcType="CLOB" property="remark" typeHandler="org.springframework.orm.ibatis.support.ClobStringTypeHandler"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    EVALUATION_ID, EVALUATION_OPINIONS, EVALUATE_DATE, STATUS, INPUTOR, INPUT_DATE, 
+    ENTRUST_ID, ND,PROCESS_INST_ID,NAME,ENTRUST_CODE,EVALUATE_ADDRESS,REMARK
+  </sql>
+  <select id="selectByPrimaryKey" parameterClass="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SF_EVALUATION
+    where EVALUATION_ID = #evaluationId:DECIMAL#
+  </select>
+  <select id="selectByProcessinstid" parameterClass="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SF_EVALUATION
+    where PROCESS_INST_ID = #processInstId:DECIMAL#
+  </select>
+  <select id="selectEvaluationLst" parameterClass="elementCondition" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SF_EVALUATION
+    where 1=1    
+ 	<include refid="BusiNumLim.BusiNumLimStr" />
+		<isNotNull prepend="AND" property="dattr1"> 
+			ENTRUST_ID=#dattr1#
+		</isNotNull>
+   
+	<isNotEqual prepend="and" compareValue="0" property="nd">
+			SF_EVALUATION.ND = #nd#
+   </isNotEqual>
+		<isNotNull prepend="AND" property="status">
+			<isEqual property="status" compareValue="todo">
+				exists (select instance_id from V_WF_CURRENT_TASK_ZC_TODO where 
+				executor=#executor# and instance_id = SF_EVALUATION.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="untread">
+				exists (select instance_id from V_WF_CURRENT_TASK_ZC_UNTREAD where
+				executor=#executor# and instance_id = SF_EVALUATION.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				exists (select instance_id from V_WF_ACTION_HISTORY_GK53 where 
+				executor =#executor# and instance_id = SF_EVALUATION.process_inst_id)
+				and SF_EVALUATION.STATUS!= 'cancel' and SF_EVALUATION.STATUS != 'exec'
+			</isEqual>
+			<isEqual property="status" compareValue="draft">
+				( exists (select WF_DRAFT_NAME from as_wf_draft where
+				user_id=#executor# and
+				compo_id=#wfcompoId# and
+				WF_DRAFT_ID=SF_EVALUATION.process_inst_id)
+				or
+				SF_EVALUATION.process_inst_id = -1 )
+				and SF_EVALUATION.STATUS ='0'
+			</isEqual>
+			<isEqual property="status" compareValue="exec">
+				(SF_EVALUATION.STATUS='exec')
+			</isEqual>
+			<isEqual property="status" compareValue="all">
+				1=1
+			</isEqual>
+		</isNotNull>
+   order by SF_EVALUATION.EVALUATION_ID desc
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="java.math.BigDecimal">
+    delete from SF_EVALUATION
+    where EVALUATION_ID = #evaluationId:DECIMAL#
+  </delete>
+  <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfEvaluation">
+    insert into SF_EVALUATION (EVALUATION_ID, EVALUATION_OPINIONS, 
+      EVALUATE_DATE, STATUS, INPUTOR, 
+      INPUT_DATE, ENTRUST_ID, ND,PROCESS_INST_ID,NAME,ENTRUST_CODE,EVALUATE_ADDRESS,REMARK)
+    values (#evaluationId:DECIMAL#, #evaluationOpinions,handler=org.springframework.orm.ibatis.support.ClobStringTypeHandler#, 
+      #evaluateDate:DATE#, #status:VARCHAR#, #inputor:VARCHAR#, 
+      #inputDate:DATE#, #entrustId:DECIMAL#, #nd:DECIMAL#,#processInstId:DECIMAL#,#name:VARCHAR#,#entrustCode#,#evaluateAddress#,#remark,handler=org.springframework.orm.ibatis.support.ClobStringTypeHandler#)
+  </insert>
+  <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfEvaluation">
+    update SF_EVALUATION
+    set EVALUATION_OPINIONS = #evaluationOpinions,handler=org.springframework.orm.ibatis.support.ClobStringTypeHandler#,
+      EVALUATE_DATE = #evaluateDate:DATE#,
+      STATUS = #status:VARCHAR#,
+      INPUTOR = #inputor:VARCHAR#,
+      INPUT_DATE = #inputDate:DATE#,
+      ENTRUST_ID = #entrustId:DECIMAL#,
+      ND = #nd:DECIMAL#,
+      PROCESS_INST_ID=#processInstId:DECIMAL#,
+      NAME=#name:VARCHAR#,
+      ENTRUST_CODE=#entrustCode#,
+      EVALUATE_ADDRESS=#evaluateAddress#,
+      REMARK=#remark,handler=org.springframework.orm.ibatis.support.ClobStringTypeHandler#
+    where EVALUATION_ID = #evaluationId:DECIMAL#
+  </update>
+</sqlMap>

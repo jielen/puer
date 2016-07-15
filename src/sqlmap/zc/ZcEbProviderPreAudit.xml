@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ZcEbProviderPreAudit">
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<typeAlias alias="ZcEbProviderPreAudit"
+		type="com.ufgov.zc.common.zc.model.ZcEbProviderPreAudit" />
+	<typeAlias alias="ZcEbPackPreAudit"
+		type="com.ufgov.zc.common.zc.model.ZcEbPackPreAudit" />
+	<typeAlias alias="ZcEbProviderPreAuditItem"
+		type="com.ufgov.zc.common.zc.model.ZcEbProviderPreAuditItem" />
+	<typeAlias alias="ZcEbProviderPreAudiItemtResult"
+		type="com.ufgov.zc.common.zc.model.ZcEbProviderPreAudiItemtResult" />
+	<resultMap id="ZcEbPackPreAuditResult" class="ZcEbPackPreAudit">
+		<result property="auditCode" column="AUDIT_CODE" />
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="projName" column="PROJ_NAME" />
+		<result property="packCode" column="PACK_CODE" />
+		<result property="packName" column="PACK_NAME" />
+		<result property="auditor" column="AUDITOR" />
+		<result property="orgCode" column="ORG_CODE" />
+		<result property="auditDate" column="AUDIT_DATE" />
+		<result property="status" column="STATUS" />
+		<result column="PROCESS_INST_ID" jdbcType="DECIMAL" property="processInstId" />
+		<result property="remark" column="REMARK" />
+		<result property="isGoonAudit" column="IS_GOON_AUDIT" />
+		<result property="nd" column="ND" />		<result property="agency" column="AGENCY" />
+	</resultMap>
+	<resultMap id="ZcEbPackPreNoAuditResult" class="ZcEbPackPreAudit">
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="projName" column="PROJ_NAME" />
+		<result property="packCode" column="PACK_CODE" />
+		<result property="packName" column="PACK_NAME" />
+		<result property="auditor" column="AUDITOR" />
+		<result property="orgCode" column="ORG_CODE" />
+	</resultMap>
+	<resultMap id="ZcEbProviderPreAuditResult" class="ZcEbProviderPreAudit">
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="projName" column="PROJ_NAME" />
+		<result property="packCode" column="PACK_CODE" />
+		<result property="packName" column="PACK_NAME" />
+		<result property="providerCode" column="PROVIDER_CODE" />
+		<result property="providerName" column="PROVIDER_NAME" />
+		<result property="isPass" column="IS_PASS" />
+		<result property="noPassReason" column="NO_PASS_REASON" />
+	</resultMap>
+	<resultMap id="ZcEbProviderPreAuditItemResult" class="ZcEbProviderPreAuditItem">
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="packCode" column="PACK_CODE" />
+		<result property="itemCode" column="ITEM_CODE" />
+		<result property="itemName" column="ITEM_NAME" />
+		<result property="itemDesc" column="ITEM_DESC" />
+	</resultMap>
+	<resultMap id="ZcEbAudiItemtResult" class="ZcEbProviderPreAudiItemtResult">
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="packCode" column="PACK_CODE" />
+		<result property="itemCode" column="ITEM_CODE" />
+		<result property="itemName" column="ITEM_NAME" />
+		<result property="auditValue" column="AUDIT_VALUE" />
+		<result property="providerCode" column="PROVIDER_CODE" />
+		<result property="providerName" column="PROVIDER_NAME" />
+		<result property="noPassReason" column="NO_PASS_REASON" />
+	</resultMap>
+	<!--初审分包的 -->
+	<!-- 获取已经审核的分包信息 -->
+	<select id="getZcEbPackPreAuditList" resultMap="ZcEbPackPreAuditResult"
+		parameterClass="elementCondition">
+		select
+		*
+		from
+		V_ZC_EB_PACK_PRE_AUDIT V_ZC_EB_PACK_PRE_AUDIT
+		where
+		1=1
+		<isNotEqual prepend="AND" compareValue="0" property="nd">
+			V_ZC_EB_PACK_PRE_AUDIT.ND = #nd#
+		</isNotEqual>		
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		<isNotNull prepend="and" property="status">			<isEqual property="status" compareValue="noAudit">				V_ZC_EB_PACK_PRE_AUDIT.status in ('noAudit','1')			</isEqual>
+			<isEqual property="status" compareValue="todo">
+				exists (select
+				instance_id from v_wf_current_task_gk53 where executor
+				=#executor#
+				and instance_id = V_ZC_EB_PACK_PRE_AUDIT.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="draft">
+				exists (select
+				WF_DRAFT_NAME from as_wf_draft where user_id=#executor# and
+				compo_id=#wfcompoId# and
+				WF_DRAFT_ID=V_ZC_EB_PACK_PRE_AUDIT.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="exec">
+				V_ZC_EB_PACK_PRE_AUDIT.status='exec'
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				exists (select
+				instance_id from V_WF_ACTION_HISTORY_GK53 where executor =
+				#executor# and instance_id =
+				V_ZC_EB_PACK_PRE_AUDIT.process_inst_id)and
+				status!='back' and
+				status!='exec'
+			</isEqual>
+			<isEqual property="status" compareValue="all">
+				1=1
+			</isEqual>
+		</isNotNull>
+		<isNotNull prepend="and" property="orgCode">
+			V_ZC_EB_PACK_PRE_AUDIT.ORG_CODE=#orgCode#
+		</isNotNull>
+		order by
+		V_ZC_EB_PACK_PRE_AUDIT.AUDIT_DATE
+	</select>
+
+	<insert id="insertZcEbPackPreAudit" parameterClass="ZcEbPackPreAudit">
+		insert into
+		ZC_EB_PACK_PRE_AUDIT
+		(AUDIT_CODE,
+		PROJ_CODE,
+		PROJ_NAME,
+		PACK_CODE,
+		PACK_NAME,
+		AUDITOR,
+		ORG_CODE,
+		AUDIT_DATE,
+		STATUS,
+		PROCESS_INST_ID,
+		IS_GOON_AUDIT,
+		REMARK,
+		ND, AGENCY)
+		values
+		(#auditCode#,
+		#projCode#,
+		#projName#,
+		#packCode#,
+		#packName#,
+		#auditor#,
+		#orgCode#,
+		#auditDate#,
+		#status#,
+		#processInstId#,
+		#isGoonAudit#,
+		#remark#,
+		#nd#, #agency#)
+	</insert>	<delete id="deleteZcEbPackPreAudit" parameterClass="Map">		delete from		ZC_EB_PACK_PRE_AUDIT		where		1=1		<isNotNull prepend="AND" property="projCode">			PROJ_CODE=#projCode#		</isNotNull>		<isNotNull prepend="AND" property="packCode">			PACK_CODE=#packCode#		</isNotNull>		<isNotNull prepend="AND" property="auditCode">			AUDIT_CODE=#auditCode#		</isNotNull>	</delete>
+	<update id="updateZcEbPackPreAudit" parameterClass="ZcEbPackPreAudit">
+		update
+		ZC_EB_PACK_PRE_AUDIT
+		set PROJ_CODE = #projCode#,
+		PROJ_NAME = #projName#,
+		PACK_NAME = #packName#,
+		AUDITOR = #auditor#,
+		ORG_CODE = #orgCode#,
+		AUDIT_DATE = #auditDate#,
+		STATUS = #status#,
+		IS_GOON_AUDIT
+		=#isGoonAudit#,
+		PROCESS_INST_ID =#processInstId#,
+		REMARK = #remark#,
+		ND =
+		#nd#, AGENCY = #agency#
+		where
+		AUDIT_CODE = #auditCode#
+	</update>
+
+	<select id="getZcEbPackByAuditCode" resultMap="ZcEbPackPreAuditResult"
+		parameterClass="String">
+		select
+		*
+		FROM ZC_EB_PACK_PRE_AUDIT
+		WHERE
+		AUDIT_CODE =
+		#auditCode#
+	</select>
+	<!--初审指标项 -->
+	<select id="getAuditItemList" resultMap="ZcEbProviderPreAuditItemResult"
+		parameterClass="Map">
+		select
+		*
+		from
+		Zc_Eb_Pre_audit_item master
+		where
+		1=1
+		<isNotNull prepend="AND" property="projCode">
+			master.PROJ_CODE=#projCode#
+		</isNotNull>
+		<isNotNull prepend="AND" property="packCode">
+			master.PACK_CODE=#packCode#
+		</isNotNull>
+	</select>
+
+	<insert id="insertAuditItemList" parameterClass="ZcEbProviderPreAuditItem">
+		insert into
+		Zc_Eb_Pre_audit_item
+		(PROJ_CODE,
+		PACK_CODE,
+		ITEM_CODE,
+		ITEM_NAME,
+		ITEM_DESC)
+		values
+		(#projCode#,
+		#packCode#,
+		#itemCode#,
+		#itemName#,
+		#itemDesc#)
+	</insert>
+	<delete id="deleteAuditItemList" parameterClass="Map">
+		delete from
+		Zc_Eb_Pre_audit_item
+		where
+		1=1
+		<isNotNull prepend="AND" property="projCode">
+			PROJ_CODE=#projCode#
+		</isNotNull>
+		<isNotNull prepend="AND" property="packCode">
+			PACK_CODE=#packCode#
+		</isNotNull>
+		<isNotNull prepend="AND" property="providerCode">
+			PROVIDER_CODE=#providerCode#
+		</isNotNull>
+	</delete>
+
+	<!--供应商初审结果明细 -->
+
+	<select id="getProviderAuditResultItemList" resultMap="ZcEbAudiItemtResult"
+		parameterClass="Map">
+		select
+		*
+		from
+		Zc_Eb_Pre_Audit_Result_Item master
+		where
+		1=1
+		<isNotNull prepend="AND" property="projCode">
+			master.PROJ_CODE=#projCode#
+		</isNotNull>
+		<isNotNull prepend="AND" property="packCode">
+			master.PACK_CODE=#packCode#
+		</isNotNull>
+		<isNotNull prepend="AND" property="providerCode">
+			master.PROVIDER_CODE=#providerCode#
+		</isNotNull>
+	</select>
+
+	<insert id="insertAuditItemResultItemList" parameterClass="ZcEbProviderPreAudiItemtResult">
+		insert into
+		Zc_Eb_Pre_Audit_Result_Item
+		(PROJ_CODE,
+		PACK_CODE,
+		PROVIDER_CODE,
+		PROVIDER_NAME,
+		ITEM_CODE,
+		ITEM_NAME,
+		AUDIT_VALUE,
+		NO_PASS_REASON)
+		values
+		(#projCode#,
+		#packCode#,
+		#providerCode#,
+		#providerName#,
+		#itemCode#,
+		#itemName#,
+		#auditValue#,
+		#noPassReason#)
+	</insert>
+	<delete id="deleteAuditItemResultItemList" parameterClass="Map">
+		delete from
+		Zc_Eb_Pre_Audit_Result_Item
+		where
+		1=1
+		<isNotNull prepend="AND" property="projCode">
+			PROJ_CODE=#projCode#
+		</isNotNull>
+		<isNotNull prepend="AND" property="packCode">
+			PACK_CODE=#packCode#
+		</isNotNull>
+		<isNotNull prepend="AND" property="providerCode">
+			PROVIDER_CODE=#providerCode#
+		</isNotNull>
+	</delete>
+
+	<!--供应商评审汇总结果 -->
+	<select id="getProviderAuditResultList" resultMap="ZcEbProviderPreAuditResult"
+		parameterClass="Map">
+		select
+		*
+		from
+		Zc_Eb_Pre_Audit_Result master
+		where
+		1=1
+		<isNotNull prepend="AND" property="projCode">
+			master.PROJ_CODE=#projCode#
+		</isNotNull>
+		<isNotNull prepend="AND" property="packCode">
+			master.PACK_CODE=#packCode#
+		</isNotNull>
+	</select>
+	<select id="getProviderNoAuditResultList" resultMap="ZcEbProviderPreAuditResult"
+		parameterClass="Map">
+	  select distinct master.PROJ_CODE,                  master.PROJ_NAME,                  P.PACK_CODE,                  P.PACK_NAME,                  S.Provider_Code,                  ZS.ZC_SU_NAME as provider_name,                  '' as IS_PASS,                  '' as NO_PASS_REASON    from ZC_EB_PACK        P,         ZC_EB_PROJ        master,         ZC_EB_SIGNUP      S,         Zc_b_Supplier     zs,         ZC_EB_SIGNUP_PACK SP   WHERE S.SIGNUP_ID = SP.SIGNUP_ID     AND SP.PACK_CODE = P.PACK_CODE     AND master.PROJ_CODE = P.PROJ_CODE     AND zs.zc_su_code = s.provider_code     AND s.is_pay_guarantee='1'
+		<isNotNull prepend="AND" property="packCode">
+			P.PACK_CODE=#packCode#
+		</isNotNull>
+		<isNotNull prepend="AND" property="projCode">
+			P.PROJ_CODE=#projCode#
+		</isNotNull>
+	</select>
+	<insert id="insertProviderAuditResultList" parameterClass="ZcEbProviderPreAudit">
+		insert into
+		Zc_Eb_Pre_Audit_Result
+		(PROJ_CODE,
+		PROJ_NAME,
+		PACK_CODE,
+		PACK_NAME,
+		PROVIDER_CODE,
+		PROVIDER_NAME,
+		IS_PASS,
+		NO_PASS_REASON)
+		values
+		(#projCode#,
+		#projName#,
+		#packCode#,
+		#packName#,
+		#providerCode#,
+		#providerName#,
+		#isPass#,
+		#noPassReason#)
+	</insert>
+	<delete id="deleteProviderAuditResult" parameterClass="Map">
+		delete from
+		Zc_Eb_Pre_Audit_Result
+		where
+		1=1
+		<isNotNull prepend="AND" property="projCode">
+			PROJ_CODE=#projCode#
+		</isNotNull>
+		<isNotNull prepend="AND" property="packCode">
+			PACK_CODE=#packCode#
+		</isNotNull>
+		<isNotNull prepend="AND" property="providerCode">
+			PROVIDER_CODE=#providerCode#
+		</isNotNull>
+	</delete>
+</sqlMap>

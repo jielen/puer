@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+
+<sqlMap namespace="SearchCodition">
+
+	<typeAlias alias="searchCondition"
+
+		type="com.ufgov.zc.common.commonbiz.model.SearchCondition" />
+
+	<typeAlias alias="userSearchCondition"
+
+		type="com.ufgov.zc.common.commonbiz.model.UserSearchCondition" />
+
+
+
+	<resultMap id="searchCondition" class="searchCondition">
+
+		<result property="conditionId" column="CONDITION_ID" />
+
+		<result property="conditionFieldCode" column="CONDITION_FIELD_CODE" />
+
+		<result property="conditionFieldName" column="CONDITION_FIELD_NAME" />
+
+	</resultMap>
+
+
+
+	<resultMap id="userSearchCondition" class="userSearchCondition">
+
+		<result property="userId" column="USER_ID" />
+
+		<result property="conditionId" column="CONDITION_ID" />
+
+		<result property="conditionFieldCode" column="CONDITION_FIELD_CODE" />
+
+		<result property="conditionFieldOrder" column="CONDITION_FIELD_ORDER" />
+
+	</resultMap>
+
+
+
+	<resultMap id="compoSearchCondition" class="searchCondition">
+
+		<result property="conditionId" column="CONDITION_ID" />
+
+		<result property="conditionName" column="CONDITION_NAME" />
+
+		<result property="conditionNameOrder" column="CONDITION_NAME_ORDER" />
+
+	</resultMap>
+
+
+
+	<resultMap id="conditionSearchCondition" class="searchCondition">
+
+		<result property="conditionId" column="CONDITION_ID" />
+
+		<result property="conditionFieldCode" column="CONDITION_FIELD_CODE" />
+
+		<result property="conditionFieldName" column="CONDITION_FIELD_NAME" />
+
+		<result property="conditionFieldOrder" column="CONDITION_FIELD_ORDER" />
+
+	</resultMap>
+
+
+
+	<resultMap id="seaerchConditionConsole" class="searchCondition">
+
+		<result property="compoId" column="COMPO_ID" />
+
+		<result property="compoName" column="COMPO_NAME" />
+
+		<result property="conditionId" column="CONDITION_ID" />
+
+		<result property="conditionFieldCode" column="CONDITION_FIELD_CODE" />
+
+		<result property="conditionFieldName" column="CONDITION_FIELD_NAME" />
+
+		<result property="conditionFieldOrder" column="CONDITION_FIELD_ORDER" />
+
+	</resultMap>
+
+
+
+	<select id="getSearchCondition" resultMap="searchCondition"
+
+		parameterClass="map">
+
+		select
+
+		CONDITION_ID,CONDITION_FIELD_CODE,CONDITION_FIELD_NAME
+
+		from
+
+		ZC_SEARCH_CONDITION
+
+		<dynamic prepend="where">
+
+
+
+			<isNotNull prepend="AND" property="conditionType">
+
+				CONDITION_TYPE =
+
+				#conditionType:VARCHAR#
+
+			</isNotNull>
+
+			<isNotNull prepend="AND" property="conditionId">
+
+				CONDITION_ID =
+
+				#conditionId:VARCHAR#
+
+			</isNotNull>
+
+		</dynamic>
+
+		order by
+
+		CONDITION_FIELD_ORDER
+
+	</select>
+
+
+
+	<select id="getUserSearchCondition" resultMap="searchCondition"
+
+		parameterClass="java.util.Map">
+
+		select
+
+		b.CONDITION_ID,b.CONDITION_FIELD_CODE,a.CONDITION_FIELD_ORDER,b.CONDITION_FIELD_NAME
+
+		from
+
+		ZC_USER_SEARCH_CONDITION a ,ZC_SEARCH_CONDITION b
+
+		where
+
+		a.CONDITION_ID=b.CONDITION_ID
+
+		and
+
+		a.CONDITION_FIELD_CODE=b.CONDITION_FIELD_CODE
+
+		and a.CONDITION_ID =
+
+		#conditionId:VARCHAR#
+
+		and a.USER_ID = #userId:VARCHAR#
+
+		order by
+
+		a.CONDITION_FIELD_ORDER
+
+	</select>
+
+	<select id="getRoleSearchCondition" resultMap="searchCondition"
+
+		parameterClass="java.util.Map">
+
+		select
+
+		b.CONDITION_ID,b.CONDITION_FIELD_CODE,b.CONDITION_FIELD_ORDER,b.CONDITION_FIELD_NAME
+
+		from
+
+		ZC_ROLE_SEARCH_CONDITION a ,ZC_SEARCH_CONDITION b
+
+		where
+
+		b.CONDITION_ID=a.CONDITION_ID
+
+		and
+
+		b.CONDITION_FIELD_CODE=a.CONDITION_FIELD_CODE
+
+		and b.CONDITION_ID =
+
+		#conditionId:VARCHAR#
+
+		and a.ROlE_ID = #userId:VARCHAR#
+
+		order by
+
+		b.CONDITION_FIELD_ORDER
+
+	</select>
+
+
+	<select id="getRoleLstSearchCondition" resultMap="searchCondition"
+
+		parameterClass="java.util.Map">
+
+		select
+
+		b.CONDITION_ID,b.CONDITION_FIELD_CODE,b.CONDITION_FIELD_ORDER,b.CONDITION_FIELD_NAME
+
+		from
+
+		ZC_ROLE_SEARCH_CONDITION a ,ZC_SEARCH_CONDITION b
+
+		where
+
+		b.CONDITION_ID=a.CONDITION_ID
+
+		and
+
+		b.CONDITION_FIELD_CODE=a.CONDITION_FIELD_CODE
+
+		and b.CONDITION_ID =
+
+		#conditionId:VARCHAR#
+		
+		<dynamic prepend=" and a.ROlE_ID in ">
+			<isNotNull property="roleLst">
+				<iterate property="roleLst" open="(" close=")" conjunction=",">
+					#roleLst[].roleId#
+				</iterate>
+			</isNotNull>
+		</dynamic>
+		order by
+
+		b.CONDITION_FIELD_ORDER
+
+	</select>
+
+	<select id="getUserSearchConditionJoinRole" resultMap="searchCondition"
+
+		parameterClass="java.util.Map">
+
+		select
+
+		b.CONDITION_ID,b.CONDITION_FIELD_CODE,a.CONDITION_FIELD_ORDER,b.CONDITION_FIELD_NAME
+
+		from
+
+		ZC_USER_SEARCH_CONDITION a ,ZC_ROLE_SEARCH_CONDITION
+
+		c,ZC_SEARCH_CONDITION b
+
+		where
+
+		a.CONDITION_ID=b.CONDITION_ID
+
+		and
+
+		a.CONDITION_ID=c.CONDITION_ID
+
+		and
+
+		a.CONDITION_FIELD_CODE=b.CONDITION_FIELD_CODE
+
+		and
+
+		a.CONDITION_FIELD_CODE=c.CONDITION_FIELD_CODE
+
+		and a.CONDITION_ID
+
+		=#conditionId:VARCHAR#
+
+		and a.USER_ID = #userId:VARCHAR#
+
+		and c.ROLE_ID
+		in(
+		SELECT AR.ROLE_ID
+		FROM AS_POSI_ROLE AR
+		WHERE AR.POSI_CODE =(
+		SELECT
+		AP.POSI_CODE
+		FROM AS_EMP_POSITION AP
+		WHERE AP.EMP_CODE =
+		(SELECT
+		AE.EMP_CODE FROM AS_EMP AE WHERE AE.USER_ID = #userId:VARCHAR#)
+		AND
+		AP.ND = #nd#)
+
+		)order by a.CONDITION_FIELD_ORDER
+
+	</select>
+
+
+
+
+
+	<select id="getUserDefaultValue" parameterClass="java.util.Map"
+
+		resultClass="java.util.ArrayList">
+
+		select b.CONDITION_FIELD_NAME,CONDITION_FIELD_DEFAULTVALUE
+
+		from ZC_USER_SEARCH_CONDITION a ,ZC_SEARCH_CONDITION b
+
+		where
+
+		a.CONDITION_ID=b.CONDITION_ID
+
+		and
+
+		a.CONDITION_FIELD_CODE=b.CONDITION_FIELD_CODE
+
+		and a.CONDITION_ID =
+
+		#conditionId#
+
+		and a.USER_ID = #userId#
+
+		order by a.CONDITION_FIELD_ORDER
+
+	</select>
+
+	<delete id="deleteUserSearchCondition" parameterClass="map">
+
+		delete
+
+		from ZC_USER_SEARCH_CONDITION where CONDITION_ID=#conditionId:VARCHAR#
+
+		and USER_ID=#userId:VARCHAR#
+
+	</delete>
+
+
+
+	<insert id="insertUserSearchCondition" parameterClass="userSearchCondition">
+
+		insert
+
+		into
+
+		ZC_USER_SEARCH_CONDITION(USER_ID,CONDITION_ID,CONDITION_FIELD_CODE,
+
+		CONDITION_FIELD_ORDER,CONDITION_FIELD_DEFAULTVALUE)
+
+		values(
+
+		#userId:VARCHAR#,#conditionId:VARCHAR#,#conditionFieldCode:VARCHAR#,
+
+		#conditionFieldOrder:INTEGER#,#conditionDefaultValue:VARCHAR#)
+
+	</insert>
+
+
+
+	<update id="updateSearchCondition" parameterClass="com.ufgov.zc.common.commonbiz.model.SearchCondition">
+
+		update
+
+		ZC_SEARCH_CONDITION
+
+		set CONDITION_FIELD_NAME =
+
+		#conditionFieldName:VARCHAR#
+
+		where CONDITION_ID = #conditionId:VARCHAR#
+
+		and CONDITION_FIELD_CODE=#conditionFieldCode:VARCHAR#
+
+	</update>
+
+	<select id="getCompoSearchCondition" resultMap="compoSearchCondition"
+
+		parameterClass="map">
+
+		SELECT DISTINCT condition_id,
+
+		condition_name,condition_name_order
+
+		FROM ZC_SEARCH_CONDITION
+
+		WHERE
+
+		condition_type = #conditionType:VARCHAR#
+
+		order by condition_name_order
+
+	</select>
+
+
+
+</sqlMap>

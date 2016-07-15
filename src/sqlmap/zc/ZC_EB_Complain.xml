@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ZCComplain">
+
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+
+	<typeAlias alias="ZCQuestion" type="com.ufgov.zc.common.zc.model.ZCQuestion" />
+
+	<typeAlias alias="ZcEbProj" type="com.ufgov.zc.common.zc.model.ZcEbProj" />
+
+	<typeAlias alias="ZcEbSignup" type="com.ufgov.zc.common.zc.model.ZcEbSignup" />
+
+	<typeAlias alias="ZcEbSignupPackDetail"
+		type="com.ufgov.zc.common.zc.model.ZcEbSignupPackDetail" />
+
+	<typeAlias alias="ZCEbQuestionPack"
+		type="com.ufgov.zc.common.zc.model.ZCQuestionPack" />
+
+	<typeAlias alias="ZcEbPack" type="com.ufgov.zc.common.zc.model.ZcEbPack" />
+
+	<typeAlias alias="ZcEbComplain" type="com.ufgov.zc.common.zc.model.ZcEbComplain" />
+
+	<resultMap class="ZcEbComplain" id="ZcEbComplainResult">
+		<result property="sn" column="id" />
+		<result property="complainId" column="COMPLAIN_ID" />
+		<result property="state" column="STATE" />
+		<result property="jgPerson" column="JGPERSON" />
+		<result property="jgReason" column="JGREASON" />
+		<result property="jgFileName" column="JGFILENAME" />
+		<result property="jgDoDate" column="JGDODATE" />
+		<result property="clientSubmitTSDate" column="CLIENTSUBMITTSDATE" />
+		<result property="clientTSReason" column="CLIENTTS_REASON" />
+		<!-- <result property="clientTSFile" column="CLIENTTSFILE" /> -->
+		<result property="temp" column="TEMP" />
+		<result property="processInstId" column="PROCESS_INST_ID" />
+		<result property="zcQuestion.sn" column="QUES_ID" />
+		<result property="zcQuestion" column="QUES_ID"
+			select="ZCComplain.selectQuestionBySn" />
+	</resultMap>
+
+	<resultMap id="ZCQuestionResult" class="ZCQuestion">
+		<result property="sn" column="id" />
+		<result property="zcEbProj.projCode" column="PROJ" />
+		<result property="quesId" column="QUES_ID" />
+		<result property="personOrg" column="PERSONORG" />
+		<result property="personName" column="PERSON" />
+		<result property="personTel" column="PERSON_TEL" />
+		<result property="createDate" column="CREATEDATE" />
+		<result property="clientSubmitZYDate" column="CLIENT_SUBMIT_ZYDATE" />
+		<result property="clientReason" column="CLIENT_REASON" />
+		<result property="clientFileName" column="CLIENT_FILENAME" />
+		<result property="jbPerson" column="JB_PERSON" />
+		<result property="jbReason" column="JB_REASON" />
+		<result property="jbFileName" column="JB_FILENAME" />
+		<result property="jbDoDate" column="JB_DODATE" />
+		<!--
+			<result property="clientSubmitTSDate" column="CLIENT_SUBMIT_TSDATE"
+			/> <result property="jgPerson" column="JG_PERSON" /> <result
+			property="jgReason" column="JG_REASON" /> <result
+			property="jgFileName" column="JG_FILENAME" /> <result
+			property="jgDoDate" column="JG_DODATE" />
+		-->
+		<result property="state" column="STATE" />
+		<result property="temp" column="TEMP" />
+		<result property="temp1" column="TEMP1" />
+		<result property="temp2" column="TEMP2" />
+		<result property="temp3" column="TEMP3" />
+		<result property="processInstId" column="PROCESS_INST_ID"
+			jdbcType="NUMERIC" javaType="java.lang.Long" />
+		<result property="zcEbProj" column="PROJ"
+			select="ZCQuestion.getProjByProjCode" />
+	</resultMap>
+
+	<!-- 报名相关 -->
+	<resultMap id="ZcEbSignupResult" class="ZcEbSignup">
+		<result property="signupId" column="SIGNUP_ID" />
+		<result property="providerCode" column="PROVIDER_CODE" />
+		<result property="signupDate" column="SINGNUP_DATE" />
+		<result property="linkMan" column="LINKMAN" />
+		<result property="address" column="ADDRESS" />
+		<result property="zipcode" column="ZIPCODE" />
+		<result property="phone" column="PHONE" />
+		<result property="mobilePhone" column="MOBILE_PHONE" />
+		<result property="email" column="EMAIL" />
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="purDocBuyDate" column="PUR_DOC_BUY_DATE" />
+		<result property="purDocFeeType" column="PUR_DOC_FEE_TYPE" />
+		<result property="purDocFeeBill" column="PUR_DOC_FEE_BILL" />
+		<result property="status" column="STATUS" />
+		<result property="purDocFee" column="PUR_DOC_FEE" />
+		<result property="projName" column="PROJ_NAME" />
+		<result property="providerName" column="PROVIDER_NAME" />
+		<result property="signupManner" column="SIGNUP_MANNER" />
+		<result property="isPayGuarantee" column="IS_PAY_GUARANTEE" />
+		<result property="isSubmitBidDoc" column="IS_SUBMIT_BID_DOC" />
+		<result property="bidDocFile" column="BID_DOC_NAME" />
+		<result property="bidDocFileId" column="BID_DOC_ID" />
+		<result property="submitBidDocType" column="SUBMIT_BID_DOC_TYPE" />
+	</resultMap>
+
+	<!-- 项目 -->
+	<resultMap id="ZcEbProjResult" class="ZcEbProj">
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="projSrcCode" column="PROJ_SRC_CODE" />
+		<result property="projName" column="PROJ_NAME" />
+		<result property="projSum" column="PROJ_SUM" />
+		<result property="purType" column="PUR_TYPE" />
+		<result property="manager" column="MANAGER" />
+		<result property="managerCode" column="MANAGER_CODE" />
+		<result property="projDate" column="PROJ_DATE" />
+		<result property="isSplitPack" column="IS_SPLIT_PACK" />
+		<result property="phone" column="PHONE" />
+		<result property="email" column="EMAIL" />
+		<result property="fax" column="FAX" />
+		<result property="status" column="STATUS" />
+		<result property="nd" column="ND" />
+		<result property="agency" column="AGENCY" />
+		<result property="isPubPurBulletin" column="IS_PUB_PUR_BULLETIN" />
+		<result property="isPubPurResult" column="IS_PUB_PUR_RESULT" />
+		<result property="processInstId" column="PROCESS_INST_ID"
+			jdbcType="DECIMAL" />
+		<result property="inputor" column="INPUTOR" />
+		<result property="inputDate" column="INPUT_DATE" />
+		<result property="org" column="ORG" />
+		<result property="remark" column="REMARK" />
+		<result property="isGoonAudit" column="IS_GOON_AUDIT" />
+	</resultMap>
+
+	<!-- 新增的时候使用 -->
+	<resultMap id="ZcEbSignupPackDetailResult" class="ZcEbSignupPackDetail">
+		<result property="packCode" column="PACK_CODE" />
+		<result property="packName" column="PACK_NAME" />
+		<result property="packDesc" column="PACK_DESC" />
+		<result property="isPayGuarantee" column="IS_PAY_GUARANTEE" />
+		<result property="guaranteeDesc" column="GUARANTEE_DESC" />
+		<result property="bidDeposit" column="BID_DEPOSIT" />
+		<result property="signupPackId" column="SIGNUP_PACK_ID" />
+		<result property="signupId" column="SIGNUP_ID" />
+		<result property="bidDocId" column="BID_DOC_ID" />
+		<result property="bidDocName" column="BID_DOC_NAME" />
+		<result property="bidSum" column="BID_SUM" />
+		<result property="isSubmitBidDoc" column="IS_SUBMIT_BID_DOC" />
+		<result property="submitNums" column="SUBMIT_NUMS" />
+		<result property="submitBidDocType" column="SUBMIT_BID_DOC_TYPE" />
+		<result property="openBidStatus" column="OPEN_BID_STATUS" />
+		<result property="openBidDate" column="OPEN_BID_DATE" />
+		<result property="openBidRemark" column="OPEN_BID_REMARK" />
+		<result property="submitBidDocDate" column="SUBMIT_BID_DOC_DATE" />
+	</resultMap>
+
+	<resultMap id="ZCEbQuestionPackResult" class="ZCEbQuestionPack">
+		<result property="id" column="id" />
+		<result property="quesId" column="ques_id" />
+		<result property="zcEbPack.packCode" column="packCode" />
+		<result property="zcEbPack" column="packCode" select="ZCQuestion.selectPack" />
+	</resultMap>
+
+	<resultMap class="ZcEbPack" id="ZcEbPackResult">
+		<result property="packCode" column="PACK_CODE" />
+		<result property="packName" column="PACK_NAME" />
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="purContent" column="PUR_CONTENT" />
+		<result property="packBudget" column="PACK_BUDGET" jdbcType="DECIMAL"
+			javaType="java.math.BigDecimal" />
+		<result property="entrustCode" column="ENTRUST_CODE" />
+		<result property="isCheckQualification" column="IS_CHECK_QUALIFICATION" />
+		<result property="purType" column="PUR_TYPE" />
+		<result property="analyseType" column="ANALYSE_TYPE" />
+		<result property="bidLocation" column="BID_LOCATION" />
+		<result property="bidDeposit" column="BID_DEPOSIT" />
+		<result property="isFailed" column="IS_FAILED" />
+		<result property="techRequire" column="TECH_REQUIRE" />
+		<result property="qualificationRequire" column="QUALIFICATION_REQUIRE" />
+		<result property="packDesc" column="PACK_DESC" />
+		<result property="status" column="STATUS" />
+		<result property="isSeleSupplier" column="IS_SELE_SUPPLIER" />
+		<result property="seleType" column="SELE_TYPE" />
+		<result property="seleNum" column="SELE_NUM" />
+		<result property="isShowBudget" column="IS_SHOW_BUDGET" />
+		<result property="failedReason" column="FAILED_REASON" />
+
+		<!-- ZcEbEntrust -->
+		<result property="lastStatus" column="LAST_STATUS" />
+
+		<!-- ZcEbEntrust -->
+		<result property="entrust.sn" column="SN" />
+		<result property="entrust.zcMakeCode" column="ZC_MAKE_CODE" />
+		<result property="entrust.zcMakeName" column="ZC_MAKE_NAME" />
+		<result property="entrust.coCode" column="CO_CODE" />
+		<result property="entrust.nd" column="ND" />
+		<result property="entrust.zcMakeLinkman" column="ZC_MAKE_LINKMAN" />
+		<result property="entrust.zcMakeTel" column="ZC_MAKE_TEL" />
+		<result property="entrust.zcInputCode" column="ZC_INPUT_CODE" />
+		<result property="entrust.zcInputDate" column="ZC_INPUT_DATE" />
+		<result property="entrust.zcMoneyBiSum" column="ZC_MONEY_BI_SUM" />
+		<result property="entrust.remark" column="REMARK" />
+		<result property="entrust.processInstId" column="PROCESS_INST_ID" />
+		<result property="entrust.agency" column="AGENCY" />
+		<result property="entrust.zcPifuCgfs" column="ZC_PIFU_CGFS" />
+		<result property="entrust.agencyName" column="AGENCY_NAME" />
+		<result property="entrust.zcDiyuDaima" column="ZC_DIYU_DAIMA" />
+		<result property="entrust.zcWeitoDate" column="ZC_WEITO_DATE" />
+		<result property="entrust.zcIsNotary" column="ZC_IS_NOTARY" />
+		<result property="entrust.zcIsImp" column="ZC_IS_IMP" />
+		<result property="entrust.zcImpFile" column="ZC_IMP_FILE" />
+		<result property="entrust.zcImpFileBlobid" column="ZC_IMP_FILE_BLOBID" />
+		<result property="entrust.untreadReason" column="UNTREAD_REASON" />
+		<result property="entrust.executeDate" column="EXECUTE_DATE" />
+		<result property="entrust.leaderId" column="LEADER_ID" />
+		<result property="entrust.leaderTel" column="LEADER_TEL" />
+		<result property="entrust.orgCode" column="ORG_CODE" />
+	</resultMap>
+
+	<!-- 获取投诉列表 -->
+	<select id="getComplainList" parameterClass="elementCondition"
+		resultMap="ZcEbComplainResult">
+		SELECT *
+		FROM zc_eb_complain q
+		WHERE 1=1 
+		<isNotNull property="status" prepend="and">
+			<isEqual property="status" compareValue="draft">
+				q.state='draft'
+			</isEqual>
+			<isEqual property="status" compareValue="todo">
+				exists (select
+				instance_id from v_wf_current_task_gk53 where executor
+				=#executor#
+				and instance_id = q.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				exists (select
+				instance_id from V_WF_ACTION_HISTORY_GK53 where executor =
+				#executor# and instance_id = q.process_inst_id)and
+				state!='back' and
+				state!='exec'
+			</isEqual>
+			<isEqual property="status" compareValue="exec">
+				q.state='exec'
+			</isEqual>
+			<isEqual property="status" compareValue="submited">
+				q.state='submited'
+			</isEqual>
+			<isEqual property="status" compareValue="all">
+				1=1
+			</isEqual>
+		</isNotNull>
+	</select>
+	<select id="getZCQuestionList" resultMap="ZCQuestionResult"
+		parameterClass="elementCondition">
+		SELECT *
+		FROM ZC_EB_QUESTION
+	</select>
+
+	<!-- 新增的时候查询分包信息、以及项目信息 -->
+	<select id="getProjList" parameterClass="elementCondition"
+		resultMap="ZcEbProjResult">
+		SELECT DISTINCT proj.*
+		FROM zc_eb_proj proj LEFT JOIN
+		(SELECT
+		proj_code
+		FROM
+		zc_eb_signup s
+		WHERE s.PROVIDER_CODE=#coCode#
+		)s ON
+		proj.proj_code=s.proj_code
+		WHERE s.proj_code IS
+		NOT NULL
+	</select>
+
+	<!-- 后面读取信息的时候获取分包信息 -->
+	<select id="getPackList" parameterClass="ZCQuestion" resultMap="ZCEbQuestionPackResult">
+		SELECT *
+		FROM zc_eb_question_pack qp
+		WHERE qp.ques_id=#sn#
+	</select>
+
+	<!-- 获取项目信息通过项目ID -->
+	<statement id="getProjByProjCode" resultMap="ZcEbProjResult"
+		parameterClass="String">
+		<![CDATA[
+		SELECT *
+		FROM zc_eb_proj p
+		WHERE p.proj_code=#value#
+		]]>
+	</statement>
+
+	<!-- 投诉关联质疑 -->
+	<select id="selectQuestionBySn" parameterClass="String"
+		resultMap="ZCQuestionResult">
+		SELECT *
+		from
+		zc_eb_question q
+		WHERE q.id=#value#
+	</select>
+
+	<!-- 添加投诉信息 -->
+	<insert id="insertComplain" parameterClass="ZcEbComplain">
+		insert into
+		zc_eb_complain
+		(ID,
+		COMPLAIN_ID,
+		QUES_ID,
+		STATE,
+		JGPERSON,
+		JGREASON,
+		JGFILENAME,
+		JGDODATE,
+		CLIENTSUBMITTSDATE,
+		CLIENTTS_REASON,
+
+		TEMP,
+		PROCESS_INST_ID)
+		values (
+		seq_complain.nextval,
+		#complainId:VARCHAR#,
+		#zcQuestion.sn:VARCHAR#,
+		#state:VARCHAR#,
+		#jgPerson:VARCHAR#,
+		#jgReason:VARCHAR#,
+		#jgFileName:VARCHAR#,
+		#jgDoDate:VARCHAR#,
+		#clientSubmitTSDate:VARCHAR#,
+		#clientTSReason:VARCHAR#,
+		#temp:VARCHAR#,
+		#processInstId:NUMERIC#
+		)
+	</insert>
+
+	<!-- 更新投诉 -->
+	<update id="updateComplain" parameterClass="ZcEbComplain">
+		update zc_eb_complain
+		set
+		COMPLAIN_ID=#complainId:VARCHAR#,
+		QUES_ID=#zcQuestion.sn:VARCHAR#,
+		STATE=#state:VARCHAR#,
+		JGPERSON=#jgPerson:VARCHAR#,
+		JGREASON=#jgReason:VARCHAR#,
+		JGFILENAME=#jgFileName:VARCHAR#,
+		JGDODATE=#jgDoDate:VARCHAR#,
+		CLIENTSUBMITTSDATE=#clientSubmitTSDate:VARCHAR#,
+		CLIENTTS_REASON=#clientTSReason:VARCHAR#,
+		TEMP=#temp:VARCHAR#,
+		PROCESS_INST_ID=#processInstId:NUMERIC#
+		where id=#sn:VARCHAR#
+	</update>
+
+	<!-- 删除记录 -->
+	<delete id="deleteZCComplain" parameterClass="String">
+		delete zc_eb_complain
+		where id=#sn#
+	</delete>
+</sqlMap>
+    

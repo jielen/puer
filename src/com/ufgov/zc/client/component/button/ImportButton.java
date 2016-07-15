@@ -1,0 +1,1 @@
+package com.ufgov.zc.client.component.button;public class ImportButton extends FuncButton {  private static final long serialVersionUID = -4220724045871305900L;  public ImportButton() {    super();  }  protected void init() {    this.funcId = "fimport";    this.defaultText = "导入";    this.iconName = "import.jpg";    super.init();  }}

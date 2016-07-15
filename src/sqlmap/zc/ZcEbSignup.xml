@@ -1,0 +1,1124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+
+
+<!DOCTYPE sqlMap      
+
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ZcEbSignup">
+	<typeAlias alias="ZcEbSignup" type="com.ufgov.zc.common.zc.model.ZcEbSignup" />
+
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+
+	<typeAlias alias="ZcEbSupplier" type="com.ufgov.zc.common.zc.model.ZcEbSupplier" />
+
+	<typeAlias alias="ZcEbSignupPackDetail"
+		type="com.ufgov.zc.common.zc.model.ZcEbSignupPackDetail" />
+	<typeAlias alias="ZcEbPackPlan"
+		type="com.ufgov.zc.common.zc.model.ZcEbPackPlan" />
+		
+
+	<resultMap id="ZcEbSignupResult" class="ZcEbSignup">
+		<result property="signupId" column="SIGNUP_ID" />
+		<result property="providerCode" column="PROVIDER_CODE" />
+		<result property="signupDate" column="SINGNUP_DATE"  jdbcType="TIMESTAMP"/>
+		<result property="linkMan" column="LINKMAN" />
+		<result property="address" column="ADDRESS" />
+		<result property="zipcode" column="ZIPCODE" />
+		<result property="phone" column="PHONE" />
+		<result property="mobilePhone" column="MOBILE_PHONE" />
+		<result property="email" column="EMAIL" />
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="purDocBuyDate" column="PUR_DOC_BUY_DATE" />
+		<result property="purDocFeeType" column="PUR_DOC_FEE_TYPE" />
+		<result property="purDocFeeBill" column="PUR_DOC_FEE_BILL" />
+		<result property="status" column="STATUS" />
+		<result property="remark" column="REMARK" />
+		<result property="purDocFee" column="PUR_DOC_FEE" />
+		<result property="projName" column="PROJ_NAME" />
+		<result property="providerName" column="PROVIDER_NAME" />
+		<result property="signupManner" column="SIGNUP_MANNER" />
+		<result property="isPayGuarantee" column="IS_PAY_GUARANTEE" />
+		<result property="isSubmitBidDoc" column="IS_SUBMIT_BID_DOC" />
+		<result property="bidDocFile" column="BID_DOC_NAME" />
+		<result property="bidDocFileId" column="BID_DOC_ID" />
+		<result property="submitBidDocType" column="SUBMIT_BID_DOC_TYPE" />
+		<result column="AGENCY" property="agency" />
+		<result column="ORG_CODE" property="orgCode" />
+		<result column="ND" property="nd" />
+		<result column="OPERATOR" property="operator" />
+		<result column="ZB_FILE_ID" property="zbFileId" />	
+		<result column="ZB_FILE_WORD_ID" property="zbFileWordId" />		
+	</resultMap>
+	<resultMap id="ZcEbSignupResultCoCode" class="ZcEbSignup" extends="ZcEbSignupResult">
+		<result column="CO_CODE" property="coCode" />		
+	</resultMap>
+	<resultMap class="ZcEbSignup" id="ZcEbSignupWithPlanResult"  extends="ZcEbSignupResultCoCode">	
+		<result column="PLAN_CODE" jdbcType="VARCHAR" property="plan.planCode" />
+		<result column="PROJ_CODE" jdbcType="VARCHAR" property="plan.projCode" />
+		<result column="PROJ_NAME" jdbcType="VARCHAR" property="plan.projName" />
+		<result column="SELL_START_TIME" jdbcType="TIMESTAMP" property="plan.sellStartTime" />
+		<result column="SELL_END_TIME" jdbcType="TIMESTAMP" property="plan.sellEndTime" />
+		<result column="BID_END_TIME" jdbcType="TIMESTAMP" property="plan.bidEndTime" />
+		<result column="OPEN_BID_TIME" jdbcType="TIMESTAMP" property="plan.openBidTime" />
+		<result column="OPEN_BID_ADDRESS" jdbcType="VARCHAR"
+			property="plan.openBidAddress" />
+		<result column="DOC_PRICE" jdbcType="VARCHAR" property="plan.docPrice" />
+		<result column="DOC_SELLER" jdbcType="VARCHAR" property="plan.docSeller" />
+		<result column="DOC_SELL_ADDRESS" jdbcType="VARCHAR"
+			property="plan.docSellAddress" />
+		<result column="DOC_SELL_PHONE" jdbcType="VARCHAR" property="plan.docSellPhone" />
+	</resultMap>
+
+	<resultMap class="ZcEbSignup" id="SupplierCheckIn">
+		<result property="providerName" column="PROVIDER_NAME" />
+		<result property="isPayGuarantee" column="IS_PAY_GUARANTEE" />
+		<result property="signupPacks" column="{signupId=SIGNUP_ID}"
+			select="ZcEbSignup.getSupplierCheckInPack" />
+	</resultMap>
+	<resultMap class="ZcEbSignupPackDetail" id="SupplierCheckInPack">
+		<result property="packCode" column="PACK_CODE" />
+		<result property="packName" column="PACK_NAME" />
+	</resultMap>
+
+	<resultMap id="ZcEbSupplierResult" class="ZcEbSupplier">
+		<result property="code" column="ZC_SU_CODE" />
+		<result property="name" column="ZC_SU_NAME" />
+		<result property="linkMan" column="ZC_SU_LINKMAN" />
+		<result property="phone" column="ZC_SU_TEL" />
+		<result property="operator" column="ZC_ASSESS_CODE" />
+		<result property="address" column="ZC_SU_ADDR" />
+		<result property="zipCode" column="ZC_POST_CODE" />
+		<result property="operDate" jdbcType="TIMESTAMP" column="ZC_ASSESS_DATE" />
+		<result property="linkManPhone" column="LINK_MAN_PHONE" />
+		<result property="linkManMobile" column="LINK_MAN_MOBILE" />
+		<result property="legalPersonTel" column="LEGAL_PERSON_TEL" />
+		<result property="legalPersonMobile" column="LEGAL_PERSON_MOBILE" />
+		<result property="status" column="ZC_SU_STATUS" />
+	</resultMap>
+	<resultMap id="ZcEbSignupPackDetailResult" class="ZcEbSignupPackDetail">
+		<result property="packCode" column="PACK_CODE" />
+		<result property="packName" column="PACK_NAME" />
+		<result property="packDesc" column="PACK_DESC" />
+		<result property="isPayGuarantee" column="IS_PAY_GUARANTEE" />
+		<result property="guaranteeDesc" column="GUARANTEE_DESC" />
+		<result property="bidDeposit" column="BID_DEPOSIT" />
+		<result property="signupPackId" column="SIGNUP_PACK_ID" />
+		<result property="signupId" column="SIGNUP_ID" />
+		<result property="bidDocId" column="BID_DOC_ID" />
+		<result property="bidDocName" column="BID_DOC_NAME" />
+		<result property="bidSum" column="BID_SUM" />
+		<result property="isSubmitBidDoc" column="IS_SUBMIT_BID_DOC" />
+		<result property="submitNums" column="SUBMIT_NUMS" />
+		<result property="submitBidDocType" column="SUBMIT_BID_DOC_TYPE" />
+		<result property="openBidStatus" column="OPEN_BID_STATUS" />
+		<result property="openBidDate" jdbcType="TIMESTAMP" column="OPEN_BID_DATE" />
+		<result property="openBidRemark" column="OPEN_BID_REMARK" />
+		<result property="submitBidDocDate" column="SUBMIT_BID_DOC_DATE" />
+		<result property="docPrice" column="docPrice" />
+		<result property="spStatus" column="SP_STATUS" />
+		<result property="spDate" jdbcType="TIMESTAMP" column="SP_DATE" />
+		
+	</resultMap>
+	<resultMap id="ZcEbSignupAndPack" class="ZcEbSignup">
+		<result property="providerCode" column="PROVIDER_CODE" />
+		<result property="projCode" column="PROJ_CODE" />
+	</resultMap>
+
+	<resultMap id="ZcEbSignupPack" class="ZcEbSignupPackDetail">
+		<result property="signupPackId" column="SIGNUP_PACK_ID" />
+		<result property="signupId" column="SIGNUP_ID" />
+	</resultMap>
+	<resultMap id="ZcEbSignupPackDetailResultAddColums" class="ZcEbSignupPackDetail"
+		extends="ZcEbSignupPackDetailResult">
+		<result property="tbylbFileName" column="TBYLB_FILE_NAME" />
+		<result property="tbylbFileId" column="TBYLB_FILE_ID" />
+		<result property="ecbjSum" column="ECBJ_SUM" />
+		<result property="checkResult" column="CHECK_RESULT" />
+	</resultMap>
+	<resultMap id="ZcEbSignupPackDetailResultWithProjcode" class="ZcEbSignupPackDetail"
+		extends="ZcEbSignupPackDetailResult">
+		<result property="id" column="proj_code" />
+	</resultMap>
+	<resultMap id="zcEBSignupResultInfo" class="java.util.HashMap">
+		<result property="projCode" column="Proj_Code" />
+		<result property="projName" column="Proj_Name" />
+		<result property="providerName" column="provider_name" />
+		<result property="bidSum" column="bid_sum" />
+		<result property="bidDate" column="bid_date" />
+		<result property="attnName" column="attn_name" />
+		<result property="isPayGuarantee" column="is_pay_guarantee" />
+	</resultMap>
+	
+	<resultMap id="ZcEbSignupInfoResult" class="ZcEbSignup">
+		<result property="signupId" column="SIGNUP_ID" />
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="providerCode" column="PROVIDER_CODE" />
+		<result property="isSite" column="IS_SITE" />	
+	</resultMap>
+	
+	<resultMap id="ZcEbPackPlanResult" class="ZcEbPackPlan">
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="packCode" column="PACK_CODE" />
+		<result property="bidEndTime" column="BID_END_TIME" />
+		<result property="openBidTime" column="OPEN_BID_TIME" />
+		<result property="sellEndTime" column="SELL_END_TIME" />
+	</resultMap>
+	
+	<resultMap id="ZcEbSignupPackKbylbDetailResult" class="ZcEbSignupPackDetail">
+		<result property="tbylbFileName" column="TBYLB_FILE_NAME" />
+		<result property="tbylbFileId" column="TBYLB_FILE_ID" />
+	</resultMap>
+	<select id="getSupplierCheckIn" resultMap="SupplierCheckIn"
+		parameterClass="string">
+
+		SELECT zes.provider_name, zes.IS_PAY_GUARANTEE
+		FROM
+		zc_eb_signup zes
+		WHERE zes.proj_code=#value#
+	</select>
+	<statement id="getSupplierCheckInPack" resultMap="SupplierCheckInPack">
+
+      <![CDATA[
+
+        SELECT zesp.pack_code,
+
+               zesp.pack_name
+
+         FROM zc_eb_signup_pack zesp
+
+         WHERE zesp.signup_id = #signupId#
+
+      ]]>
+	</statement>
+
+
+	<select id="getZcEbSignup" resultMap="zcEBSignupResultInfo"
+		parameterClass="elementCondition">
+SELECT ZC_EB_PROJ.PROJ_CODE,
+       ZC_EB_PROJ.PROJ_NAME,
+       WM_CONCAT(PACK.PACK_NAME || '(' ||
+                 NVL(REPORT.PROVIDER_NAME, '无中标供应商') || ')') PROVIDER_NAME,
+       WM_CONCAT(PACK.PACK_NAME || '(' ||
+                 NVL(TO_CHAR(REPORT.BID_SUM), '无中标金额') || ')') BID_SUM,
+       
+       TO_CHAR(PLAN.open_bid_time, 'yyyy-mm-dd hh24:mi') BID_DATE,
+       SH.ATTN_NAME,
+       zc_eb_signup.is_pay_guarantee
+  FROM ZC_EB_PROJ             ZC_EB_PROJ,
+       ZC_EB_PACK             PACK,
+       ZC_EB_EVAL_REPORT      REPORT,
+       ZC_EB_DUTY_AUDIT_SHEET SH,
+       ZC_EB_SIGNUP           ZC_EB_SIGNUP,
+       V_ZC_EB_PACK_PLAN      PLAN
+ WHERE 1=1 
+		<isNotEqual prepend="AND" property="nd" compareValue="0">
+			<isEqual property="status" compareValue="todo">
+				ZC_EB_SIGNUP.ND(+)=#nd#
+			</isEqual>
+			<isNotEqual property="status" compareValue="todo">
+				ZC_EB_SIGNUP.ND=#nd#
+			</isNotEqual>
+		</isNotEqual>
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		<isNotNull prepend="AND" property="status">
+			<!-- 未投标项目 -->
+			<isEqual property="status" compareValue="todo">
+			ZC_EB_SIGNUP.PROJ_CODE = ZC_EB_PROJ.PROJ_CODE
+			AND ZC_EB_SIGNUP.Provider_Code = #manageCode#
+			 AND (ZC_EB_SIGNUP.IS_SITE is null or ZC_EB_SIGNUP.IS_SITE!='Y')
+			AND EXISTS(SELECT * FROM zc_eb_signup sp, zc_eb_signup_pack spp 
+   WHERE sp.signup_id=spp.signup_id AND sp.proj_code=ZC_EB_PROJ.Proj_Code 
+   AND sp.provider_code=#manageCode# AND spp.sp_status='1')
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				ZC_EB_SIGNUP.STATUS='1'
+			</isEqual>
+			<isEqual property="status" compareValue="cancel">
+				ZC_EB_SIGNUP.STATUS='cancel'
+			</isEqual>
+			<!-- 中标项目 -->
+			<isEqual property="status" compareValue="bid">
+				ZC_EB_SIGNUP.PROJ_CODE = ZC_EB_PROJ.PROJ_CODE
+				AND EXISTS(SELECT * FROM zc_eb_signup sp, zc_eb_signup_pack spp 
+   WHERE sp.signup_id=spp.signup_id AND sp.signup_id=zc_eb_signup.signup_id 
+   AND spp.pack_code=pack.pack_code
+   AND sp.provider_code=#manageCode# AND spp.sp_status='1')
+   AND EXISTS(SELECT * FROM zc_EB_EVAL_REPORT rp WHERE rp.proj_code=
+   zc_eb_proj.proj_code AND rp.provider_code=#manageCode#)
+			</isEqual>
+			<!-- 参与的投标项目 -->
+			<isEqual property="status" compareValue="all">
+			ZC_EB_SIGNUP.PROJ_CODE = ZC_EB_PROJ.PROJ_CODE
+			AND	 EXISTS(SELECT * FROM zc_eb_signup sp, zc_eb_signup_pack spp 
+   WHERE sp.signup_id=spp.signup_id AND sp.signup_id=zc_eb_signup.signup_id 
+   AND spp.pack_code=pack.pack_code
+   AND sp.provider_code=#manageCode# AND spp.sp_status='1')
+			</isEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="billStatus">
+			ZC_EB_SIGNUP.SIGNUP_MANNER=#billStatus#
+		</isNotNull>
+		<isNotNull prepend="AND" property="projCode">
+			ZC_EB_SIGNUP.PROJ_CODE=#projCode#
+		</isNotNull>
+   and PACK.Proj_Code=plan.proj_code
+   AND PACK.PACK_CODE = PLAN.PACK_CODE
+   and ZC_EB_PROJ.Proj_Code=pack.proj_code
+   and pack.pack_code=report.pack_code(+)
+   AND PACK.PROJ_CODE = REPORT.PROJ_CODE(+)
+   and pack.entrust_code=sh.sn
+group by ZC_EB_PROJ.Proj_Code,ZC_EB_PROJ.Proj_Name,plan.open_bid_time,sh.attn_name,zc_eb_signup.is_pay_guarantee
+	</select>
+
+	<select id="getZcEbSignupList" resultMap="ZcEbSignupWithPlanResult"
+		parameterClass="elementCondition">
+	SELECT ZC_EB_SIGNUP.*,
+       ZC_EB_PROJ.PROJ_NAME,
+       ZC_EB_PROJ.CO_CODE,
+     	 ZC_EB_PROJ_ZBFILE.FILE_ID   AS ZB_FILE_ID,
+     	 ZC_EB_PROJ_ZBFILE.WORD_FILE_ID   AS ZB_FILE_WORD_ID,
+		l.plan_code,
+		l.sell_start_time,
+		l.sell_end_time,
+		l.bid_end_time,
+		l.open_bid_time,
+		l.open_bid_address,
+		l.doc_price,
+		l.doc_seller,
+		l.doc_sell_address,
+		l.doc_sell_phone
+  FROM ZC_EB_SIGNUP      ZC_EB_SIGNUP,
+       ZC_EB_PROJ_ZBFILE ZC_EB_PROJ_ZBFILE,
+       ZC_EB_PROJ        ZC_EB_PROJ,
+       zc_eb_plan l
+   WHERE ZC_EB_PROJ_ZBFILE.PROJ_CODE(+) = ZC_EB_SIGNUP.PROJ_CODE 
+   AND ZC_EB_PROJ.PROJ_CODE = ZC_EB_SIGNUP.PROJ_CODE 
+   and ZC_EB_PROJ.PROJ_CODE=l.proj_code
+		<isNotNull prepend="AND" property="zcText0">
+			ZC_EB_SIGNUP.PROVIDER_CODE=#manageCode#
+		</isNotNull>
+		<isNotEqual prepend="AND" property="nd" compareValue="0">
+			ZC_EB_SIGNUP.ND=#nd#
+		</isNotEqual>
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		<isNotNull prepend="AND" property="status">
+			<isEqual property="status" compareValue="todo">
+				ZC_EB_SIGNUP.STATUS='1'
+			</isEqual>
+			<isEqual property="status" compareValue="cancel">
+				ZC_EB_SIGNUP.STATUS='cancel'
+			</isEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="billStatus">
+			ZC_EB_SIGNUP.SIGNUP_MANNER=#billStatus#
+		</isNotNull>
+		<isNotNull prepend="AND" property="projCode">
+			ZC_EB_SIGNUP.PROJ_CODE=#projCode#
+		</isNotNull>
+		<isNotNull prepend="AND" property="zcText1">
+			ZC_EB_SIGNUP.PROVIDER_CODE=#zcText1#
+		</isNotNull>
+		ORDER BY ZC_EB_SIGNUP.SINGNUP_DATE DESC,ZC_EB_SIGNUP.PROJ_CODE DESC
+	</select>
+
+	<select id="getZcEbSignupSubmit" resultMap="ZcEbSignupResultCoCode"
+		parameterClass="elementCondition">
+		SELECT ZC_EB_SIGNUP.*,
+		       PJ.PROJ_NAME,
+		       PJ.CO_CODE,
+     	 ZC_EB_PROJ_ZBFILE.FILE_ID   AS ZB_FILE_ID,
+     	 ZC_EB_PROJ_ZBFILE.WORD_FILE_ID   AS ZB_FILE_WORD_ID
+		  FROM ZC_EB_SIGNUP      ZC_EB_SIGNUP,
+		       ZC_EB_PROJ_ZBFILE ZC_EB_PROJ_ZBFILE,
+		       ZC_EB_PROJ        PJ
+		 WHERE ZC_EB_PROJ_ZBFILE.PROJ_CODE(+) = ZC_EB_SIGNUP.PROJ_CODE
+		   AND PJ.PROJ_CODE(+) = ZC_EB_SIGNUP.PROJ_CODE
+		<isNotNull prepend="AND" property="manageCode">
+			ZC_EB_SIGNUP.PROVIDER_CODE=#manageCode#
+		</isNotNull>
+		<isNotEqual prepend="AND" property="nd" compareValue="0">
+			ZC_EB_SIGNUP.ND=#nd#
+		</isNotEqual>
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		<isNotNull prepend="AND" property="status">
+			<isEqual property="status" compareValue="todo">
+				NVL(ZC_EB_SIGNUP.IS_SUBMIT_BID_DOC, 'N')='N' and ZC_EB_SIGNUP.STATUS!='cancel'
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				ZC_EB_SIGNUP.IS_SUBMIT_BID_DOC='Y' and ZC_EB_SIGNUP.STATUS!='cancel'
+			</isEqual>
+			<isEqual property="status" compareValue="all">
+				1=1
+			</isEqual>
+			<isEqual property="status" compareValue="cancel">
+				ZC_EB_SIGNUP.STATUS='cancel'
+			</isEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="status">
+			<isNotEqual property="status" compareValue="cancel">
+			ZC_EB_SIGNUP.STATUS='1' 
+			</isNotEqual>
+		</isNotNull>
+		<isNull prepend="AND" property="status">
+		ZC_EB_SIGNUP.STATUS='1' 
+		</isNull>
+		<isNotNull prepend="AND" property="billStatus">
+			ZC_EB_SIGNUP.SIGNUP_MANNER=#billStatus#
+		</isNotNull>
+		<isNotNull prepend="AND" property="projCode">
+			ZC_EB_SIGNUP.PROJ_CODE=#projCode#
+		</isNotNull>
+		ORDER BY ZC_EB_SIGNUP.SINGNUP_DATE DESC,ZC_EB_SIGNUP.PROJ_CODE DESC
+	</select>
+
+	<select id="getZcEbSignupForU" resultMap="ZcEbSignupResult"
+		parameterClass="elementCondition">
+		SELECT P.*,
+       	N.PROJ_NAME                 AS PROJ_NAME,
+     	 ZC_EB_PROJ_ZBFILE.FILE_ID   AS ZB_FILE_ID,
+     	 ZC_EB_PROJ_ZBFILE.WORD_FILE_ID   AS ZB_FILE_WORD_ID
+  		FROM ZC_EB_SIGNUP P, ZC_EB_PROJ N, ZC_EB_PROJ_ZBFILE ZC_EB_PROJ_ZBFILE
+ 		WHERE N.PROJ_CODE = P.PROJ_CODE
+  		 AND ZC_EB_PROJ_ZBFILE.PROJ_CODE(+) = P.PROJ_CODE
+		<isNotNull prepend="AND" property="extField1">
+			P.PROJ_CODE=#extField1#
+		</isNotNull>
+		<isNotNull prepend="AND" property="extField2">
+			P.PROVIDER_CODE=#extField2#
+		</isNotNull>
+	</select>
+
+	<select id="getZcEbSignupByPPPcode" resultMap="ZcEbSignupPack"
+		parameterClass="elementCondition">
+		select SP.SIGNUP_PACK_ID,SP.SIGNUP_ID from ZC_EB_SIGNUP P,
+		zc_eb_signup_pack SP where P.Signup_Id = SP.Signup_Id
+		<isNotNull prepend="AND" property="extField1">
+			P.PROVIDER_CODE=#extField1#
+		</isNotNull>
+		<isNotNull prepend="AND" property="projCode">
+			P.PROJ_CODE=#projCode#
+		</isNotNull>
+		<isNotNull prepend="AND" property="extField2">
+			SP.Pack_Code = #extField2#
+		</isNotNull>
+	</select>
+
+	<select id="getZcEbSignupByInfo" resultMap="ZcEbSignupAndPack"
+		parameterClass="elementCondition">
+		select P.* from ZC_EB_SIGNUP P, zc_eb_signup_pack SP where P.Signup_Id
+		= SP.Signup_Id
+		<isNotNull prepend="AND" property="extField1">
+			P.PROVIDER_CODE=#extField1#
+		</isNotNull>
+		<isNotNull prepend="AND" property="projCode">
+			P.PROJ_CODE=#projCode#
+		</isNotNull>
+		<isNotNull prepend="AND" property="extField2">
+			SP.Pack_Code = #extField2#
+		</isNotNull>
+	</select>
+
+	<select id="getZcEbSignupById" resultMap="ZcEbSignupResult"
+		parameterClass="String">
+		SELECT P.*,
+       	N.PROJ_NAME                 AS PROJ_NAME,
+     	 ZC_EB_PROJ_ZBFILE.FILE_ID   AS ZB_FILE_ID,
+     	 ZC_EB_PROJ_ZBFILE.WORD_FILE_ID   AS ZB_FILE_WORD_ID
+  		FROM ZC_EB_SIGNUP P, ZC_EB_PROJ N, ZC_EB_PROJ_ZBFILE ZC_EB_PROJ_ZBFILE
+ 		WHERE N.PROJ_CODE = P.PROJ_CODE
+  		 AND ZC_EB_PROJ_ZBFILE.PROJ_CODE(+) = P.PROJ_CODE
+		 AND P.SIGNUP_ID=#VALUE#
+	</select>
+
+	<select id="getZcEbSignupByIdProvider" resultMap="ZcEbSignupResult"
+		parameterClass="ZcEbSignup">
+		SELECT P.*,
+       	N.PROJ_NAME                 AS PROJ_NAME,
+     	 ZC_EB_PROJ_ZBFILE.FILE_ID   AS ZB_FILE_ID,
+     	 ZC_EB_PROJ_ZBFILE.WORD_FILE_ID   AS ZB_FILE_WORD_ID
+  		FROM ZC_EB_SIGNUP P, ZC_EB_PROJ N, ZC_EB_PROJ_ZBFILE ZC_EB_PROJ_ZBFILE
+ 		WHERE N.PROJ_CODE = P.PROJ_CODE
+  		AND ZC_EB_PROJ_ZBFILE.PROJ_CODE(+) = P.PROJ_CODE
+		AND P.PROJ_CODE=#projCode#
+		AND P.PROVIDER_CODE=#providerCode#
+	</select>
+
+	<select id="getZcEbSupplier" resultMap="ZcEbSupplierResult"
+		parameterClass="elementCondition">
+		SELECT B.ZC_SU_CODE,
+		B.ZC_SU_NAME,
+		B.ZC_SU_ADDR,
+		B.ZC_SU_LINKMAN,
+		B.ZC_SU_TEL,
+		B.ZC_POST_CODE,
+		B.ZC_SU_STATUS,
+		B.ZC_ASSESS_CODE,
+		B.ZC_ASSESS_DATE,
+		B.LEGAL_PERSON_MOBILE,
+		B.LINK_MAN_MOBILE,
+		B.LINK_MAN_PHONE,
+		B.LEGAL_PERSON_TEL
+		FROM ZC_B_SUPPLIER B
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="zcText0">
+				B.ZC_SU_STATUS =#zcText0#
+			</isNotNull>
+			<isNotNull prepend="AND" property="projCode">
+				b.zc_su_code not in (select p.provider_code from zc_eb_signup p where p.proj_code=#projCode#)
+			</isNotNull>
+		</dynamic>
+	</select>
+
+	<select id="getZcEbSignupPackDetail" resultMap="ZcEbSignupPackDetailResultAddColums"
+		parameterClass="elementCondition">
+		SELECT SP.SIGNUP_PACK_ID,
+		S.SIGNUP_ID,
+		PK.PACK_CODE,
+		PK.PACK_NAME,
+		PK.PACK_DESC,
+		SP.IS_PAY_GUARANTEE,
+		SP.GUARANTEE_DESC,
+		sp.bid_doc_id,
+		sp.bid_doc_name,
+		sp.bid_sum,
+		sp.Is_Submit_Bid_Doc,
+		sp.submit_nums,
+		sp.submit_bid_doc_type,
+		sp.SUBMIT_BID_DOC_DATE,
+		sp.OPEN_BID_STATUS,
+		sp.OPEN_BID_REMARK,
+		sp.OPEN_BID_DATE,
+		sp.SP_STATUS,
+		sp.SP_DATE,
+		PK.BID_DEPOSIT,
+		sp.CHECK_RESULT,
+		sp.ECBJ_SUM,
+		sp.TBYLB_FILE_ID,
+		sp.TBYLB_FILE_NAME,
+		pk.BID_DOC_PRICE docPrice
+		FROM
+		ZC_EB_PROJ P,
+		ZC_EB_PACK PK,
+		ZC_EB_SIGNUP S,
+		ZC_EB_SIGNUP_PACK SP
+		WHERE
+		P.PROJ_CODE =
+		PK.PROJ_CODE
+		AND
+		P.PROJ_CODE =S.PROJ_CODE
+		AND
+		S.SIGNUP_ID = SP.SIGNUP_ID
+		AND
+		SP.PACK_CODE =PK.PACK_CODE
+		
+		<isNotNull prepend="AND" property="zcText0">
+			S.PROJ_CODE=#zcText0#
+		</isNotNull>		
+		<isNotNull prepend="AND" property="zcText1">
+			S.SIGNUP_ID =#zcText1#
+		</isNotNull>		
+		and (pk.status!='cancel')
+		order by PK.PACK_CODE
+	</select>
+	<update id="updateZcEbSignup" parameterClass="ZcEbSignup">
+		UPDATE ZC_EB_SIGNUP
+		S
+		SET S.PROVIDER_CODE=#providerCode#,
+		S.PROVIDER_NAME=#providerName#,
+		S.LINKMAN=#linkMan#,
+		S.SINGNUP_DATE=#signupDate:DATE#,
+		S.ADDRESS=#address#,
+		S.ZIPCODE=#zipcode#,
+		S.PHONE=#phone#,
+		S.MOBILE_PHONE=#mobilePhone#,
+		S.EMAIL=#email#,
+		S.PROJ_CODE=#projCode#,
+		S.PUR_DOC_BUY_DATE=#purDocBuyDate:DATE#,
+		S.PUR_DOC_FEE_TYPE=#purDocFeeType#,
+		S.PUR_DOC_FEE_BILL=#purDocFeeBill#,
+		S.STATUS=#status#,
+		S.PUR_DOC_FEE=#purDocFee#,
+		S.SIGNUP_MANNER=#signupManner#,
+		S.OPERATOR=#operator#,
+		S.REMARK=#remark#,
+		S.ND=#nd#,
+		S.IS_SUBMIT_BID_DOC=#isSubmitBidDoc#,
+		S.SUBMIT_BID_DOC_TYPE=#submitBidDocType#,
+		S.BID_DOC_ID=#bidDocFileId#,
+		S.BID_DOC_NAME=#bidDocFile#, S.ORG_CODE=#orgCode#, S.AGENCY=#agency#
+		WHERE
+		S.SIGNUP_ID=#signupId#
+	</update>
+	<update id="updateSignUp_IS_SUBMIT_BID_DOC" parameterClass="ZcEbSignup">
+		UPDATE
+		ZC_EB_SIGNUP S
+		SET
+		S.IS_SUBMIT_BID_DOC=#isSubmitBidDoc#
+		<isNotEmpty prepend="," property="bidDocFileId">
+			S.BID_DOC_ID=#bidDocFileId#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="bidDocFile">
+			S.BID_DOC_NAME=#bidDocFile#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="submitBidDocType">
+			S.SUBMIT_BID_DOC_TYPE=#submitBidDocType#
+		</isNotEmpty>
+		WHERE
+		S.SIGNUP_ID=#signupId#
+
+	</update>
+
+	<update id="updateZcEbSignupPackDetail" parameterClass="ZcEbSignupPackDetail">
+		UPDATE
+		zc_eb_signup_pack p
+		SET p.pack_code=#packCode#,
+		p.Is_Submit_Bid_Doc=#isSubmitBidDoc#,
+		p.bid_sum=#bidDeposit#,
+		p.bid_doc_id=#bidDocId#,
+		p.bid_doc_name=#bidDocName#,
+		p.submit_bid_doc_type=#submitBidDocType#
+
+		WHERE
+		p.signup_pack_id=#signupPackId#
+		AND p.signup_id=#signupId#
+	</update>
+	<update id="updateSignUpPack_IS_SUBMIT_BID_DOC" parameterClass="ZcEbSignupPackDetail">
+		UPDATE
+		zc_eb_signup_pack p
+		SET
+		p.Is_Submit_Bid_Doc=#isSubmitBidDoc#
+		<isNotEmpty prepend="," property="bidDocId">
+			p.BID_DOC_ID=#bidDocId#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="bidDocName">
+			p.BID_DOC_NAME=#bidDocName#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="submitBidDocType">
+			P.SUBMIT_BID_DOC_TYPE=#submitBidDocType#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="submitBidDocDate">
+			P.SUBMIT_BID_DOC_DATE=#submitBidDocDate#
+		</isNotEmpty>
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="signupPackId">
+				p.signup_pack_id=#signupPackId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="signupId">
+				p.signup_id=#signupId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="packCode">
+				p.pack_code=#packCode#
+			</isNotNull>
+		</dynamic>
+	</update>
+	<delete id="deleteZcEbSignup" parameterClass="String">
+		delete
+		from
+		zc_eb_signup p
+		WHERE p.signup_id=#VALUE#
+	</delete>
+	<delete id="deleteZcEbSignupPackDetail" parameterClass="String">
+		delete
+		from zc_eb_signup_pack p
+		WHERE p.signup_id=#VALUE#
+	</delete>
+	<delete id="deleteZcEbSignupPackDetailBySignupPackId"
+		parameterClass="String">
+		delete
+		from zc_eb_signup_pack p
+		WHERE
+		p.SIGNUP_PACK_ID=#VALUE#
+	</delete>
+	<insert id="insertZcEbSignup" parameterClass="ZcEbSignup">
+		insert into
+		zc_eb_signup(
+		SIGNUP_ID,
+		PROVIDER_CODE,
+		PROVIDER_NAME,
+		LINKMAN,
+		SINGNUP_DATE,
+		ADDRESS,
+		ZIPCODE,
+		PHONE,
+		MOBILE_PHONE,
+		EMAIL,
+		PROJ_CODE,
+		PUR_DOC_BUY_DATE,
+		PUR_DOC_FEE_TYPE,
+		PUR_DOC_FEE_BILL,
+		STATUS,
+		PUR_DOC_FEE,
+		SIGNUP_MANNER,
+		OPERATOR,
+		REMARK,
+		ND,
+		IS_PAY_GUARANTEE, AGENCY,
+		ORG_CODE)
+		values(#signupId:VARCHAR#,
+		#providerCode:VARCHAR#,
+		#providerName:VARCHAR#,
+		#linkMan:VARCHAR#,
+		#signupDate:DATE#,
+		#address:VARCHAR#,
+		#zipcode:VARCHAR#,
+		#phone:VARCHAR#,
+		#mobilePhone:VARCHAR#,
+		#email:VARCHAR#,
+		#projCode:VARCHAR#,
+		#purDocBuyDate:DATE#,
+		#purDocFeeType:VARCHAR#,
+		#purDocFeeBill:VARCHAR#,
+		#status:VARCHAR#,
+		#purDocFee:DECIMAL#,
+		#signupManner:VARCHAR#,
+		#operator:VARCHAR#,
+		#remark:VARCHAR#,
+		#nd#,
+		#isPayGuarantee#, #agency#,
+		#orgCode#)
+	</insert>
+	<insert id="insertZcEbSignupPackDetail" parameterClass="ZcEbSignupPackDetail">
+		insert
+		into zc_eb_signup_pack(
+		PACK_CODE
+		,IS_PAY_GUARANTEE
+		,GUARANTEE_DESC
+		,SIGNUP_PACK_ID
+		,SIGNUP_ID
+		,BID_DOC_ID
+		,BID_DOC_NAME
+		,BID_SUM
+		,IS_SUBMIT_BID_DOC
+		,SUBMIT_NUMS
+		,SUBMIT_BID_DOC_TYPE
+		,SUBMIT_BID_DOC_DATE
+		,OPEN_BID_STATUS
+		,OPEN_BID_REMARK
+		,OPEN_BID_DATE
+		,TBYLB_FILE_NAME
+		,TBYLB_FILE_ID
+		,ECBJ_SUM
+		,CHECK_RESULT
+		,SP_STATUS
+		,SP_DATE
+		)
+		values(
+		#packCode:VARCHAR#
+		,#isPayGuarantee:VARCHAR#
+		,#guaranteeDesc:VARCHAR#
+		,#signupPackId:VARCHAR#
+		,#signupId:VARCHAR#
+		,#bidDocId:VARCHAR#
+		,#bidDocName:VARCHAR#
+		,#bidSum:VARCHAR#
+		,#isSubmitBidDoc:VARCHAR#
+		,#submitNums:VARCHAR#
+		,#submitBidDocType:VARCHAR#
+		,#submitBidDocDate:DATE#
+		,#openBidStatus:VARCHAR#
+		,#openBidRemark:VARCHAR#
+		,#openBidDate:DATE#
+		,#tbylbFileName:VARCHAR#
+		,#tbylbFileId:VARCHAR#
+		,#ecbjSum:DECIMAL#
+		,#checkResult:VARCHAR#
+		,#spStatus:VARCHAR#
+		,#spDate:DATE#
+		)
+	</insert>
+
+	<select id="getZcEbBid" resultMap="ZcEbSignupResult"
+		parameterClass="elementCondition">
+		select * from (
+		SELECT p.SIGNUP_ID
+		,p.PROVIDER_CODE
+		,p.SINGNUP_DATE
+		,p.LINKMAN
+		,p.ADDRESS
+		,p.ZIPCODE
+		,p.PHONE
+		,p.MOBILE_PHONE
+		,p.EMAIL
+		,p.PROJ_CODE
+		,p.PUR_DOC_BUY_DATE
+		,p.PUR_DOC_FEE_TYPE
+		,p.PUR_DOC_FEE_BILL
+		,p.STATUS
+		,p.PUR_DOC_FEE
+		,p.SIGNUP_MANNER
+		,p.IS_PAY_GUARANTEE
+		,p.GUARANTEE_DATE
+		,p.GUARANTEE_OPERATOR
+		,p.GUARANTEE_SUM
+		,p.OPERATOR
+		,p.PROVIDER_NAME
+		,p.REMARK
+		,p.ND
+		,NVL(p.IS_SUBMIT_BID_DOC,'N') AS IS_SUBMIT_BID_DOC
+		,p.BID_DOC_ID
+		,p.BID_DOC_NAME
+		,p.SUBMIT_BID_DOC_TYPE
+		,N.PROJ_NAME as
+		PROJ_NAME, 
+		P.AGENCY,
+		P.ORG_CODE,
+     	 ZC_EB_PROJ_ZBFILE.FILE_ID   AS ZB_FILE_ID,
+     	 ZC_EB_PROJ_ZBFILE.WORD_FILE_ID   AS ZB_FILE_WORD_ID
+		from ZC_EB_SIGNUP P,
+		ZC_EB_PROJ N,
+		ZC_EB_PROJ_ZBFILE ZC_EB_PROJ_ZBFILE
+		where
+		N.PROJ_CODE = P.PROJ_CODE
+		AND ZC_EB_PROJ_ZBFILE.PROJ_CODE(+) = P.PROJ_CODE
+		<isNotEqual prepend="AND" compareValue="0" property="nd">
+			N.ND =
+			#nd#
+		</isNotEqual>
+		<isNotNull prepend="AND" property="manageCode">
+			P.PROVIDER_CODE = #manageCode#
+		</isNotNull>
+		<isNotNull prepend="AND" property="status">
+			<isEqual property="status" compareValue="todo">
+				(
+				P.IS_SUBMIT_BID_DOC='N'
+				OR P.IS_SUBMIT_BID_DOC IS NULL )
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				P.IS_SUBMIT_BID_DOC='Y'
+			</isEqual>
+			<isEqual property="status" compareValue="all">
+				1=1
+			</isEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="billStatus">
+			NVL(p.IS_SUBMIT_BID_DOC,'N')=#billStatus#
+		</isNotNull>
+		<isNotNull prepend="AND" property="projCode">
+			P.proj_code=#projCode#
+		</isNotNull>
+		 )where 1=1
+		 <include refid="BusiNumLim.BusiNumLimStr" />
+		ORDER BY SIGNUP_ID DESC
+	</select>
+
+	<select id="getZcEbSignupPackDetailByPackCode" resultMap="ZcEbSignupPackDetailResult"
+		parameterClass="Map">
+		SELECT SP.SIGNUP_PACK_ID,
+		S.SIGNUP_ID,
+		PK.PACK_CODE,
+		PK.PACK_NAME,
+		PK.PACK_DESC,
+		SP.IS_PAY_GUARANTEE,
+		SP.GUARANTEE_DESC,
+		sp.bid_doc_id,
+		sp.bid_doc_name,
+		sp.bid_sum,
+		sp.Is_Submit_Bid_Doc,
+		sp.submit_nums,
+		sp.submit_bid_doc_type,
+		sp.SUBMIT_BID_DOC_DATE,
+		sp.OPEN_BID_STATUS,
+		sp.OPEN_BID_REMARK,
+		sp.OPEN_BID_DATE,
+		sp.SP_STATUS,
+		sp.SP_DATE,
+		PK.BID_DEPOSIT,
+		'' docPrice
+		FROM
+		ZC_EB_SIGNUP_PACK SP,zc_eb_pack pk,ZC_EB_SIGNUP s,zc_eb_proj p
+		WHERE
+		P.PROJ_CODE = PK.PROJ_CODE
+		AND
+		P.PROJ_CODE
+		= S.PROJ_CODE
+		AND
+		S.SIGNUP_ID = SP.SIGNUP_ID
+		AND
+		SP.PACK_CODE =
+		PK.PACK_CODE
+		AND
+		SP.PACK_CODE = #PACK_CODE#
+		AND
+		S.PROJ_CODE = #PROJ_CODE#
+	</select>
+	<select id="getSignupProjListForToubiao" resultClass="java.util.HashMap"
+		parameterClass="map">
+		SELECT DISTINCT PJ.PROJ_CODE PROJ_CODE, PJ.PROJ_NAME
+		PROJ_NAME
+		FROM ZC_EB_SIGNUP S
+		JOIN ZC_EB_PROJ PJ
+		ON S.PROJ_CODE =
+		PJ.PROJ_CODE
+		JOIN ZC_EB_PLAN PL
+		ON S.PROJ_CODE=PL.PROJ_CODE
+		WHERE
+		PL.BID_END_TIME >= sysdate
+		AND PJ.PUR_TYPE IN('1','3','4','7')
+	</select>
+	<select id="getEcbjProjListForQuotation" resultClass="java.util.HashMap"
+		parameterClass="map">
+		SELECT DISTINCT PJ.PROJ_CODE PROJ_CODE, PJ.PROJ_NAME
+		PROJ_NAME
+		FROM ZC_EB_SIGNUP S
+		JOIN ZC_EB_PROJ PJ
+		ON S.PROJ_CODE =
+		PJ.PROJ_CODE
+		JOIN ZC_EB_ECBJ_PLAN PL
+		ON S.PROJ_CODE=PL.PROJ_CODE
+		WHERE
+		PJ.PUR_TYPE IN('1','3','4','7')
+		AND PL.END_TIME >= sysdate
+	</select>
+	<update id="updateBZJStatus" parameterClass="java.util.HashMap">
+		UPDATE zc_eb_signup
+		s
+		SET s.guarantee_date=#addDate#
+		WHERE s.signup_id=#singupId#
+	</update>
+	<select id="getSignupByUserID" resultMap="ZcEbSignupResult"
+		parameterClass="string">
+		    SELECT P.*,
+           N.PROJ_NAME                 AS PROJ_NAME,
+     	 ZC_EB_PROJ_ZBFILE.FILE_ID   AS ZB_FILE_ID,
+     	 ZC_EB_PROJ_ZBFILE.WORD_FILE_ID   AS ZB_FILE_WORD_ID
+      FROM ZC_EB_SIGNUP      P,
+           ZC_EB_PROJ        N,
+           ZC_EB_PROJ_ZBFILE ZC_EB_PROJ_ZBFILE,
+           ZC_EB_PLAN        PL
+     WHERE N.PROJ_CODE = P.PROJ_CODE
+       AND ZC_EB_PROJ_ZBFILE.PROJ_CODE(+) = P.PROJ_CODE
+       AND PL.Proj_Code = N.Proj_Code
+       AND PL.BID_END_TIME >= sysdate
+       AND N.PUR_TYPE IN ('1', '3', '4', '7')
+	   AND P.PROVIDER_CODE=#value#
+	</select>
+
+	<select id="getZcEbSignupForCancel" resultMap="ZcEbSignupResult"
+		parameterClass="String">
+		SELECT P.*, '' PROJ_NAME, '' ZB_FILE_ID,'' ZB_FILE_WORD_ID
+  FROM ZC_EB_SIGNUP P
+ WHERE p.proj_code=#value#
+	</select>
+	
+	<select id="getSignupSiteList" resultMap="ZcEbSignupInfoResult" 
+	
+		parameterClass="com.ufgov.zc.common.zc.model.ZcEbProjSupport">
+		
+		SELECT * FROM ZC_EB_SIGNUP 
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="zcEbSupplier.code">
+				PROVIDER_CODE=#zcEbSupplier.code#
+			</isNotNull>
+			<isNotNull prepend="AND" property="isSite">
+				IS_SITE=#isSite#
+			</isNotNull>
+		</dynamic>
+		
+	</select>
+	
+	<select id="getZcEbPackPlanResult" resultMap="ZcEbPackPlanResult" parameterClass="elementCondition">
+		SELECT PROJ_CODE,
+           PACK_CODE,
+           BID_END_TIME BID_END_TIME,
+           OPEN_BID_TIME OPEN_BID_TIME,
+           SELL_END_TIME SELL_END_TIME
+      FROM V_ZC_EB_PACK_PLAN
+		   <isNotNull prepend=" WHERE " property="projCode">
+		   	PROJ_CODE=#projCode#
+		   </isNotNull>
+	</select>
+	
+	<update id="updateZcEbSignupPackStatus" parameterClass="ZcEbSignupPackDetail">
+		UPDATE zc_eb_signup_pack p
+		SET p.sp_status=#spStatus#
+		WHERE
+		p.signup_pack_id=#signupPackId# AND p.signup_id=#signupId#
+	</update>
+	
+	<select id="getZcEbSignupPackDetailByIDPack" resultMap="ZcEbSignupPackDetailResult"
+		parameterClass="ZcEbSignupPackDetail">
+		SELECT SP.SIGNUP_PACK_ID,
+		S.SIGNUP_ID,
+		PK.PACK_CODE,
+		PK.PACK_NAME,
+		PK.PACK_DESC,
+		SP.IS_PAY_GUARANTEE,
+		SP.GUARANTEE_DESC,
+		sp.bid_doc_id,
+		sp.bid_doc_name,
+		sp.bid_sum,
+		sp.Is_Submit_Bid_Doc,
+		sp.submit_nums,
+		sp.submit_bid_doc_type,
+		sp.SUBMIT_BID_DOC_DATE,
+		sp.OPEN_BID_STATUS,
+		sp.OPEN_BID_REMARK,
+		sp.OPEN_BID_DATE,
+		sp.SP_STATUS,
+		sp.SP_DATE,
+		PK.BID_DEPOSIT,
+		'' docPrice
+		FROM
+		ZC_EB_SIGNUP_PACK SP,zc_eb_pack pk,ZC_EB_SIGNUP s,zc_eb_proj p
+		WHERE
+		P.PROJ_CODE = PK.PROJ_CODE
+		AND P.PROJ_CODE = S.PROJ_CODE
+		AND S.SIGNUP_ID = SP.SIGNUP_ID
+		AND SP.PACK_CODE = PK.PACK_CODE
+		<isNotNull prepend="and" property="signupId">
+			S.SIGNUP_ID=#signupId#
+		</isNotNull>
+		<isNotNull prepend="and" property="packCode">
+			SP.PACK_CODE = #packCode#
+		</isNotNull>
+	</select>
+	<update id="updateZcEbSignupPackDetailByIDPack" parameterClass="ZcEbSignupPackDetail">
+		UPDATE zc_eb_signup_pack p
+		   SET is_pay_guarantee = v_is_pay_guarantee,
+		       check_result = v_check_result,
+		       guarantee_desc = v_guarantee_desc,
+		       bid_sum = v_bid_sum,
+		       open_bid_status = v_open_bid_status,
+		       open_bid_remark = v_open_bid_remark,
+		       open_bid_date = v_open_bid_date,
+		       is_submit_bid_doc = v_is_submit_bid_doc,
+		       submit_bid_doc_type = v_submit_bid_doc_type,
+		       submit_nums = v_submit_nums,
+		       bid_doc_id = v_bid_doc_id,
+		       bid_doc_name = v_bid_doc_name,
+		       ecbj_sum = v_ecbj_sum,
+		       tbylb_file_id = v_tbylb_file_id,
+		       tbylb_file_name = v_tbylb_file_name,
+		       submit_bid_doc_date = v_submit_bid_doc_date,
+		       promise_work_date = v_promise_work_date,
+		       sp_status = v_sp_status,
+		       sp_date = v_sp_date
+		 WHERE p.signup_id=#signupId#
+		 AND   p.pack_code=#packCode#
+	</update>
+	
+	<update id="updateSubmitDocStatus" parameterClass="ZcEbSignupPackDetail">
+		update zc_eb_signup_pack p 
+			set is_submit_bid_doc=#isSubmitBidDoc#
+			where p.signup_id=#signupId# 
+		 	AND   p.pack_code=#packCode#
+	</update>
+	
+	<select id="getBidZcEbSignupPackDetailByID" resultClass="String"
+		parameterClass="String">
+		SELECT 
+		wm_concat('_'||sp.PACK_CODE||'_') PACK_CODE
+		FROM
+		ZC_EB_SIGNUP_PACK SP
+		WHERE SP.SIGNUP_ID=#value# and sp.sp_status='1'
+	</select>
+	<select id="getRealMessageSignupList" resultMap="ZcEbSignupResultCoCode"
+		parameterClass="elementCondition">
+	SELECT ZC_EB_SIGNUP.*,
+       PJ.PROJ_NAME,
+       PJ.CO_CODE,
+     	 ZC_EB_PROJ_ZBFILE.FILE_ID   AS ZB_FILE_ID,
+     	 ZC_EB_PROJ_ZBFILE.WORD_FILE_ID   AS ZB_FILE_WORD_ID
+  FROM ZC_EB_SIGNUP      ZC_EB_SIGNUP,
+       ZC_EB_PROJ_ZBFILE ZC_EB_PROJ_ZBFILE,
+       ZC_EB_PROJ        PJ
+ WHERE ZC_EB_PROJ_ZBFILE.PROJ_CODE(+) = ZC_EB_SIGNUP.PROJ_CODE
+   AND PJ.PROJ_CODE(+) = ZC_EB_SIGNUP.PROJ_CODE 
+   <![CDATA[
+    AND EXISTS
+		 (select ZC_EB_PACK.Pack_Code
+          from Zc_Eb_Duty_Audit_Sheet sheet,
+               ZC_EB_PACK             ZC_EB_PACK,
+               V_ZC_EB_PACK_PLAN      V_ZC_EB_PACK_PLAN,
+               zc_eb_signup_pack sp
+         where sheet.sn = ZC_EB_PACK.ENTRUST_CODE
+           AND ZC_EB_PACK.Entrust_Code=sheet.sn
+           AND V_ZC_EB_PACK_PLAN.pack_code = ZC_EB_PACK.Pack_Code
+           AND ZC_EB_SIGNUP.Proj_Code=ZC_EB_PACK.Proj_Code
+           and zc_eb_pack.pack_code=sp.pack_code
+           and sp.signup_id=ZC_EB_SIGNUP.Signup_Id
+           and sp.sp_status='1'
+           AND (sheet.attn =#executor#)
+           AND to_char(V_ZC_EB_PACK_PLAN.open_bid_time,'yyyy-mm-dd') = to_char(Sysdate,'yyyy-mm-dd')
+           AND V_ZC_EB_PACK_PLAN.open_bid_time<Sysdate) 
+         ]]>
+		<isNotEqual prepend="AND" property="nd" compareValue="0">
+			ZC_EB_SIGNUP.ND=#nd#
+		</isNotEqual>
+		<isNotNull prepend="AND" property="projCode">
+			ZC_EB_SIGNUP.PROJ_CODE=#projCode#
+		</isNotNull>
+		ORDER BY ZC_EB_SIGNUP.SINGNUP_DATE DESC,ZC_EB_SIGNUP.PROJ_CODE DESC
+	</select>
+	<update id="updateZcEbSignupPackDetailTbYLBID" parameterClass="ZcEbSignupPackDetail">
+		UPDATE
+		ZC_EB_SIGNUP_PACK P
+		SET
+		P.TBYLB_FILE_ID=#tbylbFileId#,
+		P.TBYLB_FILE_NAME=#tbylbFileName#
+		WHERE
+		P.SIGNUP_PACK_ID=#signupPackId#
+		AND P.SIGNUP_ID=#signupId#
+	</update>
+	<select id="getBidZcEbSignupPackKbyLbByMap" resultMap="ZcEbSignupPackKbylbDetailResult"
+		parameterClass="map">
+		SELECT SP.TBYLB_FILE_ID, SP.TBYLB_FILE_NAME
+		FROM ZC_EB_SIGNUP_PACK SP, ZC_EB_SIGNUP ZP
+		WHERE SP.SIGNUP_ID = ZP.SIGNUP_ID
+		AND ZP.PROVIDER_CODE = #SU_CO_CODE#
+		AND SP.PACK_CODE = #PACK_CODE#
+	</select>	
+	<select id="getZcEbSignupPackListWithNums" resultMap="ZcEbSignupPackDetailResultWithProjcode"
+		parameterClass="elementCondition">
+		SELECT SP.SIGNUP_PACK_ID,
+	sp.SIGNUP_ID,	
+    PK.proj_code,
+    PK.PACK_CODE,
+    PK.PACK_NAME,
+    PK.PACK_DESC,
+    SP.IS_PAY_GUARANTEE,
+    SP.GUARANTEE_DESC,
+    sp.bid_doc_id,
+    sp.bid_doc_name,
+    sp.bid_sum,
+    sp.Is_Submit_Bid_Doc,
+    sp.submit_nums,
+    sp.submit_bid_doc_type,
+    sp.SUBMIT_BID_DOC_DATE,
+    sp.OPEN_BID_STATUS,
+    sp.OPEN_BID_REMARK,
+    sp.OPEN_BID_DATE,
+    sp.SP_STATUS,
+    sp.SP_DATE,
+    PK.BID_DEPOSIT,
+    '' docPrice
+    FROM
+    zc_eb_pack pk,zc_eb_proj p,zc_eb_plan l,
+    ZC_EB_SIGNUP_PACK SP    
+    WHERE
+    P.PROJ_CODE = PK.PROJ_CODE
+    AND
+    SP.PACK_CODE(+) =PK.PACK_CODE    
+    and
+    p.pur_type in ('1', '2', '3', '4')
+    and sp.sp_status='1'
+    and p.proj_code = l.proj_code
+		<isNotNull prepend="and" property="status">
+			<isEqual property="status" compareValue="biding">
+		<![CDATA[ sysdate <= l.bid_end_time ]]>
+			</isEqual>
+			<isEqual property="status" compareValue="opened">
+		<![CDATA[ sysdate > l.bid_end_time ]]>
+			</isEqual>
+		</isNotNull>
+		<isNotNull prepend="and" property="zcText0">
+			p.proj_code=#zcText0#
+		</isNotNull>
+	</select>
+</sqlMap>
+

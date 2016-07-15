@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ZcFileResumeBrokenUpload">
+	<typeAlias alias="ZcFileResumeBrokenUpload" type="com.ufgov.zc.common.zc.model.ZcFileResumeBrokenUpload"></typeAlias>
+	<typeAlias alias="elementCondition"	type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+    
+  <resultMap class="ZcFileResumeBrokenUpload" id="ZcFileResumeBrokenUploadResult">
+        <result column="USER_ID" property="userId" />
+        <result column="PACK_ID" property="packId" />
+        <result column="PROJECT_ID" property="projectId" />
+        <result column="FILE_ID" property="fileId" />
+        <result column="FILE_NAME" property="fileName" />
+        <result column="MD5_CODE" property="md5Code" />
+        <result column="BLOCK_ID" property="blockId" />
+        <result column="IFSUCCESS" property="ifSuccess" />
+        <result column="FILE_PATH" property="filePath" />
+        <result column="SEQUENCE_ORDER" property="sequenceOrder" />
+  </resultMap>
+	
+	<select id="getZcFileResumeBrokenUploadByInfo" resultMap="ZcFileResumeBrokenUploadResult" parameterClass="elementCondition">
+	   select P.* from ZC_FILE_RESUME_BROKEN_UPLOAD P where 1 = 1
+	   <isNotNull prepend="AND" property="extField1">
+	      P.USER_ID=#extField1#
+	   </isNotNull>
+	   <isNotNull prepend="AND" property="extField2">
+	      P.PROJECT_ID=#extField2#
+	   </isNotNull>
+	   <isNotNull prepend="AND" property="extField3">
+	      P.PACK_ID=#extField3#
+	   </isNotNull>
+
+	</select>
+	
+	<insert id="insertObject" parameterClass="ZcFileResumeBrokenUpload">
+	   insert into ZC_FILE_RESUME_BROKEN_UPLOAD(
+	             USER_ID,
+	             PROJECT_ID,
+	             PACK_ID,
+	             FILE_ID,
+	             FILE_NAME,
+	             MD5_CODE,
+	             BLOCK_ID,
+	             IFSUCCESS,
+	             FILE_PATH,
+	             SEQUENCE_ORDER
+	   ) values(
+	             #userId:VARCHAR#,
+	             #projectId:VARCHAR#,
+	             #packId:VARCHAR#,
+	             #fileId:VARCHAR#,
+	             #fileName:VARCHAR#,
+	             #md5Code:VARCHAR#,
+	             #blockId:VARCHAR#,
+	             #ifSuccess:VARCHAR#,
+	             #filePath:VARCHAR#,
+	             #sequenceOrder:VARCHAR#   
+	   )
+	</insert>
+	
+	<update id="updateObject" parameterClass="ZcFileResumeBrokenUpload">
+	   update ZC_FILE_RESUME_BROKEN_UPLOAD
+	      set MD5_CODE = #md5Code:VARCHAR#
+	    where USER_ID = #userId:VARCHAR#
+	      and PROJECT_ID = #projectId:VARCHAR#
+	      and PACK_ID = #packId:VARCHAR#
+	</update>
+	
+	<delete id="deleteObject" parameterClass="ZcFileResumeBrokenUpload">
+	   delete from ZC_FILE_RESUME_BROKEN_UPLOAD
+	    where USER_ID = #userId:VARCHAR#
+	      and PROJECT_ID = #projectId:VARCHAR#
+	      and PACK_ID = #packId:VARCHAR#
+	</delete>
+</sqlMap>

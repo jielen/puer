@@ -1,0 +1,1 @@
+package com.ufgov.zc.common.cp.model.report;import java.math.BigDecimal;public class BiPayQueryCpVoucherA extends PayQueryReport {  private BigDecimal auditCpVou0202;  public BigDecimal getAuditCpVou0202() {    return auditCpVou0202;  }  public void setAuditCpVou0202(BigDecimal auditCpVou0202) {    this.auditCpVou0202 = auditCpVou0202;  }}

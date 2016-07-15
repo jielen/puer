@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ZcAuctionRecord">
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<typeAlias alias="ZcAuctionRecord"
+		type="com.ufgov.zc.common.zc.model.ZcAuctionRecord" />
+	<resultMap id="ZcAuctionRecordResult" class="com.ufgov.zc.common.zc.model.ZcAuctionRecord">
+		<result column="ZC_AUCTION_ID" jdbcType="VARCHAR" property="zcAuctionId" />
+		<result column="ZC_AUCTION_BID_USERID" jdbcType="VARCHAR"
+			property="zcAuctionBidUserid" />
+		<result column="ZC_AUCTION_BID_PRICE" jdbcType="DECIMAL"
+			property="zcAuctionBidPrice" />
+		<result column="ZC_AUCTION_BID_TIME" jdbcType="DATE"
+			property="zcAuctionBidTime" />
+	</resultMap>
+	<resultMap id="ZcAuctionLowestPrice" class="com.ufgov.zc.common.zc.model.ZcAuctionRecord">
+		<result column="ZC_AUCTION_BID_PRICE" jdbcType="DECIMAL"
+			property="zcAuctionBidPrice" />
+		<result column="ZC_AUCTION_BID_USERID" jdbcType="VARCHAR"
+			property="zcAuctionBidUserid" />
+	</resultMap>
+	
+	<select id="selectAuctionRecordById" resultMap="ZcAuctionRecordResult"
+		parameterClass="String"> select * from ZC_AUCTION_RECORD r where
+		r.ZC_AUCTION_ID = #auctionId# order by r.ZC_AUCTION_BID_PRICE
+	</select>
+	
+	<select id="selectAuctionLowestPrice" resultMap="ZcAuctionLowestPrice"
+		parameterClass="String"> select * from ZC_AUCTION_RECORD r where
+		r.zc_auction_bid_price = ( select MIN(ZC_AUCTION_BID_PRICE) from
+		ZC_AUCTION_RECORD re where re.ZC_AUCTION_ID = #auctionId#) and r.ZC_AUCTION_ID = #auctionId#</select>
+		
+	<insert id="inserBidRecord" parameterClass="ZcAuctionRecord"> insert into
+		ZC_AUCTION_RECORD (ZC_AUCTION_ID, ZC_AUCTION_BID_USERID,
+		ZC_AUCTION_BID_PRICE, ZC_AUCTION_BID_TIME) values (#zcAuctionId#,
+		#zcAuctionBidUserid#, #zcAuctionBidPrice#,#zcAuctionBidTime#
+		)</insert>
+</sqlMap>

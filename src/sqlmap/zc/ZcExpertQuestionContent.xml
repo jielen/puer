@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ZcExpertQuestionContent">
+   <typeAlias alias="dto" type="com.ufgov.zc.common.system.dto.ElementConditionDto"/>
+   <typeAlias alias="zcExpertQuestionContent" type="com.ufgov.zc.common.zc.model.ZcExpertQuestionContent"/>
+   <typeAlias alias="zcExpertQuestion" type="com.ufgov.zc.common.zc.model.ZcExpertQuestion"/>
+   <typeAlias alias="zcExpertQuestionAllMessage" type="com.ufgov.zc.common.zc.model.ZcExpertQuestionAllMessage"/>
+   
+   <resultMap class="zcExpertQuestionContent" id="ZcExpertQuestionContentResult">
+      <result property="id" column="id"/>
+      <result property="dialogueId" column="dialogue_id"/>
+      <result property="sender" column="sender"/>
+      <result property="sendTime" column="send_time"/>
+      <result property="sendContent" column="send_content"/>
+   </resultMap>
+   
+   <resultMap class="zcExpertQuestionAllMessage" id="ZcExpertQuestionAllMessageResult">
+      <result property="selfObjectName" column="selfObjectName"/>
+      <result property="toObjectName" column="toObjectName"/>
+      <result property="sendTime" column="sendTime"/>
+      <result property="sendContent" column="sendContent"/>   
+   </resultMap>
+   
+   <insert id="insertZcExpertQuestionContent" parameterClass="zcExpertQuestionContent">
+      <selectKey keyProperty="id" resultClass="long">
+        select SEQ_PUR_DEPART_REVIEW.nextval as id from dual
+      </selectKey>
+      insert into zc_expert_question_content
+      (id, dialogue_id, sender, send_time, send_content)
+      values
+      (#id#, #dialogueId#, #sender#, #sendTime#, #sendContent#)      
+   </insert>
+   
+   <select id="getZcExpertQuestionContent" parameterClass="zcExpertQuestion" resultMap="ZcExpertQuestionContentResult">
+      select * from zc_expert_question_content
+      <dynamic prepend="where">
+         <isNotNull prepend="and" property="dialogueId">
+            dialogue_id = #id#
+         </isNotNull>
+      </dynamic>
+   </select>
+   
+   <select id="getZcExpertQuestionAllMessage" parameterClass="dto" resultMap="ZcExpertQuestionAllMessageResult">
+		 select case
+		         when zeq.expert_name = zeqc.sender then
+		          zeq.expert_name
+		         else
+		          zeq.supplier_name
+		       end as selfObjectName,
+		       case
+		         when zeq.expert_name = zeqc.sender then
+		          zeq.supplier_name
+		         else
+		          zeq.expert_name
+		       end as toObjectName,
+		       zeqc.send_time as sendTime,
+		       zeqc.send_content as sendContent
+		  from zc_expert_question zeq, zc_expert_question_content zeqc
+		 where zeq.id = zeqc.dialogue_id
+		   <isNotNull prepend="and" property="extField1">
+		     zeq.proj_code = #extField1#
+		   </isNotNull>
+		   <isNotNull prepend="and" property="extField2">
+		     zeq.pack_code = #extField2#
+		   </isNotNull>
+		   <isNotNull prepend="and" property="extField3">
+		     zeq.expert_name = #extField3#
+		   </isNotNull>
+		   <isNotNull prepend="and" property="extField4">
+		     zeq.supplier_name = #extField4#
+		   </isNotNull>
+		   order by zeqc.send_time 
+   </select>
+   
+   
+   
+   <select id="getZcExpertQuestionAllMessageNum" parameterClass="dto" resultMap="ZcExpertQuestionAllMessageResult">
+		 select * from 
+		 	(select t.* , ROWNUM as rn from (select case
+             when zeq.expert_name = zeqc.sender then
+              zeq.expert_name
+             else
+              zeq.supplier_name
+           end as selfObjectName,
+           case
+             when zeq.expert_name = zeqc.sender then
+              zeq.supplier_name
+             else
+              zeq.expert_name
+           end as toObjectName,
+           zeqc.send_time as sendTime,
+           zeqc.send_content as sendContent
+      	from zc_expert_question zeq, zc_expert_question_content zeqc
+		 where zeq.id = zeqc.dialogue_id
+		   <isNotNull prepend="and" property="extField1">
+		     zeq.proj_code = #extField1#
+		   </isNotNull>
+		   <isNotNull prepend="and" property="extField2">
+		     zeq.pack_code = #extField2#
+		   </isNotNull>
+		   <isNotNull prepend="and" property="extField3">
+		     zeq.expert_name = #extField3#
+		   </isNotNull>
+		   <isNotNull prepend="and" property="extField4">
+		     zeq.supplier_name = #extField4#
+		   </isNotNull> 
+		    
+		   order by zeqc.send_time desc
+		   )t   ) 
+		    <![CDATA[ where rn <= 10 ]]>   
+   </select>
+   
+   
+   
+</sqlMap>

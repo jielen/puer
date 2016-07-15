@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ELE_REGION">	<typeAlias alias="EleRegion" type="com.ufgov.zc.common.zc.model.EleRegion"/>	<resultMap class="EleRegion" id="EleRegionResultMap">	<result property="setYear" column="SET_YEAR"/>	<result property="chrCode" column="CHR_CODE"/>	<result property="chrName" column="CHR_NAME"/>	<result property="isTop" column="IS_TOP"/>	</resultMap>	<resultMap class="EleRegion" id="EleRegionTreeResultMap">	<result property="code" column="CHR_CODE"/>	<result property="name" column="CHR_NAME"/>	<result property="chrCode" column="CHR_CODE"/>	<result property="parentCode" column="parent_code"/>	<result property="chrName" column="CHR_NAME"/>	</resultMap>
+	<select id="getAllEleRegions" resultMap="EleRegionResultMap">	    select * from ele_region where is_valid='1'
+	</select>	<select id="getAllEleRegionsNoCond" resultMap="EleRegionTreeResultMap">	    select CHR_CODE,       CHR_NAME,       case         when CHR_CODE5 is not null and CHR_CODE5 != CHR_CODE then          CHR_CODE5         when CHR_CODE4 is not null and CHR_CODE4 != CHR_CODE then          CHR_CODE4         when CHR_CODE3 is not null and CHR_CODE3 != CHR_CODE then          CHR_CODE3         when CHR_CODE2 is not null and CHR_CODE2 != CHR_CODE then          CHR_CODE2         when CHR_CODE1 is not null and CHR_CODE1 != CHR_CODE then          CHR_CODE1         else          ''       end parent_code  from ele_region  order by LEVEL_NUM,CHR_CODE	</select>	<select id="getEleRegionByCode" resultMap="EleRegionResultMap" parameterClass="String">	    select * from ele_region where CHR_CODE=#value# and is_valid='1'	</select>
+</sqlMap>

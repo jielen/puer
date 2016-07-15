@@ -1,0 +1,1 @@
+package com.ufgov.zc.client.component.button;public class SelectMoldButton extends FuncButton {  /**   *    */  private static final long serialVersionUID = -2564446291342163428L;  public SelectMoldButton() {    super();  }  protected void init() {    this.funcId = "fselectMold";    this.defaultText = "选择模板";    super.init();  }}

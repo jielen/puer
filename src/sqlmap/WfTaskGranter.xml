@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="WfTaskGranter">
+
+	<resultMap id="wfTaskGranter" class="com.ufgov.zc.common.commonbiz.model.WfTaskGranter">
+		<result property="grantedId" column="granted_user" />
+		<result property="grantedName" column="granted_name" />
+		<result property="grantDate" column="grant_to_date" />
+		<result property="isGrant" column="is_grant" />
+	</resultMap>
+
+	<select id="getWfTaskGranter" resultMap="wfTaskGranter" parameterClass="map">
+		SELECT
+		granted_user,
+		(select user_name from as_user where user_id = granted_user) as granted_name,
+		grant_to_date,is_grant FROM wf_task_granter
+		WHERE grant_user_id = #userId#
+
+	</select>
+
+	<update id="updateWfTaskGranter" parameterClass="com.ufgov.zc.common.commonbiz.model.WfTaskGranter">
+		UPDATE wf_task_granter
+		SET grant_to_date = #grantDate:DATE#,
+		is_grant = #isGrant:VARCHAR#
+		WHERE granted_user = #grantedId:VARCHAR#
+	</update>
+
+	<update id="updateToRelieveWarrant" parameterClass="com.ufgov.zc.common.commonbiz.model.WfTaskGranter">
+		UPDATE wf_task_granter
+		SET is_grant = 'N'
+		WHERE granted_user = #grantedId:VARCHAR#
+	</update>
+
+	<insert id="insertWfTaskGranter" parameterClass="com.ufgov.zc.common.commonbiz.model.WfTaskGranter">
+		INSERT
+		INTO
+		wf_task_granter(grant_user_id,
+		granted_user,
+		grant_to_date,
+		grant_user_co_code,
+		grant_user_org_code,
+		grant_user_posi_code,
+		is_grant,
+		grant_user_posi_id,
+		grant_level)
+		VALUES(
+		#userId:VARCHAR#,
+		#grantedId:VARCHAR#,
+		#grantDate:DATE#,
+		#userCoCode:VARCHAR#,
+		#userOrgCode:VARCHAR#,
+		#userPosiCode:VARCHAR#,
+		#isGrant:VARCHAR#,
+		#userPosiId:VARCHAR#,
+		#level:INTEGER#)
+	</insert>
+
+	<delete id="deleteWfTaskGranter" parameterClass="map">
+		DELETE FROM
+		wf_task_granter
+		WHERE granted_user = #grantedId:VARCHAR#
+  </delete>
+</sqlMap>

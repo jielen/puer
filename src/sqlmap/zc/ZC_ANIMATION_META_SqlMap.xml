@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ZC_ANIMATION_META" >
+	<resultMap id="abatorgenerated_ZcAnimationMetaResult" class="com.ufgov.zc.common.zc.model.AnimationMeta" >
+		<result column="ANIMA_ID" property="id" jdbcType="VARCHAR" />
+		<result column="ANIMA_DESC" property="desc" jdbcType="VARCHAR" />
+		<result column="ANIMA_IS_USED" property="used" jdbcType="VARCHAR" />
+		<result column="ANIMA_INDEX" property="index" jdbcType="INTEGER" />
+		<result column="ANIMA_DISPLAY_VIEWER" property="displayClazz" jdbcType="VARCHAR" />
+		<result column="ANIMA_EDITOR_VIEWER" property="editorClazz" jdbcType="VARCHAR" />
+		<result column="ANIMA_REPEAT_COUNT" property="repeatcount" jdbcType="INTEGER" />
+		<result column="ANIMA_RESOLUTION" property="resolution" jdbcType="INTEGER" />
+		<result column="ANIMA_DURATION" property="duration" jdbcType="INTEGER" />
+		<result column="ANIMA_TYPE" property="type" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="RealMessResult" class="com.ufgov.zc.common.zc.model.RealMessage" >
+		<result column="MESS_ID" property="id" jdbcType="VARCHAR" />
+		<result column="MESS_TYPE" property="type" jdbcType="VARCHAR" />
+		<result column="MESS_BODY" property="body" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="select" resultMap="abatorgenerated_ZcAnimationMetaResult" parameterClass="com.ufgov.zc.common.zc.model.AnimationMeta" >
+    select ANIMA_ID, ANIMA_DESC, ANIMA_IS_USED, ANIMA_INDEX, ANIMA_DISPLAY_VIEWER,
+      ANIMA_EDITOR_VIEWER, ANIMA_REPEAT_COUNT, ANIMA_RESOLUTION, ANIMA_DURATION, ANIMA_TYPE
+    from ZC_ANIMATION_META
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="id" >
+			ANIMA_ID = #id#
+			</isNotNull>
+			<isNotNull prepend="AND" property="type" >
+			ANIMA_TYPE = #type#
+			</isNotNull>
+			<isNotNull prepend="AND" property="used" >
+			ANIMA_IS_USED = #used#
+			</isNotNull>
+		</dynamic>
+	</select>
+	
+	<delete id="delete" parameterClass="com.ufgov.zc.common.zc.model.AnimationMeta" >
+    delete from ZC_ANIMATION_META
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="id" >
+			ANIMA_ID = #id#
+			</isNotNull>
+			<isNotNull prepend="AND" property="type" >
+			ANIMA_TYPE = #type#
+			</isNotNull>
+			<isNotNull prepend="AND" property="used" >
+			ANIMA_IS_USED = #used#
+			</isNotNull>
+		</dynamic>
+	</delete>
+	
+	<insert id="insert" parameterClass="com.ufgov.zc.common.zc.model.AnimationMeta" >
+    insert into ZC_ANIMATION_META (ANIMA_ID, ANIMA_DESC, ANIMA_IS_USED, ANIMA_INDEX,
+      ANIMA_DISPLAY_VIEWER, ANIMA_EDITOR_VIEWER, ANIMA_REPEAT_COUNT, ANIMA_RESOLUTION,
+      ANIMA_DURATION, ANIMA_TYPE)
+    values (#id:VARCHAR#, #desc:VARCHAR#, #used:VARCHAR#, #index:INTEGER#, #displayClazz:VARCHAR#,
+      #editorClazz:VARCHAR#, #repeatcount:INTEGER#, #resolution:INTEGER#, #duration:INTEGER#, #type:VARCHAR#)
+	</insert>
+	
+	<update id="updateByKey" parameterClass="com.ufgov.zc.common.zc.model.AnimationMeta">
+    update ZC_ANIMATION_META
+		<dynamic prepend="set" >
+			<isNotNull prepend="," property="desc" >
+        ANIMA_DESC = #desc:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="used" >
+        ANIMA_IS_USED = #used:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="index" >
+        ANIMA_INDEX = #index:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="repeatcount" >
+        ANIMA_REPEAT_COUNT = #repeatcount:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="resolution" >
+        ANIMA_RESOLUTION = #resolution:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="," property="duration" >
+        ANIMA_DURATION = #duration:INTEGER#
+			</isNotNull>
+		</dynamic>
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="id" >
+			ANIMA_ID = #id#
+			</isNotNull>
+		</dynamic>
+	</update>
+	
+	<select id="getCurrentDayBidding" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+		select zc_eb_proj.proj_code             as 项目编号,
+		       zc_eb_proj.proj_name             as 项目名称,
+		       Zc_Eb_Duty_Audit_Sheet.Attn_Name as 项目负责人,
+		       zc_eb_plan.open_bid_time         as 开标时间,
+		       zc_eb_plan.open_bid_address      as 开标地点,
+		       zc_Eb_pack.Bid_Deposit           as 投标保证金
+		  from zc_eb_plan             zc_eb_plan,
+		       zc_eb_proj             zc_eb_proj,
+		       zc_Eb_pack             zc_Eb_pack,
+		       Zc_Eb_Duty_Audit_Sheet Zc_Eb_Duty_Audit_Sheet
+		 where zc_eb_plan.proj_code = zc_eb_proj.proj_code
+		   and Zc_Eb_Duty_Audit_Sheet.Sn = zc_Eb_pack.Entrust_Code
+		   and zc_Eb_pack.Proj_Code = zc_eb_proj.proj_code
+		   and to_char(ZC_EB_PLAN.open_bid_time,'yyyy-mm-dd') = to_char(SYSDATE,'yyyy-mm-dd')
+	</select>
+	
+	<select id="getCurrentWeekBidding" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+	<![CDATA[
+		select distinct zc_eb_proj.proj_code    as 项目编号,
+			   zc_eb_proj.proj_name             as 项目名称,
+			   ele_manage_branch.chr_name       as 负责处室,
+			   Zc_Eb_Duty_Audit_Sheet.Attn_Name as 项目负责人,
+			   zc_eb_plan.open_bid_time         as 开标时间,
+			   zc_eb_plan.open_bid_address      as 开标地点
+		  from zc_eb_plan             zc_eb_plan,
+			   zc_eb_proj             zc_eb_proj,
+			   zc_Eb_pack             zc_Eb_pack,
+			   Zc_Eb_Duty_Audit_Sheet Zc_Eb_Duty_Audit_Sheet,
+			   ele_manage_branch      ele_manage_branch
+		 where ele_manage_branch.chr_code =
+			   Zc_Eb_Duty_Audit_Sheet.Superintendent_Org
+		   and zc_eb_plan.proj_code = zc_eb_proj.proj_code
+		   and Zc_Eb_Duty_Audit_Sheet.Sn = zc_Eb_pack.Entrust_Code
+		   and zc_Eb_pack.Proj_Code = zc_eb_proj.proj_code
+		   and zc_eb_plan.open_bid_time >=
+			   (select trunc(sysdate, 'd') + 1 from dual)
+		   and zc_eb_plan.open_bid_time <
+			   (select trunc(sysdate, 'd') + 7 from dual)
+	]]>
+	</select>
+	
+	<select id="getLastWeekBidding" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+	<![CDATA[
+		 select zc_eb_proj.proj_code             as 项目编号,
+				zc_eb_proj.proj_name             as 项目名称,
+				zc_Eb_pack.Pack_Name             as 包号,
+				ele_manage_branch.chr_name       as 负责处室,
+				Zc_Eb_Duty_Audit_Sheet.Attn_Name as 项目负责人,
+				zc_eb_eval_report.provider_name  as 中标供应商,
+				zc_eb_eval_report.bid_sum        as 中标金额
+
+		   from zc_eb_plan             zc_eb_plan,
+				zc_eb_proj             zc_eb_proj,
+				zc_Eb_pack             zc_Eb_pack,
+				Zc_Eb_Duty_Audit_Sheet Zc_Eb_Duty_Audit_Sheet,
+				ele_manage_branch      ele_manage_branch,
+				zc_eb_eval_report      zc_eb_eval_report
+		  where ele_manage_branch.chr_code =
+				Zc_Eb_Duty_Audit_Sheet.Superintendent_Org
+			and zc_eb_plan.proj_code = zc_eb_proj.proj_code
+			and Zc_Eb_Duty_Audit_Sheet.Sn = zc_Eb_pack.Entrust_Code
+			and zc_Eb_pack.Proj_Code = zc_eb_proj.proj_code
+			and zc_eb_eval_report.pack_code = zc_Eb_pack.Pack_Code
+			and zc_eb_plan.open_bid_time >=
+				(select trunc(sysdate, 'd') - 6 from dual)
+			and zc_eb_plan.open_bid_time < (select trunc(sysdate, 'd') from dual)
+	]]>
+	</select>
+	
+	<select id="getPurchaseInfo" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+		SELECT B.TITLE
+		  FROM ZC_WCMS_CONTENT_NEW A
+		 INNER JOIN ZC_WCMS_CONTENT B
+		    ON A.ID = B.ID
+		 WHERE A.CHANNEL_ID = 'DFCGDT'
+	</select>
+	
+	<select id="selectRealMessage" resultMap="RealMessResult" parameterClass="com.ufgov.zc.common.zc.model.RealMessage">
+		SELECT * FROM ZC_REAL_MESSAGE WHERE MESS_TYPE = #type#
+	</select>
+	<insert id="insertRealMessage" parameterClass="com.ufgov.zc.common.zc.model.RealMessage">
+		INSERT INTO ZC_REAL_MESSAGE (MESS_ID, MESS_TYPE, MESS_BODY) VALUES (#id#,#type#,#body#)
+	</insert>
+	<delete id="deleteRealMessage" parameterClass="String">
+		DELETE FROM ZC_REAL_MESSAGE WHERE MESS_ID IN ($value$)
+	</delete>
+</sqlMap>

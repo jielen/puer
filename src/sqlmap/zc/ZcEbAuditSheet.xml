@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ZcEbAuditSheet">
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<typeAlias alias="ZcEbAuditSheet"
+		type="com.ufgov.zc.common.zc.model.ZcEbAuditSheet" />
+	<resultMap id="rltMapping" class="ZcEbAuditSheet">
+		<result property="sheetId" column="SHEET_ID" />
+		<result property="sn" column="SN" />
+		<result property="executor" column="EXECUTOR" />
+		<result property="executeDate" column="EXECUTE_DATE" />
+		<result property="superintendentOrg" column="SUPERINTENDENT_ORG" />
+		<result property="superintendent" column="SUPERINTENDENT" />
+		<result property="superintendentName" column="SUPERINTENDENT_NAME" />
+		<result property="processInstId" column="PROCESS_INST_ID" />
+		<result property="remark" column="REMARK" />
+		<result property="status" column="STATUS" />
+		<result property="zcIsZrsh" column="ZC_IS_ZRSH" />
+		<result property="zcPifuCgfs" column="ZC_PIFU_CGFS" />
+		<result property="zcFzrUserId" column="ZC_FZR_USER_ID" />
+		<result property="zcFzrUserName" column="ZC_FZR_USER_NAME" />
+		<result property="zcMakeName" column="ZC_MAKE_NAME" />
+		<result property="coCode" column="CO_CODE" />		<result property="snCode" column="SN_CODE" />		<result property="attn" column="ATTN" />		<result property="attnName" column="ATTN_NAME" />
+
+		<result property="zcEbEntrust.zcMakeCode" column="ZC_MAKE_CODE" />
+		<result property="zcEbEntrust.zcMakeName" column="ZC_MAKE_NAME" />
+		<result property="zcEbEntrust.coCode" column="CO_CODE" />
+		<result property="zcEbEntrust.nd" column="ND" />
+		<result property="zcEbEntrust.zcMakeLinkman" column="ZC_MAKE_LINKMAN" />
+		<result property="zcEbEntrust.zcMakeTel" column="ZC_MAKE_TEL" />
+
+		<result property="zcEbEntrust.zcInputCode" column="ZC_ENTRUST_INPUT_CODE" />
+		<result property="zcEbEntrust.zcInputDate" column="ZC_ENTRUST_INPUT_DATE" />
+		<result property="zcEbEntrust.zcMoneyBiSum" column="ZC_MONEY_BI_SUM" />
+		<result property="zcEbEntrust.remark" column="ZC_ENTRUST_REMARK" />
+		<result property="zcEbEntrust.agency" column="AGENCY" />
+		<result property="zcEbEntrust.zcPifuCgfs" column="ZC_ENTRUST_PIFU_CGFS" />
+		<result property="zcEbEntrust.agencyName" column="AGENCY_NAME" />
+		<result property="zcEbEntrust.zcDiyuDaima" column="ZC_DIYU_DAIMA" />
+		<result property="zcEbEntrust.zcWeitoDate" column="ZC_WEITO_DATE" />
+		<result property="zcEbEntrust.zcIsNotary" column="ZC_IS_NOTARY" />
+		<result property="zcEbEntrust.zcIsImp" column="ZC_IS_IMP" />
+		<result property="zcEbEntrust.zcImpFile" column="ZC_IMP_FILE" />
+		<result property="zcEbEntrust.zcImpFileBlobid" column="ZC_IMP_FILE_BLOBID" />
+		<result property="zcEbEntrust.untreadReason" column="UNTREAD_REASON" />
+		<result property="zcEbEntrust.executeDate" column="EXECUTE_DATE" />
+		<result property="zcEbEntrust.leaderId" column="LEADER_ID" />
+		<result property="zcEbEntrust.leaderTel" column="LEADER_TEL" />
+		<result property="zcEbEntrust.orgCode" column="ORG_CODE" />
+		<result property="superintendentOrgNm" column="VAL" />		<result property="zcEbEntrust.isPub" column="IS_PUB" />
+	</resultMap>
+	<resultMap id="userResult" class="com.ufgov.zc.common.system.model.User">
+		<result property="userId" column="USER_ID" />
+		<result property="userName" column="USER_NAME" />
+
+	</resultMap>
+
+	<resultMap id="asValResult" class="com.ufgov.zc.common.system.model.AsVal">
+		<result property="valId" column="EMP_CODE" />
+		<result property="val" column="EMP_NAME" />
+	</resultMap>
+
+
+	<select id="list" resultMap="rltMapping" parameterClass="elementCondition">
+		
+		select
+		ZC_EB_DUTY_AUDIT_SHEET.*,
+		E.ZC_MAKE_CODE,
+		E.ZC_MAKE_LINKMAN,
+		E.ZC_MAKE_TEL,
+		E.STATUS as ENTRUST_STATUS,
+		E.ZC_INPUT_CODE as ZC_ENTRUST_INPUT_CODE,
+		E.EXECUTE_DATE as ZC_ENTRUST_INPUT_DATE,
+		E.ZC_MONEY_BI_SUM,
+		E.REMARK as ZC_ENTRUST_REMARK,
+		E.ZC_PIFU_CGFS as ZC_ENTRUST_PIFU_CGFS,
+		E.AGENCY_NAME,
+		E.ZC_DIYU_DAIMA,
+		E.ZC_WEITO_DATE,
+		E.ZC_IS_NOTARY,
+		E.ZC_IS_IMP,
+		E.ZC_IMP_FILE,
+		E.ZC_IMP_FILE_BLOBID,
+		E.UNTREAD_REASON,
+		E.LEADER_ID,
+		E.LEADER_TEL,E.IS_PUB,
+		(select ASV.VAL from AS_VAL ASV
+		where ASV.Val_Id =ZC_EB_DUTY_AUDIT_SHEET.superintendent_org
+		and ASV.VALSET_ID = 'ZC_VS_CGZX_ORG') VAL,
+		WH.d
+		FROM ZC_EB_ENTRUST E,ZC_EB_DUTY_AUDIT_SHEET ZC_EB_DUTY_AUDIT_SHEET
+		, (SELECT H.INSTANCE_ID,
+		MAX(TO_DATE(H.EXECUTE_TIME, 'yyyy-mm-dd hh24:mi:ss')) AS D
+		FROM WF_ACTION H
+		GROUP BY H.INSTANCE_ID) WH
+		where
+		E.SN = ZC_EB_DUTY_AUDIT_SHEET.SN
+		<isNotEqual prepend="AND" compareValue="0" property="nd">
+			ZC_EB_DUTY_AUDIT_SHEET.ND=#nd#
+		</isNotEqual>
+		and WH.INSTANCE_ID(+) = ZC_EB_DUTY_AUDIT_SHEET.PROCESS_INST_ID
+		
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		<isNotNull prepend="and" property="status">
+			<isEqual property="status" compareValue="todo">
+				exists (select instance_id from V_WF_CURRENT_TASK_ZC_TODO where executor
+				=#executor# and instance_id = ZC_EB_DUTY_AUDIT_SHEET.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="untread">
+				exists ( select instance_id from V_WF_CURRENT_TASK_ZC_UNTREAD where
+				executor =#executor# and instance_id = ZC_EB_DUTY_AUDIT_SHEET.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				exists (select
+				instance_id from V_WF_ACTION_HISTORY_GK53 where executor =#executor#
+				and instance_id = ZC_EB_DUTY_AUDIT_SHEET.process_inst_id)
+				and
+				ZC_EB_DUTY_AUDIT_SHEET.status != 'cancel'
+				and
+				ZC_EB_DUTY_AUDIT_SHEET.status != 'exec'
+			</isEqual>			<isEqual property="status" compareValue="exec">				exists (select instance_id from V_WF_ACTION_HISTORY_GK53 where executor =#executor# and instance_id = ZC_EB_DUTY_AUDIT_SHEET.process_inst_id)				and 				(ZC_EB_DUTY_AUDIT_SHEET.status = 'exec')			</isEqual>			<isEqual property="status" compareValue="cancel">				exists (select instance_id from V_WF_ACTION_HISTORY_GK53 where executor =#executor# and instance_id = ZC_EB_DUTY_AUDIT_SHEET.process_inst_id)				and 				(ZC_EB_DUTY_AUDIT_SHEET.status = 'cancel')			</isEqual>			<isEqual property="status" compareValue="draft">				exists (select				WF_DRAFT_NAME from as_wf_draft where user_id=#executor# and				compo_id=#wfcompoId# and WF_DRAFT_ID=ZC_EB_DUTY_AUDIT_SHEET.process_inst_id)			</isEqual>		</isNotNull>		<isNotNull prepend="and" property="zcText0">			ZC_EB_DUTY_AUDIT_SHEET.sn_code=#zcText0#		</isNotNull>				ORDER BY wh.d desc
+	</select>
+
+	<select id="read" resultMap="rltMapping" parameterClass="map">
+		select
+		master.*,
+		E.SN,
+		E.ZC_MAKE_CODE,
+		E.ZC_MAKE_NAME,
+		E.CO_CODE,
+		E.ND,
+		E.ZC_MAKE_LINKMAN,
+		E.ZC_MAKE_TEL,
+		E.STATUS as ENTRUST_STATUS,
+		E.ZC_INPUT_CODE as ZC_ENTRUST_INPUT_CODE,
+		E.EXECUTE_DATE as ZC_ENTRUST_INPUT_DATE,
+		E.ZC_MONEY_BI_SUM,
+		E.REMARK as ZC_ENTRUST_REMARK,
+		E.AGENCY,
+		E.ZC_PIFU_CGFS as ZC_ENTRUST_PIFU_CGFS,
+		E.AGENCY_NAME,
+		E.ZC_DIYU_DAIMA,
+		E.ZC_WEITO_DATE,
+		E.ZC_IS_NOTARY,
+		E.ZC_IS_IMP,
+		E.ZC_IMP_FILE,
+		E.ZC_IMP_FILE_BLOBID,
+		E.UNTREAD_REASON,
+		E.EXECUTE_DATE,
+		E.LEADER_ID,
+		E.LEADER_TEL,
+		E.ORG_CODE,
+	    E.IS_PUB,
+		( select org.ORG_NAME from as_org org where org.ORG_CODE
+		=master.superintendent_org) VAL
+		from
+		ZC_EB_DUTY_AUDIT_SHEET master,
+		ZC_EB_ENTRUST E
+		where
+		E.SN = master.SN
+		and master.SN = #SN#
+	</select>
+
+	<select id="getSuperintendentXBName" resultMap="asValResult"
+		parameterClass="map"> select au.user_name emp_name, au.user_id emp_code from
+		as_user au where au.user_code in (select aep.emp_code from
+		as_emp_position aep where aep.org_code = #orgCode:VARCHAR# and
+		aep.emp_code not in( select aer.emp_code from as_emp_role aer where
+		aer.role_id=#roleId:VARCHAR#))
+
+	</select>
+
+
+	<select id="countrow" resultClass="int" parameterClass="map">
+		select
+		count(*)
+		from
+		ZC_EB_DUTY_AUDIT_SHEET
+		where
+		SN = #sn#
+		<isNotNull prepend="and" property="status">
+			STATUS = #status#
+		</isNotNull>
+	</select>
+
+	<select id="queryByID" resultMap="rltMapping" parameterClass="map">
+		select
+		master.*,
+		E.SN,
+		E.ZC_MAKE_CODE,
+		E.ZC_MAKE_NAME,
+		E.CO_CODE,
+		E.ND,
+		E.ZC_MAKE_LINKMAN,
+		E.ZC_MAKE_TEL,
+		E.STATUS as ENTRUST_STATUS,
+		E.ZC_INPUT_CODE as ZC_ENTRUST_INPUT_CODE,
+		E.EXECUTE_DATE as ZC_ENTRUST_INPUT_DATE,
+		E.ZC_MONEY_BI_SUM,
+		E.REMARK as ZC_ENTRUST_REMARK,
+		E.AGENCY,
+		E.ZC_PIFU_CGFS as ZC_ENTRUST_PIFU_CGFS,
+		E.AGENCY_NAME,
+		E.ZC_DIYU_DAIMA,
+		E.ZC_WEITO_DATE,
+		E.ZC_IS_NOTARY,
+		E.ZC_IS_IMP,
+		E.ZC_IMP_FILE,
+		E.ZC_IMP_FILE_BLOBID,
+		E.UNTREAD_REASON,
+		E.EXECUTE_DATE,
+		E.LEADER_ID,
+		E.LEADER_TEL,
+		E.ORG_CODE,
+		E.IS_PUB,
+		(select ASV.VAL from AS_VAL ASV
+		where ASV.Val_Id =master.superintendent_org
+		and ASV.VALSET_ID = 'ZC_VS_CGZX_ORG') VAL
+		from
+		ZC_EB_DUTY_AUDIT_SHEET master,
+		ZC_EB_ENTRUST E
+		where
+		E.SN = master.SN
+
+		and master.SHEET_ID = #sheetId#
+	</select>
+
+	<select id="getXbPersion" resultMap="userResult" parameterClass="elementCondition">
+		select zexp.user_id EMP_CODE,
+		zexp.user_name EMP_NAME,
+		zexp.sn ZR
+		from zc_eb_xb_persion zexp
+		where zexp.sn=#dattr1#
+
+	</select>
+	<select id="getSuperintendentName" resultMap="userResult"
+		parameterClass="elementCondition">
+		select au.user_id EMP_CODE, au.user_name EMP_NAME from as_user au,
+		as_emp_role aer, as_role ar,as_option aop where au.user_code =
+		aer.emp_code and aer.role_id = ar.role_id and ar.role_id=aop.opt_val
+		<dynamic prepend="and" open="(" close=")">
+			<isNotNull prepend="OR" property="zcText1">
+				aop.opt_id =#zcText1#
+			</isNotNull>
+			<isNotNull prepend="OR" property="zcText2">
+				aop.opt_id =#zcText2#
+			</isNotNull>
+		</dynamic>	</select>
+<!-- 获取项目负责人-->
+	<select id="getKeShiPersion" resultMap="userResult"
+		parameterClass="elementCondition">		select u.user_id,u.user_name from 		as_emp_position ep,as_emp e,as_user u		where 		ep.co_code=#zcText0#		and ep.emp_code=e.emp_code		and e.user_id=u.user_id		and ep.org_code!='cwk'		and ep.nd=#nd#	</select>
+	<delete id="delete" parameterClass="map">
+		DELETE FROM
+		ZC_EB_DUTY_AUDIT_SHEET
+		WHERE
+		SHEET_ID = #sheetId#
+	</delete>
+
+	<delete id="deleteBySn" parameterClass="map">
+		DELETE FROM
+		ZC_EB_DUTY_AUDIT_SHEET
+		WHERE
+		SN = #sn#
+	</delete>
+
+	<update id="update" parameterClass="com.ufgov.zc.common.zc.model.ZcEbAuditSheet">
+		UPDATE
+		ZC_EB_DUTY_AUDIT_SHEET
+		SET
+		SN = #sn:VARCHAR#,
+		STATUS = #status#,
+		SUPERINTENDENT_ORG = #superintendentOrg:VARCHAR#,
+		SUPERINTENDENT = #superintendent:VARCHAR#,
+		SUPERINTENDENT_NAME = #superintendentName:VARCHAR#,
+		ZC_IS_ZRSH = #zcIsZrsh#,
+		ZC_FZR_USER_ID = #zcFzrUserId#,
+		ZC_FZR_USER_NAME = #zcFzrUserName#,
+		REMARK = #remark#, ATTN = #attn#, ATTN_NAME = #attnName#
+		WHERE
+		SHEET_ID=#sheetId#
+	</update>
+	<insert id="insertXbPersion" parameterClass="elementCondition">
+		<selectKey resultClass="java.lang.String" keyProperty="dattr3">
+			select au.user_name as dattr3 from as_user au where
+			au.user_id=#dattr1:VARCHAR#
+		</selectKey>
+		insert into ZC_EB_XB_PERSION
+		(
+		SN,
+		USER_ID,
+		USER_NAME
+		)
+		values
+		(
+		#dattr2:VARCHAR#,
+		#dattr1:VARCHAR#,
+		#dattr3:VARCHAR#
+		)
+
+	</insert>
+
+	<delete id="deleteXbPersion" parameterClass="elementCondition">
+		delete from
+		ZC_EB_XB_PERSION where SN = #dattr2:VARCHAR#
+	</delete>
+	<insert id="insert" parameterClass="com.ufgov.zc.common.zc.model.ZcEbAuditSheet">
+		<selectKey resultClass="java.lang.String" keyProperty="id">
+			select ZC_SEQ_AUDIT_SHEET.Nextval AS id FROM DUAL
+		</selectKey>
+		INSERT INTO ZC_EB_DUTY_AUDIT_SHEET
+		(
+		SHEET_ID,
+		SN,
+		EXECUTE_DATE,
+		EXECUTOR,
+		SUPERINTENDENT_ORG,
+		SUPERINTENDENT,
+		SUPERINTENDENT_NAME,
+		ZC_IS_ZRSH,
+		ZC_FZR_USER_ID,
+		ZC_FZR_USER_NAME,
+		REMARK, SN_CODE, ATTN, ATTN_NAME
+		) VALUES (
+		#id#,
+		#sn:VARCHAR#,
+		#executeDate:DATE#,
+		#executor:VARCHAR#,
+		#superintendentOrg:VARCHAR#,
+		#superintendent:VARCHAR#,
+		#superintendentName:VARCHAR#,
+		#zcIsZrsh:VARCHAR#,
+		#zcFzrUserId:VARCHAR#,
+		#zcFzrUserName:VARCHAR#,
+		#remark#, #snCode:VARCHAR#, #attn:VARCHAR#, #attnName:VARCHAR#
+		)
+	</insert>
+
+	<insert id="insertZcEbAuditSheet" parameterClass="com.ufgov.zc.common.zc.model.ZcEbAuditSheet">
+		insert into ZC_EB_DUTY_AUDIT_SHEET (SHEET_ID, SN, REMARK,
+		EXECUTOR, SUPERINTENDENT_ORG, SUPERINTENDENT, SUPERINTENDENT_NAME,
+		ZC_FZR_USER_NAME, ZC_FZR_USER_ID,
+		ZC_IS_ZRSH,EXECUTE_DATE,PROCESS_INST_ID,
+		STATUS,ZC_MAKE_NAME,ZC_PIFU_CGFS,CO_CODE,SN_CODE,ATTN,ATTN_NAME)
+		values (#sheetId:VARCHAR#, #sn:VARCHAR#, #remark:VARCHAR#,
+		#executor:VARCHAR#, #superintendentOrg:VARCHAR#,
+		#superintendent:VARCHAR#, #superintendentName:VARCHAR#,
+		#zcFzrUserName:VARCHAR#,
+		#zcFzrUserId:VARCHAR#, #zcIsZrsh:VARCHAR#,#executeDate:VARCHAR#,#processInstId#,#status#,#zcMakeName#,#zcPifuCgfs#,#coCode#,#snCode#,
+		#attn#, #attnName# )
+	</insert>
+
+	<select id="getBusinessZhuren" parameterClass="elementCondition"
+		resultMap="userResult">
+		select rr.user_name EMP_NAME,'' EMP_CODE,'' ZR from
+		select_business_zhuren rr where rr.nd = #nd#
+	</select>
+
+	<select id="getJianDuPersons" parameterClass="elementCondition"
+		resultMap="userResult">
+		select rr.user_name EMP_NAME,'' EMP_CODE,'' ZR from
+		select_jiandu_persons rr where rr.nd = #nd#
+	</select>	<select id="getZcEbAuditSheetReq" resultMap="rltMapping"		parameterClass="map">		select		master.*,		E.SN,		E.ZC_MAKE_CODE,		E.ZC_MAKE_NAME,		E.CO_CODE,		E.ND,		E.ZC_MAKE_LINKMAN,		E.ZC_MAKE_TEL,		E.STATUS as ENTRUST_STATUS,		E.ZC_INPUT_CODE as ZC_ENTRUST_INPUT_CODE,		E.EXECUTE_DATE as		ZC_ENTRUST_INPUT_DATE,		E.ZC_MONEY_BI_SUM,		E.REMARK as ZC_ENTRUST_REMARK,		E.AGENCY,		E.ZC_PIFU_CGFS as ZC_ENTRUST_PIFU_CGFS,		E.AGENCY_NAME,		E.ZC_DIYU_DAIMA,		E.ZC_WEITO_DATE,		E.ZC_IS_NOTARY,		E.ZC_IS_IMP,		E.ZC_IMP_FILE,		E.ZC_IMP_FILE_BLOBID,		E.UNTREAD_REASON,		E.EXECUTE_DATE,		E.LEADER_ID,		E.LEADER_TEL,		E.ORG_CODE,		E.IS_PUB,		( select org.ORG_NAME		from as_org org where org.ORG_CODE =master.superintendent_org) VAL		from		ZC_EB_DUTY_AUDIT_SHEET master,		ZC_EB_ENTRUST E		where		E.SN = master.SN		and master.STATUS in ('5','exec')		<isNotNull prepend="AND" property="SN">			master.SN = #SN#		</isNotNull>	</select>		<select id="getEntrustPrintWithView" resultClass="java.util.HashMap"		parameterClass="map" remapResults="true">		select * from V_ZC_ENTRUST_PINT		where SN_CODE = #SN_CODE#	</select>		<select id="getAuditSheetExportData" resultMap="rltMapping" parameterClass="elementCondition">		select		master.*,		E.SN,		E.ZC_MAKE_CODE,		E.ZC_MAKE_NAME,		E.CO_CODE,		E.ND,		E.ZC_MAKE_LINKMAN,		E.ZC_MAKE_TEL,		E.STATUS as ENTRUST_STATUS,		E.ZC_INPUT_CODE as ZC_ENTRUST_INPUT_CODE,		E.EXECUTE_DATE as ZC_ENTRUST_INPUT_DATE,		E.ZC_MONEY_BI_SUM,		E.REMARK as ZC_ENTRUST_REMARK,		E.AGENCY,		E.ZC_PIFU_CGFS as ZC_ENTRUST_PIFU_CGFS,		E.AGENCY_NAME,		E.ZC_DIYU_DAIMA,		E.ZC_WEITO_DATE,		E.ZC_IS_NOTARY,		E.ZC_IS_IMP,		E.ZC_IMP_FILE,		E.ZC_IMP_FILE_BLOBID,		E.UNTREAD_REASON,		E.EXECUTE_DATE,		E.LEADER_ID,		E.LEADER_TEL,		E.ORG_CODE,	    E.IS_PUB,		( select org.ORG_NAME from as_org org where org.ORG_CODE		=master.superintendent_org) VAL		from		ZC_EB_DUTY_AUDIT_SHEET master,		ZC_EB_ENTRUST E		where		E.SN = master.SN				<isNotEmpty property="pmAdjustCodeList" prepend="and">            master.SN in            <iterate property="pmAdjustCodeList"  conjunction="," open="(" close=")">                #pmAdjustCodeList[]#            </iterate>        </isNotEmpty>		</select>
+</sqlMap>

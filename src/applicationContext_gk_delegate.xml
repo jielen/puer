@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	<bean id="dpBalanceServiceDelegate"
+		class="com.ufgov.zc.server.commonbiz.publish.impl.DpBalanceServiceDelegate"
+		scope="singleton">
+		<property name="dpBalanceService" ref="dpBalanceService" />
+	</bean>
+
+	<bean id="baseDataServiceDelegate"
+		class="com.ufgov.zc.server.commonbiz.publish.impl.BaseDataServiceDelegate"
+		scope="singleton">
+		<property name="asOptionService" ref="asOptionService" />
+		<property name="asValService" ref="asValService" />
+		<property name="baccService" ref="bAccService" />
+		<property name="bankAccountService" ref="bankAccountService" />
+		<property name="billElementService" ref="billElementService" />
+		<property name="companyService" ref="companyService" />
+		<property name="contractService" ref="contractService" />
+		<property name="dattrService" ref="dAttrService" />
+		<property name="fundService" ref="fundService" />
+		<property name="inceptDocService" ref="inceptDocService" />
+		<property name="langTransService" ref="langTransService" />
+		<property name="manageService" ref="manageService" />
+		<property name="numLimCompoService" ref="numLimCompoService" />
+		<property name="operationTypeService" ref="operationTypeService" />
+		<property name="orgService" ref="orgService" />
+		<property name="originService" ref="originService" />
+		<property name="outlayService" ref="outlayService" />
+		<property name="payoutService" ref="payoutService" />
+		<property name="paytypeService" ref="paytypeService" />
+		<property name="projectService" ref="projectService" />
+		<property name="projectTypeService" ref="projectTypeService" />
+        <property name="balModeService" ref="balModeService"/>
+		<property name="searchConditionService"	ref="searchConditionService" />
+		<property name="sendDocService" ref="sendDocService" />
+		<property name="sendDocTypeService" ref="sendDocTypeService" />
+		<property name="userPreferencesService" ref="userPreferencesService" />
+		<property name="maBankService" ref="maBankService"></property>
+		<property name="maBanknodeService" ref="maBanknodeService"></property>
+		<property name="maCpBankBalService" ref="maCpBankBalService"></property>
+		<property name="maTzdSumElementService" ref="maTzdSumElementService"></property>
+		<property name="userService" ref="userService"></property>
+		<property name="userFuncService" ref="userFuncService"></property>
+		<property name="workflowTraceService" ref="workflowTraceService"></property>
+		<property name="asCompoFuncService" ref="asCompoFuncService"></property>
+		<property name="printService" ref="printService"></property>
+		<property name="gkWorkflowService" ref="gkWorkflowService"></property>
+		<property name="asFileService" ref="asFileService"></property>
+		<property name="asUserNumLimService" ref="asUserNumLimService" />
+		<property name="asRoleNumLimService" ref="asRoleNumLimService" />
+		<property name="asCompoService" ref="asCompoService"></property>
+		<property name="gkGetdataRuleService" ref="gkGetdataRuleService"></property>
+		<!--  <property name="cpCheckBillService" ref="cpCheckBillService"></property> -->
+		<property name="wfTaskGranterService" ref="wfTaskGranterService"></property>
+		<property name="maCpElementMappingService" ref="maCpElementMappingService"></property>
+		<property name="numService" ref="numService"></property>
+		<property name="maCpElementRelationService" ref="maCpElementRelationService"></property>
+		<property name="expSerialService" ref="maExpSerialService"></property>
+		<property name="bankTradeLogService" ref="bankTradeLogService"></property>
+		<property name="bankTradeService" ref="bankTradeService"></property>
+		<property name="macpRuleDetailService" ref="macpRuleDetailService"></property>
+		<property name="searchStoreService" ref="maSearchStoreService" />
+		<property name="gkBusinessLogService" ref="gkBusinessLogService" />
+		<property name="asEmpService" ref="asEmpService" />
+		<property name="maCompanyService" ref="maCompanyService" />
+	</bean>
+
+	<bean id="biBalanceServiceDelegate"
+		class="com.ufgov.zc.server.commonbiz.publish.impl.BiBalanceServiceDelegate"
+		scope="singleton">
+		<property name="biBalanceService" ref="biBalanceService" />
+	</bean>
+
+	<bean id="consoleServiceDelegate"
+		class="com.ufgov.zc.server.console.publish.impl.ConsoleServiceDelegate" scope="singleton">
+		<property name="asOrgService" ref="asOrgService" />
+		<property name="asRoleService" ref="asRoleService" />
+		<property name="asUserNumLimService" ref="asUserNumLimService" />
+		<property name="asRoleNumLimService" ref="asRoleNumLimService" />
+		<property name="sqlCheckService" ref="sqlCheckService" />
+		<property name="maUserNumLimService" ref="maUserNumLimService" />
+		<property name="maRoleNumLimService" ref="maRoleNumLimService" />
+		<property name="menuService" ref="menuService" />
+		<property name="componentService" ref="componentService" />
+		<property name="gkCompoNewToOldService" ref="gkCompoNewToOldService" />
+		<property name="gkGetdataRuleService" ref="gkGetdataRuleService" />
+		<property name="asEmpService" ref="asEmpService" />
+		<property name="asRoleGrantedService" ref="asRoleGrantedService" />
+	</bean>
+
+</beans>

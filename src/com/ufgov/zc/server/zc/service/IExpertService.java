@@ -1,0 +1,1 @@
+package com.ufgov.zc.server.zc.service;import java.util.List;import com.ufgov.zc.common.system.model.User;import com.ufgov.zc.common.zc.model.ExpertPo;public interface IExpertService {  ExpertPo insertExpertPo(ExpertPo expertPo, List emExpertTypeJoinlist, User user);  boolean checkAsUser(User user);}

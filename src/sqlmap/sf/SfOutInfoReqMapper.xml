@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.ufgov.zc.server.sf.dao.SfOutInfoReqMapper">
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+  <resultMap id="BaseResultMap" class="com.ufgov.zc.common.sf.model.SfOutInfoReq">
+    <result column="OUT_INFO_REQ_CODE" jdbcType="VARCHAR" property="outInfoReqCode" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="OUT_INFO_REQ_NAME" jdbcType="VARCHAR" property="outInfoReqName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    OUT_INFO_REQ_CODE, REMARK, OUT_INFO_REQ_NAME
+  </sql>
+  <select id="selectByPrimaryKey" parameterClass="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SF_OUT_INFO_REQ
+    where OUT_INFO_REQ_CODE = #outInfoReqCode:VARCHAR#
+  </select>
+  <select id="selectMainDataLst" parameterClass="elementCondition" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SF_OUT_INFO_REQ
+    where 1=1    
+		<isNotNull prepend="AND" property="dattr1"> 
+			<isEqual property="dattr1" compareValue="isUsing"> <!-- 是否已经使用 -->
+				exists (select * from SF_OUT_INFO_VALIDATE_DETAIL d where d.OUT_INFO_REQ_CODE=SF_OUT_INFO_REQ.OUT_INFO_REQ_CODE)
+			</isEqual>
+		</isNotNull>		
+  		<isNotEmpty property="pmAdjustCodeList" prepend="and"><!-- 选择信息验证要求外部部件过滤条件 -->
+            OUT_INFO_REQ_CODE not in
+            <iterate property="pmAdjustCodeList" conjunction="," open="(" close=")">
+                #pmAdjustCodeList[]#
+            </iterate>
+        </isNotEmpty> 
+     ORDER BY TO_NUMBER(OUT_INFO_REQ_CODE)
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="java.lang.String">
+    delete from SF_OUT_INFO_REQ
+    where OUT_INFO_REQ_CODE = #outInfoReqCode:VARCHAR#
+  </delete>
+  <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfOutInfoReq">
+    insert into SF_OUT_INFO_REQ (OUT_INFO_REQ_CODE, REMARK, OUT_INFO_REQ_NAME
+      )
+    values (#outInfoReqCode:VARCHAR#, #remark:VARCHAR#, #outInfoReqName:VARCHAR#
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfOutInfoReq">
+    update SF_OUT_INFO_REQ
+    set REMARK = #remark:VARCHAR#,
+      OUT_INFO_REQ_NAME = #outInfoReqName:VARCHAR#
+    where OUT_INFO_REQ_CODE = #outInfoReqCode:VARCHAR#
+  </update>
+</sqlMap>

@@ -1,0 +1,1 @@
+package com.ufgov.zc.client.component.button;public class NotAccreditButton extends FuncButton {  private static final long serialVersionUID = -4220724045871305900L;  public NotAccreditButton() {    super();  }  protected void init() {    this.funcId = "fnotaccredit";    this.defaultText = "取消授权";    super.init();  }}

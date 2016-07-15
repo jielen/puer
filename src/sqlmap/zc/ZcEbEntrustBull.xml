@@ -1,0 +1,1059 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+
+
+<!DOCTYPE sqlMap      
+
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+
+<sqlMap namespace="ZcEbEntrustBull">
+
+
+	<typeAlias alias="ZcEbEntrustBull"
+		type="com.ufgov.zc.common.zc.model.ZcEbEntrustBull" />
+
+	<typeAlias alias="ZcEbEntrustBullin"
+		type="com.ufgov.zc.common.zc.model.ZcEbEntrustBullin" />
+
+	<typeAlias alias="ZcEbEntrustReport"
+		type="com.ufgov.zc.common.zc.model.ZcEbEntrustReport" />
+
+	<typeAlias alias="ZcEbProjSupport"
+		type="com.ufgov.zc.common.zc.model.ZcEbProjSupport" />
+
+	<typeAlias alias="ZcEbProjPrintPermit"
+		type="com.ufgov.zc.common.zc.model.ZcEbProjPrintPermit" />
+
+	<resultMap id="ZcEbEntrustBullResult" class="ZcEbEntrustBull">
+
+		<result property="sn" column="SN" />
+
+		<result property="snCode" column="SN_CODE" />
+
+		<result property="zcWeitoDate" column="ZC_WEITO_DATE" />
+
+		<result property="zcMakeCode" column="ZC_MAKE_CODE" />
+
+		<result property="zcMakeName" column="ZC_MAKE_NAME" />
+
+		<result property="orgCode" column="ORG_CODE" />
+
+		<result property="zcMoneyBiSum" column="ZC_MONEY_BI_SUM" />
+
+		<result property="zcPifuCgfs" column="ZC_PIFU_CGFS" />
+
+		<result property="executorName" column="EXECUTOR_NAME" />
+
+		<result property="phone" column="PHONE" />
+
+		<result property="zcMakeLinkman" column="ZC_MAKE_LINKMAN" />
+
+		<result property="zcMakeTel" column="ZC_MAKE_TEL" />
+
+		<result property="status" column="STATUS" />
+
+		<result property="optStatus" column="OPT_STATUS" />
+
+		<result property="superintendent" column="SUPERINTENDENT" />
+
+		<result property="superintendentName" column="SUPERINTENDENT_NAME" />
+
+		<result property="attn" column="ATTN" />
+
+		<result property="attnName" column="ATTN_NAME" />
+
+		<result property="coCode" column="CO_CODE" />
+
+		<result property="superintendentOrg" column="SUPERINTENDENT_ORG" />
+
+		<result property="sPhone" column="SPHONE" />
+
+		<result property="aPhone" column="APHONE" />
+
+		<result property="agency" column="AGENCY" />
+
+	</resultMap>
+
+	<resultMap id="ZcEbEntrustBullinResult" class="ZcEbEntrustBullin">
+
+		<result property="sn" column="SN" />
+
+		<result property="snCode" column="SN_CODE" />
+
+		<result property="zcWeitoDate" column="ZC_WEITO_DATE" />
+
+		<result property="zcMakeCode" column="ZC_MAKE_CODE" />
+
+		<result property="zcMakeName" column="ZC_MAKE_NAME" />
+
+		<result property="orgCode" column="ORG_CODE" />
+
+		<result property="zcMoneyBiSum" column="ZC_MONEY_BI_SUM" />
+
+		<result property="zcPifuCgfs" column="ZC_PIFU_CGFS" />
+
+		<result property="executorName" column="EXECUTOR_NAME" />
+
+		<result property="phone" column="PHONE" />
+
+		<result property="zcMakeLinkman" column="ZC_MAKE_LINKMAN" />
+
+		<result property="zcMakeTel" column="ZC_MAKE_TEL" />
+
+		<result property="status" column="STATUS" />
+
+		<result property="optStatus" column="OPT_STATUS" />
+
+		<result property="superintendent" column="SUPERINTENDENT" />
+
+		<result property="superintendentName" column="SUPERINTENDENT_NAME" />
+
+		<result property="attn" column="ATTN" />
+
+		<result property="attnName" column="ATTN_NAME" />
+
+		<result property="coCode" column="CO_CODE" />
+
+		<result property="superintendentOrg" column="SUPERINTENDENT_ORG" />
+
+		<result property="sPhone" column="SPHONE" />
+
+		<result property="aPhone" column="APHONE" />
+
+		<result property="projCode" column="PROJ_CODE" />
+
+		<result property="projName" column="PROJ_NAME" />
+
+		<result property="shellStartTime" column="SELL_START_TIME" />
+
+		<result property="openBidTime" column="OPEN_BID_TIME" />
+
+		<result property="openBidAddress" column="OPEN_BID_ADDRESS" />
+
+		<result property="fileId" column="FILE_ID" />
+
+		<result property="fileName" column="FILE_NAME" />
+
+		<result property="agency" column="AGENCY" />
+
+	</resultMap>
+
+	<resultMap id="ZcEbEntrustReportResult" class="ZcEbEntrustReport">
+
+		<result property="sn" column="SN" />
+
+		<result property="snCode" column="SN_CODE" />
+
+		<result property="zcWeitoDate" column="ZC_WEITO_DATE" />
+
+		<result property="zcMakeCode" column="ZC_MAKE_CODE" />
+
+		<result property="zcMakeName" column="ZC_MAKE_NAME" />
+
+		<result property="orgCode" column="ORG_CODE" />
+
+		<result property="zcMoneyBiSum" column="ZC_MONEY_BI_SUM" />
+
+		<result property="zcPifuCgfs" column="ZC_PIFU_CGFS" />
+
+		<result property="executorName" column="EXECUTOR_NAME" />
+
+		<result property="phone" column="PHONE" />
+
+		<result property="zcMakeLinkman" column="ZC_MAKE_LINKMAN" />
+
+		<result property="zcMakeTel" column="ZC_MAKE_TEL" />
+
+		<result property="status" column="STATUS" />
+
+		<result property="optStatus" column="OPT_STATUS" />
+
+		<result property="superintendent" column="SUPERINTENDENT" />
+
+		<result property="superintendentName" column="SUPERINTENDENT_NAME" />
+
+		<result property="attn" column="ATTN" />
+
+		<result property="attnName" column="ATTN_NAME" />
+
+		<result property="coCode" column="CO_CODE" />
+
+		<result property="superintendentOrg" column="SUPERINTENDENT_ORG" />
+
+		<result property="sPhone" column="SPHONE" />
+
+		<result property="aPhone" column="APHONE" />
+
+
+		<result property="projCode" column="PROJ_CODE" />
+
+		<result property="projName" column="PROJ_NAME" />
+
+		<result property="providerCode" column="PROVIDER_CODE" />
+
+		<result property="providerName" column="PROVIDER_NAME" />
+
+		<result property="agency" column="AGENCY" />
+	</resultMap>
+
+	<resultMap id="ZcEbProjSupportResult" class="ZcEbProjSupport">
+
+		<result property="sn" column="SN" />
+
+		<result property="snCode" column="SN_CODE" />
+
+		<result property="zcMakeCode" column="ZC_MAKE_CODE" />
+
+		<result property="zcMakeName" column="ZC_MAKE_NAME" />
+
+		<result property="orgCode" column="ORG_CODE" />
+
+		<result property="zcMoneyBiSum" column="ZC_MONEY_BI_SUM" />
+
+		<result property="zcPifuCgfs" column="ZC_PIFU_CGFS" />
+
+		<result property="zcMakeLinkman" column="ZC_MAKE_LINKMAN" />
+
+		<result property="zcMakeTel" column="ZC_MAKE_TEL" />
+
+		<result property="status" column="STATUS" />
+
+		<result property="attn" column="ATTN" />
+
+		<result property="attnName" column="ATTN_NAME" />
+
+		<result property="superintendentOrg" column="SUPERINTENDENT_ORG" />
+
+
+		<result property="packCode" column="PACK_CODE" />
+
+		<result property="packName" column="PACK_NAME" />
+
+		<result property="projCode" column="PROJ_CODE" />
+
+		<result property="projName" column="PROJ_NAME" />
+
+		<result property="openBidTime" column="OPEN_BID_TIME" />
+
+		<result property="bidEndTime" column="BID_END_TIME" />
+
+		<result property="openBidAddress" column="OPEN_BID_ADDRESS" />
+
+		<result property="supportCnt" column="SUPPORT_CNT" />
+
+		<result property="processInstId" column="PROCESS_INST_ID"
+			jdbcType="DECIMAL" />
+
+		<result property="isExtrac" column="IS_EXTRAC" />
+
+	</resultMap>
+
+	<resultMap id="ZcEbProjPrintPermitResult" class="ZcEbProjPrintPermit">
+
+		<result property="projCode" column="PROJ_CODE" />
+
+		<result property="status" column="STATUS" />
+
+		<result property="processInstId" column="PROCESS_INST_ID" />
+
+	</resultMap>
+
+	<resultMap id="ZcEbProjSupportSupResult" class="ZcEbProjSupport">
+
+		<result property="snCode" column="SN_CODE" />
+
+		<result property="attnName" column="ATTN_NAME" />
+
+		<result property="superintendentOrg" column="SUPERINTENDENT_ORG" />
+
+
+		<result property="packName" column="PACK_NAME" />
+
+		<result property="projCode" column="PROJ_CODE" />
+
+		<result property="projName" column="PROJ_NAME" />
+
+		<result property="openBidTime" column="OPEN_BID_TIME" />
+
+		<result property="openBidAddress" column="OPEN_BID_ADDRESS" />
+
+
+		<result property="signupDate" column="SINGNUP_DATE" />
+
+		<result property="isPayGuarantee" column="IS_PAY_GUARANTEE" />
+
+		<result property="isSite" column="IS_SITE" />
+
+		<result property="remark" column="REMARK" />
+
+		<result property="zcEbSupplier.code" column="PROVIDER_CODE" />
+		<result property="zcEbSupplier.name" column="ZC_SU_NAME" />
+		<result property="zcEbSupplier.linkMan" column="ZC_SU_LINKMAN" />
+		<result property="zcEbSupplier.phone" column="ZC_SU_TEL" />
+		<result property="zcEbSupplier.address" column="ZC_SU_ADDR" />
+		<result property="zcEbSupplier.email" column="EMAIL" />
+		<result property="zcEbSupplier.linkManPhone" column="LINK_MAN_PHONE" />
+		<result property="zcEbSupplier.linkManMobile" column="LINK_MAN_MOBILE" />
+		<result property="zcEbSupplier.fax" column="FAX" />
+		<result property="zcEbSupplier.url" column="URL" />
+		<result property="zcEbSupplier.description" column="DESCRIPTION" />
+
+	</resultMap>
+	<resultMap class="com.ufgov.zc.common.zc.model.ZcEbProjBidHistory"
+		id="historyResult">
+		<result property="snCode" column="sn_code" />
+		<result property="projCode" column="proj_code" />
+		<result property="projName" column="proj_name" />
+		<result property="packCode" column="pack_code" />
+		<result property="packName" column="pack_name" />
+		<result column="sell_end_time" jdbcType="TIMESTAMP" property="sellEndTime" />
+		<result column="open_bid_date" jdbcType="TIMESTAMP" property="openBidTime" />
+		<result column="bid_end_time" jdbcType="TIMESTAMP" property="bidEndTime" />
+		<result property="coCode" column="co_code" />
+		<result property="orgCode" column="org_code" />
+		<result property="attnName" column="attn_name" />
+	</resultMap>
+
+	<resultMap id="ZcEbProjSupportHisResult" class="ZcEbProjSupport">
+
+		<result property="zcSuName" column="zc_su_name" />
+		<result property="signupDate" column="sp_date" jdbcType="TIMESTAMP" />
+
+	</resultMap>
+	
+	<select id="getZcEbEntrustBullList" resultMap="ZcEbEntrustBullResult"
+
+		parameterClass="elementCondition">
+
+		<isEqual compareValue="TO" property="status">
+			
+SELECT *
+  FROM (SELECT DISTINCT '1' AS OPT_STATUS,
+                        E.ZC_WEITO_DATE,
+                        E.SN,
+                        E.ND,
+                        E.AGENCY,
+                        E.SN_CODE,
+                        E.ZC_MAKE_CODE,
+                        E.ZC_MAKE_NAME,
+                        E.ORG_CODE,
+                        E.CO_CODE,
+                        E.ZC_MAKE_LINKMAN,
+                        E.ZC_MAKE_TEL,
+                        E.ZC_MONEY_BI_SUM,
+                        E.ZC_PIFU_CGFS,
+                        E.STATUS,
+                        PJ.EXECUTOR_NAME,
+                        PJ.PHONE,
+                        S.SUPERINTENDENT_ORG,
+                        S.SUPERINTENDENT,
+                        S.SUPERINTENDENT_NAME,
+                        (SELECT DECODE(U1.Phone,
+                                       NULL,
+                                       U1.Mobile,
+                                       U1.Phone)
+                           FROM as_emp U1
+                          WHERE U1.USER_ID = S.SUPERINTENDENT) SPHONE,
+                        S.ATTN,
+                        S.ATTN_NAME,
+                        (SELECT DECODE(U1.Phone,
+                                       NULL,
+                                       U1.Mobile,
+                                       U1.Phone)
+                           FROM as_emp U1
+                          WHERE U1.USER_ID = S.ATTN) APHONE
+          FROM ZC_EB_ENTRUST          E,
+               ZC_EB_DUTY_AUDIT_SHEET S,
+               ZC_EB_PACK             PK,
+               ZC_EB_PROJ             PJ
+         WHERE E.SN = PK.ENTRUST_CODE(+)
+           AND E.SN_CODE = S.SN_CODE
+           AND PK.PROJ_CODE = PJ.PROJ_CODE(+)
+           AND E.STATUS = '2'
+           AND NOT EXISTS (SELECT *
+                  FROM ZC_EB_BULLETIN BL
+                 WHERE BL.PROJ_CODE = PJ.PROJ_CODE
+                   AND BL.BULLETIN_TYPE = 'B'
+                   AND BL.BULLETIN_STATUS = 'exec')
+           AND NOT EXISTS (SELECT *
+                  FROM ZC_EB_EVAL_REPORT RP
+                 WHERE RP.PROJ_CODE = PJ.PROJ_CODE
+                   AND RP.STATUS = 'exec')) M
+ WHERE 1 = 1
+
+			<isNotNull prepend="AND" property="numLimitStr">
+				$numLimitStr$
+			</isNotNull>
+			<isNotEqual prepend="and" compareValue="0" property="nd">
+				M.ND
+				=#nd#
+			</isNotEqual>
+			<isNotNull prepend="AND" property="coCode">
+				M.CO_CODE=#coCode#
+			</isNotNull>
+			<isNotNull prepend="AND" property="orgCode">
+				M.SUPERINTENDENT_ORG=#orgCode#
+			</isNotNull>
+			<isNotNull prepend="AND" property="executor">
+				(M.SUPERINTENDENT=#executor# OR M.ATTN=#executor#)
+			</isNotNull>
+			<isNotNull prepend="AND" property="sn">
+				M.SN=#sn#
+			</isNotNull>
+			<isNotNull prepend="AND" property="zcPifuCgfs">
+				M.ZC_PIFU_CGFS =
+				#zcPifuCgfs:VARCHAR#
+			</isNotNull>
+		</isEqual>
+
+		<isEqual compareValue="all" property="status">			
+SELECT *
+  FROM (SELECT DISTINCT '1' AS OPT_STATUS,
+                        E.ZC_WEITO_DATE,
+                        E.SN,
+                        E.ND,
+                        E.AGENCY,
+                        E.SN_CODE,
+                        E.ZC_MAKE_CODE,
+                        E.ZC_MAKE_NAME,
+                        E.ORG_CODE,
+                        E.CO_CODE,
+                        E.ZC_MAKE_LINKMAN,
+                        E.ZC_MAKE_TEL,
+                        E.ZC_MONEY_BI_SUM,
+                        E.ZC_PIFU_CGFS,
+                        E.STATUS,
+                        PJ.EXECUTOR_NAME,
+                        PJ.PHONE,
+                        PJ.PROJ_CODE,
+                        PJ.PROJ_NAME,
+                        S.SUPERINTENDENT_ORG,
+                        S.SUPERINTENDENT,
+                        S.SUPERINTENDENT_NAME,
+                        (SELECT DECODE(U1.Phone,
+                                       NULL,
+                                       U1.Mobile,
+                                       U1.Phone)
+                           FROM as_emp U1
+                          WHERE U1.USER_ID = S.SUPERINTENDENT) SPHONE,
+                        S.ATTN,
+                        S.ATTN_NAME,
+                        (SELECT DECODE(U1.Phone,
+                                       NULL,
+                                       U1.Mobile,
+                                       U1.Phone)
+                           FROM as_emp U1
+                          WHERE U1.USER_ID = S.ATTN) APHONE
+          FROM ZC_EB_ENTRUST          E,
+               ZC_EB_DUTY_AUDIT_SHEET S,
+               ZC_EB_PACK             PK,
+               ZC_EB_PROJ             PJ
+         WHERE E.SN = PK.ENTRUST_CODE(+)
+           AND E.SN_CODE = S.SN_CODE
+           AND PK.PROJ_CODE = PJ.PROJ_CODE(+)
+           AND E.STATUS = '2'
+           AND NOT EXISTS (SELECT *
+                  FROM ZC_EB_BULLETIN BL
+                 WHERE BL.PROJ_CODE = PJ.PROJ_CODE
+                   AND BL.BULLETIN_TYPE = 'B'
+                   AND BL.BULLETIN_STATUS = 'exec')
+           AND NOT EXISTS (SELECT *
+                  FROM ZC_EB_EVAL_REPORT RP
+                 WHERE RP.PROJ_CODE = PJ.PROJ_CODE
+                   AND RP.STATUS = 'exec')
+        UNION
+        SELECT DISTINCT '2' AS OPT_STATUS,
+                        E.ZC_WEITO_DATE,
+                        E.SN,
+                        E.ND,
+                        E.AGENCY,
+                        E.SN_CODE,
+                        E.ZC_MAKE_CODE,
+                        E.ZC_MAKE_NAME,
+                        E.ORG_CODE,
+                        E.CO_CODE,
+                        E.ZC_MAKE_LINKMAN,
+                        E.ZC_MAKE_TEL,
+                        E.ZC_MONEY_BI_SUM,
+                        E.ZC_PIFU_CGFS,
+                        E.STATUS,
+                        PJ.EXECUTOR_NAME,
+                        PJ.PHONE,
+                        PJ.PROJ_CODE,
+                        PJ.PROJ_NAME,
+                        S.SUPERINTENDENT_ORG,
+                        S.SUPERINTENDENT,
+                        S.SUPERINTENDENT_NAME,
+                        (SELECT DECODE(U1.Phone,
+                                       NULL,
+                                       U1.Mobile,
+                                       U1.Phone)
+                           FROM as_emp U1
+                          WHERE U1.USER_ID = S.SUPERINTENDENT) SPHONE,
+                        S.ATTN,
+                        S.ATTN_NAME,
+                        (SELECT DECODE(U1.Phone,
+                                       NULL,
+                                       U1.Mobile,
+                                       U1.Phone)
+                           FROM as_emp U1
+                          WHERE U1.USER_ID = S.ATTN) APHONE
+          FROM ZC_EB_ENTRUST          E,
+               ZC_EB_DUTY_AUDIT_SHEET S,
+               ZC_EB_PACK             PK,
+               ZC_EB_PROJ             PJ,
+               ZC_EB_PROJ_ZBFILE      ZF,
+               ZC_EB_BULLETIN         BL,
+               ZC_EB_PLAN             PL
+         WHERE E.SN = PK.ENTRUST_CODE
+           AND E.SN_CODE = S.SN_CODE
+           AND PK.PROJ_CODE = PJ.PROJ_CODE
+           AND ZF.PROJ_CODE = PJ.PROJ_CODE
+           AND BL.PROJ_CODE = PJ.PROJ_CODE
+           AND PL.PROJ_CODE = PJ.PROJ_CODE
+           AND BL.BULLETIN_TYPE = 'B'
+           AND BL.BULLETIN_STATUS = 'exec'
+           AND NOT EXISTS (SELECT *
+                  FROM ZC_EB_EVAL_REPORT RP
+                 WHERE RP.PROJ_CODE = PJ.PROJ_CODE
+                   AND RP.STATUS = 'exec')
+        UNION
+        SELECT DISTINCT '3' AS OPT_STATUS,
+                        E.ZC_WEITO_DATE,
+                        E.SN,
+                        E.ND,
+                        E.AGENCY,
+                        E.SN_CODE,
+                        E.ZC_MAKE_CODE,
+                        E.ZC_MAKE_NAME,
+                        E.ORG_CODE,
+                        E.CO_CODE,
+                        E.ZC_MAKE_LINKMAN,
+                        E.ZC_MAKE_TEL,
+                        E.ZC_MONEY_BI_SUM,
+                        E.ZC_PIFU_CGFS,
+                        E.STATUS,
+                        PJ.EXECUTOR_NAME,
+                        PJ.PHONE,
+                        PJ.PROJ_CODE,
+                        PJ.PROJ_NAME,
+                        S.SUPERINTENDENT_ORG,
+                        S.SUPERINTENDENT,
+                        S.SUPERINTENDENT_NAME,
+                        (SELECT DECODE(U1.Phone,
+                                       NULL,
+                                       U1.Mobile,
+                                       U1.Phone)
+                           FROM as_emp U1
+                          WHERE U1.USER_ID = S.SUPERINTENDENT) SPHONE,
+                        S.ATTN,
+                        S.ATTN_NAME,
+                        (SELECT DECODE(U1.Phone,
+                                       NULL,
+                                       U1.Mobile,
+                                       U1.Phone)
+                           FROM as_emp U1
+                          WHERE U1.USER_ID = S.ATTN) APHONE
+          FROM ZC_EB_ENTRUST          E,
+               ZC_EB_DUTY_AUDIT_SHEET S,
+               ZC_EB_PACK             PK,
+               ZC_EB_PROJ             PJ,
+               ZC_EB_EVAL_REPORT      RP
+         WHERE E.SN = PK.ENTRUST_CODE
+           AND S.SN_CODE = E.SN_CODE
+           AND PK.PROJ_CODE = PJ.PROJ_CODE
+           AND PK.PACK_CODE = RP.PACK_CODE
+           AND RP.STATUS = 'exec') M
+ WHERE 1 = 1
+			<isNotNull prepend="AND" property="numLimitStr">
+				$numLimitStr$
+			</isNotNull>
+			<isNotNull prepend="AND" property="coCode">
+				M.CO_CODE=#coCode#
+			</isNotNull>
+			<isNotEqual prepend="and" compareValue="0" property="nd">
+				M.ND
+				=#nd#
+			</isNotEqual>
+			<isNotNull prepend="AND" property="orgCode">
+				M.SUPERINTENDENT_ORG=#orgCode#
+			</isNotNull>
+			<isNotNull prepend="AND" property="executor">
+				(M.SUPERINTENDENT=#executor# OR M.ATTN=#executor#)
+			</isNotNull>
+			<isNotNull prepend="AND" property="sn">
+				M.SN=#sn#
+			</isNotNull>
+			<isNotNull prepend="AND" property="zcPifuCgfs">
+				M.ZC_PIFU_CGFS =
+				#zcPifuCgfs:VARCHAR#
+			</isNotNull>
+		</isEqual>
+		ORDER BY M.SN DESC
+
+	</select>
+
+	<select id="getZcEbEntrustBullinList" resultMap="ZcEbEntrustBullinResult"
+
+		parameterClass="elementCondition">
+		SELECT *
+  FROM (SELECT DISTINCT '2' AS OPT_STATUS,
+                        E.ZC_WEITO_DATE,
+                        E.SN,
+                        E.ND,
+                        E.SN_CODE,
+                        E.ZC_MAKE_CODE,
+                        E.ZC_MAKE_NAME,
+                        E.ORG_CODE,
+                        E.CO_CODE,
+                        E.ZC_MAKE_LINKMAN,
+                        E.ZC_MAKE_TEL,
+                        E.ZC_MONEY_BI_SUM,
+                        E.ZC_PIFU_CGFS,
+                        E.STATUS,
+                        E.AGENCY,
+                        PJ.EXECUTOR_NAME,
+                        PJ.PROJ_CODE,
+                        PJ.PROJ_NAME,
+                        PL.SELL_START_TIME,
+                        PL.OPEN_BID_TIME,
+                        PL.OPEN_BID_ADDRESS,
+                        S.SUPERINTENDENT_ORG,
+                        S.SUPERINTENDENT,
+                        S.SUPERINTENDENT_NAME,
+                        (SELECT DECODE(U1.Phone,
+                                       NULL,
+                                       U1.Mobile,
+                                       U1.Phone)
+                           FROM as_emp U1
+                          WHERE U1.USER_ID = S.SUPERINTENDENT) SPHONE,
+                        S.ATTN,
+                        S.ATTN_NAME,
+                        (SELECT DECODE(U1.Phone,
+                                       NULL,
+                                       U1.Mobile,
+                                       U1.Phone)
+                           FROM as_emp U1
+                          WHERE U1.USER_ID = S.ATTN) APHONE,
+                        '' PHONE,
+                        ZF.WORD_FILE_ID AS FILE_ID,
+                        af.full_name AS FILE_NAME
+          FROM ZC_EB_ENTRUST          E,
+               ZC_EB_DUTY_AUDIT_SHEET S,
+               ZC_EB_PACK             PK,
+               ZC_EB_PROJ             PJ,
+               ZC_EB_PROJ_ZBFILE      ZF,
+               ZC_EB_BULLETIN         BL,
+               ZC_EB_PLAN             PL,
+               AS_FILE                af
+         WHERE E.SN = PK.ENTRUST_CODE
+           AND E.SN_CODE = S.SN_CODE
+           AND PK.PROJ_CODE = PJ.PROJ_CODE
+           AND ZF.PROJ_CODE = PJ.PROJ_CODE
+           AND BL.PROJ_CODE = PJ.PROJ_CODE
+           AND PL.PROJ_CODE = PJ.PROJ_CODE
+           AND af.file_id = ZF.WORD_FILE_ID
+           AND BL.BULLETIN_TYPE = 'B'
+           AND BL.BULLETIN_STATUS = 'exec') M
+ WHERE 1 = 1
+		<isNotNull prepend="AND" property="numLimitStr">
+			$numLimitStr$
+		</isNotNull>
+		<isNotNull prepend="AND" property="coCode">
+			M.CO_CODE=#coCode#
+		</isNotNull>
+		<isNotEqual prepend="and" compareValue="0" property="nd">
+			M.ND
+			=#nd#
+		</isNotEqual>
+		<isNotNull prepend="AND" property="orgCode">
+			M.SUPERINTENDENT_ORG=#orgCode#
+		</isNotNull>
+		<isNotNull prepend="AND" property="executor">
+			(M.SUPERINTENDENT=#executor# OR M.ATTN=#executor#)
+		</isNotNull>
+		<isNotNull prepend="AND" property="sn">
+			M.SN=#sn#
+		</isNotNull>
+		<isNotNull prepend="AND" property="zcPifuCgfs">
+			M.ZC_PIFU_CGFS =
+			#zcPifuCgfs:VARCHAR#
+		</isNotNull>
+		ORDER BY M.SN DESC
+	</select>
+
+	<select id="getZcEbEntrustReportList" resultMap="ZcEbEntrustReportResult"
+
+		parameterClass="elementCondition">
+SELECT *
+  FROM (SELECT DISTINCT '3' AS OPT_STATUS,
+                        E.ZC_WEITO_DATE,
+                        E.SN,
+                        E.Nd,
+                        E.SN_CODE,
+                        E.ZC_MAKE_CODE,
+                        E.ZC_MAKE_NAME,
+                        E.ORG_CODE,
+                        E.CO_CODE,
+                        E.AGENCY,
+                        E.ZC_MAKE_LINKMAN,
+                        E.ZC_MAKE_TEL,
+                        E.ZC_MONEY_BI_SUM,
+                        E.ZC_PIFU_CGFS,
+                        E.STATUS,
+                        PJ.EXECUTOR_NAME,
+                        PJ.PHONE,
+                        PJ.PROJ_CODE,
+                        PJ.PROJ_NAME,
+                        N.PROVIDER_CODE,
+                        N.PROVIDER_NAME,
+                        S.SUPERINTENDENT_ORG,
+                        S.SUPERINTENDENT,
+                        S.SUPERINTENDENT_NAME,
+                        (SELECT DECODE(U1.Phone,
+                                       NULL,
+                                       U1.Mobile,
+                                       U1.Phone)
+                           FROM as_emp U1
+                          WHERE U1.USER_ID = S.SUPERINTENDENT) SPHONE,
+                        S.ATTN,
+                        S.ATTN_NAME,
+                        (SELECT DECODE(U1.Phone,
+                                       NULL,
+                                       U1.Mobile,
+                                       U1.Phone)
+                           FROM as_emp U1
+                          WHERE U1.USER_ID = S.ATTN) APHONE
+          FROM ZC_EB_ENTRUST          E,
+               ZC_EB_DUTY_AUDIT_SHEET S,
+               ZC_EB_PACK             PK,
+               ZC_EB_PROJ             PJ,
+               ZC_EB_NOTICE           N
+         WHERE E.SN = PK.ENTRUST_CODE
+           AND S.SN_CODE = E.SN_CODE
+           AND PK.PROJ_CODE = PJ.PROJ_CODE
+           AND N.PROJ_CODE = PK.PROJ_CODE
+           AND N.PACK_CODE = PK.PACK_CODE) M
+ WHERE 1 = 1
+		<isNotNull prepend="AND" property="numLimitStr">
+			$numLimitStr$
+		</isNotNull>
+		<isNotEqual prepend="and" compareValue="0" property="nd">
+			M.ND
+			=#nd#
+		</isNotEqual>
+		<isNotNull prepend="AND" property="coCode">
+			M.CO_CODE=#coCode#
+		</isNotNull>
+		<isNotNull prepend="AND" property="orgCode">
+			M.SUPERINTENDENT_ORG=#orgCode#
+		</isNotNull>
+		<isNotNull prepend="AND" property="executor">
+			(M.SUPERINTENDENT=#executor# OR M.ATTN=#executor#)
+		</isNotNull>
+		<isNotNull prepend="AND" property="sn">
+			M.SN=#sn#
+		</isNotNull>
+		<isNotNull prepend="AND" property="zcPifuCgfs">
+			M.ZC_PIFU_CGFS =
+			#zcPifuCgfs:VARCHAR#
+		</isNotNull>
+		ORDER BY M.SN DESC
+	</select>
+
+	<select id="getZcEbProjSupportList" resultMap="ZcEbProjSupportResult"
+
+		parameterClass="elementCondition">
+
+		SELECT ZC_WEITO_DATE,
+		SN,
+		SN_CODE,
+		ZC_MAKE_CODE,
+		ZC_MAKE_NAME,
+		ORG_CODE,
+		ZC_MAKE_LINKMAN,
+		ZC_MAKE_TEL,
+		ZC_MONEY_BI_SUM,
+		ZC_PIFU_CGFS,
+		ATTN,
+		ATTN_NAME,
+		SUPERINTENDENT_ORG,
+
+		PROJ_CODE,
+		PROJ_NAME,
+		PACK_CODE,
+		PACK_NAME,
+		OPEN_BID_TIME,
+		OPEN_BID_ADDRESS,
+		BID_END_TIME,
+		SUPPORT_CNT,
+
+		STATUS,
+		PROCESS_INST_ID,
+		(select max(IS_EXTRAC) from zc_eb_bulletin t where
+		bulletin_type='B' and t.proj_code=master.PROJ_CODE and
+		t.bulletin_status='exec'
+		and t.bulletin_id in (select max(bulletin_id)
+		from zc_eb_bulletin where bulletin_type = 'B' and proj_code =
+		master.PROJ_CODE and bulletin_status = 'exec')) IS_EXTRAC
+
+		FROM
+		V_ZC_EB_PROJECT_SUPPORT MASTER
+
+		LEFT JOIN (SELECT H.INSTANCE_ID,
+
+		MAX(TO_DATE(H.EXECUTE_TIME, 'yyyy-mm-dd
+		hh24:mi:ss')) AS D
+
+		FROM
+
+		WF_ACTION H
+
+		GROUP BY H.INSTANCE_ID) WH
+
+		ON
+		MASTER.PROCESS_INST_ID =
+
+		WH.INSTANCE_ID
+
+		WHERE OPEN_BID_TIME is not null and BID_END_TIME is not
+		null
+		AND MASTER.PROJ_CODE in
+		(SELECT T.PROJ_CODE
+		FROM ZC_EB_BULLETIN T
+		WHERE BULLETIN_TYPE = 'B'
+		AND T.BULLETIN_STATUS = 'exec'
+		AND t.proj_code
+		= master.PROJ_CODE)
+		<isNotNull prepend="AND" property="numLimitStr">
+			$numLimitStr$
+		</isNotNull>
+
+		<isNotEqual prepend="and" compareValue="0" property="nd">
+
+			MASTER.ND = #nd#
+
+		</isNotEqual>
+		<dynamic open=" (" close=")" prepend="and">
+			<isNotNull prepend="or" property="startDate">
+				BID_END_TIME &gt;=
+				#startDate# AND BID_END_TIME &lt; (#startDate# + interval '1' day)
+			</isNotNull>
+			<isNotNull prepend="or" property="endDate">
+				OPEN_BID_TIME &gt;=
+				#endDate# AND OPEN_BID_TIME &lt; (#endDate# + interval '1' day)
+			</isNotNull>
+		</dynamic>
+		<isNotNull prepend="and" property="status">
+
+			<isEqual property="status" compareValue="draft">
+
+				(1=1)
+
+			</isEqual>
+
+			<isEqual property="status" compareValue="sp">
+
+				(1=1)
+
+			</isEqual>
+
+			<isEqual property="status" compareValue="todo">
+
+				MASTER.PROCESS_INST_ID in (select instance_id from
+
+				V_WF_CURRENT_TASK_ZC_TODO where executor =#executor#
+
+				and instance_id
+				= MASTER.process_inst_id)
+
+			</isEqual>
+
+			<isEqual property="status" compareValue="done">
+
+				MASTER.PROCESS_INST_ID in (select
+
+				instance_id from
+
+				V_WF_ACTION_HISTORY_GK53 where executor = #executor#
+
+				and instance_id
+				= MASTER.process_inst_id)
+
+				and MASTER.status!='cancel'
+
+				and
+				MASTER.status!='exec'
+
+				and MASTER.status !='finish'
+
+			</isEqual>
+
+			<isEqual property="status" compareValue="untread">
+
+				exists ( select
+				instance_id from V_WF_CURRENT_TASK_ZC_UNTREAD
+
+				where executor
+				=#executor# and instance_id = MASTER.process_inst_id)
+
+			</isEqual>
+
+			<isEqual property="status" compareValue="exec">
+
+				(MASTER.status
+				='exec' or MASTER.status='finish')
+
+			</isEqual>
+
+		</isNotNull>
+
+		ORDER BY PROJ_CODE,PACK_CODE
+
+	</select>
+
+	<delete id="deletePrintPermit" parameterClass="ZcEbProjPrintPermit">
+		DELETE
+		ZC_EB_PROJ_PRINT_PERMIT WHERE PROJ_CODE=#projCode# and
+		OPEN_BID_TIME=#openBidTime#
+	</delete>
+
+	<insert id="insertPrintPermit" parameterClass="ZcEbProjPrintPermit">
+		INSERT INTO
+		ZC_EB_PROJ_PRINT_PERMIT
+		(PROJ_CODE, STATUS, PROCESS_INST_ID,
+		OPEN_BID_TIME)
+		VALUES
+		(#projCode#,#status#,#processInstId#,
+		#openBidTime#)
+	</insert>
+
+	<update id="updatePrintPermit" parameterClass="ZcEbProjPrintPermit">
+		UPDATE
+		ZC_EB_PROJ_PRINT_PERMIT
+		SET STATUS = #status#
+		WHERE PROJ_CODE =
+		#projCode# AND OPEN_BID_TIME=#openBidTime#
+	</update>
+
+	<select id="getZcEbProjPrintPermitList" parameterClass="elementCondition"
+		resultMap="ZcEbProjPrintPermitResult">
+		SELECT * FROM ZC_EB_PROJ_PRINT_PERMIT
+		WHERE 1=1
+		<isNotNull prepend="AND" property="projCode">
+			PROJ_CODE=#projCode#
+		</isNotNull>
+		<isNotNull prepend="AND" property="openBidTime">
+			OPEN_BID_TIME=#openBidTime#
+		</isNotNull>
+	</select>
+
+	<select id="getZcEbProjSupportSupList" resultMap="ZcEbProjSupportSupResult"
+
+		parameterClass="elementCondition">
+
+		SELECT * FROM V_ZC_EB_PROJ_SUP_DETAIL M
+		WHERE 1 = 1
+		<isNotNull prepend="AND" property="projCode">
+			PROJ_CODE=#projCode#
+		</isNotNull>
+		<isNotNull prepend="AND" property="openBidTime">
+			OPEN_BID_TIME=#openBidTime#
+		</isNotNull>
+
+	</select>
+	<update id="updateZcEbSignupIsSite" parameterClass="com.ufgov.zc.common.zc.model.ZcEbProjSupport">
+		update
+		Zc_Eb_Signup Zc_Eb_Signup
+		set Zc_Eb_Signup.is_site = #isSite#
+		where
+		Zc_Eb_Signup.Provider_Code = #zcEbSupplier.code#
+		and
+		Zc_Eb_Signup.Proj_Code = #projCode#
+	</update>
+
+
+	<select id="getHistoryList" resultMap="historyResult"
+
+		parameterClass="elementCondition">
+
+		SELECT * from
+		(select distinct e.sn_code,
+		pj.proj_code,
+		pj.proj_name,
+		p.pack_code,
+		p.pack_name,
+		db.sell_end_time,
+		db.bid_end_time,
+		db.open_bid_date,
+		pj.co_code,
+		pj.org_code,
+		pj.agency,
+		pj.attn,
+		pj.attn_name,
+        pj.org_code SUPERINTENDENT_ORG
+		from zc_eb_entrust e,
+		zc_eb_pack p,
+		zc_eb_proj pj,
+		zc_eb_bulletin b,
+		zc_eb_bulletin_pack bp,
+		zc_eb_dly_bid_info db
+		where
+		e.sn = p.entrust_code
+		and p.proj_code = pj.proj_code
+		and p.proj_code =
+		b.proj_code
+		and b.bulletin_id = bp.bulletin_id
+		and p.pack_code =
+		bp.pack_code
+		and b.bulletin_type = 'D'
+		and b.bulletin_id =
+		db.bulletin_id
+		and p.proj_code = db.proj_code
+		and p.pack_code =
+		db.pack_code
+
+		<isNotEqual prepend="and" compareValue="0" property="nd">
+
+			pj.ND =
+			#nd#
+
+		</isNotEqual>
+
+		<dynamic open=" (" close=")" prepend="and">
+			<isNotNull prepend="or" property="startDate">
+				db.sell_end_time &gt;=
+				#startDate# AND db.sell_end_time &lt; (#startDate# + interval '1'
+				day)
+			</isNotNull>
+			<isNotNull prepend="or" property="endDate">
+				db.open_bid_date &gt;=
+				#endDate# AND db.open_bid_date &lt; (#endDate# + interval '1' day)
+			</isNotNull>
+		</dynamic>
+		) t where 1=1
+		<isNotNull prepend="AND" property="numLimitStr">
+			$numLimitStr$
+		</isNotNull>
+
+		ORDER BY PROJ_CODE,PACK_CODE,sell_end_time
+
+	</select>
+
+	<select id="getSuBidHistoryInfo" parameterClass="Map"
+		resultMap="ZcEbProjSupportHisResult">
+		SELECT s.zc_su_name, h.sp_date
+		from zc_eb_dly_bid_info h,
+		zc_b_supplier s
+		where h.provider_code = s.zc_su_code
+		and
+		h.proj_code=#proj_code#
+		and h.pack_code=#pack_code#
+		and
+		to_char(h.sell_end_time,'yyyymmddhh24miss')=#sell_end_time#
+	</select>
+</sqlMap>

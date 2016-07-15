@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ZcEbEvalBidTeam">
+	<typeAlias alias="ZcEbEvalBidTeam"
+		type="com.ufgov.zc.common.zc.model.ZcEbEvalBidTeam"></typeAlias>
+	<typeAlias alias="ZcEbEvalBidTeamMember"
+		type="com.ufgov.zc.common.zc.model.ZcEbEvalBidTeamMember" />
+	<typeAlias alias="ZcEbEvalPack" type="com.ufgov.zc.common.zc.model.ZcEbEvalPack" />
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<resultMap class="ZcEbEvalBidTeam" id="ZcEbEvalBidTeamResult">
+		<result column="PROJ_CODE" jdbcType="VARCHAR" property="projCode" />
+		<result column="PROJ_NAME" jdbcType="VARCHAR" property="projName" />
+		<result column="PACK_CODE" property="packCode" jdbcType="VARCHAR" />
+		<result column="PACK_NAME" property="packName" jdbcType="VARCHAR" />
+		<result column="PACK_DESC" property="packDesc" jdbcType="VARCHAR" />
+		<result column="EVAL_LEADER" property="evalLeader" jdbcType="VARCHAR" />
+		<result column="EVAL_LEADER_NAME" property="evalLeaderName"
+			jdbcType="VARCHAR" />
+		<result column="ND" jdbcType="DECIMAL" property="nd" />
+	</resultMap>
+
+	<resultMap class="ZcEbEvalBidTeam" id="ZcEbEvalBidTeamForProjResult">
+		<result column="PROJ_CODE" jdbcType="VARCHAR" property="projCode" />
+		<result column="PROJ_NAME" jdbcType="VARCHAR" property="projName" />
+		<result column="CO_NAME" jdbcType="VARCHAR" property="coName" />
+		<result column="PUR_TYPE" jdbcType="VARCHAR" property="purType" />
+		<result column="ND" jdbcType="DECIMAL" property="nd" />
+	</resultMap>
+	<resultMap id="ZcEbEvalBidTeamMemberResult" class="ZcEbEvalBidTeamMember">
+		<result column="EXPERT_CODE" property="expertCode" jdbcType="VARCHAR" />
+		<result column="EXPERT_NAME" property="expertName" jdbcType="VARCHAR" />
+		<result column="SEX" property="sex" jdbcType="VARCHAR" />
+		<result column="PHONE" property="phone" jdbcType="VARCHAR" />
+		<result column="DEPARTMENT" property="department" jdbcType="VARCHAR" />
+		<result column="DUTY" property="duty" jdbcType="VARCHAR" />
+		<result column="EMAIL" property="email" jdbcType="VARCHAR" />
+		<result column="EXPERT_TYPE_CODE" property="expertTypeCode"
+			jdbcType="VARCHAR" />
+		<result column="EXPERT_TYPE_NAME" property="expertTypeName"
+			jdbcType="VARCHAR" />
+		<result column="EXPERT_ID_CARD" property="expertIdCard"
+			jdbcType="VARCHAR" />
+		<result column="IS_LEADER" property="isLeader" jdbcType="VARCHAR" />
+		<result column="EXPERT_EVAL_PROGRESS" property="expertEvalProgress"
+			jdbcType="NUMBER" />
+	</resultMap>
+
+
+	<resultMap id="ZcEbEvalBidTeamMemResult" class="ZcEbEvalBidTeamMember">
+		<result column="EXPERT_CODE" property="expertCode" jdbcType="VARCHAR" />
+		<result column="EXPERT_NAME" property="expertName" jdbcType="VARCHAR" />
+		<result column="SEX" property="sex" jdbcType="VARCHAR" />
+		<result column="PHONE" property="phone" jdbcType="VARCHAR" />
+		<result column="DEPARTMENT" property="department" jdbcType="VARCHAR" />
+		<result column="DUTY" property="duty" jdbcType="VARCHAR" />
+		<result column="EMAIL" property="email" jdbcType="VARCHAR" />
+		<result column="EXPERT_TYPE_CODE" property="expertTypeCode"
+			jdbcType="VARCHAR" />
+		<result column="EXPERT_TYPE_NAME" property="expertTypeName"
+			jdbcType="VARCHAR" />
+		<result column="EXPERT_ID_CARD" property="expertIdCard"
+			jdbcType="VARCHAR" />
+		<result column="IS_LEADER" property="isLeader" jdbcType="VARCHAR" />
+		<result column="EXPERT_EVAL_PROGRESS" property="expertEvalProgress"
+			jdbcType="NUMBER" />
+		<result column="EM_EXP_CODE" property="expCode" jdbcType="VARCHAR" />
+
+	</resultMap>
+
+	<resultMap id="ZcEbEvalBidTeamExpCode" class="ZcEbEvalBidTeamMember">
+		<result column="expert_id_card" property="expertCode" jdbcType="VARCHAR" />
+		<result column="em_exp_code" property="expCode" jdbcType="VARCHAR" />
+
+	</resultMap>
+
+	<resultMap id="EmExpertResult" class="ZcEbEvalBidTeamMember">
+		<result column="EM_EXPERT_CODE" property="expertCode" jdbcType="VARCHAR" />
+		<result column="EM_EXPERT_NAME" property="expertName" jdbcType="VARCHAR" />
+		<result column="EM_EXPERT_SEX" property="sex" jdbcType="VARCHAR" />
+		<result column="EM_MOBILE" property="phone" jdbcType="VARCHAR" />
+		<result column="EM_UNIT_NAME" property="department" jdbcType="VARCHAR" />
+		<result column="EM_EXPERT_PROTITLE" property="duty" jdbcType="VARCHAR" />
+		<result column="EM_EMAIL" property="email" jdbcType="VARCHAR" />
+		<result column="EM_EXPERT_NAMESPELL" property="expertIdCard"
+			jdbcType="VARCHAR" />
+		<result column="EM_TYPE_CODE" property="expertTypeCode"
+			jdbcType="VARCHAR" />
+		<result column="EM_TYPE_NAME" property="expertTypeName"
+			jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="getEvalBidTeam" resultMap="ZcEbEvalBidTeamResult"
+		parameterClass="elementCondition">
+		SELECT
+		E.PROJ_CODE,
+		E.PROJ_NAME,
+		E.PACK_CODE,
+		E.PACK_NAME,
+		E.PACK_DESC,
+		MAX(NVL(E.EVAL_LEADER, '')) AS EVAL_LEADER,
+		MAX(NVL(LEADER_NAME,'')) AS
+		EVAL_LEADER_NAME,
+		E.ND
+		FROM
+		V_ZC_EB_EXPERT E
+		WHERE 1=1
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		<isNotEqual prepend="AND" compareValue="0" property="nd">
+			E.ND=#nd#
+		</isNotEqual>
+		GROUP BY
+		E.PROJ_CODE,E.PROJ_NAME,E.PACK_CODE,E.PACK_NAME,E.PACK_DESC,E.ND
+		ORDER
+		BY
+		E.PROJ_CODE DESC
+	</select>
+	<select id="getEvalBidTeamByID" resultMap="ZcEbEvalBidTeamResult"
+		parameterClass="String">
+		SELECT E.PROJ_CODE,E.PROJ_NAME,
+		E.PACK_CODE,E.PACK_NAME,E.PACK_DESC,
+		MAX(NVL(E.EVAL_LEADER, '')) AS
+		EVAL_LEADER,
+		MAX(NVL(LEADER_NAME,'')) AS EVAL_LEADER_NAME,
+		E.ND
+		FROM
+		V_ZC_EB_EXPERT E
+		WHERE
+		E.PROJ_CODE=#VALUE#
+		GROUP BY
+		E.PROJ_CODE,E.PROJ_NAME,E.PACK_CODE,E.PACK_NAME,E.PACK_DESC,E.ND
+		ORDER
+		BY
+		E.PROJ_CODE,E.PACK_CODE
+	</select>
+
+	<select id="getEvalBidProjInfoByID" resultMap="ZcEbEvalBidTeamForProjResult"
+		parameterClass="elementCondition">
+		select PJ.PROJ_CODE,
+		PJ.PROJ_NAME,
+		max((select ma.co_name
+		from ma_company ma
+		where ma.co_code = sheet.co_code)) AS CO_NAME,
+		PJ.Pur_Type,
+		PJ.ND
+		from ZC_EB_PACK Pk, ZC_EB_PROJ PJ, zc_eb_duty_audit_sheet sheet
+		where PJ.status != 'cancel'
+		and PK.PROJ_CODE = PJ.PROJ_CODE
+		and sheet.sn = Pk.Entrust_Code
+		and sheet.attn = #executor#
+		group by PJ.PROJ_CODE, PJ.PROJ_NAME,PJ.ND,PJ. Pur_Type
+		order by pj.PROJ_CODE
+	</select>
+	<select id="getEvalBidPackInfoByID" resultMap="ZcEbEvalBidTeamResult"
+		parameterClass="elementCondition">
+		select
+		PJ.PROJ_CODE, PJ.PROJ_NAME,
+		PK.PACK_CODE,
+		PK.PACK_NAME,PK.PACK_DESC,
+		'' AS EVAL_LEADER,
+		'' AS EVAL_LEADER_NAME,
+		PJ.ND
+		from
+		ZC_EB_PACK pk, ZC_EB_PROJ PJ
+		where pk.status!='cancel' and
+		pk.PROJ_CODE = PJ.PROJ_CODE
+		and not exists (
+		select * from
+		V_ZC_EB_EXPERT pe
+		where
+		pe.PACK_CODE = pk.PACK_CODE
+		and pe.PROJ_CODE =
+		pj.PROJ_CODE
+		)
+		<isNotNull prepend="and" property="dattr1">
+			pj.PROJ_CODE=#dattr1:VARCHAR#
+		</isNotNull>
+		order by pj.PROJ_CODE,pk.PACK_CODE
+	</select>
+
+	<select id="getEvalBidTeamMember" resultMap="ZcEbEvalBidTeamMemResult"
+		parameterClass="ZcEbEvalBidTeam">
+		SELECT
+		e.EXPERT_CODE,
+		e.EXPERT_NAME,
+		E.DUTY,
+		e.PHONE,
+		e.DEPARTMENT,
+		e.SEX,
+		e.EMAIL,
+		e.EXPERT_TYPE_CODE,
+		e.EXPERT_TYPE_NAME,
+		e.EXPERT_ID_CARD,
+		e.IS_LEADER,
+		e.EXPERT_EVAL_PROGRESS,
+		e.EXP_CODE
+		EM_EXP_CODE
+		FROM
+		V_ZC_EB_EXPERT E
+		WHERE e.PROJ_CODE=#projCode#
+		and
+		e.pack_code=#packCode#
+		order by
+		e.EXPERT_CODE
+	</select>
+
+
+	<select id="getEvalBidTeamExpCode" resultMap="ZcEbEvalBidTeamExpCode"
+		parameterClass="string">
+
+		select zepe.expert_id_card,zepe.em_exp_code from
+		ZC_EB_PACK_EXPERT zepe
+		where zepe.em_exp_code=#value#
+	</select>
+	<select id="getEvalBidTeamMemberByProj" resultMap="ZcEbEvalBidTeamMemberResult"
+		parameterClass="elementCondition">
+		SELECT
+		e.EXPERT_CODE,
+		e.EXPERT_NAME,
+		E.DUTY,
+		e.PHONE,
+		e.DEPARTMENT,
+		e.SEX,
+		e.EMAIL,
+		e.EXPERT_TYPE_CODE,
+		e.EXPERT_TYPE_NAME,
+		e.EXPERT_ID_CARD,
+		e.IS_LEADER,
+		e.EXPERT_EVAL_PROGRESS
+		FROM
+		V_ZC_EB_EXPERT
+		E
+		WHERE e.PROJ_CODE=#dattr1#
+		and e.pack_code=#dattr2#
+		order by
+		e.EXPERT_CODE
+	</select>
+
+	<select id="getZcEbEvalMember" resultMap="ZcEbEvalBidTeamMemResult"
+		parameterClass="ZcEbEvalPack">
+		select * from ZC_EB_PACK_EXPERT master
+		where 1=1
+		<isNotNull prepend="and" property="projCode">
+			master.PROJ_CODE=#projCode#
+		</isNotNull>
+		<isNotNull prepend="and" property="packCode">
+			master.PACK_CODE=#packCode#
+		</isNotNull>
+		<isNotNull prepend="and" property="evalExpert.expertCode">
+			master.EXPERT_CODE=#evalExpert.expertCode#
+		</isNotNull>
+	</select>
+	<update id="updateEvalBidTeam" parameterClass="ZcEbEvalBidTeam">
+		update
+		ZC_EB_PACK
+		set EVAL_LEADER = #evalLeader:VARCHAR#
+		where proj_code=#projCode#
+		and
+		pack_code=#packCode#
+	</update>
+
+	<update id="updateEvalBidTeamMemberEvalProgress" parameterClass="ZcEbEvalBidTeamMember">
+		update
+		ZC_EB_PACK_EXPERT
+		set EXPERT_EVAL_PROGRESS =
+		#expertEvalProgress:VARCHAR#
+		where proj_code=#projCode#
+		and
+		pack_code=#packCode#
+		and expert_code=#expertCode#
+	</update>
+
+	<insert id="insertMemberToZcEbPackExpert" parameterClass="ZcEbEvalBidTeamMember">
+		insert
+		into ZC_EB_PACK_EXPERT
+		(PACK_CODE,PROJ_CODE, EXPERT_CODE,
+		EXPERT_NAME,EXPERT_ID_CARD, SEX,DUTY, PHONE,
+		DEPARTMENT, EMAIL,
+		EXPERT_TYPE_CODE, EXPERT_TYPE_NAME,
+		IS_LEADER,EXPERT_EVAL_PROGRESS,EM_EXP_CODE
+		)
+		values
+		(#packCode:VARCHAR#,#projCode:VARCHAR#,#expertCode:VARCHAR#,#expertName:VARCHAR#,
+		#expertIdCard:VARCHAR#,#sex:VARCHAR#,#duty:VARCHAR#,#phone:VARCHAR#,#department:VARCHAR#,
+		#email:VARCHAR#,#expertTypeCode:VARCHAR#,#expertTypeName:VARCHAR#,#isLeader:VARCHAR#,#expertEvalProgress:VARCHAR#,
+		#expCode:VARCHAR#)
+	</insert>
+	<delete id="deleteByProjPackCode" parameterClass="java.util.HashMap">
+		delete from
+		ZC_EB_PACK_EXPERT
+		where PROJ_CODE = #projCode:VARCHAR#
+		and PACK_CODE =
+		#packCode:VARCHAR#
+	</delete>
+	<select id="getEmExpertList" resultMap="EmExpertResult"
+		parameterClass="elementCondition">
+		SELECT E.*, EP.EM_TYPE_CODE, EP.EM_TYPE_NAME
+		FROM
+		ZC_EM_B_EXPERT E, ZC_b_Expert_Type EP, ZC_EM_EXPERT_TYPE_JOIN EJ
+		where
+		E.EM_EXPERT_CODE = EJ.EM_EXPERT_CODE(+)
+		AND EJ.EM_TYPE_CODE =
+		EP.EM_TYPE_CODE(+)
+	</select>
+	<select id="getEvalBidTeamMemberByMap" resultMap="ZcEbEvalBidTeamMemResult"
+		parameterClass="Map">
+		SELECT
+		e.EXPERT_CODE,
+		e.EXPERT_NAME,
+		E.DUTY,
+		e.PHONE,
+		e.DEPARTMENT,
+		e.SEX,
+		e.EMAIL,
+		e.EXPERT_TYPE_CODE,
+		e.EXPERT_TYPE_NAME,
+		e.EXPERT_ID_CARD,
+		e.IS_LEADER,
+		e.EXPERT_EVAL_PROGRESS,
+		e.EXP_CODE
+		EM_EXP_CODE
+		FROM
+		V_ZC_EB_EXPERT E
+		WHERE e.PROJ_CODE=#projCode#
+		and
+		e.pack_code=#packCode#
+		order by
+		e.EXPERT_CODE
+	</select>
+</sqlMap>

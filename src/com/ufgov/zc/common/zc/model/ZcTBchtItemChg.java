@@ -1,0 +1,1 @@
+package com.ufgov.zc.common.zc.model;public class ZcTBchtItemChg extends ZcTBchtItem {	private static final long serialVersionUID = -6116432714700825300L;	private String zcHtChgId;	public String getZcHtChgId() {		return zcHtChgId;	}	public void setZcHtChgId(String zcHtChgId) {		this.zcHtChgId = zcHtChgId;	}}

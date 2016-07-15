@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ZcEbPresent">
+	<!-- 先定义出类 -->
+	<typeAlias alias="Present" type="com.ufgov.zc.common.zc.model.ZcEbPresent" />
+	<!-- 项目 -->
+	<typeAlias alias="Project" type="com.ufgov.zc.common.zc.model.ZcEbProj" />
+	<!-- 开标组 -->
+	<typeAlias alias="ZcEbOpenBidTeamMember"
+		type="com.ufgov.zc.common.zc.model.ZcEbOpenBidTeamMember" />
+	<!-- 用户表 -->
+	<typeAlias alias="asEmp" type="com.ufgov.zc.common.console.model.AsEmp" />
+	<!-- 供应商 -->
+	<typeAlias alias="ZcEbSignup" type="com.ufgov.zc.common.zc.model.ZcEbSignup" />
+
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+
+	<!-- 致辞resultMap -->
+	<resultMap class="Present" id="PresentResult">
+		<result property="sn" jdbcType="" column="id" />
+		<result property="moldName" column="moldName" />
+		<result property="inputAuthor" column="inputAuthor" />
+		<result property="inputDate" column="inputDate" />
+		<result property="status" column="status" />
+		<result property="fileID" column="fileID" />
+		<result property="projCode" column="proj_code" />
+		<result property="projName" column="proj_Name" />
+		<result property="projType" column="proj_Type" />
+		<result property="zhuchiren" column="zhuchiren" />
+		<result property="lingdao" column="lingdao" />
+		<result property="cgdanwei" column="cgdanwei" />
+		<result property="ggPublishDate" column="ggPublishDate" />
+		<result property="gmxywjsjsl" column="gmxywjsjsl" />
+		<result property="sdxywjsl" column="sdxywjsl" />
+		<result property="fileType" column="fileType" />
+		<result property="gysxx" column="gysxx" />
+		<result property="cgdwdb" column="cgdwdb" />
+		<result property="cgzxdb" column="cgzxdb" />
+		<result property="zgysdw" column="zgysdw" />
+		<result property="cgzxzgysdb" column="cgzxzgysdb" />
+		<result property="zgysDate" column="zgysDate" />
+		<result property="zgyshgsl" column="zgyshgsl" />
+		<result property="zgysbhgsl" column="zgysbhgsl" />
+		<result property="zgysReason" column="zgysReason" />
+		<result property="openBidMember" column="openBidMember" />
+		<result property="xmcbr" column="xmcbr" />
+		<result property="openBidDate" column="openBidDate" />
+		<result property="openBidAddress" column="openBidAddress" />
+		<result property="temp" column="temp" />
+		<result property="temp1" column="temp1" />
+		<result property="temp2" column="temp2" />
+		<result property="temp3" column="temp3" />
+		<result property="processInstId" column="PROCESS_INST_ID" />
+	</resultMap>
+
+	<!-- 项目 -->
+	<resultMap id="ZcEbProjResult" class="Project">
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="projSrcCode" column="PROJ_SRC_CODE" />
+		<result property="projName" column="PROJ_NAME" />
+		<result property="projSum" column="PROJ_SUM" />
+		<result property="purType" column="PUR_TYPE" />
+		<result property="manager" column="MANAGER" />
+		<result property="managerCode" column="MANAGER_CODE" />
+		<result property="projDate" column="PROJ_DATE" />
+		<result property="isSplitPack" column="IS_SPLIT_PACK" />
+		<result property="phone" column="PHONE" />
+		<result property="email" column="EMAIL" />
+		<result property="fax" column="FAX" />
+		<result property="status" column="STATUS" />
+		<result property="nd" column="ND" />
+		<result property="agency" column="AGENCY" />
+		<result property="isPubPurBulletin" column="IS_PUB_PUR_BULLETIN" />
+		<result property="isPubPurResult" column="IS_PUB_PUR_RESULT" />
+		<result property="processInstId" column="PROCESS_INST_ID"
+			jdbcType="DECIMAL" />
+		<result property="inputor" column="INPUTOR" />
+		<result property="inputDate" column="INPUT_DATE" />
+		<result property="org" column="ORG" />
+		<result property="remark" column="REMARK" />
+		<result property="isGoonAudit" column="IS_GOON_AUDIT" />
+	</resultMap>
+
+	<!-- 开标组成员 -->
+	<resultMap id="ZcEbOpenBidTeamMemberResult" class="ZcEbOpenBidTeamMember">
+		<result column="MEMBER_TYPE" property="memberType" jdbcType="VARCHAR" />
+		<result column="MEMBER_NAME" property="memberName" jdbcType="VARCHAR" />
+		<result column="TEAM_CODE" property="teamCode" jdbcType="VARCHAR" />
+		<result column="REMARK" property="remark" jdbcType="VARCHAR" />		<result column="tel" property="tel" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- 用户组 -->
+	<resultMap class="asEmp" id="EmpResult">
+		<result property="empCode" column="EMP_CODE"></result>
+		<result property="empName" column="EMP_NAME"></result>
+		<result property="userId" column="USER_ID"></result>
+		<result property="caSerial" column="CA_SERIAL"></result>
+		<result property="isLogin" column="IS_LOGIN"></result>
+	</resultMap>
+
+	<!-- 报名供应商 -->
+	<resultMap id="ZcEbSignupResult" class="ZcEbSignup">
+		<result property="signupId" column="SIGNUP_ID" />
+		<result property="providerCode" column="PROVIDER_CODE" />
+		<result property="signupDate" column="SINGNUP_DATE" />
+		<result property="linkMan" column="LINKMAN" />
+		<result property="address" column="ADDRESS" />
+		<result property="zipcode" column="ZIPCODE" />
+		<result property="phone" column="PHONE" />
+		<result property="mobilePhone" column="MOBILE_PHONE" />
+		<result property="email" column="EMAIL" />
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="purDocBuyDate" column="PUR_DOC_BUY_DATE" />
+		<result property="purDocFeeType" column="PUR_DOC_FEE_TYPE" />
+		<result property="purDocFeeBill" column="PUR_DOC_FEE_BILL" />
+		<result property="status" column="STATUS" />
+		<result property="purDocFee" column="PUR_DOC_FEE" />
+		<result property="projName" column="OPERATOR" />
+		<result property="providerName" column="PROVIDER_NAME" />
+		<result property="signupManner" column="SIGNUP_MANNER" />
+		<result property="isPayGuarantee" column="IS_PAY_GUARANTEE" />
+		<result property="isSubmitBidDoc" column="IS_SUBMIT_BID_DOC" />
+		<result property="bidDocFile" column="BID_DOC_NAME" />
+		<result property="bidDocFileId" column="BID_DOC_ID" />
+		<result property="submitBidDocType" column="SUBMIT_BID_DOC_TYPE" />
+
+
+	</resultMap>
+
+	<!-- 查询出所有致辞信息 -->
+	<select id="getPresentList" resultMap="PresentResult"
+		parameterClass="elementCondition">
+		SELECT * FROM
+		ZC_EB_PRESENT master
+		where 1=1
+		<isNotNull prepend="and" property="status">
+			<isEqual property="status" compareValue="doing">
+				MASTER.PROJ_CODE not IN
+				(SELECT PROJ.PROJ_CODE
+				FROM ZC_EB_PROJ PROJ
+				WHERE PROJ.STATUS = 'finish')
+			</isEqual>
+			<isEqual property="status" compareValue="finish">
+				MASTER.PROJ_CODE IN
+				(SELECT PROJ.PROJ_CODE
+				FROM ZC_EB_PROJ PROJ
+				WHERE PROJ.STATUS = 'finish')
+			</isEqual>
+		</isNotNull>
+	</select>
+
+	<select id="getPresentById" resultMap="PresentResult"
+		parameterClass="string">
+		SELECT * FROM ZC_EB_PRESENT T WHERE T.ID = #value#
+	</select>
+	<!-- 获取项目信息 -->
+	<select id="getProjList" resultMap="ZcEbProjResult">
+		SELECT PROJ.*
+		FROM ZC_EB_PROJ
+		PROJ
+		JOIN ZC_EB_PLAN PLAN
+		ON PROJ.PROJ_CODE
+		= PLAN.PROJ_CODE
+		WHERE
+		PLAN.OPEN_BID_TIME &lt;SYSDATE
+	</select>
+
+	<!-- 获取开标组成员 -->
+	<select id="getOpenBidTeamMember" parameterClass="string"
+		resultMap="ZcEbOpenBidTeamMemberResult">
+		SELECT *
+		FROM ZC_EB_OPENBID_TEAM_MEMBER MEMBER
+		WHERE
+		MEMBER.TEAM_CODE =
+		(SELECT TEAM.TEAM_CODE
+		FROM ZC_EB_OPENBID_TEAM TEAM
+		WHERE TEAM.PROJ_CODE = #value#)
+	</select>
+
+	<!-- 通过项目取出预算单位名称 -->
+	<select id="getComplany" parameterClass="string" resultMap="EmpResult">
+		SELECT *
+		FROM AS_EMP EMP
+		WHERE EMP.EMP_CODE IN
+		(SELECT
+		PACK.CO_CODE||'fz'
+		FROM ZC_EB_PACK PACK
+		WHERE PACK.PROJ_CODE IN
+		(SELECT PROJ.PROJ_CODE
+		FROM ZC_EB_PROJ PROJ
+		WHERE PROJ.PROJ_CODE =
+		#value#))
+	</select>
+
+	<!-- 获取该项目所有供应商 -->
+	<select id="getSupplier" parameterClass="string" resultMap="ZcEbSignupResult">
+		SELECT * FROM ZC_EB_SIGNUP SIGNUP WHERE
+		SIGNUP.PROJ_CODE = #value#
+	</select>
+
+	<!-- 选择纪律组织人员 -->
+	<select id="getEmpJiLv" parameterClass="string" resultMap="EmpResult">
+		SELECT *
+		FROM AS_EMP EMP
+		WHERE EMP.EMP_CODE IN
+		(SELECT POSI.EMP_CODE
+		FROM
+		AS_EMP_POSITION POSI
+		WHERE POSI.CO_CODE IN
+		(SELECT PROJ.AGENCY
+		FROM ZC_EB_PROJ PROJ
+		WHERE PROJ.PROJ_CODE = #value#)
+		AND POSI.POSI_CODE
+		= 'CGZX_KY_CG')
+	</select>
+
+	<!-- 选择纪律组织人员 -->
+	<select id="getEmpJiLv1" parameterClass="string" resultMap="EmpResult">
+		SELECT *
+		FROM AS_EMP EMP
+		WHERE EMP.EMP_CODE IN
+		(SELECT POSI.EMP_CODE
+		FROM
+		AS_EMP_POSITION POSI
+		WHERE POSI.CO_CODE IN
+		(SELECT PROJ.AGENCY
+		FROM ZC_EB_PROJ PROJ
+		WHERE PROJ.PROJ_CODE = #value#)
+		AND POSI.POSI_CODE
+		= 'CGZX_KY_CG')
+	</select>
+
+	<insert id="insertPresent" parameterClass="Present">
+		INSERT INTO
+		ZC_EB_PRESENT
+		(ID, MOLDNAME, FILEID,
+		INPUTDATE,proj_name,CGDANWEI,PROJ_TYPE,proj_code,STATUS)
+		VALUES
+		(SEQ_ZC_EB_PRESENT_ID.NEXTVAL, #moldName#, #fileID#,
+		sysdate,#projName#,#cgdanwei#,#projType#,#projCode#,#status#)
+	</insert>
+
+	<select id="getSn" resultClass="string">
+		SELECT
+		seq_zc_eb_present_id.CURRVAL FROM DUAL
+	</select>
+
+	<delete id="deletePresent" parameterClass="Present">
+		DELETE ZC_EB_PRESENT T
+		WHERE T.ID = #sn#
+	</delete>
+
+	<update id="updatePresent" parameterClass="Present">
+		update zc_eb_present
+		set
+		FILEID=#fileID#,proj_name=#projName#,proj_type=#projType#,proj_code=#projCode#,status=#status#
+		where id=#sn#
+	</update>
+</sqlMap>

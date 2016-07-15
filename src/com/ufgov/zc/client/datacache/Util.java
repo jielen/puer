@@ -1,0 +1,1 @@
+package com.ufgov.zc.client.datacache;import com.ufgov.zc.client.common.ServiceFactory;import com.ufgov.zc.common.commonbiz.publish.IBaseDataServiceDelegate;public class Util {  public static IBaseDataServiceDelegate baseDataServiceDelegate = (IBaseDataServiceDelegate) ServiceFactory  .create(IBaseDataServiceDelegate.class, "baseDataServiceDelegate");}

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.ufgov.zc.server.sf.dao.SfJdPersonMapper" >
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+  <resultMap id="BaseResultMap" class="com.ufgov.zc.common.sf.model.SfJdPerson" >
+    <result column="JD_PERSON_ID" property="jdPersonId" jdbcType="DECIMAL" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="SEX" property="sex" jdbcType="VARCHAR" />
+    <result column="BIRTHDAY" property="birthday" jdbcType="DATE" />
+    <result column="TECH_TITLE" property="techTitle" jdbcType="VARCHAR" />
+    <result column="CERTIFICATE_NO" property="certificateNo" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="ACCOUNT" property="account" jdbcType="VARCHAR" />
+    <result column="PASSWORD" property="password" jdbcType="VARCHAR" />
+  </resultMap>
+  
+	<resultMap id="userResult" class="com.ufgov.zc.common.system.model.User">
+		<result property="userId" column="USER_ID" />
+		<result property="userName" column="USER_NAME" />	
+	</resultMap>
+	
+  <sql id="Base_Column_List" >
+    JD_PERSON_ID, NAME, SEX, BIRTHDAY, TECH_TITLE, CERTIFICATE_NO, STATUS, REMARK, ACCOUNT, 
+    PASSWORD
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from SF_JD_PERSON
+    where JD_PERSON_ID = #jdPersonId:DECIMAL#
+  </select>
+  <select id="selectByAccount" resultMap="BaseResultMap" parameterClass="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from SF_JD_PERSON
+    where ACCOUNT = #account:VARCHAR#
+  </select>
+  <select id="selectMainDataLst" parameterClass="elementCondition" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SF_JD_PERSON
+    where 1=1  		
+		<isNotNull prepend="and" property="dattr1"> <!--司法鉴定人员部件选择人员sql  -->	
+				exists(
+					select * from sf_jd_person_major m
+					where m.major_code like #dattr1#||'%'
+					and m.jd_person_id=SF_JD_PERSON.JD_PERSON_ID
+					)
+		</isNotNull> 		
+		<isNotNull prepend="and" property="status">  					 		
+			<isEqual property="status" compareValue="enable">	
+				STATUS='enable'
+			</isEqual> 					 		
+			<isEqual property="status" compareValue="unable">	
+				STATUS='unable'
+			</isEqual>
+		</isNotNull>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="java.math.BigDecimal" >
+    delete from SF_JD_PERSON
+    where JD_PERSON_ID = #jdPersonId:DECIMAL#
+  </delete>
+  <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfJdPerson" >
+    insert into SF_JD_PERSON (JD_PERSON_ID, NAME, SEX, 
+      BIRTHDAY, TECH_TITLE, CERTIFICATE_NO, 
+      STATUS, REMARK, ACCOUNT, 
+      PASSWORD)
+    values (#jdPersonId:DECIMAL#, #name:VARCHAR#, #sex:VARCHAR#, 
+      #birthday:DATE#, #techTitle:VARCHAR#, #certificateNo:VARCHAR#, 
+      #status:VARCHAR#, #remark:VARCHAR#, #account:VARCHAR#, 
+      #password:VARCHAR#)
+  </insert>
+  <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfJdPerson" >
+    update SF_JD_PERSON
+    set NAME = #name:VARCHAR#,
+      SEX = #sex:VARCHAR#,
+      BIRTHDAY = #birthday:DATE#,
+      TECH_TITLE = #techTitle:VARCHAR#,
+      CERTIFICATE_NO = #certificateNo:VARCHAR#,
+      STATUS = #status:VARCHAR#,
+      REMARK = #remark:VARCHAR#,
+      ACCOUNT = #account:VARCHAR#,
+      PASSWORD = #password:VARCHAR#
+    where JD_PERSON_ID = #jdPersonId:DECIMAL#
+  </update>
+  <!-- 检查同登录名的用户 -->
+  <select id="checkSameUser"  parameterClass="elementCondition" resultMap="BaseResultMap">
+	  select p.* from as_user u,sf_jd_person p
+		where u.user_id=p.account
+		and p.jd_person_id=#sfId:DECIMAL#
+  </select>
+  
+<!-- 获取鉴定负责人-->
+	<select id="getUser" resultMap="userResult" parameterClass="elementCondition">
+		select u.user_id,u.user_name from 
+		as_emp_position ep,as_emp e,as_user u
+		where 
+		ep.co_code=#coCode#
+		and ep.emp_code=e.emp_code
+		and e.user_id=u.user_id
+		and ep.nd=#nd#		
+		<isNotNull prepend="and" property="dattr1"> <!--司法鉴定人员部件选择人员sql  -->		 		
+			<isEqual property="dattr1" compareValue="SF_JD_PERSON">	
+				not exists(
+					select * from sf_jd_person  m
+					where m.ACCOUNT=u.user_id
+					)
+			</isEqual>
+		</isNotNull>
+	</select>
+</sqlMap>

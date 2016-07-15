@@ -1,0 +1,1025 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+
+
+<!DOCTYPE sqlMap      
+
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ZcEbRfq">
+	<typeAlias alias="ZcEbEcbjItem" type="com.ufgov.zc.common.zc.model.ZcEbEcbjItem" />
+	<typeAlias alias="ZcEbProj" type="com.ufgov.zc.common.zc.model.ZcEbProj" />
+	<typeAlias alias="RfqSinupPack" type="com.ufgov.zc.common.zc.model.RfqSinupPack" />
+	<typeAlias alias="ZcEbSupplier" type="com.ufgov.zc.common.zc.model.ZcEbSupplier" />
+	<typeAlias alias="ZcEbRfqPack" type="com.ufgov.zc.common.zc.model.ZcEbRfqPack" />
+	<typeAlias alias="ZcEbPtPack" type="com.ufgov.zc.common.zc.model.ZcEbPtPack" />
+	<typeAlias alias="ZcReportModel" type="com.ufgov.zc.common.zc.model.ZcReportModel" />
+	<typeAlias alias="ZcEbEvalReport" type="com.ufgov.zc.common.zc.model.ZcEbEvalReport" />
+	<typeAlias alias="ZcBulWModel" type="com.ufgov.zc.common.zc.model.ZcBulWModel" />
+	<typeAlias alias="ZcXunJiaDetail"
+		type="com.ufgov.zc.common.zc.model.ZcXunJiaDetail" />
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+
+	<resultMap id="ZcEbEcbjItemResult" class="ZcEbEcbjItem">
+		<result property="signupPackId" column="SIGNUP_PACK_ID" />
+		<result property="bjNo" column="BJNO" />
+		<result property="bjSum" column="BJSUM" />
+		<result property="fileId" column="FILE_ID" />
+		<result property="fileName" column="FILE_NAME" />
+		<result property="bjTime" column="BJ_TIME" />
+		<result property="upLoadType" column="UPLOAD_TYPE" />
+		<result property="upLoader" column="UPLOADER" />
+		<result property="status" column="STATUS" />
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="projName" column="PROJ_NAME" />
+		<result property="packCode" column="PACK_CODE" />
+		<result property="packName" column="PACK_NAME" />
+		<result property="providerCode" column="PROVIDER_CODE" />
+		<result property="providerName" column="PROVIDER_NAME" />
+		<result property="openBidTime" column="OPEN_BID_TIME" />
+		<result property="openFailReason" column="OPEN_FAIL_REASON" />
+		<result property="remark" column="REMARK" />
+		<result property="orgCode" column="ORG_CODE" />
+		<result property="agency" column="AGENCY" />
+		<result property="nd" column="ND" />
+		<result property="executor" column="EXECUTOR" />
+		<result property="executeDate" column="EXECUTE_DATE" />
+	</resultMap>
+
+	<resultMap id="ZcEbProjResult" class="ZcEbProj">
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="projSrcCode" column="PROJ_SRC_CODE" />
+		<result property="projName" column="PROJ_NAME" />
+		<result property="projSum" column="PROJ_SUM" />
+		<result property="purType" column="PUR_TYPE" />
+		<result property="manager" column="MANAGER_CODE" />
+		<result property="projDate" column="PROJ_DATE" />
+		<result property="isSplitPack" column="IS_SPLIT_PACK" />
+		<result property="phone" column="PHONE" />
+		<result property="email" column="EMAIL" />
+		<result property="fax" column="FAX" />
+		<result property="status" column="STATUS" />
+		<result property="nd" column="ND" />
+		<result property="agency" column="AGENCY" />
+		<result property="isPubPurBulletin" column="IS_PUB_PUR_BULLETIN" />
+		<result property="isPubPurResult" column="IS_PUB_PUR_RESULT" />
+		<result property="processInstId" column="PROCESS_INST_ID"
+			jdbcType="DECIMAL" />
+	</resultMap>
+	<resultMap id="ZcEbRfqPackResult" class="ZcEbRfqPack">
+		<result property="rfqCode" column="RFQ_CODE" />
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="projName" column="PROJ_NAME" />
+		<result property="packCode" column="PACK_CODE" />
+		<result property="packName" column="PACK_NAME" />
+		<result property="packBudget" column="PACK_BUDGET" />
+		<result property="openBidDate" jdbcType="TIMESTAMP" column="OPEN_BID_DATE" />
+		<result property="openBidStatus" column="OPEN_BID_STATUS" />
+		<result property="reOpenBidDate" jdbcType="TIMESTAMP" column="RE_OPEN_BID_DATE" />
+		<result property="sellStartTime" jdbcType="TIMESTAMP" column="SELL_START_TIME" />
+		<result property="sellEndTime" jdbcType="TIMESTAMP" column="SELL_END_TIME" />
+		<result property="bidEndTime" jdbcType="TIMESTAMP" column="BID_END_TIME" />
+		<result property="status" column="STATUS" />
+		<result property="creator" column="CREATOR" />
+		<result property="manager" column="MANAGER_CODE" />
+		<result property="createDate" column="CREATE_DATE" />
+		<result property="rfqTeamOpinion" column="RFQ_TEAM_OPINION" />
+		<result property="buZhangOpinion" column="BUZHANG_OPINION" />
+		<result property="zhuRenOpinion" column="ZHUREN_OPINION" />
+		<result property="winBidProviderName" column="WIN_BID_PROVIDER_NAME" />
+		<result property="winBidProviderCode" column="WIN_BID_PROVIDER_CODE" />
+		<result property="processInstId" column="PROCESS_INST_ID" />
+		<result property="planCode" column="PLAN_CODE" />
+		<result property="nd" column="ND" />
+		<result property="reason" column="REASON" />
+		<result property="isGoonAudit" column="IS_GOON_AUDIT" />
+		<result property="winBidSum" column="WIN_BID_SUM" />
+		<result property="agency" column="AGENCY" />
+		<result property="orgCode" column="ORG_CODE" />
+		<result property="packMaxPrice" column="PACK_MAX_PRICE" />
+	    <result property="coCode" column="CO_CODE" />
+		
+	</resultMap>
+	<resultMap id="RfqSinupPackResult" class="RfqSinupPack">
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="packCode" column="PACK_CODE" />
+		<result property="sigupPackId" column="SIGNUP_PACK_ID" />
+		<result property="signupId" column="SIGNUP_ID" />
+		<result property="bidDocId" column="BID_DOC_ID" />
+		<result property="bidDocName" column="BID_DOC_NAME" />
+		<result property="providerName" column="PROVIDER_NAME" />
+		<result property="providerCode" column="PROVIDER_CODE" />
+	</resultMap>
+	<resultMap id="ZcEbSupplierResult" class="ZcEbSupplier">
+		<result property="name" column="ZC_SU_NAME" />
+		<result property="code" column="ZC_SU_CODE" />
+		<result property="address" column="ZC_SU_ADDR" />
+		<result property="phone" column="ZC_SU_TEL" />
+		<result property="linkMan" column="ZC_SU_LINKMAN" />
+	</resultMap>
+	<resultMap id="ZcXunJiaDetailResult" class="ZcXunJiaDetail">
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="packCode" column="PACK_CODE" />
+		<result property="providerName" column="PROVIDER_NAME" />
+		<result property="providerCode" column="PROVIDER_CODE" />
+		<result property="xjCode" column="XJ_CODE" />
+		<result property="spPrice" column="SP_PRICE" />
+		<result property="spName" column="SP_NAME" />
+		<result property="spTotalSum" column="SP_TOTAL_SUM" />
+		<result property="haveXianHuo" column="HAVE_XIAN_HUO" />
+		<result property="spNum" column="SP_NUM" />
+		<result property="gongHuoDate" column="GONG_HUO_DATE" />
+		<result property="unit" column="unit" />
+		<result property="tech" column="tech" />
+	</resultMap>
+
+	<resultMap id="ZcEbPtResult" class="ZcEbPtPack">
+		<result property="projCode" column="proj_code" />
+		<result property="packCode" column="pack_code" />
+		<result property="projName" column="proj_name" />
+		<result property="packName" column="pack_name" />
+		<result property="agencyName" column="zc_agey_name" />
+		<result property="openBidTime" column="Open_Bid_Time" />
+		<result property="status" column="status" />
+		<result property="failedReason" column="failed_reason" />
+	</resultMap>
+	<!-- 标段信息 -->
+	<resultMap id="ZcEbPtBdResult" class="ZcEbPtPack">
+		<result property="projCode" column="proj_code" />
+		<result property="packCode" column="pack_code" />
+		<result property="packName" column="pack_name" />
+		<result property="purContent" column="Pur_Content" />
+		<result property="val" column="val" />
+		<result property="bidDeposit" column="Bid_Deposit" />
+		<result property="status" column="status" />
+		<result property="evalStartTime" column="Start_Time" />
+		<result property="evalEndTime" column="End_time" />
+	</resultMap>
+
+	<!-- 标段报名供应商信息 -->
+	<resultMap id="ZcEbSupBmDetail" class="ZcEbPtPack">
+		<result property="providerName" column="Provider_Name" />
+		<result property="isPayGuarantee" column="Is_Pay_Guarantee" />
+		<result property="bjsum" column="bjsum" />
+		<result property="remark" column="Remark" />
+		<result property="fileId" column="file_id" />
+		<result property="isSubmitBidDoc" column="is_submit_bid_doc" />
+		<result property="submitBidDocType" column="submit_bid_doc_type" />
+	</resultMap>
+
+	<!-- 供应商CODE -->
+	<resultMap id="ZcSupplierFileID" class="ZcEbPtPack">
+		<result property="fileId" column="file_id" />
+		<result property="providerName" column="Provider_Name" />
+	</resultMap>
+	<!-- 投标状态 -->
+	<resultMap id="ZcEbScrollStatus" class="ZcEbPtPack">
+		<result property="projName" column="proj_name" />
+		<result property="status" column="status" />
+	</resultMap>
+
+	<!-- 采购需求明细 -->
+	<resultMap id="ZcEbPtDetailResult" class="ZcEbPtPack">
+		<result property="name" column="Name" />
+		<result property="zcCatalogueCod" column="Zc_Catalogue_Code" />
+		<result property="zcCatalogueName" column="Zc_Catalogue_Name" />
+		<result property="baseReq" column="Base_Req" />
+		<result property="itemAttach" column="Item_Attach" />
+		<result property="num" column="Num" />
+		<result property="merPrice" column="Mer_Price" />
+		<result property="arrDate" column="Arr_Date" />
+	</resultMap>
+
+	<!-- 评标状态明细 -->
+	<resultMap id="ZcEbPbStatusResult" class="ZcEbPtPack">
+		<result property="packName" column="Pack_Name" />
+		<result property="evalStartTime" column="Eval_Start_Time" />
+		<result property="evalEndTime" column="Eval_End_Time" />
+		<result property="complianceItemEvalStatus" column="Compliance_Item_Eval_Status" />
+		<result property="scoreItemEvalStatus" column="Score_Item_Eval_Status" />
+		<result property="providerName" column="provider_Name" />
+	</resultMap>
+
+	<!-- 评标结果 -->
+	<resultMap id="ZcEbPbResult" class="ZcEbPtPack">
+		<result property="packName" column="Pack_Name" />
+		<result property="providerName" column="Provider_Name" />
+		<result property="providerTotalPrice" column="Provider_Total_Price" />
+		<result property="evalScore" column="Eval_Score" />
+		<result property="complianceEvalValue" column="Compliance_Eval_Value" />
+		<result property="evalResult" column="Eval_Result" />
+	</resultMap>
+
+	<resultMap id="ZcEbEcbjItemResult" class="ZcEbEcbjItem">
+		<result property="signupPackId" column="SIGNUP_PACK_ID" />
+		<result property="bjNo" column="BJNO" />
+		<result property="bjSum" column="BJSUM" />
+		<result property="fileId" column="FILE_ID" />
+		<result property="fileName" column="FILE_NAME" />
+		<result property="bjTime" column="BJ_TIME" />
+		<result property="upLoadType" column="UPLOAD_TYPE" />
+		<result property="upLoader" column="UPLOADER" />
+		<result property="status" column="STATUS" />
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="projName" column="PROJ_NAME" />
+		<result property="packCode" column="PACK_CODE" />
+		<result property="packName" column="PACK_NAME" />
+		<result property="providerCode" column="PROVIDER_CODE" />
+		<result property="providerName" column="PROVIDER_NAME" />
+		<result property="openBidTime" column="OPEN_BID_TIME" />
+		<result property="openFailReason" column="OPEN_FAIL_REASON" />
+		<result property="remark" column="REMARK" />
+	</resultMap>
+
+	<resultMap id="ZcReportModelResult" class="ZcReportModel">
+		<result property="snCode" column="sn_code" />
+		<result property="zcMakeName" column="zc_make_name" />
+		<result property="projCode" column="proj_code" />
+		<result property="openBidDate" column="open_bid_time" />
+		<result property="openBidAddr" column="open_bid_address" />
+		<result property="attnName" column="attn_name" />
+		<result property="bulDate" column="publish_date" />
+		<result property="bidEndTime" column="bid_end_time" />
+		<result property="zcSuName" column="win_bid_provider_name" />
+		<result property="money" column="win_bid_sum" />
+		<result property="packName" column="pack_name" />
+	</resultMap>
+	<resultMap id="ZcEbEvalReportBaseResult" class="ZcEbEvalReport">
+		<result property="executeDate" column="EXECUTE_DATE" />
+		<result property="purType" column="PUR_TYPE" />
+		<result property="packName" column="PACK_NAME" />
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="projName" column="PROJ_NAME" />
+		<result property="bidDate" column="BID_DATE" />
+		<result property="providerName" column="PROVIDER_NAME" />
+		<result property="packCode" column="PACK_CODE" />
+		<result property="providerCode" column="PROVIDER_CODE" />
+		<result property="bidSum" column="BID_SUM" />
+		<result property="coCode" column="CO_CODE" />
+	    <result property="coName" column="CO_NAME" />	
+		<result property="zcCoLinkMan" column="ZC_CO_LINKMAN" />
+		<result property="agency" column="AGENCY" />
+		<result property="orgCode" column="ORG_CODE" />
+	</resultMap>
+	<resultMap id="ZcBulWModelBaseResult" class="ZcBulWModel">
+		<result property="coName" column="co_name" />
+		<result property="zcMakeName" column="zc_make_name" />
+		<result property="projCode" column="proj_code" />
+		<result property="bulDate" column="publish_date" />
+		<result property="openBidTime" column="open_bid_time" />
+		<result property="packName" column="pack_name" />
+		<result property="zcSuName" column="win_bid_provider_name" />
+		<result property="money" column="win_bid_sum" />
+		<result property="zcMakeLinkMan" column="zc_make_linkman" />
+		<result property="attnTel" column="tel" />
+		<result property="attnName" column="attn_name" />
+		<result property="now" column="now" />
+		
+	</resultMap>
+  
+	<resultMap class="com.ufgov.zc.common.zc.model.ZcHtModel" id="zcHtModelResultMap">
+		<result column="entrust_code" jdbcType="VARCHAR" property="entrustCode" />
+		<result column="pack_code" jdbcType="VARCHAR" property="packCode" />
+		<result column="zb_file_code" jdbcType="VARCHAR" property="zbFileCode" />
+		<result column="zc_su_addr" jdbcType="VARCHAR" property="zcSuAddr" />
+		<result column="zc_post_code" jdbcType="VARCHAR" property="zipCode" />
+		<result column="zc_su_linkman" jdbcType="VARCHAR" property="linkMan" />
+		<result column="zc_su_tel" jdbcType="VARCHAR" property="linkManPhone" />
+		<result column="zc_su_bank_name" jdbcType="VARCHAR" property="bankName" />
+		<result column="zc_su_acc_code" jdbcType="VARCHAR" property="accCode" />
+		<result column="co_name" jdbcType="VARCHAR" property="coName" />
+		<result column="pack_name" jdbcType="VARCHAR" property="packName" />
+		<result column="zc_sgn_date" jdbcType="VARCHAR" property="zcSgnDate" />
+		<result column="win_bid_provider_name" jdbcType="VARCHAR" property="zcSuName" />
+		<result property="item" select="ZC_EB_SUP_PRICE.selectBidPriceDetailByPackCode" column="pack_code"/>
+	</resultMap>
+	
+  
+	<resultMap class="com.ufgov.zc.common.zc.model.ZcHtModel" id="xjzhongbiaoModelResultMap">
+		<result column="entrust_code" jdbcType="VARCHAR" property="entrustCode" />
+		<result column="pack_code" jdbcType="VARCHAR" property="packCode" />
+		<result column="zb_file_code" jdbcType="VARCHAR" property="zbFileCode" />
+		<result column="zc_su_addr" jdbcType="VARCHAR" property="zcSuAddr" />
+		<result column="zc_post_code" jdbcType="VARCHAR" property="zipCode" />
+		<result column="zc_su_linkman" jdbcType="VARCHAR" property="linkMan" />
+		<result column="zc_su_tel" jdbcType="VARCHAR" property="linkManPhone" />
+		<result column="zc_su_bank_name" jdbcType="VARCHAR" property="bankName" />
+		<result column="zc_su_acc_code" jdbcType="VARCHAR" property="accCode" />
+		<result column="co_name" jdbcType="VARCHAR" property="coName" />
+		<result column="pack_name" jdbcType="VARCHAR" property="packName" />
+		<result column="pack_desc" jdbcType="VARCHAR" property="packDesc" />
+		<result column="zc_sgn_date" jdbcType="VARCHAR" property="zcSgnDate" />
+		<result column="win_bid_provider_name" jdbcType="VARCHAR" property="zcSuName" />
+		<result column="OPEN_BID_STATUS" jdbcType="VARCHAR" property="openBidStatus" />
+		<result column="REASON" jdbcType="VARCHAR" property="failReason" />
+		<result column="WIN_BID_SUM" jdbcType="DECIMAL" javaType="java.math.BigDecimal" property="winBidSum"/>
+	</resultMap>
+	
+	<!--等待开标的项目 -->
+	<select id="getZcEbRfqPackList" resultMap="ZcEbRfqPackResult"
+		parameterClass="elementCondition">
+		SELECT * FROM
+		V_ZC_XUNJIA_OPEN_BID master WHERE 1=1
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		<isNotEqual prepend="AND" compareValue="0" property="nd">
+			master.ND=#nd#
+		</isNotEqual>
+		<isNotNull prepend="AND" property="status">
+			<isEqual property="status" compareValue="toopen">
+			<![CDATA[
+			master.STATUS='0'
+			AND master.RE_OPEN_BID_DATE<sysdate
+         ]]>
+
+			</isEqual>
+			<isEqual property="status" compareValue="delay">
+				<![CDATA[
+			master.OPEN_BID_STATUS='2'
+			AND master.RE_OPEN_BID_DATE>sysdate
+         ]]>
+			</isEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="status">
+			<isEqual property="status" compareValue="todo">
+				exists (select
+				instance_id from V_WF_CURRENT_TASK_ZC_TODO where executor
+				=#executor# and instance_id = master.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="untread">
+				exists (select
+				instance_id from V_WF_CURRENT_TASK_ZC_UNTREAD where executor
+				=#executor# and instance_id =master.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="crap">
+				master.OPEN_BID_STATUS='5'
+			</isEqual>
+			<isEqual property="status" compareValue="exec">
+				master.status='exec'
+			</isEqual>
+			
+			<isEqual property="status" compareValue="history">
+				master.status!='0'
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				exists (select
+				instance_id from V_WF_ACTION_HISTORY_GK53 where executor =
+				#executor# and instance_id = master.process_inst_id)
+				and master.status!='back' 
+				and master.status!='exec'
+				and master.OPEN_BID_STATUS!='5'
+			</isEqual>
+			<isEqual property="status" compareValue="draft">
+				master.OPEN_BID_STATUS='1'
+			</isEqual>
+			<isEqual property="status" compareValue="all">
+				1=1
+			</isEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="packCode">
+			master.PACK_CODE
+			=#packCode:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="AND" property="projCode">
+			master.PROJ_CODE
+			=#projCode:VARCHAR#
+		</isNotNull>
+		order by master.OPEN_BID_DATE desc
+	</select>
+	<select id="getZcEbEcbjItem" resultMap="ZcEbEcbjItemResult"
+		parameterClass="elementCondition">
+		select mm.SIGNUP_PACK_ID,
+		mm.BJNO,
+		mm.BJSUM,
+		mm.FILE_ID,
+		mm.FILE_NAME,
+		mm.BJ_TIME,
+		mm.UPLOAD_TYPE,
+		mm.STATUS,
+		mm.UPLOADER,
+		mm.PROJ_CODE,
+		mm.PROJ_NAME,
+		mm.PACK_CODE,
+		mm.PACK_NAME,
+		mm.PROVIDER_CODE,
+		mm.PROVIDER_NAME,
+		mm.OPEN_BID_TIME,
+		mm.OPEN_FAIL_REASON,
+		mm.REMARK
+		from
+		(select zeei.SIGNUP_PACK_ID,
+		zeei.BJNO,
+		zeei.BJSUM,
+		zeei.FILE_ID,
+		zeei.FILE_NAME,
+		zeei.BJ_TIME,
+		zeei.UPLOAD_TYPE,
+		zeei.STATUS,
+		zeei.UPLOADER,
+		zeei.PROJ_CODE,
+		zeei.PROJ_NAME,
+		zeei.PACK_CODE,
+		zeei.PACK_NAME,
+		zeei.PROVIDER_CODE,
+		zeei.PROVIDER_NAME,
+		zeei.OPEN_BID_TIME,
+		zeei.OPEN_FAIL_REASON,
+		zeei.REMARK, zeei.AGENCY,
+		zeei.ORG_CODE, zeei.EXECUTOR, zeei.EXECUTE_DATE, zeei.ND
+		from
+		ZC_EB_ECBJ_ITEM zeei
+		where zeei.signup_pack_id =
+		(select
+		zesp.signup_pack_id
+		from zc_eb_signup_pack zesp, zc_eb_signup zes
+		where
+		zesp.signup_id = zes.signup_id
+		and zes.provider_code = #useType#
+		and
+		zes.proj_code=#projCode#
+		and zesp.pack_code=#packCode#)
+
+		order by
+		zeei.bjno desc) mm
+		where rownum = 1
+	</select>
+
+	<insert id="insertZcEbEcbjItem" parameterClass="ZcEbEcbjItem">
+		INSERT INTO
+		ZC_EB_ECBJ_ITEM
+		( SIGNUP_PACK_ID,
+		BJNO,
+		BJSUM,
+		FILE_ID,
+		FILE_NAME,
+		BJ_TIME ,
+		UPLOAD_TYPE,
+		STATUS,
+		UPLOADER,
+		PROJ_CODE,
+		PROJ_NAME,
+		PACK_CODE,
+		PACK_NAME,
+		PROVIDER_CODE,
+		PROVIDER_NAME,
+		OPEN_BID_TIME,
+		OPEN_FAIL_REASON,
+		REMARK,
+		AGENCY, ORG_CODE, EXECUTE_DATE, EXECUTOR, ND
+		)VALUES(
+		#signupPackId#,#bjNo#,#bjSum#, #fileId#, #fileName#,#bjTime#,
+		#upLoadType#,#status#,
+		#upLoader#,#projCode#, #projName#,#packCode#,
+		#packName#,#providerCode#,#providerName#,#openBidTime#,#openFailReason#,#remark#,
+		#agency#,#orgCode#,#executeDate#,#executor#,#nd#
+		)
+	</insert>
+
+	<!-- 获得询表报告集合 -->
+	<select id="getZcEbRfqPackStatusList" resultMap="ZcEbPtResult"
+		parameterClass="elementCondition">
+		select distinct pepj.proj_code,
+		zepk.pack_code,
+		pepj.proj_name,
+		zepk.pack_name,
+		zeet.zc_agey_name,
+		zepn.Open_Bid_Time,
+		zepk.status,
+		zepk.failed_reason
+		from ZC_EB_PROJ pepj,
+		ZC_EB_PACK zepk,
+		ZC_EB_PLAN
+		zepn,
+		ZC_EB_ENTRUST zeet,
+		ZC_EB_SIGNUP zesp
+		where pepj.proj_code =
+		zepk.proj_code
+		and pepj.proj_code = zepn.proj_code
+		and zepk.entrust_code
+		= zeet.sn
+		and pepj.proj_code=zesp.proj_code
+		and zesp.provider_code is
+		not null
+		and zesp.provider_code=#executor:VARCHAR#
+		<isNotNull prepend="AND" property="status">
+			<isEqual property="status" compareValue="wait">
+				zepk.status='0' and
+				zepn.Open_Bid_Time>sysdate
+			</isEqual>
+			<isEqual property="status" compareValue="doing">
+				(zepk.status='1' or
+				zepk.status='2' or zepk.status='3')
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				(zepk.status='4' or
+				zepk.status='5' or zepk.status='6')
+			</isEqual>
+
+
+			<isEqual property="status" compareValue="all">
+				1=1
+			</isEqual>
+		</isNotNull>
+	</select>
+
+	<!-- 获得项目的标段信息 -->
+	<select id="getZcEbRfqPackBdList" resultMap="ZcEbPtBdResult"
+		parameterClass="elementCondition">
+		select
+		zepk.proj_code,
+		zepk.pack_code,
+		zepk.pack_name,
+		zepk.Pur_Content,
+		avl.val,
+		zepk.Bid_Deposit,
+		zepk.status,
+		zeep.Start_Time,
+		zeep.End_time
+		from ZC_EB_PACK zepk ,
+		as_val avl,
+		zc_eb_ecbj_plan zeep
+		where avl.val_id=zepk.pur_type
+		and
+		zepk.proj_code=zeep.proj_code(+)
+		and avl.valset_id ='ZC_EB_PUR_TYPE'
+		and zepk.proj_code=#projCode:VARCHAR#
+	</select>
+	<!-- 开标大厅 供应商报名情况 -->
+	<select id="getZcSupBmDetail" resultMap="ZcEbSupBmDetail"
+		parameterClass="elementCondition">
+		select
+		spl.zc_su_name provider_name,
+		sp.is_pay_guarantee,
+		nvl(sp.ecbj_sum, sp.bid_sum) as bjsum,
+		s.remark,
+		s.bid_doc_id file_id,
+		sp.is_submit_bid_doc,
+		sp.submit_bid_doc_type
+		from
+		zc_eb_signup_pack sp, zc_eb_signup s,
+		zc_b_supplier spl
+		where
+		sp.pack_code = #packCode:VARCHAR#
+		and
+		sp.signup_id = s.signup_id
+		and
+		s.proj_code = #projCode:VARCHAR#
+		and
+		s.provider_code = spl.zc_su_code
+	</select>
+
+	<!-- 标段的供应商投标文件ID -->
+	<select id="getZcSupplierFileID" resultMap="ZcSupplierFileID"
+		parameterClass="elementCondition">
+		select
+		sp.tbylb_file_id file_id,
+		spl.zc_su_name
+		provider_name
+		from zc_eb_signup_pack sp,
+		zc_eb_signup s,
+		zc_b_supplier
+		spl
+		where sp.pack_code = #packCode:VARCHAR#
+		and sp.signup_id =
+		s.signup_id
+		and s.proj_code = #projCode:VARCHAR#
+		and s.provider_code =
+		spl.zc_su_code
+
+
+	</select>
+	<!-- 当前供应商二次报价当前文件ID -->
+	<select id="getZcEbSecSupplierFile" resultMap="ZcSupplierFileID"
+		parameterClass="elementCondition">
+		SELECT zeei.file_id,
+		zeei.Provider_Name
+		FROM
+		ZC_EB_ECBJ_ITEM zeei
+		WHERE zeei.provider_code = #executor:VARCHAR#
+		AND
+		zeei.proj_code=#projCode:VARCHAR#
+		AND zeei.pack_code=#packCode:VARCHAR#
+		AND zeei.bj_time=
+		(select max(t.bj_time)
+		from zc_eb_ecbj_item t
+		where
+		t.provider_code = #executor:VARCHAR#
+		and t.proj_code=#projCode:VARCHAR#
+		and t.pack_code=#packCode:VARCHAR#
+		)
+	</select>
+	<!-- 滚动条显示内容 -->
+	<select id="getZcEbScrollStatus" resultMap="ZcEbScrollStatus"
+		parameterClass="String">
+		select
+		zepj.proj_name,
+		zepk.status
+		from zc_eb_signup zes,
+		zc_eb_pack zepk,
+		zc_eb_proj zepj
+		where zes.proj_code=zepk.proj_code
+		and
+		zepj.proj_code=zes.proj_code
+		and zes.provider_code=#VALUE#
+	</select>
+
+	<!-- 当前供应商二次报价所有文件ID -->
+	<select id="getZcEbSecSupplierAllFile" resultMap="ZcSupplierFileID"
+		parameterClass="elementCondition">
+		SELECT zeei.file_id,
+		zeei.Provider_Name
+		FROM
+		ZC_EB_ECBJ_ITEM zeei
+		WHERE zeei.provider_code = #executor:VARCHAR#
+		AND
+		zeei.proj_code=#projCode:VARCHAR#
+		AND zeei.pack_code=#packCode:VARCHAR#
+		ORDER BY zeei.bj_time desc
+	</select>
+
+	<!-- 采购需求明细 -->
+	<select id="getZcEbRfqPackDetailList" resultMap="ZcEbPtDetailResult"
+		parameterClass="elementCondition">
+		select zdl.Name,
+		zdl.Zc_Catalogue_Code,
+		zdl.Zc_Catalogue_Name,
+		zdl.Base_Req,
+		zdl.Item_Attach,
+		zdl.Num,
+		zdl.Mer_Price,
+		zdl.Arr_Date
+		from Zc_Eb_Requirement_Detail zdl,
+		Zc_Eb_Requirement zrt,
+		Zc_Eb_Entrust zt
+		where zrt.sn = zt.sn
+		and
+		zdl.req_code = zrt.req_code
+		and zt.sn in (select zp.entrust_code
+		from
+		Zc_Eb_Pack zp
+		where zp.proj_code=#projCode:VARCHAR#
+		and zp.pack_code =
+		#packCode:VARCHAR#)
+	</select>
+	<!-- 评标结果 -->
+	<select id="getZcEbRfqPackPbResult" resultMap="ZcEbPbResult"
+		parameterClass="elementCondition">
+		select zepk.Pack_Name,
+		zeer.Provider_Name,
+		zeer.provider_total_price,
+		zeer.eval_score,
+		zeer.Compliance_Eval_Value,
+		zeer.eval_result
+		from ZC_EB_PACK_EVAL_RESULT zeer,
+		ZC_EB_PACK zepk
+		where
+		zeer.pack_code = zepk.pack_code
+		and zepk.proj_code=#projCode:VARCHAR#
+		and zeer.pack_code=#packCode:VARCHAR#
+		order by
+		zeer.provider_total_price
+	</select>
+	<!-- 获得单个询标报告 -->
+	<select id="getZcEbRfqPack" resultMap="ZcEbRfqPackResult"
+		parameterClass="elementCondition">
+
+		SELECT
+		MASTER.*, P.PACK_BUDGET,P.PACK_MAX_PRICE,P.CO_CODE
+		FROM ZC_EB_RFQ_PACK MASTER, ZC_EB_PACK P
+		WHERE MASTER.PACK_CODE = P.PACK_CODE
+		AND 1=1
+		<isNotNull prepend="AND" property="zcText0">
+			master.RFQ_CODE
+			=#zcText0:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="AND" property="packCode">
+			master.PACK_CODE
+			=#packCode:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="AND" property="projCode">
+			master.PROJ_CODE
+			=#projCode:VARCHAR#
+		</isNotNull>
+	</select>
+
+	<!-- 获得单个询标报告 -->
+	<select id="getZcEbRfqPack1" resultMap="ZcEbRfqPackResult"
+		parameterClass="ZcEbRfqPack">
+		SELECT MASTER.*,PACK.PACK_BUDGET,PACK.PACK_MAX_PRICE,PACK.CO_CODE
+		FROM ZC_EB_RFQ_PACK
+		MASTER,
+		ZC_EB_PACK PACK
+		WHERE PACK.PACK_CODE=MASTER.PACK_CODE
+		AND PACK.PROJ_CODE=MASTER.PROJ_CODE
+		AND MASTER.RFQ_CODE =#rfqCode:VARCHAR#
+	</select>
+	<insert id="insertZcEbRfqPack" parameterClass="ZcEbRfqPack">
+		insert into
+		Zc_Eb_Rfq_Pack(RFQ_CODE,PROJ_CODE,PROJ_NAME,
+		PACK_CODE,PACK_NAME,
+		RFQ_TEAM_OPINION,BUZHANG_OPINION,ZHUREN_OPINION,ND,STATUS,WIN_BID_PROVIDER_NAME,WIN_BID_PROVIDER_CODE
+		,CREATOR,MANAGER_CODE,PROCESS_INST_ID,RE_OPEN_BID_DATE,SELL_START_TIME,SELL_END_TIME,BID_END_TIME,PLAN_CODE,
+		OPEN_BID_STATUS,IS_GOON_AUDIT,OPEN_BID_DATE,WIN_BID_SUM,AGENCY,ORG_CODE,REASON)
+		values(
+		#rfqCode:VARCHAR#,#projCode:VARCHAR#,#projName:VARCHAR#,
+		#packCode:VARCHAR#,#packName:VARCHAR#,
+		#rfqTeamOpinion:VARCHAR#,#buZhangOpinion:VARCHAR#,#zhuRenOpinion:VARCHAR#,
+		#nd:VARCHAR#,#status:VARCHAR#,#winBidProviderName:VARCHAR#,#winBidProviderCode:VARCHAR#,
+		#creator:VARCHAR#,#manager:VARCHAR#,#processInstId:Integer#,#reOpenBidDate:TIMESTAMP#,
+		#sellStartTime:TIMESTAMP#,#sellEndTime:TIMESTAMP#,#bidEndTime:TIMESTAMP#,#planCode:VARCHAR#,
+		#openBidStatus:VARCHAR#,#isGoonAudit:VARCHAR#,#openBidDate:TIMESTAMP#,#winBidSum:VARCHAR#,
+		#agency:VARCHAR#,#orgCode:VARCHAR#,#reason:VARCHAR#)
+	</insert>
+	<update id="updateZcEbRfqPack" parameterClass="ZcEbRfqPack">
+		update
+		Zc_Eb_Rfq_Pack
+		set PROJ_CODE=#projCode:VARCHAR#,
+		PROJ_NAME=#projName:VARCHAR#,
+		PACK_CODE=#packCode:VARCHAR#,
+		PACK_NAME=#packName:VARCHAR#,
+		RFQ_TEAM_OPINION=#rfqTeamOpinion:VARCHAR#,
+		BUZHANG_OPINION=#buZhangOpinion:VARCHAR#,
+		ZHUREN_OPINION=#zhuRenOpinion:VARCHAR#,
+		STATUS=#status:VARCHAR#,
+		ND=#nd:VARCHAR#,
+		WIN_BID_PROVIDER_NAME=#winBidProviderName:VARCHAR#,
+		WIN_BID_PROVIDER_CODE=#winBidProviderCode:VARCHAR#,
+		CREATOR=#creator:VARCHAR#,
+		MANAGER_CODE=#manager:VARCHAR#,
+		RE_OPEN_BID_DATE=#reOpenBidDate:DATE#,
+		SELL_START_TIME=#sellStartTime:DATE#,
+		SELL_END_TIME=#sellEndTime:DATE#,
+		BID_END_TIME=#bidEndTime:VARCHAR#,
+		OPEN_BID_STATUS=#openBidStatus:VARCHAR#,
+		REASON=#reason#,
+		IS_GOON_AUDIT=#isGoonAudit#,
+		OPEN_BID_DATE=#openBidDate#,
+		WIN_BID_SUM=#winBidSum#, ORG_CODE=#orgCode#, AGENCY=#agency#
+		where
+		RFQ_CODE=#rfqCode:VARCHAR#
+	</update>
+	<delete id="deleteZcEbRfqPack" parameterClass="elementCondition">
+		delete * from
+		Zc_Eb_Rfq_Pack
+		where RFQ_CODE=#zcText0:VARCHAR#
+	</delete>
+	<update id="updateZcEbPackStatus" parameterClass="ZcEbRfqPack">
+		UPDATE
+		ZC_EB_PACK C
+		SET C.STATUS=#openBidStatus#
+		WHERE C.PACK_CODE=#packCode#
+		AND C.PROJ_CODE=#projCode#
+	</update>
+
+	<select id="getProviders" resultMap="ZcEbSupplierResult"
+		parameterClass="elementCondition">
+		SELECT
+		S.ZC_SU_CODE,S.ZC_SU_NAME,S.ZC_SU_ADDR,S.ZC_SU_LINKMAN,S.ZC_SU_TEL
+		FROM
+		ZC_B_SUPPLIER S,
+		ZC_EB_SIGNUP P,
+		ZC_EB_SIGNUP_PACK C
+		WHERE
+		S.ZC_SU_CODE=P.PROVIDER_CODE
+		AND
+		P.SIGNUP_ID=C.SIGNUP_ID
+		AND
+		C.IS_SUBMIT_BID_DOC='Y'
+		<isNotNull prepend="AND" property="packCode">
+			C.PACK_CODE=#packCode#
+		</isNotNull>
+	</select>
+	<select id="getXunjiaDetaiList" resultMap="ZcXunJiaDetailResult"
+		parameterClass="elementCondition">
+		SELECT
+		*
+		FROM
+		V_ZC_XUNJIA_BAOJIA_DETAIL master
+		WHERE
+		master.PACK_CODE=#packCode#
+		AND
+		master.PROJ_CODE=#projCode#
+		<isNotNull prepend="AND" property="content">
+			master.PROVIDER_CODE=#content#
+		</isNotNull>
+		order by master.SP_TOTAL_SUM,master.GONG_HUO_DATE,MASTER.CREATE_DATE
+	</select>
+	<select id="getLowPriceXunJiaDetail" resultMap="ZcXunJiaDetailResult"
+		parameterClass="elementCondition">
+		select min(MASTER.SP_TOTAL_SUM) SP_TOTAL_SUM,
+		min(MASTER.PROVIDER_CODE) PROVIDER_CODE,
+		min(MASTER.PROVIDER_NAME)
+		PROVIDER_NAME
+		FROM
+		V_ZC_XUNJIA_BAOJIA_DETAIL master
+		WHERE
+		master.PACK_CODE=#packCode#
+		AND
+		master.PROJ_CODE=#projCode#
+	</select>
+	<select id="isCar" parameterClass="String" resultClass="String">
+	select is_car from zc_eb_entrust where sn in (select ENTRUST_CODE from zc_eb_pack where pack_code=#value#)
+	</select>
+	<select id="findEvalById" parameterClass="Map" resultMap="ZcReportModelResult">
+select distinct e.sn_code,
+e.zc_make_name,
+p.proj_code,
+to_char(vp.open_bid_time,'yyyy')||'年'||
+to_char(vp.open_bid_time,'mm')||'月'||
+to_char(vp.open_bid_time,'dd')||'日'||
+to_char(vp.open_bid_time,'hh24')||'时'||
+to_char(vp.open_bid_time,'mi') open_bid_time,
+vp.open_bid_address,
+pj.attn_name,
+to_char(d.publish_date,'yyyy')||'年'||
+to_char(d.publish_date,'mm')||'月'||
+to_char(d.publish_date,'dd')||'日' publish_date,
+to_char(vp.bid_end_time,'yyyy')||'年'||
+to_char(vp.bid_end_time,'mm')||'月'||
+to_char(vp.bid_end_time,'dd')||'日'||
+to_char(vp.bid_end_time,'hh24')||'时'||
+to_char(vp.bid_end_time,'mi') bid_end_time,
+rp.win_bid_provider_name,
+rp.win_bid_sum,
+p.pack_name
+  from zc_eb_entrust     e,
+       zc_eb_pack        p,
+       zc_eb_proj        pj,
+       zc_eb_bulletin    b,
+       zc_wcms_content d,
+       v_zc_eb_pack_plan vp,
+       zc_eb_rfq_pack    rp
+ where e.sn = p.entrust_code
+   and p.proj_code = pj.proj_code
+   and p.proj_code = b.proj_code
+   and b.bulletin_type = 'JB'
+   and p.pack_code = vp.pack_code
+   and p.proj_code = vp.proj_code
+   and p.pack_code = rp.pack_code
+   and p.proj_code = rp.proj_code
+   and b.bulletin_id=d.id(+)
+   and p.pack_code = #pack_code#
+   and p.proj_code = #proj_code#
+   and not exists (select REPORT_CODE from Zc_Eb_Eval_Report where p.pack_code=pack_code and proj_code=p.proj_code)
+	</select>
+	<select id="findEvalInfoById" parameterClass="Map" resultMap="ZcEbEvalReportBaseResult">
+select sysdate                  EXECUTE_DATE,
+       pj.pur_type,
+       p.pack_name,
+       pj.proj_code,
+       pj.proj_name,
+       vp.open_bid_time         bid_date,
+       rp.win_bid_provider_name PROVIDER_NAME,
+       p.pack_code,
+       rp.win_bid_provider_code PROVIDER_CODE,
+       rp.win_bid_sum           BID_SUM,
+       pj.co_code,
+       ee.co_name              as CO_NAME,
+       e.zc_make_linkman        ZC_CO_LINKMAN,
+       e.agency,
+       pj.org_code
+  from zc_eb_entrust     e,
+       zc_eb_proj        pj,
+       zc_eb_pack        p,
+       v_zc_eb_pack_plan vp,
+       zc_eb_rfq_pack    rp,
+       ma_company    ee
+ where e.sn = p.entrust_code
+   and ee.co_code = pj.co_code
+   and p.proj_code = pj.proj_code
+   and p.pack_code = vp.pack_code
+   and p.proj_code = vp.proj_code
+   and p.pack_code = rp.pack_code
+   and p.proj_code = rp.proj_code
+   and p.pack_code = #pack_code#
+   and p.proj_code = #proj_code#
+   and ee.nd=pj.nd
+	</select>
+	<select id="findBulWById" parameterClass="Map" resultMap="ZcBulWModelBaseResult">
+select distinct ee.co_name,
+       e.zc_make_name,
+       p.proj_code,
+       to_char(d.publish_date, 'yyyy') || '年' ||
+       to_char(d.publish_date, 'mm') || '月' ||
+       to_char(d.publish_date, 'dd') || '日' publish_date,
+       to_char(vp.open_bid_time, 'yyyy') || '年' ||
+       to_char(vp.open_bid_time, 'mm') || '月' ||
+       to_char(vp.open_bid_time, 'dd') || '日' open_bid_time,
+       p.pack_name,
+       rp.win_bid_provider_name,
+       rp.win_bid_sum,
+       e.zc_make_linkman,
+       pj.attn_name,
+       pj.attn_phone tel,
+       to_char(sysdate, 'yyyy') || '年' ||
+       to_char(sysdate, 'mm') || '月' ||
+       to_char(sysdate, 'dd') || '日' now
+  from zc_eb_entrust     e,
+       zc_eb_pack        p,
+       zc_eb_proj        pj,
+       zc_eb_bulletin    b,
+       zc_wcms_content   d,
+       v_zc_eb_pack_plan vp,
+       zc_eb_rfq_pack    rp,
+       ma_company ee
+ where e.sn = p.entrust_code
+   and p.proj_code = pj.proj_code
+   and p.proj_code = b.proj_code
+   and b.bulletin_type = #bulletin_type#
+   and p.pack_code = vp.pack_code
+   and p.proj_code = vp.proj_code
+   and p.pack_code = rp.pack_code
+   and p.proj_code = rp.proj_code
+   and b.bulletin_id = d.id(+)
+   and e.co_code = ee.co_code
+   and p.pack_code = #pack_code#
+   and p.proj_code = #proj_code#
+   and not exists (select BULLETIN_ID from zc_eb_bulletin where PROJ_CODE=p.proj_code and PROJECT_CODE=p.pack_code)
+	</select>
+		
+	<select id="selectXjPackResult" parameterClass="Map" resultMap="xjzhongbiaoModelResultMap">
+select p.entrust_code entrust_code,
+       p.pack_code pack_code,
+       s.zc_su_addr zc_su_addr,
+       s.zc_post_code zc_post_code,
+       s.zc_su_linkman,
+       decode(s.zc_su_tel, '', s.LINK_MAN_PHONE, s.zc_su_tel) zc_su_tel,
+       s.zc_su_bank_name zc_su_bank_name,
+       s.zc_su_acc_code zc_su_acc_code,
+       p.proj_code zb_file_code,
+
+       e.co_name,
+       p.pack_name ,
+       p.pack_desc,
+       to_char(sysdate,'yyyy-mm-dd') zc_sgn_date,
+       r.win_bid_provider_name,
+       r.REASON,
+       r.OPEN_BID_STATUS,
+       r.WIN_BID_SUM
+  from zc_eb_pack p, zc_eb_rfq_pack r, zc_b_supplier s, ma_company e,zc_eb_proj pj
+ where 
+   p.pack_code = r.pack_code
+   and pj.proj_code=p.proj_code   
+   and p.proj_code = r.proj_code
+		<isNotNull prepend="AND" property="nd">
+			pj.nd =#nd#
+		</isNotNull>
+		<isNotNull prepend="AND" property="packCode">
+			p.pack_code =#packCode#
+		</isNotNull>
+		<isNotNull prepend="AND" property="projCode">
+			p.proj_code = #projCode#
+		</isNotNull>
+		<isNotNull prepend="AND" property="executor">
+			pj.executor = #executor#
+		</isNotNull>
+   and r.win_bid_provider_code = s.zc_su_code
+   and p.co_code = e.co_code
+   and not exists (select 1 from zc_eb_bulletin b,zc_eb_bulletin_pack bp
+    where b.bulletin_id=bp.bulletin_id
+    and b.bulletin_type ='zhongbiao_xj'
+    and bp.pack_code=p.pack_code)
+	</select>
+
+	<select id="findHtById" parameterClass="Map" resultMap="zcHtModelResultMap">
+select p.entrust_code entrust_code,
+       p.pack_code pack_code,
+       s.zc_su_addr zc_su_addr,
+       s.zc_post_code zc_post_code,
+       s.zc_su_linkman,
+       decode(s.zc_su_tel, '', s.LINK_MAN_PHONE, s.zc_su_tel) zc_su_tel,
+       s.zc_su_bank_name zc_su_bank_name,
+       s.zc_su_acc_code zc_su_acc_code,
+       p.proj_code zb_file_code,
+
+       e.co_name,
+       p.pack_desc as pack_name,
+       to_char(sysdate,'yyyy-mm-dd') zc_sgn_date,
+       r.win_bid_provider_name,
+       r.REASON,
+       r.OPEN_BID_STATUS
+  from zc_eb_pack p, zc_eb_rfq_pack r, zc_b_supplier s, ma_company e,zc_eb_proj pj
+ where 
+   p.pack_code = r.pack_code
+   and pj.proj_code=p.proj_code   
+   and p.proj_code = r.proj_code
+		<isNotNull prepend="AND" property="nd">
+			pj.nd =#nd#
+		</isNotNull>
+		<isNotNull prepend="AND" property="packCode">
+			p.pack_code =#packCode#
+		</isNotNull>
+		<isNotNull prepend="AND" property="projCode">
+			p.proj_code = #projCode#
+		</isNotNull>
+		<isNotNull prepend="AND" property="executor">
+			pj.executor = #executor#
+		</isNotNull>
+   and r.win_bid_provider_code = s.zc_su_code
+   and p.co_code = e.co_code
+   and not exists (select zc_ht_code from zc_xmcg_ht where zc_make_code=p.proj_code and zc_bid_code=p.pack_code)
+	</select>
+</sqlMap>
+

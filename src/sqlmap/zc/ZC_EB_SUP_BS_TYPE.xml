@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ZcEbSupBsType">
+	<typeAlias alias="ZcEbSupBsType" type="com.ufgov.zc.common.zc.model.ZcEbSupBsType" />
+	<typeAlias alias="ZcEbZyxm" type="com.ufgov.zc.common.zc.model.ZcEbZyxm" />
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+
+	<resultMap id="ZcEbSupBsTypeResult" class="ZcEbSupBsType">
+		<result property="id" column="ID" />
+		<result property="suCode" column="ZC_SU_CODE" />
+		<result property="supBsVal" column="SUP_BS_VAL" />
+		<result property="dome" column="DOME" />
+	</resultMap>
+	<resultMap id="ZcEbZyxmResult" class="ZcEbZyxm">
+		<result property="id" column="ID" />
+		<result property="suCode" column="ZC_SU_CODE" />
+		<result property="zcCatalogueCode" column="ZC_CATALOGUE_CODE" />
+		<result property="zcCatalogueName" column="ZC_CATALOGUE_NAME" />
+	</resultMap>
+	<delete id="deleteZcEbSupBsType" parameterClass="String">
+		DELETE
+		FROM
+		  ZC_EB_SUP_BS_TYPE Q
+		WHERE Q.ZC_SU_CODE=#suCode#
+	</delete>
+	<delete id="deleteZcEbZyxmType" parameterClass="String">
+		DELETE
+		FROM
+		  ZC_B_SUPPLIER_ZYXM Q
+		WHERE Q.ZC_SU_CODE=#suCode#
+	</delete>
+	<select id="getZcEbSupBsTypeByCode" resultMap="ZcEbSupBsTypeResult" parameterClass="String">
+		SELECT Q.*
+		FROM ZC_EB_SUP_BS_TYPE Q
+		WHERE
+		Q.ZC_SU_CODE=#suCode#
+	</select>
+	<select id="getZcEbZyxmByCode" resultMap="ZcEbZyxmResult" parameterClass="String">
+		SELECT Q.*
+		FROM ZC_B_SUPPLIER_ZYXM Q
+		WHERE
+		Q.ZC_SU_CODE=#suCode#
+	</select>
+	<insert id="insertSupBsType" parameterClass="ZcEbSupBsType">
+		insert into
+		ZC_EB_SUP_BS_TYPE(
+		ID,
+		ZC_SU_CODE,
+		SUP_BS_VAL,
+		DOME
+		)
+		values(
+		ZC_SEQ_SUP_BS_TYPE.Nextval
+		,#suCode#
+		,#supBsVal#
+		,#dome#
+		)
+	</insert>
+   <insert id="insertZyxm" parameterClass="ZcEbZyxm">
+		insert into
+		ZC_B_SUPPLIER_ZYXM(
+		ID,
+		ZC_SU_CODE,
+		ZC_CATALOGUE_CODE,
+		ZC_CATALOGUE_NAME
+		)
+		values(
+		ZC_SEQ_SUP_BS_TYPE.Nextval
+		,#suCode#
+		,#zcCatalogueCode#
+		,#zcCatalogueName#
+		)
+	</insert>
+</sqlMap>

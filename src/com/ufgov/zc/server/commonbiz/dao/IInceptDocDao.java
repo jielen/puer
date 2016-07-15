@@ -1,0 +1,1 @@
+package com.ufgov.zc.server.commonbiz.dao;import java.util.List;public interface IInceptDocDao {  List getInceptDoc(int nd);}

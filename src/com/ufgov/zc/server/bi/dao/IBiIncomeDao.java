@@ -1,0 +1,1 @@
+package com.ufgov.zc.server.bi.dao;import java.util.List;import com.ufgov.zc.common.system.dto.ElementConditionDto;public interface IBiIncomeDao {  List getBiIncome(ElementConditionDto dto);  void insertBiIncome(List biIncomeList);  void updateBiIncome(List biIncomeList);  void deleteBiIncome(List biIncomeIdList);}

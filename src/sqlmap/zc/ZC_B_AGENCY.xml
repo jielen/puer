@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ZC_B_AGENCY">
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<resultMap id="ibatorgenerated_BaseResultMap" class="com.ufgov.zc.common.zc.model.ZcBAgency">
+		<result column="ZC_AGEY_CODE" property="zcAgeyCode" jdbcType="VARCHAR" />
+		<result column="ZC_DIYU_DAIMA" property="zcDiyuDaima" jdbcType="VARCHAR" />
+		<result column="ZC_AGEY_NAME" property="zcAgeyName" jdbcType="VARCHAR" />
+		<result column="ZC_AGEY_JGDM" property="zcAgeyJgdm" jdbcType="VARCHAR" />
+		<result column="ZC_AGEY_ADDR" property="zcAgeyAddr" jdbcType="VARCHAR" />
+		<result column="ZC_AGEY_ZIP" property="zcAgeyZip" jdbcType="VARCHAR" />
+		<result column="ZC_AGEY_LINKMAN" property="zcAgeyLinkman"
+			jdbcType="VARCHAR" />
+		<result column="ZC_AGEY_TEL" property="zcAgeyTel" jdbcType="VARCHAR" />
+		<result column="ZC_AGEY_TYPE" property="zcAgeyType" jdbcType="VARCHAR" />
+		<result column="ZC_RANDOM_ID" property="zcRandomId" jdbcType="DECIMAL" />
+		<result column="ZC_INPUT_EMP_CODE" property="zcInputEmpCode"
+			jdbcType="VARCHAR" />
+		<result column="ZC_INPUT_DATE" property="zcInputDate" jdbcType="TIMESTAMP" />
+		<result column="ZC_INPUT_EMP_NAME" property="zcInputEmpName"
+			jdbcType="VARCHAR" />
+		<result column="ZC_AUDIT_EMP_CODE" property="zcAuditEmpCode"
+			jdbcType="VARCHAR" />
+		<result column="ZC_AUDIT_DATE" property="zcAuditDate" jdbcType="TIMESTAMP" />
+		<result column="ZC_AUDIT_EMP_NAME" property="zcAuditEmpName"
+			jdbcType="VARCHAR" />
+		<result column="ZC_STAT_CODE" property="zcStatCode" jdbcType="VARCHAR" />
+		<result column="ZC_DIYU_NAME" property="zcDiyuName" jdbcType="VARCHAR" />
+		<result column="START_TIME" property="startTime" jdbcType="TIMESTAMP" />
+		<result column="END_TIME" property="endTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<resultMap id="zcBAgencyListAptd_ResultMap"
+		class="com.ufgov.zc.common.zc.model.ZcBAgencyListAptd">
+		<result column="ZC_AGEY_CODE" property="zcAgeyCode" jdbcType="VARCHAR" />
+		<result column="ZC_SERI_CODE" property="zcSeriCode" jdbcType="VARCHAR" />
+		<result column="ZC_APTD_CODE" property="zcAptdCode" jdbcType="VARCHAR" />
+		<result column="ZC_APTD_NAME" property="zcAptdName" jdbcType="VARCHAR" />
+		<result column="ZC_DUETO" property="zcDueto" jdbcType="VARCHAR" />
+		<result column="ZC_DIYU_DAIMA" property="zcDiyuDaima" jdbcType="VARCHAR" />
+	</resultMap>
+	<!--基础资料 -->
+	<resultMap id="ZcBAgencyList" class="com.ufgov.zc.common.zc.model.ZcBAgency">
+		<result column="zc_agey_code" property="zcAgeyCode" jdbcType="VARCHAR" />
+		<result column="zc_agey_name" property="zcAgeyName" jdbcType="VARCHAR" />
+		<result column="zc_stat_code" property="zcStatCode" jdbcType="VARCHAR" />
+		<result column="zc_diyu_daima" property="zcDiyuDaima" jdbcType="VARCHAR" />
+		<result column="zc_diyu_name" property="zcDiyuName" jdbcType="VARCHAR" />
+		<result column="zc_agey_type" property="zcAgeyType" jdbcType="VARCHAR" />
+		<result column="zc_agey_jgdm" property="zcAgeyJgdm" jdbcType="VARCHAR" />
+		<result column="zc_agey_addr" property="zcAgeyAddr" jdbcType="VARCHAR" />
+		<result column="zc_agey_zip" property="zcAgeyZip" jdbcType="VARCHAR" />
+		<result column="zc_agey_linkman" property="zcAgeyLinkman"
+			jdbcType="VARCHAR" />
+		<result column="ZC_AGEY_TEL" property="zcAgeyTel" jdbcType="VARCHAR" />
+		<result column="START_TIME" property="startTime" jdbcType="TIMESTAMP" />
+		<result column="END_TIME" property="endTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<resultMap id="ZcBAgencyApidList"
+		class="com.ufgov.zc.common.zc.model.ZcBAgencyListAptd">
+		<result column="ZC_APTD_CODE" property="zcAptdCode" jdbcType="VARCHAR" />
+		<result column="ZC_APTD_NAME" property="zcAptdName" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="ZcBAgencyDiyuList" class="com.ufgov.zc.common.zc.model.ZcBAgency">
+		<result column="ZC_DIYU_DAIMA" property="zcDiyuDaima" jdbcType="VARCHAR" />
+		<result column="ZC_DIYU_NAME" property="zcDiyuName" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="AgencyCodeIsExists" class="com.ufgov.zc.common.zc.model.ZcBAgency">
+		<result column="CHR_ID" property="zcAgeyCode" jdbcType="VARCHAR" />
+		<result column="CHR_NAME" property="zcAgeyName" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<resultMap id="ZcBAgencyKey" class="com.ufgov.zc.common.zc.model.ZcBAgency">
+		<result column="ZC_AGEY_CODE" property="zcAgeyCode" jdbcType="VARCHAR" />
+		<result column="ZC_DIYU_DAIMA" property="zcDiyuDaima" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="ZcAgency.page_start">
+	<![CDATA[
+	   select * from (select row_.*,rownum rownum_ from (
+	]]>
+	</sql>
+
+	<sql id="ZcAgency.page_end">
+	<![CDATA[
+	   ) row_ where rownum <= #end# ) where rownum_ >=  #start#
+	]]>
+	</sql>
+
+	<select id="getZcBAgencyWithFN" resultMap="ibatorgenerated_BaseResultMap"
+		parameterClass="elementCondition">
+		select ZC_AGEY_CODE, ZC_DIYU_DAIMA, ZC_AGEY_NAME, ZC_AGEY_JGDM,
+		ZC_AGEY_ADDR, ZC_AGEY_ZIP,
+		ZC_AGEY_LINKMAN, ZC_AGEY_TEL, ZC_AGEY_TYPE, ZC_RANDOM_ID, ZC_INPUT_EMP_CODE,
+		ZC_INPUT_DATE,
+		ZC_INPUT_EMP_NAME, ZC_AUDIT_EMP_CODE, ZC_AUDIT_DATE, ZC_AUDIT_EMP_NAME, ZC_STAT_CODE,
+		(SELECT C.ZC_DIYU_NAME FROM ZC_DIYU_CTG C WHERE
+		C.ZC_DIYU_DAIMA=ZC_B_AGENCY.ZC_DIYU_DAIMA) as
+		ZC_DIYU_NAME,START_TIME,END_TIME
+		from ZC_B_AGENCY
+		<isNotNull prepend="where" property="billStatus">
+			ZC_STAT_CODE =#billStatus:VARCHAR#
+			AND
+			SYSDATE BETWEEN START_TIME AND END_TIME
+		</isNotNull>
+		<isNotNull prepend="where" property="zcText4">
+	  <![CDATA[
+		ROWNUM<6 and ZC_STAT_CODE =#zcText4:VARCHAR#
+		]]>
+		</isNotNull>
+		order by ZC_ORDER_INDEX,ZC_INPUT_DATE
+	</select>
+
+	<delete id="ibatorgenerated_deleteByPrimaryKey" parameterClass="com.ufgov.zc.common.zc.model.ZcBAgency">
+		delete from ZC_B_AGENCY
+		where ZC_AGEY_CODE = #zcAgeyCode:VARCHAR#
+		<isNotEmpty prepend="and" property="zcDiyuDaima">
+			ZC_DIYU_DAIMA = #zcDiyuDaima:VARCHAR#
+		</isNotEmpty>
+	</delete>
+
+	<insert id="ibatorgenerated_insert" parameterClass="com.ufgov.zc.common.zc.model.ZcBAgency">
+		insert into ZC_B_AGENCY (ZC_AGEY_CODE, ZC_DIYU_DAIMA, ZC_AGEY_NAME,
+		ZC_AGEY_JGDM, ZC_AGEY_ADDR,
+		ZC_AGEY_ZIP, ZC_AGEY_LINKMAN, ZC_AGEY_TEL, ZC_AGEY_TYPE, ZC_RANDOM_ID,
+		ZC_INPUT_EMP_CODE,
+		ZC_INPUT_DATE, ZC_INPUT_EMP_NAME, ZC_AUDIT_EMP_CODE, ZC_AUDIT_DATE,
+		ZC_AUDIT_EMP_NAME,
+		ZC_STAT_CODE,START_TIME,END_TIME)
+		values (#zcAgeyCode:VARCHAR#, #zcDiyuDaima:VARCHAR#, #zcAgeyName:VARCHAR#,
+		#zcAgeyJgdm:VARCHAR#,
+		#zcAgeyAddr:VARCHAR#, #zcAgeyZip:VARCHAR#, #zcAgeyLinkman:VARCHAR#, #zcAgeyTel:VARCHAR#,
+		#zcAgeyType:VARCHAR#, #zcRandomId:DECIMAL#, #zcInputEmpCode:VARCHAR#,
+		#zcInputDate:TIMESTAMP#,
+		#zcInputEmpName:VARCHAR#, #zcAuditEmpCode:VARCHAR#, #zcAuditDate:TIMESTAMP#,
+		#zcAuditEmpName:VARCHAR#,
+		#zcStatCode:VARCHAR#,#startTime:TIMESTAMP#,#endTime:TIMESTAMP#)
+	</insert>
+
+	<update id="ibatorgenerated_updateByPrimaryKey" parameterClass="com.ufgov.zc.common.zc.model.ZcBAgency">
+		update ZC_B_AGENCY
+		set ZC_AGEY_NAME = #zcAgeyName:VARCHAR#,
+		ZC_AGEY_JGDM = #zcAgeyJgdm:VARCHAR#,
+		ZC_AGEY_ADDR = #zcAgeyAddr:VARCHAR#,
+		ZC_AGEY_ZIP = #zcAgeyZip:VARCHAR#,
+		ZC_AGEY_LINKMAN = #zcAgeyLinkman:VARCHAR#,
+		ZC_AGEY_TEL = #zcAgeyTel:VARCHAR#,
+		ZC_AGEY_TYPE = #zcAgeyType:VARCHAR#,
+		ZC_RANDOM_ID = #zcRandomId:DECIMAL#,
+		ZC_INPUT_EMP_CODE = #zcInputEmpCode:VARCHAR#,
+		ZC_INPUT_DATE = #zcInputDate:TIMESTAMP#,
+		ZC_INPUT_EMP_NAME = #zcInputEmpName:VARCHAR#,
+		ZC_AUDIT_EMP_CODE = #zcAuditEmpCode:VARCHAR#,
+		ZC_AUDIT_DATE = #zcAuditDate:TIMESTAMP#,
+		ZC_AUDIT_EMP_NAME = #zcAuditEmpName:VARCHAR#,
+		ZC_STAT_CODE = #zcStatCode:VARCHAR#,
+		START_TIME = #startTime:TIMESTAMP#,
+		END_TIME = #endTime:TIMESTAMP#
+		where ZC_AGEY_CODE = #zcAgeyCode:VARCHAR#
+		<isNotEmpty prepend="and" property="zcDiyuDaima">
+			ZC_DIYU_DAIMA = #zcDiyuDaima:VARCHAR#
+		</isNotEmpty>
+	</update>
+
+	<select id="getAgencyCount" resultClass="java.lang.Integer"
+		parameterClass="Map">
+     <![CDATA[
+	 select
+	        count(*) as COUNT_NUM
+	   from
+	        ZC_B_AGENCY
+	  ]]>
+		<isNotEmpty prepend="where" property="status">
+			ZC_STAT_CODE = #status#
+		</isNotEmpty>
+	</select>
+
+	<select id="getZcBAgencyById" resultMap="ibatorgenerated_BaseResultMap"
+		parameterClass="String">
+		select ZC_AGEY_CODE, ZC_DIYU_DAIMA, ZC_AGEY_NAME,
+		ZC_AGEY_JGDM, ZC_AGEY_ADDR, ZC_AGEY_ZIP,
+		ZC_AGEY_LINKMAN, ZC_AGEY_TEL, ZC_AGEY_TYPE, ZC_RANDOM_ID, ZC_INPUT_EMP_CODE,
+		ZC_INPUT_DATE,
+		ZC_INPUT_EMP_NAME, ZC_AUDIT_EMP_CODE, ZC_AUDIT_DATE, ZC_AUDIT_EMP_NAME, ZC_STAT_CODE,
+		(SELECT C.ZC_DIYU_NAME FROM ZC_DIYU_CTG C WHERE
+		C.ZC_DIYU_DAIMA=ZC_B_AGENCY.ZC_DIYU_DAIMA) as
+		ZC_DIYU_NAME,END_TIME,START_TIME
+		from ZC_B_AGENCY
+		WHERE
+		ZC_AGEY_CODE=#VALUE#
+	</select>
+
+	<select id="getAgency" resultMap="ibatorgenerated_BaseResultMap"
+		parameterClass="Map">
+		<include refid="ZcAgency.page_start" />
+		select ZC_AGEY_CODE, ZC_DIYU_DAIMA, ZC_AGEY_NAME, ZC_AGEY_JGDM,
+		ZC_AGEY_ADDR, ZC_AGEY_ZIP,
+		ZC_AGEY_LINKMAN, ZC_AGEY_TEL, ZC_AGEY_TYPE, ZC_RANDOM_ID, ZC_INPUT_EMP_CODE,
+		ZC_INPUT_DATE,
+		ZC_INPUT_EMP_NAME, ZC_AUDIT_EMP_CODE, ZC_AUDIT_DATE, ZC_AUDIT_EMP_NAME, ZC_STAT_CODE,
+		(SELECT C.ZC_DIYU_NAME FROM ZC_DIYU_CTG C WHERE
+		C.ZC_DIYU_DAIMA=ZC_B_AGENCY.ZC_DIYU_DAIMA) as
+		ZC_DIYU_NAME,END_TIME,START_TIME
+		from ZC_B_AGENCY
+		<isNotEmpty prepend="where" property="status">
+			ZC_STAT_CODE = #status#
+		</isNotEmpty>
+		<iterate prepend="order by" property="orders" conjunction=",">
+			$orders[]$
+		</iterate>
+		<include refid="ZcAgency.page_end" />
+	</select>
+
+	<!-- <select id="getZcBAgencyListAptd" resultMap="zcBAgencyListAptd_ResultMap" 
+		parameterClass="String"> SELECT T.AGENCY, T.ZC_SERI_CODE, T.ZC_APTD_CODE, 
+		T.ZC_APTD_NAME, T.ZC_DUETO, T.ZC_DIYU_DAIMA FROM ZC_B_AGENCY_LIST_APTD T 
+		WHERE p.AGENCY=#VALUE# </select> -->
+	<!-- 以下代码代理机构登记用 -->
+
+	<select id="getZcBAgencyList" resultMap="ZcBAgencyList"
+		parameterClass="elementCondition">
+		SELECT ZBA.ZC_AGEY_CODE,
+		ZBA.ZC_AGEY_NAME,
+		ZBA.ZC_STAT_CODE,
+		CTG.ZC_DIYU_DAIMA,
+		CTG.ZC_DIYU_NAME,
+		ZBA.ZC_AGEY_TYPE,
+		ZBA.ZC_AGEY_JGDM,
+		ZBA.ZC_AGEY_ADDR,
+		ZBA.ZC_AGEY_ZIP,
+		ZBA.ZC_AGEY_LINKMAN,
+		ZBA.ZC_AGEY_TEL,
+		ZBA.START_TIME,
+		ZBA.END_TIME
+		FROM ZC_B_AGENCY ZBA,
+		ZC_DIYU_CTG CTG
+		WHERE ZBA.ZC_DIYU_DAIMA=CTG.ZC_DIYU_DAIMA(+)
+
+		<isNotNull prepend="and" property="status">
+			<isEqual property="status" compareValue="todo">
+				ZBA.ZC_STAT_CODE='1'
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				ZBA.ZC_STAT_CODE='2'
+			</isEqual>
+			<isEqual property="status" compareValue="draft">
+				ZBA.ZC_STAT_CODE='0'
+			</isEqual>
+			<isEqual property="status" compareValue="all">
+				1=1
+			</isEqual>
+		</isNotNull>
+	</select>
+
+	<select id="getZcBExistsAgencyList" resultMap="AgencyCodeIsExists"
+		parameterClass="com.ufgov.zc.common.zc.model.ZcBAgency">
+		SELECT CHR_ID,CHR_NAME FROM ELE_GP_AGENCY WHERE 1=1
+		AND
+		CHR_ID=#zcAgeyCode:VARCHAR#
+	</select>
+
+	<select id="getPriKey" resultMap="ZcBAgencyKey"
+		parameterClass="com.ufgov.zc.common.zc.model.ZcBAgency">
+		select ZC_AGEY_CODE, ZC_DIYU_DAIMA from zc_b_agency zca where
+		zca.zc_agey_code=#zcAgeyCode:VARCHAR# and
+		zca.zc_diyu_daima=#zcDiyuDaima:VARCHAR#
+	</select>
+
+	<select id="getZcBAgencyApdList" resultMap="ZcBAgencyApidList"
+		parameterClass="elementCondition">
+		SELECT ZC_APTD_CODE, ZC_APTD_NAME FROM ZC_B_AGENCY_APTD
+	</select>
+
+
+	<select id="getZcDiyuDaima" resultMap="ZcBAgencyDiyuList"
+		parameterClass="elementCondition">
+		SELECT DIYU.ZC_DIYU_DAIMA,DIYU.ZC_DIYU_NAME FROM ZC_DIYU_CTG DIYU
+	</select>
+
+
+	<insert id="insertZcBAgency" parameterClass="com.ufgov.zc.common.zc.model.ZcBAgency">
+		insert into
+		zc_b_agency
+		(ZC_AGEY_CODE,
+		ZC_AGEY_NAME,
+		ZC_AGEY_JGDM,
+		ZC_AGEY_ADDR,
+		ZC_AGEY_ZIP,
+		ZC_AGEY_LINKMAN,
+		ZC_AGEY_TEL,
+		ZC_AGEY_TYPE,
+		ZC_RANDOM_ID,
+		ZC_INPUT_EMP_CODE,
+		ZC_INPUT_DATE,
+		ZC_INPUT_EMP_NAME,
+		ZC_AUDIT_EMP_CODE,
+		ZC_AUDIT_DATE,
+		ZC_AUDIT_EMP_NAME,
+		ZC_STAT_CODE,
+		ZC_DIYU_DAIMA,
+		START_TIME,
+		END_TIME
+		)
+		values
+		(
+		#zcAgeyCode:VARCHAR#,
+		#zcAgeyName:VARCHAR#,
+		#zcAgeyJgdm:VARCHAR#,
+		#zcAgeyAddr:VARCHAR#,
+		#zcAgeyZip:VARCHAR#,
+		#zcAgeyLinkman:VARCHAR#,
+		#zcAgeyTel:VARCHAR#,
+		#zcAgeyType:VARCHAR#,
+		#zcRandomId:VARCHAR#,
+		#zcInputEmpCode:VARCHAR#,
+		#zcInputDate:VARCHAR#,
+		#zcInputEmpName:VARCHAR#,
+		#zcAuditEmpCode:VARCHAR#,
+		#zcAuditDate:VARCHAR#,
+		#zcAuditEmpName:VARCHAR#,
+		#zcStatCode:VARCHAR#,
+		#zcDiyuDaima:VARCHAR#,
+		#startTime:TIMESTAMP#,
+		#endTime:TIMESTAMP#
+		)
+	</insert>
+
+
+	<insert id="insertZcBAgencyAptd" parameterClass="com.ufgov.zc.common.zc.model.ZcBAgencyListAptd">
+		insert into
+		ZC_B_AGENCY_LIST_APTD
+		(ZC_AGEY_CODE,
+		ZC_SERI_CODE,
+		ZC_APTD_CODE,
+		ZC_APTD_NAME,
+		ZC_DIYU_DAIMA
+		)
+		values
+		(
+		#zcAgeyCode:VARCHAR#,
+		#zcSeriCode:VARCHAR#,
+		#zcAptdCode:VARCHAR#,
+		#zcAptdName:VARCHAR#,
+		#zcDiyuDaima:VARCHAR#
+		)
+	</insert>
+
+	<delete id="deleteZcBAgency" parameterClass="com.ufgov.zc.common.zc.model.ZcBAgency">
+		delete zc_b_agency zca where zca.zc_agey_code=#zcAgeyCode:VARCHAR#
+		<isNotEmpty prepend="and" property="zcDiyuDaima">
+			ZC_DIYU_DAIMA = #zcDiyuDaima:VARCHAR#
+		</isNotEmpty>
+	</delete>
+
+	<delete id="deleteZcBAgencyAptd" parameterClass="com.ufgov.zc.common.zc.model.ZcBAgencyListAptd">
+		delete
+		ZC_B_AGENCY_LIST_APTD where ZC_AGEY_CODE=#zcAgeyCode:VARCHAR#
+	</delete>
+
+	<select id="getZcBApdList" resultMap="ZcBAgencyApidList"
+		parameterClass="elementCondition">
+		SELECT ZC_APTD_CODE, ZC_APTD_NAME FROM ZC_B_AGENCY_LIST_APTD WHERE 1=1
+		<isNotNull prepend="AND" property="zcText0">
+			ZC_AGEY_CODE=#zcText0:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="AND" property="zcText1">
+			ZC_APTD_CODE=#zcText1:VARCHAR#
+		</isNotNull>
+	</select>
+
+	<select id="getZcBAgencyListPK" resultMap="ZcBAgencyList"
+		parameterClass="com.ufgov.zc.common.zc.model.ZcBAgency">
+		SELECT ZBA.ZC_AGEY_CODE,
+		ZBA.ZC_AGEY_NAME,
+		ZBA.ZC_STAT_CODE,
+		CTG.ZC_DIYU_DAIMA,
+		CTG.ZC_DIYU_NAME,
+		ZBA.ZC_AGEY_TYPE,
+		ZBA.ZC_AGEY_JGDM,
+		ZBA.ZC_AGEY_ADDR,
+		ZBA.ZC_AGEY_ZIP,
+		ZBA.ZC_AGEY_LINKMAN,
+		ZBA.ZC_AGEY_TEL,
+		ZBA.START_TIME,
+		ZBA.END_TIME
+		FROM ZC_B_AGENCY ZBA,
+		ZC_DIYU_CTG CTG
+		WHERE ZBA.ZC_DIYU_DAIMA=CTG.ZC_DIYU_DAIMA(+)
+		AND ZBA.ZC_AGEY_CODE=#zcAgeyCode:VARCHAR#
+	</select>
+	<select id="getZcBAgencyAptdAllList" resultMap="ZcBAgencyApidList"
+		parameterClass="elementCondition">
+		SELECT ZC_APTD_CODE, ZC_APTD_NAME FROM ZC_B_AGENCY_APTD
+	</select>
+	<!-- 保存资质等级 -->
+	<insert id="insertZcBAgencyAptds" parameterClass="com.ufgov.zc.common.zc.model.ZcBAgencyListAptd">
+		insert into
+		zc_b_agency_aptd
+		(ZC_APTD_CODE,
+		ZC_APTD_NAME
+		)
+		values
+		(
+		#zcAptdCode:VARCHAR#,
+		#zcAptdName:VARCHAR#
+		)
+	</insert>
+	<insert id="deleteZcBAgencyAptds" parameterClass="com.ufgov.zc.common.zc.model.ZcBAgencyListAptd">
+		delete
+		zc_b_agency_aptd where ZC_APTD_CODE=#zcAptdCode:VARCHAR#
+	</insert>
+</sqlMap>

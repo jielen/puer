@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ZcEbApArticle">
+
+	<typeAlias alias="ApArticle"
+		type="com.ufgov.zc.common.zc.model.ZcEbApArticle" />
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+
+	<resultMap id="ZcEbArticleResult" class="ApArticle">
+		<result property="articleID" column="ID" />
+		<result property="title" column="TITLE" />
+		<result property="creator" column="CREATOR" />
+    <result property="createTime" column="CREATE_TIME" />
+		<result property="type" column="TYPE" />
+		<result property="attach" column="ATTATCH_BLOBID" />
+    <result property="attach" column="ATTATCH" />
+    <result property="expireDate" column="EXPIRE_DATE" />                
+		<result property="sno" column="SNO" />
+		<result property="author" column="AUTHOR" />
+		<result property="wroteTime" column="WROTE_TIME" />		
+		<result property="mendor" column="MENDOR" />
+		<result property="mendTime" column="MEND_TIME" />	
+		<result property="href" column="HREF"/>
+		<result property="visitCapacity" column="VISIT_CAPACITY"/>
+	</resultMap>
+	
+	<resultMap id="ZcEbArticleResultSimple" class="ApArticle">
+		<result property="articleID" column="ID" />
+		<result property="title" column="TITLE" />
+    <result property="createTime" column="CREATE_TIME" />
+    <result property="expireDate" column="EXPIRE_DATE" />                
+	</resultMap>
+	
+  <select id="getZcEbApArticle" resultMap="ZcEbArticleResult"	parameterClass="elementCondition">
+		select T.ID,
+		       T.TITLE,
+		       T.CREATOR,
+		       T.CREATE_TIME,
+		       T.TYPE,
+		       T.ATTATCH_BLOBID,
+		       T.ATTATCH,
+		       T.EXPIRE_DATE,
+		       T.SNO,
+		       T.AUTHOR,
+		       T.WROTE_TIME,
+		       T.MENDOR,
+		       T.MEND_TIME,
+		       T.HREF,
+		       T.VISIT_CAPACITY		      
+	    from 
+	       	   AP_ARTICLE T 
+	    where 
+	           1=1
+	</select>
+	
+	<select id="getZcEbApArticlesSimple" resultMap="ZcEbArticleResultSimple" parameterClass="elementCondition">
+		select 	T.ID,
+		       	T.TITLE,
+		       	T.CREATE_TIME,
+		       	T.EXPIRE_DATE
+	    from 
+	       	   	AP_ARTICLE T 
+	    where 	1=1
+	  <iterate prepend="AND" property="pmAdjustCodeList" open="(" close=")" conjunction="or">
+				T.ID=#pmAdjustCodeList[]#
+		</iterate>
+		and 	T.TITLE = #dattr1:VARCHAR#		
+	</select>
+  
+  <insert id="insertApArticle" parameterClass="com.ufgov.zc.common.zc.model.ZcEbApArticle">
+		<selectKey resultClass="long" keyProperty="articleID" > 
+			select ZC_SEQ_AP_ARTICLE.Nextval AS articleID FROM DUAL 
+		</selectKey>  	
+    insert into 
+      AP_ARTICLE (ID,TITLE,CREATOR,CREATE_TIME,TYPE,ATTATCH_BLOBID,ATTATCH,EXPIRE_DATE,
+      SNO,AUTHOR,WROTE_TIME,MENDOR,MEND_TIME,HREF,VISIT_CAPACITY)
+    values (#articleID:VARCHAR#, #title:VARCHAR#, #creator:VARCHAR#, #createTime:TIMESTAMP#,
+      #type:VARCHAR#, #attachBlobID:VARCHAR#, #attach:VARCHAR#,#expireDate:TIMESTAMP#, #sno:VARCHAR#,
+      #author:VARCHAR#,#wroteTime:TIMESTAMP#,#mendor:VARCHAR#,#mendTime:TIMESTAMP#,#href:VARCHAR#,#visitCapacity:DECIMAL#)
+  </insert>
+  
+  <delete id="deleteByPrimaryKey" parameterClass="com.ufgov.zc.common.zc.model.ZcEbApArticle">
+    delete from AP_ARTICLE
+    where ID = #articleID:VARCHAR#
+  </delete>
+  <delete id="deleteArticleByIDs" parameterClass="elementCondition">
+    delete from AP_ARTICLE
+    where  1=1
+	<iterate prepend="AND" property="pmAdjustCodeList" open="("	close=")" conjunction="or">
+			ID=#pmAdjustCodeList[]#
+	</iterate>
+  </delete>  
+</sqlMap>

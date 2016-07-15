@@ -1,0 +1,1 @@
+package com.ufgov.zc.client.component.button;public class ExportButton extends FuncButton {  private static final long serialVersionUID = -4220724045871305900L;  public ExportButton() {    super();  }  protected void init() {    this.funcId = "fexport";    this.defaultText = "导出";    this.iconName = "export.jpg";    super.init();  }}

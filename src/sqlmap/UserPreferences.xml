@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="UserPreferences">
+<typeAlias alias="UserPreferences" type="com.ufgov.zc.common.system.model.UserPreferences" />
+
+	<resultMap id="UserPreferencesResult" class="com.ufgov.zc.common.system.model.UserPreferences">
+		<result property="userId" column="USER_ID" />
+		<result property="preferId" column="PREFER_ID" />
+		<result property="preferValue" column="PREFER_VALUE" jdbcType="CLOB" javaType = "java.lang.String"/>
+	</resultMap>
+	
+	<select id="getUserPreferences" parameterClass="java.util.Map" resultMap="UserPreferencesResult">
+		select USER_ID,PREFER_ID,PREFER_VALUE from MA_USER_PREFERENCES
+		where USER_ID=#userId# and PREFER_ID=#preferId#
+	</select>
+	
+	<insert id="insertUserPreferences" parameterClass="UserPreferences">
+		insert into
+		MA_USER_PREFERENCES(USER_ID,PREFER_ID,PREFER_VALUE)
+		values(
+		#userId:VARCHAR#,#preferId:VARCHAR#,#preferValue:VARCHAR#)
+	</insert>
+
+	<update id="deleteUserPreferences" parameterClass="map">
+		delete from 
+		MA_USER_PREFERENCES
+	    where USER_ID =#userId:VARCHAR#
+		and  PREFER_ID=#preferId:VARCHAR#
+	</update>
+</sqlMap>    

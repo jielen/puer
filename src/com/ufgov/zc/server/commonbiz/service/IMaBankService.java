@@ -1,0 +1,1 @@
+package com.ufgov.zc.server.commonbiz.service;import java.util.List;public interface IMaBankService {  public List getAllBank(int nd);  public List getZeroBalanceBank(int nd);  public List getAgentBank(int nd, String accoType, String userId);}

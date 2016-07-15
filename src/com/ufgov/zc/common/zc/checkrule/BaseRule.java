@@ -1,0 +1,1 @@
+package com.ufgov.zc.common.zc.checkrule;import java.util.Map;public interface BaseRule {  public Map check(Map parameter);}

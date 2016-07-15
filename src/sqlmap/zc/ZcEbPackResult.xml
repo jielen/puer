@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ZcEbPackResult">
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto"></typeAlias>
+	<typeAlias alias="ZcEbPackEvalResult"
+		type="com.ufgov.zc.common.zc.model.ZcEbPackEvalResult"></typeAlias>
+	<resultMap id="ZcEbPackEvalResult" class="ZcEbPackEvalResult">
+		<result property="resultCode" column="RESULT_CODE" />
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="packCode" column="PACK_CODE" />
+		<result property="providerCode" column="PROVIDER_CODE" />
+		<result property="providerName" column="PROVIDER_NAME" />
+		<result property="providerTotalPrice" column="PROVIDER_TOTAL_PRICE" />
+		<result property="evalScore" column="EVAL_SCORE" />
+		<result property="remark" column="REMARK" />
+		<result property="evalResult" column="EVAL_RESULT" />
+		<result property="complianceEvalResult" column="COMPLIANCE_EVAL_RESULT" />
+		<result property="complianceUnpassReason" column="COMPLIANCE_UNPASS_REASON" />
+		<result property="isComplianceResult" column="IS_COMPLIANCE_RESULT" />
+		<result property="expertCode" column="EXPERT_CODE" />
+		<result property="expertName" column="EXPERT_NAME" />
+		<result property="promiseWorkDate" column="PROMISE_WORK_DATE" />
+	</resultMap>	<resultMap id="ZcEbPackEvalMap" class="ZcEbPackEvalResult">		<result property="projCode" column="PROJ_CODE" />		<result property="packCode" column="PACK_CODE" />		<result property="providerCode" column="PROVIDER_CODE" />		<result property="providerName" column="PROVIDER_NAME" />		<result property="promiseWorkDate" column="PROMISE_WORK_DATE" />		<result property="providerTotalPrice" column="BID_SUM" />	</resultMap>	<resultMap id="asValResult" class="com.ufgov.zc.common.system.model.AsVal">		<result property="valId" column="EMP_CODE" />		<result property="val" column="EMP_NAME" />	</resultMap>
+	<select id="getZcEbPackEvalResultList" resultMap="ZcEbPackEvalResult"
+		parameterClass="elementCondition">
+		SELECT *
+		FROM V_ZC_EB_EVAL_RESULT
+		WHERE 1=1
+		<isNotNull prepend="AND" property="projCode">
+			PROJ_CODE =#projCode#
+		</isNotNull>
+		<isNotNull prepend="AND" property="packCode">
+			PACK_CODE =#packCode#
+		</isNotNull>
+		<isNotNull prepend="AND" property="extField1">
+			EVAL_RESULT =#extField1#
+		</isNotNull>		<isNotNull prepend="AND" property="zcText3">			EVAL_RESULT != '2'		</isNotNull>		ORDER BY EVAL_SCORE DESC,PROVIDER_TOTAL_PRICE
+	</select>
+	<select id="getZcEbPackHouXuanProvList" resultMap="ZcEbPackEvalResult"
+		parameterClass="elementCondition">
+		select ZC_EB_PACK_EVAL_RESULT.*,'' PROMISE_WORK_DATE from
+		ZC_EB_PACK_EVAL_RESULT
+		<isNotNull prepend="AND" property="projCode">
+			PROJ_CODE =#projCode#
+		</isNotNull>
+		<isNotNull prepend="AND" property="packCode">
+			PACK_CODE =#packCode#
+		</isNotNull>
+		<isNotNull prepend="AND" property="extField1">
+			EVAL_RESULT =#extField1#
+		</isNotNull>
+		ORDER BY EVAL_SCORE DESC
+	</select>	<select id="getComBoxList" resultMap="asValResult"		parameterClass="elementCondition">		select provider_code EMP_CODE, provider_name EMP_NAME		from ZC_EB_SIGNUP		WHERE 1=1		<isNotNull prepend="AND" property="projectCode">			PROJ_CODE =#projectCode#		</isNotNull>	</select>	<select id="getProviderByProj" resultMap="ZcEbPackEvalMap"		parameterClass="Map">		SELECT S.PROVIDER_CODE,		S.PROVIDER_NAME,		SP.PACK_CODE,		P.PROJ_CODE,		SP.PROMISE_WORK_DATE,		SP.BID_SUM		FROM ZC_EB_SIGNUP S, ZC_EB_SIGNUP_PACK SP, ZC_EB_PACK P		WHERE SP.SIGNUP_ID = S.SIGNUP_ID		AND SP.PACK_CODE = P.PACK_CODE		and s.proj_code = p.proj_code		and SP.PACK_CODE =#pack_code#		and P.PROJ_CODE = #proj_code#		and s.status = '1'		and s.is_submit_bid_doc = 'Y'		union		select s.supplier_code,		s.supplier_name,		s.pack_code,		s.proj_code,		to_char(s.PROMISE_WORK_DATE,'yyyy-mm-dd') as PROMISE_WORK_DATE,		s.bid_sum		from v_zc_eb_xunjia_baojia_summary s		where s.proj_code = #proj_code#		and s.pack_code=#pack_code#	</select>	<select id="getBidSupplierList" resultMap="ZcEbPackEvalResult"		parameterClass="elementCondition">		SELECT S.PROVIDER_CODE,		S.PROVIDER_NAME,		SP.PACK_CODE,		P.PROJ_CODE,		P.PACK_NAME,		'' COMPLIANCE_EVAL_RESULT,		'' RESULT_CODE,		'' EXPERT_CODE,		'' EXPERT_NAME,		'' COMPLIANCE_UNPASS_REASON,		'' REMARK,		'' EVAL_SCORE,		'' IS_COMPLIANCE_RESULT,		'' EVAL_RESULT,		'' PROVIDER_TOTAL_PRICE,		SP.PROMISE_WORK_DATE		FROM		ZC_EB_SIGNUP S,		ZC_EB_SIGNUP_PACK SP,		ZC_EB_PACK P		WHERE SP.SIGNUP_ID = S.SIGNUP_ID		AND SP.PACK_CODE = P.PACK_CODE		<isNotNull prepend="AND" property="packCode">			SP.PACK_CODE =#packCode#		</isNotNull>	</select>
+</sqlMap>

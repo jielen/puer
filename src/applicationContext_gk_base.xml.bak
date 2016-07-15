@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+	<bean id="gkDataSource"
+		class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName">
+			<value>oracle.jdbc.driver.OracleDriver</value>
+		</property>
+		<property name="url">
+		<value>jdbc:oracle:thin:@127.0.0.1:1521:orcl</value>
+				<!--  <value>jdbc:oracle:thin:@localhost:1521:orcl</value> -->
+		</property>     
+		<property name="username">
+			<!--<value>zceb0507</value> -->
+			 <value>sf_kp</value>
+		</property>
+		<property name="password">
+			<value>1</value>
+		</property>
+	</bean>
+
+
+	<!--  
+		<alias name="myDataSource" alias="gkDataSource"/>
+		
+		<alias name="currentTransactionManager" alias="transactionManager"/>
+		
+	-->
+
+	<bean id="oracleLobHandler"
+		class="org.springframework.jdbc.support.lob.OracleLobHandler"
+		lazy-init="true">
+		<property name="nativeJdbcExtractor" ref="nativeJdbcExtractor" />
+	</bean>
+
+	<bean id="nativeJdbcExtractor"
+		class="org.springframework.jdbc.support.nativejdbc.CommonsDbcpNativeJdbcExtractor"
+		lazy-init="true" />
+
+	<bean id="sqlMapClient"
+		class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="configLocation"
+			value="classpath:SqlMapConfig.xml" />
+		<property name="dataSource" ref="gkDataSource" />
+		<property name="lobHandler" ref="oracleLobHandler" />
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource">
+			<ref local="gkDataSource" />
+		</property>
+	</bean>
+
+	<aop:config>
+			<aop:pointcut id="gkServicePct"
+				expression="execution(* com.ufgov.zc.server.*.service.impl.*.*(..))" />
+			<aop:advisor pointcut-ref="gkServicePct" advice-ref="gkTxAdvice" order="0"/>
+	</aop:config>
+	
+
+	<tx:advice id="gkTxAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="*" propagation="REQUIRED"	rollback-for="Exception" />
+		</tx:attributes>
+	</tx:advice>
+	
+	<aop:config>
+			<aop:pointcut id="beforeAfterAdvicePct"
+				expression="execution(* com.ufgov.zc.server.*.service.impl.*.*BAF(..))" />
+			<aop:advisor pointcut-ref="beforeAfterAdvicePct" advice-ref="beforeAdvice" order="5"/>
+			<aop:advisor pointcut-ref="beforeAfterAdvicePct" advice-ref="afterAdvice" order="9"/>
+	</aop:config>
+	
+	<bean id="beforeAdvice"
+		class="com.ufgov.zc.server.system.advice.BeforeAdvice"
+		scope="singleton">
+	</bean>
+	
+	<bean id="afterAdvice"
+		class="com.ufgov.zc.server.system.advice.AfterAdvice"
+		scope="singleton">
+	</bean>
+
+</beans>

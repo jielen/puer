@@ -1,0 +1,1 @@
+package com.ufgov.zc.client.component.button;public class RefreshButton extends FuncButton {  private static final long serialVersionUID = -4220724045871305900L;  public RefreshButton() {    super();  }  protected void init() {    this.funcId = "frefresh";    this.defaultText = "刷新";    this.iconName = "refresh.jpg";    super.init();  }}

@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ElementCondition">
+	<sql id="OrderColumns">
+		<isNotNull property="orderColumns">
+			order by $orderColumns$
+		</isNotNull>
+	</sql>
+	<sql id="CoCodeFilter">
+		<isNotNull prepend="AND" property="coCodeFilter">
+			$coCodeFilter$
+		</isNotNull>
+	</sql>
+	<sql id="StartDate">
+		<isNotNull prepend="AND" property="startDate">
+			<![CDATA[
+			PROC_DATE >= #startDate#
+			]]>
+		</isNotNull>
+	</sql>
+	<sql id="EndDate">
+		<isNotNull prepend="AND" property="endDate">
+			<![CDATA[
+			PROC_DATE <= #endDate#
+			]]>
+		</isNotNull>
+	</sql>
+	<sql id="CO_CODE">
+		<isNotNull prepend="AND" property="coCode">
+			MASTER.CO_CODE = #coCode#
+		</isNotNull>
+	</sql>
+	<sql id="B_ACC_CODE">
+		<isNotNull prepend="AND" property="baccCode">
+			MASTER.B_ACC_CODE =
+			#baccCode#
+		</isNotNull>
+	</sql>
+	<sql id="B_ACC_CODE_LIKE">
+		<isNotNull prepend="AND" property="baccCode">
+			MASTER.B_ACC_CODE LIKE
+			#baccCode#||'%'
+		</isNotNull>
+	</sql>
+	<sql id="BAL_MODE_CODE_LIKE">
+		<isNotNull prepend="AND" property="balModeCode">
+			MASTER.BAL_MODE_CODE LIKE
+			#balModeCode#||'%'
+		</isNotNull>
+	</sql>
+	<sql id="OUTLAY_CODE">
+		<isNotNull prepend="AND" property="outlayCode">
+			MASTER.OUTLAY_CODE = #outlayCode#
+		</isNotNull>
+	</sql>
+	<sql id="OUTLAY_CODE_LIKE">
+		<isNotNull prepend="AND" property="outlayCode">
+			MASTER.OUTLAY_CODE like #outlayCode#||'%'
+		</isNotNull>
+	</sql>
+	<sql id="PAYTYPE_CODE">
+		<isNotNull prepend="AND" property="paytypeCode">
+			MASTER.PAYTYPE_CODE  = #paytypeCode#
+		</isNotNull>
+	</sql>
+	<sql id="PAYTYPE_CODE_LIKE">
+		<isNotNull prepend="AND" property="paytypeCode">
+			MASTER.PAYTYPE_CODE  like #paytypeCode#||'%'
+		</isNotNull>
+	</sql>
+	<sql id="MANAGE_CODE">
+		<isNotNull prepend="AND" property="manageCode">
+			MASTER.MANAGE_CODE = #manageCode#
+		</isNotNull>
+	</sql>
+	<sql id="MANAGE_CODE_LIKE">
+		<isNotNull prepend="AND" property="manageCode">
+			MASTER.MANAGE_CODE like #manageCode#||'%'
+		</isNotNull>
+	</sql>
+	<sql id="SENDDOC_CODE">
+		<isNotNull prepend="AND" property="sendDocCode">
+			MASTER.SENDDOC_CODE = #sendDocCode#
+		</isNotNull>
+	</sql>
+	<sql id="INCEPTDOC_CODE">
+		<isNotNull prepend="AND" property="inceptDocCode">
+			INCEPTDOC_CODE = #inceptDocCode#
+		</isNotNull>
+	</sql>
+	<sql id="ORIGIN_CODE">
+		<isNotNull prepend="AND" property="originCode">
+			MASTER.ORIGIN_CODE = #originCode#
+		</isNotNull>
+	</sql>
+
+	<sql id="RECE_ACCCODE">
+		<isNotNull prepend="AND" property="bankAccCode">
+			MASTER.RECE_BANKACCCODE = #bankAccCode#
+		</isNotNull>
+	</sql>
+	<sql id="ORIGIN_CODE_LIKE">
+		<isNotNull prepend="AND" property="originCode">
+			MASTER.ORIGIN_CODE like #originCode#||'%'
+		</isNotNull>
+	</sql>
+	<sql id="ORG_CODE">
+		<isNotNull prepend="AND" property="orgCode">
+			MASTER.ORG_CODE = #orgCode#
+		</isNotNull>
+	</sql>
+	<sql id="PAYOUT_CODE">
+		<isNotNull prepend="AND" property="payoutCode">
+			MASTER.PAYOUT_CODE = #payoutCode#
+		</isNotNull>
+	</sql>
+	<sql id="PAYOUT_CODE_LIKE">
+		<isNotNull prepend="AND" property="payoutCode">
+			MASTER.PAYOUT_CODE like #payoutCode#||'%'
+		</isNotNull>
+	</sql>
+	<sql id="FUND_CODE">
+		<isNotNull prepend="AND" property="fundCode">
+			MASTER.FUND_CODE like #fundCode# || '%'
+		</isNotNull>
+	</sql>
+
+	<sql id="D_ATTR1">
+		<isNotNull prepend="AND" property="dattr1">
+			MASTER.D_ATTR1 = #dattr1#
+		</isNotNull>
+	</sql>
+
+	<sql id="D_ATTR2">
+		<isNotNull prepend="AND" property="dattr2">
+			MASTER.D_ATTR2 = #dattr2#
+		</isNotNull>
+	</sql>
+
+	<sql id="D_ATTR3">
+		<isNotNull prepend="AND" property="dattr3">
+			MASTER.D_ATTR3 = #dattr3#
+		</isNotNull>
+	</sql>
+
+	<sql id="D_ATTR4">
+		<isNotNull prepend="AND" property="dattr4">
+			MASTER.D_ATTR4 = #dattr4#
+		</isNotNull>
+	</sql>
+
+	<sql id="D_ATTR5">
+		<isNotNull prepend="AND" property="dattr5">
+			MASTER.D_ATTR5 = #dattr5#
+		</isNotNull>
+	</sql>
+
+	<sql id="D_ATTR1_LIKE">
+		<isNotNull prepend="AND" property="dattr1">
+			MASTER.D_ATTR1 like #dattr1#||'%'
+		</isNotNull>
+	</sql>
+
+	<sql id="D_ATTR2_LIKE">
+		<isNotNull prepend="AND" property="dattr2">
+			MASTER.D_ATTR2 like #dattr2#||'%'
+		</isNotNull>
+	</sql>
+
+	<sql id="D_ATTR3_LIKE">
+		<isNotNull prepend="AND" property="dattr3">
+			MASTER.D_ATTR3 like #dattr3#||'%'
+		</isNotNull>
+	</sql>
+
+	<sql id="D_ATTR4_LIKE">
+		<isNotNull prepend="AND" property="dattr4">
+			MASTER.D_ATTR4 like #dattr4#||'%'
+		</isNotNull>
+	</sql>
+
+	<sql id="D_ATTR5_LIKE">
+		<isNotNull prepend="AND" property="dattr5">
+			MASTER.D_ATTR5 like #dattr5#||'%'
+		</isNotNull>
+	</sql>
+
+	<sql id="FUND_CODE_LIKE">
+		<isNotNull prepend="AND" property="fundCode">
+			MASTER.FUND_CODE like #fundCode#||'%'
+		</isNotNull>
+	</sql>
+	<sql id="MONTH">
+		<isNotEqual prepend="AND" property="month" compareValue="0">
+			MASTER.MONTH = #month#
+		</isNotEqual>
+	</sql>
+
+	<sql id="START_MONTH">
+		<isNotEqual prepend="AND" property="startMonth"
+			compareValue="0">
+			<![CDATA[
+			MASTER.MONTH >= #startMonth#
+			]]>
+		</isNotEqual>
+	</sql>
+
+	<sql id="END_MONTH">
+		<isNotEqual prepend="AND" property="endMonth"
+			compareValue="0">
+			<![CDATA[
+			 MASTER.MONTH <= #endMonth#
+			]]>
+		</isNotEqual>
+	</sql>
+
+	<sql id="PROJECT_CODE">
+		<isNotNull prepend="AND" property="projectCode">
+			MASTER.PROJECT_CODE = #projectCode#
+		</isNotNull>
+	</sql>
+
+	<sql id="PROJECT_CODE_LIKE">
+		<isNotNull prepend="AND" property="projectCode">
+			MASTER.PROJECT_CODE LIKE
+			#projectCode#||'%'
+		</isNotNull>
+	</sql>
+
+	<sql id="PM_ADJUST_CODE">
+		<isNotNull prepend="AND" property="pmAdjustCode">
+			MASTER.PM_ADJUST_CODE = #pmAdjustCode#
+		</isNotNull>
+	</sql>
+
+	<sql id="CP_ADJUST_CODE">
+		<isNotNull prepend="AND" property="cpAdjustCode">
+			MASTER.CP_ADJUST_CODE = #cpAdjustCode#
+		</isNotNull>
+	</sql>
+
+	<sql id="PM_ADJUST_CODE_LIST">
+		<iterate prepend="AND" property="pmAdjustCodeList" open="("
+			close=")" conjunction="OR">
+			MASTER.PM_ADJUST_CODE=#pmAdjustCodeList[]#
+		</iterate>
+	</sql>
+
+	<sql id="OPERATION_TYPE_CODE">
+		<isNotNull prepend="AND" property="operationTypeCode">
+			MASTER.OPERATION_TYPE_CODE = #operationTypeCode#
+		</isNotNull>
+	</sql>
+	<sql id="OPERATION_TYPE_CODE_LIKE">
+		<isNotNull prepend="AND" property="operationTypeCode">
+			MASTER.OPERATION_TYPE_CODE like #operationTypeCode#||'%'
+		</isNotNull>
+	</sql>
+
+	<sql id="PM_TYPE">
+		<isNotNull prepend="AND" property="pmType">
+			MASTER.PM_TYPE = #pmType#
+		</isNotNull>
+	</sql>
+
+	<sql id="SEASON">
+		<isNotEqual prepend="AND" property="season" compareValue="0">
+			MASTER.SEASON = #season#
+		</isNotEqual>
+	</sql>
+
+	<sql id="KMLB">
+		<isNotNull prepend="AND" property="kmlb">
+			MASTER.kmlb = #kmlb#
+		</isNotNull>
+	</sql>
+	<sql id="PRINT_ESTATE">
+	    <isNotNull prepend="AND" property="printTimes">
+			    <isEqual property="printTimes" compareValue="1">
+						PRINT_TIMES > 0
+				</isEqual>
+				<isEqual property="printTimes" compareValue="0">
+						PRINT_TIMES = 0
+				</isEqual>
+		</isNotNull>
+	</sql>
+   <sql id="PROJECT_TYPE_CODE">
+	    <isNotNull prepend="AND" property="projectTypeCode">
+			MASTER.PROJECT_TYPE_CODE = #projectTypeCode#
+		</isNotNull>
+   </sql>
+   <sql id="BI_LEVEL">
+	    <isNotNull prepend="AND" property="biLevel">
+			MASTER.BI_LEVEL = #biLevel#
+		</isNotNull>
+   </sql>
+   <sql id="BI_ADJUST_CODE">
+	    <isNotNull prepend="AND" property="biAdjustCode">
+			MASTER.BI_ADJUST_CODE = #biAdjustCode#
+		</isNotNull>
+   </sql>
+   <sql id="INPUT_GROUP_ID">
+	    <isNotNull prepend="AND" property="inputGroupId">
+			MASTER.INPUT_GROUP_ID = #inputGroupId#
+		</isNotNull>
+   </sql>
+   	<sql id="ClearDate">
+		<isNotNull prepend="AND" property="clearDate">
+			CLEAR_DATE = #clearDate#
+		</isNotNull>
+	</sql>
+	<sql id="AN_STATUS">
+		<isNotNull prepend="AND" property="anStatus">
+			AN_STATUS = #anStatus#
+		</isNotNull>
+	</sql>
+	<sql id="ZC_EB_PROJECT_CODE">
+		<isNotNull prepend="AND" property="projectCode">
+			ZC_EB_PROJ.PROJ_CODE = #projectCode#
+		</isNotNull>
+	</sql>
+	<sql id="ZC_EB_PROJECT_STATUS">
+		<isNotNull prepend="AND" property="status">
+			ZC_EB_PROJ.STATUS = #status#
+		</isNotNull>
+	</sql>
+	<sql id="ZC_EB_PROJECT_CONDTION_STRING">
+		<isNotNull prepend="AND" property="dattr1">
+			( #dattr1# )
+		</isNotNull>
+	</sql>
+</sqlMap>

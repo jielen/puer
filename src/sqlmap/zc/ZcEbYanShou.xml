@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ZcEbYanShou">
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<typeAlias alias="ZcEbYanShouBill"
+		type="com.ufgov.zc.common.zc.model.ZcEbYanShouBill" />
+	<typeAlias alias="ZcEbProj" type="com.ufgov.zc.common.zc.model.ZcEbProj" />
+	<typeAlias alias="ZcEbYanShouBillItem"
+		type="com.ufgov.zc.common.zc.model.ZcEbYanShouBillItem" />
+	<typeAlias alias="ZcPProMake" type="com.ufgov.zc.common.zc.model.ZcPProMake" />
+	<resultMap id="ZcEbYanShouBillResult" class="ZcEbYanShouBill">
+		<result property="billCode" column="BILL_CODE" />
+		<result property="billName" column="BILL_NAME" />
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="projName" column="PROJ_NAME" />
+		<result property="packCode" column="PACK_CODE" />
+		<result property="packName" column="PACK_NAME" />
+		<result property="coCode" column="CO_CODE" />
+		<result property="coName" column="CO_NAME" />
+		<result property="zcMakeLinkMan" column="ZC_MAKE_LINKMAN" />
+		<result property="zcMakeLinkManTel" column="ZC_MAKE_LINKMAN_TEL" />
+		<result property="zcSuCode" column="ZC_SU_CODE" />
+		<result property="zcSuName" column="ZC_SU_NAME" />
+		<result property="zcSuLinkMan" column="ZC_SU_LINKMAN" />
+		<result property="zcSuLinkManTel" column="ZC_SU_LINKMAN_TEL" />
+		<result property="zcSuOpinion" column="ZC_SU_OPINION" />
+		<result property="zcCoOpinion" column="ZC_CO_OPINION" />
+		<result property="zcYanShouTeamOpinion" column="ZC_YANSHOUTEAM_OPINION" />
+		<result property="zcOrganizerOpinion" column="ZC_ORGANIZER_OPINION" />
+		<result property="billYanShouDate" column="BILL_YANSHOU_DATE" />
+		<result property="providerFillDate" column="PROVIDER_FILL_DATE" />
+		<result property="caigoRenFillDate" column="CAIGOUREN_FILL_DATE" />
+		<result property="yanShouTeamFillDate" column="YANSHOUTEAM_FILL_DATE" />
+		<result property="zuzhiDanweiFillDate" column="ZUZHIDANWEI_FILL_DATE" />
+		<result property="status" column="STATUS" />
+		<result property="nd" column="ND" />
+		<result column="PROCESS_INST_ID" jdbcType="DECIMAL" property="processInstId" />
+		<result property="isGoonAudit" column="IS_GOON_AUDIT" />
+		<result property="executor" column="EXECUTOR" />
+		<result property="executorName" column="EXECUTOR_NAME" />
+		<result property="orgCode" column="ORG_CODE" />
+		<result property="agency" column="AGENCY" />		<result column="ZC_IMP_FILE" jdbcType="VARCHAR" property="zcImpFile" />		<result column="ZC_IMP_FILE_BLOBID" jdbcType="VARCHAR" property="zcImpFileBlobid" />		<result column="ZC_INFO_FILE" jdbcType="VARCHAR" property="zcInfoFile" />		<result column="ZC_INFO_FILE_BLOBID" jdbcType="VARCHAR" property="zcInfoFileBlobid" />
+	</resultMap>
+	<resultMap id="ZcEbYanShouBillItemResult" class="ZcEbYanShouBillItem">
+		<result property="billCode" column="BILL_CODE" />
+		<result property="itemCode" column="ITEM_CODE" />
+		<result property="productName" column="PRODUCT_NAME" />
+		<result property="productParam" column="PRODUCT_PARAM" />
+		<result property="htAmount" column="HT_AMOUNT" />
+		<result property="htNum" column="HT_NUM" />
+		<result property="shiShouNum" column="SHISHOU_NUM" />
+		<result property="zhifuAmount" column="ZHIFU_AMOUNT" />
+		<result property="pianChaAmount" column="PIANCHA_AMOUNT" />
+		<result property="pianChaNum" column="PIANCHA_NUM" />
+	</resultMap>
+	<resultMap id="ZcEbEvalReportResult" class="ZcEbEvalReport">
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="packCode" column="PACK_CODE" />
+		<result property="packName" column="PACK_NAME" />
+		<result property="reportCode" column="REPORT_CODE" />
+		<result property="status" column="STATUS" />
+		<result property="executeDate" column="EXECUTE_DATE" />
+		<result property="bidDate" column="BID_DATE" />
+		<result property="bidLocation" column="BID_LOCATION" />
+		<result property="providerName" column="PROVIDER_NAME" />
+		<result property="providerCode" column="PROVIDER_CODE" />
+		<result property="zcSuLinkMan" column="ZC_SU_LINKMAN" />
+		<result property="nd" column="ND" />
+	</resultMap>
+	<resultMap id="ZcEbProjResult" class="ZcEbProj">
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="projSrcCode" column="PROJ_SRC_CODE" />
+		<result property="projName" column="PROJ_NAME" />
+		<result property="projSum" column="PROJ_SUM" />
+		<result property="purType" column="PUR_TYPE" />
+
+		<result property="projDate" column="PROJ_DATE" />
+		<result property="isSplitPack" column="IS_SPLIT_PACK" />
+		<result property="phone" column="PHONE" />
+		<result property="email" column="EMAIL" />
+		<result property="fax" column="FAX" />
+		<result property="status" column="STATUS" />
+		<result property="nd" column="ND" />
+		<result property="agency" column="AGENCY" />
+		<result property="isPubPurBulletin" column="IS_PUB_PUR_BULLETIN" />
+		<result property="isPubPurResult" column="IS_PUB_PUR_RESULT" />
+		<result property="processInstId" column="PROCESS_INST_ID"
+			jdbcType="DECIMAL" />
+		<result property="inputor" column="INPUTOR" />
+		<result property="inputDate" column="EXECUTE_DATE" />
+		<result property="org" column="ORG_CODE" />
+		<result property="remark" column="REMARK" />
+		<result property="isGoonAudit" column="IS_GOON_AUDIT" />
+	</resultMap>
+	<resultMap id="ZcPProMakeResult" class="ZcPProMake">
+		<result column="ZC_MAKE_CODE" jdbcType="VARCHAR" property="zcMakeCode" />
+		<result column="ZC_MAKE_NAME" jdbcType="VARCHAR" property="zcMakeName" />
+		<result column="CO_CODE" jdbcType="VARCHAR" property="coCode" />
+		<result column="ND" jdbcType="CHAR" property="nd" />
+		<result column="ZC_MAKE_LINKMAN" jdbcType="VARCHAR" property="zcMakeLinkman" />
+		<result column="ZC_MAKE_TEL" jdbcType="VARCHAR" property="zcMakeTel" />
+		<result column="ZC_MAKE_STATUS" jdbcType="VARCHAR" property="zcMakeStatus" />
+		<result column="AGENCY" jdbcType="VARCHAR" property="agency" />
+	</resultMap>	<resultMap id="ZcPProMakeOrgResult" class="ZcPProMake">		<result column="ZC_MAKE_CODE" jdbcType="VARCHAR" property="zcMakeCode" />		<result column="ZC_MAKE_NAME" jdbcType="VARCHAR" property="zcMakeName" />		<result column="CO_CODE" jdbcType="VARCHAR" property="coCode" />		<result column="ND" jdbcType="CHAR" property="nd" />		<result column="ZC_MAKE_LINKMAN" jdbcType="VARCHAR" property="zcMakeLinkman" />		<result column="ZC_MAKE_TEL" jdbcType="VARCHAR" property="zcMakeTel" />		<result column="ZC_MAKE_STATUS" jdbcType="VARCHAR" property="zcMakeStatus" />		<result column="AGENCY" jdbcType="VARCHAR" property="agency" />		<result column="ORG_CODE" jdbcType="VARCHAR" property="orgCode" />	</resultMap>
+	<!-- list页面数据 -->
+	<select id="getZcEbYanShouBillList" resultMap="ZcEbYanShouBillResult"
+		parameterClass="elementCondition">
+		select * from Zc_Eb_Yanshou_Bill Zc_Eb_Yanshou_Bill
+		where
+		1=1
+		<isNotEqual prepend="AND" compareValue="0" property="nd">
+			Zc_Eb_Yanshou_Bill.ND = #nd#
+		</isNotEqual>
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		<isNotNull prepend="AND" property="status">
+			<isEqual property="status" compareValue="todo">
+				exists (select
+				instance_id from V_WF_CURRENT_TASK_ZC_TODO where executor
+				=#executor# and instance_id = Zc_Eb_Yanshou_Bill.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="untread">
+				exists ( select
+				instance_id from V_WF_CURRENT_TASK_ZC_UNTREAD where executor
+				=#executor# and instance_id = Zc_Eb_Yanshou_Bill.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="accepted">
+				status='save'
+			</isEqual>
+			<isEqual property="status" compareValue="exec">
+				status='exec'
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				exists (select
+				instance_id from V_WF_ACTION_HISTORY_GK53 where executor =
+				#executor# and instance_id = Zc_Eb_Yanshou_Bill.process_inst_id)and
+				status!='back' and
+				status!='exec'
+			</isEqual>
+			<isEqual property="status" compareValue="draft">
+				exists (select
+				WF_DRAFT_NAME from as_wf_draft where user_id=#executor# and
+				compo_id=#wfcompoId# and
+				WF_DRAFT_ID=Zc_Eb_Yanshou_Bill.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="all">
+				1=1
+			</isEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="projCode">
+			Zc_Eb_Yanshou_Bill.PROJ_CODE
+			=#projCode:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="AND" property="packCode">
+			Zc_Eb_Yanshou_Bill.PACK_CODE
+			=#packCode:VARCHAR#
+		</isNotNull>
+		ORDER BY BILL_YANSHOU_DATE DESC
+	</select>
+	<!-- 通过主键查询验收单 -->
+	<select id="getEbYanShouBillByBillCode" resultMap="ZcEbYanShouBillResult"
+		parameterClass="string">
+		select
+		*
+		from
+		Zc_Eb_Yanshou_Bill master
+		where
+		master.BILL_CODE=#billCode#
+	</select>
+	<select id="getEbYanShouBillByPackCode" resultMap="ZcEbYanShouBillResult"
+		parameterClass="string">
+		SELECT * from Zc_Eb_Yanshou_Bill master where
+		master.pack_code = #packCode#
+	</select>
+	<!-- 编辑页面子表数据 -->
+	<select id="getZcEbYanShouBillItemList" resultMap="ZcEbYanShouBillItemResult"
+		parameterClass="string">
+		select
+		*
+		from
+		Zc_Eb_Yanshou_Bill_Item master
+		where
+		master.BILL_CODE = #billCode#
+	</select>
+	<!-- 保存主表数据 -->
+	<insert id="insertEbYanShouBill" parameterClass="ZcEbYanShouBill">
+		insert into
+		Zc_Eb_Yanshou_Bill
+		(BILL_CODE,BILL_NAME,PROJ_CODE,PROJ_NAME,PACK_CODE,
+		PACK_NAME,CO_CODE,CO_NAME,ZC_MAKE_LINKMAN,ZC_MAKE_LINKMAN_TEL,
+		ZC_SU_CODE,ZC_SU_NAME,ZC_SU_LINKMAN,ZC_SU_LINKMAN_TEL,ZC_SU_OPINION,ZC_CO_OPINION,ZC_YANSHOUTEAM_OPINION,
+		ZC_ORGANIZER_OPINION,BILL_YANSHOU_DATE,STATUS,ND,PROCESS_INST_ID,
+		PROVIDER_FILL_DATE,CAIGOUREN_FILL_DATE,YANSHOUTEAM_FILL_DATE,ZUZHIDANWEI_FILL_DATE,IS_GOON_AUDIT,
+		EXECUTOR,EXECUTOR_NAME,ORG_CODE,AGENCY,ZC_IMP_FILE,ZC_IMP_FILE_BLOBID,ZC_info_FILE,ZC_info_FILE_BLOBID)
+		values
+		(#billCode#,#billName#,#projCode#, #projName#, #packCode#,
+		#packName#,#coCode#,#coName#, #zcMakeLinkMan#,#zcMakeLinkManTel#,
+		#zcSuCode#,#zcSuName#,#zcSuLinkMan#,#zcSuLinkManTel#,#zcSuOpinion#,#zcCoOpinion#,#zcYanShouTeamOpinion#,
+		#zcOrganizerOpinion#,#billYanShouDate#,#status#,#nd#,#processInstId#,
+		#providerFillDate#,#caigoRenFillDate#,#yanShouTeamFillDate#,#zuzhiDanweiFillDate#,#isGoonAudit#,
+		#executor#,#executorName#,#orgCode#,#agency#,#zcImpFile#,#zcImpFileBlobid#,#zcInfoFile#,#zcInfoFileBlobid#)
+	</insert>
+	<!-- 保存子表数据 -->
+	<insert id="insertZcEbYanShouBillItem" parameterClass="ZcEbYanShouBillItem">
+		insert
+		into
+		Zc_Eb_Yanshou_Bill_Item
+		(BILL_CODE,ITEM_CODE,PRODUCT_NAME,PRODUCT_PARAM,HT_AMOUNT,HT_NUM,SHISHOU_NUM
+		,PIANCHA_AMOUNT,PIANCHA_NUM,ZHIFU_AMOUNT)
+		values
+		(#billCode#,#itemCode#,#productName#,#productParam#,#htAmount#,#htNum#,
+		#shiShouNum#,#pianChaAmount#,#pianChaNum#,#zhifuAmount#)
+	</insert>
+	<update id="updateEbYanShouBill" parameterClass="ZcEbYanShouBill">
+		update
+		Zc_Eb_Yanshou_Bill
+		set BILL_NAME= #billName:VARCHAR#,
+		PROJ_CODE=#projCode:VARCHAR#,
+		PROJ_NAME=#projName:VARCHAR#,
+		PACK_CODE=#packCode:VARCHAR#,
+		PACK_NAME=#packName:VARCHAR#,
+		CO_CODE=#coCode:VARCHAR#,
+		CO_NAME=#coName:VARCHAR#,
+		ZC_MAKE_LINKMAN=#zcMakeLinkMan:VARCHAR#,
+		ZC_MAKE_LINKMAN_TEL=#zcMakeLinkManTel:VARCHAR#,
+		ZC_SU_CODE=#zcSuCode:VARCHAR#,
+		ZC_SU_NAME=#zcSuName:VARCHAR#,
+		ZC_SU_LINKMAN=#zcSuLinkMan:VARCHAR#,
+		ZC_SU_LINKMAN_TEL=#zcSuLinkManTel:VARCHAR#,
+		ZC_SU_OPINION=#zcSuOpinion:VARCHAR#,
+		ZC_CO_OPINION=#zcCoOpinion:VARCHAR#,
+		ZC_YANSHOUTEAM_OPINION=#zcYanShouTeamOpinion:VARCHAR#,
+		ZC_ORGANIZER_OPINION=#zcOrganizerOpinion:VARCHAR#,
+		BILL_YANSHOU_DATE=#billYanShouDate:DATE#,
+		STATUS=#status:VARCHAR#,
+		ND=#nd:VARCHAR#,
+		PROCESS_INST_ID=#processInstId#,
+		PROVIDER_FILL_DATE=#providerFillDate#,
+		CAIGOUREN_FILL_DATE=#caigoRenFillDate#,
+		YANSHOUTEAM_FILL_DATE=#yanShouTeamFillDate#,
+		ZUZHIDANWEI_FILL_DATE=#zuzhiDanweiFillDate#,
+		IS_GOON_AUDIT=#isGoonAudit#,		ZC_IMP_FILE=#zcImpFile#,		ZC_IMP_FILE_BLOBID=#zcImpFileBlobid#,		ZC_info_FILE=#zcInfoFile#,		ZC_info_FILE_BLOBID=#zcInfoFileBlobid#
+		where
+		BILL_CODE= #billCode#
+	</update>
+	<delete id="deleteZcEbYanShouBillById" parameterClass="string">
+		delete
+		from
+		Zc_Eb_Yanshou_Bill
+		where BILL_CODE = #billCode#
+	</delete>
+	<delete id="deleteZcEbYanShouBillItemByBillCode" parameterClass="string">
+		delete
+		from
+		Zc_Eb_Yanshou_Bill_Item
+		where BILL_CODE = #billCode#
+	</delete>
+	<!-- 编辑页面选择验收标段的外部实体 -->
+	<select id="getZcPProMakeList" resultMap="ZcPProMakeResult"
+		parameterClass="elementCondition">
+		select ZC_MAKE_CODE,
+		ZC_MAKE_NAME,
+		CO_CODE,
+		ND,
+		ZC_MAKE_LINKMAN,
+		ZC_MAKE_TEL,
+		ZC_MAKE_STATUS,
+		AGENCY,
+		ZC_FUKUAN_TYPE,
+		ZC_MONEY_BI_SUM
+		from ZC_P_PRO_MAKE master
+		where
+		1=1
+		<isNotNull prepend="AND" property="packCode">
+			master.zc_make_code =(
+			select distinct make.zc_make_code
+			from Zc_p_Pro_Make make, Zc_Eb_Entrust zt, zc_eb_pack zp
+			where zt.sn = zp.entrust_code
+			and make.zc_make_code = zt.zc_make_code
+			and zp.pack_code=#packCode#)
+		</isNotNull>
+	</select>
+	<select id="getZcEbProjList" resultMap="ZcPProMakeOrgResult"
+		parameterClass="elementCondition">
+		SELECT distinct MASTER.* FROM ZC_P_PRO_MAKE MASTER, ZC_XMCG_HT HT
+		WHERE MASTER.ZC_MAKE_CODE = HT.ZC_MAKE_CODE
+		<isNotNull prepend="AND" property="zcText0">
+			ht.co_code = #zcText0#
+		</isNotNull>
+		<isNotNull prepend="AND" property="zcText1">
+			HT.ZC_SU_CODE = #zcText1#
+		</isNotNull>
+	</select>
+</sqlMap>
+	

@@ -1,0 +1,1 @@
+package com.ufgov.zc.client.component.button;public class FlowListButton extends FuncButton {  private static final long serialVersionUID = -7311299919119815825L;  public FlowListButton() {    super();  }  protected void init() {    this.funcId = "fflowlist";    this.defaultText = "流程明细";    super.init();  }}

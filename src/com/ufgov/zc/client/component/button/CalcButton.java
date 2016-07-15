@@ -1,0 +1,1 @@
+package com.ufgov.zc.client.component.button;public class CalcButton extends FuncButton {  public CalcButton() {    super();  }  protected void init() {    this.funcId = "fcalc";    this.defaultText = "计算";    this.iconName = "sendBill.png";    super.init();  }}

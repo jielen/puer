@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.ufgov.zc.server.sf.dao.SfJdDocAuditMapper" >
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+  <resultMap id="BaseResultMap" class="com.ufgov.zc.common.sf.model.SfJdDocAudit" >
+    <result column="JD_DOC_AUDIT_ID" property="jdDocAuditId" jdbcType="DECIMAL" />
+    <result column="INPUTOR" property="inputor" jdbcType="VARCHAR" />
+    <result column="INPUT_DATE" property="inputDate" jdbcType="DATE" />
+    <result column="DOC_QUATITY" property="docQuatity" jdbcType="DECIMAL" />
+    <result column="REPORT_TYPE" property="reportType" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="PHOTOGRAPHER" property="photographer" jdbcType="VARCHAR" />
+    <result column="ND" property="nd" jdbcType="DECIMAL" />
+    <result column="PROCESS_INST_ID" property="processInstId" jdbcType="DECIMAL" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="ENTRUST_CODE" property="entrust.code" jdbcType="VARCHAR" />
+    <result column="ENTRUST_ID" property="entrust.entrustId" jdbcType="DECIMAL" />
+    <result column="WTF" property="wtf" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" > 
+    JD_DOC_AUDIT_ID, INPUTOR, INPUT_DATE, DOC_QUATITY, REPORT_TYPE, REMARK, STATUS, PHOTOGRAPHER, 
+    ENTRUST_ID, ND, PROCESS_INST_ID, NAME, ENTRUST_CODE,WTF
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="java.math.BigDecimal" > 
+    select 
+    <include refid="Base_Column_List" />
+    from SF_JD_DOC_AUDIT 
+    where JD_DOC_AUDIT_ID = #jdDocAuditId:DECIMAL# 
+  </select>
+  <select id="selectMainDataLst" parameterClass="elementCondition" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SF_JD_DOC_AUDIT
+    where 1=1  
+		<include refid="BusiNumLim.BusiNumLimStr" />   
+		<isNotNull prepend="AND" property="dattr1"> 
+			ENTRUST_ID=#dattr1#
+		</isNotNull> 
+		<!-- 列表界面上的搜索条件 -->
+		<isNotNull prepend="AND" property="dattr5"> 
+			ENTRUST_ID=#dattr5#
+		</isNotNull>   
+	<isNotEqual prepend="and" compareValue="0" property="nd">
+			SF_JD_DOC_AUDIT.ND = #nd#
+   </isNotEqual>
+		<isNotNull prepend="AND" property="status">
+			<isEqual property="status" compareValue="todo">
+				exists (select instance_id from V_WF_CURRENT_TASK_ZC_TODO where 
+				executor=#executor# and instance_id = SF_JD_DOC_AUDIT.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="untread">
+				exists (select instance_id from V_WF_CURRENT_TASK_ZC_UNTREAD where
+				executor=#executor# and instance_id = SF_JD_DOC_AUDIT.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				exists (select instance_id from V_WF_ACTION_HISTORY_GK53 where 
+				executor =#executor# and instance_id = SF_JD_DOC_AUDIT.process_inst_id)
+				and SF_JD_DOC_AUDIT.STATUS!= 'cancel' and SF_JD_DOC_AUDIT.STATUS != 'exec'
+			</isEqual>
+			<isEqual property="status" compareValue="draft">
+				( exists (select WF_DRAFT_NAME from as_wf_draft where
+				user_id=#executor# and
+				compo_id=#wfcompoId# and
+				WF_DRAFT_ID=SF_JD_DOC_AUDIT.process_inst_id)
+				or
+				SF_JD_DOC_AUDIT.process_inst_id = -1 )
+				and SF_JD_DOC_AUDIT.STATUS ='0'
+			</isEqual>
+			<isEqual property="status" compareValue="exec">
+				(SF_JD_DOC_AUDIT.STATUS='exec')
+			</isEqual>
+			<isEqual property="status" compareValue="all">
+				1=1
+			</isEqual>
+		</isNotNull>
+   order by SF_JD_DOC_AUDIT.JD_DOC_AUDIT_ID desc
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="java.math.BigDecimal" > 
+    delete from SF_JD_DOC_AUDIT
+    where JD_DOC_AUDIT_ID = #jdDocAuditId:DECIMAL#
+  </delete>
+  <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfJdDocAudit" > 
+    insert into SF_JD_DOC_AUDIT (JD_DOC_AUDIT_ID, INPUTOR, INPUT_DATE, 
+      DOC_QUATITY, REPORT_TYPE, REMARK, 
+      STATUS, PHOTOGRAPHER, ENTRUST_ID, 
+      ND, PROCESS_INST_ID, NAME, 
+      ENTRUST_CODE,WTF)
+    values (#jdDocAuditId:DECIMAL#, #inputor:VARCHAR#, #inputDate:DATE#, 
+      #docQuatity:DECIMAL#, #reportType:VARCHAR#, #remark:VARCHAR#, 
+      #status:VARCHAR#, #photographer:VARCHAR#, #entrust.entrustId:DECIMAL#, 
+      #nd:DECIMAL#, #processInstId:DECIMAL#, #name:VARCHAR#, 
+      #entrust.code:VARCHAR#,#wtf:VARCHAR#)
+  </insert>
+  <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfJdDocAudit" > 
+    update SF_JD_DOC_AUDIT
+    set INPUTOR = #inputor:VARCHAR#,
+      INPUT_DATE = #inputDate:DATE#,
+      DOC_QUATITY = #docQuatity:DECIMAL#,
+      REPORT_TYPE = #reportType:VARCHAR#,
+      REMARK = #remark:VARCHAR#,
+      STATUS = #status:VARCHAR#,
+      PHOTOGRAPHER = #photographer:VARCHAR#,
+      ENTRUST_ID = #entrust.entrustId:DECIMAL#,
+      ND = #nd:DECIMAL#,
+      PROCESS_INST_ID = #processInstId:DECIMAL#,
+      NAME = #name:VARCHAR#,
+      ENTRUST_CODE = #entrust.code:VARCHAR#,
+      WTF=#wtf:VARCHAR#
+    where JD_DOC_AUDIT_ID = #jdDocAuditId:DECIMAL#
+  </update>
+</sqlMap>

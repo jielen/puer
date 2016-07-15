@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="BalMode">
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<typeAlias alias="balMode"
+		type="com.ufgov.zc.common.commonbiz.model.BalMode" />
+
+	<resultMap class="balMode" id="balModeResult">
+		<result property="nd" column="nd"></result>
+		<result property="balModeCode" column="bal_mode_code"></result>
+		<result property="balModeName" column="bal_mode_name"></result>
+	</resultMap>
+
+	<select id="getBalMode" resultMap="balModeResult"
+		parameterClass="elementCondition">
+		select nd, bal_mode_code, bal_mode_name from ma_cp_bal_mode
+		where nd= #nd#
+		<include refid="GkGetDataRuleCondi.GkGetDataRuleCondiStr" />
+	</select>
+
+
+
+</sqlMap>

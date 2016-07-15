@@ -1,0 +1,1 @@
+package com.ufgov.zc.server.system.dao;import java.util.List;import java.util.Map;import com.ufgov.zc.common.system.model.LangTrans;public interface ILangTransDao {  Map getLangTrans(String resId);  List getAsLangTrans(String resId);  void updateAslangTrans(List langTranList);}

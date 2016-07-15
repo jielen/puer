@@ -1,0 +1,577 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="BiBalance">
+    <typeAlias   alias="biBalance"  type="com.ufgov.zc.common.commonbiz.model.BiBalance" />
+	<resultMap id="biBalanceResult" class="com.ufgov.zc.common.commonbiz.model.BiBalance">
+		<result property="biBalanceId" column="bi_balance_id" />
+		<result property="nd" column="nd" />
+		<result property="biMoney" column="bi_money" />
+		<result property="biLevel" column="bi_level" />
+		<result property="dpMoney" column="dp_money" />
+		<result property="amMoney" column="am_money" />
+		<result property="lpMoney" column="lp_money" />
+		<result property="cpMoney" column="cp_money" />
+		<result property="balance" column="balance" />
+		<result property="paySum" column="pay_sum" />
+		<result property="coCode" column="co_code" />
+		<result property="baccCode" column="b_acc_code" />
+		<result property="fundCode" column="fund_code" />
+		<result property="inceptDocCode" column="inceptdoc_code" />
+		<result property="manageCode" column="manage_code" />
+		<result property="orgCode" column="org_code" />
+		<result property="originCode" column="origin_code" />
+		<result property="outlayCode" column="outlay_code" />
+		<result property="payoutCode" column="payout_code" />
+		<result property="paytypeCode" column="paytype_code" />
+		<result property="projectCode" column="project_code" />
+		<result property="projectDetailCode" column="PROJECT_DETAIL_CODE" />
+		<result property="sendDocCode" column="senddoc_code" />
+		<result property="biTargetCode" column="BI_TARGET_CODE" />
+		<result property="sendDocTypeCode" column="SENDDOC_TYPE_CODE" />
+		<result property="projectTypeCode" column="PROJECT_TYPE_CODE" />
+		<result property="dattr1" column="D_ATTR1" />
+		<result property="dattr2" column="D_ATTR2" />
+		<result property="dattr3" column="D_ATTR3" />
+		<result property="dattr4" column="D_ATTR4" />
+		<result property="dattr5" column="D_ATTR5" />
+		<result property="extMoney1" column="ext_money1" />
+		<result property="extMoney2" column="ext_money2" />
+		<result property="remark" column="remark" />
+		<result property="isCarryup" column="is_carryup" />
+       <result column="filename" property="fileName" jdbcType="VARCHAR" />
+       <result column="filename_blobid" property="filenameBlobid" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="biBalanceForCd" class="com.ufgov.zc.common.commonbiz.model.BiBalance" extends="biBalanceResult">
+	  <result property="biLevel" column="bi_Level" />
+	</resultMap>
+
+   <resultMap id="biBalanceResult2" class="com.ufgov.zc.common.commonbiz.model.BiBalance" extends="biBalanceResult">
+	  <result property="currMonthPlanTimes" column="currMonthPlanTimes" />
+	  <result property="operateType" column="operate_type" />
+	</resultMap>
+
+	<resultMap id="biBalanceResult3" class="com.ufgov.zc.common.commonbiz.model.BiBalance" extends="biBalanceResult">
+	  	<result property="biAssignMoney" column="BI_ASSIGN_MONEY" />
+	</resultMap>
+
+	<sql id= "biBalanceTableHead">
+	    select master.*
+	</sql>
+
+	<resultMap id="allBiBalanceQueryResult" class="com.ufgov.zc.common.commonbiz.model.BiBalance" extends="biBalanceResult">
+	  	<result property="biAssignMoney" column="BI_ASSIGN_MONEY" nullValue="0"/>
+	  	<result property="biCanUseMoney" column="BI_CAN_USE_MONEY" nullValue="0"/>
+	  	<result property="dpCanUseMoney" column="DP_CAN_USE_MONEY" nullValue="0"/>
+	</resultMap>
+
+	<select id="getAllBiBalanceInfo" resultMap="allBiBalanceQueryResult" parameterClass="com.ufgov.zc.common.system.dto.ElementConditionDto">
+	    Select master.bi_balance_id ,master.bi_level,master.bi_assign_money,master.nd,master.bi_money,
+	      master.dp_money,filename,filename_blobid,master.am_money,master.cp_money,master.lp_money,master.IS_CARRYUP,
+	      master.BI_ASSIGN_MONEY+master.AM_MONEY+master.DP_MONEY+master.CP_MONEY+master.LP_MONEY As PAY_SUM ,
+	      master.BI_MONEY-master.BI_ASSIGN_MONEY-master.AM_MONEY-master.DP_MONEY-master.CP_MONEY-master.LP_MONEY-master.FREEZE_MONEY-master.CD_MONEY  As balance ,
+	      (master.BI_MONEY -(SELECT sum(AM_MONEY+CP_MONEY) FROM dp_balance WHERE master.Bi_Balance_Id =Bi_Balance_Id AND master.nd = nd )) as BI_CAN_USE_MONEY,
+	      (master.DP_MONEY-(SELECT sum(AM_MONEY+CP_MONEY) FROM dp_balance WHERE master.Bi_Balance_Id =Bi_Balance_Id AND master.nd = nd )) DP_CAN_USE_MONEY,
+	      master.co_code, master.b_acc_code,
+	      master.fund_code,master.inceptdoc_code,master.manage_code , master.org_code ,master.Origin_Code,master.outlay_code,master.payout_code,master.paytype_code,
+	      master.project_code,master.senddoc_code , master.remark,master.BI_TARGET_CODE,master.senddoc_type_code,master.project_type_code,
+	      master.d_attr1,master.d_attr2,master.d_attr3,master.d_attr4,master.d_attr5,master.ext_money1,master.ext_money2,
+	      '0' as currMonthPlanTimes,master.PROJECT_DETAIL_CODE ,operate_type
+	    FROM bi_balance master
+		WHERE nd=#nd#
+			<isNotNull prepend="AND" property="balanceStatus">
+				<isEqual property="balanceStatus" compareValue="0">
+					MASTER.BI_MONEY-MASTER.BI_ASSIGN_MONEY-MASTER.AM_MONEY-MASTER.DP_MONEY-MASTER.CP_MONEY-MASTER.LP_MONEY-MASTER.FREEZE_MONEY-MASTER.CD_MONEY=0
+				</isEqual>
+				<isEqual property="balanceStatus" compareValue="1">
+					MASTER.BI_MONEY-MASTER.BI_ASSIGN_MONEY-MASTER.AM_MONEY-MASTER.DP_MONEY-MASTER.CP_MONEY-MASTER.LP_MONEY-MASTER.FREEZE_MONEY-MASTER.CD_MONEY>0
+				</isEqual>
+			</isNotNull>
+			<isNotNull prepend="AND" property="biLevel">
+			  bi_level=#biLevel#
+			</isNotNull>
+			<include refid="BusiNumLim.BusiNumLimStr"/>
+			<include refid="ElementCondition.ORG_CODE"/>
+			<include refid="ElementCondition.FUND_CODE_LIKE"/>
+			<include refid="ElementCondition.B_ACC_CODE_LIKE"/>
+			<include refid="ElementCondition.OUTLAY_CODE_LIKE"/>
+			<include refid="ElementCondition.PAYOUT_CODE_LIKE" />
+			<include refid="ElementCondition.MANAGE_CODE_LIKE"/>
+			<include refid="ElementCondition.ORIGIN_CODE_LIKE"/>
+			<include refid="ElementCondition.PROJECT_CODE_LIKE"/>
+			<include refid="ElementCondition.SENDDOC_CODE"/>
+			<include refid="ElementCondition.INCEPTDOC_CODE"/>
+			<include refid="ElementCondition.D_ATTR1_LIKE"/>
+			<include refid="ElementCondition.D_ATTR2_LIKE"/>
+			<include refid="ElementCondition.D_ATTR3_LIKE"/>
+			<include refid="ElementCondition.D_ATTR4_LIKE"/>
+			<include refid="ElementCondition.D_ATTR5_LIKE"/>
+			<include refid="ElementCondition.CoCodeFilter"/>
+			<include refid="GkGetDataRuleCondi.GkGetDataRuleCondiStr"/>
+			order by bi_balance_id
+	 </select>
+
+	<select id="getBiBalance" resultMap="biBalanceResult2"	parameterClass="com.ufgov.zc.common.system.dto.ElementConditionDto">
+		<include refid="biBalanceTableHead" />
+		from ( Select master.bi_balance_id ,master.bi_level,master.nd,master.bi_money,
+		master.dp_money,filename,filename_blobid,master.am_money,master.cp_money,master.lp_money
+		,master.IS_CARRYUP,master.BI_MONEY-master.BI_ASSIGN_MONEY-master.AM_MONEY-master.DP_MONEY-master.CP_MONEY-master.LP_MONEY-master.FREEZE_MONEY-master.CD_MONEY
+		As balance ,master.AM_MONEY+master.DP_MONEY+master.CP_MONEY+master.LP_MONEY As
+		PAY_SUM , master.co_code, master.b_acc_code,
+		master.fund_code,master.inceptdoc_code,master.manage_code , master.org_code
+		,master.Origin_Code,master.outlay_code,master.payout_code,master.paytype_code,
+		master.project_code,master.senddoc_code ,
+		master.remark,master.BI_TARGET_CODE,master.senddoc_type_code
+		,master.project_type_code,master.d_attr1,master.d_attr2,master.d_attr3,master.d_attr4,master.d_attr5,master.ext_money1,master.ext_money2
+		,(select count(*) from dp_detail dp where dp.bi_balance_id = master.bi_balance_id
+		and dp.month=#planMonth:INTEGER#) as currMonthPlanTimes,master.PROJECT_DETAIL_CODE ,operate_type
+		FROM bi_balance master WHERE
+		master.BI_MONEY-master.BI_ASSIGN_MONEY-master.AM_MONEY-master.DP_MONEY-master.CP_MONEY-master.LP_MONEY-master.FREEZE_MONEY-master.CD_MONEY>0
+		and nd=#nd# and bi_level='03'
+		<isNotNull prepend="AND" property="biBalanceId">
+		 bi_balance_id=#biBalanceId#
+		</isNotNull>
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		<include refid="ElementCondition.PROJECT_CODE" />
+		<include refid="ElementCondition.ORIGIN_CODE" />
+		<include refid="ElementCondition.PAYTYPE_CODE" />
+		<include refid="ElementCondition.B_ACC_CODE" />
+		<include refid="ElementCondition.SENDDOC_CODE" />
+		<include refid="ElementCondition.PAYOUT_CODE_LIKE" />
+		<include refid="ElementCondition.CO_CODE"/>
+		<include refid="ElementCondition.OUTLAY_CODE"/>
+		<include refid="ElementCondition.MANAGE_CODE"/>
+		<include refid="ElementCondition.CoCodeFilter"/>
+		<include refid="ElementCondition.FUND_CODE_LIKE"/>
+		<include refid="GkGetDataRuleCondi.GkGetDataRuleCondiStr" />
+		<isNotNull prepend="AND" property="useType">
+		 operate_type=#useType:VARCHAR#
+		</isNotNull>
+		) master order by bi_balance_id
+	</select>
+
+	<resultMap id="biBalanceInfo" class="com.ufgov.zc.common.commonbiz.model.BiBalance" extends="biBalanceResult">
+	  <result property="cdMoney" column="CD_MONEY" />
+	  <result property="freezeMoney" column="FREEZE_MONEY" />
+	  <result property="afreezeMoney" column="A_FREEZE_MONEY" />
+	</resultMap>
+
+	<select id="getBiBalanceInfo" resultMap="biBalanceInfo"	parameterClass="com.ufgov.zc.common.system.dto.ElementConditionDto">
+		select master.*,
+		  	master.bi_money -master.bi_assign_money - master.am_money - master.dp_money - master.cp_money - master.lp_money - master.freeze_money - master.cd_money AS balance,
+  			master.am_money + master.dp_money + master.cp_money + master.lp_money AS pay_sum
+  		from bi_balance master where co_code=#coCode# and nd=#nd#
+		order by bi_balance_id
+	</select>
+
+		<select id="getBiBalanceByDto" resultMap="biBalanceResult"	parameterClass="com.ufgov.zc.common.system.dto.ElementConditionDto">
+		<include refid="biBalanceTableHead" />
+		from ( Select master.bi_balance_id ,master.bi_level,master.nd,master.bi_money,
+		master.dp_money,filename,filename_blobid,master.am_money,master.cp_money,master.lp_money
+		,master.IS_CARRYUP,master.BI_MONEY-master.BI_ASSIGN_MONEY-master.AM_MONEY-master.DP_MONEY-master.CP_MONEY-master.LP_MONEY-master.FREEZE_MONEY-master.CD_MONEY
+		As balance ,master.AM_MONEY+master.DP_MONEY+master.CP_MONEY+master.LP_MONEY As
+		PAY_SUM , master.co_code, master.b_acc_code,
+		master.fund_code,master.inceptdoc_code,master.manage_code , master.org_code
+		,master.Origin_Code,master.outlay_code,master.payout_code,master.paytype_code,
+		master.project_code,master.senddoc_code ,
+		master.remark,master.BI_TARGET_CODE,master.senddoc_type_code
+		,master.project_type_code,master.d_attr1,master.d_attr2,master.d_attr3,master.d_attr4,master.d_attr5,
+		master.ext_money1,master.ext_money2 ,master.PROJECT_DETAIL_CODE
+		FROM bi_balance master WHERE
+		nd=#nd# and bi_level='03'
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		<include refid="ElementCondition.PROJECT_CODE" />
+		<include refid="ElementCondition.ORIGIN_CODE" />
+		<include refid="ElementCondition.PAYTYPE_CODE" />
+		<include refid="ElementCondition.B_ACC_CODE" />
+		<include refid="ElementCondition.SENDDOC_CODE" />
+		<include refid="ElementCondition.CO_CODE"/>
+		<include refid="ElementCondition.OUTLAY_CODE"/>
+		<include refid="ElementCondition.MANAGE_CODE"/>
+		<include refid="ElementCondition.CoCodeFilter"/>
+		<include refid="ElementCondition.FUND_CODE_LIKE"/>
+		<include refid="GkGetDataRuleCondi.GkGetDataRuleCondiStr" />
+		) master
+		<include refid="ElementCondition.OrderColumns"/>
+	</select>
+
+   <select id="getBiBalanceForCd" resultMap="biBalanceForCd" parameterClass="com.ufgov.zc.common.system.dto.ElementConditionDto">
+		<include refid="biBalanceTableHead" />
+		from ( Select master.bi_balance_id ,master.bi_level,master.nd,master.bi_money,
+		master.dp_money,filename,filename_blobid,master.am_money,master.cp_money,master.lp_money
+		,master.IS_CARRYUP,master.BI_MONEY-master.BI_ASSIGN_MONEY-master.AM_MONEY-master.DP_MONEY-master.CP_MONEY-master.LP_MONEY-master.FREEZE_MONEY-master.CD_MONEY
+		As balance ,master.AM_MONEY+master.DP_MONEY+master.CP_MONEY+master.LP_MONEY As
+		PAY_SUM , master.co_code, master.b_acc_code,
+		master.fund_code,master.inceptdoc_code,master.manage_code , master.org_code
+		,master.Origin_Code,master.outlay_code,master.payout_code,master.paytype_code,
+		master.project_code,master.senddoc_code ,
+		master.remark,master.BI_TARGET_CODE,master.senddoc_type_code
+		,master.project_type_code,master.d_attr1,master.d_attr2,master.d_attr3,master.d_attr4,master.d_attr5,
+		master.ext_money1,master.ext_money2 ,master.PROJECT_DETAIL_CODE
+		FROM bi_balance master WHERE
+		master.BI_MONEY-master.BI_ASSIGN_MONEY-master.AM_MONEY-master.DP_MONEY-master.CP_MONEY-master.LP_MONEY-master.FREEZE_MONEY-master.CD_MONEY>0
+		and nd=#nd# and bi_level='03' and is_carrydown='0'
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		<include refid="ElementCondition.PROJECT_CODE" />
+		<include refid="ElementCondition.ORIGIN_CODE" />
+		<include refid="ElementCondition.PAYTYPE_CODE" />
+		<include refid="ElementCondition.PAYOUT_CODE" />
+		<include refid="ElementCondition.B_ACC_CODE" />
+		<include refid="ElementCondition.SENDDOC_CODE" />
+		<include refid="ElementCondition.CO_CODE"/>
+		<include refid="ElementCondition.OUTLAY_CODE"/>
+		<include refid="ElementCondition.MANAGE_CODE"/>
+		<include refid="ElementCondition.CoCodeFilter"/>
+		<include refid="ElementCondition.FUND_CODE"/>
+		<include refid="ElementCondition.ORG_CODE" />
+		) master order by bi_balance_id
+	</select>
+
+
+	<select id="getBiBalanceById" resultMap="biBalanceResult"		parameterClass="string">
+		<include refid="biBalanceTableHead" />
+		from ( Select t.bi_balance_id
+		,t.bi_level,t.nd,t.bi_money,t.dp_money,t.am_money,t.lp_money,t.cp_money
+		,t.IS_CARRYUP,t.BI_MONEY-t.BI_ASSIGN_MONEY-t.AM_MONEY-t.DP_MONEY-t.CP_MONEY-t.LP_MONEY-t.FREEZE_MONEY-t.CD_MONEY
+		As balance ,t.AM_MONEY+t.DP_MONEY+t.CP_MONEY+t.LP_MONEY+t.BI_ASSIGN_MONEY As
+		PAY_SUM , t.co_code, t.b_acc_code,
+		t.fund_code,t.inceptdoc_code,t.manage_code , t.org_code
+		,t.Origin_Code,t.outlay_code,t.payout_code,t.paytype_code,
+		t.project_code,t.senddoc_code ,
+		t.remark,t.BI_TARGET_CODE,t.senddoc_type_code,t.filename,t.filename_blobid
+		,t.project_type_code,t.d_attr1,t.d_attr2,t.d_attr3,t.d_attr4,t.d_attr5,
+		t.ext_money1,t.ext_money2 ,t.PROJECT_DETAIL_CODE
+		FROM bi_balance t WHERE bi_balance_id=#value# ) master order by
+		bi_balance_id
+	</select>
+
+
+	<update id="updateBiBalanceForDpAdjust" parameterClass="Map">
+		UPDATE BI_BALANCE set DP_MONEY = DP_MONEY-#adjustMoney# WHERE
+		(DP_MONEY - #adjustMoney#)
+		<![CDATA[>= ]]>-0.000001 AND bi_balance_id =#biBalanceId#
+	</update>
+
+	<update id="updateBiBalanceForDpEdit" parameterClass="Map">
+		UPDATE BI_BALANCE set DP_MONEY = DP_MONEY+#curMoney# WHERE
+		(BI_MONEY-BI_ASSIGN_MONEY-AM_MONEY-DP_MONEY-CP_MONEY-LP_MONEY-FREEZE_MONEY-CD_MONEY
+		- #curMoney# )
+		<![CDATA[>= ]]>-0.000001 AND DP_MONEY + #curMoney#>=0 AND bi_balance_id
+		=#biBalanceId#
+	</update>
+
+	<update id="updateBiBalanceForDpEditDelete" parameterClass="Map">
+		update bi_balance set dp_money = dp_money - (select org_money
+		from dp_detail where dp_detail_id=#dpDetailId#) where
+		bi_balance_id =#biBalanceId#
+	</update>
+
+	<update id="updateBiBalanceForAm" parameterClass="Map">
+		update BI_BALANCE set am_money=am_money + #adjustMoney# where BI_BALANCE_ID = #biBalanceId#
+		and	(BI_MONEY-BI_ASSIGN_MONEY-AM_MONEY-DP_MONEY-CP_MONEY-LP_MONEY-FREEZE_MONEY-CD_MONEY)
+		<![CDATA[>= ]]>	#adjustMoney#-0.000001 and am_money + #adjustMoney#	<![CDATA[>= ]]>	0
+	</update>
+
+	<update id="updateBiBalanceForCp" parameterClass="Map">
+		update BI_BALANCE set cp_money=cp_money + #adjustMoney# where BI_BALANCE_ID = #biBalanceId#
+		and	(BI_MONEY-BI_ASSIGN_MONEY-AM_MONEY-DP_MONEY-CP_MONEY-LP_MONEY-FREEZE_MONEY-CD_MONEY)
+		<![CDATA[>= ]]>	#adjustMoney#-0.000001 and cp_money + #adjustMoney#	<![CDATA[>= ]]>	0
+	</update>
+
+	<update id="updateBiBalanceForAmDelete" parameterClass="Map">
+		update bi_balance set am_money = am_money - (select org_money from am_apply where am_apply_id=#amApplyId#)
+		where bi_balance_id =#biBalanceId#
+	</update>
+
+	<update id="updateBiBalanceForAmVoucherDelete" parameterClass="Map">
+		update bi_balance set am_money = am_money - (select org_money from am_voucher where am_voucher_id=#amVoucherId#)
+		where bi_balance_id =#biBalanceId#
+	</update>
+
+	<update id="updateBiBalanceForCpVoucherUnDo" parameterClass="Map">
+		UPDATE bi_balance SET CP_MONEY=CP_MONEY-(select ORG_MONEY FROM
+		CP_VOUCHER where CP_VOUCHER_ID=#cpVoucherId#) WHERE
+		bi_balance_id=#biBalanceId#
+	</update>
+
+	<select id="getBiBalanceForAm" resultMap="biBalanceResult" parameterClass="com.ufgov.zc.common.system.dto.ElementConditionDto">
+		<include refid="biBalanceTableHead" />
+		from (Select MASTER.bi_balance_id,MASTER.bi_level,MASTER.nd,MASTER.bi_money,MASTER.dp_money,master.am_money,master.cp_money,master.lp_money
+		,MASTER.IS_CARRYUP,MASTER.BI_MONEY-MASTER.BI_ASSIGN_MONEY-MASTER.AM_MONEY-MASTER.DP_MONEY-MASTER.CP_MONEY-MASTER.LP_MONEY-MASTER.FREEZE_MONEY-MASTER.CD_MONEY
+		As balance
+		,MASTER.AM_MONEY+MASTER.DP_MONEY+MASTER.CP_MONEY+MASTER.LP_MONEY As PAY_SUM
+		,MASTER.co_code, MASTER.b_acc_code,MASTER.fund_code,MASTER.inceptdoc_code,MASTER.manage_code , MASTER.org_code
+		,MASTER.Origin_Code,MASTER.outlay_code,MASTER.payout_code,MASTER.paytype_code,master.filename,master.filename_blobid
+		,MASTER.project_code,MASTER.senddoc_code,MASTER.remark,MASTER.BI_TARGET_CODE,MASTER.senddoc_type_code
+		,MASTER.project_type_code,MASTER.d_attr1,MASTER.d_attr2,MASTER.d_attr3,MASTER.d_attr4,MASTER.d_attr5,
+		master.ext_money1,master.ext_money2 ,master.PROJECT_DETAIL_CODE
+		FROM bi_balance MASTER
+		WHERE MASTER.BI_MONEY-MASTER.BI_ASSIGN_MONEY-MASTER.AM_MONEY-MASTER.DP_MONEY-MASTER.CP_MONEY-MASTER.LP_MONEY-MASTER.FREEZE_MONEY-MASTER.CD_MONEY>0
+		      and nd=#nd#
+		      and bi_level='03'
+		    <include refid="ElementCondition.ORIGIN_CODE_LIKE"/>
+			<include refid="ElementCondition.FUND_CODE_LIKE"/>
+			<include refid="ElementCondition.PROJECT_CODE"/>
+			<include refid="ElementCondition.B_ACC_CODE_LIKE"/>
+			<include refid="ElementCondition.MANAGE_CODE_LIKE"/>
+			<include refid="ElementCondition.CoCodeFilter"/>
+			<include refid="BusiNumLim.BusiNumLimStr"/>
+			<include refid="GkGetDataRuleCondi.GkGetDataRuleCondiStr" />
+		) master
+	<include refid="ElementCondition.OrderColumns"/>
+	</select>
+
+	<select id="getBiBalanceForAmPvmDpEdit" resultMap="biBalanceResult" parameterClass="com.ufgov.zc.common.system.dto.ElementConditionDto">
+		<include refid="biBalanceTableHead" />
+		from (Select MASTER.bi_balance_id,MASTER.bi_level,MASTER.nd,MASTER.bi_money,MASTER.dp_money,master.am_money,master.cp_money,master.lp_money
+		,MASTER.IS_CARRYUP,MASTER.BI_MONEY-MASTER.BI_ASSIGN_MONEY-MASTER.AM_MONEY-MASTER.DP_MONEY-MASTER.CP_MONEY-MASTER.LP_MONEY-MASTER.FREEZE_MONEY-MASTER.CD_MONEY
+		As balance
+		,MASTER.AM_MONEY+MASTER.DP_MONEY+MASTER.CP_MONEY+MASTER.LP_MONEY As PAY_SUM
+		,MASTER.co_code, MASTER.b_acc_code,MASTER.fund_code,MASTER.inceptdoc_code,MASTER.manage_code , MASTER.org_code
+		,MASTER.Origin_Code,MASTER.outlay_code,MASTER.payout_code,MASTER.paytype_code,master.filename,master.filename_blobid
+		,MASTER.project_code,MASTER.senddoc_code,MASTER.remark,MASTER.BI_TARGET_CODE,MASTER.senddoc_type_code
+		,MASTER.project_type_code,MASTER.d_attr1,MASTER.d_attr2,MASTER.d_attr3,MASTER.d_attr4,MASTER.d_attr5,
+		master.ext_money1,master.ext_money2 ,master.PROJECT_DETAIL_CODE
+		FROM bi_balance MASTER
+		WHERE MASTER.BI_MONEY-MASTER.BI_ASSIGN_MONEY-MASTER.AM_MONEY-MASTER.DP_MONEY-MASTER.CP_MONEY-MASTER.LP_MONEY-MASTER.FREEZE_MONEY-MASTER.CD_MONEY>0
+		      and nd=#nd#
+		      and bi_level='05'
+		    <include refid="ElementCondition.ORIGIN_CODE_LIKE"/>
+			<include refid="ElementCondition.FUND_CODE_LIKE"/>
+			<include refid="ElementCondition.PROJECT_CODE"/>
+			<include refid="ElementCondition.B_ACC_CODE_LIKE"/>
+			<include refid="ElementCondition.MANAGE_CODE_LIKE"/>
+			<include refid="ElementCondition.CoCodeFilter"/>
+			<include refid="BusiNumLim.BusiNumLimStr"/>
+			<include refid="GkGetDataRuleCondi.GkGetDataRuleCondiStr" />
+		) master
+	<include refid="ElementCondition.OrderColumns"/>
+	</select>
+
+
+	<select id="getBiBalanceForDbiTbi" resultMap="biBalanceResult" parameterClass="com.ufgov.zc.common.system.dto.ElementConditionDto">
+		<include refid="biBalanceTableHead" />
+		from (Select MASTER.bi_balance_id,MASTER.bi_level,MASTER.nd,MASTER.bi_money,MASTER.dp_money,master.am_money,master.cp_money,master.lp_money
+		,MASTER.IS_CARRYUP,MASTER.BI_MONEY-MASTER.BI_ASSIGN_MONEY-MASTER.AM_MONEY-MASTER.DP_MONEY-MASTER.CP_MONEY-MASTER.LP_MONEY-MASTER.FREEZE_MONEY-MASTER.CD_MONEY
+		As balance
+		,MASTER.AM_MONEY+MASTER.DP_MONEY+MASTER.CP_MONEY+MASTER.LP_MONEY+MASTER.BI_ASSIGN_MONEY As PAY_SUM
+		,MASTER.co_code, MASTER.b_acc_code,MASTER.fund_code,MASTER.inceptdoc_code,MASTER.manage_code , MASTER.org_code
+		,MASTER.Origin_Code,MASTER.outlay_code,MASTER.payout_code,MASTER.paytype_code,master.filename,master.filename_blobid
+		,MASTER.project_code,MASTER.senddoc_code,MASTER.remark,MASTER.BI_TARGET_CODE,MASTER.senddoc_type_code
+		,MASTER.project_type_code,MASTER.d_attr1,MASTER.d_attr2,MASTER.d_attr3,MASTER.d_attr4,MASTER.d_attr5,
+		master.ext_money1,master.ext_money2 ,master.PROJECT_DETAIL_CODE
+		FROM bi_balance MASTER
+		WHERE nd=#nd#
+		<isNotNull prepend="AND" property="balanceStatus">
+			<isEqual property="balanceStatus" compareValue="0">
+				MASTER.BI_MONEY-MASTER.BI_ASSIGN_MONEY-MASTER.AM_MONEY-MASTER.DP_MONEY-MASTER.CP_MONEY-MASTER.LP_MONEY-MASTER.FREEZE_MONEY-MASTER.CD_MONEY=0
+			</isEqual>
+			<isEqual property="balanceStatus" compareValue="1">
+				MASTER.BI_MONEY-MASTER.BI_ASSIGN_MONEY-MASTER.AM_MONEY-MASTER.DP_MONEY-MASTER.CP_MONEY-MASTER.LP_MONEY-MASTER.FREEZE_MONEY-MASTER.CD_MONEY>0
+			</isEqual>
+		</isNotNull>
+	    <include refid="ElementCondition.PROJECT_CODE_LIKE" />
+		<include refid="ElementCondition.FUND_CODE_LIKE" />
+		<include refid="ElementCondition.ORIGIN_CODE_LIKE" />
+		<include refid="ElementCondition.PAYTYPE_CODE_LIKE" />
+		<include refid="ElementCondition.PAYOUT_CODE" />
+		<include refid="ElementCondition.BI_LEVEL" />
+		<include refid="ElementCondition.SENDDOC_CODE" />
+		<include refid="ElementCondition.INCEPTDOC_CODE" />
+		<include refid="ElementCondition.MANAGE_CODE" />
+		<include refid="ElementCondition.ORG_CODE" />
+		<include refid="ElementCondition.B_ACC_CODE_LIKE"/>
+		<include refid="ElementCondition.OUTLAY_CODE_LIKE"/>
+		<include refid="ElementCondition.D_ATTR1" />
+		<include refid="ElementCondition.D_ATTR2" />
+		<include refid="ElementCondition.D_ATTR3" />
+		<include refid="ElementCondition.D_ATTR4" />
+		<include refid="ElementCondition.D_ATTR5" />
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		) master
+	<include refid="ElementCondition.OrderColumns"/>
+	</select>
+
+	<update id="updateBiBalanceForDpEditUnaudit" parameterClass="Map">
+		UPDATE bi_balance SET dp_money = dp_money - (SELECT $calcField$
+		FROM dp_detail WHERE dp_detail_id=#dpDetailId#) WHERE
+		bi_balance_id = #biBalanceId# AND
+		(bi_money-bi_assign_money-am_money-dp_money-cp_money-lp_money-freeze_money-cd_money)
+		+ (SELECT $calcField$ FROM dp_detail WHERE
+		dp_detail_id=#dpDetailId#) >=0
+	</update>
+
+	<update id="updateBiBalanceForDpDecreaseUnaudit"
+		parameterClass="Map">
+		UPDATE bi_balance SET dp_money = dp_money + (SELECT cur_money
+		FROM dp_detail WHERE dp_detail_id=#dpDetailId#) WHERE
+		bi_balance_id = #biBalanceId# AND
+		(bi_money-bi_assign_money-am_money-dp_money-cp_money-lp_money-freeze_money-cd_money)
+		- (SELECT cur_money FROM dp_detail WHERE
+		dp_detail_id=#dpDetailId#) >=0
+	</update>
+
+	<update id="updateBiBalanceForDpEditInterrupt"	parameterClass="Map">
+		UPDATE bi_balance SET dp_money=dp_money-#curMoney# WHERE bi_balance_id=#biBalanceId#
+	</update>
+
+	<parameterMap id="SP_AM_PRE_AM_TO_PAY_MAP" class="java.util.HashMap">
+    	<parameter property="biBalanceIds"  jdbcType="VARCHAR"  javaType="java.lang.String"  mode="IN"/>
+    	<parameter property="nd" 			jdbcType="VARCHAR"  javaType="java.lang.Integer" mode="IN"/>
+    	<parameter property="rtnStr" 		jdbcType="VARCHAR"  javaType="java.lang.String"  mode="OUT"/>
+ 	</parameterMap>
+	<procedure id="SP_AM_PRE_AM_TO_PAY" parameterMap="SP_AM_PRE_AM_TO_PAY_MAP">
+		{call SP_AM_PRE_AM_TO_PAY(?,?,?)}
+	</procedure>
+
+	<update id="updateBiBalanceForCd" parameterClass="string">
+		UPDATE bi_balance SET is_carrydown='1',
+		 cd_money = bi_money-bi_assign_money-am_money-dp_money-cp_money-lp_money-freeze_money
+		WHERE bi_balance_id = #biBalanceId#  and is_carryDown='0' AND
+		(bi_money-bi_assign_money-am_money-dp_money-cp_money-lp_money-freeze_money-cd_money) >0
+	</update>
+
+		<update id="updateBiBalanceForCdUndo" parameterClass="string">
+		UPDATE bi_balance SET is_carrydown='0',
+		 cd_money = 0
+		WHERE bi_balance_id = #biBalanceId#  and is_carryDown='1' AND
+		(bi_money-bi_assign_money-am_money-dp_money-cp_money-lp_money-freeze_money-cd_money) =0
+	</update>
+
+	<select id="getCarryDownInfo" parameterClass="map" resultClass="hashmap">
+	    SELECT T.CO_CODE COCODE,
+	           C.CO_NAME CONAME,
+	           SUM(T.BI_MONEY - T.BI_ASSIGN_MONEY - T.AM_MONEY - T.DP_MONEY -
+	               T.CP_MONEY - T.LP_MONEY - T.FREEZE_MONEY) TOTALMONEY,
+	           SUM(T.CD_MONEY) CDMONEY
+	      FROM BI_BALANCE T
+	      LEFT OUTER JOIN AS_COMPANY C ON T.CO_CODE = C.CO_CODE
+	     WHERE T.BI_LEVEL = '03'
+	       AND T.ND = #ND#
+	     GROUP BY T.CO_CODE, C.CO_NAME
+	</select>
+
+		<insert id="insertBiBalance" parameterClass="biBalance">
+		insert into bi_balance( BI_BALANCE_ID, BI_LEVEL ,BI_TARGET_CODE,
+		CO_CODE, B_ACC_CODE , ORG_CODE , FUND_CODE , OUTLAY_CODE , PROJECT_CODE
+		, ORIGIN_CODE , PAYOUT_CODE , MANAGE_CODE ,
+		 PROJECT_TYPE_CODE,PAYTYPE_CODE,INCEPTDOC_CODE,SENDDOC_TYPE_CODE,SENDDOC_CODE ,
+	      BI_MONEY,D_ATTR1,D_ATTR2,D_ATTR3,D_ATTR4,D_ATTR5,PROJECT_DETAIL_CODE,
+	     REMARK , ND,IS_CARRYUP) values
+		(#biBalanceId:VARCHAR#,#biLevel:VARCHAR# ,#biTargetCode:VARCHAR#,
+		#coCode:VARCHAR#, #baccCode:VARCHAR#, #orgCode:VARCHAR#,
+		#fundCode:VARCHAR#, #outlayCode:VARCHAR#, #projectCode:VARCHAR#,
+		#originCode:VARCHAR#, #payoutCode:VARCHAR#,
+		#manageCode:VARCHAR#, #projectTypeCode:VARCHAR#,#paytypeCode:VARCHAR#,
+		#inceptDocCode:VARCHAR#,#sendDocTypeCode:VARCHAR#,
+		#sendDocCode:VARCHAR#, #biMoney:DECIMAL#,
+	     #dattr1:VARCHAR#,#dattr2:VARCHAR#,#dattr3:VARCHAR#,#dattr4:VARCHAR#,#dattr5:VARCHAR#,#projectDetailCode:VARCHAR#,
+		 #remark:VARCHAR#,#nd:INTEGER#,#isCarryup:VARCHAR#)
+	</insert>
+	<insert id="insertOneBiAbiBalance" parameterClass="biBalance">
+		insert into bi_balance( BI_BALANCE_ID,BI_LEVEL,BI_TARGET_CODE,ND,IS_CONTROL,ORG_CODE,
+				 CO_CODE,B_ACC_CODE,OUTLAY_CODE,PROJECT_TYPE_CODE,PROJECT_CODE,FUND_CODE,
+				 ORIGIN_CODE,PAYTYPE_CODE,PAYOUT_CODE,MANAGE_CODE,INCEPTDOC_CODE,SENDDOC_TYPE_CODE,
+				 SENDDOC_CODE,BI_MONEY,BI_UPPER_MONEY,D_ATTR1,D_ATTR2,D_ATTR3,D_ATTR4,D_ATTR5,PROJECT_DETAIL_CODE,REMARK,FILENAME,FILENAME_BLOBID)
+				 VALUES(#biBalanceId:VARCHAR#,#biLevel:VARCHAR#,#biTargetCode:VARCHAR#,#nd:INTEGER#,#isControl:VARCHAR#,#orgCode:VARCHAR#,
+				 #coCode:VARCHAR#, #baccCode:VARCHAR#,#outlayCode:VARCHAR#,#projectTypeCode:VARCHAR#,#projectCode:VARCHAR#,#fundCode:VARCHAR#,
+				 #originCode:VARCHAR#,#paytypeCode:VARCHAR#, #payoutCode:VARCHAR#,#manageCode:VARCHAR#,#inceptDocCode:VARCHAR#,#sendDocTypeCode:VARCHAR#,
+				 #sendDocCode:VARCHAR#, #biMoney:DECIMAL#,#biUpperMoney:DECIMAL#,#dattr1:VARCHAR#,#dattr2:VARCHAR#,#dattr3:VARCHAR#,#dattr4:VARCHAR#,#dattr5:VARCHAR#,
+				 #projectDetailCode:VARCHAR#,#remark:VARCHAR#,#fileName:VARCHAR#,#filenameBlobid:VARCHAR#)
+	</insert>
+
+	<select id="getBiBalanceForDz" resultMap="biBalanceResult3"	parameterClass="com.ufgov.zc.common.system.dto.ElementConditionDto">
+		<include refid="biBalanceTableHead" />
+		from ( Select master.bi_balance_id ,master.bi_level,master.nd,master.bi_money,
+		master.dp_money,filename,filename_blobid,master.am_money,master.cp_money,master.lp_money
+		,master.IS_CARRYUP,master.BI_MONEY-master.BI_ASSIGN_MONEY-master.AM_MONEY-master.DP_MONEY-master.CP_MONEY-master.LP_MONEY-master.FREEZE_MONEY-master.CD_MONEY
+		As balance ,master.AM_MONEY+master.DP_MONEY+master.CP_MONEY+master.LP_MONEY As
+		PAY_SUM , master.co_code, master.b_acc_code,
+		master.fund_code,master.inceptdoc_code,master.manage_code , master.org_code
+		,master.Origin_Code,master.outlay_code,master.payout_code,master.paytype_code,
+		master.project_code,master.senddoc_code ,master.project_detail_code,
+		master.remark,master.BI_TARGET_CODE,master.senddoc_type_code
+		,master.project_type_code,master.d_attr1,master.d_attr2,master.d_attr3,master.d_attr4,master.d_attr5, bi_assign_money, ext_money1, ext_money2
+		FROM bi_balance  master WHERE
+		nd=#nd#
+		<isNotNull prepend="AND" property="biLevel">
+			bi_level = #biLevel#
+		</isNotNull>
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		<include refid="ElementCondition.ORG_CODE" />
+		<include refid="ElementCondition.PAYTYPE_CODE" />
+		<include refid="ElementCondition.B_ACC_CODE" />
+		<include refid="ElementCondition.CoCodeFilter"/>
+		<include refid="GkGetDataRuleCondi.GkGetDataRuleCondiStr" />
+		) master
+		<include refid="ElementCondition.OrderColumns"/>
+	</select>
+
+	<update id="updateBiBalanceForArmTrackInput" parameterClass="com.ufgov.zc.common.commonbiz.model.BiBalance">
+		UPDATE BI_BALANCE T SET t.Bi_Assign_Money=#biAssignMoney# WHERE t.Bi_Balance_Id=#biBalanceId#
+	</update>
+
+	<update id="updateBiBalanceForArmTrackInput2" parameterClass="com.ufgov.zc.common.commonbiz.model.BiBalance">
+		UPDATE BI_BALANCE T SET t.Bi_Assign_Money=t.Bi_Assign_Money + #biAssignMoney# WHERE t.Bi_Balance_Id=#biBalanceId#
+	</update>
+
+	<update id="updateBiBalanceOperateType" parameterClass="map">
+		UPDATE BI_BALANCE T SET t.operate_type=#operateType# WHERE t.Bi_Balance_Id=#biBalanceId#
+	</update>
+
+	<update id="updateBiBalanceNotDecToNull" parameterClass="map">
+		UPDATE BI_BALANCE  SET $updateSql$ WHERE Bi_Balance_Id=#biBalanceId#
+	</update>
+
+	<select id="queryOldBiBalanceId" resultClass="String" parameterClass="map">
+		SELECT max(a.bi_balance_id) AS bi_balance_id from bi_balance a,bi_track b where a.nd=b.nd and b.bi_track_id=#biTrackId:VARCHAR# AND $elementWhere$
+	</select>
+
+	<update id="updateBiBalanceForBiDbiAudit" parameterClass="Map">
+		update bi_balance set bi_assign_money=bi_assign_money + #curMoney#
+		where bi_balance_id=#originBalanceId:VARCHAR# and BI_MONEY-BI_ASSIGN_MONEY-AM_MONEY-DP_MONEY-CP_MONEY-LP_MONEY-FREEZE_MONEY-CD_MONEY - #curMoney#<![CDATA[>= ]]>0
+		and bi_assign_money + #curMoney# <![CDATA[>= ]]>0
+	</update>
+
+	<update id="updateOldBiBalanceForBiAudit" parameterClass="Map">
+		update bi_balance set $moneyField$=$moneyField$ + #curMoney#
+		where bi_balance_id=#balanceId:VARCHAR#
+	</update>
+
+	<update id="updateSourceBiBalanceForBiUnaudit" parameterClass="Map">
+	   update bi_balance set bi_assign_money=bi_assign_money - #curMoney#
+		where bi_balance_id=(select ORIGIN_BALANCE_ID from bi_track where bi_track_id=#biTrackId:VARCHAR#)
+		  and BI_MONEY-BI_ASSIGN_MONEY-AM_MONEY-DP_MONEY-CP_MONEY-LP_MONEY-FREEZE_MONEY-CD_MONEY + #curMoney# <![CDATA[>= ]]>0
+	</update>
+
+	<delete id="deleteSelfBiBalanceForUnaudit" parameterClass="Map">
+       delete from bi_balance where bi_balance_id=(select target_balance_id from bi_track where bi_track_id=#biTrackId:VARCAHR#)
+          and BI_MONEY-BI_ASSIGN_MONEY-AM_MONEY-DP_MONEY-CP_MONEY-LP_MONEY-FREEZE_MONEY-CD_MONEY -
+              (select cur_money from bi_track where bi_track_id=#biTrackId:VARCAHR#) <![CDATA[>= ]]>0
+	</delete>
+
+	<update id="updateSelfBiBalanceForUnaudit" parameterClass="Map">
+	   UPDATE BI_BALANCE SET BI_MONEY=BI_MONEY - (SELECT CUR_MONEY FROM BI_TRACK WHERE BI_TRACK_ID=#biTrackId:VARCHAR#),
+	   	      BI_UPPER_MONEY=BI_UPPER_MONEY -  #curMoney#
+		WHERE BI_BALANCE_ID=(SELECT TARGET_BALANCE_ID FROM BI_TRACK WHERE BI_TRACK_ID=#biTrackId:VARCHAR#)
+          and BI_MONEY-BI_ASSIGN_MONEY-AM_MONEY-DP_MONEY-CP_MONEY-LP_MONEY-FREEZE_MONEY-CD_MONEY -
+              #curMoney# <![CDATA[>= ]]>0
+	</update>
+
+	<update id="updateSelfBiBalanceForValid" parameterClass="Map">
+		   update bi_balance set BI_ASSIGN_MONEY = BI_ASSIGN_MONEY - (select cur_money from bi_track where bi_track_id=#biTrackId:VARCHAR#)
+		     where bi_balance_id = (select ORIGIN_BALANCE_ID from bi_track where bi_track_id=#biTrackId:VARCHAR#)
+	</update>
+
+	<update id="updateBiBalanceForAdjAudit" parameterClass="Map">
+		UPDATE BI_BALANCE SET BI_MONEY=BI_MONEY - #curMoney#,ADJ_MONEY=ADJ_MONEY-#curMoney# WHERE Bi_Balance_Id=#biBalanceId#
+	</update>
+
+	<update id="updateBiBalanceForAdjUnAudit" parameterClass="Map">
+		UPDATE BI_BALANCE SET BI_MONEY=BI_MONEY + #curMoney#,ADJ_MONEY=ADJ_MONEY+#curMoney# WHERE Bi_Balance_Id=#biBalanceId#
+	</update>
+</sqlMap>

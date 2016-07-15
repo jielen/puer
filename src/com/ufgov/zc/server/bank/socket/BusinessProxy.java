@@ -1,0 +1,1 @@
+package com.ufgov.zc.server.bank.socket;import com.ufgov.zc.common.system.model.ResultInfo;public interface BusinessProxy {  public ResultInfo dealBusinessObject(Object businessObject);}

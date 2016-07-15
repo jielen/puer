@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Contract">
+
+  <typeAlias alias="contract" type="com.ufgov.zc.common.commonbiz.model.Contract" />
+  
+  <resultMap id="contract" class="contract">
+		<result property="contractCode" column="contract_Code" />
+		<result property="contractName" column="contract_Name" />
+		<result property="projectCode" column="project_Code" />
+		<result property="projectName" column="project_Name" />
+		<result property="contractLimit" column="contract_Limit" />
+		<result property="totalMoney" column="total_Money" />
+		<result property="payer" column="payer" />		
+		<result property="payee" column="payee" />
+		<result property="payStatus" column="pay_Status" />
+		<result property="coName" column="co_Name" />
+		<result property="contractType" column="contract_Type" />
+		<result property="contractContent" column="contract_Content" />
+		<result property="examCondition" column="exam_Condition" />
+		<result property="projectNum" column="project_Num" />
+		<result property="contractBalMoney" column="contract_BalMoney" />
+	</resultMap>
+    <sql id="contractCols">
+		contract_Code,contract_Name,project_Code,project_Name,contract_Limit,total_Money,payer,payee,pay_Status,co_Name,contract_Type,contract_Content,exam_Condition,project_Num,contract_BalMoney  
+    </sql>
+	<select id="getContract" resultMap="contract" parameterClass="int">
+		SELECT 
+		<include refid="contractCols"/>
+		 FROM V_MA_CP_CONTRACT MASTER WHERE ND=#nd# 
+        ORDER BY CONTRACT_CODE
+   	</select>   
+</sqlMap>

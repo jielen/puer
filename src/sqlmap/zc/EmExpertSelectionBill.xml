@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="EmExpertSelectionBill">
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<typeAlias alias="EmExpertSelectionBill" type="com.ufgov.zc.common.zc.model.EmExpertSelectionBill" />
+	<typeAlias alias="proMakeWithCoName" type="com.ufgov.zc.common.zc.model.EmProMake" />
+	<typeAlias alias="ZcEbPack" type="com.ufgov.zc.common.zc.model.ZcEbPack" />
+	<resultMap id="rltMapping" class="EmExpertSelectionBill">
+		<result property="billCode" column="EM_BILL_CODE" />
+		<result property="tendersTime" column="EM_TENDERS_TIME" />
+		<result property="contactCompany" column="EM_CONTACT_COMPANY" />
+		<result property="contactPerson" column="EM_CONTACT_PERSON" />	
+		<result property="contactPhone" column="EM_CONTACT_PHONE" />	
+		<result property="techMajor" column="EM_TECH_MAJOR" />
+		<result property="techNum" column="EM_TECH_NUM" />
+		<result property="ecoMajor" column="EM_ECONOMY_MAJOR" />
+		<result property="ecoNum" column="EM_ECONOMY_NUM" />
+		<result property="legalMajor" column="EM_LEGAL_MAJOR" />	
+		<result property="legalNum" column="EM_LEGAL_NUM" />
+		<result property="avoidCompany" column="EM_AVOID_COMPANY" />
+		<result property="avoidExpert" column="EM_AVOID_EXPERT" />
+		<result property="xmDiyuCode" column="EM_XMDIYU_DAIMA" />
+		<result property="diyuCode" column="EM_DIYU_DAIMA" />
+		<result property="approveCode" column="EM_APPROVE_CODE" />
+		<result property="emFs" column="EM_FS" />
+		<result property="wjCode" column="EM_WJ_CODE" />	
+		<result property="zjdw" column="EM_ZJDW" />
+		<result property="hwmc" column="EM_HWMC" />
+		<result property="emBz" column="EM_BZ" />
+		<result property="chouqNum" column="EM_CHOUQ_NUM" />
+		<result property="billStatus" column="EM_BILL_STATUS" />	
+		<result property="inputorId" column="EM_INPUT_CODE" />
+		<result property="inputorDate" column="EM_INPUT_DATE" jdbcType="TIMESTAMP"/>
+		<result property="coCode" column="EM_CO_CODE" />
+		<result property="makeName" column="EM_MAKE_NAME" />
+		<result property="makeCode" column="EM_MAKE_CODE" />
+		<result property="zjdwCode" column="EM_ZJDW_CODE" />
+		<result property="zjdwName" column="EM_ZJDW_NAME" />
+		<result property="totalNum" column="EM_TOTAL_NUM" />
+		<result property="guarderCode" column="EM_GUARDER_CODE" />	
+		<result property="processInstId" column="PROCESS_INST_ID" />
+		<result property="billPlace" column="EM_BILL_PLACE" />
+		<result property="billPrincipal" column="EM_BILL_PRINCIPAL" />
+		<result property="billAmount" column="EM_BILL_AMOUNT" />
+		<result property="expertBillType" column="EM_EXPERT_BILL_TYPE" />
+		<result property="estimateTime" column="EM_ESTIMATE_TIME" />
+		<result property="callInfo" column="EM_CALL_INFO" />
+		<result property="msgInfo" column="EM_MSG_INFO" />
+	</resultMap>
+			
+	<resultMap class="proMakeWithCoName" id="proMakeWithCoName">
+	    <result column="ZC_MAKE_CODE" jdbcType="VARCHAR" property="zcMakeCode" />
+	    <result column="ZC_MAKE_NAME" jdbcType="VARCHAR" property="zcMakeName" />
+	    <result column="CO_NAME" jdbcType="VARCHAR" property="coName" />
+	    <result column="ZC_MAKE_LINKMAN" jdbcType="VARCHAR" property="zcMakeLinkman" />
+	    <result column="ZC_MAKE_TEL" jdbcType="VARCHAR" property="zcMakeTel" />
+	    <result column="ZC_INPUT_DATE" jdbcType="TIMESTAMP" property="zcInputDate" />
+	    <result column="AGENCY" jdbcType="VARCHAR" property="agency" />
+	    <result column="AGENCY_NAME" jdbcType="TIMESTAMP" property="agencyName" />
+	</resultMap>
+	
+	<resultMap id="packMapping" class="ZcEbPack">
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="packCode" column="PACK_CODE" />
+		<result property="packName" column="PACK_NAME" />
+		<result property="purContent" column="PUR_CONTENT" />
+	</resultMap>
+	<select id="list" resultMap="rltMapping" parameterClass="elementCondition">
+		SELECT B.* FROM ZC_EM_EXPERT_PRO_BILL B
+		WHERE 1=1
+		<isNotNull prepend="AND" property="zcText0">
+			B.EM_BILL_CODE = #zcText0#
+		</isNotNull>
+		<isNotNull prepend="AND" property="status">
+		  <isEqual property="status" compareValue="draft">
+		     exists (select WF_DRAFT_NAME from as_wf_draft where user_id=#executor# and compo_id=#wfcompoId# and WF_DRAFT_ID=B.process_inst_id)
+			 or B.process_inst_id = -1
+		  </isEqual>
+		  <isEqual property="status" compareValue="todo">
+		     exists (select instance_id from v_wf_current_task_gk53 where executor =#executor# and instance_id = B.process_inst_id)
+		  </isEqual>
+		  <isEqual property="status" compareValue="done">
+		     exists (select instance_id from V_WF_ACTION_HISTORY_GK53 where executor = #executor# and instance_id = B.process_inst_id)
+			 and B.EM_BILL_STATUS!='cancel'
+			 and B.EM_BILL_STATUS!='exec'
+		  </isEqual>
+		  <isEqual property="status" compareValue="SELECT_WAITING">
+		     B.EM_BILL_STATUS = 'SELECT_WAITING'
+		  </isEqual>
+		  <isEqual property="status" compareValue="SELECT_PAUSE">
+		     B.EM_BILL_STATUS = 'SELECT_PAUSE'		  
+		  </isEqual>
+		  <isEqual property="status" compareValue="SELECT_FINISH">
+		     B.EM_BILL_STATUS = 'SELECT_FINISH'		  
+		  </isEqual>
+		</isNotNull>
+		<!--  
+		ORDER BY B.EM_INPUT_DATE DESC
+		-->
+		ORDER BY EM_INPUT_DATE DESC
+	</select>
+	<select id="listByMakeCode" resultMap="rltMapping" parameterClass="elementCondition">
+		SELECT B.* FROM ZC_EM_EXPERT_PRO_BILL B
+		<isNotNull prepend="WHERE" property="zcText0">
+			B.EM_MAKE_CODE = #zcText0#
+		</isNotNull>
+		ORDER BY B.EM_INPUT_DATE DESC
+	</select>	
+	<select id="read" resultMap="rltMapping" parameterClass="map">
+		SELECT * FROM ZC_EM_EXPERT_PRO_BILL B
+		WHERE B.EM_BILL_CODE = #EM_BILL_CODE#
+	</select>
+	
+	<delete id="delete" parameterClass="map">
+		DELETE FROM ZC_EM_EXPERT_PRO_BILL B
+		AND B.EM_BILL_CODE = #EM_BILL_CODE#
+	</delete>
+
+	  <insert id="insert" parameterClass="EmExpertSelectionBill" >
+			insert into ZC_EM_EXPERT_PRO_BILL(
+                EM_BILL_CODE,
+				EM_MAKE_CODE,
+				EM_TENDERS_TIME,
+				EM_CONTACT_COMPANY,
+				EM_CONTACT_PERSON,
+				EM_CONTACT_PHONE,
+				EM_TECH_MAJOR,
+				EM_TECH_NUM,
+				EM_ECONOMY_MAJOR,
+				EM_ECONOMY_NUM,
+				EM_LEGAL_MAJOR,
+				EM_LEGAL_NUM,
+				EM_AVOID_COMPANY,
+				EM_AVOID_EXPERT,
+				EM_XMDIYU_DAIMA,
+				EM_DIYU_DAIMA,
+				EM_APPROVE_CODE,
+				EM_FS,
+				EM_WJ_CODE,
+				EM_ZJDW,
+				EM_HWMC,
+				EM_BZ,
+				EM_CHOUQ_NUM,
+				EM_BILL_STATUS,
+				EM_INPUT_CODE,
+				EM_INPUT_DATE,
+				EM_CO_CODE,
+				EM_MAKE_NAME,
+				EM_ZJDW_CODE,
+				EM_ZJDW_NAME,
+				EM_TOTAL_NUM,
+				EM_GUARDER_CODE,
+				PROCESS_INST_ID,
+				EM_BILL_PLACE,
+				EM_BILL_PRINCIPAL,
+				EM_BILL_AMOUNT,
+				EM_EXPERT_BILL_TYPE,
+				EM_ESTIMATE_TIME,
+				EM_CALL_INFO,
+				EM_MSG_INFO
+			) values (
+				#billCode:VARCHAR#,
+				#makeCode:VARCHAR#,
+				#tendersTime:TIMESTAMP#,
+				#contactCompany:VARCHAR#,
+				#contactPerson:VARCHAR#,
+				#contactPhone:VARCHAR#,
+				#techMajor:VARCHAR#,
+				#techNum:DECIMAL#,
+				#ecoMajor:VARCHAR#,
+				#ecoNum:DECIMAL#,
+				#legalMajor:VARCHAR#,
+				#legalNum:DECIMAL#,
+				#avoidCompany:VARCHAR#,
+				#avoidExpert:VARCHAR#,
+				#xmDiyuCode:VARCHAR#,
+				#diyuCode:VARCHAR#,
+				#approveCode:VARCHAR#,
+				#emFs:VARCHAR#,
+				#wjCode:VARCHAR#,
+				#zjdw:VARCHAR#,
+				#hwmc:VARCHAR#,
+				#emBz:VARCHAR#,
+				#chouqNum:DECIMAL#,	
+				#billStatus:VARCHAR#,
+				#inputorId:VARCHAR#,
+				#inputorDate:TIMESTAMP#,
+				#coCode:VARCHAR#,
+				#makeName:VARCHAR#,
+				#zjdw:VARCHAR#,
+				#zjdwName:VARCHAR#,
+				#totalNum:DECIMAL#,
+				#guarderCode:VARCHAR#,
+				#processInstId:DECIMAL#,
+				#billPlace:VARCHAR#,
+				#billPrincipal:VARCHAR#,
+				#billAmount:DECIMAL#,
+				#expertBillType:VARCHAR#,
+				#estimateTime:DECIMAL#,
+				#callInfo:VARCHAR#,
+				#msgInfo:VARCHAR#
+		    )
+	  </insert>
+
+	  <update id="update" parameterClass="EmExpertSelectionBill" >
+			 update ZC_EM_EXPERT_PRO_BILL set
+					EM_MAKE_CODE = #makeCode:VARCHAR#,
+					EM_TENDERS_TIME = #tendersTime:TIMESTAMP#,
+					EM_CONTACT_COMPANY = #contactCompany:VARCHAR#,
+					EM_CONTACT_PERSON = #contactPerson:VARCHAR#,
+					EM_CONTACT_PHONE = #contactPhone:VARCHAR#,
+					EM_TECH_MAJOR = #techMajor:VARCHAR#,
+					EM_TECH_NUM = #techNum:DECIMAL#,
+					EM_ECONOMY_MAJOR = #ecoMajor:VARCHAR#,
+					EM_ECONOMY_NUM = #ecoNum:DECIMAL#,
+					EM_LEGAL_MAJOR = #legalMajor:VARCHAR#,
+					EM_LEGAL_NUM = #legalNum:DECIMAL#,
+					EM_AVOID_COMPANY = #avoidCompany:VARCHAR#,
+					EM_AVOID_EXPERT = #avoidExpert:VARCHAR#,
+					EM_XMDIYU_DAIMA = #xmDiyuCode:VARCHAR#,
+					EM_DIYU_DAIMA =	#diyuCode:VARCHAR#,
+					EM_APPROVE_CODE = #approveCode:VARCHAR#,
+					EM_FS = #emFs:VARCHAR#,
+					EM_WJ_CODE = #wjCode:VARCHAR#,
+					EM_ZJDW = #zjdw:VARCHAR#,
+					EM_HWMC = #hwmc:VARCHAR#,
+					EM_BZ =	#emBz:VARCHAR#,
+					EM_CHOUQ_NUM = #chouqNum:DECIMAL#,
+					EM_BILL_STATUS = #billStatus:VARCHAR#,
+					EM_INPUT_CODE =	#inputorId:VARCHAR#,
+					EM_INPUT_DATE =	#inputorDate:TIMESTAMP#,
+					EM_CO_CODE = #coCode:VARCHAR#,
+					EM_MAKE_NAME = #makeName:VARCHAR#,
+					EM_ZJDW_CODE = #zjdw:VARCHAR#,
+					EM_ZJDW_NAME = #zjdwName:VARCHAR#,
+					EM_TOTAL_NUM = #totalNum:DECIMAL#,
+					EM_GUARDER_CODE = #guarderCode:VARCHAR#,
+					PROCESS_INST_ID = #processInstId:DECIMAL#,
+					EM_BILL_PLACE = #billPlace:VARCHAR#,
+					EM_BILL_PRINCIPAL = #billPrincipal:VARCHAR#,
+					EM_BILL_AMOUNT = #billAmount:DECIMAL#,
+					EM_EXPERT_BILL_TYPE = #expertBillType:VARCHAR#,
+					EM_ESTIMATE_TIME = #estimateTime:DECIMAL#,
+					EM_CALL_INFO = #callInfo:VARCHAR#,	
+					EM_MSG_INFO = #msgInfo:VARCHAR#				
+             where
+			        EM_BILL_CODE = #billCode:VARCHAR#
+	  </update>
+		<select id="readBillServer" resultClass="hashmap" parameterClass="map">
+			SELECT * FROM EM_BILL_SERVER_LIST B
+			WHERE B.EM_BILL_CODE = #EM_BILL_CODE#
+		</select>
+		<update id="updateBillServer" parameterClass="map" >
+			UPDATE EM_BILL_SERVER_LIST B SET EM_STATUS = #EM_STATUS#
+			WHERE B.EM_BILL_CODE = #EM_BILL_CODE#
+		</update>
+		<update id="updateBillStatus" parameterClass="map" >
+			UPDATE ZC_EM_EXPERT_PRO_BILL SET EM_BILL_STATUS = #EM_STATUS#
+			WHERE EM_BILL_CODE = #EM_BILL_CODE#
+		</update>
+		<insert id="insertBillServer" parameterClass="map" >
+			INSERT INTO EM_BILL_SERVER_LIST (EM_BILL_CODE, EM_STATUS)
+			VALUES (#EM_BILL_CODE#, #EM_STATUS#)
+		</insert>	
+  	<select id="selectProMake"
+		parameterClass="elementCondition" resultMap="proMakeWithCoName">
+		SELECT * FROM V_ZC_PRO_MAKE_EXPERT ORDER BY ZC_INPUT_DATE DESC
+	</select>	
+
+	<select id="packListByProjCode" resultMap="packMapping" parameterClass="map">
+		SELECT * FROM ZC_V_PRO_PACK 
+		WHERE ZC_MAKE_CODE = #PROJ_CODE#
+		ORDER BY PACK_CODE
+	</select>
+	<select id="getPakcNamesByExpertCodes" resultClass="hashmap" parameterClass="String">
+		   SELECT b.em_bill_code, b.em_make_name, p.*
+     FROM ZC_V_PRO_PACK              p,
+          zc_em_expert_evaluation    e,
+          zc_em_expert_pro_bill_pack ep,
+          ZC_EM_EXPERT_PRO_BILL      b
+    where p.proj_code = ep.proj_code
+      and ep.em_bill_code = e.em_bill_code
+      and ep.em_bill_code = b.em_bill_code
+      and e.em_expert_code = #value#
+	</select>
+</sqlMap>

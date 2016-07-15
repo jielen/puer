@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+
+
+<!DOCTYPE sqlMap      
+
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ZcEbNotice">
+
+	<typeAlias alias="ZcEbNotice" type="com.ufgov.zc.common.zc.model.ZcEbNotice" />
+    <typeAlias alias="ZcEbBullietinZBTZ" type="com.ufgov.zc.common.zc.model.ZcEbBullietinZBTZ" />
+
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<resultMap id="ZcEbBullietinZBTZResult" class="ZcEbBullietinZBTZ">
+		<result property="providerName" column="PROVIDER_NAME" />
+		<result property="coName" column="CO_NAME" />
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="projName" column="PROJ_NAME" />
+		<result property="bidSum" column="BID_SUM" />
+		<result property="spBrand" column="SP_BRAND" />
+		<result property="spNum" column="SP_NUM" />
+		<result property="noticeDate" column="NOTICE_DATE" />
+    </resultMap>
+    <resultMap id="ZcEbNoticeResult" class="ZcEbNotice">
+        <result property="noticeID" column="NOTICE_ID" />
+        <result property="noticeName" column="NOTICE_NAME" />
+        <result property="projCode" column="PROJ_CODE" />
+        <result property="projName" column="PROJ_NAME" />
+        <result property="noticeType" column="NOTICE_TYPE" />
+        <result property="noticeStatus" column="NOTICE_STATUS" />
+        <result property="executeDate" column="EXECUTE_DATE" />
+        <result property="executor" column="EXECUTOR" />
+        <result property="effectiveDate" column="EFFECTIVE_DATE" />
+        <result property="remark" column="REMARK" />
+        <result property="nd" column="ND" />
+        <result property="moldName" column="MOLD_NAME" />
+        <result property="fileID" column="FILE_ID" />
+        <result property="packName" column="PACK_NAME" />
+        <result property="packCode" column="PACK_CODE" />
+        <result property="providerName" column="PROVIDER_NAME" />
+        <result property="providerCode" column="PROVIDER_CODE" />
+        <result property="isGoonAudit" column="IS_GOON_AUDIT" />
+        <result property="processInstId" column="PROCESS_INST_ID" />
+        <result column="AGENCY" property="agency" />
+        <result column="ORG_CODE" property="orgCode" />
+		<result column="WIN_BID_SUM" jdbcType="DECIMAL" javaType="java.math.BigDecimal" property="bidSum"/>
+
+    </resultMap>
+
+    <select id="getZcEbNotice" resultMap="ZcEbNoticeResult"
+		parameterClass="elementCondition">
+		select ZC_EB_NOTICE.NOTICE_ID,
+		ZC_EB_NOTICE.NOTICE_NAME,
+		ZC_EB_NOTICE.PROJ_CODE,
+		ZC_EB_NOTICE.PROJ_NAME,
+		ZC_EB_NOTICE.NOTICE_TYPE,
+		ZC_EB_NOTICE.NOTICE_STATUS,
+		ZC_EB_NOTICE.EXECUTE_DATE,
+		ZC_EB_NOTICE.EXECUTOR,
+		ZC_EB_NOTICE.EFFECTIVE_DATE,
+		ZC_EB_NOTICE.REMARK,
+		ZC_EB_NOTICE.ND,
+		ZC_EB_NOTICE.MOLD_NAME,
+		ZC_EB_NOTICE.FILE_ID,
+		ZC_EB_NOTICE.PACK_NAME,
+		ZC_EB_NOTICE.PACK_CODE,
+		ZC_EB_NOTICE.PROVIDER_NAME,
+		ZC_EB_NOTICE.PROVIDER_CODE,
+		ZC_EB_NOTICE.IS_GOON_AUDIT,
+		ZC_EB_NOTICE.PROCESS_INST_ID, ZC_EB_NOTICE.AGENCY,
+		ZC_EB_NOTICE.ORG_CODE,
+		ZC_EB_NOTICE.WIN_BID_SUM
+		from
+		ZC_EB_NOTICE ZC_EB_NOTICE
+		where 1=1
+		<isNotEqual prepend="and" compareValue="0" property="nd">
+			ZC_EB_NOTICE.ND = #nd#
+		</isNotEqual>
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		<isNotNull prepend="AND" property="status">
+			<isEqual property="status" compareValue="todo">
+				exists (select
+				instance_id from V_WF_CURRENT_TASK_ZC_TODO where executor
+				=#executor# and instance_id = ZC_EB_NOTICE.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="untread">
+				exists (select
+				instance_id from V_WF_CURRENT_TASK_ZC_UNTREAD where
+				executor
+				=#executor# and instance_id = ZC_EB_NOTICE.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				exists (select
+				instance_id from V_WF_ACTION_HISTORY_GK53 where executor =
+				#executor# and instance_id = ZC_EB_NOTICE.process_inst_id)
+				and
+				ZC_EB_NOTICE.NOTICE_STATUS != 'cancel' and
+				ZC_EB_NOTICE.NOTICE_STATUS != 'exec'
+			</isEqual>
+			<isEqual property="status" compareValue="draft">
+				( exists (select
+				WF_DRAFT_NAME from as_wf_draft where
+				user_id=#executor# and
+				compo_id=#wfcompoId# and
+				WF_DRAFT_ID=ZC_EB_NOTICE.process_inst_id)
+				or
+				ZC_EB_NOTICE.process_inst_id = -1 )
+				and ZC_EB_NOTICE.NOTICE_STATUS =
+				'0'
+			</isEqual>
+			<isEqual property="status" compareValue="exec">
+				(ZC_EB_NOTICE.NOTICE_STATUS ='exec')
+			</isEqual>
+			<isEqual property="status" compareValue="cancel">
+				(ZC_EB_NOTICE.NOTICE_STATUS ='cancel')
+			</isEqual>
+		</isNotNull>
+		ORDER BY ZC_EB_NOTICE.EXECUTE_DATE DESC
+	</select>
+
+	<update id="updateByPrimaryKeySelective" parameterClass="com.ufgov.zc.common.zc.model.ZcEbNotice">
+		update ZC_EB_NOTICE
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="noticeName">
+				NOTICE_NAME =
+				#noticeName:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="projCode">
+				PROJ_CODE =
+				#projCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="projName">
+				PROJ_NAME =
+				#projName:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="noticeStatus">
+				NOTICE_STATUS =
+				#noticeStatus:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="remark">
+				REMARK = #remark:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="executeDate">
+				EXECUTE_DATE =
+				#executeDate:TIMESTAMP#
+			</isNotNull>
+			<isNotNull prepend="," property="moldName">
+				MOLD_NAME =
+				#moldName:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="fileID">
+				FILE_ID = #fileID:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="effectiveDate">
+				EFFECTIVE_DATE =
+				#effectiveDate:TIMESTAMP#
+			</isNotNull>
+
+			<isNotNull prepend="," property="packName">
+				PACK_NAME =
+				#packName:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="packCode">
+				PACK_CODE =
+				#packCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="providerName">
+				PROVIDER_NAME =
+				#providerName:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="providerCode">
+				PROVIDER_CODE =
+				#providerCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="isGoonAudit">
+				IS_GOON_AUDIT =
+				#isGoonAudit:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="processInstId">
+				PROCESS_INST_ID =
+				#processInstId:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="orgCode">
+				ORG_CODE =
+				#orgCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="agency">
+				AGENCY = #agency:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="bidSum">
+				WIN_BID_SUM = #bidSum#
+			</isNotNull>
+		</dynamic>
+		where NOTICE_ID = #noticeID:VARCHAR#
+	</update>
+
+	<insert id="insert" parameterClass="com.ufgov.zc.common.zc.model.ZcEbNotice">
+		insert into ZC_EB_NOTICE
+		(NOTICE_ID,NOTICE_NAME,PROJ_CODE, PROJ_NAME,
+		NOTICE_TYPE,
+		NOTICE_STATUS,
+		EXECUTE_DATE, EXECUTOR,
+		REMARK,EFFECTIVE_DATE,ND,MOLD_NAME,FILE_ID,
+		PACK_NAME,PACK_CODE,PROVIDER_NAME,PROVIDER_CODE,IS_GOON_AUDIT,PROCESS_INST_ID,ORG_CODE,AGENCY,WIN_BID_SUM)
+		values (#noticeID:VARCHAR#,#noticeName:VARCHAR#, #projCode:VARCHAR#,
+		#projName:DECIMAL#, #noticeType:VARCHAR#,
+		#noticeStatus:VARCHAR#,
+		#executeDate:TIMESTAMP#, #executor:VARCHAR#,#remark:VARCHAR#,
+		#effectiveDate:TIMESTAMP#,#nd:VARCHAR#,#moldName:VARCHAR#,#fileID:VARCHAR#
+		,#packName:VARCHAR#,#packCode:VARCHAR#,#providerName:VARCHAR#,#providerCode:VARCHAR#,#isGoonAudit:VARCHAR#,#processInstId:DECIMAL#,
+		#orgCode:VARCHAR#, #agency:VARCHAR#,#bidSum#)
+	</insert>
+
+	<delete id="deleteByPrimaryKey" parameterClass="com.ufgov.zc.common.zc.model.ZcEbNotice">
+		delete from
+		ZC_EB_NOTICE
+		where NOTICE_ID = #noticeID:VARCHAR#
+	</delete>
+
+	<select id="getZcEbNoticeById" parameterClass="string"
+		resultMap="ZcEbNoticeResult">
+		select * from ZC_EB_NOTICE
+		where NOTICE_ID = #value:VARCHAR#
+	</select>
+	<select id="getZcEbNoticeByPackCode" parameterClass="string"
+		resultMap="ZcEbNoticeResult">
+		select * from ZC_EB_NOTICE
+		where PACK_CODE =
+		#packCode:VARCHAR#
+	</select>
+
+	<select id="getNoticeCounts" parameterClass="string"
+		resultClass="Integer">
+		select count(*) from ZC_EB_NOTICE n,zc_xmcg_ht t
+		where
+		n.pack_code=t.zc_bid_code and t.zc_ht_status!='0' and
+		n.notice_id=#value:VARCHAR#
+	</select>
+    <select id="getAutoNotice" parameterClass="Map"
+            resultMap="ZcEbBullietinZBTZResult" >
+        select t.*,sysdate as notice_date from V_ZC_EB_BULLETIN_ZBTZ  t
+        where t.proj_code=#projCode:VARCHAR#
+        and t.pack_code=#packCode:VARCHAR#
+    </select>
+    <select id="getNoticeCountByPackCode" parameterClass="Map"
+            resultClass="integer" >
+        select count(t.notice_id) from ZC_EB_NOTICE t
+        where t.proj_code=#projCode:VARCHAR#
+        and t.pack_code=#packCode:VARCHAR#
+    </select>
+</sqlMap>
+

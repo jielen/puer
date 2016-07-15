@@ -1,0 +1,1 @@
+package com.ufgov.zc.client.component.ui.conditionitem;public interface Searchable {  void doSearch();}

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="AsRoleNumLim">
+
+	<typeAlias type="com.ufgov.zc.common.console.model.AsRoleNumLim" alias="asRoleNumLim"/>
+
+	<resultMap class="asRoleNumLim" id="asRoleNumLimResult">
+		<result property="roleId" column="role_id"></result>
+		<result property="funcId" column="func_id"></result>
+		<result property="compoId" column="compo_id"></result>
+		<result property="ctrlField" column="ctrl_field"></result>
+		<result property="granRange" column="gran_range"></result>
+		<result property="revoRange" column="revo_range"></result>
+		<result property="isGran" column="is_gran"></result>
+		<result property="isRelation" column="is_relation"></result>
+	</resultMap>
+	<resultMap class="asRoleNumLim" id="asGrantRoleNumLimResult"	extends="asRoleNumLimResult">
+		<result column="GRANTED_USER_ID" property="grantedUserID" jdbcType="VARCHAR" />
+		<result column="GRANT_USER_CO_CODE" property="grantUserCoCode" jdbcType="VARCHAR" />
+		<result column="GRANT_USER_ORG_CODE" property="grantUserOrgCode" jdbcType="VARCHAR" />
+		<result column="GRANT_USER_POSI_CODE" property="grantUserPosiCode" jdbcType="VARCHAR" />
+		<result column="GRANT_USER_POSI_ID" property="grantUserPosiId" jdbcType="VARCHAR" />
+		<result column="GRANT_USER_ID" property="grantUserId" jdbcType="VARCHAR" />
+	</resultMap>
+	<select id="getAsRoleNumLim" resultMap="asRoleNumLimResult" parameterClass="map">
+		select * from as_role_num_lim where role_id=#role_id:VARCHAR#
+		<isNotNull prepend="AND" property="compo_id">
+			compo_id=#compo_id:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="AND" property="func_id">
+			func_id=#func_id:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="AND" property="ctrl_field">
+			ctrl_field=#ctrl_field:VARCHAR#
+		</isNotNull>
+		order by role_id, compo_id
+	</select>
+
+	<delete id="deleteAsRoleNumLim" parameterClass="map">
+		delete from as_role_num_lim where role_id=#role_id:VARCHAR#
+		<isNotNull prepend="AND" property="compo_id">
+			compo_id=#compo_id:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="AND" property="func_id">
+			func_id=#func_id:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="AND" property="ctrl_field">
+			ctrl_field=#ctrl_field:VARCHAR#
+		</isNotNull>
+	</delete>
+
+	<insert id="insertAsRoleNumLim" parameterClass="asRoleNumLim">
+		insert into as_role_num_lim (
+			role_id,func_id,compo_id,ctrl_field,gran_range,revo_range,is_gran,is_relation)
+		values (
+			#roleId:VARCHAR#, #funcId:VARCHAR#, #compoId:VARCHAR#, #ctrlField:VARCHAR#,
+			#granRange:VARCHAR#, #revoRange:VARCHAR#, #isGran:CHAR#, #isRelation:CHAR#
+		)
+	</insert>
+
+	<!--角色权限查询的sql语句 -->
+  <select id="getAsRoleNumLimByUserId" resultMap="asRoleNumLimResult" parameterClass="map">
+  	select rn.*
+  		from as_role_num_lim rn, as_emp_role er, as_emp ae
+  	    where ae.USER_ID = #user_id:VARCHAR# and rn.FUNC_ID = #func_id:VARCHAR#
+  	    	and rn.COMPO_ID = #compo_id:VARCHAR# and rn.role_id = er.role_id and ae.emp_code = er.emp_code
+  		<dynamic prepend="">
+			<isNotNull prepend="AND" property="func_id">
+				rn.FUNC_ID=#func_id:VARCHAR#
+			</isNotNull>
+  		<isNotNull prepend="AND" property="ctrl_field">
+  			rn.CTRL_FIELD = #ctrl_field:VARCHAR#
+  		</isNotNull>
+		</dynamic>
+    UNION ALL
+      select rn.*
+             from as_role_num_lim rn, as_emp er, AS_EMP_POSITION d, AS_POSI_ROLE e
+      where rn.role_id = e.role_id and e.posi_code = d.posi_code and er.emp_code = d.emp_code
+             and er.USER_ID = #user_id:VARCHAR# and rn.FUNC_ID = #func_id:VARCHAR#  and rn.COMPO_ID = #compo_id:VARCHAR#
+  		 <dynamic prepend="">
+			<isNotNull prepend="AND" property="func_id">
+				rn.FUNC_ID=#func_id:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="AND" property="ctrl_field">
+  				rn.CTRL_FIELD = #ctrl_field:VARCHAR#
+  			</isNotNull>
+			<isNotNull prepend="AND" property="nd">
+	  			d.nd = #nd#
+	  		</isNotNull>
+		</dynamic>
+  </select>
+  <select id="getAsGrantRoleNumLimByUserId" resultMap="asGrantRoleNumLimResult" parameterClass="map">
+         select rn.*,e.GRANTED_USER_ID,e.GRANT_USER_CO_CODE,e.GRANT_USER_ORG_CODE,e.GRANT_USER_POSI_CODE,e.GRANT_USER_POSI_ID,e.GRANT_USER_ID
+             from as_role_num_lim rn, as_emp er, AS_EMP_POSITION d, AS_POSI_ROLE_GRANTED e
+                   where rn.role_id = e.role_id and er.emp_code = d.emp_code and er.user_id=e.granted_user_id
+             and er.USER_ID = #user_id:VARCHAR# and rn.FUNC_ID = #func_id:VARCHAR#  and rn.COMPO_ID = #compo_id:VARCHAR#
+       and (to_char(e.grant_begin_date, 'YYYY-MM-DD') <![CDATA[<=]]> to_char(sysdate, 'YYYY-MM-DD') or e.grant_begin_date is null)
+       and (to_char(e.grant_end_date, 'YYYY-MM-DD') <![CDATA[>=]]> to_char(sysdate, 'YYYY-MM-DD') or e.grant_end_date is null)
+    <dynamic prepend="">
+      <isNotNull prepend="AND" property="func_id">
+        rn.FUNC_ID=#func_id:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="AND" property="ctrl_field">
+          rn.CTRL_FIELD = #ctrl_field:VARCHAR#
+        </isNotNull>
+      <isNotNull prepend="AND" property="nd">
+          d.nd = #nd#
+        </isNotNull>
+    </dynamic>
+   </select>
+   <select id="getRoleNumLimByRoleId" resultMap="asRoleNumLimResult" parameterClass="map">
+   		select * from as_role_num_lim t where t.compo_id=#compoId# and t.func_id=#funcId# and t.role_id in ($roles$)
+   </select>
+</sqlMap>

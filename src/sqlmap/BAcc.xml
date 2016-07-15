@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="BAcc">
+ <typeAlias alias="elementCondition"	type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<resultMap id="bAcc" class="com.ufgov.zc.common.commonbiz.model.BAcc">
+		<result property="nd" column="nd" />
+		<result property="code" column="b_acc_code" />
+		<result property="name" column="b_acc_name" />
+		<result property="parentCode" column="parent_acc_code" />
+		<result property="level" column="acc_level" />
+	</resultMap>
+
+	<sql id="selectBAcc">
+		select nd,b_acc_code,b_acc_name,parent_acc_code,acc_level from ma_bacc
+	</sql>
+	
+	<select id="getRootBAcc" resultMap="bAcc" parameterClass="int">
+		<include refid="selectBAcc" />
+		where nd= #nd# and (is_used='Y' or is_used='y') 
+		and acc_level=1 and parent_acc_code is null 
+		and acc_attr='Payout'
+		order by b_acc_code
+	</select>
+
+	<select id="getChildrenBAcc" resultMap="bAcc"	parameterClass="int">
+		<include refid="selectBAcc" />
+		where nd= #nd# and (is_used='Y' or is_used='y') 
+		and acc_attr='Payout'
+		and parent_acc_code is not null 
+		order by b_acc_code
+	</select>
+	
+		
+	<select id="getBAcc" resultMap="bAcc" parameterClass="elementCondition">
+		<include refid="selectBAcc" />
+		where nd= #nd# and (is_used='Y' or is_used='y')  
+		and acc_attr='Payout'
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		order by b_acc_code
+	</select>
+
+
+</sqlMap>

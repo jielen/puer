@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ZC_INTERFACE_DATA_FOR_F3">
+  <typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+ 
+ <resultMap class="com.ufgov.zc.common.zc.model.ZcVBiDetail" id="vBiResult">
+    <result column="SUM_ID" jdbcType="VARCHAR" property="zcBiNo" />
+    <result column="ZC_BI_DO_SUM" jdbcType="DECIMAL" property="zcBiDoSum" />
+    <result column="MK_CODE" jdbcType="VARCHAR" property="zcFundCode" />
+    <result column="MK_NAME" jdbcType="VARCHAR" property="zcFundName" />
+    <result column="BL_CODE" jdbcType="VARCHAR" property="orginCode" />
+    <result column="BL_NAME" jdbcType="VARCHAR" property="orginName" />
+    <result column="PK_CODE" jdbcType="VARCHAR" property="paytypeCode" />
+    <result column="PK_NAME" jdbcType="VARCHAR" property="paytypeName" />
+    <result column="FILE_CODE" jdbcType="VARCHAR" property="senddocCode" />
+    <result column="FILE_NAME" jdbcType="VARCHAR" property="senddocName" />
+ </resultMap>
+
+	<select id="getZcVBiDetailList" resultMap="vBiResult"
+		parameterClass="elementCondition">
+         select d.SUM_ID,
+                d.BUDGET_MONEY - d.USED_MONEY  ZC_BI_DO_SUM,
+                d.MK_CODE,
+                d.MK_NAME,
+                d.BL_CODE,
+                d.BL_NAME,
+                d.PK_CODE,
+                d.PK_NAME,
+                d.FILE_CODE,
+                d.FILE_NAME
+           from VW_GP_BUDGET d
+           where  d.SET_YEAR=#nd#
+           <isNotNull prepend="AND" property="coCode">
+		     d.EN_CODE=#coCode#
+		   </isNotNull>  
+	</select>
+	<select id="getZcVBiDetail" resultMap="vBiResult"
+		parameterClass="String">
+         select d.SUM_ID,
+                d.BUDGET_MONEY - d.USED_MONEY  ZC_BI_DO_SUM,
+                d.MK_CODE,
+                d.MK_NAME,
+                d.BL_CODE,
+                d.BL_NAME,
+                d.PK_CODE,
+                d.PK_NAME,
+                d.FILE_CODE,
+                d.FILE_NAME
+           from VW_GP_BUDGET d
+           where  d.SUM_ID=#value#
+           
+	</select>
+		<insert id="insertF3ProMake" parameterClass="com.ufgov.zc.common.zc.model.ZcPProMakeforF3" >
+      
+				
+		insert into gp_plan_interface
+		  (plan_id,
+		   Budget_id,
+		   Plan_money,
+		   Adjust_way,
+		   Plan_NO,
+		   Last_ver,
+		   Download_status)
+		values
+		  (
+		  <isEqual property="adjustWay"  compareValue="-1">
+		   sys_guid()
+		  </isEqual>
+		  <isNotEqual property="adjustWay" compareValue="-1">
+		 #planId#
+		  </isNotEqual>
+		  ,
+		   #budgetId#,
+		   #planMoney#,
+		   #adjustWay#,
+		   #planNO#,
+		   #lastVer#,
+		   #downloadStatus#)
+
+		  
+    </insert>
+		<insert id="insertF3Pay" parameterClass="com.ufgov.zc.common.zc.model.ZcPayforF3" >
+      
+		insert into gp_pay_interface (Pay_id,Bran_id,plan_id,Budget_id,Bran_no,Payee_account_name,Payee_account_no,
+		Payee_account_bank,pay_money,Pk_code,PK_name,Mk_code,Mk_name,Last_ver,Download_status,Pay_status)
+		values (#payId#,#branId#,#planId#,#budgetId#,#branNo#,#payeeAccountName#,#payeeAccountNo#,
+		#payeeAccountBank#,#payMoney#,#pkCode#,#pkName#,#mkCode#,#mkName#,#lastVer#,#downloadStatus#,#payStatus#)
+		  
+    </insert>
+    
+    <select id="getPayStatus" resultClass="java.lang.String"
+		parameterClass="java.lang.String">
+		SELECT Pay_status
+		FROM gp_pay_interface
+		WHERE
+		Pay_id=#value#
+		
+</select>
+</sqlMap>

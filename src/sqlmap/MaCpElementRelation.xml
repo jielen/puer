@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MaCpElementRelation">
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<typeAlias alias="MaCpElementRelation"
+		type="com.ufgov.zc.common.commonbiz.model.MaCpElementRelation" />
+	<typeAlias alias="ElementRelationRule"
+		type="com.ufgov.zc.common.commonbiz.dto.ElementRelationRule" />
+	<resultMap id="MaCpElementRelationResult"
+		class="com.ufgov.zc.common.commonbiz.model.MaCpElementRelation">
+		<result property="compoId" column="compo_id" />
+		<result property="relationCode" column="relation_code" />
+		<result property="relationName" column="relation_name" />
+		<result property="element" column="element" />
+		<result property="elementValue" column="element_value" />
+		<result property="direction" column="direction" />
+		<result property="operator" column="operator" />
+		<result property="handleType" column="handle_type" />
+	</resultMap>
+
+	<select id="getElementRelation"
+		resultMap="MaCpElementRelationResult" parameterClass="map">
+		select * from ma_cp_element_relation where compo_id=#compoId# and handle_type=#handleType#
+	</select>
+	
+	<select id="getElementRelationId" resultClass="java.math.BigDecimal" parameterClass="map">
+		SELECT SEQ_MA_CP_ELEMENT_RELATION.NEXTVAL FROM dual
+	</select>
+	
+	<delete id="deleteElementRelation" parameterClass="ElementRelationRule">
+		DELETE FROM MA_CP_ELEMENT_RELATION T
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="compoId">
+				T.COMPO_ID = #compoId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="relationCode">
+				T.RELATION_CODE = #relationCode#
+			</isNotNull>
+		</dynamic>
+	</delete>
+	
+	<insert id="insertMaCpElementRelation" parameterClass="MaCpElementRelation">
+		INSERT INTO MA_CP_ELEMENT_RELATION
+		  (COMPO_ID,
+		   RELATION_CODE,
+		   RELATION_NAME,
+		   ELEMENT,
+		   ELEMENT_VALUE,
+		   DIRECTION,
+		   OPERATOR,
+		   HANDLE_TYPE)
+		VALUES
+		  (#compoId:VARCHAR#,
+		   #relationCode:VARCHAR#,
+		   #relationName:VARCHAR#,
+		   #element:VARCHAR#,
+		   #elementValue:VARCHAR#,
+		   #direction:VARCHAR#,
+		   #operator:VARCHAR#,
+		   #handleType:VARCHAR#)
+	</insert>
+
+</sqlMap>

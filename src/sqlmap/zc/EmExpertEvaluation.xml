@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="EmExpertEvaluation">
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<typeAlias alias="EmExpertEvaluation"
+		type="com.ufgov.zc.common.zc.model.EmExpertEvaluation" />
+	<resultMap id="rltMapping" class="EmExpertEvaluation">
+		<result property="emBillCode" column="EM_BILL_CODE" />
+		<result property="emMakeCode" column="EM_MAKE_CODE" />
+		<result property="emNoticeStatus" column="EM_NOTICE_STATUS" />
+		<result property="emResponseStatus" column="EM_RESPONSE_STATUS" />
+		<result property="emExpertIndex1" column="EM_EXPERT_INDEX1" />
+		<result property="emExpertIndex2" column="EM_EXPERT_INDEX2" />
+		<result property="emExpertIndex3" column="EM_EXPERT_INDEX3" />
+		<result property="emExpertIndex4" column="EM_EXPERT_INDEX4" />
+		<result property="emExpertIndex5" column="EM_EXPERT_INDEX5" />
+		<result property="emExpertIndex6" column="EM_EXPERT_INDEX6" />
+		<result property="emEvaluationStatus" column="EM_EVALUATION_STATUS" />
+		<result property="emNoteCode" column="EM_NOTE_CODE" />
+		<result property="emExpertIndex7" column="EM_EXPERT_INDEX7" />
+		<result property="emExpertIndex8" column="EM_EXPERT_INDEX8" />
+		<result property="emExpertIndex9" column="EM_EXPERT_INDEX9" />
+		<result property="emExpertIndex10" column="EM_EXPERT_INDEX10" />
+		<result property="emExpertIndex11" column="EM_EXPERT_INDEX11" />
+		<result property="emExpertIndex12" column="EM_EXPERT_INDEX12" />
+		<result property="emExpertIndex13" column="EM_EXPERT_INDEX13" />
+		<result property="emBz" column="EM_BZ" />
+		<result property="emChouqNum" column="EM_CHOUQ_NUM" />
+		<result property="emExpert.emExpertCode" column="EM_EXPERT_CODE" />
+		<result property="emExpert.emExpertName" column="EM_EXPERT_NAME" />
+		<result property="emExpert.emUnitName" column="EM_UNIT_NAME" />
+		<result property="emExpert.emMobile" column="EM_MOBILE" />
+		<result property="emExpertType.emTypeCode" column="EM_TYPE_CODE" />
+		<result property="emExpertType.emTypeName" column="EM_TYPE_NAME" />
+		<result property="emExpertType.emParentTypeCode" column="EM_PARENT_TYPE_CODE" />
+	</resultMap>
+	
+	<resultMap id="packEvaluationMap" class="EmExpertEvaluation">
+		<result property="emBillCode" column="EM_BILL_CODE" />
+		<result property="emMakeCode" column="EM_MAKE_CODE" />
+		<result property="emNoticeStatus" column="EM_NOTICE_STATUS" />
+		<result property="emResponseStatus" column="EM_RESPONSE_STATUS" />
+		<result property="emExpertIndex1" column="EM_EXPERT_INDEX1" />
+		<result property="emExpertIndex2" column="EM_EXPERT_INDEX2" />
+		<result property="emExpertIndex3" column="EM_EXPERT_INDEX3" />
+		<result property="emExpertIndex4" column="EM_EXPERT_INDEX4" />
+		<result property="emExpertIndex5" column="EM_EXPERT_INDEX5" />
+		<result property="emExpertIndex6" column="EM_EXPERT_INDEX6" />
+		<result property="emEvaluationStatus" column="EM_EVALUATION_STATUS" />
+		<result property="emNoteCode" column="EM_NOTE_CODE" />
+		<result property="emExpertIndex7" column="EM_EXPERT_INDEX7" />
+		<result property="emExpertIndex8" column="EM_EXPERT_INDEX8" />
+		<result property="emExpertIndex9" column="EM_EXPERT_INDEX9" />
+		<result property="emExpertIndex10" column="EM_EXPERT_INDEX10" />
+		<result property="emExpertIndex11" column="EM_EXPERT_INDEX11" />
+		<result property="emExpertIndex12" column="EM_EXPERT_INDEX12" />
+		<result property="emExpertIndex13" column="EM_EXPERT_INDEX13" />
+		<result property="emBz" column="EM_BZ" />
+		<result property="emChouqNum" column="EM_CHOUQ_NUM" />
+		<result property="emExpert.emExpertCode" column="EM_EXPERT_CODE" />
+		<result property="projName" column="PROJ_NAME" />
+		<result property="packCode" column="PACK_CODE" />
+		<result property="packName" column="PACK_NAME" />
+		<result property="packDesc" column="PACK_DESC" />
+	</resultMap>
+	
+	<resultMap id="expUserCode" class="EmExpertEvaluation">
+	    <result property="emExpert.emExpertCode" column="EXPERT_CODE" />
+		<result property="emExpert.emExpertName" column="EXPERT_NAME" />
+	</resultMap>
+	
+	<resultMap id="evaluationMap" class="EmExpertEvaluation">
+		<result property="emBillCode" column="EM_BILL_CODE" />
+		<result property="emMakeCode" column="EM_MAKE_CODE" />
+		<result property="emNoticeStatus" column="EM_NOTICE_STATUS" />
+		<result property="emResponseStatus" column="EM_RESPONSE_STATUS" />
+		<result property="emExpertIndex1" column="EM_EXPERT_INDEX1" />
+		<result property="emExpertIndex2" column="EM_EXPERT_INDEX2" />
+		<result property="emExpertIndex3" column="EM_EXPERT_INDEX3" />
+		<result property="emExpertIndex4" column="EM_EXPERT_INDEX4" />
+		<result property="emExpertIndex5" column="EM_EXPERT_INDEX5" />
+		<result property="emExpertIndex6" column="EM_EXPERT_INDEX6" />
+		<result property="emEvaluationStatus" column="EM_EVALUATION_STATUS" />
+		<result property="emNoteCode" column="EM_NOTE_CODE" />
+		<result property="emExpertIndex7" column="EM_EXPERT_INDEX7" />
+		<result property="emExpertIndex8" column="EM_EXPERT_INDEX8" />
+		<result property="emExpertIndex9" column="EM_EXPERT_INDEX9" />
+		<result property="emExpertIndex10" column="EM_EXPERT_INDEX10" />
+		<result property="emExpertIndex11" column="EM_EXPERT_INDEX11" />
+		<result property="emExpertIndex12" column="EM_EXPERT_INDEX12" />
+		<result property="emExpertIndex13" column="EM_EXPERT_INDEX13" />
+		<result property="emBz" column="EM_BZ" />
+		<result property="emChouqNum" column="EM_CHOUQ_NUM" />
+		<result property="emExpert.emExpertCode" column="EXPERT_CODE" />
+		<result property="emExpert.emExpertName" column="EXPERT_NAME" />
+		<result property="emExpertType.emTypeCode" column="EXPERT_TYPE_CODE" />
+		<result property="emExpertType.emTypeName" column="EXPERT_TYPE_NAME" />
+	</resultMap>
+	
+	<select id="getAsExpByUserCode" resultClass="java.lang.Long"
+		parameterClass="string">
+
+	select count(*) as count from zc_eb_pack_expert  where expert_id_card= #idCard:VARCHAR#
+
+	</select>
+	
+	<select id="listByEmBillCode" resultMap="rltMapping"
+		parameterClass="map">
+		SELECT * FROM ZC_EM_EXPERT_EVALUATION E, ZC_EM_B_EXPERT T,
+		ZC_B_EXPERT_TYPE V
+		WHERE E.EM_EXPERT_CODE = T.EM_EXPERT_CODE
+		AND
+		E.EM_expert_TYPE_CODE = V.EM_TYPE_CODE
+		AND E.EM_RESPONSE_STATUS = '9'
+		AND E.EM_BILL_CODE = #EM_BILL_CODE#
+		
+	</select>
+	<select id="listByProjCode" resultMap="evaluationMap"
+		parameterClass="map">
+		SELECT *
+		FROM ZC_EM_EXPERT_EVALUATION E, ZC_EB_PACK_EXPERT T
+		WHERE
+		E.Em_Bill_Code = T.Pack_Code
+		AND E.Em_Make_Code = T.PROJ_CODE
+		AND E.Em_Expert_Code=T.Expert_Code
+		<isNotNull prepend="and" property="packCode">
+			E.Em_Bill_Code=#packCode#
+		</isNotNull>
+		<isNotNull prepend="and" property="projCode">
+			E.EM_MAKE_CODE=#projCode#
+		</isNotNull>
+		order by
+		E.Em_Expert_Code
+	</select>
+	
+	<select id="listByEmExpertCode" resultMap="packEvaluationMap"  parameterClass="String">
+    SELECT E.*,'' PROJ_NAME,
+         '' PACK_CODE,
+         '' PACK_NAME,
+         '' PACK_DESC  
+   FROM ZC_EM_EXPERT_EVALUATION E
+   where  E.Em_Expert_Code = #emExpertCode#
+	</select>
+	
+	<insert id="insertEmExpertEvaluation" parameterClass="EmExpertEvaluation">
+		insert into
+		ZC_EM_EXPERT_EVALUATION
+		(EM_BILL_CODE,EM_MAKE_CODE,EM_NOTICE_STATUS,
+		EM_RESPONSE_STATUS, EM_EXPERT_INDEX1,EM_EXPERT_INDEX2,
+		EM_EXPERT_INDEX3,EM_EXPERT_INDEX4,
+		EM_EXPERT_INDEX5,EM_EXPERT_INDEX6,EM_EVALUATION_STATUS,EM_NOTE_CODE,
+		EM_EXPERT_INDEX7,EM_EXPERT_INDEX8,EM_EXPERT_INDEX9,EM_EXPERT_INDEX10,EM_EXPERT_INDEX11,EM_EXPERT_INDEX12,
+		EM_EXPERT_INDEX13,EM_BZ,EM_CHOUQ_NUM,EM_EXPERT_CODE,EM_EXPERT_TYPE_CODE
+		)
+		values
+		(#emBillCode:VARCHAR#,#emMakeCode:VARCHAR#,#emNoticeStatus:VARCHAR#,#emResponseStatus:VARCHAR#,#emExpertIndex1:VARCHAR#,#emExpertIndex2:VARCHAR#,
+		#emExpertIndex3:VARCHAR#,#emExpertIndex4:VARCHAR#,#emExpertIndex5:VARCHAR#,#emExpertIndex6:VARCHAR#,#emEvaluationStatus:VARCHAR#,#emNoteCode:VARCHAR#,
+		#emExpertIndex7:VARCHAR#,#emExpertIndex8:VARCHAR#,#emExpertIndex9:VARCHAR#,#emExpertIndex10:VARCHAR#,#emExpertIndex11:VARCHAR#,#emExpertIndex12:VARCHAR#,
+		#emExpertIndex13:VARCHAR#,#emBz:VARCHAR#,#emChouqNum:VARCHAR#,#emExpert.emExpertCode:VARCHAR#,#emExpertType.emTypeCode:VARCHAR#)
+	</insert>
+	<delete id="deleteExpertEvaluationListByExpertCodes" parameterClass="map">
+		delete
+		from
+		ZC_EM_EXPERT_EVALUATION
+		where EM_BILL_CODE = #EM_BILL_CODE#
+		and EM_EXPERT_CODE in ($expertCodes$)
+  </delete>
+	<delete id="deleteExpertEvaluationList" parameterClass="map">
+		delete
+		from
+		ZC_EM_EXPERT_EVALUATION
+		where Em_Bill_Code=#emBillCode#
+		<isNotNull prepend="and" property="projCode">
+			EM_MAKE_CODE = #projCode# 
+		</isNotNull>		
+  </delete>
+	<update id="update" parameterClass="EmExpertEvaluation">
+		update ZC_EM_EXPERT_EVALUATION
+		set
+		EM_EXPERT_INDEX1 = #emExpertIndex1:VARCHAR#,
+		EM_EXPERT_INDEX2 =
+		#emExpertIndex2:VARCHAR#,
+		EM_EXPERT_INDEX3 = #emExpertIndex3:VARCHAR#,
+		EM_EXPERT_INDEX4 = #emExpertIndex4:VARCHAR#,
+		EM_EXPERT_INDEX5 =
+		#emExpertIndex5:VARCHAR#,
+		EM_EXPERT_INDEX6 = #emExpertIndex6:VARCHAR#,
+		EM_EXPERT_INDEX7 = #emExpertIndex7:VARCHAR#,
+		EM_EXPERT_INDEX8 =
+		#emExpertIndex8:VARCHAR#,
+		EM_EXPERT_INDEX9 = #emExpertIndex9:VARCHAR#,
+		EM_EXPERT_INDEX10 = #emExpertIndex10:VARCHAR#,
+		EM_EXPERT_INDEX11 =
+		#emExpertIndex11:VARCHAR#,
+		EM_EXPERT_INDEX12 =
+		#emExpertIndex12:VARCHAR#,
+		EM_EXPERT_INDEX13 =
+		#emExpertIndex13:VARCHAR#
+		where
+		EM_BILL_CODE = #emBillCode:VARCHAR#
+		and
+		EM_EXPERT_CODE = #emExpert.emExpertCode:VARCHAR#
+	  </update>
+</sqlMap>

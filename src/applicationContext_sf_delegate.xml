@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+    
+	<bean id="sfMajorServiceDelegate"		class="com.ufgov.zc.server.sf.publish.impl.SfMajorServiceDelegate"		scope="singleton">
+		<property name="majorService" ref="majorService" />
+	</bean>
+	 
+	<bean id="sfEntrutstorServiceDelegate"		class="com.ufgov.zc.server.sf.publish.impl.SfEntrustorServiceDelegate"		scope="singleton">
+		<property name="entrustorService" ref="entrustorService" />
+	</bean>
+	 
+	<bean id="sfJdTargetServiceDelegate"		class="com.ufgov.zc.server.sf.publish.impl.SfJdTargetServiceDelegate"		scope="singleton">
+		<property name="jdTargetService" ref="jdTargetService" />
+	</bean>
+	 
+	<bean id="sfEntrustServiceDelegate"		class="com.ufgov.zc.server.sf.publish.impl.SfEntrustServiceDelegate"		scope="singleton">
+		<property name="sfEntrustService" ref="sfEntrustService" />
+	</bean>
+	 
+	<bean id="sfEvaluationServiceDelegate"		class="com.ufgov.zc.server.sf.publish.impl.SfEvaluationServiceDelegate"		scope="singleton">
+		<property name="evaluationService" ref="evaluationService" />
+	</bean>
+	 
+	<bean id="sfAgreementServiceDelegate"		class="com.ufgov.zc.server.sf.publish.impl.SfAgreementServiceDelegate"		scope="singleton">
+		<property name="agreementService" ref="agreementService" />
+	</bean>
+	 
+	<bean id="sfChargeStandardServiceDelegate"		class="com.ufgov.zc.server.sf.publish.impl.SfChargeStandardServiceDelegate"		scope="singleton">
+		<property name="chargeStandardService" ref="chargeStandardService" />
+	</bean>	
+	 
+	<bean id="sfChargeServiceDelegate"		class="com.ufgov.zc.server.sf.publish.impl.SfChargeServiceDelegate"		scope="singleton">
+		<property name="chargeService" ref="chargeService" />
+	</bean>
+	 
+	<bean id="sfReceiptServiceDelegate"		class="com.ufgov.zc.server.sf.publish.impl.SfReceiptServiceDelegate"		scope="singleton">
+		<property name="receiptService" ref="receiptService" />
+	</bean>
+	 
+	<bean id="sfAppendMaterialNoticeServiceDelegate"		class="com.ufgov.zc.server.sf.publish.impl.SfAppendMaterialNoticeServiceDelegate"		scope="singleton">
+		<property name="appendMaterialNoticeService" ref="appendMaterialNoticeService" />
+	</bean>
+	 
+	<bean id="sfOutInfoTypeServiceDelegate"		class="com.ufgov.zc.server.sf.publish.impl.SfOutInfoTypeServiceDelegate"		scope="singleton">
+		<property name="outInfoTypeService" ref="outInfoTypeService" />
+	</bean>
+	 
+	<bean id="sfOutInfoReqServiceDelegate"		class="com.ufgov.zc.server.sf.publish.impl.SfOutInfoReqServiceDelegate"		scope="singleton">
+		<property name="outInfoReqService" ref="outInfoReqService" />
+	</bean>	
+	 
+	<bean id="sfOutInfoServiceDelegate"		class="com.ufgov.zc.server.sf.publish.impl.SfOutInfoServiceDelegate"		scope="singleton">
+		<property name="outInfoService" ref="outInfoService" />
+	</bean>
+	 
+	<bean id="sfMaterialsTransferServiceDelegate"		class="com.ufgov.zc.server.sf.publish.impl.SfMaterialsTransferServiceDelegate"		scope="singleton">
+		<property name="materialsTransferService" ref="materialsTransferService" />
+	</bean>
+	 
+	<bean id="sfJdResultServiceDelegate"		class="com.ufgov.zc.server.sf.publish.impl.SfJdResultServiceDelegate"		scope="singleton">
+		<property name="jdResultService" ref="jdResultService" />
+	</bean>
+	 
+	<bean id="sfJdDocTypeServiceDelegate"		class="com.ufgov.zc.server.sf.publish.impl.SfJdDocTypeServiceDelegate"		scope="singleton">
+		<property name="jdDocTypeService" ref="jdDocTypeService" />
+	</bean>
+	 
+	<bean id="sfJdDocAuditServiceDelegate"		class="com.ufgov.zc.server.sf.publish.impl.SfJdDocAuditServiceDelegate"		scope="singleton">
+		<property name="jdDocAuditService" ref="jdDocAuditService" />
+	</bean>
+	 
+	<bean id="sfDossierServiceDelegate"		class="com.ufgov.zc.server.sf.publish.impl.SfDossierServiceDelegate"		scope="singleton">
+		<property name="dossierService" ref="dossierService" />
+	</bean>
+	 
+	<bean id="sfJdPersonServiceDelegate"		class="com.ufgov.zc.server.sf.publish.impl.SfJdPersonServiceDelegate"		scope="singleton">
+		<property name="jdPersonServic" ref="jdPersonServic" />
+	</bean>
+	 
+	<bean id="sfAssistFileServiceDelegate"		class="com.ufgov.zc.server.sf.publish.impl.SfAssistFileServiceDelegate"		scope="singleton">
+		<property name="assistFileService" ref="assistFileService" />
+	</bean>
+</beans>

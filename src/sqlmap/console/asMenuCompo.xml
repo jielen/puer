@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="asMenuCompo">
+	<select id="getAsMenuCompoByCompoId" resultClass="java.util.HashMap" parameterClass="string">
+		select * from ap_menu_compo mm where mm.compo_id = #value#
+	</select>
+
+<select id="getCompoIdsByUserInfo" resultClass="string" parameterClass="com.ufgov.zc.common.system.RequestMeta">
+	select distinct sm.COMPO_ID
+        from ap_menu_compo sm,
+             (SELECT DISTINCT COMPO_ID
+                FROM V_AS_USR_FUNC
+               where user_id = #svUserID#
+              UNION ALL
+              SELECT b.compo_id
+                FROM as_compo_func b, as_compo c
+               WHERE (c.is_grant_to_all = 'Y' OR c.is_grant_to_all = 'y')
+                 AND b.compo_id = c.compo_id
+              UNION ALL
+              SELECT b.compo_id
+                FROM as_user a, as_role_func b, as_emp c, as_emp_role d
+               WHERE a.user_id = c.user_id
+                 AND c.emp_code = d.emp_code
+                 AND d.role_id = b.role_id
+                 AND a.user_id = #svUserID#
+              UNION ALL
+              SELECT b.compo_id
+                FROM AS_USER         a,
+                     AS_ROLE_FUNC    b,
+                     AS_EMP          c,
+                     AS_EMP_POSITION d,
+                     AS_POSI_ROLE    e
+               WHERE a.USER_ID = c.USER_ID
+                 AND c.EMP_CODE = d.EMP_CODE
+                 AND d.POSI_CODE = e.POSI_CODE
+                 AND e.ROLE_ID = b.ROLE_ID
+                 AND b.func_id != 'fquote'
+                 AND a.user_id = #svUserID#
+                 AND d.co_code = #svCoCode#
+                 AND d.org_code = #svOrgCode#
+                 AND d.nd = #svNd#
+                 AND d.POSI_CODE = #svPoCode#) c
+       where sm.compo_id = c.compo_id
+         AND upper(sm.is_in_menu) = 'Y'
+	</select>
+</sqlMap>

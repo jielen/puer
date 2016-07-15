@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ZcEbOptions">
+
+	<typeAlias alias="ZcEbOptions" type="com.ufgov.zc.common.zc.model.ZcEbOptions" />
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+
+	<typeAlias alias="ProtocolFile" type="com.ufgov.zc.common.system.model.AsFile" />
+
+	<resultMap id="protocolFileResult" class="ProtocolFile">
+		<result property="fileContent" column="FILE_CONTENT"
+			typeHandler="org.springframework.orm.ibatis.support.BlobByteArrayTypeHandler" />
+	</resultMap>
+
+
+	<!-- 意见函代码  -->
+
+	<resultMap id="ZcEbProjectResult" class="ZcEbOptions">
+		<result column="proj_code" property="projCode" jdbcType="VARCHAR" />
+		<result column="proj_name" property="projName" jdbcType="VARCHAR" />
+		<result column="co_code" property="coCode" jdbcType="VARCHAR" />
+		<result column="co_name" property="coName" jdbcType="VARCHAR" />
+		<result column="pur_type" property="purType" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="ZcEbOptionListResult" class="ZcEbOptions">
+		<result column="ZC_PROJECT_CODE" property="projCode" jdbcType="VARCHAR" />
+		<result column="ZC_ANSWER_TIME" property="answerTime" jdbcType="VARCHAR" />
+		<result column="ZC_PROJECT_NAME" property="projName" jdbcType="VARCHAR" />
+		<result column="CO_CODE" property="coCode" jdbcType="VARCHAR" />
+		<result column="ZC_CO_NAME" property="coName" jdbcType="VARCHAR" />
+		<result column="STATUS" property="status" jdbcType="VARCHAR" />
+		<result column="REMARK" property="remark" jdbcType="VARCHAR" />
+		<result column="PROT_FILE" property="protFile" jdbcType="VARCHAR" />
+		<result column="PROT_FILE_BLOBID" property="protFileBlobid"
+			jdbcType="VARCHAR" />
+		<result column="FILE_CODE" property="fileCode" jdbcType="VARCHAR" />
+		<result column="ZC_CREAT_TIME" property="creatTime" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="getZcEbProject" resultMap="ZcEbProjectResult"
+		parameterClass="elementCondition">
+		select zep.proj_code,
+		zep.proj_name,
+		ac.co_code,
+		ac.co_name,
+		zepk.pur_type
+		from zc_eb_proj_zbfile zepzf,
+		zc_eb_proj zep,
+		(
+		select
+		distinct ze.proj_code,ze.CO_CODE,ze.pur_type from
+		zc_eb_pack
+		ze )
+		zepk,
+		as_company ac,
+		ZC_EB_PROJ_ZBFILE zepz
+		where zepzf.proj_code=zep.proj_code
+		and
+		zep.proj_code=zepk.proj_code
+		and zepk.CO_CODE=ac.co_code
+		and zep.nd=ac.nd
+		and zep.proj_code=zepz.proj_code
+		and zepzf.proj_code not in 
+		(select
+		zeo.zc_project_code
+		from ZC_EB_OPTIONS zeo)
+		<isNotNull prepend="and" property="projCode">
+			zep.proj_code=#projCode#
+		</isNotNull>
+	</select>
+
+	<select id="getZcEbSeq" resultClass="string" parameterClass="string">
+	select count(*)+1
+	from ZC_EB_OPTIONS
+	where to_char(zc_creat_time,'yyyy')= to_char(sysdate,'yyyy')
+	</select>
+
+	<select id="getZcEbPOptionList" resultMap="ZcEbOptionListResult"
+		parameterClass="elementCondition">
+		select
+		ZC_PROJECT_CODE,
+		ZC_ANSWER_TIME,
+		ZC_PROJECT_NAME,
+		CO_CODE,
+		ZC_CO_NAME,
+		STATUS,
+		REMARK,
+		PROT_FILE,
+		PROT_FILE_BLOBID,
+		FILE_CODE,
+		ZC_CREAT_TIME
+		from ZC_EB_OPTIONS
+		where 1=1
+		<isNotNull prepend="and" property="projCode">
+			ZC_PROJECT_CODE=#projCode#
+		</isNotNull>
+	</select>
+
+	<insert id="insertZcEbOptions" parameterClass="ZcEbOptions">
+		insert into
+		ZC_EB_OPTIONS (ZC_PROJECT_CODE, ZC_ANSWER_TIME, ZC_PROJECT_NAME,
+		CO_CODE, ZC_CO_NAME,
+		STATUS,
+		REMARK,PROT_FILE,PROT_FILE_BLOBID,FILE_CODE)
+		values
+		(#projCode:VARCHAR#, #answerTime:VARCHAR#, #projName:VARCHAR#,
+		#coCode:TIMESTAMP#, #coName:VARCHAR#, #status:VARCHAR#,
+		#remark#,
+		#protFile#, #protFileBlobid#, #fileCode#)
+	</insert>
+	<insert id="updateZcEbOptions" parameterClass="ZcEbOptions">
+		update
+		ZC_EB_OPTIONS 
+		set FILE_CODE=#fileCode:VARCHAR#,
+		    ZC_ANSWER_TIME=#answerTime:VARCHAR#
+	</insert>
+	
+	<select id="getZcebZbFileList" resultClass="string"
+		parameterClass="string">
+		SELECT
+		MASTER.File_Id
+		FROM
+		ZC_EB_PROJ_ZBFILE MASTER
+		WHERE
+		MASTER.PROJ_CODE=#value#
+	</select>
+	<!--  
+	<select id="getZcebZbFileList" resultClass="string"
+		parameterClass="string">
+		select * from zc_eb_options  zeo where zeo.file_code=#value#
+	
+		
+	</select>
+	-->
+
+	<delete id="deleteZcEbOptionsByProtCode" parameterClass="string">
+		delete
+		from ZC_EB_OPTIONS where zc_project_code = #value#
+	</delete>
+
+
+</sqlMap>

@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ZcEbCancelEntrust">
+
+	<typeAlias alias="ZcEbEntrust" type="com.ufgov.zc.common.zc.model.ZcEbEntrust" />
+
+	<typeAlias alias="ZcEbEntrustDetail"
+		type="com.ufgov.zc.common.zc.model.ZcEbEntrustDetail" />
+
+	<typeAlias alias="ZcEbCancelEntrust"
+		type="com.ufgov.zc.common.zc.model.ZcEbCancelEntrust" />
+
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+
+	<!-- 采购任务 -->
+	<resultMap id="ZcEbEntrustResult" class="ZcEbEntrust">
+		<result property="sn" column="SN" />
+		<result property="zcMakeCode" column="ZC_MAKE_CODE" />
+		<result property="zcMakeName" column="ZC_MAKE_NAME" />
+		<result property="coCode" column="CO_CODE" />
+		<result property="nd" column="ND" />
+		<result property="zcMakeLinkman" column="ZC_MAKE_LINKMAN" />
+		<result property="zcMakeTel" column="ZC_MAKE_TEL" />
+		<result property="status" column="STATUS" />
+		<result property="zcInputCode" column="ZC_INPUT_CODE" />
+		<result property="zcInputDate" column="ZC_INPUT_DATE" />
+		<result property="zcMoneyBiSum" column="ZC_MONEY_BI_SUM" />
+		<result property="remark" column="REMARK" />
+		<result property="processInstId" column="PROCESS_INST_ID" />
+		<result property="agency" column="AGENCY" />
+		<result property="zcPifuCgfs" column="ZC_PIFU_CGFS" />
+		<result property="agencyName" column="AGENCY_NAME" />
+		<result property="zcDiyuDaima" column="ZC_DIYU_DAIMA" />
+		<result property="zcWeitoDate" column="ZC_WEITO_DATE" />
+		<result property="zcIsNotary" column="ZC_IS_NOTARY" />
+		<result property="zcIsImp" column="ZC_IS_IMP" />
+		<result property="zcImpFile" column="ZC_IMP_FILE" />
+		<result property="zcImpFileBlobid" column="ZC_IMP_FILE_BLOBID" />
+		<result property="untreadReason" column="UNTREAD_REASON" />
+		<result property="executeDate" column="EXECUTE_DATE" />
+		<result property="leaderId" column="LEADER_ID" />
+		<result property="leaderTel" column="LEADER_TEL" />
+		<result property="orgCode" column="ORG_CODE" />
+		<result property="detailList" resultMap="ZcEbCancelEntrust.ZcEbEntrustDetailResult" />
+	</resultMap>
+
+	<!--  获取采购任务明细 -->
+	<select id="getZcEbEntrustDetail" resultClass="ZcEbEntrustDetail"
+		parameterClass="string">
+		select *
+		from zc_eb_entrust_detail zc_eb_entrust_detail
+		where zc_eb_entrust_detail.sn = #value#
+	</select>
+
+	<!-- 采购任务明细 -->
+	<resultMap id="ZcEbEntrustDetailResult" class="ZcEbEntrustDetail">
+		<result property="snd" column="SND" />
+		<result property="sn" column="SN" />
+		<result property="zcYear" column="ZC_YEAR" />
+		<result property="zcCatalogueCode" column="ZC_CATALOGUE_CODE" />
+		<result property="zcCatalogueName" column="ZC_CATALOGUE_NAME" />
+		<result property="zcPitemName" column="ZC_PITEM_NAME" />
+		<result property="zcPitemArrDate" column="ZC_PITEM_ARR_DATE" />
+		<result property="zcBaseGgyq" column="ZC_BASE_GGYQ" />
+		<result property="zcPitemAttach" column="ZC_PITEM_ATTACH" />
+		<result property="zcPitemAttachBlobid" column="ZC_PITEM_ATTACH_BLOBID" />
+		<result property="zcCaigNum" column="ZC_CAIG_NUM" />
+		<result property="zcItemSum" column="ZC_ITEM_SUM" />
+		<result property="zcMerPrice" column="ZC_MER_PRICE" />
+		<result property="budgetBiMoney" column="BUDGET_BI_MONEY" />
+		<result property="budgetOtherMoney" column="BUDGET_OTHER_MONEY" />
+	</resultMap>
+
+	<!-- 取消任务resultMap -->
+	<resultMap id="ZcEbCancelEntrustResultMap" class="ZcEbCancelEntrust">
+		<result property="id" column="id" />
+		<result property="nd" column="ND" />
+		<result property="inputDate" column="inputDate" />
+		<result property="dljgOpinion" column="dljgOpinion" />
+		<result property="cgcOpinion" column="cgcOpinion" />
+		<result property="cgdwOpinion" column="cgdwOpinion" />
+		<result property="status" column="status" />
+		<result property="cgfs" column="cgfs" />
+		<result property="cgnr" column="cgnr" />
+		<result property="cgje" column="cgje" />
+		<result property="linkMan" column="linkMan" />
+		<result property="linkManTel" column="linkManTel" />
+		<result property="dljgCode" column="dljgCode" />
+		<result property="dljgName" column="dljgName" />
+		<result property="cgdwCode" column="cgdwCode" />
+		<result property="cgdwName" column="cgdwName" />
+		<result property="isGoonAudit" column="IS_GOON_AUDIT" />
+		<result property="processInstId" column="PROCESS_INST_ID" />
+		<result property="zcEbEntrust" column="ENTRUST_sn"
+			select="ZcEbCancelEntrust.getZcEbEntrust" />
+	</resultMap>
+
+	<!-- 获取单个任务单 -->
+	<select id="getZcEbEntrust" resultMap="ZcEbEntrustResult"
+		parameterClass="string">
+		select
+		zc_eb_entrust.*,zc_eb_entrust_detail.*
+		from
+		zc_eb_entrust zc_eb_entrust,zc_eb_entrust_detail zc_eb_entrust_detail
+		where
+		zc_eb_entrust_detail.sn=zc_eb_entrust.sn
+		and
+		zc_eb_entrust.sn =
+		#value#
+	</select>
+
+	<!-- 外部实体选择需要取消的任务计划 -->
+	<select id="getZcEbEntrustList" resultMap="ZcEbEntrustResult"
+		parameterClass="elementCondition">
+		SELECT zc_eb_entrust.*,zc_eb_entrust_detail.* from
+		zc_eb_entrust zc_eb_entrust , zc_eb_entrust_detail
+		zc_eb_entrust_detail
+		where zc_eb_entrust_detail.sn=zc_eb_entrust.sn
+	</select>
+	<!-- 获取取消任务列表 -->
+	<select id="getZcEbCancelEntrustList" resultMap="ZcEbCancelEntrustResultMap"
+		parameterClass="elementCondition">
+		SELECT * FROM ZC_EB_CANCEL_ENTRUST ZC_EB_CANCEL_ENTRUST
+		where 1=1
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		<isNotNull prepend="and" property="status">
+			<isEqual property="status" compareValue="todo">
+				exists (select
+				instance_id from V_WF_CURRENT_TASK_ZC_TODO where executor
+				=#executor# and instance_id = ZC_EB_CANCEL_ENTRUST.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="untread">
+				exists (select instance_id from V_WF_CURRENT_TASK_ZC_UNTREAD where
+				executor =#executor# and instance_id =
+				ZC_EB_CANCEL_ENTRUST.process_inst_id)
+		    </isEqual>
+			<isEqual property="status" compareValue="done">
+				exists (select
+				instance_id from V_WF_ACTION_HISTORY_GK53 where executor =
+				#executor# and instance_id = ZC_EB_CANCEL_ENTRUST.process_inst_id)
+				and
+				ZC_EB_CANCEL_ENTRUST.status!='cancel'
+				and
+				ZC_EB_CANCEL_ENTRUST.status!='exec'
+			</isEqual>
+			<isEqual property="status" compareValue="exec">
+				(ZC_EB_CANCEL_ENTRUST.status ='exec')
+			</isEqual>
+			<isEqual property="status" compareValue="draft">
+				exists (select
+				WF_DRAFT_NAME from as_wf_draft where user_id=#executor# and
+				compo_id=#wfcompoId# and
+				WF_DRAFT_ID=ZC_EB_CANCEL_ENTRUST.process_inst_id or
+				ZC_EB_CANCEL_ENTRUST.process_inst_id = -1 )
+				and ZC_EB_CANCEL_ENTRUST.status='draft'
+			</isEqual>
+		</isNotNull>
+		order by ZC_EB_CANCEL_ENTRUST.inputDate
+	</select>
+
+	<!-- 获取单个取消任务 -->
+	<select id="getZcEbCancelEntrustByProcessInstId" resultMap="ZcEbCancelEntrustResultMap"
+		parameterClass="string">
+		SELECT *
+		FROM ZC_EB_CANCEL_ENTRUST ZC_EB_CANCEL_ENTRUST
+		WHERE ZC_EB_CANCEL_ENTRUST.PROCESS_INST_ID = #value#
+	</select>
+
+	<!-- 插入取消任务 -->
+	<insert id="insertZcEbCancelEntrust" parameterClass="ZcEbCancelEntrust">
+		INSERT INTO
+		ZC_EB_CANCEL_ENTRUST
+		(ID,
+		ND,
+		ENTRUST_SN,
+		INPUTDATE,
+		DLJGOPINION,
+		CGCOPINION,
+		CGDWOPINION,
+		STATUS,
+		CGFS,
+		CGNR,
+		CGJE,
+		LINKMAN,
+		LINKMANTEL,
+		DLJGCODE,
+		DLJGNAME,
+		CGDWCODE,
+		CGDWNAME,
+		IS_GOON_AUDIT,
+		PROCESS_INST_ID)
+		VALUES
+		(seq_zc_eb_cancel_enteust_id.nextval,
+		#nd#,
+		#zcEbEntrust.sn#,
+		#inputDate#,
+		#dljgOpinion#,
+		#cgcOpinion#,
+		#cgdwOpinion#,
+		#status#,
+		#cgfs#,
+		#cgnr#,
+		#cgje#,
+		#linkMan#,
+		#linkManTel#,
+		#dljgCode#,
+		#dljgName#,
+		#cgdwCode#,
+		#cgdwName#,
+		#isGoonAudit#,
+		#processInstId#)
+	</insert>
+
+	<!-- 更新取消任务 -->
+	<update id="updateZcEbCancelEntrust" parameterClass="ZcEbCancelEntrust">
+		UPDATE
+		ZC_EB_CANCEL_ENTRUST ZC_EB_CANCEL_ENTRUST
+		SET ZC_EB_CANCEL_ENTRUST.ND =
+		#nd#,
+		ZC_EB_CANCEL_ENTRUST.ENTRUST_SN = #zcEbEntrust.sn#,
+		ZC_EB_CANCEL_ENTRUST.INPUTDATE = #inputDate#,
+		ZC_EB_CANCEL_ENTRUST.DLJGOPINION = #dljgOpinion#,
+		ZC_EB_CANCEL_ENTRUST.CGCOPINION = #cgcOpinion#,
+		ZC_EB_CANCEL_ENTRUST.CGDWOPINION = #cgdwOpinion#,
+		ZC_EB_CANCEL_ENTRUST.STATUS = #status#,
+		ZC_EB_CANCEL_ENTRUST.CGFS
+		=#cgfs#,
+		ZC_EB_CANCEL_ENTRUST.CGNR = #cgnr#,
+		ZC_EB_CANCEL_ENTRUST.CGJE =
+		#cgje#,
+		ZC_EB_CANCEL_ENTRUST.LINKMAN = #linkMan#,
+		ZC_EB_CANCEL_ENTRUST.LINKMANTEL = #linkManTel#,
+		ZC_EB_CANCEL_ENTRUST.DLJGCODE = #dljgCode#,
+		ZC_EB_CANCEL_ENTRUST.DLJGNAME = #dljgName#,
+		ZC_EB_CANCEL_ENTRUST.CGDWCODE = #cgdwCode#,
+		ZC_EB_CANCEL_ENTRUST.CGDWNAME = #cgdwName#,
+		ZC_EB_CANCEL_ENTRUST.IS_GOON_AUDIT = #isGoonAudit#
+		WHERE
+		ZC_EB_CANCEL_ENTRUST.PROCESS_INST_ID = #processInstId#	
+		</update>
+
+	<!-- 删除 -->
+	<delete id="deleteZcEbCancelEntrust" parameterClass="ZcEbCancelEntrust">
+		DELETE
+		ZC_EB_CANCEL_ENTRUST ZC_EB_CANCEL_ENTRUST
+		WHERE ZC_EB_CANCEL_ENTRUST.ID
+		= #id#
+	</delete>
+
+	<!-- 更新任务单状态 -->
+	<update id="updateZcEbEntrust" parameterClass="map">
+		UPDATE
+		ZC_EB_ENTRUST ZC_EB_ENTRUST
+		SET
+		ZC_EB_ENTRUST.STATUS = #entrustSn#
+		WHERE
+		ZC_EB_ENTRUST.SN = #status#
+	</update>
+
+	<!-- 更新批办单状态 -->
+	<update id="updateZcEbAuditSheet" parameterClass="map">
+		UPDATE
+		ZC_EB_DUTY_AUDIT_SHEET ZC_EB_DUTY_AUDIT_SHEET
+		SET
+		ZC_EB_DUTY_AUDIT_SHEET.STATUS = #entrustSn#
+		WHERE
+		ZC_EB_DUTY_AUDIT_SHEET.SN = #status#
+	</update>
+
+	<!-- 更新采购需求状态 -->
+	<update id="updateZcEbReqirement" parameterClass="map">
+		UPDATE
+		ZC_EB_REQUIREMENT ZC_EB_REQUIREMENT
+		SET
+		ZC_EB_REQUIREMENT.STATUS
+		=#entrustSn#
+		WHERE
+		ZC_EB_REQUIREMENT.SN = #status#
+	</update>
+
+	<!-- 更新委托协议状态 -->
+	<update id="updateZcEbProtocol" parameterClass="map">
+		UPDATE
+		ZC_EB_PROTOCOL ZC_EB_PROTOCOL
+		SET
+		ZC_EB_PROTOCOL.STATUS = #entrustSn#
+		WHERE
+		ZC_EB_PROTOCOL.SN = #status#
+	</update>
+
+	<!-- 更新标段状态 -->
+	<update id="updateZcEbPack" parameterClass="map">
+		UPDATE
+		ZC_EB_PACK
+		ZC_EB_PACK
+		SET
+		ZC_EB_PACK.STATUS = #projCode#
+		WHERE
+		ZC_EB_PACK.PROJ_CODE =
+		#status#
+	</update>
+
+	<!-- 更新项目状态 -->
+	<update id="updateZcEbProj" parameterClass="map">
+		UPDATE
+		ZC_EB_PROJ
+		ZC_EB_PROJ
+		SET
+		ZC_EB_PROJ.STATUS = #projCode#
+		WHERE
+		ZC_EB_PROJ.PROJ_CODE =
+		#status#
+	</update>
+
+	<!-- 更新公告状态 -->
+	<update id="updateZcEbBulletin" parameterClass="map">
+		UPDATE
+		ZC_EB_BULLETIN ZC_EB_BULLETIN
+		SET
+		ZC_EB_BULLETIN.STATUS = #projCode#
+		WHERE
+		ZC_EB_BULLETIN.ZC_MAKE_CODE = #status#
+	</update>
+
+	<!-- 更新报名标段状态 -->
+	<update id="updateZcEbSignupPack" parameterClass="map">
+		UPDATE
+		ZC_EB_SIGNUP ZC_EB_SIGNUP
+		SET
+		ZC_EB_SIGNUP.OPEN_BID_STATUS = #projCode#
+		WHERE
+		ZC_EB_SIGNUP.PROJ_CODE = #status#
+	</update>
+
+	<!-- 更新采购计划表 -->
+	<update id="updateZcPProMake" parameterClass="map">
+		UPDATE
+		ZC_P_PRO_MAKE ZC_P_PRO_MAKE
+		SET
+		ZC_P_PRO_MAKE.ZC_MAKE_STATUS =
+		#makeCode#
+		WHERE
+		ZC_P_PRO_MAKE.ZC_MAKE_CODE = #status#
+	</update>
+</sqlMap>    

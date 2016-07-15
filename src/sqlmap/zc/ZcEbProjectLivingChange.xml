@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ZcEbProjectLivingChange">
+   <typeAlias alias="dto" type="com.ufgov.zc.common.system.dto.ElementConditionDto"/>
+   <typeAlias alias="zcEbProjectLivingChange" type="com.ufgov.zc.common.zc.model.ZcEbProjectLivingChange"></typeAlias>
+   
+   <resultMap class="zcEbProjectLivingChange" id="ZcEbProjectLivingChangeResult">
+     <result property="sId" column="id"></result>
+     <result property="projectCode" column="project_code"></result>
+     <result property="packCode" column="pack_code"></result>
+     <result property="changeType" column="change_type"></result>
+     <result property="changeTime" column="change_time"></result>
+     <result property="oldType" column="old_type"></result>
+     <result property="lastType" column="last_type"></result>
+     <result property="changeCount" column="change_count"></result>
+     <result property="changeReason" column="change_reason"></result>
+   </resultMap>
+   
+   <insert id="insertZcEbProjectLivingChange" parameterClass="zcEbProjectLivingChange">
+     <selectKey keyProperty="sId" resultClass="long">
+        select SEQ_ZCEBPROJECTLIVINGCHANGE.nextval as id from dual
+     </selectKey>
+     insert into zc_eb_project_living_change(id, project_code, pack_code, change_type, change_time, old_type, last_type, change_count, change_reason)
+     values
+     (#sId#, #projectCode#, #packCode#, #changeType#, #changeTime#, #oldType#, #lastType#, #changeCount#, #changeReason#)
+   </insert>
+   
+   <select id="getZcEbProjectLivingChange" parameterClass="zcEbProjectLivingChange" resultMap="ZcEbProjectLivingChangeResult">
+      select * from zc_eb_project_living_change
+      <dynamic prepend="where">
+        <isNotNull prepend="and" property="projectCode">
+           project_code = #projectCode#
+        </isNotNull>
+        <isNotNull prepend="and" property="packCode">
+           pack_code = #packCode#
+        </isNotNull>
+        <isNotNull prepend="and" property="changeType">
+           change_type = #changeType#
+        </isNotNull>
+        <isNotNull prepend="and" property="changeTime">
+           change_time = #changeTime#
+        </isNotNull>
+        <isNotNull prepend="and" property="oldType">
+           old_type = #oldType#
+        </isNotNull>
+        <isNotNull prepend="and" property="lastType">
+           last_type = #lastType#
+        </isNotNull>
+        <isNotNull prepend="and" property="changeReason">
+           change_reason = #changeReason#
+        </isNotNull>
+        order by change_time desc
+      </dynamic>
+   </select>
+
+   <insert id="insertZcEbProjectLivingChangeHasKey" parameterClass="zcEbProjectLivingChange">
+     insert into zc_eb_project_living_change(id, project_code, pack_code, change_type, change_time, old_type, last_type, change_count, change_reason)
+     values
+     (#sId#, #projectCode#, #packCode#, #changeType#, #changeTime#, #oldType#, #lastType#, #changeCount#, #changeReason#)
+   </insert>
+
+    <delete id="deleteZcEbProjectLivingChangeById" parameterClass="string" >
+		delete from zc_eb_project_living_change where id = #value#
+    </delete>
+
+</sqlMap>

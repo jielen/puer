@@ -1,0 +1,1 @@
+package com.ufgov.zc.client.component.button;public class SendBankButton extends FuncButton {  /**   *    */  private static final long serialVersionUID = -2564446291342163428L;  public SendBankButton() {    super();  }  protected void init() {    this.funcId = "fsendbank";    this.defaultText = "发送银行";    super.init();  }}

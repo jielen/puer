@@ -1,0 +1,654 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="DpBalance">
+	<typeAlias alias="asdpBalance"
+		type="com.ufgov.zc.common.commonbiz.model.DpBalance" />
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+
+	<resultMap id="dpBalance"
+		class="com.ufgov.zc.common.commonbiz.model.DpBalance">
+		<result property="monthId" column="monthid" />
+		<result property="balance" column="balance" />
+		<result property="dpmoney" column="dp_money" />
+		<result property="paySum" column="pay_sum" />
+		<result column="DP_BALANCE_ID" jdbcType="VARCHAR"
+			property="dpBalanceId" />
+		<result column="BI_BALANCE_ID" jdbcType="VARCHAR"
+			property="biBalanceId" />
+		<result column="ND" property="nd" />
+		<result column="IS_CARRYDOWN" jdbcType="CHAR"
+			property="isCarrydown" />
+		<result column="IS_BI_CONTROL" jdbcType="CHAR"
+			property="isBiControl" />
+		<result column="BI_TARGET_CODE" jdbcType="VARCHAR"
+			property="biTargetCode" />
+		<result column="ORG_CODE" jdbcType="VARCHAR" property="orgCode" />
+		<result column="CO_CODE" jdbcType="VARCHAR" property="coCode" />
+		<result column="B_ACC_CODE" jdbcType="VARCHAR"
+			property="baccCode" />
+		<result column="OUTLAY_CODE" jdbcType="VARCHAR"
+			property="outlayCode" />
+		<result column="PROJECT_TYPE_CODE" jdbcType="VARCHAR"
+			property="projectTypeCode" />
+		<result column="PROJECT_CODE" jdbcType="VARCHAR"
+			property="projectCode" />
+		<result column="FUND_CODE" jdbcType="VARCHAR"
+			property="fundCode" />
+		<result column="ORIGIN_CODE" jdbcType="VARCHAR"
+			property="originCode" />
+		<result column="PAYTYPE_CODE" jdbcType="VARCHAR"
+			property="paytypeCode" />
+		<result column="PAYOUT_CODE" jdbcType="VARCHAR"
+			property="payoutCode" />
+		<result column="MANAGE_CODE" jdbcType="VARCHAR"
+			property="manageCode" />
+		<result column="INCEPTDOC_CODE" jdbcType="VARCHAR"
+			property="inceptdocCode" />
+		<result column="SENDDOC_TYPE_CODE" jdbcType="VARCHAR"
+			property="senddocTypeCode" />
+		<result column="SENDDOC_CODE" jdbcType="VARCHAR"
+			property="sendDocCode" />
+		<result column="DP_CD_MONEY" jdbcType="DECIMAL"
+			property="dpCdMoney" />
+		<result column="DP_CD_USE_MONEY" jdbcType="DECIMAL"
+			property="dpCdUseMoney" />
+		<result column="DP_MONEY1" jdbcType="DECIMAL"
+			property="dpMoney1" />
+		<result column="DP_MONEY2" jdbcType="DECIMAL"
+			property="dpMoney2" />
+		<result column="DP_MONEY3" jdbcType="DECIMAL"
+			property="dpMoney3" />
+		<result column="DP_MONEY4" jdbcType="DECIMAL"
+			property="dpMoney4" />
+		<result column="DP_MONEY5" jdbcType="DECIMAL"
+			property="dpMoney5" />
+		<result column="DP_MONEY6" jdbcType="DECIMAL"
+			property="dpMoney6" />
+		<result column="DP_MONEY7" jdbcType="DECIMAL"
+			property="dpMoney7" />
+		<result column="DP_MONEY8" jdbcType="DECIMAL"
+			property="dpMoney8" />
+		<result column="DP_MONEY9" jdbcType="DECIMAL"
+			property="dpMoney9" />
+		<result column="DP_MONEY10" jdbcType="DECIMAL"
+			property="dpMoney10" />
+		<result column="DP_MONEY11" jdbcType="DECIMAL"
+			property="dpMoney11" />
+		<result column="DP_MONEY12" jdbcType="DECIMAL"
+			property="dpMoney12" />
+		<result column="AM_MONEY" jdbcType="DECIMAL" property="amMoney" />
+		<result column="CP_MONEY" jdbcType="DECIMAL" property="cpMoney" />
+		<result column="FREEZE_MONEY" jdbcType="DECIMAL"
+			property="freezeMoney" />
+		<result column="A_FREEZE_MONEY" jdbcType="DECIMAL"
+			property="afreezeMoney" />
+		<result column="CD_MONEY" jdbcType="DECIMAL" property="cdMoney" />
+		<result column="D_ATTR1" jdbcType="VARCHAR" property="dattr1" />
+		<result column="D_ATTR2" jdbcType="VARCHAR" property="dattr2" />
+		<result column="D_ATTR3" jdbcType="VARCHAR" property="dattr3" />
+		<result column="D_ATTR4" jdbcType="VARCHAR" property="dattr4" />
+		<result column="D_ATTR5" jdbcType="VARCHAR" property="dattr5" />
+		<result column="STAMP" jdbcType="DECIMAL" property="stamp" />
+		<result column="CAM_MONEY" jdbcType="DECIMAL"
+			property="camMoney" />
+		<result column="A_CAM_MONEY" jdbcType="DECIMAL"
+			property="acamMoney" />
+		<result column="filename" property="fileName"
+			jdbcType="VARCHAR" />
+		<result column="filename_blobid" property="filenameBlobid"
+			jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="dpBalanceForVIEW"
+		class="com.ufgov.zc.common.commonbiz.model.DpBalance">
+		<result property="monthId" column="monthid" />
+		<result property="balance" column="balance" />
+		<result property="dpmoney" column="dp_money" />
+		<result property="paySum" column="pay_sum" />
+		<result column="DP_BALANCE_ID" jdbcType="VARCHAR"
+			property="dpBalanceId" />
+		<result column="BI_BALANCE_ID" jdbcType="VARCHAR"
+			property="biBalanceId" />
+		<result column="ND" property="nd" />
+		<result column="BI_TARGET_CODE" jdbcType="VARCHAR"
+			property="biTargetCode" />
+		<result column="ORG_CODE" jdbcType="VARCHAR" property="orgCode" />
+		<result column="CO_CODE" jdbcType="VARCHAR" property="coCode" />
+		<result column="B_ACC_CODE" jdbcType="VARCHAR"
+			property="baccCode" />
+		<result column="OUTLAY_CODE" jdbcType="VARCHAR"
+			property="outlayCode" />
+		<result column="PROJECT_TYPE_CODE" jdbcType="VARCHAR"
+			property="projectTypeCode" />
+		<result column="PROJECT_CODE" jdbcType="VARCHAR"
+			property="projectCode" />
+		<result column="FUND_CODE" jdbcType="VARCHAR"
+			property="fundCode" />
+		<result column="ORIGIN_CODE" jdbcType="VARCHAR"
+			property="originCode" />
+		<result column="PAYTYPE_CODE" jdbcType="VARCHAR"
+			property="paytypeCode" />
+		<result column="PAYOUT_CODE" jdbcType="VARCHAR"
+			property="payoutCode" />
+		<result column="MANAGE_CODE" jdbcType="VARCHAR"
+			property="manageCode" />
+		<result column="INCEPTDOC_CODE" jdbcType="VARCHAR"
+			property="inceptdocCode" />
+		<result column="SENDDOC_TYPE_CODE" jdbcType="VARCHAR"
+			property="senddocTypeCode" />
+		<result column="SENDDOC_CODE" jdbcType="VARCHAR"
+			property="sendDocCode" />
+		<result column="D_ATTR1" jdbcType="VARCHAR" property="dattr1" />
+		<result column="D_ATTR2" jdbcType="VARCHAR" property="dattr2" />
+		<result column="D_ATTR3" jdbcType="VARCHAR" property="dattr3" />
+		<result column="D_ATTR4" jdbcType="VARCHAR" property="dattr4" />
+		<result column="D_ATTR5" jdbcType="VARCHAR" property="dattr5" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+	</resultMap>
+	<resultMap id="dpBalanceForVIEWCarry"
+		class="com.ufgov.zc.common.commonbiz.model.DpBalance"
+		extends="dpBalanceForVIEW">
+		<result column="CD_MONEY" property="cdMoney" />
+	</resultMap>
+	<sql id="selectDpBalance">
+		Select MASTER.*,
+		<include refid="ElementName.BI_MONEY" />
+		,
+		<include refid="ElementName.BI_BALANCE" />
+		,
+		<include refid="ElementName.BI_PAY_SUM" />
+		From DP_BALANCE MASTER
+	</sql>
+
+	<select id="getDpBalanceForDpAdjust" resultMap="dpBalanceForVIEW"
+		parameterClass="elementCondition">
+		select * from $dpBalanceViewName$ MASTER where BALANCE>0
+		<isNotNull prepend="AND" property="nd">
+			MASTER.ND = #nd#
+		</isNotNull>
+		<include refid="ElementCondition.B_ACC_CODE" />
+		<include refid="ElementCondition.CO_CODE" />
+		<include refid="ElementCondition.MANAGE_CODE" />
+		<include refid="ElementCondition.PROJECT_CODE" />
+		<include refid="ElementCondition.FUND_CODE" />
+		<include refid="ElementCondition.ORIGIN_CODE" />
+		<include refid="ElementCondition.PAYTYPE_CODE" />
+		<include refid="BusiNumLim.BusiNumLimStr" />
+	</select>
+
+	<resultMap id="dpBalanceForJjPlan"
+		class="com.ufgov.zc.common.commonbiz.model.DpBalance">
+		<result property="receAccName" column="RECE_ACCNAME" />
+		<result property="receBankNodeName" column="RECE_BANKNODENAME" />
+		<result property="receBankAccCode" column="RECE_BANKACCCODE" />
+		<result property="receAccCode" column="RECE_ACCCODE" />
+		<result property="receBankNo" column="RECE_BANKNO" />
+		<result property="receBankNodeCode" column="RECE_BANKNODECODE" />
+		<result property="jjPlanDetailOid" column="JJ_PLAN_DETAIL_OID" />
+	</resultMap>
+
+	<select id="getDpBalanceForJjPlan" resultMap="dpBalanceForJjPlan"
+		parameterClass="string">
+		select * from dp_balance MASTER where
+		master.dp_balance_id=#value#
+	</select>
+
+	<select id="getDpBalance" resultMap="dpBalanceForVIEW">
+		select * from $DPVIEW$
+		<dynamic prepend="where">
+			<isNotNull prepend="AND" property="nd">
+				MASTER.ND = #nd#
+			</isNotNull>
+			<isNotNull prepend="AND" property="CO_CODE">
+				MASTER.CO_CODE=#CO_CODE#
+			</isNotNull>
+		</dynamic>
+	</select>
+
+	<select id="getDpBalanceById" resultMap="dpBalanceForVIEW"
+		parameterClass="Map">
+		select * from $DPVIEW$ MASTER where
+		master.dp_balance_id=#dpBalanceId#
+	</select>
+	<resultMap id="dpBalanceForJJ"
+		class="com.ufgov.zc.common.commonbiz.model.DpBalance">
+		<result column="DP_BALANCE_ID" jdbcType="VARCHAR"
+			property="dpBalanceId" />
+		<result column="ND" property="nd" />
+		<result column="IS_CARRYDOWN" jdbcType="CHAR"
+			property="isCarrydown" />
+	</resultMap>
+
+	<select id="getDpbalanceByJjPlanDetailOid"
+		resultMap="dpBalanceForJJ" parameterClass="Map">
+		select DP_BALANCE_ID,ND, IS_CARRYDOWN from dp_balance MASTER
+		where jj_plan_detail_oid =#jjPlanDetailOid#
+	</select>
+
+	<select id="getDpBalanceForCpAv" resultMap="dpBalanceForVIEW">
+		select * from $dpBalanceViewName$ where nd=#nd# and balance> 0
+		<isNotNull prepend="AND" property="paytypeCode">
+			paytype_code like #paytypeCode#||'%'
+		</isNotNull>
+		<isNotNull prepend="AND" property="fundCode">
+			FUND_CODE like #fundCode#||'%'
+		</isNotNull>
+		<isNotNull prepend="AND" property="originCode">
+			ORIGIN_CODE like #originCode#||'%'
+		</isNotNull>
+		<isNotNull prepend="AND" property="projectCode">
+			PROJECT_CODE = #projectCode#
+		</isNotNull>
+		<isNotNull prepend="AND" property="baccCode">
+			B_ACC_CODE LIKE #baccCode#||'%'
+		</isNotNull>
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		order by dp_balance_id desc
+	</select>
+
+	<resultMap id="dpBalanceForCpDv" class="com.ufgov.zc.common.commonbiz.model.DpBalance"	extends="dpBalanceForVIEW">
+		<result column="DP_CD_MONEY" property="dpCdMoney" />
+		<result column="DP_CD_USE_MONEY" property="dpCdUseMoney" />
+	</resultMap>
+
+	<select id="getDpBalanceForCpDv" resultMap="dpBalanceForCpDv">
+		select * from $DPVIEW$ master where nd=#nd#
+		<isNotNull prepend="AND" property="balanceStatus">
+			<isEqual property="balanceStatus" compareValue="0">
+				balance = 0
+			</isEqual>
+			<isEqual property="balanceStatus" compareValue="1">
+				balance> 0
+			</isEqual>
+		</isNotNull>
+
+		<include refid="ElementCondition.CoCodeFilter" />
+		<include refid="ElementCondition.MANAGE_CODE" />
+		<include refid="ElementCondition.PROJECT_CODE" />
+		<include refid="ElementCondition.FUND_CODE" />
+		<include refid="ElementCondition.ORIGIN_CODE" />
+		<include refid="ElementCondition.PAYTYPE_CODE" />
+		<include refid="ElementCondition.B_ACC_CODE" />
+		<include refid="ElementCondition.MANAGE_CODE" />
+		<include refid="ElementCondition.PAYOUT_CODE" />
+		<include refid="ElementCondition.OPERATION_TYPE_CODE" />
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		order by dp_balance_id desc
+	</select>
+
+	<select id="getDpBalanceForCp" resultMap="dpBalanceForVIEW">
+		select * from $DPVIEW$ master where nd=#nd# and balance> 0
+		<include refid="ElementCondition.MANAGE_CODE" />
+		<include refid="ElementCondition.PROJECT_CODE" />
+		<include refid="ElementCondition.FUND_CODE" />
+		<include refid="ElementCondition.ORIGIN_CODE" />
+		<include refid="ElementCondition.PAYTYPE_CODE" />
+		<include refid="ElementCondition.B_ACC_CODE" />
+		<include refid="ElementCondition.MANAGE_CODE" />
+		<include refid="ElementCondition.PAYOUT_CODE" />
+		<include refid="ElementCondition.OPERATION_TYPE_CODE" />
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		<include refid="GkGetDataRuleCondi.GkGetDataRuleCondiStr" />
+		<isNotNull prepend="AND" property="dpBalanceId">
+			dp_balance_id=#dpBalanceId#
+		</isNotNull>
+	</select>
+
+	<select id="getDpBalanceForAm" resultMap="dpBalanceForVIEW">
+		select * from $DPVIEW$ master where nd=#nd# and balance> 0
+		<isNotNull prepend="AND" property="PAYTYPE_CODE">
+			paytype_code like #PAYTYPE_CODE#||'%'
+		</isNotNull>
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		<include refid="ElementCondition.CoCodeFilter" />
+		<include refid="ElementCondition.FUND_CODE" />
+		<include refid="ElementCondition.MANAGE_CODE" />
+		<include refid="ElementCondition.ORIGIN_CODE" />
+		<include refid="ElementCondition.PROJECT_CODE" />
+		<include refid="ElementCondition.B_ACC_CODE" />
+	</select>
+
+	<select id="getDpBalanceForCarry" resultMap="dpBalanceForVIEWCarry"
+		parameterClass="elementCondition">
+		select master.Cd_Money, master.Is_Carrydown,
+		master.PROJECT_TYPE_CODE, master.SENDDOC_TYPE_CODE,
+		master.D_ATTR1, master.D_ATTR2, master.D_ATTR3, master.D_ATTR4,
+		master.D_ATTR5, master.DP_BALANCE_ID,12
+		monthid,master.BI_BALANCE_ID,master.ND,master.BI_TARGET_CODE,
+		master.CO_CODE, master.ORG_CODE, master.B_ACC_CODE,
+		master.OUTLAY_CODE, master.PROJECT_CODE, master.FUND_CODE,
+		master.ORIGIN_CODE, master.PAYTYPE_CODE, master.PAYOUT_CODE,
+		master.MANAGE_CODE, master.INCEPTDOC_CODE, master.SENDDOC_CODE,
+		master.DP_CD_MONEY+master.DP_MONEY1+master.Dp_Money2+master.Dp_Money3+master.DP_MONEY4+master.Dp_Money5+master.Dp_Money6+master.DP_MONEY7+master.DP_MONEY8+master.DP_MONEY9+master.DP_MONEY10+master.DP_MONEY11+master.DP_MONEY12
+		as DP_MONEY, master.AM_MONEY+master.CP_MONEY as PAY_SUM,
+		(master.DP_CD_MONEY+master.Dp_Money1+master.Dp_Money2+master.Dp_Money3+master.DP_MONEY4+master.Dp_Money5+master.Dp_Money6+master.DP_MONEY7+master.DP_MONEY8+master.DP_MONEY9+master.DP_MONEY10+master.DP_MONEY11+master.DP_MONEY12-
+		master.AM_MONEY-master.CP_MONEY-master.FREEZE_MONEY-master.CD_MONEY)
+		as BALANCE , (master.DP_CD_MONEY - master.DP_CD_USE_MONEY)
+		CD_BALANCE,master.remark from dp_balance MASTER WHERE nd=#nd#
+		<isNotNull prepend="AND" property="status">
+			<isEqual property="status" compareValue="unCarryed">
+				master.IS_CARRYDOWN='0' and
+				(master.DP_CD_MONEY+master.Dp_Money1+master.Dp_Money2+master.Dp_Money3+master.DP_MONEY4+master.Dp_Money5+master.Dp_Money6+master.DP_MONEY7+master.DP_MONEY8+master.DP_MONEY9+master.DP_MONEY10+master.DP_MONEY11+master.DP_MONEY12-
+				master.AM_MONEY-master.CP_MONEY-master.FREEZE_MONEY-master.CD_MONEY)>
+				0
+			</isEqual>
+			<isEqual property="status" compareValue="carryed">
+				master.IS_CARRYDOWN='1'
+			</isEqual>
+		</isNotNull>
+		<include refid="ElementCondition.PROJECT_CODE" />
+		<include refid="ElementCondition.ORIGIN_CODE" />
+		<include refid="ElementCondition.PAYTYPE_CODE" />
+		<include refid="ElementCondition.PAYOUT_CODE" />
+		<include refid="ElementCondition.B_ACC_CODE" />
+		<include refid="ElementCondition.SENDDOC_CODE" />
+		<include refid="ElementCondition.CoCodeFilter" />
+		<include refid="ElementCondition.OUTLAY_CODE" />
+		<include refid="ElementCondition.MANAGE_CODE" />
+		<include refid="ElementCondition.FUND_CODE" />
+		<include refid="ElementCondition.ORG_CODE" />
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		<include refid="GkGetDataRuleCondi.GkGetDataRuleCondiStr" />
+	</select>
+
+	<update id="updateDpBalanceForDpAdjustDecreaseSave"
+		parameterClass="Map">
+		UPDATE DP_BALANCE set
+		$balmoneyField$=$balmoneyField$-#adjustMoney# WHERE
+		($moneyField$ - am_money - cp_money - freeze_money - cd_money -
+		#adjustMoney#)
+		<![CDATA[>= ]]>-0.000001 AND dp_balance_id =#dpBalanceId#
+	</update>
+
+	<update id="updateDpBalanceForDpAdjustDecreaseAudit"
+		parameterClass="Map">
+		UPDATE DP_BALANCE set
+		$balmoneyField$=$balmoneyField$-#adjustMoney# WHERE
+		dp_balance_id =#dpBalanceId#
+	</update>
+
+	<update id="updateDpBalanceForDpAdjustFreezeSave"
+		parameterClass="Map">
+		UPDATE DP_BALANCE set FREEZE_MONEY = FREEZE_MONEY +
+		#adjustMoney# WHERE ($moneyField$ - am_money - cp_money -
+		freeze_money - cd_money - #adjustMoney#)
+		<![CDATA[>= ]]>-0.000001 AND dp_balance_id =#dpBalanceId#
+	</update>
+
+	<update id="updateDpBalanceForDpAdjustFreezeAudit"
+		parameterClass="Map">
+		UPDATE DP_BALANCE set FREEZE_MONEY = FREEZE_MONEY +
+		#adjustMoney#, A_FREEZE_MONEY=A_FREEZE_MONEY + #adjustMoney#
+		WHERE ($moneyField$ - am_money - cp_money - freeze_money -
+		cd_money - #adjustMoney#)
+		<![CDATA[>= ]]>-0.000001 AND dp_balance_id =#dpBalanceId#
+	</update>
+
+	<update id="updateDpBalanceForDpAdjustunFreezeAudit"
+		parameterClass="Map">
+		UPDATE DP_BALANCE set FREEZE_MONEY=FREEZE_MONEY - #adjustMoney#,
+		A_FREEZE_MONEY=A_FREEZE_MONEY-#adjustMoney# WHERE ($moneyField$
+		- am_money - cp_money - freeze_money - cd_money - #adjustMoney#)
+		<![CDATA[>= ]]>-0.000001 and (A_FREEZE_MONEY - #adjustMoney#)<![CDATA[>= ]]>-0.000001 AND dp_balance_id =#dpBalanceId#
+	</update>
+
+
+	<update id="updateDpBalanceForCp" parameterClass="Map">
+		update DP_BALANCE set cp_money=cp_money + #adjustMoney#,
+		dp_cd_use_money = case when dp_cd_money = 0 then 0 when
+		#newRequest# > 0 then case when dp_cd_money - dp_cd_use_money +
+		#oldDpCdUseMoney# >= #newRequest# then dp_cd_use_money -
+		#oldDpCdUseMoney# + #newRequest# else dp_cd_money end when
+		#newRequest# &lt; 0 then case when #oldDpCdUseMoney# = 0 then
+		dp_cd_use_money else dp_cd_use_money - #oldDpCdUseMoney# end
+		when #newRequest# = 0 then dp_cd_use_money end where
+		DP_BALANCE_ID = #dpBalanceId# and (#adjustMoney# &lt; = 0 or
+		$balanceStr$>= #adjustMoney#) and cp_money + #adjustMoney#
+		>=-0.000001
+	</update>
+
+	<update id="updateDpBalanceForCpApplyUnDo" parameterClass="Map">
+		UPDATE DP_BALANCE SET CP_MONEY=CP_MONEY-(select ORG_MONEY FROM
+		CP_APPLY where CP_APPLY_ID=#cpApplyId#),
+		DP_CD_USE_MONEY=DP_CD_USE_MONEY- (SELECT DP_CD_USE_MONEY FROM
+		CP_APPLY WHERE CP_APPLY_ID=#cpApplyId#) WHERE
+		dp_balance_id=#dpBalanceId#
+	</update>
+	<update id="updateDpBalanceForCpVoucherUnDo" parameterClass="Map">
+		UPDATE DP_BALANCE SET CP_MONEY=CP_MONEY-(select ORG_MONEY FROM
+		CP_VOUCHER where CP_VOUCHER_ID=#cpVoucherId#),
+		DP_CD_USE_MONEY=DP_CD_USE_MONEY- (SELECT DP_CD_USE_MONEY FROM
+		CP_VOUCHER WHERE CP_VOUCHER_ID=#cpVoucherId#) WHERE
+		dp_balance_id=#dpBalanceId#
+	</update>
+	<update id="updateDpBalanceForCpApplyUnAudit"
+		parameterClass="Map">
+		UPDATE dp_balance SET cp_money = cp_money - #curMoney#,
+		dp_cd_use_money = dp_cd_use_money - #dpCdUseMoney# WHERE
+		DP_BALANCE_ID= #dpBalanceId#
+	</update>
+
+	<select id="queryMayUsedDpcdMoney"
+		resultClass="java.math.BigDecimal" parameterClass="Map">
+		select case when dp_cd_money = 0 then 0 when dp_cd_money =
+		dp_cd_use_money then #oldCdUseMoney# when dp_cd_money -
+		dp_cd_use_money + #oldCdUseMoney# >= #newCurMoney# then
+		#newCurMoney# else dp_cd_money - dp_cd_use_money +
+		#oldCdUseMoney# end as CDMONEY from dp_balance where
+		DP_BALANCE_ID = #dpBalanceId# for update
+	</select>
+
+	<select id="queryDpCdUseMoney" resultClass="java.math.BigDecimal"
+		parameterClass="Map">
+		select dp_cd_use_money from dp_balance where dp_balance_id=
+		#dpBalanceId#
+	</select>
+
+	<select id="getBalanceNumByJjPlanDetailOid" resultClass="int"
+		parameterClass="string">
+		select count(*) from dp_balance where jj_plan_detail_oid=#value#
+	</select>
+
+	<update id="updateDpbalanceByJjPlanDetailOid"
+		parameterClass="Map">
+		update dp_balance set $moneyField$= $moneyField$ +#curMoney#
+		where jj_plan_detail_oid = #jjPlanDetailOid#
+	</update>
+
+	<update id="updateDpbalanceByOid"
+		parameterClass="asdpBalance">
+		update dp_balance set
+		RECE_CODE = #receCode:VARCHAR#,
+        RECE_ACCCODE = #receAccCode:VARCHAR#,
+        RECE_ACCNAME = #receAccName:VARCHAR#,
+        RECE_BANKNODECODE = #receBankNodeCode:VARCHAR#,
+        RECE_BANKNO = #receBankNo:VARCHAR#,
+        RECE_BANKNODENAME =  #receBankNodeName:VARCHAR#,
+        RECE_BANKACCCODE = #receBankAccCode:VARCHAR#,
+         remark=#remark:VARCHAR#
+		where jj_plan_detail_oid = #jjPlanDetailOid#
+	</update>
+
+	<select id="queryMaxDpBalance" resultClass="String"
+		parameterClass="string">
+		SELECT max(dp_balance_id) from dp_balance where (B_ACC_ID !=9 or
+		B_ACC_ID is null) and $elementWhere$
+	</select>
+
+	<insert id="insertDpBalance" parameterClass="asdpBalance">
+		insert into DP_BALANCE (DP_BALANCE_ID, BI_BALANCE_ID, ND,
+		IS_CARRYDOWN, IS_BI_CONTROL, BI_TARGET_CODE, ORG_CODE, CO_CODE,
+		B_ACC_CODE, OUTLAY_CODE, PROJECT_TYPE_CODE, PROJECT_CODE,
+		FUND_CODE, ORIGIN_CODE, PAYTYPE_CODE, PAYOUT_CODE, MANAGE_CODE,
+		INCEPTDOC_CODE, SENDDOC_TYPE_CODE, SENDDOC_CODE, DP_CD_MONEY,
+		DP_CD_USE_MONEY, DP_MONEY1, DP_MONEY2, DP_MONEY3, DP_MONEY4,
+		DP_MONEY5, DP_MONEY6, DP_MONEY7, DP_MONEY8, DP_MONEY9,
+		DP_MONEY10, DP_MONEY11, DP_MONEY12, AM_MONEY, CP_MONEY,
+		FREEZE_MONEY, A_FREEZE_MONEY, CD_MONEY, D_ATTR1, D_ATTR2,
+		D_ATTR3, D_ATTR4, D_ATTR5, STAMP, CAM_MONEY, A_CAM_MONEY,
+		RECE_CODE, RECE_ACCCODE, RECE_ACCNAME, RECE_BANKNODECODE,
+		RECE_BANKNO, RECE_BANKNODENAME,
+		RECE_BANKACCCODE,JJ_PLAN_DETAIL_OID,remark) values
+		(#dpBalanceId:VARCHAR#, #biBalanceId:VARCHAR#, #nd#,
+		#isCarrydown:CHAR#, #isBiControl:CHAR#, #biTargetCode:VARCHAR#,
+		#orgCode:VARCHAR#, #coCode:VARCHAR#, #baccCode:VARCHAR#,
+		#outlayCode:VARCHAR#, #projectTypeCode:VARCHAR#,
+		#projectCode:VARCHAR#, #fundCode:VARCHAR#, #originCode:VARCHAR#,
+		#paytypeCode:VARCHAR#, #payoutCode:VARCHAR#,
+		#manageCode:VARCHAR#, #inceptdocCode:VARCHAR#,
+		#senddocTypeCode:VARCHAR#, #sendDocCode:VARCHAR#,
+		#dpCdMoney:DECIMAL#, #dpCdUseMoney:DECIMAL#, #dpMoney1:DECIMAL#,
+		#dpMoney2:DECIMAL#, #dpMoney3:DECIMAL#, #dpMoney4:DECIMAL#,
+		#dpMoney5:DECIMAL#, #dpMoney6:DECIMAL#, #dpMoney7:DECIMAL#,
+		#dpMoney8:DECIMAL#, #dpMoney9:DECIMAL#, #dpMoney10:DECIMAL#,
+		#dpMoney11:DECIMAL#, #dpMoney12:DECIMAL#, #amMoney:DECIMAL#,
+		#cpMoney:DECIMAL#, #freezeMoney:DECIMAL#,
+		#afreezeMoney:DECIMAL#, #cdMoney:DECIMAL#, #dattr1:VARCHAR#,
+		#dattr2:VARCHAR#, #dattr3:VARCHAR#, #dattr4:VARCHAR#,
+		#dattr5:VARCHAR#, #stamp:DECIMAL#, #camMoney:DECIMAL#,
+		#acamMoney:DECIMAL# ,#receCode:VARCHAR#, #receAccCode:VARCHAR#,
+		#receAccName:VARCHAR#, #receBankNodeCode:VARCHAR#,
+		#receBankNo:VARCHAR#, #receBankNodeName:VARCHAR#,
+		#receBankAccCode:VARCHAR#,#jjPlanDetailOid:VARCHAR#,#remark:VARCHAR#)
+	</insert>
+
+	<update id="updateDpbalanceForDpEditAudit" parameterClass="Map">
+		update dp_balance set $setStr$ +#curMoney# where dp_balance_id =
+		#dpBalanceId#
+	</update>
+
+	<update id="updateDpBalanceForDpDecreaseUnaudit"
+		parameterClass="Map">
+		UPDATE dp_balance SET $moneyField$=$moneyField$ + (SELECT
+		$calcField$ FROM dp_detail where dp_detail_id=#dpDetailId#)
+		WHERE ($monthField$ - am_money - cp_money - freeze_money -
+		cd_money + (SELECT $calcField$ FROM dp_detail where
+		dp_detail_id=#dpDetailId#))
+		<![CDATA[>=]]>0 AND dp_balance_id=#dpBalanceId#
+	</update>
+
+	<update id="updateDpBalanceForDpEditUnaudit" parameterClass="Map">
+		UPDATE dp_balance SET $moneyField$=$moneyField$ - (SELECT
+		cur_money FROM dp_detail where dp_detail_id=#dpDetailId#) WHERE
+		($monthField$ - am_money - cp_money - freeze_money - cd_money -
+		(SELECT cur_money FROM dp_detail where
+		dp_detail_id=#dpDetailId#))
+		<![CDATA[>= ]]>0 AND $moneyField$ - (SELECT cur_money FROM dp_detail where
+		dp_detail_id=#dpDetailId#)
+		<![CDATA[>= ]]>0 AND dp_balance_id=#dpBalanceId#
+	</update>
+
+	<update id="updateDpBalanceForDpFreezeUnaudit"
+		parameterClass="Map">
+		UPDATE dp_balance SET freeze_money = freeze_money-(SELECT
+		$calcField$ FROM dp_detail WHERE dp_detail_id=#dpDetailId#),
+		a_freeze_money=a_freeze_money-(SELECT cur_money FROM dp_detail
+		where dp_detail_id=#dpDetailId#) where dp_balance_id =
+		#dpBalanceId#
+	</update>
+
+	<update id="updateDpBalanceForDpFreezeUnaudit0"
+		parameterClass="Map">
+		UPDATE dp_balance SET freeze_money = freeze_money-(SELECT
+		$calcField$ FROM dp_detail WHERE dp_detail_id=#dpDetailId#),
+		a_freeze_money=a_freeze_money-(SELECT cur_money FROM dp_detail
+		where dp_detail_id=#dpDetailId#) WHERE dp_balance_id =
+		#dpBalanceId# AND
+		($monthField$-AM_MONEY-CP_MONEY-FREEZE_MONEY-CD_MONEY) + (SELECT
+		cur_money-org_money FROM DP_DETAIL WHERE
+		dp_detail_id=#dpDetailId#)
+		<![CDATA[>=]]>0
+	</update>
+
+	<update id="updateDpBalanceForAm" parameterClass="Map">
+		update DP_BALANCE set am_money =am_money+#money# WHERE
+		dp_balance_id = #dpBalanceId# AND (#money#
+		<![CDATA[<=]]>
+		0 OR $monthStr$ -#money#
+		<![CDATA[>=]]>
+		-0.000001) AND am_money+#money#
+		<![CDATA[>= ]]>
+		0
+	</update>
+
+	<update id="updateDpBalanceForAmVoucherDelete" parameterClass="Map">
+		update dp_balance set am_money = am_money - (select org_money from am_voucher where am_voucher_id=#amVoucherId#)
+		where dp_balance_id =#dpBalanceId#
+	</update>
+
+	<update id="updateDpBalanceForDpUnFreezeUnaudit"
+		parameterClass="Map">
+		UPDATE dp_balance SET freeze_money = freeze_money+(SELECT
+		cur_money FROM dp_detail WHERE dp_detail_id=#dpDetailId#),
+		a_freeze_money=a_freeze_money-(SELECT cur_money FROM dp_detail
+		where dp_detail_id=#dpDetailId#) WHERE dp_balance_id =
+		#dpBalanceId# AND
+		($monthField$-AM_MONEY-CP_MONEY-FREEZE_MONEY-CD_MONEY) - (SELECT
+		cur_money FROM DP_DETAIL WHERE dp_detail_id=#dpDetailId#)
+		<![CDATA[>=]]>0
+	</update>
+
+	<update id="updateDpBalanceForDpUnFreezeInterrupt"
+		parameterClass="Map">
+		UPDATE dp_balance SET freeze_money=freeze_money-#curMoney# WHERE
+		dp_balance_id=#dpBalanceId#
+	</update>
+
+	<parameterMap id="SP_CP_DP_CARRY_MAP" class="java.util.HashMap">
+		<parameter property="dpBalanceIds" jdbcType="VARCHAR"
+			javaType="java.lang.String" mode="IN" />
+		<parameter property="nd" jdbcType="VARCHAR"
+			javaType="java.lang.Integer" mode="IN" />
+		<parameter property="inputor" jdbcType="VARCHAR"
+			javaType="java.lang.String" mode="IN" />
+		<parameter property="procDate" jdbcType="VARCHAR"
+			javaType="java.lang.String" mode="IN" />
+		<parameter property="rtnStr" jdbcType="VARCHAR"
+			javaType="java.lang.String" mode="OUT" />
+	</parameterMap>
+	<procedure id="SP_CP_DP_CARRY" parameterMap="SP_CP_DP_CARRY_MAP">
+		{call SP_CP_DP_CARRY(?,?,?,?,?)}
+	</procedure>
+
+	<parameterMap id="SP_CP_DP_CARRY_CANCEL_MAP"
+		class="java.util.HashMap">
+		<parameter property="dpBalanceIds" jdbcType="VARCHAR"
+			javaType="java.lang.String" mode="IN" />
+		<parameter property="rtnStr" jdbcType="VARCHAR"
+			javaType="java.lang.String" mode="OUT" />
+	</parameterMap>
+	<procedure id="SP_CP_DP_CARRY_CANCEL"
+		parameterMap="SP_CP_DP_CARRY_CANCEL_MAP">
+		{call SP_CP_DP_CARRY_CANCEL(?,?)}
+	</procedure>
+
+	<update id="updateDpDetailForUpdate" parameterClass="Map">
+		update dp_detail
+		set is_effect='1',
+			a_status_code='5',
+			dp_balance_id =#dpBalanceId#,
+			EFFECT_ID=#effectId#,
+			EFFECT_DATE=trunc(#effectDate:DATE#)
+		where dp_detail_id=#dpDetailId#
+	</update>
+
+	<update id="updateDpDetailForUnUpdate" parameterClass="Map">
+		update dp_detail
+		set is_effect='0',
+			a_status_code='3',
+			dp_balance_id ='',
+			EFFECT_ID='',
+			EFFECT_DATE=''
+		where dp_detail_id=#dpDetailId#
+	</update>
+
+	<update id="updateDpBalanceForUnUpdate" parameterClass="Map">
+		update dp_balance set $moneyField$ = $moneyField$-#money# where dp_balance_id = #dpBalanceId# and $moneyField$-#money# >-0.0000001
+	</update>
+
+</sqlMap>

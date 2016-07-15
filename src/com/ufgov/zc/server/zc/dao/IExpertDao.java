@@ -1,0 +1,1 @@
+package com.ufgov.zc.server.zc.dao;import com.ufgov.zc.common.zc.model.ExpertPo;public interface IExpertDao {  void insertExpertPo(ExpertPo expertPo);}

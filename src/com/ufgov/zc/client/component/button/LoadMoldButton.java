@@ -1,0 +1,1 @@
+package com.ufgov.zc.client.component.button;public class LoadMoldButton extends FuncButton {  /**   *    */  private static final long serialVersionUID = -2564446291342163428L;  public LoadMoldButton() {    super();  }  protected void init() {    this.funcId = "floadMold";    this.defaultText = "填充模板";    super.init();  }}

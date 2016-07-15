@@ -1,0 +1,1 @@
+package com.ufgov.zc.server.commonbiz.service;import java.util.List;import com.ufgov.zc.common.system.dto.ElementConditionDto;public interface IBAccService {  List getBAccTree(int nd);  List getBAcc(ElementConditionDto dto);}

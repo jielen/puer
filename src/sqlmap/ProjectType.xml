@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ProjectType">
+
+	<resultMap id="projectType"
+		class="com.ufgov.zc.common.commonbiz.model.ProjectType">
+		<result property="nd" column="nd" />
+		<result property="code" column="project_type_code" />
+		<result property="name" column="project_type_name" />
+		<result property="parentCode" column="super_project_type" />
+		<result property="level" column="current_level"  nullValue="0" />
+	</resultMap>
+
+	<sql id="selectProjectType">
+		SELECT nd,project_type_code, project_type_name
+		,super_project_type,current_level FROM MA_PROJECT_TYPE 
+	</sql>
+
+	<select id="getRootProjectType" resultMap="projectType"
+		parameterClass="int">
+		<include refid="selectProjectType" />
+		where nd= #nd# and is_used='1' and super_project_type is null
+		order by project_type_code
+	</select>
+
+	<select id="getChildrenProjectType" resultMap="projectType"
+		parameterClass="int">
+		<include refid="selectProjectType" />
+		where nd= #nd# and is_used='1' and super_project_type is not
+		null order by project_type_code
+	</select>
+
+	<select id="getProjectType" resultMap="projectType"
+		parameterClass="int">
+		<include refid="selectProjectType" />
+		where nd= #nd# and is_used='1' order by project_type_code
+	</select>
+
+
+</sqlMap>

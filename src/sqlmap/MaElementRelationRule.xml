@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MaElementRelationRule">
+
+	<typeAlias alias="MaElementRelationRule"
+		type="com.ufgov.zc.common.commonbiz.model.MaElementRelationRule" />
+
+	<typeAlias alias="MaElementRelationRuleDetail"
+		type="com.ufgov.zc.common.commonbiz.model.MaElementRelationRuleDetail" />
+
+	<resultMap id="MaElementRelationRuleResult"
+		class="MaElementRelationRule">
+		<result property="relationRuleId" column="relation_rule_id" />
+		<result property="relationRuleName" column="relation_rule_name" />
+		<result property="compoId" column="compo_id" />
+		<result property="handleType" column="handle_type" />
+		<result property="ruleType" column="rule_type" />
+	</resultMap>
+
+	<resultMap id="MaElementRelationRuleDetailResult"
+		class="MaElementRelationRuleDetail">
+		<result property="relationRuleId" column="relation_rule_id" />
+		<result property="entryId" column="entry_id" />
+		<result property="element" column="element" />
+		<result property="elementValue" column="element_value"  />
+		<result property="direction" column="direction" />
+		<result property="operator" column="operator" />
+	</resultMap>
+
+	<select id="getElementRelationRule"
+		resultMap="MaElementRelationRuleResult" parameterClass="map">
+	select * from ma_element_relation_rule
+	 <dynamic prepend="WHERE">
+	 	<isNotNull prepend="AND" property="compoId">
+	 		compo_id=#compoId#
+	 	</isNotNull>
+	 	<isNotNull prepend="AND" property="handleType">
+	 		handle_type=#handleType#
+	 	</isNotNull>
+	 	<isNotNull prepend="AND" property="ruleType">
+	 		rule_type=#ruleType#
+	 	</isNotNull>
+	 </dynamic>
+	 ORDER BY RELATION_RULE_ID
+	</select>
+	
+	<select id="getElementRelationRuleDetail" resultMap="MaElementRelationRuleDetailResult"
+		parameterClass="map">
+		select * from ma_element_relation_rule_de  
+		
+		<dynamic prepend="WHERE">
+		  <iterate prepend="AND" property="relationRuleId"  open="(" close=")" conjunction="OR">
+            relation_rule_id=#relationRuleId[]#
+          </iterate>
+       </dynamic>
+	</select>
+	
+	<select id="getElementRelationId" resultClass="java.math.BigDecimal" parameterClass="map">
+		SELECT SEQ_MA_CP_ELEMENT_RELATION.NEXTVAL FROM dual
+	</select>
+	
+	<select id="getElementEntityId" resultClass="java.math.BigDecimal" parameterClass="map">
+		SELECT SEQ_MA_CP_ELEMENT_ENTRY.NEXTVAL FROM dual
+	</select>
+	
+	<delete id="deleteElementRelationRuleById" parameterClass="String">
+		DELETE FROM MA_ELEMENT_RELATION_RULE T WHERE t.Relation_Rule_Id = #value#
+	</delete>
+	
+	<delete id="deleteRelationEntryByRuleId" parameterClass="String">
+		DELETE FROM MA_ELEMENT_RELATION_RULE_DE T WHERE T.RELATION_RULE_ID = #value#
+	</delete>
+	
+	<delete id="deleteRelationEntryByEntryId" parameterClass="String">
+		DELETE FROM MA_ELEMENT_RELATION_RULE_DE T WHERE T.ENTRY_ID = #value#
+	</delete>
+	
+	<insert id="insertElementRelationRule" parameterClass="com.ufgov.zc.common.commonbiz.model.MaElementRelationRule">
+		INSERT INTO MA_ELEMENT_RELATION_RULE
+		  (RELATION_RULE_ID,
+		   RELATION_RULE_NAME,
+		   COMPO_ID,
+		   HANDLE_TYPE,
+		   RULE_TYPE
+		   )
+		VALUES
+		  (#relationRuleId:VARCHAR#,
+		   #relationRuleName:VARCHAR#,
+		   #compoId:VARCHAR#,
+		   #handleType:VARCHAR#,
+		   #ruleType:VARCHAR#
+		   )		
+	</insert>
+	<update id="updateElementRealtionRule" parameterClass="com.ufgov.zc.common.commonbiz.model.MaElementRelationRule">
+		UPDATE MA_ELEMENT_RELATION_RULE T
+		   SET T.RELATION_RULE_NAME = #relationRuleName#,
+		       T.COMPO_ID = #compoId#,
+		       T.HANDLE_TYPE = #handleType#
+		 WHERE T.RELATION_RULE_ID = #relationRuleId#
+	</update>
+	<insert id="insertElementRelationDetail" parameterClass="com.ufgov.zc.common.commonbiz.model.MaElementRelationRuleDetail">
+		INSERT INTO MA_ELEMENT_RELATION_RULE_DE
+		  (RELATION_RULE_ID, ELEMENT, ELEMENT_VALUE, OPERATOR, DIRECTION, ENTRY_ID)
+		VALUES
+		  (#relationRuleId:VARCHAR#,
+		   #element:VARCHAR#,
+		   #elementValue:VARCHAR#,
+		   #operator:VARCHAR#,
+		   #direction:VARCHAR#,
+		   #entryId:VARCHAR#)		
+	</insert>
+
+</sqlMap>

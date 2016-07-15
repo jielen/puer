@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="MaTzdSumElement">
+	<resultMap id="maTzdSumElementResult" class="com.ufgov.zc.common.commonbiz.model.MaTzdSumElement">
+		<result property="elementId" column="ELEMENT_ID"/>
+		<result property="nd" column="ND"/>
+		<result property="billTypeCode" column="BILL_TYPE_CODE"/>
+		<result property="elementCode" column="ELEMENT_CODE"/>
+		<result property="elementName" column="ELEMENT_NAME"/>
+		<result property="isSum" column="IS_SUM"/>
+		<result property="sumLevel" column="SUM_LEVEL"/>
+		<result property="isDisplay" column="IS_DISPLAY"/>
+		<result property="displayOrder" column="DISPLAY_ORDER"/>
+	</resultMap>
+	<update id="updateMaTzdSumElement" parameterClass="com.ufgov.zc.common.commonbiz.model.MaTzdSumElement">
+		update MA_TZD_SUM_ELEMENT
+		set
+				ND = #nd:INTEGER#,
+				BILL_TYPE_CODE = #billTypeCode:VARCHAR#,
+				ELEMENT_CODE = #elementCode:VARCHAR#,
+				ELEMENT_NAME = #elementName:VARCHAR#,
+				IS_SUM = #isSum:VARCHAR#,
+				SUM_LEVEL = #sumLevel:VARCHAR#,
+				IS_DISPLAY = #isDisplay:VARCHAR#,
+				DISPLAY_ORDER = #displayOrder:VARCHAR#
+		 
+		where ELEMENT_ID = #elementId:VARCHAR#
+	</update>
+
+		<update id="updateMaTzdSumElementForBb" parameterClass="com.ufgov.zc.common.commonbiz.model.MaTzdSumElement">
+		update MA_TZD_SUM_ELEMENT
+		set 	IS_SUM = #isSum:VARCHAR#,
+				SUM_LEVEL = #sumLevel:VARCHAR#,
+				IS_DISPLAY = #isDisplay:VARCHAR#,
+				DISPLAY_ORDER = #displayOrder:VARCHAR#
+		where BILL_TYPE_CODE = #billTypeCode:VARCHAR#
+		and ND = #nd:INTEGER#
+		and ELEMENT_CODE = #elementCode:VARCHAR#
+	</update>
+	
+	
+	
+	<delete id="deleteMaUserTzdSumElement" parameterClass="com.ufgov.zc.common.commonbiz.model.MaTzdSumElement">
+		delete from MA_USER_TZD_SUM_ELEMENT where BILL_TYPE_CODE = #billTypeCode:VARCHAR#
+		and ND = #nd:INTEGER#
+		and USER_ID=#userId:VARCHAR#
+	</delete>
+
+
+	<insert id="insertMaUserTzdSumElement" parameterClass="com.ufgov.zc.common.commonbiz.model.MaTzdSumElement">
+		insert into
+		MA_USER_TZD_SUM_ELEMENT(ELEMENT_ID, ND,USER_ID,BILL_TYPE_CODE,ELEMENT_CODE,ELEMENT_NAME,IS_SUM,SUM_LEVEL,IS_DISPLAY,DISPLAY_ORDER )
+		values(#elementId:VARCHAR#, #nd:INTEGER#,#userId:VARCHAR#,#billTypeCode:VARCHAR#,#elementCode:VARCHAR#,#elementName:VARCHAR#,#isSum:VARCHAR#,#sumLevel:VARCHAR#,#isDisplay:VARCHAR#,#displayOrder:VARCHAR#)
+	</insert>
+
+	<update id="updateMaTzdSum" parameterClass="com.ufgov.zc.common.commonbiz.model.MaTzdSumElement">
+		update MA_TZD_SUM_ELEMENT
+		set 	ND = #nd:INTEGER#,
+				BILL_TYPE_CODE = #billTypeCode:VARCHAR#,
+				ELEMENT_CODE = #elementCode:VARCHAR#,
+				ELEMENT_NAME = #elementName:VARCHAR#,
+				IS_SUM = #isSum:VARCHAR#,
+				SUM_LEVEL = #sumLevel:VARCHAR#,
+				IS_DISPLAY = #isDisplay:VARCHAR#,
+				DISPLAY_ORDER = #displayOrder:VARCHAR#
+		where ELEMENT_ID = #elementId:VARCHAR#
+	</update>
+
+	<select id="getMaTzdSumElement" resultMap="maTzdSumElementResult" parameterClass="map">
+		select * from MA_TZD_SUM_ELEMENT where ND=#nd#
+			<isNotNull prepend="AND"  property="billTypeCode">
+				BILL_TYPE_CODE = #billTypeCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="AND"  property="elementCode">
+				ELEMENT_CODE = #elementCode:VARCHAR#
+			</isNotNull>
+			ORDER BY is_sum DESC,display_order DESC
+	</select>
+	
+	
+	<select id="getMaUserTzdSumElement" resultMap="maTzdSumElementResult" parameterClass="map">
+		select * from MA_USER_TZD_SUM_ELEMENT where ND=#nd#
+			<isNotNull prepend="AND"  property="billTypeCode">
+				BILL_TYPE_CODE = #billTypeCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="AND"  property="userId">
+				USER_ID = #userId:VARCHAR#
+			</isNotNull>
+			ORDER BY is_sum DESC,display_order DESC
+	</select>
+	
+	<resultMap id="elementCode" class="com.ufgov.zc.common.commonbiz.model.MaTzdSumElement">
+		<result property="elementCode" column="element_code" />
+	</resultMap>
+	
+	<select id="getMaTzdSumElementMap" resultMap="maTzdSumElementResult" parameterClass="map">
+		select * from MA_TZD_SUM_ELEMENT where ND=#nd#
+			<isNotNull prepend="AND"  property="billTypeCode">
+				BILL_TYPE_CODE = #billTypeCode:VARCHAR#
+			</isNotNull>
+			ORDER BY display_order desc
+	</select>
+	
+	<select id="getMaUserTzdSumElementMap" resultMap="maTzdSumElementResult" parameterClass="map">
+		select * from MA_USER_TZD_SUM_ELEMENT where ND=#nd#
+			<isNotNull prepend="AND"  property="billTypeCode">
+				BILL_TYPE_CODE = #billTypeCode:VARCHAR#
+			</isNotNull>
+				<isNotNull prepend="AND"  property="userId">
+				USER_ID = #userId:VARCHAR#
+			</isNotNull>
+			ORDER BY display_order desc
+	</select>
+</sqlMap>

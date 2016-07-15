@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="GkGetdataRule">
+	<resultMap class="com.ufgov.zc.common.console.model.GkGetdataRule" id="gkGetdataRuleResult">
+		<result column="RULE_ID" property="ruleId" jdbcType="VARCHAR"/>
+  		<result column="RULE_NAME" property="ruleName" jdbcType="VARCHAR"/>
+  		<result column="RULE_DESC" property="ruleResc" jdbcType="VARCHAR"/>
+  		<result column="RULE_SQL_ORACLE" property="ruleSqlOracle" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<select id="getGkGetdataRule" resultMap="gkGetdataRuleResult">
+		select * from GK_GETDATA_RULE
+	</select>
+	<update id="updateGkGetdataRule" parameterClass="com.ufgov.zc.common.console.model.GkGetdataRule">
+		update GK_GETDATA_RULE
+		set RULE_SQL_ORACLE=#ruleSqlOracle:VARCHAR#
+		where RULE_ID=#ruleId:VARCHAR#
+	</update>
+	
+	<select id="getGkGetDataRuleById" resultMap="gkGetdataRuleResult" parameterClass="String">
+		select * from GK_GETDATA_RULE where RULE_ID=#ruleId:VARCHAR#
+	</select>	
+</sqlMap>
+

@@ -1,0 +1,1 @@
+package com.ufgov.zc.common.zc;import java.util.Map;public interface Communication {  public Map buildCommunication(Map parameterMap, String functionDo);  public Map buildCommunicationB(Map parameterMap);  public Map buildCommunicationU(Map parameterMap);}

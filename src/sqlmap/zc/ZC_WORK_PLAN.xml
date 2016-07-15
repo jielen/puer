@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ZcWorkPlan">
+	<typeAlias alias="workPlan" type="com.ufgov.zc.common.zc.model.ZcWorkPlan" />
+	<typeAlias alias="workPlanDetail" type="com.ufgov.zc.common.zc.model.ZcWorkPlanDetail" />
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	
+	<resultMap id="WorkPlan" class="workPlan">
+		<result property="id" column="ID" />
+		<result property="nd" column="ND" />
+		<result property="planName" column="PLAN_NAME" />
+		<result property="belongDepartment" column="BELONG_DEPARTMENT" />
+		<result property="plannerName" column="PLANNER_NAME" />
+		<result property="planType" column="PLAN_TYPE" />
+		<result property="inputDate" column="INPUT_DATE" />
+		<result property="updateDate" column="UPDATE_DATE" />
+		<result property="planStatus" column="PLAN_STATUS" />
+		<result property="remark" column="REMARK" />
+		<result column="PROCESS_INST_ID" jdbcType="DECIMAL" property="processInstId" />
+	</resultMap>
+	<resultMap id="WorkPlanDetail" class="workPlanDetail">
+		<result property="id" column="ID" />
+		<result property="planID" column="PLAN_ID" />
+		<result property="planContent" column="PLAN_CONTENT" />
+		<result property="planStartTime" column="PLAN_START_TIME" />
+		<result property="planEndTime" column="PLAN_END_TIME" />
+		<result property="planFinishDesc" column="PLAN_FINISH_DESC" />
+		<result property="leaderEvalution" column="LEADER_EVALUTION" />
+	</resultMap>
+
+	<select id="getWorkPlans" resultMap="WorkPlan" parameterClass="elementCondition">
+		SELECT *
+	    FROM ZC_WORK_PLAN master 
+	    WHERE master.PLANNER_NAME = #executor#
+	    <isNotNull prepend="AND" property="startDate">
+		  	<![CDATA[master.INPUT_DATE >= #startDate#]]>
+	    </isNotNull>
+	    <isNotNull prepend="AND" property="endDate">
+		  	<![CDATA[master.INPUT_DATE <= #endDate#]]>
+	    </isNotNull>
+	    <!--isNotNull prepend="AND" property="type">
+		  	master.PLAN_TYPE = #type#
+	    </isNotNull-->
+	    <isNotNull prepend="AND" property="status">
+				<isEqual property="status" compareValue="todo">
+					exists (select instance_id from v_wf_current_task_gk53 where executor =#executor# and instance_id = master.process_inst_id)
+				</isEqual>
+				<isEqual property="status" compareValue="done">
+			    exists (select instance_id from V_WF_ACTION_HISTORY_GK53 where executor = #executor# and instance_id = master.process_inst_id)
+					and master.PLAN_STATUS!='cancel'
+					and master.PLAN_STATUS!='exec'
+				</isEqual>
+				<isEqual property="status" compareValue="exec">
+					(master.PLAN_STATUS ='exec')
+				</isEqual>
+				<isEqual property="status" compareValue="draft">
+			    exists (select WF_DRAFT_NAME from as_wf_draft where user_id=#executor# and compo_id=#wfcompoId# and WF_DRAFT_ID=master.process_inst_id)
+			    or master.process_inst_id = -1
+				</isEqual>
+			</isNotNull>
+	    <isNotNull prepend="AND" property="nd">
+		  	master.ND = #nd#
+	    </isNotNull>
+	  		ORDER BY master.INPUT_DATE DESC
+	</select>
+	<select id="getWorkPlansForDynamic" resultMap="WorkPlan" parameterClass="elementCondition">
+		SELECT 
+			*
+	  FROM 
+	  	ZC_WORK_PLAN master 
+	  WHERE
+			(master.PLAN_STATUS ='exec' or master.PLAN_STATUS='0')
+	  <isNotNull prepend="AND" property="nd">
+		 	master.ND = #nd#
+	  </isNotNull>
+	  	ORDER BY master.INPUT_DATE DESC
+	</select>
+	<select id="getWorkPlan" resultMap="WorkPlan" parameterClass="workPlan">
+		SELECT *
+	    FROM ZC_WORK_PLAN master
+	  <isNotNull prepend="WHERE" property="id">
+	    master.ID=#id#
+	  </isNotNull>   
+	</select>
+	<select id="getWorkPlanDetails" resultMap="WorkPlanDetail">
+		SELECT *
+	    FROM ZC_WORK_PLAN_DETAIL master
+	    WHERE 1=1
+	    <isNotNull prepend="AND" property="inputGroupId">
+		  master.PLAN_ID = #inputGroupId#
+	    </isNotNull>
+	  	ORDER BY master.PLAN_START_TIME,PLAN_END_TIME DESC
+	</select>
+
+	<insert id="insertWorkPlan" parameterClass="WorkPlan">
+		<selectKey resultClass="java.lang.String" keyProperty="id" > 
+			select ZC_SEQ_WORKPLAN.Nextval AS id FROM DUAL 
+		</selectKey>
+		insert into ZC_WORK_PLAN
+		  (ID,ND,PLAN_NAME,BELONG_DEPARTMENT,PLANNER_NAME,PLAN_TYPE,INPUT_DATE,UPDATE_DATE,PLAN_STATUS,REMARK)
+		values
+		  (#id#,#nd#,#planName#,#belongDepartment#, #plannerName#, #planType#, #inputDate#, #updateDate#, #planStatus#,#remark#)
+	</insert>
+	<insert id="insertWorkPlanDetail" parameterClass="WorkPlanDetail">
+		insert into ZC_WORK_PLAN_DETAIL
+		  (ID,PLAN_ID,PLAN_CONTENT,PLAN_START_TIME,PLAN_END_TIME,PLAN_FINISH_DESC,LEADER_EVALUTION)
+		values
+		  (ZC_SEQ_WORKPLAN_DETAIL.Nextval,#planID#,#planContent#, #planStartTime#, #planEndTime#, #planFinishDesc#, #leaderEvalution#)
+	</insert>
+	<update id="updateWorkPlan" parameterClass="WorkPlan">
+		UPDATE ZC_WORK_PLAN P
+		SET 
+		  P.PLAN_NAME=#planName#,
+		  P.BELONG_DEPARTMENT=#belongDepartment#,
+		  P.PLAN_TYPE=#planType#,
+		  P.UPDATE_DATE=#updateDate#,
+		  P.PLAN_STATUS=#planStatus#,
+		  P.REMARK=#remark#
+		<isNotNull prepend="WHERE" property="id">
+		  P.ID = #id#
+	  </isNotNull>
+	</update>
+	<delete id="deleteWorkPlans" parameterClass="elementCondition">
+    DELETE FROM ZC_WORK_PLAN
+    WHERE 1=1
+    <iterate prepend="AND" property="pmAdjustCodeList" open="("	close=")" conjunction="or">
+			ID=#pmAdjustCodeList[]#
+		</iterate>
+  </delete>
+  <delete id="deleteWorkPlanDetail" parameterClass="elementCondition">
+    DELETE FROM ZC_WORK_PLAN_DETAIL master
+    WHERE 1=1
+	  <isNotNull prepend="AND" property="inputGroupId">
+		  master.ID = #inputGroupId#
+	  </isNotNull>
+  </delete>
+	<delete id="deleteWorkPlanDetails" parameterClass="elementCondition">
+    DELETE FROM ZC_WORK_PLAN_DETAIL master
+    WHERE 1=1
+		<isNotNull prepend="AND" property="inputGroupId">
+		  master.PLAN_ID = #inputGroupId#
+	  </isNotNull>    
+  </delete>
+</sqlMap>

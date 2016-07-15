@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+
+
+<!DOCTYPE sqlMap      
+
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ZC_QB">
+
+	<typeAlias alias="zcqb" type="com.ufgov.zc.common.zc.model.ZcQb" />
+	<typeAlias alias="zcqbbi" type="com.ufgov.zc.common.zc.model.ZcQbBi" />
+	<typeAlias alias="zcqbitem" type="com.ufgov.zc.common.zc.model.ZcQbItem" />
+
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+
+	<resultMap id="zcqbResult" class="zcqb">
+		<result property="qbCode" column="QB_CODE" />
+		<result property="coCode" column="CO_CODE" />
+		<result property="excutor" column="EXCUTOR" />
+		<result property="excutorName" column="EXCUTOR_NAME" />
+		<result property="inputDate" jdbcType="DATE" javaType="java.util.Date"
+			column="INPUT_DATE" />
+		<result property="supplier" column="SUPPLIER" />
+		<result property="supplierName" column="SUPPLIER_NAME" />
+		<result property="coName" column="CO_NAME" />
+		<result property="suBankAccount" column="SU_BANK_ACCOUNT" />
+		<result property="suBank" column="SU_BANK" />
+		<result property="suBankShoukuanren" column="SU_BANK_SHOUKUANREN" />
+		<result property="nd" column="ND" />
+		<result property="qbSum" jdbcType="DECIMAL" javaType="java.math.BigDecimal"
+			column="QB_SUM" />
+		<result property="remark" column="REMARK" />
+		<result property="status" column="STATUS" />
+		<result property="qbName" column="QB_NAME" />
+		<result property="suLinkMan" column="SU_LINK_MAN" />
+		<result property="suLinkTel" column="SU_LINK_TEL" />
+		<result column="PROCESS_INST_ID" jdbcType="DECIMAL" property="processInstId" />
+		<result column="BI_SUM" jdbcType="DECIMAL" property="biSum" />
+	</resultMap>
+
+	<resultMap class="zcqbbi" id="zcqbbiResultMap">
+		<result column="ZC_BI_NO" jdbcType="VARCHAR" property="zcBiNo" />
+		<result column="QB_CODE" jdbcType="VARCHAR" property="qbCode" />
+		<result column="ZC_BI_SUM" jdbcType="DECIMAL" property="zcBiSum" />
+		<result column="ZC_BI_JHUA_SUM" jdbcType="DECIMAL" property="zcBiJhuaSum" />
+		<result column="ZC_BI_DO_SUM" jdbcType="DECIMAL" property="zcBiDoSum" />
+		<result column="ZC_BI_YJBA_SUM" jdbcType="DECIMAL" property="zcBiYjbaSum" />
+		<result column="BI_TARGET_CODE" jdbcType="VARCHAR" property="biTargetCode" />
+		<result column="B_ACC_CODE" jdbcType="VARCHAR" property="bAccCode" />
+		<result column="B_ACC_NAME" jdbcType="VARCHAR" property="bAccName" />
+		<result column="CO_CODE" jdbcType="VARCHAR" property="coCode" />
+		<result column="CO_NAME" jdbcType="VARCHAR" property="coName" />
+		<result column="DEC_MONEY" jdbcType="DECIMAL" property="decMoney" />
+		<result column="FUND_CODE" jdbcType="VARCHAR" property="fundCode" />
+		<result column="FUND_NAME" jdbcType="VARCHAR" property="fundName" />
+		<result column="INCEPTDOC_CODE" jdbcType="VARCHAR" property="inceptdocCode" />
+		<result column="INCEPTDOC_NAME" jdbcType="VARCHAR" property="inceptdocName" />
+		<result column="MANAGE_CODE" jdbcType="VARCHAR" property="manageCode" />
+		<result column="MANAGE_NAME" jdbcType="VARCHAR" property="manageName" />
+		<result column="ND" jdbcType="CHAR" property="nd" />
+		<result column="ORG_CODE" jdbcType="VARCHAR" property="orgCode" />
+		<result column="ORG_NAME" jdbcType="VARCHAR" property="orgName" />
+		<result column="ORIGIN_CODE" jdbcType="VARCHAR" property="originCode" />
+		<result column="ORIGIN_NAME" jdbcType="VARCHAR" property="originName" />
+		<result column="OUTLAY_CODE" jdbcType="VARCHAR" property="outlayCode" />
+		<result column="OUTLAY_NAME" jdbcType="VARCHAR" property="outlayName" />
+		<result column="PAYOUT_CODE" jdbcType="VARCHAR" property="payoutCode" />
+		<result column="PAYOUT_NAME" jdbcType="VARCHAR" property="payoutName" />
+		<result column="PAYTYPE_CODE" jdbcType="VARCHAR" property="paytypeCode" />
+		<result column="PAYTYPE_NAME" jdbcType="VARCHAR" property="paytypeName" />
+		<result column="PROJECT_CODE" jdbcType="VARCHAR" property="projectCode" />
+		<result column="PROJECT_NAME" jdbcType="VARCHAR" property="projectName" />
+		<result column="PROJECT_TYPE_CODE" jdbcType="VARCHAR" property="projectTypeCode" />
+		<result column="PROJECT_TYPE_NAME" jdbcType="VARCHAR" property="projectTypeName" />
+		<result column="SENDDOC_CODE" jdbcType="VARCHAR" property="senddocCode" />
+		<result column="SENDDOC_NAME" jdbcType="VARCHAR" property="senddocName" />
+		<result column="SENDDOC_TYPE_CODE" jdbcType="VARCHAR" property="senddocTypeCode" />
+		<result column="SENDDOC_TYPE_NAME" jdbcType="VARCHAR" property="senddocTypeName" />
+		<result column="ZC_BI_HTBA_SUM" jdbcType="DECIMAL" property="zcBiHtbaSum" />
+		<result column="ZC_CG_TYPE" jdbcType="VARCHAR" property="zcCgType" />
+		<result column="ZC_PLAN_TYPE" jdbcType="VARCHAR" property="zcPlanType" />
+		<result column="ZC_SAVE_NUM" jdbcType="DECIMAL" property="zcSaveNum" />
+		<result column="ZC_CATALOGUE_CODE" jdbcType="VARCHAR" property="zcCatalogueCode" />
+		<result column="ZC_CATALOGUE_NAME" jdbcType="VARCHAR" property="zcCatalogueName" />
+		<result column="ZC_YEAR" jdbcType="VARCHAR" property="zcYear" />
+		<result column="ZC_YEP_SUM" jdbcType="DECIMAL" property="zcYepSum" />
+		<result column="ZC_BI_APD_FLAG" jdbcType="VARCHAR" property="zcBiApdFlag" />
+		<result column="ZC_FUND_REMARK" jdbcType="VARCHAR" property="zcFundRemark" />
+		<result column="ZC_FUND_FILE" jdbcType="VARCHAR" property="zcFundFile" />
+		<result column="ZC_FUND_FILE_BLOBID" jdbcType="VARCHAR"
+			property="zcFundFileBlobid" />
+		<result column="SUPPLEMENT_AMOUNT" jdbcType="DECIMAL"
+			property="allSuppleMentAmount" />
+		<result column="ZC_PRO_BI_SEQ" jdbcType="VARCHAR" property="zcProBiSeq" />
+		<result column="ZC_USE_BI_ID" jdbcType="VARCHAR" property="zcUseBiId" />
+		<result column="ZC_ZJ_TYPE" jdbcType="VARCHAR" property="zcZjType" />
+		<result column="ZC_AM_BILL_NO" jdbcType="VARCHAR" property="zcAmBillNo" />
+		<result column="ZC_BIS_CODE" jdbcType="VARCHAR" property="zcBisCode" />
+		<result column="ZC_BIS_NAME" jdbcType="VARCHAR" property="zcBisName" />
+		<result column="OUT_LAY_IS_LEAF" jdbcType="VARCHAR" property="outLayIsLeaf" />
+		<result column="BT_NAME" jdbcType="VARCHAR" property="btName" />
+		<result column="GB_NAME" jdbcType="VARCHAR" property="gbName" />
+	</resultMap>
+	<resultMap class="zcqbitem" id="zcqbitemResultMap">
+		<result column="QB_CODE" jdbcType="VARCHAR" property="qbCode" />
+		<result column="QB_ITEM_CODE" jdbcType="VARCHAR" property="qbItemCode" />
+		<result column="CHE_PAI" jdbcType="VARCHAR" property="chePai" />
+		<result column="CHE_FDJ" jdbcType="VARCHAR" property="cheFdj" />
+		<result column="CHE_CJH" jdbcType="VARCHAR" property="cheCjh" />
+		<result column="START_DATE" jdbcType="DATE" javaType="java.util.Date" property="startDate" />
+		<result column="END_DATE" jdbcType="DATE" javaType="java.util.Date" property="endDate" />
+		<result column="ITEM_TOTAL_SUM" jdbcType="DECIMAL" property="itemTotalSum" />
+		<result column="ITEM_VAL" jdbcType="DECIMAL" property="itemVal" />
+		<result column="ITEM_BI" jdbcType="DECIMAL" property="itemBi" />
+		<result column="ITEM_OTHER" jdbcType="DECIMAL" property="itemOther" />
+		<result column="ITEM_TYPE" jdbcType="VARCHAR" property="itemType" />
+	</resultMap>
+	<select id="getQbLst" resultMap="zcqbResult" parameterClass="elementCondition">
+		select zc_qb.QB_CODE,
+		zc_qb.CO_CODE,
+		zc_qb.EXCUTOR,
+		zc_qb.EXCUTOR_NAME,
+		zc_qb.INPUT_DATE,
+		zc_qb.SUPPLIER,
+		zc_qb.SUPPLIER_NAME,
+		zc_qb.CO_NAME,
+		zc_qb.SU_BANK_ACCOUNT,
+		zc_qb.SU_BANK,
+		zc_qb.SU_BANK_SHOUKUANREN,
+		zc_qb.ND,
+		zc_qb.QB_SUM,
+		zc_qb.REMARK,
+		zc_qb.STATUS,
+		zc_qb.QB_NAME,
+		zc_qb.SU_LINK_MAN,
+		zc_qb.SU_LINK_TEL,
+		zc_qb.PROCESS_INST_ID,
+		zc_qb.bi_sum
+		from zc_qb zc_qb
+		where 1=1
+		<isNotEqual prepend="and" compareValue="0" property="nd">
+			zc_qb.ND = #nd#
+		</isNotEqual>
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		<isNotNull prepend="AND" property="status">
+			<isEqual property="status" compareValue="todo">
+				exists (select
+				instance_id from V_WF_CURRENT_TASK_ZC_TODO where executor
+				=#executor# and instance_id = zc_qb.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="untread">
+				exists (select
+				instance_id from V_WF_CURRENT_TASK_ZC_UNTREAD where
+				executor
+				=#executor# and instance_id = zc_qb.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				exists (select
+				instance_id from V_WF_ACTION_HISTORY_GK53 where executor =
+				#executor# and instance_id = zc_qb.process_inst_id)
+				and
+				zc_qb.STATUS
+				!= 'cancel' and
+				zc_qb.STATUS != 'exec'
+			</isEqual>
+			<isEqual property="status" compareValue="draft">
+				( exists (select
+				WF_DRAFT_NAME from as_wf_draft where
+				user_id=#executor# and
+				compo_id=#wfcompoId# and
+				WF_DRAFT_ID=zc_qb.process_inst_id)
+				or
+				zc_qb.process_inst_id = -1 )
+				and zc_qb.STATUS ='0'
+			</isEqual>
+			<isEqual property="status" compareValue="exec">
+				(zc_qb.STATUS
+				='exec')
+			</isEqual>
+			<isEqual property="status" compareValue="gkback">
+				(zc_qb.STATUS
+				='gkback')
+			</isEqual>
+		</isNotNull>
+		ORDER BY zc_qb.INPUT_DATE DESC
+	</select>
+
+
+	<select id="selectByPrimaryKey" resultMap="zcqbResult"
+		parameterClass="String">
+		select zc_qb.QB_CODE,
+		zc_qb.CO_CODE,
+		zc_qb.EXCUTOR,
+		zc_qb.EXCUTOR_NAME,
+		zc_qb.INPUT_DATE,
+		zc_qb.SUPPLIER,
+		zc_qb.SUPPLIER_NAME,
+		zc_qb.CO_NAME,
+		zc_qb.SU_BANK_ACCOUNT,
+		zc_qb.SU_BANK,
+		zc_qb.SU_BANK_SHOUKUANREN,
+		zc_qb.ND,
+		zc_qb.QB_SUM,
+		zc_qb.REMARK,
+		zc_qb.STATUS,
+		zc_qb.QB_NAME,
+		zc_qb.SU_LINK_MAN,
+		zc_qb.SU_LINK_TEL,
+		zc_qb.PROCESS_INST_ID,
+		zc_qb.bi_sum
+		from zc_qb zc_qb
+		where zc_qb.QB_CODE=#value#
+	</select>
+
+	<select id="getQbBiLstByQbcode" resultMap="zcqbbiResultMap"
+		parameterClass="String">
+		select * from zc_qb_bi
+		where QB_CODE=#value#
+	</select>
+
+	<select id="getQbItemLstByQbcode" resultMap="zcqbitemResultMap"
+		parameterClass="String">
+		select * from zc_qb_item
+		where QB_CODE=#value#
+	</select>
+	<insert id="insert" parameterClass="zcqb">
+	insert into zc_qb
+	  (QB_CODE,
+	   CO_CODE,
+	   EXCUTOR,
+	   EXCUTOR_NAME,
+	   INPUT_DATE,
+	   SUPPLIER,
+	   SUPPLIER_NAME,
+	   CO_NAME,
+	   SU_BANK_ACCOUNT,
+	   SU_BANK,
+	   SU_BANK_SHOUKUANREN,
+	   ND,
+	   QB_SUM,
+	   REMARK,
+	   STATUS,
+	   QB_NAME,
+	   SU_LINK_MAN,
+	   SU_LINK_TEL,
+	   PROCESS_INST_ID,
+	   BI_SUM)
+	values
+  	(#qbCode#,#coCode#,#excutor#,#excutorName#,#inputDate:TIMESTAMP#,#supplier#,#supplierName#,#coName#,#suBankAccount#,#suBank#,
+     #suBankShoukuanren#,#nd#,#qbSum:DECIMAL#,#remark#,#status#,#qbName#,#suLinkMan#,#suLinkTel#,#processInstId#,
+     #biSum:DECIMAL#)
+	</insert>
+	
+	<select id="getMaxVouId" parameterClass="string" resultClass="string">
+		select max(ZC_USE_BI_ID)
+  		from (select ZC_USE_BI_ID
+          		from zc_qb_bi
+         		where ZC_USE_BI_ID like #value# || '____'
+        ) t
+	</select>
+	<insert id="insertQbBi" parameterClass="zcqbbi">
+		insert into zc_qb_bi
+		  (QB_CODE, ZC_BI_NO,ZC_BI_SUM,ZC_BI_JHUA_SUM,ZC_BI_DO_SUM,ZC_BI_YJBA_SUM,BI_TARGET_CODE,B_ACC_CODE,
+		   B_ACC_NAME,CO_CODE,CO_NAME,DEC_MONEY,FUND_CODE,FUND_NAME,INCEPTDOC_CODE,INCEPTDOC_NAME,
+		   MANAGE_CODE,MANAGE_NAME,ND,ORG_CODE,ORG_NAME,ORIGIN_CODE,ORIGIN_NAME,OUTLAY_CODE,
+		   OUTLAY_NAME, PAYOUT_CODE, PAYOUT_NAME, PAYTYPE_CODE, PAYTYPE_NAME, PROJECT_CODE,PROJECT_NAME,
+		   PROJECT_TYPE_CODE,PROJECT_TYPE_NAME,SENDDOC_CODE,SENDDOC_NAME,SENDDOC_TYPE_CODE,SENDDOC_TYPE_NAME,
+		   ZC_BI_HTBA_SUM,ZC_CG_TYPE,ZC_PLAN_TYPE,ZC_SAVE_NUM,ZC_CATALOGUE_CODE,
+		   ZC_CATALOGUE_NAME,ZC_YEAR,ZC_YEP_SUM,
+		   ZC_BI_APD_FLAG,ZC_FUND_REMARK,ZC_FUND_FILE,ZC_FUND_FILE_BLOBID,
+		   ZC_PRO_BI_SEQ,
+		   ZC_USE_BI_ID,
+		   ZC_ZJ_TYPE,ZC_AM_BILL_NO,ZC_BIS_CODE,ZC_BIS_NAME,OUT_LAY_IS_LEAF,bt_name,gb_name)
+		values
+		  (
+		  	#qbCode:VARCHAR#,#zcBiNo:VARCHAR#, #zcBiSum:DECIMAL#,#zcBiJhuaSum:DECIMAL#,#zcBiDoSum:DECIMAL#, #zcBiYjbaSum:DECIMAL#,#biTargetCode:VARCHAR#, #bAccCode:VARCHAR#,
+			#bAccName:VARCHAR#,#coCode:VARCHAR#, #coName:VARCHAR#,#decMoney:DECIMAL#,#fundCode:VARCHAR#, #fundName:VARCHAR#, #inceptdocCode:VARCHAR#,#inceptdocName:VARCHAR#,
+			#manageCode:VARCHAR#, #manageName:VARCHAR#,#nd:CHAR#,#orgCode:VARCHAR#, #orgName:VARCHAR#,#originCode:VARCHAR#,#originName:VARCHAR#, #outlayCode:VARCHAR#,
+			#outlayName:VARCHAR#,#payoutCode:VARCHAR#, #payoutName:VARCHAR#, #paytypeCode:VARCHAR#,#paytypeName:VARCHAR#,#projectCode:VARCHAR#, #projectName:VARCHAR#,
+			#projectTypeCode:VARCHAR#,#projectTypeName:VARCHAR#,#senddocCode:VARCHAR#,#senddocName:VARCHAR#,#senddocTypeCode:VARCHAR#, #senddocTypeName:VARCHAR#,
+			#zcBiHtbaSum:DECIMAL#,#zcCgType:VARCHAR#, #zcPlanType:VARCHAR#,#zcSaveNum:DECIMAL#, #zcCatalogueCode:VARCHAR#,
+			#zcCatalogueName:VARCHAR#, #zcYear:VARCHAR#, #zcYepSum:DECIMAL#,
+			#zcBiApdFlag:VARCHAR#,#zcFundRemark:VARCHAR#,#zcFundFile:VARCHAR#,#zcFundFileBlobid:VARCHAR#,
+			<isNull prepend="" property="zcProBiSeq">
+				SEQ_ZC_PRO_BI.NEXTVAL
+			</isNull>
+			<isNotNull prepend="" property="zcProBiSeq">
+				#zcProBiSeq#
+			</isNotNull>
+			,#zcUseBiId:VARCHAR#,#zcZjType#,#zcAmBillNo#,#zcBisCode#,#zcBisName#,#outLayIsLeaf#,#btName:VARCHAR#,#gbName:VARCHAR#
+		  )
+		
+	</insert>
+	<insert id="insertQbItem" parameterClass="zcqbitem">
+		insert into zc_qb_item
+		  (QB_CODE,
+		   QB_ITEM_CODE,
+		   CHE_PAI,
+		   CHE_FDJ,
+		   CHE_CJH,
+		   ITEM_TOTAL_SUM,
+		   ITEM_VAL,
+		   ITEM_BI,
+		   ITEM_OTHER,
+		   ITEM_TYPE,
+		   START_DATE,
+		   END_DATE)
+		values
+	 	 (
+	 	 	#qbCode#,#qbItemCode#,#chePai#,#cheFdj#,#cheCjh#,#itemTotalSum:DECIMAL#,#itemVal:DECIMAL#,
+	 	 	#itemBi:DECIMAL#,#itemOther:DECIMAL#,#itemType#,#startDate:TIMESTAMP#,#endDate:TIMESTAMP#
+	 	 )	
+	</insert>
+	
+	<delete id="delete" parameterClass="string">
+		delete from
+		zc_qb
+		where
+		QB_CODE = #value#
+	</delete>
+	<delete id="deleteBiByQbCode" parameterClass="string">
+		delete from
+		zc_qb_bi
+		where
+		QB_CODE = #value#
+	</delete>
+	<delete id="deleteItemByQbCode" parameterClass="string">
+		delete from
+		zc_qb_item
+		where
+		QB_CODE = #value#
+	</delete>	
+</sqlMap>
+

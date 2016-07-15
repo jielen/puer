@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.ufgov.zc.server.sf.dao.SfMaterialsTransferDetailMapper">
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+  <resultMap id="BaseResultMap" class="com.ufgov.zc.common.sf.model.SfMaterialsTransferDetail">
+    <result column="TRANSFER_ID" jdbcType="DECIMAL" property="transferId" />
+    <result column="QUANTITY" jdbcType="DECIMAL" property="quantity" />
+    <result column="UNIT" jdbcType="VARCHAR" property="unit" />
+    <result column="PROCESSING" jdbcType="VARCHAR" property="processing" />
+    <result column="PROCESSING_MAN" jdbcType="VARCHAR" property="processingMan" />
+    <result column="PROCESSING_DATE" jdbcType="DATE" property="processingDate" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <!--outInfoDetail -->
+    <result column="INFO_DETAIL_ID" jdbcType="DECIMAL" property="outInfoDetail.outInfoDetailId" />
+    <result column="OUT_INFO_ID" jdbcType="DECIMAL" property="outInfoDetail.outInfoId" />
+    <result column="INFO_TYPE_CODE" jdbcType="VARCHAR" property="outInfoDetail.infoType.outInfoTypeCode" />
+    <result column="INFO_TYPE_NAME" jdbcType="VARCHAR" property="outInfoDetail.infoType.outInfoTypeName" />
+    <result column="TI_QU_FANG_SHI" jdbcType="VARCHAR" property="outInfoDetail.tiQuFangShi" />
+    <result column="INFO_DETAIL_NAME" jdbcType="VARCHAR" property="outInfoDetail.name" />
+    <result column="INFO_DETAIL_QUANTITY" jdbcType="DECIMAL" property="outInfoDetail.quantity" />
+    <result column="INFO_DETAIL_UNIT" jdbcType="VARCHAR" property="outInfoDetail.unit" />
+    <result column="INFO_DETAIL_DESCRIPTION" jdbcType="VARCHAR" property="outInfoDetail.description" />
+    <!--material -->    
+    <result column="MATERIAL_ID" jdbcType="DECIMAL" property="material.materialId" />
+    <result column="MATERIALS_NAME" jdbcType="VARCHAR" property="material.name" />
+    <result column="MATERIALS_QUANTITY" jdbcType="DECIMAL" property="material.quantity" />
+    <result column="MATERIALS_UNIT" jdbcType="VARCHAR" property="material.unit" />
+    <result column="MATERIALS_DESCRIPTION" jdbcType="VARCHAR" property="material.description" />
+    <result column="MATERIALS_ENTRUST_ID" jdbcType="DECIMAL" property="material.entrustId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    TRANSFER_ID, MATERIAL_ID, QUANTITY, UNIT, PROCESSING, PROCESSING_MAN, PROCESSING_DATE, 
+    REMARK, OUT_INFO_DETAIL_ID
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterClass="java.math.BigDecimal">
+    delete from SF_MATERIALS_TRANSFER_DETAIL
+    where TRANSFER_ID = #transferId:DECIMAL#
+  </delete>
+  <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfMaterialsTransferDetail">
+    insert into SF_MATERIALS_TRANSFER_DETAIL (TRANSFER_ID, MATERIAL_ID, QUANTITY, 
+      UNIT, PROCESSING, PROCESSING_MAN, 
+      PROCESSING_DATE, REMARK, OUT_INFO_DETAIL_ID
+      )
+    values (#transferId:DECIMAL#, #materialId:DECIMAL#, #quantity:DECIMAL#, 
+      #unit:VARCHAR#, #processing:VARCHAR#, #processingMan:VARCHAR#, 
+      #processingDate:DATE#, #remark:VARCHAR#, #outInfoDetailId:DECIMAL#
+      )
+  </insert>
+  <select id="selectByPrimaryKey" parameterClass="java.math.BigDecimal" resultMap="BaseResultMap">
+    SELECT SF_MATERIALS_TRANSFER_DETAIL.TRANSFER_ID,
+       SF_MATERIALS_TRANSFER_DETAIL.QUANTITY,
+       SF_MATERIALS_TRANSFER_DETAIL.UNIT,
+       SF_MATERIALS_TRANSFER_DETAIL.PROCESSING,
+       SF_MATERIALS_TRANSFER_DETAIL.PROCESSING_MAN,
+       SF_MATERIALS_TRANSFER_DETAIL.PROCESSING_DATE,
+       SF_MATERIALS_TRANSFER_DETAIL.REMARK,
+       NULL                                         AS MATERIAL_ID,
+       NULL                                         AS MATERIALS_NAME,
+       NULL                                         AS MATERIALS_QUANTITY,
+       NULL                                         AS MATERIALS_UNIT,
+       NULL                                         AS MATERIALS_DESCRIPTION,
+       NULL                                         AS MATERIALS_ENTRUST_ID,
+       SF_OUT_INFO_DETAIL.OUT_INFO_DETAIL_ID        AS INFO_DETAIL_ID,
+       SF_OUT_INFO_DETAIL.OUT_INFO_ID               AS OUT_INFO_ID,
+       SF_OUT_INFO_DETAIL.OUT_INFO_TYPE_CODE        AS INFO_TYPE_CODE,
+       SF_OUT_INFO_TYPE.OUT_INFO_TYPE_NAME          AS INFO_TYPE_NAME,
+       SF_OUT_INFO_DETAIL.TI_QU_FANG_SHI            AS TI_QU_FANG_SHI,
+       SF_OUT_INFO_DETAIL.NAME                      AS INFO_DETAIL_NAME,
+       SF_OUT_INFO_DETAIL.QUANTITY                  AS INFO_DETAIL_QUANTITY,
+       SF_OUT_INFO_DETAIL.UNIT                      AS INFO_DETAIL_UNIT,
+       SF_OUT_INFO_DETAIL.DESCRIPTION               AS INFO_DETAIL_DESCRIPTION
+  FROM SF_MATERIALS_TRANSFER_DETAIL, SF_OUT_INFO_DETAIL,SF_OUT_INFO_TYPE 
+ WHERE SF_MATERIALS_TRANSFER_DETAIL.OUT_INFO_DETAIL_ID =
+       SF_OUT_INFO_DETAIL.OUT_INFO_DETAIL_ID
+       AND SF_OUT_INFO_DETAIL.OUT_INFO_TYPE_CODE=SF_OUT_INFO_TYPE.OUT_INFO_TYPE_CODE
+       and SF_MATERIALS_TRANSFER_DETAIL.TRANSFER_ID = #transferId:DECIMAL#
+UNION
+SELECT SF_MATERIALS_TRANSFER_DETAIL.TRANSFER_ID,
+       SF_MATERIALS_TRANSFER_DETAIL.QUANTITY,
+       SF_MATERIALS_TRANSFER_DETAIL.UNIT,
+       SF_MATERIALS_TRANSFER_DETAIL.PROCESSING,
+       SF_MATERIALS_TRANSFER_DETAIL.PROCESSING_MAN,
+       SF_MATERIALS_TRANSFER_DETAIL.PROCESSING_DATE,
+       SF_MATERIALS_TRANSFER_DETAIL.REMARK,
+       SF_MATERIALS.MATERIAL_ID,
+       SF_MATERIALS.NAME                            AS MATERIALS_NAME,
+       SF_MATERIALS.QUANTITY                        AS MATERIALS_QUANTITY,
+       SF_MATERIALS.UNIT                            AS MATERIALS_UNIT,
+       SF_MATERIALS.DESCRIPTION                     AS MATERIALS_DESCRIPTION,
+       SF_MATERIALS.ENTRUST_ID                      AS MATERIALS_ENTRUST_ID,
+       NULL                                         AS INFO_DETAIL_ID,
+       NULL                                         AS OUT_INFO_ID,
+       NULL                                         AS INFO_TYPE_CODE,
+       NULL                                         AS INFO_TYPE_NAME,
+       NULL                                         AS TI_QU_FANG_SHI,
+       NULL                                         AS INFO_DETAIL_NAME,
+       NULL                                         AS INFO_DETAIL_QUANTITY,
+       NULL                                         AS INFO_DETAIL_UNIT,
+       NULL                                         AS INFO_DETAIL_DESCRIPTION
+  FROM SF_MATERIALS_TRANSFER_DETAIL, SF_MATERIALS
+ WHERE SF_MATERIALS_TRANSFER_DETAIL.MATERIAL_ID = SF_MATERIALS.MATERIAL_ID
+ 	   and SF_MATERIALS_TRANSFER_DETAIL.TRANSFER_ID = #transferId:DECIMAL#
+  </select>
+</sqlMap>

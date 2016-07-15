@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.ufgov.zc.server.sf.dao.SfJdTargetMapper">
+
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<typeAlias alias="jdTarget" type="com.ufgov.zc.common.sf.model.SfJdTarget" />
+	
+  <resultMap id="BaseResultMap" class="jdTarget">
+    <result column="JD_TARGET_ID" jdbcType="DECIMAL" property="jdTargetId" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="SEX" jdbcType="VARCHAR" property="sex" />
+    <result column="AGE" jdbcType="DECIMAL" property="age" />
+    <result column="ID_NAME" jdbcType="VARCHAR" property="idName" />
+    <result column="ID_CODE" jdbcType="VARCHAR" property="idCode" />
+    <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+    <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+    <result column="ZIP" jdbcType="VARCHAR" property="zip" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    JD_TARGET_ID, NAME, SEX, AGE, ID_NAME, ID_CODE, PHONE, ADDRESS, ZIP
+  </sql>
+  <select id="selectByPrimaryKey" parameterClass="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SF_JD_TARGET
+    where JD_TARGET_ID = #jdTargetId:DECIMAL#
+  </select>
+  <select id="getJdTargetLst" resultMap="BaseResultMap" parameterClass="elementCondition" >    
+    select 
+    <include refid="Base_Column_List" />
+    from SF_JD_TARGET
+    order by JD_TARGET_ID desc
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="java.math.BigDecimal">
+    delete from SF_JD_TARGET
+    where JD_TARGET_ID = #jdTargetId:DECIMAL#
+  </delete>
+  <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfJdTarget">
+    insert into SF_JD_TARGET (JD_TARGET_ID, NAME, SEX, 
+      AGE, ID_NAME, ID_CODE, 
+      PHONE, ADDRESS, ZIP
+      )
+    values (#jdTargetId:DECIMAL#, #name:VARCHAR#, #sex:VARCHAR#, 
+      #age:DECIMAL#, #idName:VARCHAR#, #idCode:VARCHAR#, 
+      #phone:VARCHAR#, #address:VARCHAR#, #zip:VARCHAR#
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfJdTarget">
+    update SF_JD_TARGET
+    set NAME = #name:VARCHAR#,
+      SEX = #sex:VARCHAR#,
+      AGE = #age:DECIMAL#,
+      ID_NAME = #idName:VARCHAR#,
+      ID_CODE = #idCode:VARCHAR#,
+      PHONE = #phone:VARCHAR#,
+      ADDRESS = #address:VARCHAR#,
+      ZIP = #zip:VARCHAR#
+    where JD_TARGET_ID = #jdTargetId:DECIMAL#
+  </update>
+</sqlMap>

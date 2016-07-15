@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ZcEbProjZbFile">
+	<typeAlias alias="ZcEbProjZbFile"
+		type="com.ufgov.zc.common.zc.model.ZcEbProjZbFile" />
+	<typeAlias alias="ZcZBFileTemplate"
+		type="com.ufgov.zc.common.zc.model.ZcZBFileTemplate" />
+
+	<resultMap id="ZcEbProjZbFileResult" class="ZcEbProjZbFile">
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="projName" column="PROJ_NAME" />
+		<result property="fileId" column="FILE_ID" />
+		<result property="fileName" column="FILE_NAME" />
+		<result property="creator" column="CREATOR" />
+		<result property="uploader" column="UPLOADER" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="uploadTime" column="UPLOAD_TIME" />
+		<result property="remark" column="REMARK" />
+		<result property="status" column="STATUS" />
+		<result property="processInstId" column="PROCESS_INST_ID" />
+		<result property="type" column="TYPE" />
+		<result property="isGoonAudit" column="IS_GOON_AUDIT" />
+		<result property="flowingNO" column="FLOWING_NO" />		<result property="wordFileId" column="WORD_FILE_ID" />
+	</resultMap>
+
+	<resultMap id="ZcZBFileTemplateResult" class="ZcZBFileTemplate">
+		<result property="templateID" column="TEMPLATE_ID" />
+		<result property="tplBelongBidWay" column="TPLBELONGBIDWAY" />
+		<result property="tplAppType" column="TPLAPPTYPE" />
+		<result property="tplNo" column="TPLNO" />
+		<result property="latestUsed" column="LATESTUSED" />
+		<result property="projName" column="PROJNAME" />
+		<result property="projNo" column="PROJNO" />
+		<result property="templateCreator" column="TEMPLATECREATED" />
+		<result property="fileId" column="FILEID" />
+		<result property="tplFullPath" column="TPLFULLPATH" />
+	</resultMap>
+	<select id="getZcebZbFileList" resultMap="ZcEbProjZbFileResult"
+		parameterClass="elementCondition">
+		SELECT
+		MASTER.Proj_Code,
+		MASTER.Proj_Name,
+		MASTER.File_Id,
+		MASTER.File_Name,
+		(select proj.executor from ZC_EB_PROJ proj where
+		proj.proj_code=MASTER.proj_code)as CREATOR,
+		MASTER.Uploader,
+		MASTER.Create_Time,
+		MASTER.Upload_Time,
+		MASTER.Remark,
+		MASTER.Status,
+		MASTER.Process_Inst_Id,
+		MASTER.Type,
+		MASTER.Is_Goon_Audit,
+		MASTER.FLOWING_NO,		MASTER.WORD_FILE_ID
+		FROM
+		ZC_EB_PROJ_ZBFILE MASTER
+		WHERE
+		1=1
+
+		<isNotEmpty prepend="AND" property="status">
+			<isEqual property="status" compareValue="draft">
+				(master.status='0')
+			</isEqual>
+			<isEqual property="status" compareValue="exec">
+				(master.status='exec')
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				exists (select instance_id from V_WF_ACTION_HISTORY_GK53 where executor
+				=#executor#
+				and instance_id = master.process_inst_id)
+				and master.status!='cancel'
+				and master.status!='exec'
+			</isEqual>
+			<isEqual property="status" compareValue="todo">
+				exists (select instance_id from v_wf_current_task_gk53 where executor
+				=#executor#
+				and instance_id = master.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="all">
+				1=1
+			</isEqual>
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="projCode">
+			MASTER.PROJ_CODE=#projCode:VARCHAR#
+		</isNotEmpty>
+		ORDER BY MASTER.UPLOAD_TIME DESC
+	</select>
+
+	<select id="getZcEbProjFileByeProjCode" resultMap="ZcEbProjZbFileResult"
+		parameterClass="String">
+		SELECT * FROM ZC_EB_PROJ_ZBFILE WHERE proj_code=#value#
+	</select>		<select id="getZcEbProjFileByeProjCodes" resultMap="ZcEbProjZbFileResult" parameterClass="elementCondition">		SELECT * FROM ZC_EB_PROJ_ZBFILE 		<isNotEmpty property="pmAdjustCodeList" prepend="where">            PROJ_CODE in            <iterate property="pmAdjustCodeList"  conjunction="," open="(" close=")">                #pmAdjustCodeList[]#            </iterate>        </isNotEmpty>		</select>
+	<delete id="deleteZcEbProjFileByProjCode" parameterClass="String">
+		delete from ZC_EB_PROJ_ZBFILE WHERE proj_code=#value#
+	</delete>
+	<insert id="insertZcEbProjFile" parameterClass="ZcEbProjZbFile">
+		insert into ZC_EB_PROJ_ZBFILE (
+		PROJ_CODE, FILE_ID,FILE_NAME, CREATOR, UPLOADER, CREATE_TIME, UPLOAD_TIME,
+		REMARK, TYPE, IS_GOON_AUDIT, FLOWING_NO,WORD_FILE_ID)
+		values (
+		#projCode:VARCHAR#,
+		#fileId:VARCHAR#,
+		#fileName:VARCHAR#,
+		#creator:VARCHAR#,
+		#uploader:VARCHAR#,
+		#createTime:DATE#,
+		#uploadTime:DATE#,
+		#remark:VARCHAR#,
+		#type:VARCHAR#,
+		#isGoonAudit:VARCHAR#,
+		#flowingNO:INTEGER#,	    #wordFileId:VARCHAR#
+		)
+	</insert>
+	<select id="getZcEbProjZbFileByCode" resultMap="ZcEbProjZbFileResult"
+		parameterClass="map">
+		select T.PROJ_CODE,
+		T.PROJ_NAME,
+		T.FILE_ID,
+		A.FULL_NAME FILE_NAME,
+		T.CREATOR,
+		T.UPLOADER,
+		T.CREATE_TIME,
+		T.UPLOAD_TIME,
+		T.REMARK,
+		T.TYPE,
+		T.STATUS,
+		T.PROCESS_INST_ID,
+		T.IS_GOON_AUDIT,
+		T.FLOWING_NO,		T.WORD_FILE_ID
+		from ZC_EB_PROJ_ZBFILE T, AS_File A
+		where T.FILE_ID = A.FILE_ID(+)
+		<isNotNull prepend="AND" property="type">
+			T.TYPE = #type:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="AND" property="projCode">
+			T.PROJ_CODE = #projCode:VARCHAR#
+		</isNotNull>
+	</select>
+	<select id="getZcEbProjZbFileByProjCode" resultMap="ZcEbProjZbFileResult"
+		parameterClass="string">
+		select *
+		from
+		ZC_EB_PROJ_ZBFILE
+		WHERE
+		PROJ_CODE=#projCode:VARCHAR#
+	</select>
+	<update id="updateZcebZbFile" parameterClass="ZcEbProjZbFile">
+		update
+		ZC_EB_PROJ_ZBFILE
+		set
+		FILE_ID=#fileId:VARCHAR#,
+		FILE_NAME=#fileName:VARCHAR#,
+		CREATOR=#creator:VARCHAR#,
+		UPLOADER=#uploader:VARCHAR#,
+		CREATE_TIME=#createTime:VARCHAR#,
+		UPLOAD_TIME=#uploadTime:VARCHAR#,
+		REMARK=#remark:VARCHAR#,
+		STATUS=#status:VARCHAR#,
+		PROCESS_INST_ID=#processInstId#,
+		TYPE=#type:VARCHAR#,
+		IS_GOON_AUDIT=#isGoonAudit#,
+		FLOWING_NO=#flowingNO#,		WORD_FILE_ID=#wordFileId#
+		WHERE
+		PROJ_CODE=#projCode#
+	</update>
+	<insert id="insertZcebZbFile" parameterClass="ZcEbProjZbFile">
+		insert into
+		ZC_EB_PROJ_ZBFILE (
+		PROJ_CODE,
+		PROJ_NAME,
+		FILE_ID,
+		FILE_NAME,
+		STATUS,
+		PROCESS_INST_ID,
+		CREATE_TIME,
+		UPLOAD_TIME,
+		CREATOR,
+		REMARK,
+		TYPE,
+		IS_GOON_AUDIT,
+		FLOWING_NO,		WORD_FILE_ID)
+		values (
+		#projCode#, #projName#,#fileId#,#fileName#,#status#,#processInstId#,
+		#createTime#,#uploadTime#,#creator#,#remark#,#type#,#isGoonAudit#,#flowingNO#,#wordFileId#
+		)
+	</insert>
+	<insert id="insertZcebZbFileTemplate" parameterClass="ZcZBFileTemplate">
+		insert into ZC_ZB_TEMPLATES (
+		TEMPLATE_ID,
+		TPLNO,
+		TPLAPPTYPE,
+		TPLBELONGBIDWAY,
+		FILEID,
+		LATESTUSED,
+		PROJNAME,
+		PROJNO,
+		DESCRIPTION)
+		values (
+		#templateID#, #tplNo#,#tplAppType#,#tplBelongBidWay#,#fileId#,#latestUsed#,
+		#projName#,#projNo#,#description#
+		)
+	</insert>
+	<insert id="updateZcebZbFileTemplate" parameterClass="ZcZBFileTemplate">
+		update ZC_ZB_TEMPLATES set
+		TPLNO=#tplNo#,
+		TPLAPPTYPE=#tplAppType#,
+		TPLBELONGBIDWAY=#tplBelongBidWay#,
+		FILEID=#fileId#,
+		LATESTUSED=#latestUsed#,
+		PROJNAME=#projName#,
+		PROJNO=#projNo#,
+		DESCRIPTION=#description#
+		where TEMPLATE_ID=#templateID#
+	</insert>
+	<select id="selectZcebZbFileTemplate" parameterClass="ZcZBFileTemplate"
+		resultMap="ZcZBFileTemplateResult">
+		select * from ZC_ZB_TEMPLATES
+		where 1=1
+		<isNotNull prepend="AND" property="tplNo">
+			TPLNO=#tplNo#
+		</isNotNull>
+		<isNotNull prepend="AND" property="tplBelongBidWay">
+			TPLBELONGBIDWAY=#tplBelongBidWay#
+		</isNotNull>
+	</select>
+	<select id="deleteZcebZbFileTemplate" parameterClass="ZcZBFileTemplate"
+		resultMap="ZcZBFileTemplateResult">
+		delete from ZC_ZB_TEMPLATES where TEMPLATE_ID=#templateID#
+	</select>
+	<delete id="deleteZcebZbFileByIdProjCodeAndFileId"
+		parameterClass="map">
+		delete
+		from
+		ZC_EB_PROJ_ZBFILE
+		where PROJ_CODE =
+		#PROJ_CODE# and FILE_ID = #FILE_ID#
+	</delete>
+</sqlMap>

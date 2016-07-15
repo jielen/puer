@@ -1,0 +1,1 @@
+package com.ufgov.zc.server.cp.dao;import java.util.List;public interface ICpPlanAgentRelationDao {  public List getCpPlanAgentRelation(String planAgentBillId);  public void insertCpPlanAgentRelation(List cpPlanAgentRelationList);  public List getCpPlanAgentRelationForVouNo(String vouNo);}

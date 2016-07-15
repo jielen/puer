@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ZC_B_DIYUCTG">
+
+    <typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+		
+    <typeAlias alias="zcDiYuCtg" type="com.ufgov.zc.common.zc.model.ZCDiYuCtg" />
+    
+    <resultMap id="zcDiYuCtg" class="zcDiYuCtg">
+        <result column="ZC_DIYU_DAIMA" property="diYuCode" jdbcType="VARCHAR"/>
+        <result column="ZC_DIYU_NAME" property="diYuName" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="selectZcDiYuCtgList"  parameterClass="string" resultMap="zcDiYuCtg">
+		SELECT * FROM ZC_DIYU_CTG T
+		<dynamic prepend="where">
+            <isNotNull property="diYuCode">
+		    T.ZC_DIYU_DAIMA=#diYuCode#
+            </isNotNull>
+        </dynamic>
+	</select>
+
+    <insert id="insertZcDiYuCtg" parameterClass="zcDiYuCtg">
+		insert into
+		ZC_DIYU_CTG (ZC_DIYU_DAIMA,ZC_DIYU_NAME)
+		values
+		(#diYuCode#,#diYuName#)
+	</insert>
+
+    <delete id="deleteZcDiYuCtg" parameterClass="String">
+		delete from
+		ZC_DIYU_CTG
+		where  ZC_DIYU_DAIMA = #diYuCode#
+    </delete>
+
+    <update id="updateZcDiYuCtg" parameterClass="zcDiYuCtg">
+		update  ZC_DIYU_CTG
+		set ZC_DIYU_NAME= #diYuName:VARCHAR#
+		where ZC_DIYU_DAIMA= #diYuCode#
+	</update>
+	
+	 <select id="selectZcDiYuCtgForeignList"  parameterClass="elementCondition" resultMap="zcDiYuCtg">
+		SELECT * FROM ZC_DIYU_CTG T ORDER BY T.ZC_DIYU_DAIMA
+	</select>
+
+</sqlMap>

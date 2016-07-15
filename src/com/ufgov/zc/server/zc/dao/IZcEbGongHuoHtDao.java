@@ -1,0 +1,1 @@
+package com.ufgov.zc.server.zc.dao;import com.ufgov.zc.common.system.model.AsFile;import com.ufgov.zc.common.zc.model.ZcEbGongHuoHt;public interface IZcEbGongHuoHtDao {  AsFile getGonghuoHtDefaultTemplateContent(ZcEbGongHuoHt zcEbGongHuoHt);  public ZcEbGongHuoHt getZcEbGongHuoHtByHtCode(ZcEbGongHuoHt zcEbGongHuoHt);}

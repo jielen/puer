@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Component">
+
+	<resultMap id="compo" class="com.ufgov.zc.common.console.model.Component">
+		<result property="menuCode" column="menu_id" />
+		<result property="compoCode" column="compo_id" />
+		<result property="compoName" column="compo_name" />
+	</resultMap>
+	<resultMap id="func" class="com.ufgov.zc.common.console.model.Function">
+		<result property="funcCode" column="func_id" />
+		<result property="compoCode" column="compo_id" />
+		<result property="funcName" column="func_name" />
+	</resultMap>
+	<select id="selectCompoList" resultMap="compo">
+		select menu_id,compo_id,(select compo_name from as_compo t where t.compo_id=main.compo_id) as compo_name   from as_menu_compo main 
+	</select>
+	<select id="selectFunctionList" resultMap="func" parameterClass="String">
+		select compo_id,func_id,(select func_desc from as_func t where t.func_id=main.func_id) as func_name   from as_compo_func main 
+		where main.compo_id=#value#
+	</select>	
+</sqlMap>

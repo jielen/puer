@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ZcBrand">
+
+    <typeAlias alias="ZcBBrand" type="com.ufgov.zc.common.zc.model.ZcBBrand" />
+
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+
+	<resultMap id="ZcBbrandResult" class="com.ufgov.zc.common.zc.model.ZcBBrand">
+		<result column="ZC_BRA_CODE" jdbcType="VARCHAR" property="zcBraCode" />
+		<result column="ZC_BRA_NAME" jdbcType="VARCHAR" property="zcBraName" />
+		<result column="COUNT_NUM" property="countNum" />
+	</resultMap>
+
+	<resultMap id="ZcBbrandInfoResult" class="com.ufgov.zc.common.zc.model.ZcBBrand">
+
+		<result property="zcSppcID" jdbcType="VARCHAR" column="ZC_SPPC_ID" />
+
+        <result property="zcSppcNa"  jdbcType="VARCHAR" column="ZC_SPPC_NA"/>
+    
+        <result property="zcBraCode" jdbcType="VARCHAR" column="ZC_BRA_CODE" />
+        
+        <result property="zcYear" jdbcType="VARCHAR" column="ND" />
+        
+        <result property="zcCataLogueCode" jdbcType="VARCHAR" column="ZC_CATALOGUE_CODE" />
+        
+        <result property="zcSuCode" jdbcType="VARCHAR" column="ZC_SU_CODE" />
+        
+        <result property="zcSuName" jdbcType="VARCHAR" column="ZC_SU_NAME" />
+
+        <result property="zcZbPpStatus" jdbcType="VARCHAR" column="ZC_ZBPP_STATUS" />
+        
+        <result property="zcBraName" jdbcType="VARCHAR" column="ZC_BRA_NAME" />  
+        	                                                                                                                                     
+		<result property="zcInputCode"  jdbcType="VARCHAR"   column="ZC_INPUT_CODE"/>
+                                                                               
+		<result property="zcInputDate"  jdbcType="TIMESTAMP" column="ZC_INPUT_DATE"/>
+		                                                                           
+		<result property="zcOperCode"  jdbcType="VARCHAR"    column="ZC_OPER_CODE"/>
+                                                                               
+		<result property="zcOperDate"  jdbcType="TIMESTAMP"  column="ZC_OPER_DATE"/>
+	</resultMap>
+
+	<sql id="ZcBrand.selectBrandSqlPart">
+		select
+		ZC_BRA_CODE,
+		(select ZC_BRA_NAME from ZC_ZB_PINP where
+		ZC_ZB_PINP.ZC_BRA_CODE =
+		ZC_B_MERCHANDISE.ZC_BRA_CODE) as ZC_BRA_NAME,
+		count(*) as COUNT_NUM
+		from
+		ZC_B_MERCHANDISE
+		where
+		ZC_MER_STATUS = 'exec'
+		and
+		ZC_CATALOGUE_CODE = #zcText0#
+		group by
+		ZC_BRA_CODE
+		order by
+		ZC_BRA_NAME
+	</sql>
+
+	<select id="getBrandsForMenuGoods" resultMap="ZcBbrandResult"
+		parameterClass="string">
+		<include refid="ZcBrand.selectBrandSqlPart" />
+	</select>
+
+	<select id="getBrandsForXieYi" resultMap="ZcBbrandResult"
+		parameterClass="elementCondition">
+		<include refid="ZcBrand.selectBrandSqlPart" />
+	</select>
+
+	<select id="getBrandInfoByBrandId" resultMap="ZcBbrandInfoResult"
+		parameterClass="string">
+		 select  ZC_SPPC_ID,
+		 (select sppc.ZC_SPPC_NA from ZC_XYGH_SPPC sppc where sppc.ZC_SPPC_ID = master.ZC_SPPC_ID) ZC_SPPC_NA,
+         ZC_BRA_CODE,
+         ND,
+         ZC_CATALOGUE_CODE,
+         ZC_SU_CODE,
+         (select sup.ZC_SU_NAME from ZC_B_SUPPLIER sup where sup.ZC_SU_CODE = master.ZC_SU_CODE) ZC_SU_NAME,
+         ZC_ZBPP_STATUS,
+         ZC_BRA_NAME,
+         ZC_INPUT_CODE,
+         ZC_INPUT_DATE,
+         ZC_OPER_CODE,
+         ZC_OPER_DATE 
+       from ZC_ZB_PINP master
+	   where master.ZC_BRA_CODE=#value#
+	</select>
+	
+	<select id="getBrandInfoByBrandIdAndCataID" resultMap="ZcBbrandInfoResult"
+		parameterClass="com.ufgov.zc.common.zc.model.ZcBMerchandise">
+		select  ZC_SPPC_ID,
+		 (select sppc.ZC_SPPC_NA from ZC_XYGH_SPPC sppc where sppc.ZC_SPPC_ID = master.ZC_SPPC_ID) ZC_SPPC_NA,
+         ZC_BRA_CODE,
+         ND,
+         ZC_CATALOGUE_CODE,
+         ZC_SU_CODE,
+         (select sup.ZC_SU_NAME from ZC_B_SUPPLIER sup where sup.ZC_SU_CODE = master.ZC_SU_CODE) ZC_SU_NAME,
+         ZC_ZBPP_STATUS,
+         ZC_BRA_NAME,
+         ZC_INPUT_CODE,
+         ZC_INPUT_DATE,
+         ZC_OPER_CODE,
+         ZC_OPER_DATE 
+       from ZC_ZB_PINP 
+		where
+		ZC_BRA_CODE = #zcBraCode# and ZC_CATALOGUE_CODE = #zcCatalogueCode#
+	</select>
+	
+	<select id="getBrandsForMenuGoodsByZcSuCode" resultMap="ZcBbrandInfoResult"
+		parameterClass="Map">
+		 select  ZC_SPPC_ID,
+		 (select sppc.ZC_SPPC_NA from ZC_XYGH_SPPC sppc where sppc.ZC_SPPC_ID = master.ZC_SPPC_ID) ZC_SPPC_NA,
+         ZC_BRA_CODE,
+         ND,
+         ZC_CATALOGUE_CODE,
+         ZC_SU_CODE,
+         (select sup.ZC_SU_NAME from ZC_B_SUPPLIER sup where sup.ZC_SU_CODE = master.ZC_SU_CODE) ZC_SU_NAME,
+         ZC_ZBPP_STATUS,
+         ZC_BRA_NAME,
+         ZC_INPUT_CODE,
+         ZC_INPUT_DATE,
+         ZC_OPER_CODE,
+         ZC_OPER_DATE 
+       from ZC_ZB_PINP 
+         where a.zc_catalogue_code = #zcCatalogue#
+           and a.zc_su_code = #zcSuCode#
+	</select>
+
+	<select id="selectBrandForBaoJia" resultMap="ZcBbrandResult"
+		parameterClass="elementCondition"> select
+		m.ZC_BRA_CODE,
+		(select ZC_BRA_NAME from
+		ZC_ZB_PINP where
+		ZC_ZB_PINP.ZC_BRA_CODE =
+		m.ZC_BRA_CODE) as ZC_BRA_NAME,
+		count(*) as COUNT_NUM
+		from
+		ZC_B_MERCHANDISE m,zc_b_mer_price p
+		where
+		m.ZC_MER_STATUS = 'exec'
+		AND m.zc_mer_code=p.zc_mer_code
+		and
+		m.ZC_CATALOGUE_CODE = #zcText0#
+		AND p.zc_su_code= #zcText1#
+		group by
+		m.ZC_BRA_CODE
+		order by
+		ZC_BRA_NAME
+	</select>
+	
+	<select id="getPinpList" resultMap="ZcBbrandInfoResult" parameterClass="elementCondition">
+	select   
+		 ZC_SPPC_ID,
+		 (select sppc.ZC_SPPC_NA from ZC_XYGH_SPPC sppc where sppc.ZC_SPPC_ID = master.ZC_SPPC_ID) ZC_SPPC_NA,
+         ZC_BRA_CODE,
+         ND,
+         ZC_CATALOGUE_CODE,
+         ZC_SU_CODE,
+         (select sup.ZC_SU_NAME from ZC_B_SUPPLIER sup where sup.ZC_SU_CODE = master.ZC_SU_CODE) ZC_SU_NAME,
+         ZC_ZBPP_STATUS,
+         ZC_BRA_NAME,
+         ZC_INPUT_CODE,
+         ZC_INPUT_DATE,
+         ZC_OPER_CODE,
+         ZC_OPER_DATE 
+    from ZC_ZB_PINP master
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="status">
+				<isEqual property="status" compareValue="draft">
+					master.ZC_ZBPP_STATUS='0'
+				</isEqual>
+				<isEqual property="status" compareValue="enable">
+					master.ZC_ZBPP_STATUS='exec'
+				</isEqual>
+				<isEqual property="status" compareValue="unable">
+					master.ZC_ZBPP_STATUS='suspended'
+				</isEqual>
+				<isEqual property="status" compareValue="cancel">
+					master.ZC_ZBPP_STATUS='cancel'
+				</isEqual>				
+				<isEqual property="status" compareValue="all">
+					1=1
+				</isEqual>
+			</isNotNull>
+			<isNotNull prepend="AND" property="zcText0">
+			    (master.ZC_BRA_CODE LIKE '%'||#zcText0:VARCHAR#||'%' 
+			 or master.ZC_BRA_NAME LIKE '%'||#zcText0:VARCHAR#||'%') 
+		    </isNotNull>
+		    <isNotNull prepend="AND" property="zcText1">
+			    master.ZC_SPPC_ID = #zcText1:VARCHAR#
+		    </isNotNull>
+		</dynamic>
+			ORDER BY master.ZC_BRA_CODE
+	</select>
+
+   <update id="updateByPrimaryKey" parameterClass="ZcBBrand">
+	UPDATE ZC_ZB_PINP S                       
+	SET S.ZC_SPPC_ID  =#zcSppcID#,            
+      S.ZC_BRA_CODE =#zcBraCode#,           
+      S.ND     =#zcYear#,              
+      S.ZC_CATALOGUE_CODE =#zcCataLogueCode#,
+      S.ZC_SU_CODE  =#zcSuCode#,                       
+      S.ZC_ZBPP_STATUS =#zcZbPpStatus#,     
+      S.ZC_BRA_NAME    =#zcBraName#,
+      S.ZC_INPUT_CODE  =#zcInputCode#,
+	  S.ZC_INPUT_DATE  =#zcInputDate#,
+	  S.ZC_OPER_CODE =#zcOperCode#,
+      S.ZC_OPER_DATE =#zcOperDate#         
+	WHERE                                     
+	S.ZC_BRA_CODE=#zcBraCode#                   
+	</update>
+	
+	<delete id="deleteByPrimaryKey" parameterClass="String">
+		DELETE FROM ZC_ZB_PINP P WHERE P.ZC_BRA_CODE = #VALUE#
+	</delete>
+	
+	<insert id="insert" parameterClass="ZcBBrand">insert into
+		ZC_ZB_PINP(
+            ZC_SPPC_ID,
+            ZC_BRA_CODE ,
+            ND,
+            ZC_CATALOGUE_CODE,
+            ZC_SU_CODE,
+            ZC_ZBPP_STATUS,
+            ZC_BRA_NAME,
+            ZC_INPUT_CODE,
+	        ZC_INPUT_DATE,
+	        ZC_OPER_CODE,
+            ZC_OPER_DATE 
+       )
+	   values(#zcSppcID:VARCHAR#,            
+              #zcBraCode:VARCHAR#,           
+              #zcYear:VARCHAR#,              
+              #zcCataLogueCode:VARCHAR#,
+              #zcSuCode:VARCHAR#,                       
+              #zcZbPpStatus:VARCHAR#,     
+              #zcBraName:VARCHAR#, 
+              #zcInputCode:VARCHAR#,
+		      #zcInputDate:DATE#,
+		      #zcOperCode:VARCHAR#,
+		      #zcOperDate:DATE# 
+		)
+   </insert>
+		
+</sqlMap>

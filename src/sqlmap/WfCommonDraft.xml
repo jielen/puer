@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="WfCommonDraft">
+
+	<typeAlias alias="asWfDraft" type="com.ufgov.zc.common.system.model.AsWfDraft" />
+  <resultMap id="aswfDraftResult" class="asWfDraft" >
+    <result column="WF_DRAFT_ID" property="wfDraftId" jdbcType="DECIMAL" />
+    <result column="WF_DRAFT_NAME" property="wfDraftName" jdbcType="VARCHAR" />
+    <result column="COMPO_ID" property="compoId" jdbcType="VARCHAR" />
+    <result column="MASTER_TAB_ID" property="masterTabId" jdbcType="VARCHAR" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+    <result column="SAVE_TIME" property="saveTime" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+  </resultMap>
+
+	<select id="getSeqInstance" resultClass="String"
+		parameterClass="String">
+		select $seqName$.nextval from dual
+	</select>
+
+	<insert id="insertAsWfDraft" parameterClass="asWfDraft">
+		INSERT INTO AS_WF_DRAFT(WF_DRAFT_ID, WF_DRAFT_NAME, COMPO_ID,
+		MASTER_TAB_ID, USER_ID) VALUES
+		(#wfDraftId:VARCHA#,#wfDraftName:VARCHAR#,#compoId:VARCHA#,#masterTabId:VARCHA#,#userId:VARCHA#)
+	</insert>
+
+	<select id="getTitleField" resultClass="String"
+		parameterClass="String">
+		SELECT TITLE_FIELD FROM AS_COMPO WHERE COMPO_ID =#compoId#
+	</select>
+	
+	<delete id="deleteAsWfDraft" parameterClass="map">
+		delete from AS_WF_DRAFT where WF_DRAFT_ID=#wfDraftId:NUMERIC# and
+		COMPO_ID=#compoId:VARCHAR#
+	</delete>
+	
+	<select id="getWfInstanceIdStatus" resultClass="String" parameterClass="long">
+		SELECT A.STATUS FROM WF_INSTANCE A WHERE A.INSTANCE_ID=#wfInstanceId:DECIMAL#
+	</select>
+	
+	<select id="getOrgPosiId" resultClass="String" 		parameterClass="map">
+			SELECT org_posi_id FROM as_org_position where co_code=#CO_CODE# 
+			and org_code=#ORG_CODE# and posi_code=#POSI_CODE# and nd=#ND#
+	</select>
+	
+	<select id="getWfTemplateNode" resultClass="int" parameterClass="String">
+			SELECT count(*) count FROM wf_node WHERE type=2 AND template_id=
+			(SELECT default_wf_template FROM as_compo WHERE compo_id=#compoId#)
+	</select>
+	
+	<update id="updateCurrentTaskSendStatus"  parameterClass="map">
+			update wf_current_task set gk_send_status =#status:VARCHAR#
+			WHERE instance_id=#instanceId# 
+	</update>
+	
+</sqlMap>

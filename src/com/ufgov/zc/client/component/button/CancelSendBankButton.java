@@ -1,0 +1,1 @@
+package com.ufgov.zc.client.component.button;public class CancelSendBankButton extends FuncButton {  /**   *    */  private static final long serialVersionUID = -2564446291342163428L;  public CancelSendBankButton() {    super();  }  protected void init() {    this.funcId = "fcancelsendbank";    this.defaultText = "取消发送银行";    super.init();  }}

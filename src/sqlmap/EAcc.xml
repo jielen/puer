@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="EAcc">
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<resultMap id="eAcc" class="com.ufgov.zc.common.commonbiz.model.EAcc">
+		<result property="nd" column="nd" />
+		<result property="code" column="e_acc_code" />
+		<result property="name" column="e_acc_name" />
+		<result property="parentCode" column="parent_acc_code" />
+		<result property="isLowest" column="IS_LOWEST" />
+		<result property="chrId" column="CHR_ID" />
+	</resultMap>
+
+	<sql id="selectEAcc">
+		select
+		nd,e_acc_code,e_acc_name,parent_acc_code,IS_LOWEST,CHR_ID from
+		vw_E_ACC
+	</sql>
+	<select id="getEAccLstForPayDialog" resultMap="eAcc"
+		parameterClass="elementCondition">
+		select v1.CHR_ID,
+		v1.e_acc_code,
+		v1.e_acc_name,
+		v1.parent_acc_code,
+		v1.is_lowest,
+		v1.nd
+		from vw_e_acc v1, vw_e_acc v2
+		where v1.nd= #nd#
+		and
+		v1.e_acc_code like v2.e_acc_code || '%'
+		and v1.is_lowest = '1'
+		and v1.nd
+		= v2.nd
+		<isNotNull prepend="AND" property="zcText0">
+			v2.CHR_ID = #zcText0#
+		</isNotNull>
+		order by v1.e_acc_code
+	</select>
+	<select id="getEAccById" resultMap="eAcc" parameterClass="elementCondition">
+		select v1.CHR_ID,
+		v1.e_acc_code,
+		v1.e_acc_name,
+		v1.parent_acc_code,
+		v1.is_lowest,
+		v1.nd
+		from vw_e_acc v1
+		where v1.e_acc_code=#zcText0#
+		and
+		v1.nd=#nd#
+	</select>
+</sqlMap>

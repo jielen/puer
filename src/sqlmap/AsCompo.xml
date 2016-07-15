@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="AsCompo" >
+
+	<resultMap id="asCompoResult" class="com.ufgov.zc.common.system.model.AsCompo" >
+		<result column="COMPO_ID" property="compoId" jdbcType="VARCHAR"/>
+		<result column="COMPO_NAME" property="compoName" jdbcType="VARCHAR"/>
+		<result column="MASTER_TAB_ID" property="masterTabId" jdbcType="VARCHAR"/>
+		<result column="NO_FIELD" property="noField" jdbcType="VARCHAR"/>
+		<result column="ORDER_BY" property="orderColumns" jdbcType="VARCHAR"/>
+		<result column="IS_FUNC_CONTROL" property="funcControl" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+
+	<select id="getGkFuncCompo" resultMap="asCompoResult">
+		select * from as_compo t where t.compo_id
+		in ( select compo_id from as_menu_compo where url like
+		'/GK/jsp/%') order by t.compo_id
+	</select>
+
+	
+	<select id="getAsCompoById" resultMap="asCompoResult" parameterClass="string" >
+		select * from AS_COMPO	where COMPO_ID = #compoId:VARCHAR#
+	</select>
+	
+	<select id="getAllAsCompo" resultMap="asCompoResult">
+		select distinct * from AS_COMPO  
+		where master_tab_id is not null 
+			  and compo_id in (select compo_id from as_menu_compo where url like
+		'/GK/jsp/%')
+	</select>
+	
+	<resultMap id="asTabColResult" class="com.ufgov.zc.common.system.model.AsTabCol" >
+		<result column="TAB_ID" property="tabId" jdbcType="VARCHAR"/>          
+	    <result column="DATA_ITEM" property="dataItem" jdbcType="VARCHAR"/>       
+	    <result column="DATA_ITEM_DESC" property="dataItemDesc" jdbcType="VARCHAR"/>  
+	    <result column="DATA_ITEM_NA" property="dataItemNa" jdbcType="VARCHAR"/>
+	    <result column="DATA_TYPE" property="dataType" jdbcType="VARCHAR"/>
+	    <result column="IS_ORDER" property="isOrder" jdbcType="VARCHAR"/>
+    </resultMap>
+    
+	<select id="getAsTabColForOrder" resultMap="asTabColResult" parameterClass="string">
+		select * from as_tab_col where tab_id=#tabId# AND IS_ORDER='1'
+	</select>
+	
+	<update id="updateOrderField" parameterClass="com.ufgov.zc.common.system.model.AsCompo">
+		update AS_COMPO 
+		<dynamic prepend="set">
+			<isNotNull property="orderColumns">
+				ORDER_BY = #orderColumns#
+			</isNotNull>
+		</dynamic>
+		where COMPO_ID=#compoId#
+	</update>
+</sqlMap>

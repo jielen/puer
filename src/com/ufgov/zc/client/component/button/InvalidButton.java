@@ -1,0 +1,1 @@
+package com.ufgov.zc.client.component.button;public class InvalidButton extends FuncButton {  public InvalidButton() {    super();  }  protected void init() {    this.funcId = "finterruptinstance";    this.defaultText = "作废";    this.iconName = "interruptinstance.jpg";    super.init();  }}

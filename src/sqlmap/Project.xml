@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Project">
+<typeAlias alias="elementCondition"	type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+<typeAlias alias="biProject" type="com.ufgov.zc.common.commonbiz.model.Project" />
+	<resultMap id="project" class="com.ufgov.zc.common.commonbiz.model.Project">
+		<result property="nd" column="pd_year" />
+		<result property="code" column="pd_project_code" />
+		<result property="name" column="pd_project_name" />
+		<result property="parentCode" column="PD_PARENT_PROJECT_CODE" />
+		<result property="pdCreaCoCode" column="pd_crea_co_code" />
+		<result property="pdProjectTypeCode" column="pd_project_type_code" />
+		<result property="pdIsLowest" column="pd_is_lowest" />
+		<result property="pdVersionId" column="pd_version_id" />
+
+		<!--
+			<result property="level" column="pd_project_level" nullValue="-1" />
+		-->
+	</resultMap>
+
+	<resultMap id="biProjectMap" class="com.ufgov.zc.common.commonbiz.model.Project">
+		<result property="nd" column="pd_year" />
+		<result property="code" column="pd_project_code" />
+		<result property="name" column="pd_project_name" />
+		<result property="pdVersionId" column="pd_version_id" />
+		<result property="oid" column="GUID" />
+	</resultMap>
+
+	<sql id="selectProject">
+		SELECT pd_year,pd_version_id,pd_project_code,pd_project_name,pd_project_type_code,pd_crea_co_code,'' pd_is_lowest,pd_parent_project_code
+		FROM gk_project_v
+	</sql>
+
+	<select id="getRootProject" resultMap="project" parameterClass="int">
+		<include refid="selectProject" />
+		where pd_year= #nd# and pd_parent_project_code is null
+		order by
+		pd_project_code
+	</select>
+
+	<select id="getChildrenProject" resultMap="project"
+		parameterClass="int">
+		<include refid="selectProject" />
+		where pd_year= #nd# and pd_parent_project_code is not
+		null order by
+		pd_project_code
+	</select>
+
+	<select id="getProject" resultMap="project" parameterClass="Map">
+		<include refid="selectProject" />
+		<dynamic prepend="WHERE">
+	  	   <isNotEqual prepend="AND" property="nd" compareValue="0">
+			    pd_year = #nd#
+		   </isNotEqual>
+		   <isNotNull prepend="AND" property="coCode">
+		   		pd_crea_co_code= #coCode#
+		   </isNotNull>
+		</dynamic>
+	  	ORDER BY pd_project_code
+	</select>
+
+	<select id="getProjectByRule" resultMap="project" parameterClass="elementCondition">
+	    select * from  
+	    ( SELECT pd_year,pd_version_id,pd_project_code project_code,pd_project_code,pd_project_name,pd_project_type_code,pd_crea_co_code co_code,pd_crea_co_code,'' pd_is_lowest,pd_parent_project_code
+		  FROM gk_project_v )
+		 where pd_year = #nd#
+        <include refid="GkGetDataRuleCondi.GkGetDataRuleCondiStr" />
+        <include refid="BusiNumLim.BusiNumLimStr" />
+	  	ORDER BY project_code
+	</select>
+
+	<resultMap id="projectBalance" class="com.ufgov.zc.common.commonbiz.model.Project" extends="project">
+		<result property="pdMoney" column="XMJE" nullValue="0"/>
+		<result property="pdUseMoney" column="XMYYJE" nullValue="0"/>
+		<result property="pdBalance" column="XMYE" nullValue="0"/>
+	</resultMap>
+
+	<select id="getProjectBalance" resultMap="projectBalance" parameterClass="Map">
+		SELECT pd_year,pd_version_id,pd_project_code,pd_project_name,pd_project_type_code,pd_crea_co_code,
+		'' pd_is_lowest,pd_parent_project_code,XMJE,XMYYJE,XMYE
+		from GK_PROJECT_BALANCE_V
+	  	ORDER BY pd_project_code
+	</select>
+
+	<select id="getPdProject" resultMap="project" parameterClass="int">
+		SELECT pd_year,pd_version_id,pd_project_code,pd_project_name,pd_project_type_code,pd_crea_co_code,pd_is_lowest,pd_parent_project_code
+		FROM GK_PROJECT_EDIT_V
+		where pd_year= #nd# order by pd_project_code
+	</select>
+
+	<select id="getProjectBiXJ" resultMap="biProjectMap" parameterClass="Map">
+		SELECT *
+		FROM PD_BI_XJ_PROJECT
+		where pd_year= #nd# order by pd_project_code
+	</select>
+
+	<resultMap id="projectDetail" class="com.ufgov.zc.common.commonbiz.model.Project">
+		<result property="code" column="pd_project_code" />
+		<result property="name" column="pd_project_name" />
+		<result property="pdVersionId" column="pd_version_id" />
+	</resultMap>
+
+	<select id="getProjectDetail" resultMap="projectDetail" >
+		SELECT * FROM GK_PROJECT_DETAIL_V ORDER BY pd_project_code
+	</select>
+
+	<select id="getProjectByCode" resultMap="project" parameterClass="map">
+		SELECT pd_year,pd_version_id,pd_project_code
+		,pd_project_name,pd_project_type_code,
+		pd_crea_co_code,pd_is_lowest,
+		pd_parent_project_code FROM
+		pd_project
+		where pd_project_code =#code#
+	</select>
+
+
+	<update id="updateForProject" parameterClass="com.ufgov.zc.common.commonbiz.model.Project">
+		UPDATE pd_project
+		SET pd_project_name = #name:VARCHAR#,
+		pd_project_type_code =
+		#pdProjectTypeCode:VARCHAR#,
+		pd_parent_project_code =
+		#parentCode:VARCHAR#,
+		pd_crea_co_code =#pdCreaCoCode:VARCHAR#,
+		pd_is_lowest = #pdIsLowest:VARCHAR#
+		WHERE pd_project_code =
+		#code:VARCHAR#
+	</update>
+
+	<delete id="deletePdProject" parameterClass="com.ufgov.zc.common.commonbiz.model.Project">
+		delete from
+		pd_project where pd_project_code=#code:VARCHAR#
+	</delete>
+
+	<insert id="insertForProject" parameterClass="com.ufgov.zc.common.commonbiz.model.Project">
+		insert
+		into
+		pd_project(pd_project_code,
+
+		pd_project_name,
+		pd_year,
+		pd_project_type_code,
+		pd_is_lowest,
+		pd_crea_co_code,
+
+		PD_CREATE_USER_ID,
+		PD_CREATE_DATE,
+		pd_project_level,
+		pd_parent_project_code,pd_version_id)
+		values(
+		#code:VARCHAR#,
+
+		#name:VARCHAR#,
+		#nd#,
+		#pdProjectTypeCode:INTEGER#,
+		#pdIsLowest:VARCHAR#,
+		#pdCreaCoCode:VARCHAR#,
+
+		#pdCreateUserId:VARCHAR#,
+		#pdCreateDate:DATE#,
+		#pdProjectLevel:VARCHAR#,
+		#parentCode:VARCHAR#,#pdVersionId:VARCHAR#)
+	</insert>
+
+
+	 <insert id="insertBiProject" parameterClass="biProject">
+        insert into PD_BI_XJ_PROJECT
+        (PD_VERSION_ID, PD_PROJECT_CODE,
+         PD_YEAR, PD_PROJECT_NAME,GUID)
+           values (1, #code:VARCHAR#, #nd:VARCHAR#, #name:VARCHAR#,#oid:VARCHAR#)
+
+
+    </insert>
+	<update id="updateBiProject" parameterClass="biProject">
+		update PD_BI_XJ_PROJECT set
+		PD_PROJECT_CODE = #code:VARCHAR#,
+		PD_PROJECT_NAME = #name:VARCHAR#
+		where  GUID = #oid:VARCHAR#
+    </update>
+
+    <delete id="deleteProject" parameterClass="Map">
+		delete from PD_BI_XJ_PROJECT
+		<dynamic prepend="WHERE">
+			<iterate prepend="AND" property="idList" open="("
+				close=")" conjunction="OR">
+				PD_PROJECT_CODE=#idList[]# </iterate>
+		</dynamic>
+	</delete>
+	
+	
+	<select id="codeExist" resultClass="int" parameterClass="com.ufgov.zc.common.commonbiz.model.Project">
+		select count(*) from pd_project where pd_year=#nd# and
+		pd_project_code=#code#
+	</select>
+
+	<select id="nameExist" resultClass="int" parameterClass="com.ufgov.zc.common.commonbiz.model.Project">
+		select count(*) from pd_project where pd_year=#nd# and
+		pd_project_name=#name#
+	</select>
+
+	<select id="nameExisteSelfExcluded" resultClass="int" parameterClass="com.ufgov.zc.common.commonbiz.model.Project">
+		select count(*) from pd_project where pd_year=#nd# and
+		pd_project_name=#name# and	pd_project_code!=#code#
+	</select>
+	
+	<sql id="pdProjectCodes">
+	    select pd_project_code from pd_project start with pd_year=#nd#  and
+		pd_project_code=#code# connect by prior pd_project_code = pd_parent_project_code and
+		pd_year=#nd#
+	</sql>
+	
+	<delete id="deleteProjectWithChildren" parameterClass="com.ufgov.zc.common.commonbiz.model.Project">
+		delete from pd_project WHERE pd_year=#nd# 
+		and	pd_project_code in (<include refid="pdProjectCodes" />)
+	</delete>
+	
+	<select id="getUsedProjectNum" resultClass="int" parameterClass="com.ufgov.zc.common.commonbiz.model.Project">
+		select count(*) from bi_balance where nd=#nd# and
+		project_code in (<include refid="pdProjectCodes" />)
+	</select>
+
+</sqlMap>

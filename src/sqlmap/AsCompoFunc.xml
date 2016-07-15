@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="AsCompoFunc" >
+	<resultMap class="com.ufgov.zc.common.system.model.AsCompoFunc" id="asCompoFuncResult">
+		<result column="COMPO_ID" property="compoId" jdbcType="VARCHAR"/>
+		<result column="COMPO_NAME" property="compoName" jdbcType="VARCHAR"/>
+		<result column="FUNC_ID" property="funcId" jdbcType="VARCHAR"/>
+		<result column="FUNC_NAME" property="funcName" jdbcType="VARCHAR"/>
+		<result column="IS_WR_LOG" property="isWrLog" jdbcType="VARCHAR"/>
+		<result column="IS_NEVER_USE" property="isNeverUse" jdbcType="VARCHAR"/>
+	</resultMap>
+
+	<select id="getAsCompoFunc" resultMap="asCompoFuncResult" parameterClass="map" >
+		SELECT A.*, (SELECT RES_NA FROM AS_LANG_TRANS B WHERE A.COMPO_ID = B.RES_ID) COMPO_NAME,
+   		(SELECT FUNC_DESC FROM AS_FUNC C WHERE A.FUNC_ID = C.FUNC_ID) FUNC_NAME
+		FROM AS_COMPO_FUNC A where 
+  		A.COMPO_ID = #compoId:VARCHAR#
+  		ORDER BY A.COMPO_ID ASC
+	</select>
+
+	<update id="updateAsCompoFunc" parameterClass="com.ufgov.zc.common.system.model.AsCompoFunc">
+		UPDATE AS_COMPO_FUNC
+	    SET  IS_WR_LOG = #isWrLog:VARCHAR#,
+	         IS_NEVER_USE = #isNeverUse:VARCHAR#
+		WHERE COMPO_ID = #compoId:VARCHAR#
+				AND FUNC_ID =#funcId:VARCHAR#
+	</update>
+</sqlMap>

@@ -1,0 +1,1 @@
+package com.ufgov.zc.server.gwk.dao;import java.util.List;import com.ufgov.zc.common.system.dto.ElementConditionDto;public interface ICpCcaccountInfoDao {  List getCardInfo(ElementConditionDto dto);  List getCpGwkCoPaymentInfo(ElementConditionDto dto);  List getCpGwkBankPaymentInfo(ElementConditionDto dto);  List getGwkAnalyzeInfo(ElementConditionDto dto);}

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="UserSearchStore">
+	<typeAlias alias="UserSearchStore" type="com.ufgov.zc.common.system.model.UserSearchStore" />
+	<resultMap id="UserSearchStoreResult" class="com.ufgov.zc.common.system.model.UserSearchStore">
+		<result property="storeId" column="STORE_ID" />
+		<result property="conditionId" column="CONDITION_ID" />
+		<result property="userId" column="USER_ID" />
+		<result property="nd" column="USER_ID" />
+		<result property="desc" column="STORE_DESC" />
+		<result property="searchInfo" column="SEARCH_INFO" />
+		<result property="groupInf" column="GROUP_INFO" />
+	</resultMap>
+
+	<select id="getUserSearchStore" parameterClass="java.util.Map" resultMap="UserSearchStoreResult">
+		select *
+		  from ma_search_condition_store t
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="userId">
+				t.user_id=#userId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="nd">
+				t.nd=#nd#
+			</isNotNull>
+			<isNotNull prepend="AND" property="conditionId">
+				t.condition_id=#conditionId#
+			</isNotNull>
+		</dynamic>
+	</select>
+
+	<update id="updateUserSearchStore" parameterClass="UserSearchStore">
+		update ma_search_condition_store t
+		   set t.group_info = #groupInf#,
+		   	   t.search_info = #searchInfo#
+		 where t.store_id = #storeId#
+	</update>
+
+	<insert id="insertuserSearchStore" parameterClass="UserSearchStore">
+		insert into ma_search_condition_store
+		  (CONDITION_ID,
+		   USER_ID,
+		   ND,
+		   STORE_DESC,
+		   STORE_ID,
+		   SEARCH_INFO,
+		   GROUP_INFO)
+		values
+		  (#conditionId#, #userId#, #nd#, #desc#, #storeId#, #searchInfo#, #groupInf#)
+	</insert>
+
+	<delete id="deleteSearchStore" parameterClass="UserSearchStore">
+		delete from
+			ma_search_condition_store t
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="userId">
+				t.user_id=#userId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="storeId">
+				t.store_id=#storeId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="nd">
+				t.nd=#nd#
+			</isNotNull>
+			<isNotNull prepend="AND" property="conditionId">
+				t.condition_id=#conditionId#
+			</isNotNull>
+		</dynamic>
+	</delete>
+</sqlMap>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.ufgov.zc.server.sf.dao.SfMajorMapper" >
+
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<typeAlias alias="major" type="com.ufgov.zc.common.sf.model.SfMajor" />
+
+  <resultMap id="BaseResultMap" class="major" >
+    <result column="MAJOR_CODE" property="majorCode" jdbcType="VARCHAR" />
+    <result column="MAJOR_NAME" property="majorName" jdbcType="VARCHAR" />
+    <result column="PARENT_CODE" property="parentCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    MAJOR_CODE, MAJOR_NAME, PARENT_CODE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from SF_MAJOR
+    where MAJOR_CODE = #majorCode#
+  </select>
+  <select id="getMajorLst" resultMap="BaseResultMap" parameterClass="elementCondition" >    
+    select 
+    <include refid="Base_Column_List" />
+    from SF_MAJOR
+    where 1=1
+    order by major_code
+    
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterClass="java.lang.String" >
+    delete from SF_MAJOR
+    where MAJOR_CODE = #majorCode#
+  </delete>
+  <insert id="insert" parameterClass="major" >
+    insert into SF_MAJOR (MAJOR_CODE, MAJOR_NAME, PARENT_CODE      )
+    values (#majorCode#, #majorName#, #parentCode#      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterClass="major" >
+    update SF_MAJOR
+    set MAJOR_NAME = #majorName#,
+      PARENT_CODE = #parentCode#
+    where MAJOR_CODE = #majorCode#
+  </update>
+  <select id="isUsing"  parameterClass="java.lang.String" resultClass="java.lang.Integer">
+	  select count(m.major_code) as major_sum
+	  from sf_major m, sf_jd_person_major e
+	 where m.major_code = e.major_code
+	 and m.major_code=#majorCode#
+  </select>
+</sqlMap>

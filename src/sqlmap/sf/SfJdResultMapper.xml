@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.ufgov.zc.server.sf.dao.SfJdResultMapper">
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+  <resultMap id="BaseResultMap" class="com.ufgov.zc.common.sf.model.SfJdResult">
+    <result column="JD_RESULT_ID" jdbcType="DECIMAL" property="jdResultId" />
+    <result column="ENTRUST_ID" jdbcType="DECIMAL" property="entrustId" />
+    <result column="ENTRUST_CODE" jdbcType="VARCHAR" property="entrustCode" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="PROCESS_INST_ID" jdbcType="DECIMAL" property="processInstId" />
+    <result column="REMARK" jdbcType="CLOB" property="remark"   typeHandler="org.springframework.orm.ibatis.support.ClobStringTypeHandler"/>
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="INPUTOR" jdbcType="VARCHAR" property="inputor" />
+    <result column="INPUT_DATE" jdbcType="DATE" property="inputDate" />
+    <result column="JD_DATE" jdbcType="DATE" property="jdDate" />
+    <result column="JD_ADDRESS" jdbcType="VARCHAR" property="jdAddress" />
+    <result column="ZC_PERSONS" jdbcType="VARCHAR" property="zcPersons" />
+    <result column="BRIEF" jdbcType="CLOB" property="brief"   typeHandler="org.springframework.orm.ibatis.support.ClobStringTypeHandler"/>
+    <result column="JD_PROCESS" jdbcType="CLOB" property="jdProcess"   typeHandler="org.springframework.orm.ibatis.support.ClobStringTypeHandler"/>
+    <result column="JD_RESULT" jdbcType="CLOB" property="jdResult"   typeHandler="org.springframework.orm.ibatis.support.ClobStringTypeHandler"/>
+    <result column="JD_OPINION" jdbcType="CLOB" property="jdOpinion"   typeHandler="org.springframework.orm.ibatis.support.ClobStringTypeHandler"/>
+    <result column="RESULT_TYPE" jdbcType="VARCHAR" property="resultType" />
+    <result column="FILE_ID" jdbcType="VARCHAR" property="fileId" />
+    <result column="JDR" jdbcType="DECIMAL" property="jdr" />
+    <result column="ZHU_SU" jdbcType="CLOB" property="zhuSu"   typeHandler="org.springframework.orm.ibatis.support.ClobStringTypeHandler"/>
+    <result column="JD_METHOD" jdbcType="VARCHAR" property="jdMethod" />
+    <result column="JD_TARGET" jdbcType="VARCHAR" property="jdTargetName" />
+    <result column="ND" jdbcType="DECIMAL" property="nd" />
+    <result column="RESULT_CODE" jdbcType="VARCHAR" property="resultCode" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    JD_RESULT_ID, ENTRUST_ID, ENTRUST_CODE, NAME, PROCESS_INST_ID, REMARK, STATUS, INPUTOR, 
+    INPUT_DATE, JD_DATE, JD_ADDRESS, ZC_PERSONS, BRIEF, JD_PROCESS, JD_RESULT, JD_OPINION, 
+    RESULT_TYPE, FILE_ID, ND,JDR,ZHU_SU,JD_METHOD,JD_TARGET,RESULT_CODE
+  </sql>
+  <select id="selectByPrimaryKey" parameterClass="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SF_JD_RESULT
+    where JD_RESULT_ID = #jdResultId:DECIMAL#
+  </select>
+  <select id="selectMainDataLst" parameterClass="elementCondition" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SF_JD_RESULT
+    where 1=1  
+		<include refid="BusiNumLim.BusiNumLimStr" />   
+		<isNotNull prepend="AND" property="dattr1"> 
+			ENTRUST_ID=#dattr1#
+		</isNotNull> 
+		<!-- 列表界面上的搜索条件 -->
+		<isNotNull prepend="AND" property="dattr5"> 
+			ENTRUST_ID=#dattr5#
+		</isNotNull>   
+	<isNotEqual prepend="and" compareValue="0" property="nd">
+			SF_JD_RESULT.ND = #nd#
+   </isNotEqual>
+		<isNotNull prepend="AND" property="status">
+			<isEqual property="status" compareValue="todo">
+				exists (select instance_id from V_WF_CURRENT_TASK_ZC_TODO where 
+				executor=#executor# and instance_id = SF_JD_RESULT.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="untread">
+				exists (select instance_id from V_WF_CURRENT_TASK_ZC_UNTREAD where
+				executor=#executor# and instance_id = SF_JD_RESULT.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				exists (select instance_id from V_WF_ACTION_HISTORY_GK53 where 
+				executor =#executor# and instance_id = SF_JD_RESULT.process_inst_id)
+				and SF_JD_RESULT.STATUS!= 'cancel' and SF_JD_RESULT.STATUS != 'exec'
+			</isEqual>
+			<isEqual property="status" compareValue="draft">
+				( exists (select WF_DRAFT_NAME from as_wf_draft where
+				user_id=#executor# and
+				compo_id=#wfcompoId# and
+				WF_DRAFT_ID=SF_JD_RESULT.process_inst_id)
+				or
+				SF_JD_RESULT.process_inst_id = -1 )
+				and SF_JD_RESULT.STATUS ='0'
+			</isEqual>
+			<isEqual property="status" compareValue="exec">
+				(SF_JD_RESULT.STATUS='exec')
+			</isEqual>
+			<isEqual property="status" compareValue="all">
+				1=1
+			</isEqual>
+		</isNotNull>
+   order by SF_JD_RESULT.JD_RESULT_ID desc
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="java.math.BigDecimal">
+    delete from SF_JD_RESULT
+    where JD_RESULT_ID = #jdResultId:DECIMAL#
+  </delete>
+  <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfJdResult">
+    insert into SF_JD_RESULT (JD_RESULT_ID, ENTRUST_ID, ENTRUST_CODE, 
+      NAME, PROCESS_INST_ID, REMARK, 
+      STATUS, INPUTOR, INPUT_DATE, 
+      JD_DATE, JD_ADDRESS, ZC_PERSONS, 
+      BRIEF, JD_PROCESS, JD_RESULT, 
+      JD_OPINION, RESULT_TYPE, FILE_ID, 
+      ND,JDR,ZHU_SU,JD_METHOD,JD_TARGET,RESULT_CODE)
+    values (#jdResultId:DECIMAL#, #entrustId:DECIMAL#, #entrustCode:VARCHAR#, 
+      #name:VARCHAR#, #processInstId:DECIMAL#, #remark,handler=org.springframework.orm.ibatis.support.ClobStringTypeHandler#, 
+      #status:VARCHAR#, #inputor:VARCHAR#, #inputDate:DATE#, 
+      #jdDate:DATE#, #jdAddress:VARCHAR#, #zcPersons:VARCHAR#, 
+      #brief,handler=org.springframework.orm.ibatis.support.ClobStringTypeHandler#, #jdProcess,handler=org.springframework.orm.ibatis.support.ClobStringTypeHandler#, #jdResult,handler=org.springframework.orm.ibatis.support.ClobStringTypeHandler#, 
+      #jdOpinion,handler=org.springframework.orm.ibatis.support.ClobStringTypeHandler#, #resultType:VARCHAR#, #fileId:VARCHAR#, 
+      #nd:DECIMAL#,#jdr#,#zhuSu,handler=org.springframework.orm.ibatis.support.ClobStringTypeHandler#,#jdMethod:VARCHAR#,#jdTargetName:VARCHAR#,#resultCode#)
+  </insert>
+  <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfJdResult">
+    update SF_JD_RESULT
+    set ENTRUST_ID = #entrustId:DECIMAL#,
+      ENTRUST_CODE = #entrustCode:VARCHAR#,
+      NAME = #name:VARCHAR#,
+      PROCESS_INST_ID = #processInstId:DECIMAL#,
+      REMARK = #remark,handler=org.springframework.orm.ibatis.support.ClobStringTypeHandler#,
+      STATUS = #status:VARCHAR#,
+      INPUTOR = #inputor:VARCHAR#,
+      INPUT_DATE = #inputDate:DATE#,
+      JD_DATE = #jdDate:DATE#,
+      JD_ADDRESS = #jdAddress:VARCHAR#,
+      ZC_PERSONS = #zcPersons:VARCHAR#,
+      BRIEF = #brief,handler=org.springframework.orm.ibatis.support.ClobStringTypeHandler#,
+      JD_PROCESS = #jdProcess,handler=org.springframework.orm.ibatis.support.ClobStringTypeHandler#,
+      JD_RESULT = #jdResult,handler=org.springframework.orm.ibatis.support.ClobStringTypeHandler#,
+      JD_OPINION = #jdOpinion,handler=org.springframework.orm.ibatis.support.ClobStringTypeHandler#,
+      RESULT_TYPE = #resultType:VARCHAR#,
+      FILE_ID = #fileId:VARCHAR#,
+      ND = #nd:DECIMAL#,
+      JDR=#jdr#,
+      ZHU_SU=#zhuSu,handler=org.springframework.orm.ibatis.support.ClobStringTypeHandler#,
+      JD_METHOD=#jdMethod:VARCHAR#,
+      JD_TARGET=#jdTargetName:VARCHAR#,
+      RESULT_CODE=#resultCode#
+    where JD_RESULT_ID = #jdResultId:DECIMAL#
+  </update>
+  
+  <select id="selectByEntrustId" parameterClass="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SF_JD_RESULT
+    where ENTRUST_ID = #entrustId:DECIMAL#
+  </select>
+</sqlMap>

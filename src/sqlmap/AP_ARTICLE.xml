@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="AP_ARTICLE" >
+  <typeAlias alias="Type_BaseApArticle" type="com.ufgov.zc.common.zc.model.BaseApArticle" />
+  <typeAlias alias="Type_ApArticle" type="com.ufgov.zc.common.zc.model.ApArticle" />
+  <typeAlias alias="Type_ApArticlePortlet" type="com.ufgov.zc.common.zc.model.ApArticlePortlet" />
+	<typeAlias alias="dto" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	
+  <resultMap id="ApArticleResult" class="Type_ApArticle" >
+    <result column="ID" property="id" />
+    <result column="TITLE" property="title" />
+    <result column="CREATOR" property="creator" />
+    <result column="CREATE_TIME" property="createTime" />
+    <result column="VALID_DATE" property="validDate" />
+    <result column="TYPE" property="type" />
+    <result column="ATTATCH_BLOBID" property="attatchBlobid" />
+    <result column="ATTATCH" property="attatch" />
+    <result column="EXPIRE_DATE" property="expireDate" />
+    <result column="SNO" property="sno" />
+    <result column="AUTHOR" property="author" />
+    <result column="WROTE_TIME" property="wroteTime" />
+    <result column="MENDOR" property="mendor" />
+    <result column="MEND_TIME" property="mendTime" />
+	<result column="HREF" property="href" />
+	<result column="VISIT_CAPACITY" property="visitCapacity" />
+	<result column="REVIEW" property="review" />
+	<result column="SUB_TITLE" property="subTitle" />
+    <result column="BIG_PIC_PATH" property="bigPicPath" />
+    <result column="SMALL_PIC_PATH" property="smallPicPath" />
+    <result column="RECOMMEND" property="recommend" />
+    <result column="HEADLINE" property="headline" />
+    <result column="CID" property="cid" />
+    <result column="IDX" property="idx" nullValue="0"/>
+    <result column="KEYWORDS" property="keywords" />
+    <result column="TAGS" property="tags" />
+    <result column="SOURCE" property="source" />
+    <result column="GENERATE_TIME" property="generateTime" />
+    <result column="AUDIT_STATE" property="auditState" />
+	<result column="IS_SEND" property="isSend" />
+	<result column="SOURCE_ID" property="sourceId" />
+	<result column="STYLE" property="style" />
+	<result column="TEMPLATE" property="template" />
+	<result column="C1" property="c1" />
+	<result column="C2" property="c2" />
+	<result column="C3" property="c3" />
+	<result column="C4" property="c4" />
+  </resultMap>
+  <resultMap id="ApArticleProtletResultMap" class="Type_ApArticlePortlet">
+  	<result column="PG_PLET_ID" property="apArticleProtletID" />
+		<result column="ARTICLE_ID" property="apArticleID" />
+  </resultMap>
+
+  <resultMap id="ApArticleResultWithBLOBs" class="Type_ApArticle" extends="AP_ARTICLE.ApArticleResult" >
+    <result column="CONTENT" property="content" jdbcType="CLOB" javaType="java.lang.String" />
+  </resultMap>
+  
+  <select id="selectApArticle" resultMap="ApArticleResultWithBLOBs" parameterClass="dto" >
+  	select * from ap_article aa where aa.id=#zcText0#
+  </select>
+  <select id="selectApArticleProtlet" resultMap="ApArticleProtletResultMap" parameterClass="dto" >
+  	select * from AP_ARTICLE_PORTLET aa where aa.article_id=#zcText0# 
+  </select>
+  <insert id="insertAutoKey" parameterClass="Type_ApArticle" >
+    <selectKey resultClass="java.lang.String" keyProperty="id" >
+      SELECT SEQ_AP_article_ID.NEXTVAL  id FROM dual
+    </selectKey>
+    insert into AP_ARTICLE (ID, TITLE, CREATOR, CREATE_TIME, VALID_DATE, TYPE, ATTATCH_BLOBID, 
+      ATTATCH, EXPIRE_DATE, SNO, AUTHOR, WROTE_TIME, MENDOR, MEND_TIME, REVIEW, CONTENT, HREF,
+      SUB_TITLE, BIG_PIC_PATH, SMALL_PIC_PATH, RECOMMEND, HEADLINE, CID, IDX, KEYWORDS, TAGS, 
+      SOURCE, GENERATE_TIME, AUDIT_STATE, IS_SEND, SOURCE_ID, STYLE, TEMPLATE, C1, C2, C3, C4,VISIT_CAPACITY)
+    values (#id#, #title#, #creator#, sysdate, #validDate#, #type#, #attatchBlobid#,  #attatch#,
+      #expireDate#, #sno#, #author#, sysdate, #mendor#, #mendTime#, #review#, #content,jdbcType=CLOB#, #href#,
+      #subTitle#, #bigPicPath#, #smallPicPath#, #recommend#, #headline#, #cid#, #idx#, #keywords#, #tags#,
+      #source#, #generateTime#, #auditState#, #isSend#, #sourceId#, #style#, #template#, #c1#, #c2#, #c3#, #c4#,#visitCapacity#)
+  </insert>
+  <insert id="insertApArticleWithID" parameterClass="Type_ApArticle" >
+    insert into AP_ARTICLE (ID, TITLE, CREATOR, CREATE_TIME, VALID_DATE, TYPE, ATTATCH_BLOBID, 
+      ATTATCH, EXPIRE_DATE, SNO, AUTHOR, WROTE_TIME, MENDOR, MEND_TIME, REVIEW, CONTENT, HREF,
+      SUB_TITLE, BIG_PIC_PATH, SMALL_PIC_PATH, RECOMMEND, HEADLINE, CID, IDX, KEYWORDS, TAGS, 
+      SOURCE, GENERATE_TIME, AUDIT_STATE, IS_SEND, SOURCE_ID, STYLE, TEMPLATE, C1, C2, C3, C4,VISIT_CAPACITY)
+    values (#id#, #title#, #creator#, sysdate, #validDate#, #type#, #attatchBlobid#,  #attatch#,
+      #expireDate#, #sno#, #author#, sysdate, #mendor#, #mendTime#, #review#, #content,jdbcType=CLOB#, #href#,
+      #subTitle#, #bigPicPath#, #smallPicPath#, #recommend#, #headline#, #cid#, #idx#, #keywords#, #tags#,
+      #source#, #generateTime#, #auditState#, #isSend#, #sourceId#, #style#, #template#, #c1#, #c2#, #c3#, #c4#,#visitCapacity#)
+  </insert>
+  <insert id="insertArticlePortlet" parameterClass="java.util.Map"><!-- 347和403是采购公告 -->
+    insert into AP_ARTICLE_PORTLET(PG_PLET_ID,ARTICLE_ID) VALUES(#pageId#,#articleId#)
+  </insert>
+  <delete id="deleteApArticle" parameterClass="java.util.Map"><!-- 347和403是采购公告 -->
+    delete from AP_ARTICLE where ID=#articleId#
+  </delete>
+  <delete id="deleteArticlePortlet" parameterClass="java.util.Map"><!-- 347和403是采购公告 -->
+    delete from AP_ARTICLE_PORTLET where PG_PLET_ID=#pageId# and ARTICLE_ID=#articleId#
+  </delete>
+</sqlMap>

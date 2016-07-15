@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ExecProcCallback">
+	<parameterMap id="SP_GK_EDIT_BILL_MAP" class="java.util.HashMap">
+    	<parameter property="compoId" 		jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+    	<parameter property="svUserId" 		jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+    	<parameter property="svCoCode" 		jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+    	<parameter property="svTraDate" 	jdbcType="DATE"    javaType="java.util.Date"   mode="IN"/> 
+    	<parameter property="xmlValue" 		jdbcType="CLOB"    javaType="java.lang.String" mode="IN"/>
+    	<parameter property="svFuncId" 		jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+    	<parameter property="beforeOrAfter" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+    	<parameter property="extParam1" 	jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+    	<parameter property="extParam2" 	jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="info" 			jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>   
+	</parameterMap>
+	<procedure id="SP_GK_EDIT_BILL" parameterMap="SP_GK_EDIT_BILL_MAP">   
+		{call SP_GK_EDIT_BILL(?,?,?,?,?,?,?,?,?,?)}
+	</procedure>
+</sqlMap>

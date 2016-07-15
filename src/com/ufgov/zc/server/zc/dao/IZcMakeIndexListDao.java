@@ -1,0 +1,1 @@
+package com.ufgov.zc.server.zc.dao;import java.util.List;import java.util.Map;public interface IZcMakeIndexListDao {  public abstract List getZcMakeIndexList();  Integer getMakeListCount(Map parameterObject);  List getMakeList(Map parameterObject);  List findMakebyCode(Map parameterObject);}

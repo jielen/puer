@@ -1,0 +1,1 @@
+package com.ufgov.zc.server.commonbiz.dao;import java.util.List;import com.ufgov.zc.common.system.dto.ElementConditionDto;public interface IOutlayDao {  List getRootOutlay(int nd);  List getChildrenOutlay(int nd);  List getOutlay(ElementConditionDto dto);}

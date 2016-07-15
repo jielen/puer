@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ZcEbProArgue">
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<typeAlias alias="ZcEbProArgue" type="com.ufgov.zc.common.zc.model.ZcEbProArgue" />
+	<resultMap id="ZcEbProArgueResult" class="ZcEbProArgue">
+		<result property="argueId" column="id" />
+		<result property="proCode" column="pro_code" />
+		<result property="proName" column="pro_name" />
+		<result property="proOrg" column="pro_org" />
+		<result property="leader" column="leader" />
+		<result property="argueTime" column="argue_time" />
+		<result property="argueAddress" column="argue_address" />
+		<result property="argueOpinions" column="argue_opinions" />
+		<result property="argueAccessoriesName" column="argue_accessories_name" />
+		<result property="argueAccessoriesBlobid" column="argue_accessories_blobid" />
+		<result property="memo" column="memo" />
+		<result property="processInstId" column="PROCESS_INST_ID" />
+		<result property="isGoonAudit" column="IS_GOON_AUDIT" />
+		<result property="status" column="STATUS" />
+		<result property="orgPersons" column="ORG_PERSONS" />
+		<result property="agencyPersons" column="AGENCY_PERSONS" />
+		<result property="orgOpinions" column="ORG_OPINIONS" />		<result property="agency" column="AGENCY" />
+	</resultMap>
+	<select id="getZcEbProArgueId" resultClass="integer">
+		select seq_zc_eb_pro_argue_detail.nextval from dual
+	</select>
+	<select id="getZcEbProArgueById" resultMap="ZcEbProArgueResult"		
+		parameterClass="string">
+		select
+		id, pro_code, pro_name, pro_org, leader, argue_time, argue_address, argue_opinions, argue_accessories_name, argue_accessories_blobid, memo,PROCESS_INST_ID,IS_GOON_AUDIT,STATUS,		org_Persons,agency_Persons,org_Opinions,AGENCY
+		from
+		zc_eb_pro_argue
+		where
+		id = #id:VARCHAR#
+	</select>
+	<select id="fkList" resultMap="ZcEbProArgueResult"		
+		parameterClass="elementCondition">		
+        select 0 id,
+           en.ZC_MAKE_CODE pro_code,
+           en.ZC_MAKE_NAME pro_name,
+           en.CO_CODE pro_org,
+           au.superintendent_name leader,
+           sysdate argue_time,
+           '' argue_address,
+           '' argue_opinions,
+           '' argue_accessories_name,
+           '' argue_accessories_blobid,
+           '' memo,
+           0 PROCESS_INST_ID,
+           0 IS_GOON_AUDIT,
+           '' STATUS,
+		   '' org_Persons,
+		   '' agency_Persons,
+		   '' org_Opinions,			en.AGENCY
+      from zc_eb_entrust en, zc_eb_duty_audit_sheet au,zc_eb_pro_argue ar
+     where en.sn = au.sn
+     and en.zc_make_code = ar.pro_code(+)
+     and ar.id is null
+		<isNotNull prepend="and" property="zcText0">
+	  au.superintendent = #zcText0#
+		</isNotNull>
+     order by au.execute_date desc
+	</select>
+	<select id="getZcEbProArgueByCondition" resultMap="ZcEbProArgueResult"		
+		parameterClass="elementCondition">
+		select
+		id, pro_code, pro_name, pro_org, leader, argue_time, argue_address, argue_opinions, argue_accessories_name, argue_accessories_blobid, memo,PROCESS_INST_ID,IS_GOON_AUDIT,STATUS,org_Persons,agency_Persons,		org_Opinions,AGENCY
+		from
+		zc_eb_pro_argue zc_eb_pro_argue
+		where 1=1 AND ZC_EB_PRO_ARGUE.ND = #nd# 
+		<isNotNull prepend="and" property="zcText0">
+		pro_code like '%$zcText0$%'
+		</isNotNull>
+		<isNotNull prepend="and" property="zcText1">
+		leader like '%$zcText1$%'
+		</isNotNull>
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		<isNotNull prepend="AND" property="status">
+			<isEqual property="status" compareValue="todo">
+				exists (select instance_id from V_WF_CURRENT_TASK_ZC_TODO where executor =#executor# and instance_id = zc_eb_pro_argue.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="untread">
+			    exists (select instance_id from V_WF_CURRENT_TASK_ZC_UNTREAD where executor =#executor# and instance_id = zc_eb_pro_argue.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+			    exists (select instance_id from V_WF_ACTION_HISTORY_GK53 where executor = #executor# and instance_id = zc_eb_pro_argue.process_inst_id)
+				and zc_eb_pro_argue.STATUS != 'cancel' and zc_eb_pro_argue.STATUS != 'exec' 
+			</isEqual>
+			<isEqual property="status" compareValue="draft">
+			    ( exists (select WF_DRAFT_NAME from as_wf_draft where user_id=#executor# and compo_id=#wfcompoId# and WF_DRAFT_ID=zc_eb_pro_argue.process_inst_id)
+			    or zc_eb_pro_argue.process_inst_id = -1 )
+			    and zc_eb_pro_argue.STATUS != 'cancel'
+			</isEqual>		
+			<isEqual property="status" compareValue="exec">
+			(zc_eb_pro_argue.STATUS ='exec')
+			</isEqual>
+		</isNotNull>
+		order by argue_time desc
+	</select>
+	<!-- 保存子表数据 -->
+	<insert id="insertZcEbProArgue" parameterClass="ZcEbProArgue">
+		insert into
+		zc_eb_pro_argue
+		(id, pro_code, pro_name, pro_org, leader, argue_time, argue_address, argue_opinions, argue_accessories_name, argue_accessories_blobid, memo,PROCESS_INST_ID,IS_GOON_AUDIT,STATUS,org_Persons,agency_Persons,org_Opinions,ND,AGENCY)
+		values
+		(#argueId#, #proCode#, #proName#, #proOrg#, #leader#, #argueTime#, #argueAddress#, #argueOpinions#, #argueAccessoriesName#, #argueAccessoriesBlobid#, #memo#,#processInstId#,#isGoonAudit#,#status#,#orgPersons#,#agencyPersons#,#orgOpinions#,
+		#nd#,#agency#)
+	</insert>
+	<update id="updateZcEbProArgue" parameterClass="ZcEbProArgue">
+		update
+		zc_eb_pro_argue
+		set id= #argueId:VARCHAR#,
+		pro_code=#proCode:VARCHAR#,
+		pro_name=#proName:VARCHAR#,
+		pro_org=#proOrg:VARCHAR#,
+		leader=#leader:VARCHAR#,
+		argue_time=#argueTime:DATE#,
+		argue_address=#argueAddress:VARCHAR#,
+		argue_opinions=#argueOpinions:VARCHAR#,
+		argue_accessories_name=#argueAccessoriesName:VARCHAR#,
+		argue_accessories_blobid=#argueAccessoriesBlobid:VARCHAR#,
+		memo=#memo:VARCHAR#,
+		PROCESS_INST_ID=#processInstId:LONG#,
+		IS_GOON_AUDIT=#isGoonAudit:DECIMAL#,
+		STATUS=#status:VARCHAR#,
+		org_Persons=#orgPersons#,
+		agency_Persons=#agencyPersons#,
+		org_Opinions=#orgOpinions#,
+	    ND=#nd#,	    AGENCY=#agency#
+		where
+		ID= #argueId#
+	</update>
+	<delete id="deleteZcEbProArgueById" parameterClass="string">
+		delete
+		from
+		zc_eb_pro_argue
+		where id = #id#
+	</delete>
+</sqlMap>

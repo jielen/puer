@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MaRoleNumLim">
+	
+	<typeAlias type="com.ufgov.zc.common.console.model.MaRoleNumLim" alias="maRoleNumLim"/>
+	
+	<resultMap class="maRoleNumLim" id="maRoleNumLimResult">
+		<result property="roleId" column="role_id"></result>
+		<result property="funcId" column="func_id"></result>
+		<result property="compoId" column="compo_id"></result>
+		<result property="ctrlField" column="ctrl_field"></result>
+		<result property="code" column="code"></result>
+	</resultMap>
+	
+	<select id="getMaRoleNumLim" resultMap="maRoleNumLimResult" parameterClass="map">
+		select * from ma_role_num_lim where role_id=#role_id#
+		<isNotNull prepend="AND" property="compo_id">
+			compo_id=#compo_id#
+		</isNotNull>
+		<isNotNull prepend="AND" property="func_id">
+			func_id=#func_id#
+		</isNotNull>
+		<isNotNull prepend="AND" property="ctrl_field">
+			ctrl_field=#ctrl_field#
+		</isNotNull>
+		order by role_id, compo_id, func_id, ctrl_field, code
+	</select>
+
+	<delete id="deleteMaRoleNumLim" parameterClass="map">
+		delete from ma_role_num_lim where role_id=#role_id#
+		<isNotNull prepend="AND" property="compo_id">
+			compo_id=#compo_id#
+		</isNotNull>
+		<isNotNull prepend="AND" property="func_id">
+			func_id=#func_id#
+		</isNotNull>
+		<isNotNull prepend="AND" property="ctrl_field">
+			ctrl_field=#ctrl_field#
+		</isNotNull>
+	</delete>
+
+	<insert id="insertMaRoleNumLim" parameterClass="maRoleNumLim">
+		insert into ma_role_num_lim (
+			role_id,func_id,compo_id,ctrl_field,code)
+		values (
+			#roleId:VARCHAR#, #funcId:VARCHAR#, #compoId:VARCHAR#, #ctrlField:VARCHAR#, #code:VARCHAR#
+		)
+	</insert>
+	
+</sqlMap>

@@ -1,0 +1,1 @@
+package com.ufgov.zc.client.common;public interface Saveable {  void save();}

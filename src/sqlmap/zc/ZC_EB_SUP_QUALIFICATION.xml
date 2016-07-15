@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ZC_EB_SUP_QUALIFICATION">
+	<typeAlias alias="ZcEbSupQualification" type="com.ufgov.zc.common.zc.model.ZcEbSupQualification" />
+	<typeAlias alias="ZcEbSupQualificationLev" type="com.ufgov.zc.common.zc.model.ZcEbSupQualificationLev" />
+
+	<resultMap class="ZcEbSupQualification" id="ibatorgenerated_BaseResultMap">
+		<result column="qualif_id" jdbcType="VARCHAR" property="qualifId" />
+		<result column="qualif_code" jdbcType="VARCHAR" property="qualifCode" />
+		<result column="qualif_name" jdbcType="VARCHAR" property="qualifName" />
+		<result column="qualif_type" jdbcType="VARCHAR" property="qualifType" />
+		<result column="type_name" jdbcType="VARCHAR" property="quallifTypeName" />
+		<result column="status" jdbcType="VARCHAR" property="status" />
+	</resultMap>
+	<resultMap class="ZcEbSupQualification" id="ibatorgenerated_TreeResultMap">
+		<result column="qualif_id" jdbcType="VARCHAR" property="qualifId" />
+		<result column="qualif_code" jdbcType="VARCHAR" property="qualifCode" />
+		<result column="qualif_name" jdbcType="VARCHAR" property="qualifName" />
+		<result column="parent_code" jdbcType="VARCHAR" property="parentCode" />
+	</resultMap>
+	<resultMap class="ZcEbSupQualificationLev" id="ibatorgenerated_LevResultMap">
+		<result column="qualif_id" jdbcType="VARCHAR" property="qualifId" />
+		<result column="id" jdbcType="VARCHAR" property="id" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="lev" jdbcType="VARCHAR" property="lev" />
+	</resultMap>
+
+	<select id="selectForList" parameterClass="com.ufgov.zc.common.system.dto.ElementConditionDto"
+		resultMap="ibatorgenerated_BaseResultMap">
+		select t.*,p.type_name from ZC_EB_SUP_QUALIFICATION t,zc_sup_qua_type p
+		where t.qualif_type=p.type_code(+)
+		
+		<isNotNull prepend="and" property="status">
+			<isEqual property="status" compareValue="draft">
+				status='draft'
+			</isEqual>
+			<isEqual property="status" compareValue="enable">
+				status='2'
+			</isEqual>
+			<isEqual property="status" compareValue="unable">
+				status='3'
+			</isEqual>
+		</isNotNull>
+		order by qualif_type, qualif_code
+	</select>
+
+	<select id="selectById" parameterClass="String"
+		resultMap="ibatorgenerated_BaseResultMap">
+		select t.*,'' type_name from ZC_EB_SUP_QUALIFICATION t where qualif_id=#value#
+	</select>
+
+	<insert id="ibatorgenerated_insert" parameterClass="ZcEbSupQualification">
+		insert into ZC_EB_SUP_QUALIFICATION (qualif_id, qualif_code, qualif_name,qualif_type,status)
+		values (#qualifId:VARCHAR#, #qualifCode:VARCHAR#, #qualifName:VARCHAR# , #qualifType:VARCHAR#, #status:VARCHAR#)
+	</insert>
+	<update id="ibatorgenerated_updateById"  parameterClass="ZcEbSupQualification">
+		update ZC_EB_SUP_QUALIFICATION
+		set qualif_code = #qualifCode:VARCHAR#,
+		qualif_name = #qualifName:VARCHAR#,
+		qualif_type = #qualifType:VARCHAR#,
+		status = #status:VARCHAR#
+		where qualif_id = #qualifId:VARCHAR#
+	</update>
+	<update id="enableById"  parameterClass="String">
+		update ZC_EB_SUP_QUALIFICATION
+		set status = '2'
+		where qualif_id = #qualifId:VARCHAR#
+	</update>
+	<update id="freezeById"  parameterClass="String">
+		update ZC_EB_SUP_QUALIFICATION
+		set status = '1'
+		where qualif_id = #qualifId:VARCHAR#
+	</update>
+
+	<delete id="deleteById" parameterClass="String">
+	delete ZC_EB_SUP_QUALIFICATION where qualif_id = #qualifId:VARCHAR#
+	</delete>
+
+	<select id="selectLevsByQId" parameterClass="String" resultMap="ibatorgenerated_LevResultMap">
+	select * from ZC_EB_SUP_QUALIFICATION_LEV where qualif_id = #qualifId:VARCHAR#
+	</select>
+	<delete id="deleteLevsByQId" parameterClass="String" >
+	delete from ZC_EB_SUP_QUALIFICATION_LEV where qualif_id = #qualifId:VARCHAR#
+	</delete>
+	<insert id="insertLev" parameterClass="ZcEbSupQualificationLev">
+	insert into ZC_EB_SUP_QUALIFICATION_LEV (Id, QUALIF_ID, NAME, LEV) values (#id:VARCHAR#,#qualifId:VARCHAR#,#name:VARCHAR#,#lev:VARCHAR#)
+	</insert>
+	
+	<select id="selectByDto" parameterClass="com.ufgov.zc.common.system.dto.ElementConditionDto"
+		resultMap="ibatorgenerated_TreeResultMap">
+		select t.*,decode(length(t.qualif_id), 1, '', substr(t.qualif_id, 1, length(t.qualif_id)-2)) parent_code from ZC_EB_SUP_QUALIFICATION t where STATUS=#status# order by QUALIF_ID
+	</select>
+</sqlMap>

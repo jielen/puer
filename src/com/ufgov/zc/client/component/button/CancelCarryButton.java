@@ -1,0 +1,1 @@
+package com.ufgov.zc.client.component.button;public class CancelCarryButton extends FuncButton {  /**   *    */  private static final long serialVersionUID = 1L;  public CancelCarryButton() {    super();  }  protected void init() {    this.funcId = "fcancelcarry";    this.defaultText = "取消注销";    super.init();  }}

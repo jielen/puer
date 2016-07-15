@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Paytype">
+<typeAlias alias="elementCondition"	type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<resultMap id="paytype" class="com.ufgov.zc.common.commonbiz.model.Paytype">
+		<result property="nd" column="nd" />
+		<result property="code" column="paytype_code" />
+		<result property="name" column="paytype_name" />
+		<result property="level" column="current_level" />
+		<result property="parentCode" column="parent_code" />
+	</resultMap>
+    
+	<select id="getPaytype" resultMap="paytype" parameterClass="elementCondition">
+		select nd,paytype_code,paytype_name,current_level,parent_code  from ma_cp_paytype 
+		where nd=#nd# and is_used='1' 
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		<include refid="GkGetDataRuleCondi.GkGetDataRuleCondiStr" />
+		order by paytype_code
+	</select>
+
+
+</sqlMap>

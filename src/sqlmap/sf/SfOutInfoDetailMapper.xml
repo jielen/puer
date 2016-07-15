@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.ufgov.zc.server.sf.dao.SfOutInfoDetailMapper">
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+  <resultMap id="BaseResultMap" class="com.ufgov.zc.common.sf.model.SfOutInfoDetail">
+    <result column="OUT_INFO_DETAIL_ID" jdbcType="DECIMAL" property="outInfoDetailId" />
+    <result column="OUT_INFO_ID" jdbcType="DECIMAL" property="outInfoId" />
+    <result column="OUT_INFO_TYPE_CODE" jdbcType="VARCHAR" property="infoType.outInfoTypeCode" />
+    <result column="OUT_INFO_TYPE_NAME" jdbcType="VARCHAR" property="infoType.outInfoTypeName" />
+    <result column="TI_QU_FANG_SHI" jdbcType="VARCHAR" property="tiQuFangShi" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="QUANTITY" jdbcType="DECIMAL" property="quantity" />
+    <result column="UNIT" jdbcType="VARCHAR" property="unit" />
+    <result column="DESCRIPTION" jdbcType="VARCHAR" property="description" />
+    <result column="PRODUCT_TIME" jdbcType="DATE" property="productTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    OUT_INFO_DETAIL_ID, OUT_INFO_ID, SF_OUT_INFO_TYPE.OUT_INFO_TYPE_CODE, TI_QU_FANG_SHI, NAME, QUANTITY, 
+    UNIT, DESCRIPTION,OUT_INFO_TYPE_NAME,PRODUCT_TIME
+  </sql>
+  <select id="selectByPrimaryKey" parameterClass="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SF_OUT_INFO_DETAIL,SF_OUT_INFO_TYPE
+    where OUT_INFO_DETAIL_ID = #outInfoDetailId:DECIMAL#
+    and SF_OUT_INFO_DETAIL.OUT_INFO_TYPE_CODE=SF_OUT_INFO_TYPE.OUT_INFO_TYPE_CODE(+)
+  </select>
+  <select id="selectByOutInfoId" parameterClass="elementCondition" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SF_OUT_INFO_DETAIL,SF_OUT_INFO_TYPE
+    where OUT_INFO_ID = #sfId:DECIMAL#   
+    and SF_OUT_INFO_DETAIL.OUT_INFO_TYPE_CODE=SF_OUT_INFO_TYPE.OUT_INFO_TYPE_CODE(+) 
+		<isNotNull prepend="AND" property="dattr1"> 
+			<isEqual property="dattr1" compareValue="isUsing"> <!-- 是否已经使用 -->
+				exists (select * from SF_MATERIALS_TRANSFER_DETAIL d where d.OUT_INFO_DETAIL_ID=SF_OUT_INFO_DETAIL.OUT_INFO_DETAIL_ID)
+			</isEqual>
+		</isNotNull>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="java.math.BigDecimal">
+    delete from SF_OUT_INFO_DETAIL
+    where OUT_INFO_DETAIL_ID = #outInfoDetailId:DECIMAL#
+  </delete>
+  <delete id="deleteByOutInfoId" parameterClass="java.math.BigDecimal">
+    delete from SF_OUT_INFO_DETAIL
+    where OUT_INFO_ID = #outInfoId:DECIMAL#
+  </delete>
+  <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfOutInfoDetail">
+    insert into SF_OUT_INFO_DETAIL (OUT_INFO_DETAIL_ID, OUT_INFO_ID, OUT_INFO_TYPE_CODE, 
+      TI_QU_FANG_SHI, NAME, QUANTITY, 
+      UNIT, DESCRIPTION,PRODUCT_TIME)
+    values (#outInfoDetailId:DECIMAL#, #outInfoId:DECIMAL#, #infoType.outInfoTypeCode:VARCHAR#, 
+      #tiQuFangShi:VARCHAR#, #name:VARCHAR#, #quantity:DECIMAL#, 
+      #unit:VARCHAR#, #description:VARCHAR#,#productTime:DATE#)
+  </insert>
+  <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfOutInfoDetail">
+    update SF_OUT_INFO_DETAIL
+    set OUT_INFO_ID = #outInfoId:DECIMAL#,
+      OUT_INFO_TYPE_CODE = #infoType.outInfoTypeCode:VARCHAR#,
+      TI_QU_FANG_SHI = #tiQuFangShi:VARCHAR#,
+      NAME = #name:VARCHAR#,
+      QUANTITY = #quantity:DECIMAL#,
+      UNIT = #unit:VARCHAR#,
+      DESCRIPTION = #description:VARCHAR#,
+      PRODUCT_TIME=#productTime:DATE#
+    where OUT_INFO_DETAIL_ID = #outInfoDetailId:DECIMAL#
+  </update>  
+  <select id="selectByEntrustId" parameterClass="elementCondition" resultMap="BaseResultMap">
+    select od.*, ot.out_info_type_name
+  	from sf_out_info o, sf_out_info_detail od, sf_out_info_type ot
+ 	where o.out_info_id = od.out_info_id
+	   and od.out_info_type_code = ot.out_info_type_code(+)
+	   and o.entrust_id = #sfId:DECIMAL#
+	   <!-- and o.status = 'exec' -->
+  </select>
+</sqlMap>

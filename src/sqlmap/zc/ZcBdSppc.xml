@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ZcBdSppc">
+	<typeAlias alias="ZcBdSppc" type="com.ufgov.zc.common.zc.model.ZcBdSppc" />
+
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+
+	<resultMap id="ZcBdSppcResult" class="ZcBdSppc">
+		<result property="zcSppcID" jdbcType="VARCHAR" column="ZC_SPPC_ID" />
+		
+		<result property="zcSppcNa" jdbcType="VARCHAR" column="ZC_SPPC_NA" />
+		
+		<result property="zcSppcNd"  jdbcType="CHAR" column="ZC_SPPC_ND" />
+		
+		<result property="zcSppcStatus"  jdbcType="CHAR"   column="ZC_SPPC_STATUS" />
+		
+		<result property="zcBgnDate"  jdbcType="TIMESTAMP" column="ZC_BGN_DATE"/>
+	                                                                             
+	  <result property="zcEndDate"  jdbcType="TIMESTAMP" column="ZC_END_DATE"/>
+	                                                                                                                                     
+		<result property="zcInputCode"  jdbcType="VARCHAR"   column="ZC_INPUT_CODE"/>
+                                                                               
+		<result property="zcInputDate"  jdbcType="TIMESTAMP" column="ZC_INPUT_DATE"/>
+		                                                                           
+		<result property="zcOperCode"  jdbcType="VARCHAR"    column="ZC_OPER_CODE"/>
+                                                                               
+		<result property="zcOperDate"  jdbcType="TIMESTAMP"  column="ZC_OPER_DATE"/>
+		                                                      
+	</resultMap>
+	
+	<select id="getZcBdSppcList" resultMap="ZcBdSppcResult" parameterClass="elementCondition">
+		select SPPC.* from ZC_XYGH_SPPC SPPC
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="status">
+				<isEqual property="status" compareValue="draft">
+					SPPC.ZC_SPPC_STATUS='0'
+				</isEqual>
+				<isEqual property="status" compareValue="enable">
+					SPPC.ZC_SPPC_STATUS='exec'
+				</isEqual>
+				<isEqual property="status" compareValue="unable">
+					SPPC.ZC_SPPC_STATUS='suspended'
+				</isEqual>
+				<isEqual property="status" compareValue="cancel">
+					SPPC.ZC_SPPC_STATUS='cancel'
+				</isEqual>				
+				<isEqual property="status" compareValue="all">
+					1=1
+				</isEqual>
+			</isNotNull>
+			<isNotNull prepend="AND" property="zcText0">
+			    SPPC.ZC_SPPC_NA like '%'||#zcText0:VARCHAR#||'%' or SPPC.ZC_SPPC_ID like '%'||#zcText0:VARCHAR#||'%'
+		    </isNotNull>
+			
+		</dynamic>
+			ORDER BY SPPC.ZC_SPPC_ID
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="ZcBdSppcResult" parameterClass="string">select SPPC.* from ZC_XYGH_SPPC SPPC
+	   where SPPC.ZC_SPPC_ID=#value#
+	</select>
+
+   <select id="selectEnableSppc" resultMap="ZcBdSppcResult">
+	   select SPPC.* from ZC_XYGH_SPPC SPPC
+	    where SPPC.ZC_SPPC_STATUS ='exec'
+	    <!-- 添加商品批次有效期的校验 -->
+	    <![CDATA[
+		 AND SPPC.ZC_BGN_DATE<sysdate
+      	 AND SPPC.Zc_End_Date>sysdate
+         ]]>
+   </select>
+
+	<update id="updateZcBdSppcByPrimaryKey" parameterClass="ZcBdSppc">
+		UPDATE ZC_XYGH_SPPC S
+		SET S.ZC_SPPC_NA=#zcSppcNa#,
+		S.ZC_SPPC_ND=#zcSppcNd#,
+		S.ZC_SPPC_STATUS=#zcSppcStatus#,
+		S.ZC_BGN_DATE=#zcBgnDate:DATE#,
+		S.ZC_END_DATE=#zcEndDate#,
+		S.ZC_INPUT_CODE=#zcInputCode#,
+		S.ZC_INPUT_DATE=#zcInputDate#,
+		S.ZC_OPER_CODE=#zcOperCode#,
+		S.ZC_OPER_DATE=#zcOperDate#
+		WHERE
+		S.ZC_SPPC_ID=#zcSppcID#
+	</update>
+	
+	<delete id="deleteByPrimaryKey" parameterClass="String">
+		DELETE FROM ZC_XYGH_SPPC P WHERE P.ZC_SPPC_ID = #VALUE#
+	</delete>
+	
+	<insert id="insertZcBdSppc" parameterClass="ZcBdSppc">insert into
+		ZC_XYGH_SPPC(
+		   ZC_SPPC_ID,    
+       ZC_SPPC_NA,    
+       ZC_SPPC_ND,    
+       ZC_SPPC_STATUS,
+       ZC_BGN_DATE,   
+       ZC_END_DATE,   
+       ZC_INPUT_CODE, 
+       ZC_INPUT_DATE, 
+       ZC_OPER_CODE,  
+       ZC_OPER_DATE 
+    )
+		values(#zcSppcID:VARCHAR#,
+		       #zcSppcNa:VARCHAR#,
+		       #zcSppcNd:VARCHAR#,
+		       #zcSppcStatus:VARCHAR#,
+           #zcBgnDate:DATE#,
+		       #zcEndDate:DATE#,
+		       #zcInputCode:VARCHAR#,
+		       #zcInputDate:DATE#,
+		       #zcOperCode:VARCHAR#,
+		       #zcOperDate:DATE#
+		)</insert>
+</sqlMap>

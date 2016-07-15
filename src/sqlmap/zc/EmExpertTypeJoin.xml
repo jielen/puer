@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="EmExpertTypeJoin">
+
+
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+
+	
+
+	<resultMap id="EmExpertTypeJoinResult" class="com.ufgov.zc.common.zc.model.EmExpertTypeJoin">
+
+		<result column="EM_EXPERT_CODE" jdbcType="VARCHAR" property="emExpertCode" />
+
+		<result column="EM_TYPE_CODE" jdbcType="VARCHAR" property="emTypeCode" />
+
+		<result column="EM_TYPE_NAME" jdbcType="VARCHAR" property="emTypeName" />
+	</resultMap>
+
+
+	<select id="getEmExpertTypeJoinListByPrimKey" resultMap="EmExpertTypeJoinResult"
+
+		parameterClass="string">
+
+		select d.EM_EXPERT_CODE,
+
+	       d.EM_TYPE_CODE,
+	       
+	       (select b.em_type_name from ZC_B_EXPERT_TYPE b where b.em_type_code = d.em_type_code) EM_TYPE_NAME
+
+	  	from ZC_EM_EXPERT_TYPE_JOIN d
+
+	 	where d.EM_EXPERT_CODE = #emExpertCode#
+
+	</select>
+
+   <insert id="addEmExpertTypeJoin" parameterClass="com.ufgov.zc.common.zc.model.EmExpertTypeJoin">
+
+		<![CDATA[
+
+			insert into ZC_EM_EXPERT_TYPE_JOIN( 
+
+			EM_EXPERT_CODE,
+
+			EM_TYPE_CODE) values (
+
+			#emExpertCode#,
+
+			#emTypeCode#
+
+			) 
+
+	  		]]>
+
+	</insert>
+
+    <delete id="deleteEmExpertTypeJoin" parameterClass="string" >
+
+		delete from ZC_EM_EXPERT_TYPE_JOIN
+
+		where EM_EXPERT_CODE = #emExpertCode#
+
+	</delete>
+
+</sqlMap>

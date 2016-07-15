@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ZcEbPlan">
+	<typeAlias alias="ZcEbPlan" type="com.ufgov.zc.common.zc.model.ZcEbPlan"></typeAlias>
+	<typeAlias alias="ZcEbProj" type="com.ufgov.zc.common.zc.model.ZcEbProj" />	<typeAlias alias="ZcEbPackPlan" type="com.ufgov.zc.common.zc.model.ZcEbPackPlan" />
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+
+	<resultMap class="ZcEbPlan" id="ZcEbPlanByProjCode">
+		<result column="BID_END_TIME" jdbcType="TIMESTAMP" property="bidEndTime" />
+	</resultMap>
+
+	<resultMap class="ZcEbPlan" id="ZcEbPlanResult">
+		<result column="PLAN_CODE" jdbcType="VARCHAR" property="planCode" />
+		<result column="PROJ_CODE" jdbcType="VARCHAR" property="projCode" />
+		<result column="PROJ_NAME" jdbcType="VARCHAR" property="projName" />
+		<result column="SELL_START_TIME" jdbcType="TIMESTAMP" property="sellStartTime" />
+		<result column="SELL_END_TIME" jdbcType="TIMESTAMP" property="sellEndTime" />
+		<result column="BID_END_TIME" jdbcType="TIMESTAMP" property="bidEndTime" />
+		<result column="OPEN_BID_TIME" jdbcType="TIMESTAMP" property="openBidTime" />
+		<result column="OPEN_BID_ADDRESS" jdbcType="VARCHAR" property="openBidAddress" />
+		<result column="CREATE_DATE" jdbcType="DATE" property="createDate" />
+		<result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+		<result column="REMARK" jdbcType="VARCHAR" property="remark" />
+		<result column="DOC_PRICE" jdbcType="VARCHAR" property="docPrice" />
+		<result column="DOC_SELLER" jdbcType="VARCHAR" property="docSeller" />
+		<result column="DOC_SELL_ADDRESS" jdbcType="VARCHAR" property="docSellAddress" />
+		<result column="DOC_SELL_PHONE" jdbcType="VARCHAR" property="docSellPhone" />
+		<result column="ND" jdbcType="DECIMAL" property="nd" />
+		<result column="PROCESS_INST_ID" jdbcType="VARCHAR" property="processInstId" />
+	</resultMap>
+	<resultMap id="ZcEbProjResult" class="ZcEbProj">
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="projName" column="PROJ_NAME" />
+		<result property="projSum" column="PROJ_SUM" />
+		<result property="purType" column="PUR_TYPE" />
+		<result property="manager" column="MANAGER" />
+		<result property="projDate" column="PROJ_DATE" />
+		<result property="isSplitPack" column="IS_SPLIT_PACK" />
+		<result property="phone" column="PHONE" />
+		<result property="email" column="EMAIL" />
+		<result property="fax" column="FAX" />
+		<result property="status" column="STATUS" />
+		<result property="nd" column="ND" />
+		<result property="agency" column="AGENCY" />
+		<result property="isPubPurBulletin" column="IS_PUB_PUR_BULLETIN" />
+		<result property="isPubPurResult" column="IS_PUB_PUR_RESULT" />
+		<result property="processInstId" column="PROCESS_INST_ID"
+			jdbcType="DECIMAL" />
+	</resultMap>
+
+	<resultMap class="ZcEbPlan" id="ZcEbPlanTime">
+		<result column="SELL_START_TIME" jdbcType="TIMESTAMP" property="sellStartTime" />
+	</resultMap>
+<resultMap class="ZcEbPackPlan" id="ZcEbPackPlanResult">		<result column="PROJ_CODE" jdbcType="VARCHAR" property="projCode" />		<result column="PACK_CODE" jdbcType="VARCHAR" property="packCode" />		<result column="SELL_END_TIME" jdbcType="TIMESTAMP" property="sellEndTime" />		<result column="BID_END_TIME" jdbcType="TIMESTAMP" property="bidEndTime" />		<result column="OPEN_BID_TIME" jdbcType="TIMESTAMP" property="openBidTime" />	</resultMap>
+	<select id="getZcEbPlan" resultMap="ZcEbPlanResult"
+		parameterClass="elementCondition">
+		SELECT
+		T.*,PROJ.PROJ_NAME
+		FROM ZC_EB_PLAN T,
+		(SELECT * FROM ZC_EB_PROJ P LEFT JOIN (SELECT H.INSTANCE_ID,
+		MAX(TO_DATE(H.EXECUTE_TIME,
+		'yyyy-mm-dd hh24:mi:ss')) AS D
+		FROM WF_ACTION H
+		GROUP BY H.INSTANCE_ID) WH ON P.PROCESS_INST_ID = WH.INSTANCE_ID) PROJ
+		WHERE
+		T.PROJ_CODE=PROJ.PROJ_CODE
+		<isNotEqual prepend="AND" property="nd" compareValue="0">
+			T.Nd=#nd#
+		</isNotEqual>
+		<isNotNull prepend="AND" property="projCode">
+			T.PROJ_CODE=#projCode#
+		</isNotNull>
+		ORDER BY PROJ.D DESC
+	</select>	<select id="getZcEbPackPlan" resultMap="ZcEbPlanResult"		parameterClass="elementCondition">		SELECT		T.*,PROJ.PROJ_NAME		FROM v_zc_eb_pack_plan T,		ZC_EB_PROJ PROJ		WHERE		T.PROJ_CODE=PROJ.PROJ_CODE		<isNotEqual prepend="AND" property="nd" compareValue="0">			T.Nd=#nd#		</isNotEqual>		<isNotNull prepend="AND" property="projCode">			T.PROJ_CODE=#projCode#		</isNotNull>		<isNotNull prepend="AND" property="packCode">			T.PACK_CODE=#packCode#		</isNotNull>	</select>
+	<select id="getZcEbPlanByID" resultMap="ZcEbPlanResult"
+		parameterClass="String">
+		SELECT T.*,P.PROJ_NAME FROM ZC_EB_PLAN
+		T,ZC_EB_PROJ P
+		WHERE T.PROJ_CODE=P.PROJ_CODE
+		AND T.PLAN_CODE=#VALUE#
+	</select>
+	<select id="getZcEbPlanByProjCode" resultMap="ZcEbPlanResult"
+		parameterClass="String">
+		SELECT
+		T.*,P.PROJ_NAME
+		FROM
+		ZC_EB_PLAN T,ZC_EB_PROJ P
+		WHERE
+		T.PROJ_CODE=P.PROJ_CODE
+		AND
+		P.PROJ_CODE = #VALUE#
+	</select>
+	<select id="getPlanTime" resultMap="ZcEbPlanTime"
+		parameterClass="map">
+		select zep.sell_start_time from ZC_EB_PLAN zep where
+		zep.proj_code=#projCode:VARCHAR#
+	</select>
+	<insert id="insertZcEbPlan" parameterClass="ZcEbPlan">
+		insert into
+		ZC_EB_PLAN (PLAN_CODE, PROJ_CODE,
+		CREATE_DATE,
+		CREATOR, REMARK, ND,
+		SELL_START_TIME,
+		SELL_END_TIME,
+		BID_END_TIME,
+		OPEN_BID_TIME,
+		OPEN_BID_ADDRESS,
+		DOC_PRICE,
+		DOC_SELLER,
+		DOC_SELL_ADDRESS,
+		DOC_SELL_PHONE,
+		PROCESS_INST_ID
+		) values (#planCode:VARCHAR#,
+		#projCode:VARCHAR#, #createDate:DATE#,
+		#creator:VARCHAR#,
+		#remark:VARCHAR#, #nd:DECIMAL#,
+		#sellStartTime:TIMESTAMP#,
+		#sellEndTime:TIMESTAMP#,
+		#bidEndTime:TIMESTAMP#,
+		#openBidTime:TIMESTAMP#,
+		#openBidAddress:VARCHAR#,
+		#docPrice:VARCHAR#,
+		#docSeller:VARCHAR#,
+		#docSellAddress:VARCHAR#,
+		#docSellPhone:VARCHAR#,
+		#processInstId:VARCHAR#
+		)
+	</insert>
+	<update id="updateZcEbPlan" parameterClass="ZcEbPlan">
+		update
+		ZC_EB_PLAN set
+		PROJ_CODE =
+		#projCode:VARCHAR#, CREATE_DATE = #createDate:DATE#,
+		CREATOR =
+		#creator:VARCHAR#, REMARK = #remark:VARCHAR#, ND =
+		#nd:DECIMAL#,
+		SELL_START_TIME=#sellStartTime:TIMESTAMP#,
+		SELL_END_TIME=#sellEndTime:TIMESTAMP#,
+		BID_END_TIME=#bidEndTime:TIMESTAMP#,
+		OPEN_BID_TIME=#openBidTime:TIMESTAMP#,
+		OPEN_BID_ADDRESS=#openBidAddress:VARCHAR#,
+		PROCESS_INST_ID=#processInstId:VARCHAR#,
+		DOC_PRICE=#docPrice:VARCHAR#,
+		DOC_SELLER=#docSeller:VARCHAR#,
+		DOC_SELL_ADDRESS=#docSellAddress:VARCHAR#,
+		DOC_SELL_PHONE=#docSellPhone:VARCHAR#
+		where
+		PLAN_CODE =
+		#planCode:VARCHAR#
+	</update>
+
+	<delete id="deleteZcEbPlan" parameterClass="String">
+		delete
+		from ZC_EB_PLAN
+		where PLAN_CODE=#value#
+	</delete>
+
+	<delete id="deleteZcEbPlanByProjCode" parameterClass="String">
+		delete
+		from
+		ZC_EB_PLAN
+		where PROJ_CODE =#value#
+	</delete>
+	<delete id="deleteZcEbPlanByPlanCodeAndProjCode" parameterClass="map">
+		delete
+		from ZC_EB_PLAN
+		where PLAN_CODE=#PLAN_CODE# and PROJ_CODE
+		=#PROJ_CODE#
+	</delete>
+	<select id="getZcEbProj" resultMap="ZcEbProjResult"
+		parameterClass="elementCondition">
+		SELECT * FROM zc_eb_proj p
+		WHERE p.proj_code NOT IN (
+		SELECT l.proj_code FROM zc_eb_plan l
+		)
+		AND p.nd=#nd#
+		ORDER BY p.proj_code
+	</select>
+	<select id="getHistoryZcEbPlan" resultMap="ZcEbPlanResult"
+		parameterClass="elementCondition">
+		SELECT pn.*,pj.proj_name
+		FROM zc_eb_plan pn JOIN zc_eb_proj pj on
+		pn.proj_code=pj.proj_code
+		WHERE
+		pn.open_bid_address is not null and
+		pj.pur_type in('1','3','4','7')
+		<isNotNull prepend="AND" property="manageCode">
+			pj.EXECUTOR=#manageCode#
+		</isNotNull>
+		AND 1>= ROWNUM
+		ORDER BY pj.proj_code
+	</select>
+	<select id="getZcEbPlanNotOverDue" resultMap="ZcEbPlanResult">
+		SELECT * FROM ZC_EB_PLAN PL
+		JOIN ZC_EB_PROJ PJ
+		ON PL.PROJ_CODE=PJ.PROJ_CODE
+		WHERE P.OPEN_BID_TIME>=SYSDATE
+		AND PJ.PUR_TYPE IN('1','3','4','7')
+	</select>	<select id="getSurplusOpenTime" resultClass="Float"		parameterClass="elementCondition">		select nvl(OPEN_BID_TIME-sysdate,1) time from v_ZC_EB_pack_PLAN where		PROJ_CODE=#projCode# and pack_code=#packCode#	</select>	<select id="getBidEndTime" resultClass="Double" parameterClass="String">		select nvl(max(p.BID_END_TIME)-sysdate,-1) time from ZC_EB_PLAN		p,zc_eb_signup s,zc_eb_signup_pack sp,zc_eb_pack pk		where s.signup_id=#value# and s.signup_id=sp.signup_id and		sp.pack_code=pk.pack_code and pk.proj_code=s.proj_code		and pk.status in ('0','7') and p.proj_code=s.proj_code	</select>	<select id="getSysdate" resultClass="java.util.Date">		select Sysdate from dual	</select>	<select id="getZcEbPackPlanByMap" resultMap="ZcEbPackPlanResult"		parameterClass="Map">		SELECT *		FROM V_ZC_EB_PACK_PLAN		WHERE		PROJ_CODE = #projCode#		AND		PACK_CODE = #packCode#	</select>
+</sqlMap>

@@ -1,0 +1,1 @@
+package com.ufgov.zc.server.cp.service;import java.util.List;public interface ICpPayClearListService {  List getCpPayClearListByBillId(String payClearBillId);}

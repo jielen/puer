@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.2//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="AS_USER_FUNC">
+   	
+   	<insert id="insertUserFunc" parameterClass="map">
+		insert into as_user_func(user_id, compo_id, func_id) values (#keyCode#, #compoId#, #funcId#)
+   	</insert>
+   	
+   	<delete id="deleteUserFunc" parameterClass="map">
+		delete from as_user_func where user_id=#keyCode# and compo_id=#compoId#  	
+	        <isNotNull prepend="and" property="funcId">
+	           func_id=#funcId#
+	        </isNotNull>
+   	</delete>
+   	
+  	<select id="selectRoleFuncByRoleId" resultClass="hashmap" parameterClass="String">
+		select * from as_role_func where role_id=#value#
+   	</select>
+   	
+</sqlMap>

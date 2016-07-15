@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.ufgov.zc.server.sf.dao.SfAssistFileMapper" >
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	
+	<parameterMap class="zcYearPlan" id="jiChuZiLiaoJieZhuanParam">
+		<parameter property="nd" jdbcType="varchar2" mode="IN" />
+	</parameterMap>
+	
+  <resultMap id="BaseResultMap" class="com.ufgov.zc.common.sf.model.SfAssistFile" > 
+    <result column="ASSIST_FILE_ID" property="assistFileId" jdbcType="DECIMAL" />
+    <result column="FILE_NAME" property="fileName" jdbcType="VARCHAR" />
+    <result column="FILE_DESC" property="fileDesc" jdbcType="VARCHAR" />
+    <result column="FILE_ID" property="fileId" jdbcType="VARCHAR" />
+    <result column="FILE_TYPE" property="fileType" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" > 
+    ASSIST_FILE_ID, FILE_NAME, FILE_DESC, FILE_ID, FILE_TYPE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="java.math.BigDecimal" > 
+    select 
+    <include refid="Base_Column_List" />
+    from SF_ASSIST_FILE
+    where ASSIST_FILE_ID = #assistFileId:DECIMAL#
+  </select>
+  <select id="selectMainDataLst" parameterClass="elementCondition" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SF_ASSIST_FILE
+    where 1=1  
+		<include refid="BusiNumLim.BusiNumLimStr" />  
+		<isNotNull prepend="AND" property="dattr1"> 
+			FILE_TYPE=#dattr1#
+		</isNotNull>
+	order by FILE_TYPE,FILE_NAME
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="java.math.BigDecimal" > 
+    delete from SF_ASSIST_FILE
+    where ASSIST_FILE_ID = #assistFileId:DECIMAL#
+  </delete>
+  <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfAssistFile" > 
+    insert into SF_ASSIST_FILE (ASSIST_FILE_ID, FILE_NAME, FILE_DESC, 
+      FILE_ID, FILE_TYPE)
+    values (#assistFileId:DECIMAL#, #fileName:VARCHAR#, #fileDesc:VARCHAR#, 
+      #fileId:VARCHAR#, #fileType:VARCHAR#)
+  </insert>
+  <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfAssistFile" > 
+    update SF_ASSIST_FILE
+    set FILE_NAME = #fileName:VARCHAR#,
+      FILE_DESC = #fileDesc:VARCHAR#,
+      FILE_ID = #fileId:VARCHAR#,
+      FILE_TYPE = #fileType:VARCHAR#
+    where ASSIST_FILE_ID = #assistFileId:DECIMAL#
+  </update>
+  
+	<procedure id="jiChuZiLiaoJieZhuan" parameterMap="jiChuZiLiaoJieZhuanParam">
+	<!-- 基础资料结转，参数为结转后的年度 -->
+	   <![CDATA[
+	    { call sp_sf_jiChuZiLiaoJieZhuan (?) }
+	   ]]>
+	</procedure>
+</sqlMap>

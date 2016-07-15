@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ZcEbXunJia">
+	<typeAlias alias="ZcEbXunJia" type="com.ufgov.zc.common.zc.model.ZcEbXunJia" />
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<resultMap class="ZcEbXunJia" id="ZcEbXunJiaResult">
+		<result column="XJ_CODE" property="xjCode" jdbcType="VARCHAR" />
+		<result column="PROJ_CODE" property="projCode" jdbcType="VARCHAR" />
+		<result column="PACK_CODE" property="packCode" jdbcType="VARCHAR" />	
+		<result column="SP_NAME" property="spName" jdbcType="VARCHAR" />	
+		<result column="SP_TECH" property="spTech" jdbcType="VARCHAR" />	
+		<result column="SP_TECH_FILE_NAME" property="spTechFileName" jdbcType="VARCHAR" />	
+		<result column="SP_TECH_FILE_ID" property="spTechFileId" jdbcType="VARCHAR" />	
+		<result column="SP_NUM" property="spNum" jdbcType="INTEGER" />	
+		<result column="SP_PRICE" property="spPrice" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />	
+		<result column="SP_TOTAL_SUM" property="spTotalSum" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />	
+		<result column="HAVE_XIAN_HUO" property="haveXianHuo" jdbcType="VARCHAR" />	
+		<result column="GONG_HUO_DATE" property="gongHuoDate" jdbcType="DATE" javaType="java.util.Date"  />	
+		<result column="REMARK" property="remark" jdbcType="VARCHAR" />
+		<result column="SP_BRAND" property="spBrand" jdbcType="VARCHAR" />	
+		<result column="SP_UNIT" property="unit"/>
+	</resultMap>	<resultMap id="ZcEbXunJiaSimResult" class="ZcEbXunJia">		<result column="XJ_CODE" property="xjCode" jdbcType="VARCHAR" />		<result column="GONG_HUO_DATE" property="gongHuoDate" jdbcType="DATE" javaType="java.util.Date"  />		</resultMap>
+	<select id="getXunJia" resultMap="ZcEbXunJiaResult" parameterClass="elementCondition">
+		SELECT * FROM ZC_EB_XUNJIA 
+		WHERE 1=1
+		<isNotNull prepend="and" property="zcText0">
+		    proj_code=#zcText0# 
+		</isNotNull>
+		<isNotNull prepend="and" property="zcText1">
+		    pack_code=#zcText1#
+		</isNotNull>
+		order by XJ_CODE
+	</select>		<select id="getXunJiaByProjCode" resultMap="ZcEbXunJiaResult" parameterClass="String">		SELECT * FROM ZC_EB_XUNJIA 		WHERE proj_code=#value#		order by XJ_CODE	</select>	<select id="getXunJiaByReportId" resultMap="ZcEbXunJiaResult" parameterClass="elementCondition">		select x.* from zc_eb_xunjia x,zc_eb_eval_report r		where x.proj_code=r.proj_code		and x.pack_code=r.pack_code					<isNotEmpty property="pmAdjustCodeList" prepend="and">            r.report_code in            <iterate property="pmAdjustCodeList"  conjunction="," open="(" close=")">                #pmAdjustCodeList[]#            </iterate>        </isNotEmpty>		</select>
+    <delete id="deleteXunJia" parameterClass="elementCondition" >
+        delete from ZC_EB_XUNJIA WHERE proj_code=#zcText0# and pack_code=#zcText1#
+    </delete>	
+    <delete id="deleteXunJiaByProjCode" parameterClass="String" >
+        delete from ZC_EB_XUNJIA WHERE proj_code=#value#
+    </delete>
+	<delete id="deleteXunJiaById" parameterClass="String" >
+        delete from ZC_EB_XUNJIA WHERE xj_code=#value#
+    </delete>
+	<insert id="insertXunJia" parameterClass="ZcEbXunJia">
+	  insert into ZC_EB_XUNJIA (XJ_CODE, PROJ_CODE, PACK_CODE, SP_NAME, SP_TECH, SP_TECH_FILE_NAME, SP_TECH_FILE_ID, SP_NUM, SP_PRICE, SP_TOTAL_SUM, HAVE_XIAN_HUO, GONG_HUO_DATE, REMARK,SP_BRAND,SP_UNIT)
+	  values (#xjCode:VARCHAR#,
+	  	      #projCode:VARCHAR#, 
+	  		  #packCode:VARCHAR#,
+	  		  #spName:VARCHAR#,
+	  		  #spTech:VARCHAR#,
+	  		  #spTechFileName:VARCHAR#,
+	  		  #spTechFileId:VARCHAR#,
+	  		  #spNum:DECIMAL#,
+	  		  #spPrice:DECIMAL#,
+	  		  #spTotalSum:DECIMAL#,
+	  		  #haveXianHuo:VARCHAR#,
+	  		  #gongHuoDate:DATE#,
+	  		  #remark:VARCHAR#,
+	  		  #spBrand#,
+	  		  #unit#
+	  		  )
+	</insert>	<select id="getGongHuoDateForCheck" parameterClass="String" resultMap="ZcEbXunJiaSimResult">	select * from zc_eb_xunjia  where proj_code=#value#	</select>
+</sqlMap>

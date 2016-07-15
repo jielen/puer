@@ -1,0 +1,1 @@
+package com.ufgov.zc.server.cp.service;import java.util.List;public interface ICpPlanClearListService {  public List getCpPlanClearList(String planClearBillId);  public List getCpPlanClearList(String planClearBillId, String billType);}

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="EmEvaluationCondition">
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<typeAlias alias="EmEvaluationCondition" type="com.ufgov.zc.common.zc.model.EmEvaluationCondition" />
+	<typeAlias alias="ZcEbPack" type="com.ufgov.zc.common.zc.model.ZcEbPack" />
+	<resultMap id="rltMapping" class="EmEvaluationCondition">
+		<result property="emBillCode" column="EM_BILL_CODE" />
+		<result property="expertNum" column="EXPERT_NUM" />
+		<result property="emExpertType.emTypeCode" column="EM_TYPE_CODE" />
+		<result property="emExpertType.emTypeName" column="EM_TYPE_NAME" />
+		<result property="emExpertType.emParentTypeCode" column="EM_PARENT_TYPE_CODE" />
+	</resultMap>
+	<resultMap id="packMapping" class="ZcEbPack">
+		<result property="packCode" column="pack_code" />
+		<result property="packName" column="pack_name" />
+		<result property="purContent" column="pur_content" />	
+		<result property="projCode" column="proj_code" />	
+	</resultMap>
+	
+	<select id="listByEmBillCode" resultMap="rltMapping" parameterClass="map">
+		SELECT * FROM EM_EVALUATION_CONDITION C, ZC_B_EXPERT_TYPE T
+		 WHERE C.EM_EXPERT_TYPE_CODE = T.EM_TYPE_CODE
+		 AND C.EM_BILL_CODE = #EM_BILL_CODE#
+	</select>
+	
+	
+	<insert id="insert" parameterClass="EmEvaluationCondition">
+		INSERT INTO EM_EVALUATION_CONDITION
+		(EM_BILL_CODE,EM_EXPERT_TYPE_CODE,EXPERT_NUM)
+		VALUES
+		(#emBillCode:VARCHAR#,#emExpertType.emTypeCode:VARCHAR#,#expertNum:DECIMAL#)
+	</insert>
+		
+	<delete id="deleteByEmBillCode" parameterClass="map">
+		DELETE FROM EM_EVALUATION_CONDITION B
+		where B.EM_BILL_CODE = #EM_BILL_CODE#
+	</delete>
+	<!-- added by mengw 20100913 专家抽取标段sql -->
+	<select id="packListByEmBillCode" resultMap="packMapping" parameterClass="map">
+		SELECT * FROM ZC_EM_EXPERT_PRO_BILL_PACK A, ZC_V_PRO_PACK B
+		 WHERE A.PACK_CODE = B.PACK_CODE
+		   AND A.PROJ_CODE = B.PROJ_CODE
+		   AND a.EM_BILL_CODE = #EM_BILL_CODE#
+	</select>
+	<delete id="deletePackByEmBillCode" parameterClass="map">
+		DELETE FROM zc_em_expert_pro_bill_pack B
+		where B.EM_BILL_CODE = #EM_BILL_CODE#
+	</delete>
+	<insert id="insertPack" parameterClass="map">
+		INSERT INTO zc_em_expert_pro_bill_pack
+		(EM_BILL_CODE,PROJ_CODE,PACK_CODE)
+		VALUES
+		(#EM_BILL_CODE#,#PROJ_CODE#,#PACK_CODE#)
+	</insert>
+</sqlMap>

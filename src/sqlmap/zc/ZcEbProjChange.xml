@@ -1,0 +1,627 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap       PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ZcEbProjChange">
+	<typeAlias alias="ZcEbProjChange"
+		type="com.ufgov.zc.common.zc.model.ZcEbProjChange" />
+	<typeAlias alias="zcEbProjChangePack"
+		type="com.ufgov.zc.common.zc.model.ZcEbProjChangePack" />
+	<typeAlias alias="ZcEbReqChange" type="com.ufgov.zc.common.zc.model.ZcEbReqChange" />
+
+	<typeAlias alias="ZcEbPack" type="com.ufgov.zc.common.zc.model.ZcEbPack" />
+	<typeAlias alias="ZcEbPackReq" type="com.ufgov.zc.common.zc.model.ZcEbPackReq" />
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<resultMap id="ZcEbProjResult" class="ZcEbProjChange">
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="coName" column="CO_NAME" />
+		<result property="coCode" column="CO_CODE" />
+		<result property="inputDate" column="INPUT_DATE" />
+		<result property="projSrcCode" column="PROJ_SRC_CODE" />
+		<result property="purSrcType" column="PUR_SRC_TYPE" />
+		<result property="purLstType" column="PUR_LST_TYPE" />
+		<result property="projSrcSum" column="PROJ_SRC_SUM" />
+		<result property="changeReasonMemo" column="CHANGE_REASON_MEMO" />
+		<result property="changeReasonFileName" column="CHANGE_REASON_FILENAME" />
+		<result property="changeReasonFileID" column="CHANGE_REASON_FILEID" />
+		<result property="projName" column="PROJ_NAME" />
+		<result property="projSum" column="PROJ_SUM" />
+		<result property="purType" column="PUR_TYPE" />
+		<result property="manager" column="MANAGER" />
+		<result property="status" column="STATUS" />
+		<result property="nd" column="ND" />
+		<result property="agency" column="AGENCY" />
+		<result property="processInstId" column="PROCESS_INST_ID"
+			jdbcType="DECIMAL" />
+		<result property="specialReasonCode" column="SPECIAL_REASON_CODE" />
+		<result property="isGoonAudit" column="IS_GOON_AUDIT" />
+		<result property="chgId" column="CHG_ID" />
+		<result property="orgCode" column="ORG_CODE" />
+		<result property="isAllChange" column="IS_ALL_CHANGE" />
+		<result property="packList" column="CHG_ID"
+			select="ZcEbProjChange.getZcEbProjChangePackByPackId" />
+	</resultMap>
+	<resultMap class="ZcEbPack" id="ZcEbPackResult">
+		<result property="packCode" column="PACK_CODE" />
+		<result property="packName" column="PACK_NAME" />
+		<result property="packDesc" column="PACK_DESC" />
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="packBudget" column="PACK_BUDGET" jdbcType="DECIMAL"
+			javaType="java.math.BigDecimal" />
+		<result property="purType" column="PUR_TYPE" />
+	</resultMap>
+
+	<resultMap class="ZcEbPackReq" id="ZcEbPackReqResult">
+		<result column="PACK_REQ_CODE" property="packReqCode" />
+		<result column="PACK_CODE" property="packCode" />
+		<result column="PACK_DETAIL_CODE" property="detailCode" />
+		<result column="PROJ_CODE" property="projCode" />
+		<result column="SN" property="requirementDetail.sn" jdbcType="VARCHAR" />
+		<result column="DETAIL_CODE" property="requirementDetail.detailCode"
+			jdbcType="INTEGER" />
+		<result column="REQ_CODE" property="requirementDetail.reqCode"
+			jdbcType="VARCHAR" />
+		<result column="ZC_YEAR" property="requirementDetail.zcYear"
+			jdbcType="VARCHAR" />
+		<result column="ZC_CATALOGUE_CODE" property="requirementDetail.zcCatalogueCode"
+			jdbcType="VARCHAR" />
+		<result column="ZC_CATALOGUE_NAME" property="requirementDetail.zcCatalogueName"
+			jdbcType="VARCHAR" />
+		<result column="NAME" property="requirementDetail.name"
+			jdbcType="VARCHAR" />
+		<result column="ARR_DATE" property="requirementDetail.arrDate"
+			jdbcType="DATE" javaType="java.util.Date" />
+		<result column="BASE_REQ" property="requirementDetail.baseReq"
+			jdbcType="VARCHAR" />
+		<result column="ITEM_ATTACH" property="requirementDetail.itemAttach"
+			jdbcType="VARCHAR" />
+		<result column="ITEM_ATTACH_BLOBID" property="requirementDetail.itemAttachBlobid"
+			jdbcType="VARCHAR" />
+		<result column="NUM" property="requirementDetail.num" jdbcType="INTEGER" />
+		<result column="ITEM_SUM" property="requirementDetail.itemSum"
+			jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+		<result column="MER_PRICE" property="requirementDetail.merPrice"
+			jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+		<result column="PAY_COND" property="requirementDetail.payCond"
+			jdbcType="VARCHAR" />
+		<result column="SERVICE_PROMISES" property="requirementDetail.servicePromises"
+			jdbcType="VARCHAR" />
+		<result column="TYPE" property="requirementDetail.type"
+			jdbcType="VARCHAR" />
+		<result column="DESCRIPTION" property="requirementDetail.description"
+			jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap class="ZcEbPack" id="ZcEbEntrustPack">
+		<result property="packCode" column="pack_code" />
+		<result property="packName" column="pack_name" />
+		<result property="packBudget" column="pack_budget" />
+		<result property="purType" column="pur_type" />
+	</resultMap>
+	<resultMap class="ZcEbProjChange" id="ZcEbEntrustAllResult">
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="projName" column="PROJ_NAME" />
+		<result property="coCode" column="CO_CODE" />
+		<result property="projSum" column="PROJ_SUM" />
+		<result property="nd" column="ND" />
+		<result property="manager" column="MANAGER" />
+		<result property="purType" column="PUR_TYPE" />
+		<result property="chgId" column="CHG_ID" />
+		<result property="orgCode" column="ORG_CODE" />
+		<result property="agency" column="AGENCY" />
+
+	</resultMap>
+
+	<resultMap class="zcEbProjChangePack" id="zcEbProjChangePack">
+		<result property="id" column="ID" />
+		<result property="chgID" column="CHG_ID" />
+		<result property="packCode" column="PACK_CODE" />
+		<result property="packName" column="PACK_NAME" />
+		<result property="packDesc" column="PACK_DESC" />
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="purWay" column="PUR_WAY" />
+		<result property="purSrcWay" column="PUR_SRC_WAY" />
+		<result property="packBudget" column="PACK_BUDGET" />
+		<result property="chgNum" column="CHG_NUM" />
+	</resultMap>
+
+	<!--以下采购需求用 -->
+	<resultMap class="ZcEbReqChange" id="ZcEbReqChange">
+		<result property="changeCode" column="CHANGE_CODE" />
+		<result property="sn" column="SN" />
+		<result property="zcMakeCode" column="ZC_MAKE_CODE" />
+		<result property="zcMakeName" column="ZC_MAKE_NAME" />
+		<result property="zcMakeLink" column="ZC_MAKE_LINKMAN" />
+		<result property="zcMakeTel" column="ZC_MAKE_TEL" />
+		<result property="status" column="STATUS" />
+		<result property="zcInputCode" column="ZC_INPUT_CODE" />
+		<result property="zcInputDate" column="ZC_INPUT_DATE" />
+		<result property="zcMoneyBiSum" column="ZC_MONEY_BI_SUM" />
+		<result property="remark" column="REMARK" />
+		<result property="zcPifuCgfs" column="ZC_PIFU_CGFS" />
+		<result property="zcDiyuDaima" column="ZC_DIYU_DAIMA" />
+		<result property="zcChangeFileBlobid" column="ZC_CHANGE_FILE_BLOBID" />
+		<result property="changeReasonFilename" column="CHANGE_REASON_FILENAME" />
+		<result property="changeReason" column="CHANGE_REASON" />
+		<result property="executeDate" column="EXECUTE_DATE" />
+		<result property="snCode" column="SN_CODE" />
+		<result property="nd" column="ND" />
+		<result property="coCode" column="CO_CODE" />
+		<result property="processInstId" column="PROCESS_INST_ID"
+			jdbcType="DECIMAL" />
+		
+	</resultMap>
+
+	<resultMap class="ZcEbReqChange" id="ZcEbEntrustReqResult">
+		<result property="sn" column="SN" />
+		<result property="snCode" column="SN_CODE" />
+		<result property="zcMakeCode" column="ZC_MAKE_CODE" />
+		<result property="zcMakeName" column="ZC_MAKE_NAME" />
+		<result property="zcMoneyBiSum" column="ZC_MONEY_BI_SUM" />
+		<result property="zcMakeLink" column="zc_make_linkman" />
+		<result property="zcMakeTel" column="zc_make_tel" />
+		<result property="zcMakeTel" column="zc_make_tel" />
+		<result property="coCode" column="CO_CODE" />
+		<result property="agency" column="AGENCY" />
+	</resultMap>
+	<select id="getZcPProMakeAll" resultMap="ZcEbEntrustAllResult"
+		parameterClass="elementCondition">
+		SELECT * FROM v_zc_p_pro_make v_zc_p_pro_make
+		WHERE
+		v_zc_p_pro_make.CO_CODE
+		=#coCodeFilter#
+		and status='exec'
+	</select>
+	<insert id="insertZcEbProjChange" parameterClass="ZcEbProjChange">
+		insert into
+		ZC_EB_PROJ_CHG
+		(PROJ_CODE,PROJ_SRC_CODE, PROJ_NAME, PROJ_SUM, CO_NAME,
+		CO_CODE,
+		PROJ_SRC_SUM, PUR_TYPE, PUR_SRC_TYPE,PUR_LST_TYPE,CHG_TIMES,
+		MANAGER,AGENCY, ND, STATUS, PROCESS_INST_ID,
+		CHANGE_REASON_MEMO,CHANGE_REASON_FILENAME,CHANGE_REASON_FILEID,
+		INPUT_DATE,SPECIAL_REASON_CODE,IS_GOON_AUDIT,PACK_CODE,PACK_NAME,CHG_ID,ORG_CODE,IS_ALL_CHANGE)
+		values
+		(#projCode#,#projSrcCode#, #projName#, #projSum#,
+		#coName#,#coCode#,
+		#projSrcSum#, #purType#,
+		#purSrcType#,#purLstType#,#chgTimes#, #manager#, #agency#, #nd#,
+		#status#, #processInstId#,
+		#changeReasonMemo#, #changeReasonFileName#,
+		#changeReasonFileID#,
+		#inputDate#,
+		#specialReasonCode#,#isGoonAudit#,#packCode#,#packName#,#chgId#,#orgCode#,#isAllChange#)
+	</insert>
+
+	<insert id="insertZcEbProjChangePack" parameterClass="ZcEbProjChangePack">
+		<selectKey resultClass="String" keyProperty="ID">
+			select
+			ZC_SEQ_PACK.NEXTVAL AS ID from DUAL
+		</selectKey>
+		insert into
+		ZC_EB_PROJ_CHG_PACK (ID,CHG_ID, PACK_CODE,
+		PACK_NAME,PACK_DESC,
+		PROJ_CODE,PUR_WAY, PUR_SRC_WAY,
+		PACK_BUDGET,
+		CHG_NUM)
+		values
+		(#ID#,#chgID#, #packCode#, #packName#, #packDesc#,
+		#projCode#,#purWay#,#purSrcWay#,#packBudget#,#chgNum#)
+	</insert>
+
+	<update id="updateZcEbProjChange" parameterClass="ZcEbProjChange">
+		update
+		ZC_EB_PROJ_CHG
+		set
+		ID = #iD#,
+		PROJ_CODE = #projCode:VARCHAR#,
+		PROJ_NAME
+		=#projName:VARCHAR#,
+		PROJ_SUM = #projSum:DECIMAL#,
+		PUR_TYPE = #purType#,
+		MANAGER = #manager#,
+		AGENCY = #agency:VARCHAR#,
+		ND = #nd:VARCHAR#,
+		STATUS = #status:VARCHAR#,
+		PROCESS_INST_ID = #processInstId#,
+		PROJ_SRC_CODE = #projSrcCode#,
+		PROJ_SRC_SUM = #projSrcSum:DECIMAL#,
+		PUR_SRC_TYPE = #purSrcType:VARCHAR#,
+		CHANGE_REASON_MEMO
+		=#changeReasonMemo:VARCHAR#,
+		CHANGE_REASON_FILENAME
+		=#changeReasonFileName:VARCHAR#,
+		CHANGE_REASON_FILEID=#changeReasonFileID:VARCHAR#,
+		CO_NAME =
+		#coName:VARCHAR#,
+		CO_CODE=#coCode:VARCHAR#,
+		INPUT_DATE =
+		#inputDate:VARCHAR#,
+		SPECIAL_REASON_CODE= #specialReasonCode:VARCHAR#,
+		PUR_LST_TYPE =#purLstType:VARCHAR#,
+		CHG_TIMES = #chgTimes#,
+		IS_GOON_AUDIT =#isGoonAudit#,
+		PACK_CODE = #packCode#,
+		PACK_NAME =
+		#packName#,
+		ORG_CODE =#orgCode#,
+		IS_ALL_CHANGE =#isAllChange#
+		where
+		CHG_ID = #chgId:VARCHAR#
+	</update>
+	<select id="getZcEbProjChangeById" resultMap="ZcEbProjResult"
+		parameterClass="String">
+		select
+		*
+		from
+		ZC_EB_PROJ_CHG
+		where CHG_ID=#chgId#
+	</select>
+	<select id="getZcEbProjChangePackByPackId" resultMap="zcEbProjChangePack"
+		parameterClass="String">
+		select
+		*
+		from
+		ZC_EB_PROJ_CHG_PACK
+		where CHG_ID=#chgId#
+	</select>
+	<update id="updateInvalid" parameterClass="string">
+		update zc_eb_proj_chg
+		set status = 'invalid' where CHG_ID = #value#
+	</update>
+	<delete id="deleteZcEbProjChangeById" parameterClass="string">
+		delete from
+		zc_eb_proj_chg where CHG_ID = #chgId#
+	</delete>
+	<delete id="deleteZcEbProjChangePackById" parameterClass="string">
+		delete
+		from
+		ZC_EB_PROJ_CHG_PACK where CHG_ID = #chgId#
+	</delete>
+	<select id="getZcEbProjChangeList" resultMap="ZcEbProjResult"
+		parameterClass="elementCondition">
+		select
+		*
+		from
+		ZC_EB_PROJ_CHG ZC_EB_PROJ_CHG
+		where 1=1
+		and
+		ZC_EB_PROJ_CHG.status!='00'
+		<isNotEqual prepend="AND" property="nd" compareValue="0">
+			ZC_EB_PROJ_CHG.ND = #nd#
+		</isNotEqual>
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		<isNotNull prepend="and" property="status">
+			<isEqual property="status" compareValue="todo">
+				exists (select
+				instance_id from v_wf_current_task_gk53 where executor =#executor#
+				and instance_id = ZC_EB_PROJ_CHG.process_inst_id)
+				and
+				ZC_EB_PROJ_CHG.status !=
+				'invalid'
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				exists (select
+				instance_id from V_WF_ACTION_HISTORY_GK53 where executor =
+				#executor# and instance_id = ZC_EB_PROJ_CHG.process_inst_id)
+				and
+				ZC_EB_PROJ_CHG.status!='cancel'
+				and ZC_EB_PROJ_CHG.status!='exec'
+				and
+				ZC_EB_PROJ_CHG.status !=
+				'invalid'
+			</isEqual>
+			<isEqual property="status" compareValue="exec">
+				(ZC_EB_PROJ_CHG.status
+				='exec')
+			</isEqual>
+
+			<isEqual property="status" compareValue="untread">
+
+				exists ( select
+
+				instance_id from V_WF_CURRENT_TASK_ZC_UNTREAD where executor
+
+				=#executor# and instance_id = ZC_EB_PROJ_CHG.process_inst_id)
+
+			</isEqual>
+
+			<isEqual property="status" compareValue="invalid">
+				(ZC_EB_PROJ_CHG.status = 'invalid')
+			</isEqual>
+			<isEqual property="status" compareValue="draft">
+				exists (select
+				WF_DRAFT_NAME from as_wf_draft where user_id=#executor# and
+				compo_id=#wfcompoId# and WF_DRAFT_ID=ZC_EB_PROJ_CHG.process_inst_id)
+				and ZC_EB_PROJ_CHG.status != 'invalid'
+			</isEqual>
+		</isNotNull>
+		<isNotNull prepend="and" property="coCode">
+			ZC_EB_PROJ_CHG.CO_CODE =
+			#coCode#
+		</isNotNull>
+		<isNotNull prepend="and" property="billStatus">
+			ZC_EB_PROJ_CHG.STATUS =
+			#billStatus#
+		</isNotNull>
+		<isNotNull prepend="and" property="projCode">
+			ZC_EB_PROJ_CHG.Proj_Code =
+			#projCode#
+		</isNotNull>
+		<isNotNull prepend="and" property="packCode">
+			ZC_EB_PROJ_CHG.pack_code =
+			#packCode#
+		</isNotNull>
+		order by ZC_EB_PROJ_CHG.nd,ZC_EB_PROJ_CHG.INPUT_DATE DESC
+	</select>
+	<select id="getLivingProjChange" resultMap="ZcEbProjResult"
+		parameterClass="ZcEbProjChange">
+		select
+		*
+		from
+		ZC_EB_PROJ_CHG
+		where proj_code=#projCode#
+		AND
+		pack_code=#packCode#
+		AND pur_type=#purType#
+	</select>
+	<update id="updateZcEbPackPurType" parameterClass="zcEbProjChange">
+		update
+		ZC_EB_PACK
+		set
+		Pur_Type=#purType:VARCHAR#
+		WHERE
+		PACK_CODE=#packCode#
+	</update>
+	<select id="getZcEbProj" resultMap="ZcEbProjResult"
+		parameterClass="elementCondition">
+		select
+		*
+		from
+		ZC_EB_PROJ_CHG master
+		where 1=1
+		<isNotEqual prepend="AND" property="nd" compareValue="0">
+			master.ND = #nd#
+		</isNotEqual>
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		<isNotNull prepend="and" property="status">
+			<isEqual property="status" compareValue="todo">
+				exists (select
+				instance_id from v_wf_current_task_gk53 where executor
+				=#executor#
+				and instance_id = master.process_inst_id)
+				and master.status !=
+				'invalid'
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				exists (select
+				instance_id from V_WF_ACTION_HISTORY_GK53 where executor =
+				#executor# and instance_id = master.process_inst_id)
+				and
+				master.status!='cancel'
+				and master.status!='exec'
+				and master.status !=
+				'invalid'
+			</isEqual>
+			<isEqual property="status" compareValue="exec">
+				(master.status
+				='exec')
+			</isEqual>
+			<isEqual property="status" compareValue="invalid">
+				(master.status =
+				'invalid')
+			</isEqual>
+			<isEqual property="status" compareValue="draft">
+				exists (select
+				WF_DRAFT_NAME from as_wf_draft where user_id=#executor# and
+				compo_id=#wfcompoId# and WF_DRAFT_ID=master.process_inst_id)
+				and
+				master.status != 'invalid'
+			</isEqual>
+		</isNotNull>
+		<isNotNull prepend="and" property="coCode">
+			master.CO_CODE = #coCode#
+		</isNotNull>
+		<isNotNull prepend="and" property="billStatus">
+			master.STATUS =
+			#billStatus#
+		</isNotNull>
+		<isNotNull prepend="and" property="projCode">
+			master.Proj_Code =
+			#projCode#
+		</isNotNull>
+		<isNotNull prepend="and" property="packCode">
+			master.pack_code =
+			#packCode#
+		</isNotNull>
+		order by master.nd,master.INPUT_DATE DESC
+	</select>
+	<select id="getZcEbPackByProjCode" resultMap="ZcEbPackResult"
+		parameterClass="elementCondition">
+		select
+		*
+		from
+		ZC_V_PRO_PACK master where not exists (select zc_ht_code from zc_xmcg_ht where zc_bid_code = pack_code)
+
+		<isNotEqual prepend="AND" property="nd" compareValue="0">
+			master.ND = #nd#
+		</isNotEqual>
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		<isNotNull prepend="and" property="coCode">
+			master.CO_CODE = #coCode#
+		</isNotNull>
+		<isNotNull prepend="and" property="billStatus">
+			master.STATUS =
+			#billStatus#
+		</isNotNull>
+		<isNotNull prepend="and" property="projCode">
+			master.Proj_Code =
+			#projCode#
+		</isNotNull>
+
+		order by master.nd DESC
+	</select>
+
+	<!-- 以下为需求变更 -->
+	<select id="getZcEbReqChangeList" resultMap="ZcEbReqChange"
+		parameterClass="elementCondition">
+		select
+		*
+		from
+		zc_eb_req_change zc_eb_req_change
+		where 1=1
+		<isNotEqual prepend="AND" property="nd" compareValue="0">
+			zc_eb_req_change.ND = #nd#
+		</isNotEqual>
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		<isNotNull prepend="and" property="status">
+			<isEqual property="status" compareValue="todo">
+				exists (select
+				instance_id from v_wf_current_task_gk53 where executor =#executor#
+				and instance_id = zc_eb_req_change.process_inst_id)
+				and
+				zc_eb_req_change.status !=
+				'invalid'
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				exists (select
+				instance_id from V_WF_ACTION_HISTORY_GK53 where executor =
+				#executor# and instance_id = zc_eb_req_change.process_inst_id)
+				and
+				zc_eb_req_change.status!='cancel'
+				and zc_eb_req_change.status!='exec'
+				and
+				zc_eb_req_change.status !=
+				'invalid'
+			</isEqual>
+			<isEqual property="status" compareValue="exec">
+				(zc_eb_req_change.status
+				='exec')
+			</isEqual>
+
+			<isEqual property="status" compareValue="untread">
+
+				exists ( select
+
+				instance_id from V_WF_CURRENT_TASK_ZC_UNTREAD where executor
+
+				=#executor# and instance_id = zc_eb_req_change.process_inst_id)
+
+			</isEqual>
+
+			<isEqual property="status" compareValue="invalid">
+				(zc_eb_req_change.status = 'invalid')
+			</isEqual>
+			<isEqual property="status" compareValue="draft">
+				exists (select
+				WF_DRAFT_NAME from as_wf_draft where user_id=#executor# and
+				compo_id=#wfcompoId# and
+				WF_DRAFT_ID=zc_eb_req_change.process_inst_id)
+				and
+				zc_eb_req_change.status != 'invalid'
+			</isEqual>
+		</isNotNull>
+		<isNotNull prepend="and" property="coCode">
+			zc_eb_req_change.CO_CODE =
+			#coCode#
+		</isNotNull>
+		<isNotNull prepend="and" property="billStatus">
+			zc_eb_req_change.STATUS =
+			#billStatus#
+		</isNotNull>
+		<isNotNull prepend="and" property="projCode">
+			zc_eb_req_change.Proj_Code =
+			#projCode#
+		</isNotNull>
+		<isNotNull prepend="and" property="packCode">
+			zc_eb_req_change.pack_code =
+			#packCode#
+		</isNotNull>
+		order by zc_eb_req_change.nd,zc_eb_req_change.ZC_INPUT_DATE DESC
+	</select>
+
+	<select id="getReqChgEntrust" resultMap="ZcEbEntrustReqResult"
+		parameterClass="elementCondition">
+		SELECT EN.SN,
+		EN.SN_CODE,
+		EN.ZC_MAKE_CODE,
+		EN.ZC_MAKE_NAME,
+		EN.ZC_MONEY_BI_SUM,
+		EN.ZC_MAKE_LINKMAN,
+		EN.ZC_MAKE_TEL,
+		EN.AGENCY,
+		EN.CO_CODE
+		FROM ZC_EB_ENTRUST EN
+		WHERE EN.CO_CODE=#coCodeFilter#
+	</select>
+	<insert id="insertZcEbReqChange" parameterClass="ZcEbReqChange">
+		insert into
+		ZC_EB_REQ_CHANGE
+		(CHANGE_CODE,
+		SN,
+		ZC_MAKE_CODE,
+		ZC_MAKE_NAME,
+		ZC_MAKE_LINKMAN,
+		ZC_MAKE_TEL,
+		STATUS,
+		ZC_INPUT_CODE,
+		ZC_INPUT_DATE,
+		ZC_MONEY_BI_SUM,
+		REMARK,
+		PROCESS_INST_ID,
+		ZC_PIFU_CGFS,
+		ZC_DIYU_DAIMA,
+		ZC_CHANGE_FILE_BLOBID,
+		CHANGE_REASON_FILENAME,
+		CHANGE_REASON,
+		EXECUTE_DATE,
+		SN_CODE,
+		ND,
+		CO_CODE,
+		AGENCY)
+		values
+		(#changeCode#,
+		#sn#,
+		#zcMakeCode#,
+		#zcMakeName#,
+		#zcMakeLink#,
+		#zcMakeTel#,
+		#status#,
+		#zcInputCode#,
+		#zcInputDate#,
+		#zcMoneyBiSum#,
+		#remark#,
+		#processInstId#,
+		#zcPifuCgfs#,
+		#zcDiyuDaima#,
+		#zcChangeFileBlobid#,
+		#changeReasonFilename#,
+		#changeReason#,
+		#executeDate#,
+		#snCode#,
+		#nd#,
+		#coCode#,
+		#agency#
+		)
+
+	</insert>
+	<delete id="deleteZcEbReqChangeById" parameterClass="string">
+		delete from
+		zc_eb_req_change where CHANGE_CODE = #chgId#
+	</delete>
+	
+	<select id="seleteZcEbReqChangeById" resultMap="ZcEbReqChange" parameterClass="String">
+		SELECT 
+		*
+		FROM ZC_EB_REQ_CHANGE 
+		WHERE CHANGE_CODE = #changeCode#
+	</select>
+	<update id="updateZcEbReqChange" parameterClass="ZcEbReqChange">
+		update ZC_EB_REQ_CHANGE
+		set REMARK = #remark#,
+		ZC_CHANGE_FILE_BLOBID = #zcChangeFileBlobid#,
+		CHANGE_REASON_FILENAME = #changeReasonFilename#,
+		CHANGE_REASON= #changeReason#
+		where CHANGE_CODE = #changeCode#
+	</update>
+</sqlMap>
+

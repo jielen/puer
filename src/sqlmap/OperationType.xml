@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="OperationType">
+<typeAlias alias="elementCondition"	type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<resultMap id="operationType" class="com.ufgov.zc.common.commonbiz.model.OperationType">
+		<result property="nd" column="nd" />
+		<result property="code" column="operation_type_code" />
+		<result property="name" column="operation_type_name" />
+		<result property="flowCode" column="operation_flow_code" />
+		<result property="level" column="current_level" />
+		<result property="parentCode" column="parent_code" />
+	</resultMap>
+
+	<select id="getOperationType" resultMap="operationType" parameterClass="elementCondition">
+		select nd,operation_type_code,operation_type_name ,operation_flow_code,current_level,parent_code
+		     from ma_cp_operation_type where nd=#nd# and (is_used='1' or is_used='Y'  or is_used='y')
+		     <isNotNull prepend="AND" property="flowCode">
+		        operation_flow_code=#flowCode#
+		     </isNotNull>
+		       <include refid="GkGetDataRuleCondi.GkGetDataRuleCondiStr" />
+		     order by operation_type_code
+	</select>
+
+
+</sqlMap>

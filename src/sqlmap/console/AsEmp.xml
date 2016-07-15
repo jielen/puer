@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="AsEmp">
+
+	<typeAlias alias="asEmp" type="com.ufgov.zc.common.console.model.AsEmp"/>
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+
+	<resultMap class="asEmp" id="asEmpResult">
+		<result property="empCode" column="EMP_CODE"></result>
+		<result property="empName" column="EMP_NAME"></result>
+		<result property="userId" column="USER_ID"></result>
+	</resultMap>
+	<resultMap class="asEmp" id="asEmpFullResult" extends="asEmpResult">
+		<result property="sex" column="SEX"></result>
+		<result property="titleTech" column="TITLE_TECH"></result>
+		<result property="phone" column="PHONE"></result>
+		<result property="email" column="EMAIL"></result>
+		<result property="identityCard" column="IDENTITY_CARD"></result>
+		<result property="rtXuin" column="RTXUIN"></result>
+		<result property="empIndex" column="EMP_INDEX"></result>
+		<result property="isLogin" column="IS_LOGIN"></result>
+		<result property="caSerial" column="CA_SERIAL"></result>
+		<result property="coName" column="CO_NAME"></result>
+		<result property="transDate" column="TRANS_DATE"></result>
+		<result property="userBirthDate" column="USER_BIRTH"></result>
+	</resultMap>
+  <resultMap class="asEmp" id="asEmpResultAddColum" extends="asEmpResult">
+		<result property="isLogin" column="IS_LOGIN"></result>
+		<result property="caSerial" column="ca_serial"></result>
+	</resultMap>
+
+	<select id="getOrgAsEmp" resultMap="asEmpResult" parameterClass="elementCondition">
+		select * from (
+		select distinct (t.emp_code) emp_code, e.emp_name emp_name, e.user_id
+		  from as_emp_position t
+		 inner join as_emp e on t.emp_code = e.emp_code
+		 where t.co_code = #coCode#
+		   and t.org_code = #orgCode#
+		   and t.nd = #nd#
+		   and e.user_id != #executor#
+		) t order by t.emp_code
+	</select>
+	
+	<select id="getProviderInfoByCA" resultMap="asEmpResult" parameterClass="elementCondition">
+	     select t.emp_code, t.emp_name, t.user_id from as_emp t
+	     <dynamic prepend="where">
+	        <isNotNull prepend="and" property="extField1">
+	           t.ca_serial=#extField1#
+	        </isNotNull>
+	     </dynamic>
+	</select>
+  <select id="getProviderInfoByUserId" resultMap="asEmpResultAddColum" parameterClass="elementCondition">
+	     select t.emp_code, t.emp_name, t.user_id,t.IS_LOGIN,t.ca_serial from as_emp t
+	     <dynamic prepend="where">
+	        <isNotNull prepend="and" property="extField1">
+	           t.user_id=#extField1#
+	        </isNotNull>
+	     </dynamic>
+	</select>
+  <select id="getAsEmp" resultMap="asEmpFullResult" parameterClass="asEmp">
+	     select t.* from as_emp t
+	     <dynamic prepend="where">
+	        <isNotNull prepend="and" property="userId">
+	           t.user_id=#userId#
+	        </isNotNull>
+	     </dynamic>
+	</select>
+	<insert id="insertAsEmp" parameterClass="com.ufgov.zc.common.console.model.AsEmp">
+   insert into AS_EMP (EMP_CODE, EMP_NAME, SEX,TITLE_TECH,PHONE,
+    EMAIL,IDENTITY_CARD, RTXUIN,EMP_INDEX,
+    IS_LOGIN, USER_ID,CA_SERIAL,CO_NAME,MOBILE)
+    values (#empCode:VARCHAR#, #empName:VARCHAR#,#sex:VARCHAR#,#titleTech:VARCHAR# ,#phone:VARCHAR#,
+    #email:VARCHAR#,#identityCard:VARCHAR#,#rtXuin:VARCHAR#,#empIndex:VARCHAR#,
+    #isLogin:CHAR#,#userId:VARCHAR#,#caSerial:VARCHAR#,#coName:VARCHAR#,#mobile:VARCHAR#)
+  </insert>
+</sqlMap>

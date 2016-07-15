@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.ufgov.zc.server.sf.dao.SfJdPersonMajorMapper" >
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+  <resultMap id="BaseResultMap" class="com.ufgov.zc.common.sf.model.SfJdPersonMajor" >
+    <result column="JD_PERSON_ID" property="jdPersonId" jdbcType="DECIMAL" />
+    <result column="MAJOR_CODE" property="major.majorCode" jdbcType="VARCHAR" />
+    <result column="MAJOR_NAME" property="major.majorName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    JD_PERSON_ID, SF_MAJOR.MAJOR_CODE,SF_MAJOR.MAJOR_NAME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from SF_JD_PERSON_MAJOR,SF_MAJOR
+    where JD_PERSON_ID = #jdPersonId:DECIMAL#
+    and SF_MAJOR.MAJOR_CODE=SF_JD_PERSON_MAJOR.MAJOR_CODE
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="java.math.BigDecimal" >
+    delete from SF_JD_PERSON_MAJOR
+    where JD_PERSON_ID = #jdPersonId:DECIMAL#
+  </delete>
+  <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfJdPersonMajor" >
+    insert into SF_JD_PERSON_MAJOR (JD_PERSON_ID, MAJOR_CODE)
+    values (#jdPersonId:VARCHAR#, #majorCode:VARCHAR#)
+  </insert>
+</sqlMap>

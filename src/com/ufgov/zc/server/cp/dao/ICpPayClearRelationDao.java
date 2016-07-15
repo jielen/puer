@@ -1,0 +1,1 @@
+package com.ufgov.zc.server.cp.dao;import java.util.List;import com.ufgov.zc.common.cp.model.CpPayClearRelation;public interface ICpPayClearRelationDao {  List getCpPayClearRelationByBillId(String payClearBillId);  void insertCpPayClearRelation(CpPayClearRelation cpPayClearRelation);  void insertCpPayClearRelations(List cpPayClearRelations);}

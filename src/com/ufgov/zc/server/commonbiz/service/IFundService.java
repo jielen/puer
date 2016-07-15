@@ -1,0 +1,1 @@
+package com.ufgov.zc.server.commonbiz.service;import java.util.List;import com.ufgov.zc.common.system.dto.ElementConditionDto;public interface IFundService {  List getFund(ElementConditionDto dto);  List getBiXJFund(ElementConditionDto dto);  void saveBiFundXJ(List insertList, List updateList);  void deleteFund(List idList);}

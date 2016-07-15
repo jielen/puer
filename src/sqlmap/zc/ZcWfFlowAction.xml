@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+
+
+<!DOCTYPE sqlMap      
+
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+
+<sqlMap namespace="ZcWfFlowAction">
+	<typeAlias alias="WorkFlowAction"
+		type="com.ufgov.zc.common.zc.model.WorkFlowAction" />
+	<resultMap id="WorkFlowActionResult" class="WorkFlowAction">
+		<result property="snCode" column="SN_CODE" />
+		<result property="templatName" column="TEMPLAT_NAME" />
+		<result property="actionName" column="ACTION_NAME" />
+		<result property="nodeId" column="NODE_ID" />
+		<result property="nodeName" column="NODE_NAME" />
+		<result property="instanceId" column="INSTANCE_ID" />
+		<result property="executeTime" column="EXECUTE_TIME" />
+		<result property="excutor" column="EXECUTOR" />
+		<result property="userName" column="USER_NAME" />
+		<result property="description" column="DESCRIPTION" />
+	</resultMap>
+	<select id="getWorkFlowActionList" resultMap="WorkFlowActionResult"
+		parameterClass="String">
+		SELECT
+		SN_CODE,
+		TEMPLAT_NAME,
+		ACTION_NAME,
+		NODE_ID,
+		NODE_NAME,
+		INSTANCE_ID,
+		EXECUTE_TIME,
+		EXECUTOR,
+		USER_NAME,
+		DESCRIPTION
+		FROM
+		V_ZC_WF_WORKFLOWACTION
+		WHERE SN_CODE=#snCode#
+	</select>
+</sqlMap>
+

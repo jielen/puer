@@ -1,0 +1,1 @@
+package com.ufgov.zc.server.commonbiz.service;import java.util.List;public interface IProjectTypeService {  List getProjectTypeTree(int nd);  List getProjectType(int nd);}

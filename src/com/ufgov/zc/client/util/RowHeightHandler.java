@@ -1,0 +1,1 @@
+package com.ufgov.zc.client.util;import javax.swing.JTable;public interface RowHeightHandler {  void setProperRowHeight(final JTable table);}

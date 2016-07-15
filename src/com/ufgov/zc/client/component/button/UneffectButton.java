@@ -1,0 +1,1 @@
+package com.ufgov.zc.client.component.button;public class UneffectButton extends FuncButton {  /**   *    */  private static final long serialVersionUID = -2564446291342163428L;  public UneffectButton() {    super();  }  protected void init() {    this.funcId = "funeffect";    this.defaultText = "反下达";    super.init();  }}

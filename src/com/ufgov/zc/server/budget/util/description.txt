@@ -1,0 +1,1 @@
+使用webservice，需要把manager/WEB-INF下的web.xml中webservice控制放开(关于equinoxbridgeservlet的配置)

@@ -1,0 +1,1 @@
+package com.ufgov.zc.client.component.button;public class ComplainButton extends FuncButton {  /**   *    */  private static final long serialVersionUID = 1L;  public ComplainButton() {    super();  }  protected void init() {    this.funcId = "fcomplain";    this.defaultText = "我要投诉";    this.iconName = "sendBill.png";    super.init();  }}

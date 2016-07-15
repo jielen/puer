@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="IntegrityManage">
+
+	<typeAlias alias="SupplierIntegrityManage"
+		type="com.ufgov.zc.common.zc.model.SupplierIntegrityManage" />
+		
+	<typeAlias alias="ZcEbSupplier" type="com.ufgov.zc.common.zc.model.ZcEbSupplier" />
+	
+	<typeAlias alias="ZcEbProj" type="com.ufgov.zc.common.zc.model.ZcEbProj" />
+
+	<resultMap class="SupplierIntegrityManage" id="SupplierIntegrityManageResult">
+
+		<result property="sn" column="id" />
+		<result property="supplier.code" column="supplier" />
+		<result property="proj.projCode" column="proj" />
+		<result property="delegateOrg" column="delegateOrg" />
+		<result property="state" column="state" />
+		<result property="blindex1" column="blindex1" />
+		<result property="blindex2" column="blindex2" />
+		<result property="blindex3" column="blindex3" />
+		<result property="blindex4" column="blindex4" />
+		<result property="blindex5" column="blindex5" />
+		<result property="blindex6" column="blindex6" />
+		<result property="blindex7" column="blindex7" />
+
+		<result property="blreason1" column="blreason1" />
+		<result property="blreason2" column="blreason2" />
+		<result property="blreason3" column="blreason3" />
+		<result property="blreason4" column="blreason4" />
+		<result property="blreason5" column="blreason5" />
+		<result property="blreason6" column="blreason6" />
+		<result property="blreason7" column="blreason7" />
+
+		<result property="bdindex1" column="bdindex1" />
+		<result property="bdindex2" column="bdindex2" />
+		<result property="bdindex3" column="bdindex3" />
+		<result property="bdindex4" column="bdindex4" />
+		<result property="bdindex5" column="bdindex5" />
+		<result property="bdindex6" column="bdindex6" />
+		<result property="bdindex7" column="bdindex7" />
+		<result property="bdindex8" column="bdindex8" />
+		<result property="bdindex9" column="bdindex9" />
+		<result property="bdindex10" column="bdindex10" />
+
+		<result property="bdreason1" column="bdreason1" />
+		<result property="bdreason2" column="bdreason2" />
+		<result property="bdreason3" column="bdreason3" />
+		<result property="bdreason4" column="bdreason4" />
+		<result property="bdreason5" column="bdreason5" />
+		<result property="bdreason6" column="bdreason6" />
+		<result property="bdreason7" column="bdreason7" />
+		<result property="bdreason8" column="bdreason8" />
+		<result property="bdreason9" column="bdreason9" />
+		<result property="bdreason10" column="bdreason10" />
+
+		<result property="mydindex1" column="mydindex1" />
+		<result property="mydindex2" column="mydindex2" />
+		<result property="mydindex3" column="mydindex3" />
+		<result property="mydindex4" column="mydindex4" />
+		
+		<result property="proj" column="proj"
+			select="IntegrityManage.getProjByProjCode" />
+		<result property="supplier" column="supplier" select="IntegrityManage.getSupplier"/>
+	</resultMap>
+	
+	<resultMap id="ZcEbSupplierResult" class="ZcEbSupplier">
+		<result property="code" column="ZC_SU_CODE" />
+		<result property="name" column="ZC_SU_NAME" />
+		<result property="linkMan" column="ZC_SU_LINKMAN" />
+		<result property="phone" column="ZC_SU_TEL" />
+		<result property="operator" column="ZC_ASSESS_CODE" />
+		<result property="address" column="ZC_SU_ADDR" />
+		<result property="zipCode" column="ZC_POST_CODE" />
+		<result property="operDate" column="ZC_ASSESS_DATE" />
+		<result property="status" column="ZC_SU_STATUS" />
+		<result property="isZxqy" column="ZC_IS_ZXQY" />
+		<result property="isXysu" column="ZC_IS_XYSU" />
+		<result property="gnw" column="ZC_GNW" />
+		<result property="snw" column="ZC_SNW" />
+		<result property="corpCode" column="ZC_CORP_CODE" />
+		<result property="accCode" column="ZC_SU_ACC_CODE" />
+		<result property="bankCode" column="ZC_SU_BANK_CODE" />
+		<result property="bankName" column="ZC_SU_BANK_NAME" />
+		<result property="email" column="EMAIL" />
+		<result property="establishDate" column="ESTABLISH_DATE" />
+		<result property="linkManPhone" column="LINK_MAN_PHONE" />
+		<result property="linkManMobile" column="LINK_MAN_MOBILE" />
+		<result property="fax" column="FAX" />
+		<result property="scale" column="SCALE" />
+		<result property="loginName" column="LOGIN_NAME" />
+		<result property="url" column="URL" />
+		<result property="description" column="DESCRIPTION" />
+		<result property="legalPerson" column="LEGAL_PERSON" />
+		<result property="legalPersonAddr" column="LEGAL_PERSON_ADDR" />
+		<result property="legalPersonIDCard" column="LEGAL_PERSON_ID_CARD" />
+		<result property="legalCardType" column="LEGAL_CARD_TYPE" />
+		<result property="legalPersonFax" column="LEGAL_PERSON_FAX" />
+		<result property="legalPersonMobile" column="LEGAL_PERSON_MOBILE" />
+		<result property="legalPersonTel" column="LEGAL_PERSON_TEL" />
+		<result property="regCapital" column="REG_CAPITAL" />
+		<result property="mainBusinesses" column="MAIN_BUSINESSES" />
+		<result property="supplierType" column="SUPPLIER_TYPE" />
+		<result property="isExported" column="IS_EXPORTED" />
+		<result property="licenseId" column="ZC_LICENSE_ID" />
+		<result property="licenseTimeStart" column="ZC_LICENSE_DATE_START" />
+		<result property="licenseTimeEnd" column="ZC_LICENSE_DATE_END" />
+		<result property="stateTaxRegId" column="STATE_TAX_REG_ID" />
+		<result property="stateTaxRegDate" column="STATE_TAX_REG_DATE" />
+		<result property="localTaxRegId" column="LOCAL_TAX_REG_ID" />
+		<result property="localTaxRegDate" column="LOCAL_TAX_REG_DATE" />
+		<result property="zcCatalogueCode" column="ZC_CATALOGUE_CODE" />
+		<result property="zcSupplierType" column="ZC_SUPPLIER_TYPE" />
+		<result property="zcSupplierKind" column="ZC_SUPPLIER_KIND" />
+	</resultMap>
+	
+	<resultMap id="ZcEbProjResult" class="ZcEbProj">
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="projSrcCode" column="PROJ_SRC_CODE" />
+		<result property="projName" column="PROJ_NAME" />
+		<result property="projSum" column="PROJ_SUM" />
+		<result property="purType" column="PUR_TYPE" />
+		<result property="manager" column="MANAGER" />
+		<result property="managerCode" column="MANAGER_CODE" />
+		<result property="projDate" column="PROJ_DATE" />
+		<result property="isSplitPack" column="IS_SPLIT_PACK" />
+		<result property="phone" column="PHONE" />
+		<result property="email" column="EMAIL" />
+		<result property="fax" column="FAX" />
+		<result property="status" column="STATUS" />
+		<result property="nd" column="ND" />
+		<result property="agency" column="AGENCY" />
+		<result property="isPubPurBulletin" column="IS_PUB_PUR_BULLETIN" />
+		<result property="isPubPurResult" column="IS_PUB_PUR_RESULT" />
+		<result property="processInstId" column="PROCESS_INST_ID"
+			jdbcType="DECIMAL" />
+		<result property="inputor" column="INPUTOR" />
+		<result property="inputDate" column="INPUT_DATE" />
+		<result property="org" column="ORG" />
+		<result property="remark" column="REMARK" />
+		<result property="isGoonAudit" column="IS_GOON_AUDIT" />
+	</resultMap>
+	
+	<statement id="getSupplier" resultMap="ZcEbSupplierResult" parameterClass="String">
+		 SELECT *
+  		FROM zc_b_supplier s
+  		WHERE s.zc_su_code=#value#
+	</statement>
+	
+	<statement id="getProjByProjCode" resultMap="ZcEbProjResult"
+		parameterClass="String">
+		<![CDATA[
+		SELECT *
+		FROM zc_eb_proj p
+		WHERE p.proj_code=#value#
+		]]>
+	</statement>
+	
+	<statement id="getProjList" resultMap="ZcEbProjResult"
+		parameterClass="elementCondition">
+		SELECT DISTINCT proj.*
+		FROM zc_eb_proj proj LEFT JOIN
+		(SELECT
+		proj_code
+		FROM
+		zc_eb_signup s
+		WHERE s.PROVIDER_CODE=#coCode#
+		)s ON
+		proj.proj_code=s.proj_code
+		WHERE s.proj_code IS
+		NOT NULL
+	</statement>
+	
+	<select id="getList" resultMap="SupplierIntegrityManageResult">
+		select *
+		from
+		zc_eb_SupplierIntegrityManage
+	</select>
+	<insert id="insertIntegrityManage" parameterClass="SupplierIntegrityManage">
+		INSERT INTO
+		zc_eb_SupplierIntegrityManage
+		(ID,
+		supplier,
+		proj,
+		delegateOrg,
+		state,
+		blindex1,
+		blindex2,
+		blindex3,
+		blindex4,
+		blindex5,
+		blindex6,
+		blindex7,
+		blreason1,
+		blreason2,
+		blreason3,
+		blreason4,
+		blreason5,
+		blreason6,
+		blreason7,
+		bdindex1,
+		bdindex2,
+		bdindex3,
+		bdindex4,
+		bdindex5,
+		bdindex6,
+		bdindex7,
+		bdindex8,
+		bdindex9,
+		bdindex10,
+		bdreason1,
+		bdreason2,
+		bdreason3,
+		bdreason4,
+		bdreason5,
+		bdreason6,
+		bdreason7,
+		bdreason8,
+		bdreason9,
+		bdreason10,
+		mydindex1,
+		mydindex2,
+		mydindex3,
+		mydindex4
+		) VALUES(
+		SEQ_IntegrityManage.NEXTVAL,
+		#supplier.code:VARCHAR#,
+		#proj.projCode:VARCHAR#,
+		#delegateOrg:VARCHAR#,
+		null,
+		#blindex1:VARCHAR#,
+		#blindex2:VARCHAR#,
+		#blindex3:VARCHAR#,
+		#blindex4:VARCHAR#,
+		#blindex5:VARCHAR#,
+		#blindex6:VARCHAR#,
+		#blindex7:VARCHAR#,
+		#blreason1:VARCHAR#,
+		#blreason2:VARCHAR#,
+		#blreason3:VARCHAR#,
+		#blreason4:VARCHAR#,
+		#blreason5:VARCHAR#,
+		#blreason6:VARCHAR#,
+		#blreason7:VARCHAR#,
+		#bdindex1:VARCHAR#,
+		#bdindex2:VARCHAR#,
+		#bdindex3:VARCHAR#,
+		#bdindex4:VARCHAR#,
+		#bdindex5:VARCHAR#,
+		#bdindex6:VARCHAR#,
+		#bdindex7:VARCHAR#,
+		#bdindex8:VARCHAR#,
+		#bdindex9:VARCHAR#,
+		#bdindex10:VARCHAR#,
+		#bdreason1:VARCHAR#,
+		#bdreason2:VARCHAR#,
+		#bdreason3:VARCHAR#,
+		#bdreason4:VARCHAR#,
+		#bdreason5:VARCHAR#,
+		#bdreason6:VARCHAR#,
+		#bdreason7:VARCHAR#,
+		#bdreason8:VARCHAR#,
+		#bdreason9:VARCHAR#,
+		#bdreason10:VARCHAR#,
+		#mydindex1:VARCHAR#,
+		#mydindex2:VARCHAR#,
+		#mydindex3:VARCHAR#,
+		#mydindex4:VARCHAR#
+		)
+	</insert>
+
+	<update id="updateIntegrityManage" parameterClass="SupplierIntegrityManage">
+		update
+		zc_eb_SupplierIntegrityManage
+		set
+		supplier=#supplier.code:VARCHAR#,
+		proj=#proj.projCode:VARCHAR#,
+		delegateOrg=#delegateOrg:VARCHAR#,
+		state=#state:VARCHAR#,
+		blindex1=#blindex1:VARCHAR#,
+		blindex2=#blindex2:VARCHAR#,
+		blindex3=#blindex3:VARCHAR#,
+		blindex4=#blindex4:VARCHAR#,
+		blindex5=#blindex5:VARCHAR#,
+		blindex6=#blindex6:VARCHAR#,
+		blindex7=#blindex7:VARCHAR#,
+		blreason1=#blreason1:VARCHAR#,
+		blreason2=#blreason2:VARCHAR#,
+		blreason3=#blreason3:VARCHAR#,
+		blreason4=#blreason4:VARCHAR#,
+		blreason5=#blreason5:VARCHAR#,
+		blreason6=#blreason6:VARCHAR#,
+		blreason7=#blreason7:VARCHAR#,
+		bdindex1=#bdindex1:VARCHAR#,
+		bdindex2=#bdindex2:VARCHAR#,
+		bdindex3=#bdindex3:VARCHAR#,
+		bdindex4=#bdindex4:VARCHAR#,
+		bdindex5=#bdindex5:VARCHAR#,
+		bdindex6=#bdindex6:VARCHAR#,
+		bdindex7=#bdindex7:VARCHAR#,
+		bdindex8=#bdindex8:VARCHAR#,
+		bdindex9=#bdindex9:VARCHAR#,
+		bdindex10=#bdindex10:VARCHAR#,
+		bdreason1=#bdreason1:VARCHAR#,
+		bdreason2=#bdreason2:VARCHAR#,
+		bdreason3=#bdreason3:VARCHAR#,
+		bdreason4=#bdreason4:VARCHAR#,
+		bdreason5=#bdreason5:VARCHAR#,
+		bdreason6=#bdreason6:VARCHAR#,
+		bdreason7=#bdreason7:VARCHAR#,
+		bdreason8=#bdreason8:VARCHAR#,
+		bdreason9=#bdreason9:VARCHAR#,
+		bdreason10=#bdreason10:VARCHAR#,
+		mydindex1=#mydindex1:VARCHAR#,
+		mydindex2=#mydindex2:VARCHAR#,
+		mydindex3=#mydindex3:VARCHAR#,
+		mydindex4=#mydindex4:VARCHAR#
+		where id=#sn:VARCHAR#
+	</update>
+	<select id="selectSn" parameterClass="SupplierIntegrityManage"
+		resultMap="SupplierIntegrityManageResult">
+		select *
+		from zc_eb_SupplierIntegrityManage
+		where id=#sn:VARCHAR#
+	</select>
+
+	<select id="selectcuSn" parameterClass="SupplierIntegrityManage"
+		resultMap="SupplierIntegrityManageResult">
+		select *
+		from zc_eb_SupplierIntegrityManage sim
+		WHERE ROWNUM=1
+		ORDER BY ID DESC
+	</select>
+	
+	<delete id="del" parameterClass="SupplierIntegrityManage">
+		delete zc_eb_SupplierIntegrityManage
+		where id=#sn:VARCAHR#
+	</delete>
+</sqlMap>

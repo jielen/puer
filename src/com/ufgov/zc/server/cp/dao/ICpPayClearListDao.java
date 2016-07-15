@@ -1,0 +1,1 @@
+package com.ufgov.zc.server.cp.dao;import java.util.List;import com.ufgov.zc.common.cp.model.CpPayClearList;public interface ICpPayClearListDao {  List getCpPayClearListByBillId(String payClearBillId);  List getCpPayClearListForList(List billIdList);  void insertCpPayClearList(CpPayClearList cpPayClearList);  void insertCpPayClearLists(List cpPayClearLists);}

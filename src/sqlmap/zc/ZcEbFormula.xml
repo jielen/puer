@@ -1,0 +1,556 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ZcEbFormula">
+
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<typeAlias alias="ZcEbFormula" type="com.ufgov.zc.common.zc.model.ZcEbFormula" />
+	<typeAlias alias="ZcEbFormulaItem"
+		type="com.ufgov.zc.common.zc.model.ZcEbFormulaItem" />
+	<typeAlias alias="ZcEbFormulaParam"
+		type="com.ufgov.zc.common.zc.model.ZcEbFormulaParam" />
+	<typeAlias alias="ZcEbProj" type="com.ufgov.zc.common.zc.model.ZcEbProj" />	
+	<typeAlias alias="ZcEbPack" type="com.ufgov.zc.common.zc.model.ZcEbPack" />			<typeAlias alias="ZcEbFormulaPackPlain"		type="com.ufgov.zc.common.zc.model.ZcEbFormulaPackPlain" />					<resultMap id="ZcEbFormulaPackPlainResult" class="ZcEbFormulaPackPlain">		<result property="packCode" column="PACK_CODE" />		<result property="formulaCode" column="FORMULA_CODE" />		<result property="projCode" column="PROJ_CODE" />	</resultMap>
+
+	<resultMap id="ZcEbFormulaResult" class="ZcEbFormula">
+		<result property="formulaCode" column="FORMULA_CODE" />
+		<result property="complianceRate" column="COMPLIANCE_RATE" />
+		<result property="complianceDesc" column="COMPLIANCE_DESC" />
+		<result property="factorFullScore" column="FACTOR_FULL_SCORE" />
+		<result property="factorType" column="FACTOR_TYPE" />
+		<result property="executor" column="EXECUTOR" />
+		<result property="executeDate" column="EXECUTE_DATE" />
+		<result property="markMode" column="MARK_MODE" />
+		<result property="evalueType" column="EVALUE_TYPE" />
+		<result property="remark" column="REMARK" />
+		<result property="projectCode" column="PROJ_CODE" />
+		<result property="projectName" column="PROJ_NAME" />
+		<result property="packCode" column="PACK_CODE" />
+		<result property="packName" column="PACK_NAME" />
+		<result property="nd" column="ND" />
+		<result property="agency" column="AGENCY" />		<result property="orgCode" column="ORG_CODE" />		<result property="isConform" column="IS_CONFORM" />
+		<!-- <result property="formulaDescription" column="FORMULA_DESC" jdbcType="BLOB"/> -->
+		<result property="templateCode" column="TEMPLATE_CODE" />
+		<result property="templateName" column="TEMPLATE_NAME" />
+
+
+	</resultMap>
+	<resultMap id="ZcEbFormulaItemResult" class="ZcEbFormulaItem">
+		<result property="itemCode" column="ITEM_CODE" />
+		<result property="indx" column="INDX" />
+		<result property="name" column="NAME" />
+		<result property="weight" column="WEIGHT" />
+		<result property="isRequiredField" column="IS_REQUIRED_FIELD" />
+		<result property="isAddScore" column="IS_ADD_SCORE" />
+		<result property="creator" column="CREATOR" />
+		<result property="maxAddScore" column="MAX_ADD_SCORE" />
+		<result property="maxMinusScore" column="MAX_MINUS_SCORE" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="itemType" column="ITEM_TYPE" />
+		<result property="parentItemCode" column="PARENT_ITEM_CODE" />
+		<result property="parentItemName" column="PARENT_ITEM_NAME" />
+		<result property="formulaCode" column="FORMULA_CODE" />
+		<result property="description" column="DESCRIPTION" />
+		<result property="formula" column="FORMULA" />
+		<result property="standardScore" column="STANDARD_SCORE" />
+		<result property="baseScore" column="BASE_SCORE" />
+		<result property="complianceValue" column="COMPLIANCE_VALUE" />
+		<result property="leastScore" column="LEAST_SCORE" />
+		<result property="isPriceTarget" column="IS_PRICE_TARGET" />
+		<result property="remark" column="REMARK" />
+		<result property="formulaExpression" column="FORMULA_EXPRESSION" />
+		<result property="scoreSumWay" column="SCORE_SUM_WAY" />
+		<result property="responseCode" column="RESPONSE_CODE" />
+	</resultMap>
+	<resultMap id="ZcEbFormulaParamResult" class="ZcEbFormulaParam">
+		<result property="paramCode" column="PARAM_CODE" />
+		<result property="paramName" column="PARAM_NAME" />
+		<result property="value" column="VALUE" />
+		<result property="defaultValue" column="DEFAULT_VALUE" />
+		<result property="description" column="DESCRIPTION" />
+		<result property="formulaCode" column="FORMULA_CODE" />
+		<result property="isManSet" column="IS_MAN_SET" />
+	</resultMap>
+	<resultMap id="ZcEbProjResult" class="ZcEbProj">
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="projSrcCode" column="PROJ_SRC_CODE" />
+		<result property="projName" column="PROJ_NAME" />
+		<result property="projSum" column="PROJ_SUM" />
+		<result property="purType" column="PUR_TYPE" />
+		<result property="manager" column="EXECUTOR_NAME" />
+		<result property="projDate" column="PROJ_DATE" />
+		<result property="isSplitPack" column="IS_SPLIT_PACK" />
+		<result property="phone" column="PHONE" />
+		<result property="email" column="EMAIL" />
+		<result property="fax" column="FAX" />
+		<result property="status" column="STATUS" />
+		<result property="nd" column="ND" />
+		<result property="agency" column="AGENCY" />
+		<result property="isPubPurBulletin" column="IS_PUB_PUR_BULLETIN" />
+		<result property="isPubPurResult" column="IS_PUB_PUR_RESULT" />
+		<result property="processInstId" column="PROCESS_INST_ID"
+			jdbcType="DECIMAL" />
+		<result property="inputor" column="INPUTOR" />
+		<result property="inputDate" column="EXECUTE_DATE" />
+		<result property="org" column="ORG_CODE" />
+		<result property="remark" column="REMARK" />
+	</resultMap>
+	<resultMap class="ZcEbPack" id="ZcEbPackResult">
+		<result property="packCode" column="PACK_CODE" />
+		<result property="packName" column="PACK_NAME" />
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="packDesc" column="PACK_DESC" />
+		<result property="status" column="STATUS" />
+	</resultMap>
+
+	<select id="getZcEbFormulaList" resultMap="ZcEbFormulaResult"
+		parameterClass="elementCondition">
+		SELECT * FROM ZC_EB_FORMULA master
+		WHERE 1=1
+		<isNotEqual prepend="AND" property="nd" compareValue="0">
+			MASTER.ND = #nd:INTEGER#
+		</isNotEqual>
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		<isNotNull prepend="AND" property="status">
+			<isEqual property="status" compareValue="all">
+				1=1
+			</isEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="projCode">
+			master.PROJ_CODE
+			=#projCode:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="AND" property="packCode">
+			master.PACK_CODE
+			=#packCode:VARCHAR#
+		</isNotNull>
+		order by master.EXECUTE_DATE DESC
+	</select>
+	<select id="getZcEbFormulaItemList" resultMap="ZcEbFormulaItemResult"
+		parameterClass="map">
+		SELECT
+		F1.ITEM_CODE,
+		F1.NAME,
+		F1.INDX,
+		F1.WEIGHT,
+		F1.IS_REQUIRED_FIELD,
+		F1.IS_ADD_SCORE,
+		F1.CREATOR,
+		F1.MAX_ADD_SCORE,
+		F1.MAX_MINUS_SCORE,
+		F1.CREATE_TIME,
+		F1.FORMULA,
+		F1.ITEM_TYPE,
+		F1.PARENT_ITEM_CODE,
+		F2.NAME AS	PARENT_ITEM_NAME,
+		F1.FORMULA_CODE,
+		F1.DESCRIPTION,
+		F1.STANDARD_SCORE,
+		F1.BASE_SCORE,
+		F1.COMPLIANCE_VALUE,
+		F1.LEAST_SCORE,
+		F1.IS_PRICE_TARGET,
+		F1.REMARK,
+		F1.FORMULA_EXPRESSION,
+		F1.SCORE_SUM_WAY,
+		F1.RESPONSE_CODE
+		FROM
+		ZC_EB_FORMULA_ITEM F1
+		,ZC_EB_FORMULA_ITEM F2
+		WHERE
+		F1.PARENT_ITEM_CODE=F2.ITEM_CODE(+)
+		<isNotNull prepend="AND" property="formulaCode">
+			F1.FORMULA_CODE =
+			#formulaCode:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="AND" property="itemType">
+			F1.ITEM_TYPE =
+			#itemType:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend=" " property="itemCode">
+			START WITH
+			F1.parent_item_code =#itemCode:VARCHAR#
+			CONNECT BY PRIOR F1.item_code
+			=
+			F1.parent_item_code
+		</isNotNull>
+	</select>
+	<select id="getZcEbFormulaParamList" resultMap="ZcEbFormulaParamResult"
+		parameterClass="string">
+		SELECT * FROM ZC_EB_FORMULA_PARAM WHERE
+		FORMULA_CODE=#formulaCode:VARCHAR#
+
+	</select>
+	<select id="getZcEbFormulaItemListByPcode" resultMap="ZcEbFormulaItemResult"
+		parameterClass="map">
+		SELECT
+		F1.ITEM_CODE,
+		F1.NAME,
+		F1.INDX,
+		F1.WEIGHT,
+		F1.IS_REQUIRED_FIELD,
+		F1.IS_ADD_SCORE,
+		F1.CREATOR,
+		F1.MAX_ADD_SCORE,
+		F1.MAX_MINUS_SCORE,
+		F1.CREATE_TIME,
+		F1.FORMULA,
+		F1.ITEM_TYPE,
+		F1.PARENT_ITEM_CODE,
+		F2.NAME AS
+		PARENT_ITEM_NAME,
+		F1.FORMULA_CODE,
+		F1.DESCRIPTION,
+		F1.STANDARD_SCORE,
+		F1.BASE_SCORE,
+		F1.COMPLIANCE_VALUE,
+		F1.LEAST_SCORE,
+		F1.IS_PRICE_TARGET,
+		F1.REMARK,
+		F1.FORMULA_EXPRESSION,
+		F1.SCORE_SUM_WAY,
+		F1.RESPONSE_CODE
+		FROM ZC_EB_FORMULA_ITEM F1
+		,ZC_EB_FORMULA_ITEM F2
+		WHERE
+		F1.PARENT_ITEM_CODE=F2.ITEM_CODE(+) and
+		F1.FORMULA_CODE=#formulaCode:VARCHAR# AND
+		F1.PARENT_ITEM_CODE=#pcode:VARCHAR#
+
+	</select>
+	<select id="getZcEbFormula" resultMap="ZcEbFormulaResult"
+		parameterClass="string">
+		SELECT *
+		FROM ZC_EB_FORMULA
+		WHERE
+		FORMULA_CODE=#value#
+	</select>
+	<select id="getZcEbFormulaByPackCode" resultMap="ZcEbFormulaResult"
+		parameterClass="elementCondition">
+		SELECT *
+		FROM ZC_EB_FORMULA
+		WHERE
+		1=1
+		<isNotNull prepend="AND" property="projCode">
+			PROJ_CODE =
+			#projCode:VARCHAR#
+		</isNotNull>
+		<isNotNull prepend="AND" property="packCode">
+			PACK_CODE =
+			#packCode:VARCHAR#
+		</isNotNull>
+	</select>
+	<select id="getZcEbFormulaItem" resultMap="ZcEbFormulaItemResult"
+		parameterClass="map">
+		SELECT
+		F1.ITEM_CODE,
+		F1.NAME,
+		F1.INDX,
+		F1.WEIGHT,
+		F1.IS_REQUIRED_FIELD,
+		F1.IS_ADD_SCORE,
+		F1.CREATOR,
+		F1.MAX_ADD_SCORE,
+		F1.MAX_MINUS_SCORE,
+		F1.CREATE_TIME,
+		F1.FORMULA,
+		F1.ITEM_TYPE,
+		F1.PARENT_ITEM_CODE,
+		F2.NAME AS
+		PARENT_ITEM_NAME,
+		F1.FORMULA_CODE,
+		F1.DESCRIPTION,
+		F1.STANDARD_SCORE,
+		F1.BASE_SCORE,
+		F1.COMPLIANCE_VALUE,
+		F1.LEAST_SCORE,
+		F1.IS_PRICE_TARGET,
+		F1.REMARK,
+		F1.FORMULA_EXPRESSION,
+		F1.SCORE_SUM_WAY,
+		F1.RESPONSE_CODE
+		FROM ZC_EB_FORMULA_ITEM F1
+		,ZC_EB_FORMULA_ITEM F2
+		WHERE
+		F1.PARENT_ITEM_CODE=F2.ITEM_CODE(+) and
+		F1.FORMULA_CODE=#formulaCode:VARCHAR# and
+		F1.ITEM_CODE =
+		#itemCode:VARCHAR#
+
+	</select>
+
+	<select id="getZcEbFormulaItemByName" resultMap="ZcEbFormulaItemResult"
+		parameterClass="map">
+		SELECT
+		F1.ITEM_CODE,
+		F1.NAME,
+		F1.INDX,
+		F1.WEIGHT,
+		F1.IS_REQUIRED_FIELD,
+		F1.IS_ADD_SCORE,
+		F1.CREATOR,
+		F1.MAX_ADD_SCORE,
+		F1.MAX_MINUS_SCORE,
+		F1.CREATE_TIME,
+		F1.FORMULA,
+		F1.ITEM_TYPE,
+		F1.PARENT_ITEM_CODE,
+		F2.NAME AS
+		PARENT_ITEM_NAME,
+		F1.FORMULA_CODE,
+		F1.DESCRIPTION,
+		F1.STANDARD_SCORE,
+		F1.BASE_SCORE,
+		F1.COMPLIANCE_VALUE,
+		F1.LEAST_SCORE,
+		F1.IS_PRICE_TARGET,
+		F1.REMARK,
+		F1.FORMULA_EXPRESSION,
+		F1.SCORE_SUM_WAY,
+		F1.RESPONSE_CODE
+		FROM
+		ZC_EB_FORMULA_ITEM F1
+		,ZC_EB_FORMULA_ITEM F2
+		WHERE
+		F1.PARENT_ITEM_CODE=F2.ITEM_CODE(+) and
+		F1.FORMULA_CODE=#formulaCode:VARCHAR# and
+		F1.NAME = #itemName:VARCHAR#
+		<isNotNull prepend="and" property="itemCode">
+			F1.ITEM_CODE
+			!=#itemCode:VARCHAR#
+		</isNotNull>
+	</select>
+	<delete id="deleteZcEbFormula" parameterClass="string">
+		delete from
+		ZC_EB_FORMULA where FORMULA_CODE=#ZcEbFormulaCode:VARCHAR#
+	</delete>	<delete id="deleteZcEbFormulaByPackCode" parameterClass="string">		delete from		ZC_EB_FORMULA where PACK_CODE=#packCode:VARCHAR#	</delete>
+	<delete id="deleteZcEbFormulaItem" parameterClass="string">
+		delete from
+		ZC_EB_FORMULA_ITEM where ITEM_CODE=#itemCode:VARCHAR#
+	</delete>
+	<delete id="deleteZcEbFormulaItemByFormulaCode" parameterClass="string">
+		delete from
+		ZC_EB_FORMULA_ITEM where FORMULA_CODE=#formulaCode:VARCHAR#
+	</delete>
+	<delete id="deleteZcEbFormulaParam" parameterClass="string">
+		delete from
+		ZC_EB_FORMULA_PARAM where FORMULA_CODE=#formulaCode:VARCHAR#
+	</delete>
+	<delete id="deleteZcEbFormulaParamByCode" parameterClass="map">
+		delete
+		from
+		ZC_EB_FORMULA_PARAM where FORMULA_CODE=#formulaCode:VARCHAR# and
+		PARAM_CODE = #paramCode:VARCHAR#
+	</delete>
+
+	<update id="updateZcEbFormula" parameterClass="ZcEbFormula">
+		UPDATE
+		ZC_EB_FORMULA SET		FORMULA_CODE =#formulaCode:VARCHAR#,
+		COMPLIANCE_RATE = #complianceRate:VARCHAR#,
+		COMPLIANCE_DESC = #complianceDesc:VARCHAR#,
+		FACTOR_FULL_SCORE=#factorFullScore:VARCHAR#,
+		FACTOR_TYPE =#factorType:VARCHAR#,
+		EXECUTOR = #executor:VARCHAR#,
+		EXECUTE_DATE =#executeDate:VARCHAR#,
+		MARK_MODE = #markMode:VARCHAR#,
+		EVALUE_TYPE =#evalueType:VARCHAR#,
+		PROJ_CODE = #projectCode:VARCHAR#,
+		PROJ_NAME =#projectName:VARCHAR#,
+		PACK_CODE = #packCode:VARCHAR#,
+		PACK_NAME =#packName:VARCHAR#,
+		ND = #nd:VARCHAR#,
+		IS_CONFORM =#isConform:VARCHAR#,
+		TEMPLATE_CODE=#templateCode:VARCHAR#,
+		TEMPLATE_NAME=#templateName:VARCHAR#,		AGENCY=#agency:VARCHAR#,		ORG_CODE=#orgCode:VARCHAR#
+		where 				PACK_CODE = #packCode:VARCHAR#
+	</update>
+	<update id="updateZcEbFormulaItem" parameterClass="ZcEbFormulaItem">
+		UPDATE
+		ZC_EB_FORMULA_ITEM SET
+		NAME = #name:VARCHAR#,
+		IS_REQUIRED_FIELD=#isRequiredField:VARCHAR#,
+		IS_ADD_SCORE =
+		#isAddScore:VARCHAR#,
+		MAX_ADD_SCORE = #maxMinusScore:VARCHAR#,
+		DESCRIPTION = #description:VARCHAR#,
+		FORMULA = #formula:VARCHAR#,
+		FORMULA_EXPRESSION = #formulaExpression:VARCHAR#,
+		STANDARD_SCORE =
+		#standardScore:VARCHAR#,
+		BASE_SCORE = #baseScore:VARCHAR#,
+		COMPLIANCE_VALUE = #complianceValue:VARCHAR#,
+		LEAST_SCORE =
+		#leastScore:VARCHAR#,
+		IS_PRICE_TARGET = #isPriceTarget:VARCHAR#,
+		SCORE_SUM_WAY = #scoreSumWay:VARCHAR#,
+		RESPONSE_CODE = #responseCode:VARCHAR#,
+		REMARK = #remark:VARCHAR#
+		where
+		ITEM_CODE = #itemCode:VARCHAR#
+	</update>
+	<update id="updateZcEbFormulaParam" parameterClass="ZcEbFormulaParam">
+		UPDATE
+		ZC_EB_FORMULA_PARAM SET
+		PARAM_NAME = #paramName:VARCHAR#,
+		VALUE
+		=#value:VARCHAR#,
+		DEFAULT_VALUE =#defaultValue:VARCHAR#,
+		DESCRIPTION=#description:VARCHAR#,
+		IS_MAN_SET=#isManSet:VARCHAR#,
+		FORMULA_CODE = #formulaCode:VARCHAR#
+		where
+		PARAM_CODE = #paramCode:VARCHAR#
+	</update>
+
+	<insert id="insertZcEbFormula" parameterClass="ZcEbFormula">
+		insert into
+		ZC_EB_FORMULA (FORMULA_CODE, COMPLIANCE_RATE, COMPLIANCE_DESC,
+		FACTOR_FULL_SCORE,FACTOR_TYPE,EXECUTOR,
+		EXECUTE_DATE,MARK_MODE,EVALUE_TYPE,
+		REMARK,PROJ_CODE,PROJ_NAME,
+		ND,IS_CONFORM
+		<isNotNull prepend="," property="formulaDescription">
+			FORMULA_DESC
+		</isNotNull>
+		,
+		TEMPLATE_CODE,TEMPLATE_NAME,PACK_CODE,PACK_NAME,AGENCY,ORG_CODE)
+		values
+		(#formulaCode:VARCHAR#,
+		#complianceRate:VARCHAR#,#complianceDesc:VARCHAR#,
+		#factorFullScore:VARCHAR#,#factorType:VARCHAR#, #executor:VARCHAR#,
+		#executeDate:VARCHAR#,#markMode:VARCHAR#,#evalueType:VARCHAR#,
+		#remark:VARCHAR#,#projectCode:VARCHAR#,#projectName:VARCHAR#,
+		#nd:VARCHAR#,#isConform:VARCHAR#
+		<isNotNull prepend="," property="formulaDescription">
+			#formulaDescription:BLOB#
+		</isNotNull>
+		,
+		#templateCode:VARCHAR#,#templateName:VARCHAR#,#packCode:VARCHAR#,#packName:VARCHAR#,#agency:VARCHAR#,#orgCode:VARCHAR#)
+	</insert>
+	<insert id="insertZcEbFormulaItem" parameterClass="ZcEbFormulaItem">
+		insert into
+		ZC_EB_FORMULA_ITEM
+		(ITEM_CODE,INDX,NAME,
+		WEIGHT,IS_REQUIRED_FIELD,IS_ADD_SCORE,
+		CREATOR,MAX_ADD_SCORE,MAX_MINUS_SCORE,
+		CREATE_TIME,ITEM_TYPE,PARENT_ITEM_CODE,
+		FORMULA_CODE,DESCRIPTION,FORMULA,FORMULA_EXPRESSION,
+		STANDARD_SCORE,BASE_SCORE,COMPLIANCE_VALUE,
+		LEAST_SCORE,IS_PRICE_TARGET,REMARK,SCORE_SUM_WAY,RESPONSE_CODE)
+		values
+		(#itemCode:VARCHAR#,
+		#indx:VARCHAR#,#name:VARCHAR#,
+		#weight:VARCHAR#,#isRequiredField:VARCHAR#,#isAddScore:VARCHAR#,
+		#creator:VARCHAR#,#maxAddScore:VARCHAR#,#maxMinusScore:VARCHAR#,
+		#createTime:VARCHAR#, #itemType:VARCHAR#,#parentItemCode:VARCHAR#,
+		#formulaCode:VARCHAR#,
+		#description:VARCHAR#,#formula:VARCHAR#,#formulaExpression:VARCHAR#,
+		#standardScore:VARCHAR#,#baseScore:VARCHAR#,#complianceValue:VARCHAR#,
+		#leastScore:VARCHAR#,#isPriceTarget:VARCHAR#,#remark:VARCHAR#,#scoreSumWay:VARCHAR#,#responseCode:VARCHAR#)
+	</insert>
+	<insert id="insertZcEbFormulaItemByTemplate" parameterClass="ZcEbFormulaItem">
+		insert into
+		ZC_EB_FORMULA_ITEM
+		(ITEM_CODE,INDX,NAME,
+		WEIGHT,IS_REQUIRED_FIELD,IS_ADD_SCORE,
+		CREATOR,MAX_ADD_SCORE,MAX_MINUS_SCORE,
+		CREATE_TIME,ITEM_TYPE,PARENT_ITEM_CODE,
+		FORMULA_CODE,DESCRIPTION,FORMULA,FORMULA_EXPRESSION,
+		STANDARD_SCORE,BASE_SCORE,COMPLIANCE_VALUE,
+		LEAST_SCORE,IS_PRICE_TARGET,REMARK,SCORE_SUM_WAY)
+		values
+		(#itemCode:VARCHAR#,
+		#indx:VARCHAR#,#name:VARCHAR#,
+		#weight:VARCHAR#,#isRequiredField:VARCHAR#,#isAddScore:VARCHAR#,
+		#creator:VARCHAR#,#maxAddScore:VARCHAR#,#maxMinusScore:VARCHAR#,
+		#createTime:VARCHAR#, #itemType:VARCHAR#,#parentItemCode:VARCHAR#,
+		#formulaCode:VARCHAR#,
+		#description:VARCHAR#,#formula:VARCHAR#,#formulaExpression:VARCHAR#,
+		#standardScore:VARCHAR#,#baseScore:VARCHAR#,#complianceValue:VARCHAR#,
+		#leastScore:VARCHAR#,#isPriceTarget:VARCHAR#,#remark:VARCHAR#,#scoreSumWay:VARCHAR#)
+	</insert>
+	<insert id="insertZcEbFormulaParam" parameterClass="ZcEbFormulaParam">
+		insert into
+		ZC_EB_FORMULA_PARAM (PARAM_CODE, PARAM_NAME, VALUE,
+		DEFAULT_VALUE,DESCRIPTION,
+		IS_MAN_SET,FORMULA_CODE)
+		values
+		(#paramCode:VARCHAR#,#paramName:VARCHAR#,
+		#value:VARCHAR#,#defaultValue:VARCHAR#,
+		#description:VARCHAR#,#isManSet:VARCHAR#,#formulaCode:VARCHAR#)
+	</insert>
+
+	<select id="getZcEbProj" resultMap="ZcEbProjResult"
+		parameterClass="elementCondition">
+		SELECT distinct PROJ.*
+		FROM ZC_EB_PROJ PROJ, ZC_EB_PACK PACK, ZC_EB_FORMULA ZF
+		WHERE PROJ.PUR_TYPE in ('1', '2', '3', '4', '6', '7')
+		AND PACK.proj_code = PROJ.proj_code
+		AND PACK.Pack_Code = ZF.Pack_Code(+)
+		AND ZF.Pack_Code is null
+		<isNotEqual prepend="AND" compareValue="0" property="nd">
+			PROJ.ND=#nd#
+		</isNotEqual>
+		<isNotNull prepend="AND" property="executor">
+			PROJ.Executor =
+			#executor#
+		</isNotNull>
+		ORDER BY PROJ.PROJ_CODE DESC
+	</select>
+	<select id="getZcEbPack" resultMap="ZcEbPackResult"
+		parameterClass="elementCondition">
+		select
+		PACK.Pack_Code,PACK.Pack_Name,PACK.Proj_Code,PACK.Status,PACK.Pack_Desc
+		from ZC_EB_PACK PACK,ZC_EB_FORMULA ZF
+		WHERE PACK.PACK_CODE=ZF.Pack_Code(+)
+		AND ZF.Pack_Code is null
+		AND PACK.PROJ_CODE=#projCode#
+	</select>
+	<select id="getZcEbFormulaItemListByFormulaCode" resultMap="ZcEbFormulaItemResult"
+		parameterClass="map">
+		SELECT
+		F1.ITEM_CODE,
+		F1.NAME,
+		F1.INDX,
+		F1.WEIGHT,
+		F1.IS_REQUIRED_FIELD,
+		F1.IS_ADD_SCORE,
+		F1.CREATOR,
+		F1.MAX_ADD_SCORE,
+		F1.MAX_MINUS_SCORE,
+		F1.CREATE_TIME,
+		F1.FORMULA,
+		F1.ITEM_TYPE,
+		F1.PARENT_ITEM_CODE,
+		F1.NAME AS PARENT_ITEM_NAME,
+		F1.FORMULA_CODE,
+		F1.DESCRIPTION,
+		F1.STANDARD_SCORE,
+		F1.BASE_SCORE,
+		F1.COMPLIANCE_VALUE,
+		F1.LEAST_SCORE,
+		F1.IS_PRICE_TARGET,
+		F1.REMARK,
+		F1.FORMULA_EXPRESSION,
+		F1.SCORE_SUM_WAY,
+		F1.RESPONSE_CODE
+		FROM ZC_EB_FORMULA_ITEM F1
+		WHERE
+		F1.FORMULA_CODE=#formulaCode:VARCHAR#
+	</select>
+
+	<insert id="insertZcEbFormulaParamHasKey" parameterClass="ZcEbFormulaParam">
+		insert into
+		ZC_EB_FORMULA_PARAM (PARAM_CODE, PARAM_NAME, VALUE,
+		DEFAULT_VALUE,DESCRIPTION,
+		IS_MAN_SET,FORMULA_CODE)
+		values
+		(#paramCode:VARCHAR#,#paramName:VARCHAR#,
+		#value:VARCHAR#,#defaultValue:VARCHAR#,
+		#description:VARCHAR#,#isManSet:VARCHAR#,#formulaCode:VARCHAR#)
+	</insert>		<!-- 更新评标方法项目代码和名称 -->	<update id="updateZcEbFormulaProj" parameterClass="ZcEbFormula">		UPDATE		ZC_EB_FORMULA SET		PROJ_CODE = #projectCode:VARCHAR#,		PROJ_NAME =#projectName:VARCHAR#		where 				PACK_CODE = #packCode:VARCHAR#	</update>			<delete id="deleteFormulaPackPlain" parameterClass="map">		delete from ZC_EB_FORMULA_PACK		where		formula_code=#formulaCode#		<isNotNull prepend="AND" property="packCode">			pack_code = #packCode#		</isNotNull>		<isNotNull prepend="AND" property="projCode">			proj_code=#projCode#		</isNotNull>	</delete>	<delete id="deleteFormulaPackPlainByPackCode" parameterClass="String">		delete from ZC_EB_FORMULA_PACK		where		pack_code = #value#	</delete>	<delete id="deleteFormulaPackPlainByFormulaCode" parameterClass="String">		delete from ZC_EB_FORMULA_PACK		where		FORMULA_CODE = #value#	</delete>		<insert id="insertFormulaPackPlain" parameterClass="ZcEbFormulaPackPlain">		insert into		ZC_EB_FORMULA_PACK (PACK_CODE, FORMULA_CODE, PROJ_CODE)		values		(#packCode:VARCHAR#,#formulaCode:VARCHAR#,#projCode:VARCHAR#)	</insert>		<select id="getFormulaPackPlainList" resultMap="ZcEbFormulaPackPlainResult"		parameterClass="java.lang.String">		select * from zc_eb_formula_pack where FORMULA_CODE=#value#	</select>
+</sqlMap>

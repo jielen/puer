@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="EmFundPay">
+
+	<typeAlias alias="EmFundPayReport"
+		type="com.ufgov.zc.common.zc.model.EmFundPayReport" />
+
+	<typeAlias alias="EmFundPayBill" type="com.ufgov.zc.common.zc.model.EmFundPayBill" />
+	<typeAlias alias="EmFundPayBillDetail"
+		type="com.ufgov.zc.common.zc.model.EmFundPayBillDetail" />
+
+	<resultMap id="EmFundPayReportResult" class="EmFundPayReport">
+		<result property="fundReportId" column="FUND_REPORT_ID" />
+		<result property="fundReportName" column="FUND_REPORT_NAME" />
+		<result property="useName" column="USE_NAME" />
+		<result property="useId" column="USE_ID" />
+		<result property="useTime" column="USE_TIME" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="fileId" column="FILE_ID" />
+		<result property="deptId" column="DEPT_ID" />
+		<result property="fundType" column="FUND_TYPE" />
+		<result property="paySum" column="PAY_SUM" />
+		<result property="status" column="STATUS" />
+		<result property="nd" column="ND" />
+		<result column="PROCESS_INST_ID" jdbcType="DECIMAL" property="processInstId" />
+	</resultMap>
+
+	<resultMap id="EmFundPayBillResult" class="EmFundPayBill">
+		<result property="billId" column="BILL_ID" />
+		<result property="billName" column="BILL_NAME" />
+		<result property="fundReportId" column="FUND_REPORT_ID" />
+		<result property="reportFileID" column="REPORT_FILE_ID" />
+		<result property="fundUse" column="FUND_USE" />
+		<result property="useTime" column="USE_TIME" />
+		<result property="fundSum" column="FUND_SUM" />
+		<result property="useId" column="USE_ID" />
+		<result property="useName" column="USE_NAME" />
+		<result property="applyTime" column="APPLY_TIME" />
+		<result property="remark" column="REMARK" />
+		<result property="deptId" column="DEPT_ID" />
+		<result property="fundType" column="FUND_TYPE" />
+		<result property="status" column="STATUS" />
+		<result property="nd" column="ND" />
+    <result column="PROCESS_INST_ID" jdbcType="DECIMAL" property="processInstId" />
+	</resultMap>
+	<resultMap id="EmFundPayBillDetailResult" class="EmFundPayBillDetail">
+		<result property="detailId" column="DETAIL_ID" />
+		<result property="billId" column="BILL_ID" />
+		<result property="detailName" column="DETAIL_NAME" />
+		<result property="detailSum" column="DETAIL_SUM" />
+		<result property="remark" column="REMARK" />
+	</resultMap>
+
+	<select id="getEmFundPayReportList" resultMap="EmFundPayReportResult"
+		parameterClass="elementCondition">
+		select
+		*
+		from
+		EM_FUNDPAY_REPORT master
+		where
+		master.ND = #nd#
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		<isNotNull prepend="and" property="status">
+			<isEqual property="status" compareValue="todo">
+				exists (select
+				instance_id from v_wf_current_task_gk53 where executor =#executor#
+				and instance_id = master.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				exists (select
+				instance_id from V_WF_ACTION_HISTORY_GK53 where executor =
+				#executor# and instance_id = master.process_inst_id)
+				and
+				master.status!='cancel'
+				and master.status!='exec'
+			</isEqual>
+			<isEqual property="status" compareValue="exec">
+				(master.status
+				='exec')
+			</isEqual>
+			<isEqual property="status" compareValue="draft">
+				exists (select
+				WF_DRAFT_NAME from as_wf_draft where user_id=#executor# and
+				compo_id=#wfcompoId# and WF_DRAFT_ID=master.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="doing">
+				(master.status
+				='exec')
+			</isEqual>
+			<isEqual property="status" compareValue="finish">
+				(master.status
+				='finish')
+			</isEqual>
+		</isNotNull>
+		<isNotNull prepend="and" property="zcText0">
+		master.USE_ID=#zcText0#
+		</isNotNull>
+		order by
+		master.CREATE_TIME
+	</select>
+
+	<select id="getEmFundPayBillList" resultMap="EmFundPayBillResult"
+		parameterClass="elementCondition">
+		select
+		*
+		from
+		EM_FUNDPAY_BILL master
+		where
+		master.ND = #nd#
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		<isNotNull prepend="and" property="status">
+			<isEqual property="status" compareValue="todo">
+				exists (select
+				instance_id from v_wf_current_task_gk53 where executor =#executor#
+				and instance_id = master.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				exists (select
+				instance_id from V_WF_ACTION_HISTORY_GK53 where executor =
+				#executor# and instance_id = master.process_inst_id)
+				and
+				master.status!='cancel'
+				and master.status!='exec'
+			</isEqual>
+			<isEqual property="status" compareValue="exec">
+				(master.status
+				='exec')
+			</isEqual>
+			<isEqual property="status" compareValue="draft">
+				exists (select
+				WF_DRAFT_NAME from as_wf_draft where user_id=#executor# and
+				compo_id=#wfcompoId# and WF_DRAFT_ID=master.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="doing">
+				(master.status
+				='exec')
+			</isEqual>
+			<isEqual property="status" compareValue="finish">
+				(master.status
+				='finish')
+			</isEqual>
+		</isNotNull>
+		order by
+		master.APPLY_TIME
+	</select>
+	<select id="getEmFundPayBillDetailList" resultMap="EmFundPayBillDetailResult"
+		parameterClass="elementCondition">
+		select
+		*
+		from
+		EM_FUNDPAY_BILL_DETAIL master
+		where
+		master.BILL_ID = #zcText1#
+	</select>
+
+	<select id="getEmFundPayReportById" resultMap="EmFundPayReportResult"
+		parameterClass="string">
+		select
+		*
+		from
+		EM_FUNDPAY_REPORT master
+		where
+		master.FUND_REPORT_ID=#fundReportId#
+	</select>
+	<select id="getEmFundPayBillById" resultMap="EmFundPayBillResult"
+		parameterClass="string">
+		select
+		*
+		from
+		EM_FUNDPAY_BILL master
+		where
+		master.BILL_ID=#billId#
+	</select>
+	<insert id="insertEmFundPayReport" parameterClass="EmFundPayReport">
+		insert into
+		EM_FUNDPAY_REPORT
+		(FUND_REPORT_ID,FUND_REPORT_NAME,USE_NAME,USE_ID,USE_TIME,
+		CREATE_TIME,FILE_ID,DEPT_ID,FUND_TYPE,PAY_SUM,STATUS,ND,PROCESS_INST_ID)
+		values
+		(#fundReportId#,#fundReportName#, #useName#, #useId#, #useTime#,
+		#createTime#, #fileId#, #deptId#, #fundType#, #paySum#, #status#,#nd#,#processInstId#)
+	</insert>
+	<insert id="insertEmFundPayBill" parameterClass="EmFundPayBill">
+		insert into
+		EM_FUNDPAY_BILL
+		(BILL_ID,BILL_NAME,FUND_REPORT_ID,FUND_USE,USE_TIME,
+		FUND_SUM,USE_ID,USE_NAME,APPLY_TIME,REMARK,DEPT_ID,FUND_TYPE,STATUS,ND,PROCESS_INST_ID,REPORT_FILE_ID)
+		values
+		(#billId#,#billName#, #fundReportId#, #fundUse#, #useTime#,
+		#fundSum#, #useId#, #useName#, #applyTime#, #remark#,
+		#deptId#,#fundType#,#status#,#nd#,#processInstId#,#reportFileID#)
+	</insert>
+	<insert id="insertEmFundPayBillDetail" parameterClass="EmFundPayBillDetail">
+		insert into
+		EM_FUNDPAY_BILL_DETAIL
+		(BILL_ID,DETAIL_ID,DETAIL_NAME,DETAIL_SUM,REMARK)
+		values
+		(#billId#,#detailId#,
+		#detailName#,#detailSum#,#remark#)
+	</insert>
+	<!-- update -->
+	<update id="updateEmFundPayReport" parameterClass="EmFundPayReport">
+		update
+		EM_FUNDPAY_REPORT
+		set FUND_REPORT_NAME= #fundReportName:VARCHAR#,
+		USE_NAME=#useName:VARCHAR#,
+		USE_ID=#useId:VARCHAR#,
+		USE_TIME=#useTime:DATE#,
+		CREATE_TIME=#createTime:DATE#,
+		FILE_ID=#fileId:VARCHAR#,
+		DEPT_ID=#deptId:VARCHAR#,
+		FUND_TYPE=#fundType:VARCHAR#,
+		PAY_SUM=#paySum:VARCHAR#,
+		STATUS=#status:VARCHAR#,
+		ND=#nd:VARCHAR#,
+		PROCESS_INST_ID=#processInstId#
+		where
+		FUND_REPORT_ID= #fundReportId#
+	
+	</update>
+
+	<update id="updateEmFundPayBill" parameterClass="EmFundPayBill">
+		update
+		EM_FUNDPAY_BILL
+		set BILL_NAME= #billName:VARCHAR#,
+		FUND_REPORT_ID=#fundReportId:VARCHAR#,
+		FUND_USE=#fundUse:VARCHAR#,
+		USE_TIME=#useTime:DATE#,
+		FUND_SUM=#fundSum:VARCHAR#,
+		USE_ID=#useId:VARCHAR#,
+		USE_NAME=#useName:VARCHAR#,
+		APPLY_TIME=#applyTime:VARCHAR#,
+		REMARK=#remark:VARCHAR#,
+		DEPT_ID=#deptId:VARCHAR#,
+		FUND_TYPE=#fundType:VARCHAR#,
+		STATUS=#status:VARCHAR#,
+		ND=#nd:VARCHAR#,
+		PROCESS_INST_ID=#processInstId#,
+		REPORT_FILE_ID=#reportFileID#
+		where
+		BILL_ID= #billId#
+	</update>
+
+
+	<update id="updateEmFundPayBillDetail" parameterClass="EmFundPayBillDetail">
+		update
+		EM_FUNDPAY_BILL_DETAIL
+		set DETAIL_NAME= #detailName:VARCHAR#,
+		DETAIL_SUM=#detailSum:VARCHAR#,
+		REMARK=#remark:VARCHAR#
+		where
+		DETAIL_ID=#detailId#
+		
+	</update>
+
+
+	<delete id="deleteEmFundPayReportById" parameterClass="string">
+		delete
+		from
+		EM_FUNDPAY_REPORT
+		where FUND_REPORT_ID = #fundReportId#
+    </delete>
+
+	<delete id="deleteEmFundPayBillById" parameterClass="string">
+		delete from
+		EM_FUNDPAY_BILL
+		where BILL_ID =#billId#
+    </delete>
+    <delete id="deleteEmFundPayBillDetailById" parameterClass="string">
+		delete
+		from
+		EM_FUNDPAY_BILL_DETAIL
+		where
+		BILL_ID=#billId#
+    </delete>
+</sqlMap>

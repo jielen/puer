@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ZC_P_PRO">
+
+    <typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+		
+    <typeAlias alias="zcPPro" type="com.ufgov.zc.common.zc.model.ZcPPro" />
+    
+    <resultMap id="zcPPro" class="zcPPro">
+        <result column="CHR_ID" property="chrId" jdbcType="VARCHAR"/>
+        <result column="CHR_NAME" property="chrName" jdbcType="VARCHAR"/>
+        <result column="EN_ID" property="enId" jdbcType="VARCHAR"/>
+        <result column="EN_NAME" property="enName" jdbcType="VARCHAR"/>
+        <result column="BI_ID" property="biId" jdbcType="VARCHAR"/>
+        <result column="BI_NAME" property="biName" jdbcType="VARCHAR"/>
+        <result column="BI_CODE" property="biCode" jdbcType="VARCHAR"/>
+        <result column="ND" property="nd" jdbcType="DECIMAL"/>
+        <result column="IS_DELETED" property="isDeleted" jdbcType="DECIMAL"/>
+        <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR"/>
+        <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <select id="getZcPPro"  parameterClass="elementCondition" resultMap="zcPPro">
+		select p.*,en.chr_name en_name,bi.chr_name bi_name,bi.chr_code bi_code from zc_p_pro p,ELE_BUDGET_ITEM BI, ELE_ENTERPRISE en where p.en_id=en.chr_id and p.nd=en.set_year and p.bi_id=bi.chr_id(+) and p.nd=bi.set_year(+) and p.is_deleted=0
+
+		<isNotEmpty  prepend="AND"  property="zcText0" >
+		p.en_id in (select PARENT_ID from ele_enterprise where CHR_ID in (select org_code from sys_usermanage where user_code=#zcText0#) union select org_code from sys_usermanage where user_code=#zcText0#)
+		</isNotEmpty>
+
+	</select>
+
+    <insert id="saveZcPPro" parameterClass="zcPPro">
+		insert into
+		zc_p_pro (CHR_ID,CHR_NAME,EN_ID,BI_ID,ND,CREATE_USER,CREATE_DATE)
+		values
+		('ZC'||SEQ_ZC_P_PRO.nextval,#chrName#,(select max(chr_id) from ELE_ENTERPRISE where chr_code=#enId:VARCHAR#),
+		(select max(chr_id) from ELE_BUDGET_ITEM where chr_code=#biCode:VARCHAR#),#nd#,#createUser#,sysdate)
+	</insert>
+
+    <delete id="deleteZcPPro" parameterClass="String">
+		delete from
+		zc_p_pro
+		where  CHR_ID = #chrId#
+    </delete>
+
+    <update id="updateZcPPro" parameterClass="zcPPro">
+		update  zc_p_pro
+		set CHR_NAME= #chrName:VARCHAR#
+		, EN_ID= #enId:VARCHAR#
+		, BI_ID= (select max(chr_id) from ELE_BUDGET_ITEM where chr_code=#biCode:VARCHAR#)
+		, ND= #nd#
+		, CREATE_USER= #createUser:VARCHAR#
+		, CREATE_DATE= sysdate
+		where CHR_ID= #chrId#
+	</update>
+
+
+    <select id="getZcPProById"  parameterClass="String" resultMap="zcPPro">
+		select p.*,en.chr_name en_name,bi.chr_name bi_name,bi.chr_code bi_code from zc_p_pro p,ELE_BUDGET_ITEM BI, ELE_ENTERPRISE en where p.CHR_ID= #chrId# and p.en_id=en.chr_id and p.nd=en.set_year and p.bi_id=bi.chr_id(+) and p.nd=bi.set_year(+) and p.is_deleted=0
+	</select>
+	<select id="checkUsed" parameterClass="String" resultClass="Integer">
+	select count(*) from zc_p_pro_make m where m.pro_id=#value#
+	</select>
+</sqlMap>

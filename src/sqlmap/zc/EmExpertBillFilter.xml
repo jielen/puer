@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="EmExpertBillFilter">
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<typeAlias alias="EmExpertBillFilter" type="com.ufgov.zc.common.zc.model.EmExpertBillFilter" />
+	<resultMap id="rltMapping" class="EmExpertBillFilter">
+		<result property="emBillCode" column="EM_BILL_CODE" />
+		<result property="emExpert.emExpertCode" column="EM_EXPERT_CODE" />
+		<result property="emExpert.emExpertName" column="EM_EXPERT_NAME" />
+		<result property="emExpert.emMobile" column="EM_MOBILE" />
+	</resultMap>
+	
+	<select id="listByEmBillCode" resultMap="rltMapping" parameterClass="map">
+		SELECT *
+		  FROM EM_EXPERT_BILL_FILTER F, ZC_EM_B_EXPERT E
+		 WHERE F.EM_EXPERT_CODE = E.EM_EXPERT_CODE
+		 AND F.EM_BILL_CODE = #EM_BILL_CODE#
+	</select>
+	
+	<insert id="insert" parameterClass="EmExpertBillFilter">
+		INSERT INTO EM_EXPERT_BILL_FILTER
+		(EM_BILL_CODE,EM_EXPERT_CODE)
+		VALUES
+		(#emBillCode:VARCHAR#,#emExpert.emExpertCode:VARCHAR#)
+	</insert>
+		
+	<delete id="deleteByEmBillCode" parameterClass="map">
+		DELETE FROM EM_EXPERT_BILL_FILTER B
+		where B.EM_BILL_CODE = #EM_BILL_CODE#
+	</delete>
+	<select id="listAllExcludeExpertListAuto" resultMap="rltMapping" parameterClass="map">
+		SELECT DISTINCT B.EM_BILL_CODE, E.EM_EXPERT_CODE, E.EM_EXPERT_NAME, E.EM_MOBILE
+		  FROM ZC_EM_EXPERT_PRO_BILL B, ZC_EM_EXPERT_EVALUATION V, ZC_EM_B_EXPERT E
+		 WHERE V.EM_BILL_CODE = B.EM_BILL_CODE
+		   AND V.EM_EXPERT_CODE = E.EM_EXPERT_CODE
+		   AND V.EM_RESPONSE_STATUS = '1'
+		   AND B.EM_MAKE_CODE = #PROJ_CODE#
+		   AND B.EM_EXPERT_BILL_TYPE != #EM_EXPERT_BILL_TYPE#
+	</select>
+</sqlMap>

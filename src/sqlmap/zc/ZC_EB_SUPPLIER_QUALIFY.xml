@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ZcEbSupplierQualify">
+	<typeAlias alias="ZcEbSupplierQualify" type="com.ufgov.zc.common.zc.model.ZcEbSupplierQualify" />
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+
+	<resultMap id="ZcEbSupplierQualifyResult" class="ZcEbSupplierQualify">
+		<result property="id" column="ID" />
+		<result property="supplierCode" column="SUPPLIER_CODE" />
+		<result property="licenseName" column="LICENSE_NAME" />
+		<result property="remark" column="REMARK" />
+		<result property="licenseNO" column="LICENSE_NO" />
+		<result property="filesID" column="FILES_ID" />
+		<result property="licenseIssuingAuthority" column="LICENSE_ISSUING_AUTHORITY" />
+		<result property="effectStartTime" column="EFFECT_START_TIME" />
+		<result property="effectEndTime" column="EFFECT_END_TIME" />		<result property="qualifId" column="QUALIFY_ID" />		<result property="qualifName" column="QUALIFY_NAME" />
+	</resultMap>
+
+	<delete id="deleteSupplierQualify" parameterClass="String">
+		DELETE
+		FROM
+		  ZC_B_SUPPLIER_QUALIFY Q
+		WHERE Q.SUPPLIER_CODE=#VALUE#
+	</delete>
+
+	<select id="getZcEbSupplierQualifyByCode" resultMap="ZcEbSupplierQualifyResult" parameterClass="String">
+		SELECT Q.*, LICENSE_NAME QUALIFY_NAME
+		FROM ZC_B_SUPPLIER_QUALIFY Q
+		WHERE
+		Q.SUPPLIER_CODE=#VALUE#
+	</select>
+
+	<insert id="insertZcEbSupplierQualify" parameterClass="ZcEbSupplierQualify">
+		insert into
+		ZC_B_SUPPLIER_QUALIFY(
+		ID,
+		SUPPLIER_CODE,
+		LICENSE_NAME,
+		REMARK,
+		LICENSE_NO,
+		FILES_ID,
+		LICENSE_ISSUING_AUTHORITY,
+		EFFECT_START_TIME,
+		EFFECT_END_TIME,		QUALIFY_ID
+		)
+		values(
+		ZC_SEQ_SUPPLIER_QUALIFY.Nextval
+		,#supplierCode#
+		,#licenseName#
+		,#remark#
+		,#licenseNO#
+		,#filesID#
+		,#licenseIssuingAuthority#
+		,#effectStartTime#
+		,#effectEndTime#		,#qualifId#
+		)
+	</insert>
+	<update id="updateZcEbSupplierQualify" parameterClass="ZcEbSupplierQualify">
+		update
+			ZC_B_SUPPLIER_QUALIFY 
+		set
+			LICENSE_NAME=#licenseName#,
+			REMARK=#remark#,
+			LICENSE_NO=#licenseNO#,
+			FILES_ID=#filesID#,
+			LICENSE_ISSUING_AUTHORITY=#licenseIssuingAuthority#,
+			EFFECT_START_TIME=#effectStartTime#,
+			EFFECT_END_TIME=#effectEndTime#,			QUALIFY_ID=#qualifId#
+		where 
+			SUPPLIER_CODE=#supplierCode# and ID=#id#
+	</update>
+
+</sqlMap>

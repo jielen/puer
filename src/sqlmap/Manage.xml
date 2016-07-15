@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Manage">
+<typeAlias alias="biManage" type="com.ufgov.zc.common.commonbiz.model.Manage" />
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<resultMap id="manage" class="com.ufgov.zc.common.commonbiz.model.Manage">
+		<result property="nd" column="nd" />
+		<result property="code" column="manage_code" />
+		<result property="name" column="manage_name" />
+		<result property="level" column="current_level" />
+		<result property="parentCode" column="parent_code" />
+	</resultMap>
+
+	<resultMap id="biManageMap" class="com.ufgov.zc.common.commonbiz.model.Manage">
+		<result property="nd" column="nd" />
+		<result property="code" column="manage_code" />
+		<result property="name" column="manage_name" />
+		<result property="level" column="current_level" />
+		<result property="parentCode" column="parent_code" />
+		<result property="oid" column="GUID" />
+	</resultMap>
+
+	<select id="getManage" resultMap="manage" parameterClass="elementCondition">
+		select nd,manage_code,manage_name,current_level ,parent_code from
+		ma_cp_manage
+		where nd=#nd# and is_used='1'
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		 <include refid="GkGetDataRuleCondi.GkGetDataRuleCondiStr" />
+	</select>
+
+	<select id="getManageForBiXJ" resultMap="biManageMap" parameterClass="elementCondition">
+		select nd,manage_code,manage_name,current_level ,parent_code, GUID from
+		MA_XJ_BI_MANAGE
+		where nd=#nd# and is_used='1'
+
+	</select>
+
+    <insert id="insertBiManage" parameterClass="biManage">
+         insert into MA_XJ_BI_MANAGE
+         (ND, MANAGE_CODE, MANAGE_NAME,
+         PARENT_CODE, IS_LOWEST, CURRENT_LEVEL,
+         IS_USED, QUIC_CODE, INPUTOR_ID, CDATE, REMARK,GUID)
+         values (#nd:DECIMAL#, #code:VARCHAR#,  #name:VARCHAR#,
+          '', 'N', 1, '1', '', 'sa', Sysdate, '',#oid:VARCHAR#)
+    </insert>
+	<update id="updateBiManage" parameterClass="biManage">
+		update MA_XJ_BI_MANAGE set
+		MANAGE_CODE = #code:VARCHAR#,
+		MANAGE_NAME = #name:VARCHAR#
+		where GUID = #oid:VARCHAR#
+		and ND = #nd:DECIMAL#
+    </update>
+
+    <delete id="deleteManage" parameterClass="Map">
+		delete from MA_XJ_BI_MANAGE
+		<dynamic prepend="WHERE">
+			<iterate prepend="AND" property="idList" open="("
+				close=")" conjunction="OR">
+				manage_code =#idList[]# </iterate>
+		</dynamic>
+	</delete>
+
+</sqlMap>

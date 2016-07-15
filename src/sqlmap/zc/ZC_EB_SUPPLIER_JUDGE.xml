@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ZcEbSupplierJudge">
+
+	<typeAlias alias="ZcEbSupplierJudge" type="com.ufgov.zc.common.zc.model.ZcEbSupplierJudge" />
+
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+
+	<resultMap id="ZcEbSupplierJudgeResult" class="ZcEbSupplierJudge">
+		<result property="objId" column="objId" />
+		<result property="supplierCode" column="zc_su_code" />
+		<result property="zh" column="zh" />
+		<result property="xy" column="xy" />
+		<result property="jg" column="jg" />
+		<result property="zl" column="zl" />
+		<result property="fw" column="fw" />
+		<result property="qt" column="qt" />
+		<result property="bz" column="bz" />
+		<result property="startDate" column="startDate" />
+		<result property="endDate" column="endDate" />
+		 
+	</resultMap>
+	
+    <select id="getZcEbSupplierJudgeList" resultMap="ZcEbSupplierJudgeResult" parameterClass="string">
+		select * from ZC_B_SUPPLIER_JUDGE where ZC_SU_CODE=#value# order by ZC_SU_CODE
+	</select>
+	<delete id="deleteZcEbSupplierJudgeByCode" parameterClass="string" >
+        delete from ZC_B_SUPPLIER_JUDGE
+        where ZC_SU_CODE = #value#
+    </delete>
+    <insert id="insertZcEbSupplierJudge" parameterClass="com.ufgov.zc.common.zc.model.ZcEbSupplierJudge" >
+      
+		insert into ZC_B_SUPPLIER_JUDGE (OBJID, ZC_SU_CODE, ZH, XY, JG,
+		  ZL, FW, QT, BZ, STARTDATE, ENDDATE)
+		values ((select NVL(max(objId)+1,1) from ZC_B_SUPPLIER_JUDGE), #supplierCode:VARCHAR#, #zh:VARCHAR#, #xy:VARCHAR#,
+		  #jg:VARCHAR#, #zl:VARCHAR#, #fw:VARCHAR#, #qt:VARCHAR#, #bz:VARCHAR#,#startDate:TIMESTAMP#,#endDate:TIMESTAMP#)
+		  
+    </insert>
+</sqlMap>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.ufgov.zc.server.sf.dao.SfOutInfoValidateDetailMapper">
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+  <resultMap id="BaseResultMap" class="com.ufgov.zc.common.sf.model.SfOutInfoValidateDetail">
+    <result column="OUT_INFO_ID" jdbcType="DECIMAL" property="outInfoId" />
+    <result column="OUT_INFO_REQ_CODE" jdbcType="VARCHAR" property="infoReq.outInfoReqCode" />
+    <result column="OUT_INFO_REQ_NAME" jdbcType="VARCHAR" property="infoReq.outInfoReqName" />
+    <result column="OUT_INFO_REQ_REMARK" jdbcType="VARCHAR" property="infoReq.remark" />
+    <result column="VALIDATE_RESULT" jdbcType="VARCHAR" property="validateResult" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    OUT_INFO_ID, SF_OUT_INFO_REQ.OUT_INFO_REQ_CODE, VALIDATE_RESULT, SF_OUT_INFO_VALIDATE_DETAIL.REMARK,SF_OUT_INFO_REQ.OUT_INFO_REQ_NAME,SF_OUT_INFO_REQ.REMARK as OUT_INFO_REQ_REMARK
+  </sql>
+  <select id="selectByPrimaryKey" parameterClass="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SF_OUT_INFO_VALIDATE_DETAIL,SF_OUT_INFO_REQ
+    where OUT_INFO_ID = #outInfoId:DECIMAL#
+    AND SF_OUT_INFO_VALIDATE_DETAIL.OUT_INFO_REQ_CODE=SF_OUT_INFO_REQ.OUT_INFO_REQ_CODE
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="java.math.BigDecimal">
+    delete from SF_OUT_INFO_VALIDATE_DETAIL
+    where OUT_INFO_ID = #outInfoId:DECIMAL#
+  </delete>
+  <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfOutInfoValidateDetail">
+    insert into SF_OUT_INFO_VALIDATE_DETAIL (OUT_INFO_ID, OUT_INFO_REQ_CODE, VALIDATE_RESULT, 
+      REMARK)
+    values (#outInfoId:DECIMAL#, #infoReq.outInfoReqCode:VARCHAR#, #validateResult:VARCHAR#, 
+      #remark:VARCHAR#)
+  </insert>
+</sqlMap>

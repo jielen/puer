@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ZC_P_PRO_RETURN_BI" >
+  <resultMap id="abatorgenerated_ZcPProReturnBiResult" class="com.ufgov.zc.common.zc.model.ZcPProReturnBi" >
+    <result column="ZC_BAL_ID" property="zcBalId" jdbcType="VARCHAR" />
+    <result column="ZC_BI_NO" property="zcBiNo" jdbcType="VARCHAR" />
+    <result column="ZC_BI_BAL" property="zcBiBal" jdbcType="DECIMAL" />
+    <result column="SEND_DOC_NAME" property="sendDocName" jdbcType="VARCHAR" />
+    <result column="ZC_AM_BILL_NO" property="zcAmBillNo" jdbcType="VARCHAR" />
+    <result column="ZC_PAY_TYPE_CODE" property="zcPaytypeCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="abatorgenerated_deleteByZcBalId" parameterClass="String">
+    delete from ZC_P_PRO_RETURN_BI
+    where
+    ZC_BAL_ID=#zcBalId:VARCHAR#
+  </delete>
+  <select id="selectZcPProReturnBiList" resultMap="abatorgenerated_ZcPProReturnBiResult"
+		parameterClass="String">
+		select * from ZC_P_PRO_RETURN_BI
+		WHERE
+		ZC_BAL_ID=#zcBalId:VARCHAR#
+</select>
+  <insert id="abatorgenerated_insert" parameterClass="com.ufgov.zc.common.zc.model.ZcPProReturnBi" >
+    insert into ZC_P_PRO_RETURN_BI (ZC_BAL_ID, ZC_BI_NO, ZC_BI_BAL, SEND_DOC_NAME,ZC_AM_BILL_NO,ZC_PAY_TYPE_CODE)
+    values (#zcBalId:VARCHAR#, #zcBiNo:VARCHAR#, #zcBiBal:DECIMAL#, #sendDocName:VARCHAR#,#zcAmBillNo:VARCHAR#, #zcPaytypeCode:VARCHAR#)
+  </insert>
+  <update id="updateZcAmBillNo" parameterClass="com.ufgov.zc.common.zc.model.ZcPProReturnBi">
+  update ZC_P_PRO_RETURN_BI set ZC_AM_BILL_NO=#zcAmBillNo:VARCHAR#
+  where ZC_BAL_ID=#zcBalId:VARCHAR# and ZC_BI_NO=#zcBiNo:VARCHAR#
+  <isNotNull prepend=" and " property="sendDocName">
+  SEND_DOC_NAME=#sendDocName:VARCHAR#
+  </isNotNull>
+  <isNull prepend=" and " property="sendDocName">
+  SEND_DOC_NAME is null
+  </isNull>
+  </update>
+  
+</sqlMap>

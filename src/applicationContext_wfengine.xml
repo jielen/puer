@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+	- Application context definition for JPetStore's business layer.
+	- Contains bean references to the transaction manager and to the DAOs in
+	- dataAccessContext-local/jta.xml (see web.xml's "contextConfigLocation").
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+
+	<!-- ========================= GENERAL DEFINITIONS ========================= -->
+	<!-- 工作流引擎专用数据源 -->
+	<!-- 
+		<bean id="WFEngineDataSource"
+		class="org.apache.commons.dbcp.BasicDataSource" >
+		<property name="driverClassName"
+		value="oracle.jdbc.OracleDriver" />
+		<property name="url"
+		value="jdbc:oracle:thin:@devdb:1521:devora" />
+		<property name="username" value="ftcz0403" />
+		<property name="password" value="1" />
+		<property name="maxActive" value="3" />
+		<property name="maxIdle" value="10" />
+		<property name="maxWait" value="300" />
+		</bean>
+	-->
+
+	<alias name="gkDataSource" alias="WFEngineDataSource" />
+
+	<!-- wfengine 元数据操作用dao -->
+	<bean id="WFMetaDao"
+		class="com.kingdrive.workflow.dao.impl.WFMetaDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	<!-- wfengine 运行时操作用dao -->
+	<bean id="WFRuntimeDao"
+		class="com.kingdrive.workflow.dao.impl.WFRuntimeDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	<bean id="WFMetaService"
+		class="com.kingdrive.workflow.service.impl.db.WFMetaServiceImpl">
+		<property name="metaDao" ref="WFMetaDao" />
+	</bean>
+	<bean id="WFRuntimeService"
+		class="com.kingdrive.workflow.service.impl.db.WFRuntimeServiceImpl">
+		<property name="runtimeDao" ref="WFRuntimeDao" />
+	</bean>
+
+	<bean id="WFResourceService"
+		class="com.kingdrive.workflow.service.ResourceService">
+		<property name="runtimeService" ref="WFRuntimeService" />
+		<property name="metaService" ref="WFMetaService" />
+	</bean>
+
+	<bean id="WFCommonService"
+		class="com.kingdrive.workflow.service.WFCommonService">
+		<property name="runtimeService" ref="WFRuntimeService" />
+		<property name="metaService" ref="WFMetaService" />
+		<property name="resourceService" ref="WFResourceService" />
+	</bean>
+	<bean id="basicService"
+		class="com.kingdrive.workflow.service.impl.BasicService"
+		abstract="true">
+		<property name="runtimeService" ref="WFRuntimeService" />
+		<property name="metaService" ref="WFMetaService" />
+		<property name="commonService" ref="WFCommonService" />
+		<property name="resourceService" ref="WFResourceService" />
+	</bean>
+	<bean id="activateService"
+		class="com.kingdrive.workflow.service.ActivateService"
+		parent="basicService" />
+	<bean id="callbackService"
+		class="com.kingdrive.workflow.service.CallbackService"
+		parent="basicService" />
+	<bean id="commitService"
+		class="com.kingdrive.workflow.service.CommitService"
+		parent="basicService" />
+	<bean id="deactivateService"
+		class="com.kingdrive.workflow.service.DeactivateService"
+		parent="basicService" />
+	<bean id="interruptService"
+		class="com.kingdrive.workflow.service.InterruptService"
+		parent="basicService" />
+	<bean id="restartService"
+		class="com.kingdrive.workflow.service.RestartService"
+		parent="basicService" />
+	<bean id="reworkService"
+		class="com.kingdrive.workflow.service.ReworkService"
+		parent="basicService" />
+	<bean id="transferService"
+		class="com.kingdrive.workflow.service.TransferService"
+		parent="basicService" />
+	<bean id="untreadService"
+		class="com.kingdrive.workflow.service.UntreadService"
+		parent="basicService" />
+	<bean id="handoverService"
+		class="com.kingdrive.workflow.service.HandoverService"
+		parent="basicService" />
+
+
+
+	<bean id="traceService"
+		class="com.kingdrive.workflow.service.TraceService">
+		<property name="runtimeService" ref="WFRuntimeService" />
+	</bean>
+
+	<bean id="WFEngine" class="com.kingdrive.workflow.BasicWFEngine"
+		scope="prototype">
+		<property name="commonService" ref="WFCommonService" />
+		<property name="activateService" ref="activateService" />
+		<property name="callbackService" ref="callbackService" />
+		<property name="commitService" ref="commitService" />
+		<property name="deactivateService" ref="deactivateService" />
+		<property name="interruptService" ref="interruptService" />
+		<property name="restartService" ref="restartService" />
+		<property name="reworkService" ref="reworkService" />
+		<property name="transferService" ref="transferService" />
+		<property name="untreadService" ref="untreadService" />
+		<property name="traceService" ref="traceService" />
+	</bean>
+
+
+	<!-- 工作流暂用 -->
+	<!--
+		
+		<bean id="currentTransactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="WFEngineDataSource"></property>
+		</bean>
+		<tx:advice id="wfTxAdvice"
+		transaction-manager="currentTransactionManager">
+		<tx:attributes>
+		<tx:method name="*" rollback-for="Exception" />
+		</tx:attributes>
+		</tx:advice>
+		<aop:config>
+		<aop:pointcut id="workflowServiceRun"
+		expression="execution(* com.kingdrive.workflow.WFEngine.*(..))" />
+		<aop:advisor pointcut-ref="workflowServiceRun" advice-ref="wfTxAdvice" />
+		</aop:config>
+		
+	-->
+</beans>

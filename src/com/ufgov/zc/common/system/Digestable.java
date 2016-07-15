@@ -1,0 +1,1 @@
+package com.ufgov.zc.common.system;public interface Digestable {  String digest();}

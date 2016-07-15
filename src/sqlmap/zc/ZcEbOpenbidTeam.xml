@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ZcEbOpenBidTeam">
+
+	<typeAlias alias="ZcEbOpenBidTeam"
+		type="com.ufgov.zc.common.zc.model.ZcEbOpenBidTeam"></typeAlias>
+
+	<typeAlias alias="ZcEbOpenBidTeamMember"
+		type="com.ufgov.zc.common.zc.model.ZcEbOpenBidTeamMember" />
+
+	<typeAlias alias="ZcEbOpenBidTeamPack"
+		type="com.ufgov.zc.common.zc.model.ZcEbOpenBidTeamPack" />
+
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+
+	<resultMap class="ZcEbOpenBidTeam" id="ZcEbOpenBidTeamResult">
+		<result column="TEAM_CODE" jdbcType="VARCHAR" property="teamCode" />
+		<result column="TEAM_NAME" jdbcType="VARCHAR" property="teamName" />
+		<result column="PROJ_CODE" jdbcType="VARCHAR" property="projCode" />
+		<result column="PROJ_NAME" jdbcType="VARCHAR" property="projName" />
+		<result column="CREAT_DATE" jdbcType="DATE" property="creatDate" />
+		<result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+		<result column="REMARK" jdbcType="VARCHAR" property="remark" />
+		<result column="ND" jdbcType="DECIMAL" property="nd" />		<result property="orgCode" column="ORG_CODE" />		<result property="agency" column="AGENCY" />
+	</resultMap>
+
+	<resultMap id="ZcEbOpenBidTeamMemberResult" class="ZcEbOpenBidTeamMember">
+		<result column="MEMBER_TYPE" property="memberType" jdbcType="VARCHAR" />
+		<result column="MEMBER_NAME" property="memberName" jdbcType="VARCHAR" />
+		<result column="TEAM_CODE" property="teamCode" jdbcType="VARCHAR" />
+		<result column="REMARK" property="remark" jdbcType="VARCHAR" />
+		<result column="DUTY" property="duty" jdbcType="VARCHAR" />
+		<result column="DEPARTMENT" property="department" jdbcType="VARCHAR" />		<result column="tel" property="tel" jdbcType="VARCHAR" />
+	</resultMap>
+	<resultMap id="ZcEbOpenBidTeamPackResult" class="ZcEbOpenBidTeamPack">
+		<result column="PACK_CODE" property="packCode" jdbcType="VARCHAR" />
+		<result column="PACK_NAME" property="packName" jdbcType="VARCHAR" />
+		<result column="PACK_DESC" property="packDesc" jdbcType="VARCHAR" />
+		<result column="TEAM_CODE" property="teamCode" jdbcType="VARCHAR" />
+	</resultMap>
+<resultMap class="ZcEbPack" id="ZcEbPackResult">		<result property="packCode" column="PACK_CODE" />		<result property="packName" column="PACK_NAME" />		<result property="projCode" column="PROJ_CODE" />		<result property="purContent" column="PUR_CONTENT" />		<result property="packBudget" column="PACK_BUDGET" jdbcType="DECIMAL"			javaType="java.math.BigDecimal" />		<result property="entrustCode" column="ENTRUST_CODE" />		<result property="isCheckQualification" column="IS_CHECK_QUALIFICATION" />		<result property="purType" column="PUR_TYPE" />		<result property="analyseType" column="ANALYSE_TYPE" />		<result property="bidLocation" column="BID_LOCATION" />		<result property="bidDeposit" column="BID_DEPOSIT" />		<result property="bidDocPrice" column="BID_DOC_PRICE" />		<result property="isFailed" column="IS_FAILED" />		<result property="techRequire" column="TECH_REQUIRE" />		<result property="qualificationRequire" column="QUALIFICATION_REQUIRE" />		<result property="packDesc" column="PACK_DESC" />		<result property="status" column="STATUS" />		<result property="isSeleSupplier" column="IS_SELE_SUPPLIER" />		<result property="seleType" column="SELE_TYPE" />		<result property="seleNum" column="SELE_NUM" />		<result property="isShowBudget" column="IS_SHOW_BUDGET" />	</resultMap>
+	<select id="getZcEbOpenBidTeam" resultMap="ZcEbOpenBidTeamResult"
+		parameterClass="elementCondition">
+		SELECT T.*, (SELECT PROJ_NAME FROM ZC_EB_PROJ where PROJ_CODE =
+		T.PROJ_CODE) as PROJ_NAME FROM ZC_EB_OPENBID_TEAM T		WHERE 1=1
+		<include refid="BusiNumLim.BusiNumLimStr" />	    <isNotEqual prepend="and" compareValue="0" property="nd">			T.ND = #nd#		</isNotEqual>
+		<isNotEmpty prepend="AND" property="projCode">
+			T.PROJ_CODE = #projCode#
+		</isNotEmpty>
+		ORDER BY T.CREAT_DATE DESC
+	</select>
+	<select id="getZcEbOpenBidTeamByID" resultMap="ZcEbOpenBidTeamResult"
+		parameterClass="String">
+		SELECT T.*,P.PROJ_NAME FROM ZC_EB_OPENBID_TEAM
+		T,ZC_EB_PROJ P
+		WHERE T.PROJ_CODE=P.PROJ_CODE
+		AND T.TEAM_CODE=#VALUE#
+	</select>
+	<select id="getZcEbOpenBidTeamMember" resultMap="ZcEbOpenBidTeamMemberResult"
+		parameterClass="String">
+		SELECT * FROM ZC_EB_OPENBID_TEAM_MEMBER WHERE
+		TEAM_CODE=#VALUE#
+	</select>
+	<select id="getZcEbOpenBidTeamPack" resultMap="ZcEbOpenBidTeamPackResult"
+		parameterClass="String">
+		SELECT
+		K.PACK_CODE,
+		PK.PACK_NAME,
+		PK.PACK_DESC,
+		K.TEAM_CODE
+		FROM
+		ZC_EB_OPENBIDTEAM_PACK K,
+		ZC_EB_OPENBID_TEAM T,
+		ZC_EB_PROJ P,
+		ZC_EB_PACK PK
+		WHERE
+		T.TEAM_CODE=K.TEAM_CODE
+		AND
+		T.PROJ_CODE=P.PROJ_CODE
+		AND
+		P.PROJ_CODE=PK.PROJ_CODE
+		AND
+		PK.PACK_CODE=K.PACK_CODE
+		AND
+		T.TEAM_CODE=#VALUE#
+	</select>
+	<insert id="insertZcEbOpenBidTeam" parameterClass="ZcEbOpenBidTeam">
+		insert into
+		ZC_EB_OPENBID_TEAM (TEAM_CODE, TEAM_NAME, PROJ_CODE,
+		CREAT_DATE,
+		CREATOR, REMARK, ND,AGENCY,ORG_CODE) values (#teamCode:VARCHAR#,
+		#teamName:VARCHAR#,
+		#projCode:VARCHAR#, #creatDate:DATE#,
+		#creator:VARCHAR#,
+		#remark:VARCHAR#, #nd:DECIMAL#,#agency:VARCHAR#,
+		#orgCode:VARCHAR#)
+	</insert>
+
+	<insert id="insertZcEbOpenBidTeamMember" parameterClass="ZcEbOpenBidTeamMember">
+		insert
+		into
+		ZC_EB_OPENBID_TEAM_MEMBER (TEAM_CODE, MEMBER_TYPE,
+		MEMBER_NAME,DUTY,DEPARTMENT
+		,REMARK,tel) values
+		(#teamCode:VARCHAR#,#memberType:VARCHAR#,
+		#memberName:VARCHAR#,#duty:VARCHAR#,#department:VARCHAR#,
+		#remark:VARCHAR#,#tel:VARCHAR#)
+	</insert>
+	<insert id="insertZcEbOpenBidTeamPack" parameterClass="ZcEbOpenBidTeamPack">
+		insert
+		into
+		ZC_EB_OPENBIDTEAM_PACK (TEAM_CODE, PACK_CODE) values
+		(#teamCode:VARCHAR#,#packCode:VARCHAR#)
+	</insert>
+
+	<update id="updateZcEbOpenBidTeam" parameterClass="ZcEbOpenBidTeam">
+		update
+		ZC_EB_OPENBID_TEAM set TEAM_NAME = #teamName:VARCHAR#,
+		PROJ_CODE =
+		#projCode:VARCHAR#, CREAT_DATE = #creatDate:DATE#,
+		CREATOR =
+		#creator:VARCHAR#, REMARK = #remark:VARCHAR#, ND =
+		#nd:DECIMAL#, AGENCY
+		= #agency:VARCHAR#, ORG_CODE =#orgCode:VARCHAR#
+		where
+		TEAM_CODE =
+		#teamCode:VARCHAR#
+	</update>
+
+	<delete id="deleteZcEbOpenBidTeamAllMember" parameterClass="String">
+		delete from ZC_EB_OPENBID_TEAM_MEMBER where TEAM_CODE=#value#
+	</delete>
+	<delete id="deleteZcEbOpenBidTeamMember" parameterClass="ZcEbOpenBidTeamMember">
+		delete
+		from ZC_EB_OPENBID_TEAM_MEMBER where TEAM_CODE=#teamCode# and
+		MEMBER_NAME=#memberName#
+	</delete>
+	<delete id="deleteZcEbObtPack" parameterClass="String">
+		delete from
+		ZC_EB_OPENBIDTEAM_PACK where TEAM_CODE=#value#
+	</delete>
+	<delete id="deleteZcEbObtPackByPackCodeAndTeamCode"
+		parameterClass="map">
+		delete from
+		ZC_EB_OPENBIDTEAM_PACK where
+		TEAM_CODE=#TEAM_CODE:VARCHAR# and PACK_CODE =
+		#PACK_CODE:VARCHAR#
+	</delete>
+	<delete id="deleteZcEbOpenBidTeam" parameterClass="String">
+		delete
+		from
+		ZC_EB_OPENBID_TEAM where TEAM_CODE=#value#
+	</delete>
+	<select id="getPackWithoutBidTeam" resultMap="ZcEbOpenBidTeamPackResult"
+		parameterClass="String">
+		SELECT
+		PK.PACK_CODE,
+		PK.PACK_NAME,
+		PK.PACK_DESC,
+		'' AS
+		TEAM_CODE
+		FROM
+		ZC_EB_PROJ P, ZC_EB_PACK PK
+		WHERE
+		P.PROJ_CODE =
+		PK.PROJ_CODE
+		AND
+		P.PROJ_CODE =#VALUE#
+		MINUS
+		SELECT
+		K.PACK_CODE,
+		PK.PACK_NAME,
+		PK.PACK_DESC,
+		'' AS TEAM_CODE
+		FROM
+		ZC_EB_OPENBIDTEAM_PACK K,
+		ZC_EB_OPENBID_TEAM T,
+		ZC_EB_PROJ P,
+		ZC_EB_PACK PK
+		WHERE
+		T.TEAM_CODE =
+		K.TEAM_CODE
+		AND
+		T.PROJ_CODE = P.PROJ_CODE
+		AND
+		P.PROJ_CODE = PK.PROJ_CODE
+		AND
+		PK.PACK_CODE = K.PACK_CODE
+		AND
+		P.PROJ_CODE =#VALUE#
+	</select>
+	<select id="getZcEbOpenbidteamPackList" resultMap="ZcEbOpenBidTeamPackResult"
+		parameterClass="String">
+		select p.*,'' PACK_NAME,'' PACK_DESC from
+		ZC_EB_OPENBIDTEAM_PACK p where
+		p.PACK_CODE = #value#
+	</select>	<select id="getZcEbPackForTeam" resultMap="ZcEbPackResult"		parameterClass="elementCondition">		select Zc_Eb_Pack.*		from Zc_Eb_Pack Zc_Eb_Pack		where		Zc_Eb_Pack.Proj_Code =#dattr1#		and not exists		(select		Zc_Eb_Openbidteam_Pack.Pack_Code		from Zc_Eb_Openbidteam_Pack		Zc_Eb_Openbidteam_Pack,zc_eb_openbid_team  bt    where Zc_Eb_Openbidteam_Pack.Team_Code=bt.team_code		and Zc_Eb_Openbidteam_Pack.Pack_Code =		Zc_Eb_Pack.Pack_Code and bt.proj_code=Zc_Eb_Pack.Proj_Code)	</select>
+</sqlMap>

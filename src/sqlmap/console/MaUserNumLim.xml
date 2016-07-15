@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MaUserNumLim">
+	
+	<typeAlias type="com.ufgov.zc.common.console.model.MaUserNumLim" alias="maUserNumLim"/>
+	
+	<resultMap class="maUserNumLim" id="maUserNumLimResult">
+		<result property="userId" column="user_id"></result>
+		<result property="funcId" column="func_id"></result>
+		<result property="compoId" column="compo_id"></result>
+		<result property="ctrlField" column="ctrl_field"></result>
+		<result property="code" column="code"></result>
+	</resultMap>
+	
+	<select id="getMaUserNumLim" resultMap="maUserNumLimResult" parameterClass="map">
+		select * from ma_user_num_lim where user_id=#user_id#
+		<isNotNull prepend="AND" property="compo_id">
+			compo_id=#compo_id#
+		</isNotNull>
+		<isNotNull prepend="AND" property="func_id">
+			func_id=#func_id#
+		</isNotNull>
+		<isNotNull prepend="AND" property="ctrl_field">
+			ctrl_field=#ctrl_field#
+		</isNotNull>
+		order by user_id, compo_id, func_id, ctrl_field, code
+	</select>
+
+	<delete id="deleteMaUserNumLim" parameterClass="map">
+		delete from ma_user_num_lim where user_id=#user_id#
+		<isNotNull prepend="AND" property="compo_id">
+			compo_id=#compo_id#
+		</isNotNull>
+		<isNotNull prepend="AND" property="func_id">
+			func_id=#func_id#
+		</isNotNull>
+		<isNotNull prepend="AND" property="ctrl_field">
+			ctrl_field=#ctrl_field#
+		</isNotNull>
+	</delete>
+
+	<insert id="insertMaUserNumLim" parameterClass="maUserNumLim">
+		insert into ma_user_num_lim (
+			user_id,func_id,compo_id,ctrl_field,code)
+		values (
+			#userId:VARCHAR#, #funcId:VARCHAR#, #compoId:VARCHAR#, #ctrlField:VARCHAR#, #code:VARCHAR#
+		)
+	</insert>
+	
+</sqlMap>

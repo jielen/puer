@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="MaCpBankBal" >
+  <resultMap id="MaCpBankBalResult" class="com.ufgov.zc.common.commonbiz.model.MaCpBankBal" >
+    <result column="BANK_BAL_ID" property="bankBalId" jdbcType="VARCHAR" />
+    <result column="ND" property="nd" jdbcType="DECIMAL" />
+    <result column="BANK_CODE" property="bankCode" jdbcType="VARCHAR" />
+    <result column="FUND_CODE" property="fundCode" jdbcType="VARCHAR" />
+    <result column="RECE_ACC_NAME" property="receAccName" jdbcType="VARCHAR" />
+    <result column="RECE_ACC_NO" property="receAccNo" jdbcType="VARCHAR" />
+    <result column="RECE_BANK_CODE" property="receBankCode" jdbcType="VARCHAR" />
+    <result column="RECE_BANK_NAME" property="receBankName" jdbcType="VARCHAR" />
+    <result column="RECE_BANK_NO" property="receBankNo" jdbcType="VARCHAR" />
+    <result column="RECE_BANKNODE_CODE" property="receBanknodeCode" jdbcType="VARCHAR" />
+    <result column="RECE_BANKNODE_NAME" property="receBanknodeName" jdbcType="VARCHAR" />
+    <result column="RECE_BANKNODE_NO" property="receBanknodeNo" jdbcType="VARCHAR" />
+    <result column="PAY_CODE" property="payCode" jdbcType="VARCHAR" />
+    <result column="PAY_ACC_CODE" property="payAccCode" jdbcType="VARCHAR" />
+    <result column="PAY_ACCTYPE" property="payAcctype" jdbcType="VARCHAR" />
+    <result column="PAY_ACC_NAME" property="payAccName" jdbcType="VARCHAR" />
+    <result column="PAY_ACC_NO" property="payAccNo" jdbcType="VARCHAR" />
+    <result column="PAY_BANK_CODE" property="payBankCode" jdbcType="VARCHAR" />
+    <result column="PAY_BANK_NAME" property="payBankName" jdbcType="VARCHAR" />
+    <result column="PAY_BANK_NO" property="payBankNo" jdbcType="VARCHAR" />
+    <result column="PAY_BANKNODE_CODE" property="payBanknodeCode" jdbcType="VARCHAR" />
+    <result column="PAY_BANKNODE_NAME" property="payBanknodeName" jdbcType="VARCHAR" />
+    <result column="PAY_BANKNODE_NO" property="payBanknodeNo" jdbcType="VARCHAR" />
+    <result column="IS_USED" property="isUsed" jdbcType="CHAR" />
+    <result column="IS_DEFAULT" property="isDefault" jdbcType="CHAR" />
+  </resultMap>
+  <select id="selectByPrimaryKey" resultMap="MaCpBankBalResult" parameterClass="com.ufgov.zc.common.commonbiz.model.MaCpBankBalKey" >
+    select BANK_BAL_ID, ND, BANK_CODE, FUND_CODE, RECE_ACC_NAME, RECE_ACC_NO, RECE_BANK_CODE,
+      RECE_BANK_NAME, RECE_BANK_NO, RECE_BANKNODE_CODE, RECE_BANKNODE_NAME, RECE_BANKNODE_NO,
+      PAY_CODE, PAY_ACC_CODE, PAY_ACCTYPE, PAY_ACC_NAME, PAY_ACC_NO, PAY_BANK_CODE, PAY_BANK_NAME,
+      PAY_BANK_NO, PAY_BANKNODE_CODE, PAY_BANKNODE_NAME, PAY_BANKNODE_NO, IS_USED, IS_DEFAULT
+    from MA_CP_BANK_BAL
+    where BANK_BAL_ID = #bankBalId:VARCHAR#
+      and ND = #nd:DECIMAL#
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterClass="com.ufgov.zc.common.commonbiz.model.MaCpBankBalKey" >
+    delete from MA_CP_BANK_BAL
+    where BANK_BAL_ID = #bankBalId:VARCHAR#
+      and ND = #nd:DECIMAL#
+  </delete>
+
+  <insert id="insert" parameterClass="com.ufgov.zc.common.commonbiz.model.MaCpBankBal" >
+    insert into MA_CP_BANK_BAL (BANK_BAL_ID, ND, BANK_CODE, FUND_CODE, RECE_ACC_NAME,
+      RECE_ACC_NO, RECE_BANK_CODE, RECE_BANK_NAME, RECE_BANK_NO, RECE_BANKNODE_CODE,
+      RECE_BANKNODE_NAME, RECE_BANKNODE_NO, PAY_CODE, PAY_ACC_CODE, PAY_ACCTYPE, PAY_ACC_NAME,
+      PAY_ACC_NO, PAY_BANK_CODE, PAY_BANK_NAME, PAY_BANK_NO, PAY_BANKNODE_CODE, PAY_BANKNODE_NAME,
+      PAY_BANKNODE_NO, IS_USED, IS_DEFAULT)
+    values (#bankBalId:VARCHAR#, #nd:DECIMAL#, #bankCode:VARCHAR#, #fundCode:VARCHAR#,
+      #receAccName:VARCHAR#, #receAccNo:VARCHAR#, #receBankCode:VARCHAR#, #receBankName:VARCHAR#,
+      #receBankNo:VARCHAR#, #receBanknodeCode:VARCHAR#, #receBanknodeName:VARCHAR#,
+      #receBanknodeNo:VARCHAR#, #payCode:VARCHAR#, #payAccCode:VARCHAR#, #payAcctype:VARCHAR#,
+      #payAccName:VARCHAR#, #payAccNo:VARCHAR#, #payBankCode:VARCHAR#, #payBankName:VARCHAR#,
+      #payBankNo:VARCHAR#, #payBanknodeCode:VARCHAR#, #payBanknodeName:VARCHAR#,
+      #payBanknodeNo:VARCHAR#, #isUsed:CHAR#, #isDefault:CHAR#)
+  </insert>
+  <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.commonbiz.model.MaCpBankBal" >
+    update MA_CP_BANK_BAL
+    set BANK_CODE = #bankCode:VARCHAR#,
+      FUND_CODE = #fundCode:VARCHAR#,
+      RECE_ACC_NAME = #receAccName:VARCHAR#,
+      RECE_ACC_NO = #receAccNo:VARCHAR#,
+      RECE_BANK_CODE = #receBankCode:VARCHAR#,
+      RECE_BANK_NAME = #receBankName:VARCHAR#,
+      RECE_BANK_NO = #receBankNo:VARCHAR#,
+      RECE_BANKNODE_CODE = #receBanknodeCode:VARCHAR#,
+      RECE_BANKNODE_NAME = #receBanknodeName:VARCHAR#,
+      RECE_BANKNODE_NO = #receBanknodeNo:VARCHAR#,
+      PAY_CODE = #payCode:VARCHAR#,
+      PAY_ACC_CODE = #payAccCode:VARCHAR#,
+      PAY_ACCTYPE = #payAcctype:VARCHAR#,
+      PAY_ACC_NAME = #payAccName:VARCHAR#,
+      PAY_ACC_NO = #payAccNo:VARCHAR#,
+      PAY_BANK_CODE = #payBankCode:VARCHAR#,
+      PAY_BANK_NAME = #payBankName:VARCHAR#,
+      PAY_BANK_NO = #payBankNo:VARCHAR#,
+      PAY_BANKNODE_CODE = #payBanknodeCode:VARCHAR#,
+      PAY_BANKNODE_NAME = #payBanknodeName:VARCHAR#,
+      PAY_BANKNODE_NO = #payBanknodeNo:VARCHAR#,
+      IS_USED = #isUsed:CHAR#,
+      IS_DEFAULT = #isDefault:CHAR#
+    where BANK_BAL_ID = #bankBalId:VARCHAR#
+      and ND = #nd:DECIMAL#
+  </update>
+
+  <select id="getMaCpBankBal" resultMap="MaCpBankBalResult" parameterClass="map">
+  	select *
+	from MA_CP_BANK_BAL
+	where rownum=1 AND ND=#nd#
+	<isNotNull prepend="AND" property="bankCode">
+		BANK_CODE= #bankCode#
+	</isNotNull>
+	<isNotNull prepend="AND" property="fundCode">
+		FUND_CODE=#fundCode#
+	</isNotNull>
+  </select>
+
+  <select id="getMaCpBankBalByView" resultMap="MaCpBankBalResult" parameterClass="map">
+  	select *
+	from $maCpBankBalView$
+	where rownum=1 AND ND=#nd#
+	<isNotNull prepend="AND" property="bankCode">
+		BANK_CODE= #bankCode#
+	</isNotNull>
+	<isNotNull prepend="AND" property="fundCode">
+		FUND_CODE=#fundCode#
+	</isNotNull>
+  </select>
+
+    <select id="getMaCpBankBalForTzd" resultMap="MaCpBankBalResult" parameterClass="map">
+  	select *
+	from MA_CP_BANK_BAL
+	where rownum=1 AND ND=#nd#
+	<isNotNull prepend="AND" property="payAccNo">
+		RECE_ACC_NO = #payAccNo#
+	</isNotNull>
+	AND (FUND_CODE=#fundCode# OR FUND_CODE is null)
+
+  </select>
+
+  <select id="getMaCpBankBalList" resultMap="MaCpBankBalResult" parameterClass="map">
+  	select *
+	from MA_CP_BANK_BAL
+	where  ND=#nd#
+  </select>
+
+  <select id="getMaCpBankBalByAuto" resultMap="MaCpBankBalResult" parameterClass="map">
+  	select * from $maCpBankBalView$
+	where rownum=1 AND ND=#nd#
+	<isNotNull prepend="AND" property="bankCode">
+		BANK_CODE= #bankCode#
+	</isNotNull>
+	<isNotNull prepend="AND" property="clearAccNo">
+		PAY_ACC_NO=#clearAccNo#
+	</isNotNull>
+  </select>
+</sqlMap>

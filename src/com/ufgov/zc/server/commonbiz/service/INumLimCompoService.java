@@ -1,0 +1,1 @@
+package com.ufgov.zc.server.commonbiz.service;import java.util.List;import com.ufgov.zc.common.commonbiz.model.NumLimCompo;public interface INumLimCompoService {  List getNumLimCompo();  NumLimCompo getNumLimCompoByCompoId(String compoId);  List getNumLimCompoByParentCompoId(String parentCompoId);}

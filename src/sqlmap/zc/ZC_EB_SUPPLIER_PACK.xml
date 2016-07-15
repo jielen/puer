@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+
+
+<!DOCTYPE sqlMap      
+
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+
+<sqlMap namespace="ZcEbSupplierPack">
+
+
+
+	<typeAlias alias="ZcEbSupplierPack"
+
+		type="com.ufgov.zc.common.zc.model.ZcEbSupplierPack" />
+
+
+
+	<typeAlias alias="elementCondition"
+
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+
+
+
+	<resultMap id="ZcEbSupplierPackResult" class="ZcEbSupplierPack">
+
+		<result property="supplierCode" column="SUPPLIER_CODE" />
+
+		<result property="supplierName" column="SUPPLIER_NAME" />
+
+		<result property="supplierStatus" column="SUPPLIER_STATUS" />
+
+		<result property="expertEvalRate" column="EXPERT_RATE" />
+
+		<result property="bidDocID" column="BID_DOC_ID" />
+
+		<result property="bidDocName" column="BID_DOC_NAME" />
+
+		<result property="isSubmitBidDoc" column="IS_SUBMIT_BID_DOC" />
+
+		<result property="signupID" column="SIGNUP_ID" />
+
+		<result property="signupPackID" column="SIGNUP_PACK_ID" />
+
+		<result property="openBidDate" column="OPEN_BID_DATE" />
+
+		<result property="openBidStatus" column="OPEN_BID_STATUS" />
+
+		<result property="isPayGuarantee" column="IS_PAY_GUARANTEE" />
+
+		<result property="bidSupplierCode" column="BID_SUPPLIER_CODE" />
+
+		<result property="bidSupplierName" column="BID_SUPPLIER_NAME" />
+
+		<result property="projCode" column="PROJ_CODE" />
+
+		<result property="packCode" column="PACK_CODE" />
+
+		<result property="complianceEvalResult" column="COMPLIANCE_EVAL_RESULT" />
+
+		<result property="expertEvalResult" column="EVAL_RESULT" />
+
+		<result property="providerTotalPrice" column="PROVIDER_TOTAL_PRICE" />
+
+	</resultMap>
+
+	<select id="getZcEbSupplierPack" resultMap="ZcEbSupplierPackResult"
+
+		parameterClass="elementCondition">
+
+		SELECT DISTINCT T.PROJ_CODE AS PROJ_CODE,
+
+		T.PACK_CODE AS PACK_CODE
+
+		<isNotNull prepend="," property="type">
+			<isEqual property="type" compareValue="3">
+				'****' AS SUPPLIER_NAME,
+
+				'****' AS SUPPLIER_CODE,
+			</isEqual>
+			<isNotEqual property="type" compareValue="3">
+				T.PROVIDER_NAME AS SUPPLIER_NAME,
+
+				T.PROVIDER_CODE AS SUPPLIER_CODE,
+			</isNotEqual>
+		</isNotNull>
+		<isNull prepend="," property="type">
+			T.PROVIDER_NAME AS SUPPLIER_NAME,
+
+			T.PROVIDER_CODE AS SUPPLIER_CODE,
+		</isNull>
+
+		T.STATUS AS SUPPLIER_STATUS,
+
+		T.IS_PAY_GUARANTEE AS IS_PAY_GUARANTEE,
+
+		T.BID_DOC_NAME AS BID_DOC_NAME,
+
+		T.BID_DOC_ID AS BID_DOC_ID,
+
+		T.IS_SUBMIT_BID_DOC AS IS_SUBMIT_BID_DOC,
+
+		T.OPEN_BID_DATE AS	OPEN_BID_DATE,
+        T.OPEN_BID_STATUS AS OPEN_BID_STATUS,
+		T.SIGNUP_ID AS SIGNUP_ID,
+
+		T.SIGNUP_PACK_ID AS
+		SIGNUP_PACK_ID,
+
+		ROUND(RS.EVAL_SCORE, 2) AS EXPERT_RATE,
+
+		RS.COMPLIANCE_EVAL_RESULT,
+
+		RS.EVAL_RESULT,
+
+		RS.COMPLIANCE_UNPASS_REASON,
+
+		R.PROVIDER_CODE AS BID_SUPPLIER_CODE,
+
+		R.PROVIDER_NAME AS
+		BID_SUPPLIER_NAME
+
+		<isNotNull prepend="," property="type">
+			<isEqual property="type" compareValue="1">
+				T.PROVIDER_TOTAL_PRICE
+			</isEqual>
+			<isNotEqual property="type" compareValue="1">
+				null PROVIDER_TOTAL_PRICE
+			</isNotEqual>
+		</isNotNull>
+		<isNull prepend="," property="type">
+			T.PROVIDER_TOTAL_PRICE
+		</isNull>
+
+		FROM (SELECT S.SIGNUP_ID,
+
+		S.PROJ_CODE,
+
+		S.STATUS,
+
+		S.PROVIDER_NAME,
+
+		S.PROVIDER_CODE,
+
+		S.IS_PAY_GUARANTEE,
+
+		S.BID_DOC_NAME,
+
+		S.BID_DOC_ID,
+
+		CASE
+
+		WHEN p.sp_status is null THEN
+
+		'0'
+
+		ELSE
+
+		p.sp_status
+
+		END IS_SUBMIT_BID_DOC,
+
+		P.SIGNUP_PACK_ID,
+
+		P.PACK_CODE,
+
+		P.OPEN_BID_DATE,
+
+		CASE
+
+		WHEN NVL(P.ECBJ_SUM,
+		0) > 0 THEN
+
+		P.ECBJ_SUM
+
+		ELSE
+
+		P.BID_SUM
+
+		END PROVIDER_TOTAL_PRICE,
+               P.OPEN_BID_STATUS
+
+		FROM
+		ZC_EB_SIGNUP S, ZC_EB_SIGNUP_PACK P
+
+		WHERE P.SIGNUP_ID = S.SIGNUP_ID) T,
+
+		(SELECT ZR1.PROVIDER_CODE,
+
+		ZR1.PACK_CODE,
+
+		ZR1.PROJ_CODE,
+
+		ZR1.COMPLIANCE_EVAL_RESULT,
+
+		ZR1.RESULT_CODE,
+
+		ZR1.EXPERT_CODE,
+
+		ZR1.EXPERT_NAME,
+
+		ZR1.COMPLIANCE_UNPASS_REASON,
+
+		ZR1.REMARK,
+
+		CASE
+
+		WHEN
+		ZR1.COMPLIANCE_EVAL_RESULT = 'N' THEN
+
+		TO_NUMBER('0.0')
+
+		ELSE
+
+		(SELECT
+		ZR2.EVAL_SCORE
+
+		FROM ZC_EB_PACK_EVAL_RESULT ZR2
+
+		WHERE ZR2.PACK_CODE =
+		ZR1.PACK_CODE
+
+		AND ZR2.PROJ_CODE = ZR1.PROJ_CODE
+
+		AND
+		ZR2.IS_COMPLIANCE_RESULT = 'N'
+
+		AND ZR2.PROVIDER_CODE =
+		ZR1.PROVIDER_CODE)
+
+		END EVAL_SCORE,
+
+		CASE
+
+		WHEN ZR1.COMPLIANCE_EVAL_RESULT =
+		'N' THEN
+
+		'2'
+
+		ELSE
+
+		(SELECT ZR2.EVAL_RESULT
+
+		FROM ZC_EB_PACK_EVAL_RESULT ZR2
+
+		WHERE ZR2.PACK_CODE = ZR1.PACK_CODE
+
+		AND ZR2.PROJ_CODE = ZR1.PROJ_CODE
+
+		AND ZR2.IS_COMPLIANCE_RESULT = 'N'
+
+		AND ZR2.PROVIDER_CODE =
+		ZR1.PROVIDER_CODE)
+
+		END EVAL_RESULT
+
+		FROM ZC_EB_PACK_EVAL_RESULT ZR1
+
+		WHERE
+		ZR1.IS_COMPLIANCE_RESULT = 'Y') RS,
+
+		ZC_EB_EVAL_REPORT R
+
+		WHERE
+		T.PROJ_CODE = R.PROJ_CODE(+)
+
+		AND T.PACK_CODE = R.PACK_CODE(+)
+
+		AND
+		T.PROJ_CODE = RS.PROJ_CODE(+)
+
+		AND T.PACK_CODE = RS.PACK_CODE(+)
+
+		AND
+		T.PROVIDER_CODE = RS.PROVIDER_CODE(+)
+
+		<isNotNull prepend="AND" property="projCode">
+
+			T.PROJ_CODE =
+
+			#projCode:VARCHAR#
+
+		</isNotNull>
+
+		<isNotNull prepend="AND" property="packCode">
+
+			T.PACK_CODE =
+
+			#packCode:VARCHAR#
+
+		</isNotNull>
+
+	</select>
+	<select id="getPojectWillOpenBid" resultClass="java.util.HashMap"
+		parameterClass="map">
+		select T.proj_code,
+		wm_concat(T.pack_name) pack_name,
+		T.proj_name,
+		T.provider_code,
+		T.provider_name,
+		T.open_bid_time,
+		T.open_bid_address,
+		T.PUR_TYPE,
+		T.attn_name
+		from (select p.proj_code,
+		proj.proj_name,
+		pac.pack_code,
+		pac.pack_name,
+		s.provider_code,
+		s.provider_name,
+		to_char(p.open_bid_time, 'yyyy-mm-dd hh24:mi:ss') open_bid_time,
+		p.open_bid_address,
+		(SELECT v1.val
+		FROM as_val v1
+		WHERE v1.valset_id = 'ZC_VS_PITEM_OPIWAY'
+		AND v1.val_id = proj.pur_type) pur_type,
+		proj.attn_name
+		from v_zc_eb_pack_plan p,
+		zc_eb_signup s,
+		zc_eb_signup_pack sp,
+		zc_eb_pack pac,
+		zc_eb_proj proj
+		where p.proj_code = s.proj_code
+		and sp.signup_id = s.signup_id
+		and pac.pack_code = sp.pack_code
+		AND p.proj_code = proj.proj_code
+		and pac.proj_code = proj.proj_code
+		and p.pack_code = sp.pack_code
+		and sp.sp_status='1'
+		<isNotNull prepend="AND" property="limitTime">
+     <![CDATA[
+     pac.status in ('0','7')
+     and p.open_bid_time > sysdate and 
+     to_number(to_char(p.open_bid_time,'yyyymmdd')) <= to_number(to_char(sysdate,'yyyymmdd'))+1
+      ]]>
+		</isNotNull>
+		<isNotNull prepend="AND" property="providerCode">
+			s.provider_code = #providerCode#
+		</isNotNull>
+		order by open_bid_time, proj_code, pack_code) T
+		GROUP BY T.PROJ_CODE,
+		T.PROJ_NAME,
+		T.PROVIDER_CODE,
+		T.PROVIDER_NAME,
+		T.OPEN_BID_ADDRESS,
+		T.OPEN_BID_TIME,
+		T.pur_type,
+		T.attn_name
+	</select>
+
+	<select id="getPojectWillOpenBidByExecutor" resultClass="java.util.HashMap"
+		parameterClass="map">
+		select zc_eb_proj.proj_code,
+		zc_eb_pack.pack_code,
+		zc_eb_pack.pack_name,
+		zc_eb_proj.proj_name,
+		to_char(zc_eb_plan.open_bid_time, 'yyyy-mm-dd hh24:mi:ss') open_bid_time,
+		zc_eb_plan.open_bid_address,
+		Zc_Eb_Duty_Audit_Sheet.Attn,
+		Zc_Eb_Duty_Audit_Sheet.Attn_Name,
+		Zc_Eb_Duty_Audit_Sheet.Superintendent_Org,
+		Zc_Eb_Duty_Audit_Sheet.Sn_Code,
+		(select zh.chr_name
+		from ele_manage_branch zh
+		where zh.chr_code = Zc_Eb_Duty_Audit_Sheet.Superintendent_Org) AS ORG_NAME
+		from v_zc_eb_pack_plan zc_eb_plan,
+		zc_eb_pack zc_eb_pack,
+		zc_eb_proj zc_eb_proj,
+		Zc_Eb_Duty_Audit_Sheet Zc_Eb_Duty_Audit_Sheet
+		where zc_eb_plan.proj_code = zc_eb_pack.proj_code
+		and zc_eb_plan.pack_code = zc_eb_pack.pack_code
+		and zc_eb_pack.proj_code = zc_eb_proj.proj_code
+		and Zc_Eb_Duty_Audit_Sheet.Sn = zc_eb_pack.entrust_code
+		<isNotNull prepend="AND" property="numLimitStr">
+			$numLimitStr$
+		</isNotNull>
+		<isNotNull prepend="AND" property="limitTime">
+     <![CDATA[
+    zc_eb_plan.open_bid_time > sysdate and 
+     to_number(to_char(zc_eb_plan.open_bid_time,'yyyymmdd')) <= to_number(to_char(sysdate,'yyyymmdd'))+#days:DECIMAL#
+      ]]>
+		</isNotNull>
+		order by open_bid_time, proj_code,pack_code
+	</select>
+
+	<select id="getDlyBidProj" resultClass="java.util.HashMap"
+		parameterClass="String">
+		select distinct p.proj_code,
+		p.proj_name,pk.pack_name,pk.pack_desc,to_char(pp.open_bid_time,'yyyy-mm-dd
+		hh24:mi:ss') open_bid_time,pp.open_bid_address,p.attn_name
+		from zc_eb_signup s,
+		zc_eb_signup_pack sp,
+		v_zc_eb_pack_plan pp,
+		zc_eb_pack pk,
+		zc_eb_proj p,
+		zc_eb_bulletin b,
+		zc_eb_bulletin_pack bp
+		where s.provider_code=#value#
+		and s.signup_id=sp.signup_id
+		and sp.sp_status='1'
+		and sp.pack_code=pk.pack_code
+		and s.proj_code=pk.proj_code
+		and pk.proj_code=p.proj_code
+		and pk.proj_code=b.proj_code
+		and b.bulletin_type='D'
+		and b.bulletin_status='exec'
+		and b.bulletin_id=bp.bulletin_id
+		and bp.pack_code=pk.pack_code
+		and pk.proj_code=pp.proj_code
+		and pk.pack_code=pp.pack_code
+		and pp.open_bid_time &gt; sysdate
+	</select>
+
+	<select id="getChgBidProj" resultClass="java.util.HashMap"
+		parameterClass="String">
+		select distinct p.proj_code,
+		p.proj_name,pk.pack_name,pk.pack_desc,to_char(pp.open_bid_time,'yyyy-mm-dd
+		hh24:mi:ss') open_bid_time,pp.open_bid_address,p.attn_name
+		from zc_eb_signup s,
+		zc_eb_signup_pack sp,
+		v_zc_eb_pack_plan pp,
+		zc_eb_pack pk,
+		zc_eb_proj p,
+		zc_eb_bulletin b
+		where s.provider_code=#value#
+		and s.signup_id=sp.signup_id
+		and sp.sp_status='1'
+		and sp.pack_code=pk.pack_code
+		and s.proj_code=pk.proj_code
+		and pk.proj_code=p.proj_code
+		and pk.proj_code=b.project_code
+		and pk.pack_code=b.proj_code
+		and b.bulletin_type='C'
+		and b.bulletin_status='exec'
+		and pk.proj_code=pp.proj_code
+		and pk.pack_code=pp.pack_code
+		and pp.open_bid_time &gt; sysdate
+	</select>
+ <select id="getPojectWillBidEndByExecutor" resultClass="java.util.HashMap"
+		parameterClass="map">
+		select zc_eb_proj.proj_code,
+		zc_eb_pack.pack_code,
+		zc_eb_pack.pack_name,
+		zc_eb_proj.proj_name,
+		to_char(zc_eb_plan.sell_end_time, 'yyyy-mm-dd hh24:mi:ss') open_bid_time,
+		zc_eb_plan.open_bid_address,
+		Zc_Eb_Duty_Audit_Sheet.Attn,
+		Zc_Eb_Duty_Audit_Sheet.Attn_Name,
+		Zc_Eb_Duty_Audit_Sheet.Superintendent_Org,
+		Zc_Eb_Duty_Audit_Sheet.Sn_Code,
+		(select zh.chr_name
+		from ele_manage_branch zh
+		where zh.chr_code = Zc_Eb_Duty_Audit_Sheet.Superintendent_Org) AS ORG_NAME
+		from v_zc_eb_pack_plan zc_eb_plan,
+		zc_eb_pack zc_eb_pack,
+		zc_eb_proj zc_eb_proj,
+		Zc_Eb_Duty_Audit_Sheet Zc_Eb_Duty_Audit_Sheet
+		where zc_eb_plan.proj_code = zc_eb_pack.proj_code
+		and zc_eb_plan.pack_code = zc_eb_pack.pack_code
+		and zc_eb_pack.proj_code = zc_eb_proj.proj_code
+		and Zc_Eb_Duty_Audit_Sheet.Sn = zc_eb_pack.entrust_code
+		<isNotNull prepend="AND" property="numLimitStr">
+			$numLimitStr$
+		</isNotNull>
+		<isNotNull prepend="AND" property="limitTime">
+     <![CDATA[
+    zc_eb_plan.sell_end_time > sysdate and 
+     to_number(to_char(zc_eb_plan.sell_end_time,'yyyymmdd')) <= to_number(to_char(sysdate,'yyyymmdd'))+#days:DECIMAL#
+      ]]>
+		</isNotNull>
+		order by sell_end_time, proj_code,pack_code
+	</select>
+</sqlMap>
+

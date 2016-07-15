@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Outlay">
+  <typeAlias alias="elementCondition"	type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<resultMap id="outlay" class="com.ufgov.zc.common.commonbiz.model.Outlay">
+		<result property="nd" column="nd" />
+		<result property="code" column="outlay_code" />
+		<result property="name" column="outlay_name" />
+		<result property="parentCode" column="parent_code" />
+		<result property="level" column="current_level" />
+	</resultMap>
+
+	<sql id="selectOutlay">
+		select nd,outlay_code,outlay_name,parent_code,current_level from
+		ma_outlaytype
+	</sql>
+
+	<select id="getRootOutlay" resultMap="outlay"
+		parameterClass="int">
+		<include refid="selectOutlay" />
+		where nd= #nd# and is_used='1' and current_level=1 and
+		parent_code is null order by outlay_code
+	</select>
+
+	<select id="getChildrenOutlay" resultMap="outlay"
+		parameterClass="int">
+		<include refid="selectOutlay" />
+		where nd= #nd# and is_used='1' and parent_code is not null order
+		by outlay_code
+	</select>
+
+	<select id="getOutlay" resultMap="outlay"
+		parameterClass="elementCondition">
+		<include refid="selectOutlay" />
+		where nd= #nd# and is_used='1' 
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		order by outlay_code
+	</select>
+
+
+</sqlMap>

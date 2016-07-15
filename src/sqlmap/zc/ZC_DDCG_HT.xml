@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ZC_DDCG_HT">
+<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />		
+	<resultMap id="_ZcDdcgHtResult" class="com.ufgov.zc.common.zc.model.ZcDdcgHt">
+		<result column="ZC_HT_CODE" property="zcHtCode" jdbcType="VARCHAR" />
+		<result column="ZC_HT_NAME" property="zcHtName" jdbcType="VARCHAR" />
+		<result column="ZC_REQ_CODE" property="zcReqCode" jdbcType="VARCHAR" />
+		<result column="ZC_MAKE_CODE" property="zcMakeCode" jdbcType="VARCHAR" />
+		<result column="CO_CODE" property="coCode" jdbcType="VARCHAR" />
+		<result column="ND" property="nd" jdbcType="DECIMAL" />
+		<result column="ZC_SGN_DATE" property="zcSgnDate" jdbcType="DATE" />
+		<result column="ZC_SU_NAME" property="zcSuName" jdbcType="VARCHAR" />
+		<result column="ZC_CON_TEXT" property="zcConText" jdbcType="VARCHAR" />
+		<result column="ZC_CON_TEXT_BLOBID" property="zcConTextBlobid"
+			jdbcType="VARCHAR" />
+		<result column="ZC_HT_STATUS" property="zcHtStatus" jdbcType="VARCHAR" />
+		<result column="ZC_ZG_CS_CODE" property="zcZgCsCode" jdbcType="VARCHAR" />
+		<result column="EXECUTOR" property="executor" jdbcType="VARCHAR" />
+		<result column="EXECUTE_DATE" property="executeDate" jdbcType="DATE" />
+		<result column="PROCESS_INST_ID" property="processInstId"
+			jdbcType="DECIMAL" />
+		<result column="ZC_SU_CODE" property="zcSuCode" jdbcType="VARCHAR" />
+		<result column="ZC_SU_TEL" property="zcSuTel" jdbcType="VARCHAR" />
+		<result column="ZC_SU_LINKMAN" property="zcSuLinkman" jdbcType="VARCHAR" />
+		<result column="ZC_ZG_CS_NAME" property="zcZgCsName" jdbcType="VARCHAR" />
+		<result column="ZC_MEMO" property="zcMemo" jdbcType="VARCHAR" />
+		<result column="AGENCY" property="agency" jdbcType="VARCHAR" />
+		<result column="ORG_CODE" property="orgCode" jdbcType="VARCHAR" />
+	    <result property="tbylbFileName" column="TBYLB_FILE_NAME" />
+		<result property="tbylbFileId" column="TBYLB_FILE_ID" />
+	    <result column="ZC_MAKE_NAME" property="zcMakeName" jdbcType="VARCHAR" />
+	    <result column="ZC_BID_CODE" property="zcBidCode" jdbcType="VARCHAR" />
+	    <result column="ZC_BID_CONTENT" property="zcBidContent" jdbcType="VARCHAR" />	
+	</resultMap>
+	<resultMap id="_ZcEbSupplierResult" class="com.ufgov.zc.common.zc.model.ZcEbSupplier">
+		<result property="code" column="ZC_SU_CODE" />
+		<result property="name" column="ZC_SU_NAME" />
+		<result property="linkMan" column="ZC_SU_LINKMAN" />
+		<result property="phone" column="ZC_SU_TEL" />
+		<result property="address" column="ZC_SU_ADDR" />
+		<result property="linkManPhone" column="LINK_MAN_PHONE" />
+		<result property="linkManMobile" column="LINK_MAN_MOBILE" />
+	</resultMap>
+	<select id="_selectByPrimaryKey" resultMap="_ZcDdcgHtResult"
+		parameterClass="string">
+		select ZC_HT_CODE, ZC_HT_NAME, ZC_REQ_CODE,
+		ZC_MAKE_CODE, CO_CODE, ND,
+		ZC_SGN_DATE, ZC_SU_NAME,
+		ZC_CON_TEXT,
+		ZC_CON_TEXT_BLOBID, ZC_HT_STATUS, ZC_ZG_CS_CODE, EXECUTOR,
+		EXECUTE_DATE,
+		PROCESS_INST_ID, ZC_SU_CODE, ZC_SU_TEL, ZC_SU_LINKMAN,
+		ZC_ZG_CS_NAME, ZC_MEMO, AGENCY,
+		ORG_CODE,TBYLB_FILE_NAME,TBYLB_FILE_ID,ZC_MAKE_NAME,ZC_BID_CODE,ZC_BID_CONTENT
+		from ZC_DDCG_HT
+		where ZC_HT_CODE
+		= #zcHtCode:VARCHAR#
+	</select>
+	<select id="_selectZcDdcgHtList" resultMap="_ZcDdcgHtResult"
+		parameterClass="elementCondition">
+		select ZC_HT_CODE, ZC_HT_NAME, ZC_REQ_CODE, ZC_MAKE_CODE, CO_CODE, ND,
+		ZC_SGN_DATE, ZC_SU_NAME,
+		ZC_CON_TEXT, ZC_CON_TEXT_BLOBID, ZC_HT_STATUS,
+		ZC_ZG_CS_CODE, EXECUTOR,
+		EXECUTE_DATE,
+		PROCESS_INST_ID, ZC_SU_CODE,
+		ZC_SU_TEL, ZC_SU_LINKMAN, ZC_ZG_CS_NAME, ZC_MEMO, AGENCY,
+		ORG_CODE,TBYLB_FILE_ID,TBYLB_FILE_NAME,ZC_MAKE_NAME,ZC_BID_CODE,ZC_BID_CONTENT
+		from
+		ZC_DDCG_HT
+		where 1=1
+		<isNotEqual prepend="and" compareValue="0" property="nd">
+			ND =
+			#nd#
+		</isNotEqual>
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		<isNotNull prepend="and" property="status">
+			<isEqual property="status" compareValue="todo">
+				PROCESS_INST_ID in
+				(select instance_id from
+				V_WF_CURRENT_TASK_ZC_TODO where executor
+				=#executor# and instance_id
+				= PROCESS_INST_ID)
+			</isEqual>
+			<isEqual property="status" compareValue="untread">
+				exists ( select
+				instance_id from V_WF_CURRENT_TASK_ZC_UNTREAD where executor
+				=#executor# and instance_id = PROCESS_INST_ID)
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				PROCESS_INST_ID in
+				(select
+				instance_id from
+				V_WF_ACTION_HISTORY_GK53 where executor =
+				#executor# and instance_id
+				= PROCESS_INST_ID)
+				and
+				ZC_HT_STATUS!='cancel'
+				and
+				ZC_HT_STATUS!='exec'
+				and ZC_HT_STATUS !='finish'
+			</isEqual>
+			<isEqual property="status" compareValue="exec">
+				(ZC_HT_STATUS
+				='exec')
+			</isEqual>
+			<isEqual property="status" compareValue="draft">
+				exists (select
+				WF_DRAFT_NAME from as_wf_draft where user_id=#executor# and
+				compo_id=#wfcompoId# and WF_DRAFT_ID=process_inst_id)
+				and
+				ZC_HT_STATUS!='cancel'
+			</isEqual>
+			<isEqual property="status" compareValue="cancel">
+				(ZC_HT_STATUS
+				='cancel')
+			</isEqual>
+			<isEqual property="status" compareValue="all">
+				1=1
+			</isEqual>
+		</isNotNull>
+	</select>
+	<delete id="_deleteByPrimaryKey" parameterClass="com.ufgov.zc.common.zc.model.ZcDdcgHt">
+		delete from
+		ZC_DDCG_HT
+		where ZC_HT_CODE = #zcHtCode:VARCHAR#
+	</delete>
+	<delete id="_deleteByZcHtCode" parameterClass="String">
+		delete from
+		ZC_DDCG_HT
+		where ZC_HT_CODE = #zcHtCode:VARCHAR#
+	</delete>
+	<insert id="_insert" parameterClass="com.ufgov.zc.common.zc.model.ZcDdcgHt">
+		insert into ZC_DDCG_HT
+		(ZC_HT_CODE, ZC_HT_NAME, ZC_REQ_CODE,
+		ZC_MAKE_CODE, CO_CODE, ND,
+		ZC_SGN_DATE, ZC_SU_NAME, ZC_CON_TEXT, ZC_CON_TEXT_BLOBID,
+		ZC_HT_STATUS,
+		ZC_ZG_CS_CODE,
+		EXECUTOR, EXECUTE_DATE, PROCESS_INST_ID,
+		ZC_SU_CODE, ZC_SU_TEL, ZC_SU_LINKMAN,
+		ZC_ZG_CS_NAME,
+		ZC_MEMO, AGENCY,
+		ORG_CODE,TBYLB_FILE_NAME,TBYLB_FILE_ID,
+		ZC_MAKE_NAME,ZC_BID_CODE,ZC_BID_CONTENT)
+		values (#zcHtCode:VARCHAR#, #zcHtName:VARCHAR#,
+		#zcReqCode:VARCHAR#,
+		#zcMakeCode:VARCHAR#,
+		#coCode:VARCHAR#,
+		#nd:DECIMAL#, #zcSgnDate:DATE#, #zcSuName:VARCHAR#,
+		#zcConText:VARCHAR#,
+		#zcConTextBlobid:VARCHAR#, #zcHtStatus:VARCHAR#,
+		#zcZgCsCode:VARCHAR#, #executor:VARCHAR#,
+		#executeDate:DATE#,
+		#processInstId:DECIMAL#, #zcSuCode:VARCHAR#,
+		#zcSuTel:VARCHAR#,
+		#zcSuLinkman:VARCHAR#, #zcZgCsName:VARCHAR#, #zcMemo:VARCHAR#,
+		#agency:VARCHAR#,
+		#orgCode:VARCHAR#,#tbylbFileName:VARCHAR#,#tbylbFileId:VARCHAR#,
+	    #zcMakeName:VARCHAR#,#zcBidCode:VARCHAR#,#zcBidContent:VARCHAR#)
+	</insert>
+	<update id="_updateByPrimaryKey" parameterClass="com.ufgov.zc.common.zc.model.ZcDdcgHt">
+		update
+		ZC_DDCG_HT
+		set ZC_HT_NAME = #zcHtName:VARCHAR#,
+		ZC_REQ_CODE =
+		#zcReqCode:VARCHAR#,
+		ZC_MAKE_CODE = #zcMakeCode:VARCHAR#,
+		CO_CODE =
+		#coCode:VARCHAR#,
+		ND = #nd:DECIMAL#,
+		ZC_SGN_DATE = #zcSgnDate:DATE#,
+		ZC_SU_NAME = #zcSuName:VARCHAR#,
+		ZC_CON_TEXT = #zcConText:VARCHAR#,
+		ZC_CON_TEXT_BLOBID = #zcConTextBlobid:VARCHAR#,
+		ZC_HT_STATUS =
+		#zcHtStatus:VARCHAR#,
+		ZC_ZG_CS_CODE = #zcZgCsCode:VARCHAR#,
+		EXECUTOR =
+		#executor:VARCHAR#,
+		EXECUTE_DATE = #executeDate:DATE#,
+		PROCESS_INST_ID =
+		#processInstId:DECIMAL#,
+		ZC_SU_CODE = #zcSuCode:VARCHAR#,
+		ZC_SU_TEL =
+		#zcSuTel:VARCHAR#,
+		ZC_SU_LINKMAN = #zcSuLinkman:VARCHAR#,
+		ZC_ZG_CS_NAME
+		= #zcZgCsName:VARCHAR#,
+		ZC_MEMO = #zcMemo:VARCHAR#,
+		AGENCY =#agency:VARCHAR#,
+		ORG_CODE = #orgCode:VARCHAR#,
+		TBYLB_FILE_NAME = #tbylbFileName:VARCHAR#,
+		TBYLB_FILE_ID = #tbylbFileId:VARCHAR#,
+		ZC_MAKE_NAME = #zcMakeName:VARCHAR#,
+		ZC_BID_CODE = #zcBidCode:VARCHAR#,
+		ZC_BID_CONTENT = #zcBidContent:VARCHAR#
+		where ZC_HT_CODE =
+		#zcHtCode:VARCHAR#
+	</update>
+	
+   <select id="_selectDdcgWinProvider" resultMap="_ZcEbSupplierResult"
+	parameterClass="elementCondition">
+	SELECT ZS.ZC_SU_CODE,
+       ZS.ZC_SU_NAME,
+       ZS.ZC_SU_LINKMAN,
+       ZS.ZC_SU_TEL,
+       ZS.ZC_SU_ADDR,
+       ZS.LINK_MAN_PHONE,
+       ZS.LINK_MAN_MOBILE
+  FROM ZC_EB_EVAL_REPORT ZR, ZC_EB_PACK_EVAL_RESULT ZT, ZC_B_SUPPLIER ZS
+ WHERE ZS.ZC_SU_CODE = ZT.PROVIDER_CODE
+   AND ZT.EVAL_RESULT IN ('3', '4')
+   AND NOT EXISTS (SELECT HT.ZC_SU_CODE
+          FROM ZC_DDCG_HT HT
+         WHERE HT.ZC_BID_CODE = #packCode#
+           AND HT.ZC_SU_CODE = ZT.PROVIDER_CODE)
+   AND ZR.PACK_CODE = ZT.PACK_CODE
+   AND ZR.PACK_CODE = #packCode#
+	</select>
+</sqlMap>

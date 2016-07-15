@@ -1,0 +1,1 @@
+package com.ufgov.zc.common.zc.model;public class ZcHtPrePayBillItemChg extends ZcHtPrePayBillItem {	private static final long serialVersionUID = -7784223340367774877L;	private String zcHtChgId;	public String getZcHtChgId() {		return zcHtChgId;	}	public void setZcHtChgId(String zcHtChgId) {		this.zcHtChgId = zcHtChgId;	}}

@@ -1,0 +1,1 @@
+package com.ufgov.zc.client.console.elementrule.event;import java.util.EventObject;public class RuleModelEvent extends EventObject {  public RuleModelEvent(Object source) {    super(source);  }}

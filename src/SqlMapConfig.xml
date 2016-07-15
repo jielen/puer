@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMapConfig
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+	<settings cacheModelsEnabled="false" enhancementEnabled="true"
+		lazyLoadingEnabled="false" errorTracingEnabled="true"
+		useStatementNamespaces="true" />
+
+	<sqlMap resource="sqlmap/gmap-global.xml" />
+	<sqlMap resource="sqlmap/gmap-meta.xml" />
+	<sqlMap resource="sqlmap/gmap-common.xml" />
+	<sqlMap resource="sqlmap/gmap-user.xml" />
+	<sqlMap resource="sqlmap/gmap-priv.xml" />
+	<sqlMap resource="sqlmap/gmap-menu.xml" />
+	<sqlMap resource="sqlmap/print-ruleData.xml" />
+
+	<sqlMap resource="config/wf_resultmap.xml" />
+	<sqlMap resource="config/wf_meta.xml" />
+	<sqlMap resource="config/wf_runtime.xml" />
+
+	<sqlMap resource="sqlmap/ElementName.xml" />
+	<sqlMap resource="sqlmap/GkTemp.xml" />
+	<sqlMap resource="sqlmap/ElementCondition.xml" />
+	<sqlMap resource="sqlmap/BusiNumLim.xml" />
+	<sqlMap resource="sqlmap/MaCpElementMapping.xml" />
+	<sqlMap resource="sqlmap/MaElementRelationRule.xml" />
+	<sqlMap resource="sqlmap/GkGetDataRuleCondi.xml" />
+	<sqlMap resource="sqlmap/ExecProcCallback.xml" />
+	<sqlMap resource="sqlmap/console/GkGetdataRule.xml" />
+	<sqlMap resource="sqlmap/BillElement.xml" />
+	<sqlMap resource="sqlmap/LangTrans.xml" />
+	<sqlMap resource="sqlmap/WfCommonEdit.xml" />
+	<sqlMap resource="sqlmap/WfCommonAudited.xml" />
+	<sqlMap resource="sqlmap/SearchCondition.xml" />
+	<sqlMap resource="sqlmap/UserPreferences.xml" />
+	<sqlMap resource="sqlmap/AsCompo.xml" />
+	<sqlMap resource="sqlmap/AsFile.xml" />
+	<sqlMap resource="sqlmap/Print.xml" />
+	<sqlMap resource="sqlmap/BiBalance.xml" />
+	<sqlMap resource="sqlmap/DpBalance.xml" />
+	<sqlMap resource="sqlmap/Org.xml" />
+	<sqlMap resource="sqlmap/Company.xml" />
+	<sqlMap resource="sqlmap/User.xml" />
+	<sqlMap resource="sqlmap/MaBank.xml" />
+	<sqlMap resource="sqlmap/MaBanknode.xml" />
+	<sqlMap resource="sqlmap/MaTzdSumElement.xml" />
+	<sqlMap resource="sqlmap/MaCpBankBal.xml" />
+	<sqlMap resource="sqlmap/BAcc.xml" />
+	<sqlMap resource="sqlmap/EAcc.xml" />
+	<sqlMap resource="sqlmap/Outlay.xml" />
+	<sqlMap resource="sqlmap/ProjectType.xml" />
+	<sqlMap resource="sqlmap/Project.xml" />
+	<sqlMap resource="sqlmap/Fund.xml" />
+	<sqlMap resource="sqlmap/Manage.xml" />
+	<sqlMap resource="sqlmap/Payout.xml" />
+	<sqlMap resource="sqlmap/Paytype.xml" />
+	<sqlMap resource="sqlmap/Origin.xml" />
+	<sqlMap resource="sqlmap/InceptDoc.xml" />
+	<sqlMap resource="sqlmap/SendDocType.xml" />
+	<sqlMap resource="sqlmap/SendDoc.xml" />
+	<sqlMap resource="sqlmap/DAttr.xml" />
+	<sqlMap resource="sqlmap/AsVal.xml" />
+	<sqlMap resource="sqlmap/AsOption.xml" />
+	<sqlMap resource="sqlmap/BankAccount.xml" />
+	<sqlMap resource="sqlmap/BalMode.xml" />
+	<sqlMap resource="sqlmap/Contract.xml" />
+	<sqlMap resource="sqlmap/NumLimCompo.xml" />
+	<sqlMap resource="sqlmap/OperationType.xml" />
+	<sqlMap resource="sqlmap/AsNoRule.xml" />
+	<sqlMap resource="sqlmap/AsNoRuleSeg.xml" />
+	<sqlMap resource="sqlmap/AsNumTool.xml" />
+	<sqlMap resource="sqlmap/AsNumToolNo.xml" />
+	<sqlMap resource="sqlmap/UserFunc.xml" />
+	<sqlMap resource="sqlmap/AsLog.xml" />
+	<sqlMap resource="sqlmap/AsCompoFunc.xml" />
+	<sqlMap resource="sqlmap/WfTaskGranter.xml" />
+	<sqlMap resource="sqlmap/WfCommonDraft.xml" />
+	<sqlMap resource="sqlmap/console/AsOrg.xml" />
+	<sqlMap resource="sqlmap/console/AsUserNumLim.xml" />
+	<sqlMap resource="sqlmap/console/AsRole.xml" />
+	<sqlMap resource="sqlmap/console/AsRoleNumLim.xml" />
+	<sqlMap resource="sqlmap/console/MaUserNumLim.xml" />
+	<sqlMap resource="sqlmap/console/MaRoleNumLim.xml" />
+	<sqlMap resource="sqlmap/console/SqlCheck.xml" />
+	<sqlMap resource="sqlmap/console/Menu.xml" />
+	<sqlMap resource="sqlmap/console/Component.xml" />
+	<sqlMap resource="sqlmap/console/MA_COMPANY_SqlMap.xml" />
+	<sqlMap resource="sqlmap/console/GkCompoNewToOld.xml" />
+	<sqlMap resource="sqlmap/ReportQuery.xml" />
+	<sqlMap resource="sqlmap/MaExpSerial.xml" />
+	<sqlMap resource="sqlmap/MacpRuleDetail.xml" />
+	<sqlMap resource="sqlmap/UserSearchStore.xml" />
+	<sqlMap resource="sqlmap/console/AsEmp.xml" />
+	<sqlMap resource="sqlmap/console/AsRoleGranted.xml" />
+	<sqlMap resource="sqlmap/GkBusinessLog.xml" />
+	
+	<sqlMap resource="sqlmap/zc/ZcEbEntrust.xml" />
+	<sqlMap resource="sqlmap/zc/ZcEbProtocol.xml" />
+	<sqlMap resource="sqlmap/zc/ZcEbOptions.xml" />
+	<sqlMap resource="sqlmap/zc/ZcEbFormula.xml" />
+	<sqlMap resource="sqlmap/zc/ZcEbSignup.xml" />
+	 <sqlMap resource="sqlmap/zc/ZcEbEval.xml" />
+    <sqlMap resource="sqlmap/zc/ZcEbBulletinBid.xml" />
+    <sqlMap resource="sqlmap/zc/ZcEbGuarantee.xml" />
+    <sqlMap resource="sqlmap/zc/ZcEbRequirement.xml" />    
+    <sqlMap resource="sqlmap/zc/ZcEbProj.xml" />
+    <sqlMap resource="sqlmap/zc/ZC_P_PRO_MAKE.xml" />
+    <sqlMap resource="sqlmap/zc/ZC_P_PRO_MITEM_BI.xml" />
+    <sqlMap resource="sqlmap/zc/ZC_P_PRO_MITEM.xml" />
+    <sqlMap resource="sqlmap/zc/ZC_T_BCHT_ITEM.xml" />
+    <sqlMap resource="sqlmap/zc/ZC_XMCG_HT_BI.xml" />
+    <sqlMap resource="sqlmap/zc/ZC_XMCG_HT.xml" />
+    <sqlMap resource="sqlmap/zc/ZC_B_CATALOGUE.xml" />
+    <sqlMap resource="sqlmap/zc/ZC_B_AGENCY.xml" />
+    <sqlMap resource="sqlmap/zc/ZcEbBulletinWordMold.xml" />
+    <sqlMap resource="sqlmap/zc/selectPage.xml" />
+    <sqlMap resource="sqlmap/zc/ZC_EB_SUPPLIER.xml" />
+    <sqlMap resource="sqlmap/zc/ZC_EB_SUPPLIER_FEEDBACK.xml" />
+    <sqlMap resource="sqlmap/zc/ZC_EB_SUPPLIER_JUDGE.xml" />
+  
+   <sqlMap resource="sqlmap/zc/ZcEbOpenBid.xml" />
+   <sqlMap resource="sqlmap/zc/ZcEbOpenbidTeam.xml" />
+    <sqlMap resource="sqlmap/zc/ZcEbEvalBidTeam.xml" />
+    <sqlMap resource="sqlmap/zc/ZcEbPackResult.xml" />
+    <sqlMap resource="sqlmap/zc/ZcEbPlan.xml" />
+    <sqlMap resource="sqlmap/zc/ZcEbProjZbFile.xml" />
+    <sqlMap resource="sqlmap/zc/ZcEbNotice.xml" /> 
+	<sqlMap resource="sqlmap/zc/ZcEbFormulaTemplate.xml" />
+	
+	<sqlMap resource="sqlmap/zc/ZcEbEvalExpertComment.xml" />
+	 <sqlMap resource="sqlmap/zc/ZcEbZb.xml" /> 
+	<sqlMap resource="sqlmap/zc/ZcEbProjChange.xml" /> 
+	<sqlMap resource="sqlmap/zc/ZcProjectSupervision.xml" />
+	<sqlMap resource="sqlmap/zc/ZcSuppleMentPProMake.xml" />
+	<sqlMap resource="sqlmap/zc/ZcSuppleMentBi.xml" />
+	<sqlMap resource="sqlmap/zc/ZC_P_PRO_BAL.xml" />
+	<sqlMap resource="sqlmap/zc/ZC_P_PRO_BAL_BI.xml" />
+	<sqlMap resource="sqlmap/zc/EmExpertSelectionBill.xml" />	
+	<sqlMap resource="sqlmap/zc/EmCallExpertRecord.xml" />	
+	<sqlMap resource="sqlmap/zc/EmExpertType.xml" />
+	<sqlMap resource="sqlmap/zc/EmExpert.xml" />
+	<sqlMap resource="sqlmap/zc/EmEvaluationCondition.xml" />
+	<sqlMap resource="sqlmap/zc/EmExpertBillFilter.xml" />
+	<sqlMap resource="sqlmap/zc/EmExpertEvaluation.xml" />
+	<sqlMap resource="sqlmap/zc/DataExchange.xml" />
+	<sqlMap resource="sqlmap/zc/ZcEbRfq.xml" />
+	<sqlMap resource="sqlmap/zc/ZcEbApArticle.xml" />
+	<sqlMap resource="sqlmap/zc/ZcEbApArticlePortlet.xml" />
+	<sqlMap resource="sqlmap/zc/ZcEbProMakeOuter.xml" />
+	<sqlMap resource="sqlmap/zc/ZC_EB_SUPPLIER_PACK.xml" />
+	<sqlMap resource="sqlmap/zc/ZcEbXunJia.xml" />
+	<sqlMap resource="sqlmap/zc/ZcEbUtil.xml" />
+	<sqlMap resource="sqlmap/zc/ZC_WORK_PLAN.xml" />
+	<sqlMap resource="sqlmap/zc/ZC_WORK_PLAN_DYNAMIC.xml" />
+	<sqlMap resource="sqlmap/zc/ZcEbAuditSheet.xml" />
+	<sqlMap resource="sqlmap/zc/EmFundPay.xml" />
+	<sqlMap resource="sqlmap/zc/ZcEbXunJiaBaoJia.xml" />
+	<sqlMap resource="sqlmap/zc/ZcEbYanShou.xml" />
+	<sqlMap resource="sqlmap/zc/ZcBrand.xml" />
+	<sqlMap resource="sqlmap/zc/ZcBMerchandise.xml" />
+	<sqlMap resource="sqlmap/zc/ZcEbProviderPreAudit.xml" />
+	<sqlMap resource="sqlmap/zc/ZC_EB_SUPPLIER_QUALIFY.xml" />	
+	<sqlMap resource="sqlmap/zc/ZC_V_BI_DETAIL.xml" />
+	<sqlMap resource="sqlmap/zc/ZcEbGongHuoHt.xml" />
+	<sqlMap resource="sqlmap/zc/ZcFileResumeBrokenUpload.xml" />
+	
+	<sqlMap resource="sqlmap/zc/ZC_EB_SUP_BS_TYPE.xml" />
+	<sqlMap resource="sqlmap/zc/ZcEbEcbj.xml" />
+	<sqlMap resource="sqlmap/zc/ZcExpertQuestion.xml"/>
+	<sqlMap resource="sqlmap/zc/ZcExpertQuestionContent.xml"/>
+	<sqlMap resource="sqlmap/zc/ZcEbProArgue.xml" />
+	<sqlMap resource="sqlmap/zc/ZcEbProArgueDetail.xml" />
+	<sqlMap resource="sqlmap/zc/ZcEbProjectLivingChange.xml" />
+	<sqlMap resource="sqlmap/zc/ZcEbSecurityRecord.xml" />
+	<sqlMap resource="sqlmap/zc/ZC_P_PRO_MITEM_MER.xml" />
+	<!--sqlMap resource="sqlmap/zc/ZcEbXieyi.xml" /-->
+	<sqlMap resource="sqlmap/AP_ARTICLE.xml"/>
+	<sqlMap resource="sqlmap/zc/ZcEbGuiDang.xml" />
+	<sqlMap resource="sqlmap/zc/ZC_EB_PRO_COMPLETION_SqlMap.xml"/>
+	<sqlMap resource="sqlmap/zc/ZC_EB_EVAL_RESULT_SqlMap.xml"/>
+	
+	<sqlMap resource="sqlmap/zc/SupplierIntegrityManage.xml"/>
+
+	<sqlMap resource="sqlmap/zc/ZC_XYGH_ZBJG.xml"/>
+	<sqlMap resource="sqlmap/zc/ZC_B_CATALOGUE_PROP.xml"/>
+	<sqlMap resource="sqlmap/zc/ZcBMerDiscount.xml"/>
+
+	<sqlMap resource="sqlmap/zc/ZCQuestion.xml"/>
+	<sqlMap resource="sqlmap/zc/ZC_EB_Complain.xml"/>
+	<sqlMap resource="sqlmap/zc/ZC_EB_PRESENT.xml"/>
+
+	<sqlMap resource="sqlmap/zc/ZC_EB_PURCHASE_DEP_REV_DETAIL_SqlMap.xml"/>
+	<sqlMap resource="sqlmap/zc/ZC_EB_PURCHASE_DEPART_REVIEW_SqlMap.xml"/>
+
+    <sqlMap resource="sqlmap/zc/ZcAuctionInfo.xml"/>
+	<sqlMap resource="sqlmap/zc/ZcAuctionRecord.xml"/>
+	<sqlMap resource="sqlmap/zc/ZC_EB_PACK_EXPERT_SqlMap.xml"/>
+
+	<sqlMap resource="sqlmap/WfCurrentTask.xml"/>
+	<sqlMap resource="sqlmap/zc/ZC_EB_WEN_HAO_TOOL_SqlMap.xml"/>
+    <sqlMap resource="sqlmap/zc/ZC_DELEG_JCZW_DATA_EXCHANGE_SqlMap.xml"/>
+    <sqlMap resource="sqlmap/zc/AS_USER_SESSION_SqlMap.xml"/>
+    
+    <sqlMap resource="sqlmap/zc/ZC_EB_CANCEL_ENTRUST.xml"/>
+    <sqlMap resource="sqlmap/console/asMenuCompo.xml"/>
+    <sqlMap resource="sqlmap/console/consoleChart.xml"/>
+
+	<sqlMap resource="sqlmap/zc/ZcBdSppc.xml"/>
+	<sqlMap resource="sqlmap/zc/ZC_B_DIYUCTG.xml"/>
+	<sqlMap resource="sqlmap/zc/ZC_INTERFACE_DATA_FOR_F3.xml"/>
+	<sqlMap resource="sqlmap/zc/EmExpertTypeJoin.xml"/>
+	<sqlMap resource="sqlmap/zc/EmExpertAbilityHistory.xml"/>
+	<sqlMap resource="sqlmap/zc/VW_BUDGET_GP.xml"/>
+	<sqlMap resource="sqlmap/zc/PAY_VOUCHER.xml"/>
+	<sqlMap resource="sqlmap/zc/ZC_P_PRO_BAL_CHG.xml"/>
+	<sqlMap resource="sqlmap/zc/ZC_P_PRO_BAL_CHG_BI.xml"/>
+	<sqlMap resource="sqlmap/zc/ZC_P_PRO_MITEM_BI_HISTORY.xml"/>
+	<sqlMap resource="sqlmap/zc/ZC_HT_PRE_PAY_BILL.xml"/>
+	<sqlMap resource="sqlmap/zc/ZC_BAL_CHG_HT_BI.xml"/>
+	<sqlMap resource="sqlmap/zc/ZC_P_PRO.xml"/>
+    <sqlMap resource="sqlmap/zc/ZC_P_PRO_RETURN_BI.xml"/>
+    <sqlMap resource="sqlmap/zc/ZC_EB_REQUIREMENT_CONFIRM.xml"/>
+    <sqlMap resource="sqlmap/zc/ZC_WCMS_CONTENT.xml"/>
+    <sqlMap resource="sqlmap/zc/ZC_YEAR_END.xml"/>
+    <sqlMap resource="sqlmap/zc/ZC_XMCG_HT_CHG.xml"/>
+    <sqlMap resource="sqlmap/zc/ZC_NOTEPAD_SqlMap.xml"/>
+    
+    <sqlMap resource="sqlmap/zc/ZcEbEntrustBull.xml" />
+    <sqlMap resource="sqlmap/zc/ZC_EB_SUP_PRICE.xml"/>
+    <sqlMap resource="sqlmap/zc/ZcEbEntrustCancel.xml"/>
+    <sqlMap resource="sqlmap/zc/ZcWfCurrentTaskCancel.xml"/>
+    <sqlMap resource="sqlmap/zc/ZC_ANIMATION_META_SqlMap.xml"/>
+    <sqlMap resource="sqlmap/zc/ZC_EB_REQ_FILE.xml"/>
+    <sqlMap resource="sqlmap/zc/ZC_NUM_TOOL.xml"/>
+    <sqlMap resource="sqlmap/zc/ZcEbReqPack.xml"/>
+    <sqlMap resource="sqlmap/zc/ZcEbSupSingup.xml"/>
+    <sqlMap resource="sqlmap/zc/message.xml"/>
+    <sqlMap resource="sqlmap/zc/ZC_EB_SUP_QUALIFICATION.xml"/>
+    <sqlMap resource="sqlmap/zc/ELE_REGION.xml"/>
+    <sqlMap resource="sqlmap/zc/ZC_SUP_QUA_TYPE.xml"/>
+     <sqlMap resource="sqlmap/zc/ZcWfFlowAction.xml"/>
+     <sqlMap resource="sqlmap/zc/ZcEbConsult.xml"/>
+     <sqlMap resource="sqlmap/zc/ZC_DDCG_HT.xml"/>
+     <sqlMap resource="sqlmap/zc/ZCQX.xml"/>
+     <sqlMap resource="sqlmap/zc/ZCQB.xml"/>
+     <sqlMap resource="sqlmap/zc/AS_USER_FUNC.xml"/>
+     <sqlMap resource="sqlmap/zc/ZC_EB_SUPPLIER_TYPE.xml"/>
+     
+	<sqlMap resource="sqlmap/sf/SfMajorMapper.xml"/>
+	<sqlMap resource="sqlmap/sf/SfEntrustMapper.xml"/>
+	<sqlMap resource="sqlmap/sf/SfEntrustorMapper.xml"/>
+	<sqlMap resource="sqlmap/sf/SfJdTargetMapper.xml"/>
+	<sqlMap resource="sqlmap/sf/SfMaterialsMapper.xml"/>
+	<sqlMap resource="sqlmap/sf/SfEvaluationMapper.xml"/>
+	<sqlMap resource="sqlmap/sf/SfEvaluationPersonMapper.xml"/>
+    <sqlMap resource="sqlmap/sf/SfAgreementMapper.xml"/>
+	<sqlMap resource="sqlmap/sf/SfChargeStandardMapper.xml"/>
+	<sqlMap resource="sqlmap/sf/SfChargeDetailMapper.xml"/>
+	<sqlMap resource="sqlmap/sf/SfChargeMapper.xml"/>
+	<sqlMap resource="sqlmap/sf/SfReceiptMapper.xml"/>
+	<sqlMap resource="sqlmap/sf/SfAppendMaterialNoticeMapper.xml"/>
+	<sqlMap resource="sqlmap/sf/SfOutInfoTypeMapper.xml"/>
+	<sqlMap resource="sqlmap/sf/SfOutInfoReqMapper.xml"/>
+	<sqlMap resource="sqlmap/sf/SfOutInfoMapper.xml"/>
+	<sqlMap resource="sqlmap/sf/SfOutInfoDetailMapper.xml"/>
+	<sqlMap resource="sqlmap/sf/SfOutInfoValidateDetailMapper.xml"/>
+	<sqlMap resource="sqlmap/sf/SfMaterialsTransferDetailMapper.xml"/>
+	<sqlMap resource="sqlmap/sf/SfMaterialsTransferMapper.xml"/>
+	<sqlMap resource="sqlmap/sf/SfJdResultMapper.xml"/>
+	<sqlMap resource="sqlmap/sf/SfJdPersonMapper.xml"/>
+	<sqlMap resource="sqlmap/sf/SfJdPersonMajorMapper.xml"/>
+	<sqlMap resource="sqlmap/sf/SfJdDocTypeMapper.xml"/>
+	<sqlMap resource="sqlmap/sf/SfJdDocAuditMapper.xml"/>
+	<sqlMap resource="sqlmap/sf/SfJdDocAuditDetailMapper.xml"/>
+	<sqlMap resource="sqlmap/sf/SfDossierMapper.xml"/>
+	<sqlMap resource="sqlmap/sf/SfAssistFileMapper.xml"/>
+	<sqlMap resource="sqlmap/sf/SfXysxTypeMapper.xml"/>
+	<sqlMap resource="sqlmap/sf/SfXysxMapper.xml"/>
+     
+</sqlMapConfig>

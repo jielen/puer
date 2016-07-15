@@ -1,0 +1,1 @@
+package com.ufgov.zc.server.commonbiz.dao;import java.util.List;import com.ufgov.zc.common.system.dto.ElementConditionDto;public interface IBAccDao {  List getRootBAcc(int nd);  List getChildrenBAcc(int nd);  List getBAcc(ElementConditionDto dto);}

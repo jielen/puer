@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ZcBMerDiscount">
+
+
+
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+
+	
+
+	<resultMap id="ZcBMerDiscountResult" class="com.ufgov.zc.common.zc.model.ZcBMerDiscount">
+
+		<result column="ZC_MER_CODE" jdbcType="VARCHAR" property="zcMerCode" />
+
+		<result column="ZC_SU_CODE" jdbcType="VARCHAR" property="zcSuCode" />
+
+		<result column="ZC_SU_NAME" jdbcType="VARCHAR" property="zcSuName" />
+		
+		<result column="ZC_TREATY_LOWER_LIMIT" jdbcType="INTEGER" property="zcTreatyLowerLimit" nullValue="0"/>
+
+		<result column="ZC_TREATY_UPPER_LIMIT" jdbcType="INTEGER" property="zcTreatyUpperLimit" nullValue="0"/>
+
+		<result column="ZC_TREATY_DISCOUNT_RATE" jdbcType="DECIMAL" property="zcTreatyDiscountRate" nullValue="0.0"/>
+
+		<result column="ZC_TREATY_PRICE" jdbcType="DECIMAL" property="zcTreatyPrice" nullValue="0.0"/>
+
+		<result column="ZC_TREATY_MEMO" jdbcType="VARCHAR" property="zcTreatyMemo" />
+
+	</resultMap>
+
+
+
+	<resultMap id="ZcBMerDiscountWebResult" class="com.ufgov.zc.common.zc.model.ZcBMerDiscountWeb">
+
+		<result column="ZC_MER_CODE" jdbcType="VARCHAR" property="zcMerCode" />
+
+		<result column="ZC_SU_CODE" jdbcType="VARCHAR" property="zcSuCode" />
+
+		<result column="ZC_SU_NAME" jdbcType="VARCHAR" property="zcSuName" />
+
+		<result column="ZC_TREATY_LOWER_LIMIT" jdbcType="INTEGER" property="zcTreatyLowerLimit"  nullValue="0"/>
+
+		<result column="ZC_TREATY_UPPER_LIMIT" jdbcType="INTEGER" property="zcTreatyUpperLimit" nullValue="0"/>
+
+		<result column="ZC_TREATY_DISCOUNT_RATE" jdbcType="DECIMAL" property="zcTreatyDiscountRate" nullValue="0.0"/>
+
+		<result column="ZC_TREATY_PRICE" jdbcType="DECIMAL" property="zcTreatyPrice" nullValue="0.0"/>
+
+		<result column="ZC_TREATY_MEMO" jdbcType="VARCHAR" property="zcTreatyMemo" />
+
+	</resultMap>
+
+
+
+
+
+	<select id="getZcBMerDiscountWebListByMerCode" resultMap="ZcBMerDiscountWebResult"
+
+		parameterClass="string">
+
+		select d.zc_mer_code,
+
+	       d.zc_su_code,
+
+	      (select b.zc_su_name from zc_b_supplier b where b.zc_su_code = d.zc_su_code) zc_su_name,
+
+	       nvl(d.zc_treaty_lower_limit,0) zc_treaty_lower_limit,
+
+	       nvl(d.zc_treaty_upper_limit,0) zc_treaty_upper_limit,
+
+	       nvl(d.zc_treaty_discount_rate,0.00) zc_treaty_discount_rate,
+
+           nvl(d.zc_treaty_price,0.00)zc_treaty_price,
+
+	       d.zc_treaty_memo
+
+	  	from zc_b_mer_discount_web d
+	 	where d.zc_mer_code = #zcMerCode#
+
+	</select>
+
+
+
+	<insert id="addZcBMerDiscountWeb" parameterClass="com.ufgov.zc.common.zc.model.ZcBMerDiscountWeb">
+
+		<![CDATA[
+
+			insert into zc_b_mer_discount_web( 
+
+			ZC_MER_CODE,
+
+			ZC_SU_CODE,
+
+			ZC_TREATY_LOWER_LIMIT ,
+
+			ZC_TREATY_UPPER_LIMIT,
+
+			ZC_TREATY_DISCOUNT_RATE,
+
+			ZC_TREATY_PRICE,
+
+			ZC_TREATY_MEMO) values (
+
+			
+
+			#zcMerCode#,
+
+			#zcSuCode#,
+
+			#zcTreatyLowerLimit#,
+
+			#zcTreatyUpperLimit#,
+
+			#zcTreatyDiscountRate#,
+
+			#zcTreatyPrice#,
+
+			#zcTreatyMemo#
+
+			) 
+
+	  		]]>
+	</insert>
+
+	<delete id="deleteZcBMerDiscountWeb" parameterClass="string" >
+
+		delete from zc_b_mer_discount_web
+
+		where ZC_MER_CODE = #zcMerCode#
+
+	</delete>
+	
+	<select id="getZcBMerDiscountListByMerCode" resultMap="ZcBMerDiscountResult"
+
+		parameterClass="string">
+
+		select d.zc_mer_code,
+
+	       d.zc_su_code,
+	       
+	      (select b.zc_su_name from zc_b_supplier b where b.zc_su_code = d.zc_su_code) zc_su_name,
+
+	       nvl(d.zc_treaty_lower_limit,0) zc_treaty_lower_limit,
+
+	       nvl(d.zc_treaty_upper_limit,0) zc_treaty_upper_limit,
+
+	       nvl(d.zc_treaty_discount_rate,0.00) zc_treaty_discount_rate,
+
+           nvl(d.zc_treaty_price,0.00)zc_treaty_price,
+
+	       d.zc_treaty_memo
+
+	  	from zc_b_mer_discount d
+
+	 	where d.zc_mer_code = #zcMerCode#
+
+	</select>
+
+   <insert id="addZcBMerDiscount" parameterClass="com.ufgov.zc.common.zc.model.ZcBMerDiscount">
+
+		<![CDATA[
+
+			insert into zc_b_mer_discount( 
+
+			ZC_MER_CODE,
+
+			ZC_SU_CODE,
+
+			ZC_TREATY_LOWER_LIMIT ,
+
+			ZC_TREATY_UPPER_LIMIT,
+
+			ZC_TREATY_DISCOUNT_RATE,
+
+			ZC_TREATY_MEMO) values (
+
+			
+
+			#zcMerCode#,
+
+			#zcSuCode#,
+
+			#zcTreatyLowerLimit#,
+
+			#zcTreatyUpperLimit#,
+
+			#zcTreatyDiscountRate#,
+
+			#zcTreatyMemo#
+
+			) 
+
+	  		]]>
+
+	</insert>
+
+    <delete id="deleteZcBMerDiscount" parameterClass="string" >
+
+		delete from zc_b_mer_discount
+
+		where ZC_MER_CODE = #zcMerCode#
+
+	</delete>
+
+</sqlMap>

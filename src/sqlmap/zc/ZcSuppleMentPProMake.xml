@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ZcSuppleMentPProMake">
+
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<typeAlias alias="ZcSuppleMentPProMake"
+		type="com.ufgov.zc.common.zc.model.ZcSupplementPProMake" />
+	<resultMap id="ZcSuppleMentPProMakeResult" class="ZcSuppleMentPProMake">
+		<result property="zcMakeCode" column="ZC_MAKE_CODE" />
+		<result property="zcSuppleMentCode" column="ZC_SUPPLEMENT_CODE" />
+		<result property="zcSuppleMentStatus" column="ZC_SUPPLEMENT_STATUS" />
+		<result property="processInstId" column="PROCESS_INST_ID" />
+		<result property="addMoney" column="ADD_MONEY" />
+		<result column="ZC_INPUT_CODE" jdbcType="VARCHAR" property="zcInputCode" />
+		<result column="ZC_INPUT_DATE" jdbcType="VARCHAR" property="zcInputDate" />
+		<result column="ZC_INPUT_NAME" jdbcType="VARCHAR" property="zcInputName" />
+		<result column="ZC_REMARK" jdbcType="VARCHAR" property="zcRemark" />
+	</resultMap>
+	<insert id="insertZcSuppleMentPProMakeResult" parameterClass="ZcSuppleMentPProMake">
+		insert into
+		ZC_P_PRO_MAKE_SUPPLEMENT (ZC_MAKE_CODE,
+		ZC_SUPPLEMENT_STATUS,
+		PROCESS_INST_ID,ZC_SUPPLEMENT_CODE,ADD_MONEY,ZC_INPUT_CODE,ZC_INPUT_DATE,ZC_INPUT_NAME,ZC_REMARK)
+		values
+		(#zcMakeCode:VARCHAR#,#zcSuppleMentStatus:VARCHAR#,#processInstId:NUMBER#,#zcSuppleMentCode:VARCHAR#,
+		#addMoney:DECIMAL#,#zcInputCode:VARCHAR#,#zcInputDate:VARCHAR#,#zcInputName:VARCHAR#,
+		#zcRemark:VARCHAR#)
+	</insert>
+	<delete id="deleteZcSuppleMentPProMakeResult" parameterClass="string">
+		delete from
+		ZC_P_PRO_MAKE_SUPPLEMENT where
+		ZC_SUPPLEMENT_CODE=#zcSuppleMentCode:VARCHAR#
+	</delete>
+	<select id="getZcSuppleMentPProMakeResult" resultMap="ZcSuppleMentPProMakeResult"
+		parameterClass="string">
+		select * from
+		ZC_P_PRO_MAKE_SUPPLEMENT where
+		ZC_SUPPLEMENT_CODE=#zcSuppleMentCode:VARCHAR#
+	</select>
+	<update id="updateZcSuppleMentPProMakeResult" parameterClass="ZcSuppleMentPProMake">
+		update ZC_P_PRO_MAKE_SUPPLEMENT
+		set ZC_MAKE_CODE=#zcMakeCode:VARCHAR#,
+		ADD_MONEY=#addMoney:DECIMAL#,
+		ZC_INPUT_CODE=#zcInputCode:VARCHAR#,
+		ZC_INPUT_DATE=#zcInputDate:VARCHAR#,
+		ZC_INPUT_NAME=#zcInputName:VARCHAR#,
+		ZC_REMARK=#zcRemark:VARCHAR#
+		where
+		ZC_SUPPLEMENT_CODE=#zcSuppleMentCode:VARCHAR#
+	</update>
+	<select id="getZcSuppleMentPProMakeList" resultMap="ZcSuppleMentPProMakeResult"
+		parameterClass="elementCondition">
+
+		select * from
+		ZC_P_PRO_MAKE_SUPPLEMENT master
+		<isNotNull prepend="where" property="status">
+			<isEqual property="status" compareValue="todo">
+				exists (select
+				instance_id from v_wf_current_task_gk53 where executor =#executor#
+				and instance_id = master.process_inst_id)
+				and
+				master.ZC_SUPPLEMENT_STATUS!='toadd'
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				exists (select
+				instance_id from V_WF_ACTION_HISTORY_GK53 where executor =
+				#executor# and instance_id = master.process_inst_id)
+				and
+				master.ZC_SUPPLEMENT_STATUS!='cancel'
+				and
+				master.ZC_SUPPLEMENT_STATUS!='exec'
+			</isEqual>
+			<isEqual property="status" compareValue="exec">
+				(master.ZC_SUPPLEMENT_STATUS ='exec')
+			</isEqual>
+			<isEqual property="status" compareValue="toadd">
+				exists (select
+				instance_id from v_wf_current_task_gk53 where executor
+				=#executor#
+				and instance_id = master.process_inst_id) and
+				(master.ZC_SUPPLEMENT_STATUS ='toadd')
+			</isEqual>
+			<isEqual property="status" compareValue="draft">
+				exists (select
+				WF_DRAFT_NAME from as_wf_draft where user_id=#executor# and
+				compo_id=#wfcompoId# and WF_DRAFT_ID=master.process_inst_id)
+				or
+				master.process_inst_id = -1
+			</isEqual>
+			<isEqual property="status" compareValue="all">
+				1=1
+			</isEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="zcText0">
+			master.ZC_MAKE_CODE=#zcText0:VARCHAR#
+		</isNotNull>
+		order by ZC_INPUT_DATE DESC
+	</select>
+</sqlMap>
+

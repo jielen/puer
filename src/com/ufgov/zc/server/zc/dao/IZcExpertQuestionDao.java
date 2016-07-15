@@ -1,0 +1,1 @@
+package com.ufgov.zc.server.zc.dao;import java.util.List;import com.ufgov.zc.common.system.dto.ElementConditionDto;import com.ufgov.zc.common.zc.model.ZcExpertQuestion;public interface IZcExpertQuestionDao {  public void insertExpertQuestion(ZcExpertQuestion zcExpertQuestion);  public List getExpertQuestion(ElementConditionDto dto);}

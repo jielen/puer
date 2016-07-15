@@ -1,0 +1,1 @@
+package com.ufgov.zc.server.commonbiz.service;import java.util.List;public interface IMaBanknodeService {  public List getMaBanknode(int nd, String bankCode);}

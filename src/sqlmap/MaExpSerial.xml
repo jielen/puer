@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="MaExpSerial" >
+	<typeAlias alias="maExpSerial" type="com.ufgov.zc.common.commonbiz.model.MaExpSerial"/>
+
+	<resultMap id="maExpSerialResult" class="maExpSerial" >
+		<result column="EXP_DATE" property="expDate" jdbcType="VARCHAR"/>
+		<result column="EXP_TYPE" property="expType" jdbcType="VARCHAR"/>
+		<result column="EXP_SERIAL" property="serial" jdbcType="DECIMAL"/>
+		<result column="EXP_PADMARK" property="padMark" jdbcType="VARCHAR"/>
+		<result column="EXP_SERIALLEN" property="serialLen" jdbcType="DECIMAL"/>
+		<result column="EXP_ND" property="nd" jdbcType="DECIMAL"/>
+	</resultMap>
+	
+	<select id="getMaExpSerial" resultMap="maExpSerialResult" parameterClass="Map">
+		select 
+			 t.EXP_DATE, 
+		  	 t.EXP_TYPE, 
+		     t.EXP_SERIAL, 
+		     t.EXP_PADMARK, 
+		     t.EXP_SERIALLEN, 
+		     t.EXP_ND
+		  from ma_exp_serial t
+		 where t.exp_date = #expDate#
+		   and t.exp_type = #expType#
+		   and t.exp_nd = #nd# for update
+	</select>
+	
+	<insert id="insertMaExpSerial" parameterClass="maExpSerial">
+		insert into ma_exp_serial
+		  	(EXP_DATE, 
+		  	 EXP_TYPE, 
+		     EXP_SERIAL, 
+		     EXP_PADMARK, 
+		     EXP_SERIALLEN, 
+		     EXP_ND)
+	    values
+			 (#expDate#,
+			  #expType#,
+			  #serial#,
+			  #padMark#,
+			  #serialLen#,
+			  #nd#
+			  )
+	</insert>
+	
+	<update id="updateMaExpSerial" parameterClass="maExpSerial">
+		update ma_exp_serial t
+	   		set t.exp_serial = #serial#
+	 	where t.exp_date = #expDate#
+	   		and t.exp_type = #expType#
+	   		and t.exp_nd = #nd#
+	</update>
+
+</sqlMap>

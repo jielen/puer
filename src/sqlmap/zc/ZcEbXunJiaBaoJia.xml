@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ZC_EB_XUNJIA_BAOJIA">
+
+
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+
+	<typeAlias alias="ZcEbXunJiaBaoJia"
+		type="com.ufgov.zc.common.zc.model.ZcEbXunJiaBaoJia" />
+	<typeAlias alias="ZcEbXunJiaBaoJiaDetail"
+		type="com.ufgov.zc.common.zc.model.ZcEbXunJiaBaoJiaDetail" />
+	<typeAlias alias="ZcEbXunJiaBaoJiaPack"
+		type="com.ufgov.zc.common.zc.model.ZcEbSignupPackDetail" />
+
+	<resultMap class="ZcEbXunJiaBaoJia" id="ZcEbXunJiaBaoJiaResultMap">
+		<result column="BJ_CODE" property="bjCode" jdbcType="VARCHAR" />
+		<result column="PROJ_CODE" property="projCode" jdbcType="VARCHAR" />
+		<result column="PROJ_NAME" property="projName" jdbcType="VARCHAR" />
+		<result column="PUR_TYPE" property="purType" jdbcType="VARCHAR" />
+		<result column="MANAGER" property="manager" jdbcType="VARCHAR" />
+		<result column="PHONE" property="phone" jdbcType="VARCHAR" />
+		<result column="SUPPLIER_CODE" property="supplierCode"
+			jdbcType="VARCHAR" />
+		<result column="SUPPLIER_NAME" property="supplierName"
+			jdbcType="VARCHAR" />
+		<result column="BJ_DATE" property="bjDate" jdbcType="TIMESTAMP" />
+		<result column="INPUTOR" property="inputor" jdbcType="VARCHAR" />
+		<result column="INPUT_DATE" property="inputDate" jdbcType="DATE" />
+		<result column="STATUS" property="status" jdbcType="VARCHAR" />
+		<result column="REMARK" property="remark" jdbcType="VARCHAR" />
+		<result column="ND" property="nd" jdbcType="VARCHAR" />
+		<result column="STOP_DATE" property="stopDate" jdbcType="TIMESTAMP" />		<result column="AGENCY" property="agency" />	</resultMap>
+
+	<resultMap id="ZcEbXunJiaBaoJiaDetailResultMap" class="ZcEbXunJiaBaoJiaDetail">
+		<result column="BJ_DETAIL_CODE" property="bjDetailCode"
+			jdbcType="VARCHAR" />
+		<result column="BJ_CODE" property="bjCode" jdbcType="VARCHAR" />
+		<result column="XJ_CODE" property="xjCode" jdbcType="VARCHAR" />
+		<result column="SP_NAME" property="spName" jdbcType="VARCHAR" />
+		<result column="SP_BRAND" property="spBrand" jdbcType="VARCHAR" />
+		<result column="SP_TECH" property="spTech" jdbcType="VARCHAR" />
+		<result column="SP_TECH_FILE_NAME" property="spTechFileName"
+			jdbcType="VARCHAR" />
+		<result column="SP_TECH_FILE_ID" property="spTechFileId"
+			jdbcType="VARCHAR" />
+		<result column="SP_NUM" property="spNum" jdbcType="INTEGER" />
+		<result column="SP_PRICE" property="spPrice" jdbcType="DECIMAL"
+			javaType="java.math.BigDecimal" />
+		<result column="SP_TOTAL_SUM" property="spTotalSum" jdbcType="DECIMAL"
+			javaType="java.math.BigDecimal" />
+		<result column="HAVE_XIAN_HUO" property="haveXianHuo" jdbcType="VARCHAR" />
+		<result column="GONG_HUO_DATE" property="gongHuoDate" jdbcType="DATE"
+			javaType="java.util.Date" />
+		<result column="REMARK" property="remark" jdbcType="VARCHAR" />
+		<result property="unit" column="unit" />
+	</resultMap>
+	<resultMap class="ZcEbXunJiaBaoJiaPack" id="ZcEbXunJiaBaoJiaPackResultMap">
+		<result property="packCode" column="PACK_CODE" />
+		<result property="packName" column="PACK_NAME" />
+		<result property="packDesc" column="PACK_DESC" />
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="openBidStatus" column="OPEN_BID_STATUS" />		<result property="spStatus" column="sp_status" />		<result property="spDate" column="sp_date" />		<result property="submitBidDocDate" column="SELL_END_TIME" />
+	</resultMap>	<resultMap class="java.util.HashMap" id="supperBidInfo">		<result property="supplier_code" column="supplier_code" />		<result property="sp_date" column="sp_date" />	</resultMap>
+
+	<select id="getXunJiaBaoJia" resultMap="ZcEbXunJiaBaoJiaResultMap"
+		parameterClass="elementCondition">
+		SELECT * FROM (
+		SELECT
+		ZC_EB_XUNJIA_BAOJIA.*,P.PROJ_NAME,P.PUR_TYPE,PL.BID_END_TIME AS
+		STOP_DATE
+		FROM
+		ZC_EB_XUNJIA_BAOJIA ZC_EB_XUNJIA_BAOJIA,
+		ZC_EB_PROJ P,
+		ZC_EB_PLAN PL
+		WHERE
+		ZC_EB_XUNJIA_BAOJIA.PROJ_CODE=P.PROJ_CODE
+		AND
+		P.PROJ_CODE=PL.PROJ_CODE(+)
+		<isNotNull prepend="AND" property="nd">
+			ZC_EB_XUNJIA_BAOJIA.ND=#nd#
+		</isNotNull>
+		<isNotNull prepend="AND" property="zcText0">
+			ZC_EB_XUNJIA_BAOJIA.PROJ_CODE=#zcText0#
+		</isNotNull>
+		<isNotNull prepend="AND" property="status">
+			<isEqual property="status" compareValue="todo">
+				not exists (select
+				bp.pack_code from zc_eb_xunjia_baojia_pack bp where
+				bp.bj_code=ZC_EB_XUNJIA_BAOJIA.Bj_Code and bp.status='2')
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				exists (select
+				bp.pack_code from zc_eb_xunjia_baojia_pack bp where
+				bp.bj_code=ZC_EB_XUNJIA_BAOJIA.Bj_Code and bp.status='2')
+			</isEqual>
+			<isEqual property="status" compareValue="zhongbiao"> exists (select
+				rp.rfq_code from zc_eb_rfq_pack rp, zc_eb_xunjia_baojia_pack bp
+				where bp.bj_code = ZC_EB_XUNJIA_BAOJIA.Bj_Code and bp.status = '2'
+				and rp.proj_code = ZC_EB_XUNJIA_BAOJIA.Proj_Code and rp.pack_code =
+				bp.pack_code and rp.win_bid_provider_code = #zcText1# and rp.STATUS
+				= '1')			</isEqual>
+			<isEqual property="status" compareValue="weizhongbiao"> not exists (select
+				rp.rfq_code from zc_eb_rfq_pack rp, zc_eb_xunjia_baojia_pack bp
+				where bp.bj_code = ZC_EB_XUNJIA_BAOJIA.Bj_Code and bp.status = '2'
+				and rp.proj_code = ZC_EB_XUNJIA_BAOJIA.Proj_Code and rp.pack_code =
+				bp.pack_code and rp.win_bid_provider_code = #zcText1# and rp.STATUS
+				= '1')
+			</isEqual>
+			<isEqual property="status" compareValue="crap"> EXISTS (SELECT
+				PACK.PROJ_CODE FROM ZC_EB_PACK PACK WHERE PACK.STATUS = '5' AND
+				PACK.PROJ_CODE = P.PROJ_CODE)			</isEqual>
+			<isEqual property="status" compareValue="delay">
+				EXISTS (SELECT
+				PROJ_CODE FROM V_ZC_XUNJIA_OPEN_BID WHERE
+				OPEN_BID_STATUS='2' AND
+				PROJ_CODE=P.PROJ_CODE )
+			</isEqual>
+			<isEqual property="status" compareValue="all">
+				1=1
+			</isEqual>
+		</isNotNull>		<isNotNull prepend="AND" property="zcText1">			ZC_EB_XUNJIA_BAOJIA.Supplier_Code=#zcText1#		</isNotNull>		) BAOJIA		WHERE 1 = 1		<include refid="BusiNumLim.BusiNumLimStr" />		order by BAOJIA.INPUT_DATE desc
+	</select>
+	<select id="selectXunJiaBaoJiaByPrimaryKey" resultMap="ZcEbXunJiaBaoJiaResultMap"
+		parameterClass="String">
+		SELECT
+		B.*,P.PROJ_NAME,P.PUR_TYPE,P.PHONE,PL.BID_END_TIME AS
+		STOP_DATE
+		FROM
+		ZC_EB_XUNJIA_BAOJIA B,
+		ZC_EB_PROJ P,
+		ZC_EB_PLAN PL
+		WHERE
+		B.PROJ_CODE=P.PROJ_CODE
+		AND
+		P.PROJ_CODE=PL.PROJ_CODE(+)
+		AND
+		B.bj_code=#value#
+	</select>
+	<select id="getXunJiaBaoJiaBySupplier" resultMap="ZcEbXunJiaBaoJiaResultMap"
+		parameterClass="ZcEbXunJiaBaoJia">
+		SELECT
+		B.*,P.PROJ_NAME,P.PUR_TYPE,P.EXECUTOR_NAME,P.PHONE,PL.BID_END_TIME AS
+		STOP_DATE
+		FROM
+		ZC_EB_XUNJIA_BAOJIA B,
+		ZC_EB_PROJ P,
+		ZC_EB_PLAN PL
+		WHERE
+		B.PROJ_CODE=P.PROJ_CODE
+		AND
+		P.PROJ_CODE=PL.PROJ_CODE(+)
+		AND
+		P.PROJ_CODE=#projCode#
+		AND B.SUPPLIER_CODE=#supplierCode#
+	</select>	<delete id="deleteXunJiaByProjCode" parameterClass="String">		delete from		ZC_EB_XUNJIA where PROJ_CODE = #value#	</delete>
+	<delete id="deleteXunJiaBaoJiaByPrimaryKey" parameterClass="String">
+		delete from ZC_EB_XUNJIA_BAOJIA where BJ_CODE = #value#
+	</delete>
+	<delete id="deleteXunJiaBaoJiaDetail" parameterClass="String">
+		delete from
+		ZC_EB_XUNJIA_BAOJIA_DETAIL where BJ_CODE = #value#
+	</delete>	<delete id="deleteXunJiaBaoJiaDetailToDo" parameterClass="String">		delete		from		ZC_EB_XUNJIA_BAOJIA_DETAIL d where BJ_CODE = #value#		and exists (select p.pack_code		from v_zc_eb_pack_plan p, zc_eb_xunjia xj		where p.pack_code = xj.pack_code		and p.proj_code = xj.proj_code		and xj.xj_code = d.xj_code		and p.sell_end_time > sysdate)	</delete>
+	<insert id="insertXunJiaBaoJia" parameterClass="ZcEbXunJiaBaoJia">
+		insert into
+		ZC_EB_XUNJIA_BAOJIA (BJ_CODE, PROJ_CODE,SUPPLIER_CODE,
+		SUPPLIER_NAME,BJ_DATE,STATUS,INPUTOR,INPUT_DATE,REMARK,
+		ND,MANAGER,PHONE,AGENCY)
+		values
+		(#bjCode:VARCHAR#,
+		#projCode:VARCHAR#,#supplierCode:VARCHAR#,
+		#supplierName:VARCHAR#,#bjDate:TIMESTAMP#,#status:VARCHAR#,#inputor:VARCHAR#,
+		#inputDate:VARCHAR#,
+		#remark:VARCHAR#,#nd:VARCHAR#,#manager:VARCHAR#,#phone:VARCHAR#,#agency:VARCHAR#)
+	</insert>
+	<update id="updateXunJiaBaoJia" parameterClass="ZcEbXunJiaBaoJia">
+		update
+		ZC_EB_XUNJIA_BAOJIA
+		set SUPPLIER_CODE =
+		#supplierCode:VARCHAR#,
+		SUPPLIER_NAME = #supplierName:VARCHAR#,
+		PROJ_CODE = #projCode:VARCHAR#,
+		BJ_DATE = #bjDate:TIMESTAMP#,
+		STATUS
+		=#status:VARCHAR#,
+		REMARK =
+		#remark:VARCHAR#,
+		INPUTOR
+		=#inputor:VARCHAR#,
+		INPUT_DATE =
+		#inputDate:DATE#,
+		ND = #nd:VARCHAR#,
+		manager=#manager:VARCHAR#,
+		phone=#phone:VARCHAR#, AGENCY=#agency:VARCHAR#
+		WHERE
+		BJ_CODE=#bjCode:VARCHAR#
+	</update>
+	<insert id="insertXunJiaBaoJiaDetail" parameterClass="ZcEbXunJiaBaoJiaDetail">
+		insert into
+		ZC_EB_XUNJIA_BAOJIA_DETAIL (BJ_DETAIL_CODE,BJ_CODE, XJ_CODE,
+		SP_PRICE,
+		SP_TOTAL_SUM,
+		HAVE_XIAN_HUO, GONG_HUO_DATE, REMARK, SP_NUM,unit)
+		values
+		(#bjDetailCode:VARCHAR#, #bjCode:VARCHAR#, #xjCode:VARCHAR#,
+		#spPrice:DECIMAL#,
+		#spTotalSum:DECIMAL#, #haveXianHuo:VARCHAR#,
+		#gongHuoDate:DATE#, #remark:VARCHAR#,
+		#spNum:INTEGER#,#unit:VARCHAR#)
+	</insert>
+	<select id="getSignupPack" resultMap="ZcEbXunJiaBaoJiaPackResultMap"
+		parameterClass="ZcEbXunJiaBaoJia">
+		SELECT
+		p.proj_code,k.pack_code,k.pack_name,
+		k.pur_content,k.pack_desc,
+		k.STATUS as pack_status,
+		case when
+		nvl(SP.OPEN_BID_STATUS,'')='3' then 'Y' ELSE '' END AS
+		OPEN_BID_STATUS,
+		sp.SIGNUP_PACK_ID,
+		sp.SIGNUP_ID,
+		sp.IS_SUBMIT_BID_DOC,
+		sp.SUBMIT_BID_DOC_DATE, '' sp_status
+		FROM
+		zc_eb_proj p,
+		zc_eb_pack k,
+		zc_eb_signup s,
+		zc_eb_signup_pack sp
+		WHERE
+		s.provider_code=#supplierCode#
+		AND
+		s.proj_code=#projCode#
+		AND
+		S.SIGNUP_ID=SP.SIGNUP_ID
+		AND
+		s.proj_code=p.proj_code
+		AND
+		sp.pack_code=k.pack_code
+		AND
+		p.proj_code=k.proj_code
+	</select>
+
+	<select id="getXunJiaProjAllPacks" resultMap="ZcEbXunJiaBaoJiaPackResultMap"
+		parameterClass="ZcEbXunJiaBaoJia"> SELECT p.proj_code, k.pack_code, k.pack_name,
+		k.pur_content, k.pack_desc, k.STATUS as pack_status, case          when vp.bid_end_time &gt; sysdate and k.status='2' then          '7'         when vp.bid_end_time &gt; sysdate and (k.status is null or k.status!='2') then           '0'		when k.status = '5' then '4'
+		when rp.rfq_code is null and vp.bid_end_time &lt;= sysdate then '1'
+		when rp.win_bid_provider_code = #supplierCode# then '2' else '3' end
+		AS OPEN_BID_STATUS, vp.sell_end_time, nvl(bjp.status, 1)
+		sp_status,bjp.sp_date FROM zc_eb_proj p, zc_eb_pack k, (select
+		b.bj_code, pack_code, proj_code, SUPPLIER_CODE, bp.STATUS,bp.sp_date
+		from zc_eb_xunjia_baojia b, zc_eb_xunjia_baojia_pack bp where
+		b.bj_code = bp.bj_code and supplier_code = #supplierCode#) bjp,
+		Zc_Eb_Rfq_Pack rp, v_zc_eb_pack_plan vp WHERE p.proj_code=#projCode#
+		and p.proj_code = k.proj_code and p.PUR_TYPE = '5' and k.proj_code =
+		vp.proj_code and k.pack_code = vp.pack_code and k.proj_code =
+		bjp.proj_code(+) and k.pack_code = bjp.pack_code(+) and k.proj_code =
+		rp.proj_code(+) and k.pack_code = rp.pack_code(+)
+	</select>
+
+	<!-- 制作报价单时,选择一个已报名的项目后,选中一个分包时带出的 询价信息 -->
+	<select id="getXunJiaByProjSupplier" resultMap="ZcEbXunJiaBaoJiaDetailResultMap"
+		parameterClass="elementCondition">
+		SELECT XJ.XJ_CODE,
+		XJ.PROJ_CODE,
+		XJ.PACK_CODE,
+		XJ.SP_NAME,
+		XJ.SP_BRAND,
+		XJ.SP_TECH,
+		XJ.SP_TECH_FILE_NAME,
+		XJ.SP_TECH_FILE_ID,
+		XJ.SP_NUM,
+		XJ.SP_PRICE,
+		XJ.SP_TOTAL_SUM,
+		XJ.HAVE_XIAN_HUO,
+		XJ.GONG_HUO_DATE,
+		XJ.REMARK,
+		null as BJ_DETAIL_CODE,
+		null as BJ_CODE,
+		xj.sp_unit AS UNIT
+		FROM ZC_EB_XUNJIA XJ, ZC_EB_SIGNUP
+		SG,
+		ZC_EB_SIGNUP_PACK SP
+		WHERE SG.SIGNUP_ID = SP.SIGNUP_ID
+		AND
+		SG.PROJ_CODE
+		= XJ.PROJ_CODE
+		AND SP.PACK_CODE = XJ.PACK_CODE
+		AND
+		SG.PROVIDER_CODE=#zcText2#
+		AND SG.PROJ_CODE=#zcText0#
+		AND
+		XJ.PACK_CODE=#zcText1#
+	</select>
+	<!-- 制作报价单时,选择一个项目后,选中一个分包时带出的 询价信息 -->
+	<select id="getXunJiaByProj" resultMap="ZcEbXunJiaBaoJiaDetailResultMap"
+		parameterClass="elementCondition">
+		SELECT XJ.XJ_CODE,
+		XJ.PROJ_CODE,
+		XJ.PACK_CODE,
+		XJ.SP_NAME,
+		XJ.SP_BRAND,
+		XJ.SP_TECH,
+		XJ.SP_TECH_FILE_NAME,
+		XJ.SP_TECH_FILE_ID,
+		XJ.SP_NUM,
+		XJ.SP_PRICE,
+		XJ.SP_TOTAL_SUM,
+		XJ.HAVE_XIAN_HUO,
+		null GONG_HUO_DATE,
+		XJ.REMARK,
+		null as BJ_DETAIL_CODE,
+		null as BJ_CODE,
+		xj.sp_unit as unit
+		FROM ZC_EB_XUNJIA XJ
+		WHERE 1=1		<isNotNull prepend="AND" property="zcText0">			XJ.PROJ_CODE=#zcText0#		</isNotNull>		<isNotNull prepend="AND" property="zcText1">			XJ.PACK_CODE=#zcText1#		</isNotNull>
+	</select>
+	<select id="getBaoJiaDetail" resultMap="ZcEbXunJiaBaoJiaDetailResultMap"
+		parameterClass="elementCondition">
+		SELECT XJ.XJ_CODE,
+		XJ.PROJ_CODE,
+		XJ.PACK_CODE,
+		XJ.SP_NAME,
+		XJ.SP_BRAND,
+		XJ.SP_TECH,
+		XJ.SP_TECH_FILE_NAME,
+		XJ.SP_TECH_FILE_ID,
+		XJ.SP_NUM,
+		bd.sp_price,
+		bd.sp_num,
+		bd.sp_total_sum,
+		bd.have_xian_huo,
+		bd.gong_huo_date,
+		bd.remark,
+		bd.BJ_DETAIL_CODE,
+		bj.bj_code,
+		xj.sp_unit as unit
+		FROM zc_eb_xunjia_baojia_detail bd,
+		zc_eb_xunjia_baojia bj,
+		zc_eb_xunjia xj
+		WHERE
+		bj.bj_code=bd.bj_code
+		AND
+		bj.bj_code=#zcText2#
+		AND
+		bd.xj_code=xj.xj_code
+		AND xj.proj_code=#zcText0#
+		AND
+		xj.pack_code=#zcText1#
+	</select>
+	<update id="updateSignupPack" parameterClass="ZcEbXunJiaBaoJiaPack">
+		update
+		ZC_EB_SIGNUP_PACK
+		set SUBMIT_BID_DOC_DATE
+		=#submitBidDocDate:TIMESTAMP#,
+		IS_SUBMIT_BID_DOC=#isSubmitBidDoc:VARCHAR#
+		WHERE
+		SIGNUP_PACK_ID=#signupPackId:VARCHAR#
+	</update>
+	<update id="updateSignup" parameterClass="elementCondition">
+		update
+		ZC_EB_SIGNUP
+		set
+		IS_SUBMIT_BID_DOC =#zcText0:VARCHAR#
+		WHERE SIGNUP_ID=#zcText1:VARCHAR#
+	</update>
+	<select id="getXunJiaBaoJiaByCondition" resultMap="ZcEbXunJiaBaoJiaResultMap"
+		parameterClass="elementCondition">
+		SELECT distinct bp.sp_date bj_date, ZC_EB_XUNJIA_BAOJIA.*, P.PROJ_NAME, P.PUR_TYPE,
+		PL.BID_END_TIME AS STOP_DATE FROM
+		ZC_EB_XUNJIA_BAOJIA ZC_EB_XUNJIA_BAOJIA, Zc_Eb_Xunjia_Baojia_Detail
+		Zc_Eb_Xunjia_Baojia_Detail, Zc_Eb_Xunjia Zc_Eb_Xunjia, ZC_EB_PROJ P,
+		v_ZC_EB_pack_PLAN PL, zc_eb_xunjia_baojia_pack bp WHERE
+		ZC_EB_XUNJIA_BAOJIA.PROJ_CODE = P.PROJ_CODE AND
+		ZC_EB_XUNJIA_BAOJIA.Bj_Code = Zc_Eb_Xunjia_Baojia_Detail.Bj_Code AND
+		Zc_Eb_Xunjia_Baojia_Detail.Xj_Code = Zc_Eb_Xunjia.Xj_Code AND
+		Zc_Eb_Xunjia.Proj_Code = P.Proj_Code AND Zc_Eb_Xunjia.PROJ_CODE =
+		PL.PROJ_CODE and Zc_Eb_Xunjia.Pack_Code = pl.pack_code and
+		ZC_EB_XUNJIA_BAOJIA.Bj_Code = bp.bj_code and Zc_Eb_Xunjia.Pack_Code =
+		bp.pack_code and bp.status='2'
+		<isNotEqual prepend="AND" compareValue="0" property="nd">
+			ZC_EB_XUNJIA_BAOJIA.ND=#nd#
+		</isNotEqual>
+		<isNotNull prepend="AND" property="zcText0">
+			ZC_EB_XUNJIA_BAOJIA.PROJ_CODE=#zcText0#
+		</isNotNull>
+		<isNotNull prepend="AND" property="packCode">
+			Zc_Eb_Xunjia.Pack_Code
+			=#packCode#
+		</isNotNull>
+		<isNotNull prepend="AND" property="status">
+			<isEqual property="status" compareValue="todo">
+				ZC_EB_XUNJIA_BAOJIA.STATUS='0'
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				ZC_EB_XUNJIA_BAOJIA.STATUS='1'
+			</isEqual>
+			<isEqual property="status" compareValue="zhongbiao">
+				ZC_EB_XUNJIA_BAOJIA.STATUS='2'
+			</isEqual>
+			<isEqual property="status" compareValue="weizhongbiao">
+				ZC_EB_XUNJIA_BAOJIA.STATUS='3'
+			</isEqual>
+			<isEqual property="status" compareValue="crap">
+				ZC_EB_XUNJIA_BAOJIA.STATUS='4'
+			</isEqual>
+			<isEqual property="status" compareValue="delay">
+				ZC_EB_XUNJIA_BAOJIA.STATUS='6'
+			</isEqual>
+			<isEqual property="status" compareValue="all">
+				1=1
+			</isEqual>
+		</isNotNull>
+		order by ZC_EB_XUNJIA_BAOJIA.INPUT_DATE desc
+	</select>	<insert id="insertBaojiaPack" parameterClass="Map">		insert into zc_eb_xunjia_baojia_pack (bj_code, pack_code, status, sp_date)		values (#bjCode#,#pack.packCode#,#pack.spStatus#,#pack.spDate#)	</insert>	<delete id="deleteBaojiaPackTodo" parameterClass="String">		delete from zc_eb_xunjia_baojia_pack bp		where BJ_CODE = #value#		and exists (select p.pack_code		from v_zc_eb_pack_plan p, zc_eb_xunjia_baojia xb		where xb.bj_code = bp.bj_code		and p.pack_code = bp.pack_code		and p.proj_code = xb.proj_code		and p.sell_end_time > sysdate)	</delete>	<select id="selectSuppSp" parameterClass="java.util.Map" resultMap="supperBidInfo">		select bj.supplier_code,bjp.sp_date from zc_eb_xunjia_baojia bj,zc_eb_xunjia_baojia_pack bjp 		where bj.bj_code=bjp.bj_code and bjp.status='2' 		and bj.proj_code=#projCode# and bjp.pack_code=#packCode#	</select>	<select id="selectNeedQuas" parameterClass="java.util.Map" resultClass="String">select (select qualif_name from zc_eb_sup_qualification where qualif_id=substr(q.qualif_id,0,length(q.qualif_id)-2)) || q.qualif_name qualif_namefrom zc_eb_sup_qualification q, zc_eb_pack_qua pqwhere pq.qualif_id=q.qualif_idand not exists (select sq.id from zc_b_supplier_qualify sq, zc_eb_pack_qua pq2 where sq.qualify_id=pq2.qualif_id and pq2.pack_code=pq.pack_codeand sq.supplier_code=#zcSuCode#and (sq.effect_start_time is null or to_char(sq.effect_start_time,'yyyymmdd') &lt; to_char(sysdate,'yyyymmdd'))and (sq.effect_end_time is null or to_char(sq.effect_end_time,'yyyymmdd') &gt; to_char(sysdate,'yyyymmdd')))and pq.proj_code=#projCode# and pq.pack_code in ($packCode$)	</select>		<select id="queryXjBjExportsDatas" resultMap="ZcEbXunJiaBaoJiaResultMap"		parameterClass="elementCondition">		SELECT		B.*,P.PROJ_NAME,P.PUR_TYPE,P.PHONE,PL.BID_END_TIME AS		STOP_DATE		FROM		ZC_EB_XUNJIA_BAOJIA B,		ZC_EB_PROJ P,		ZC_EB_PLAN PL,		zc_eb_eval_report r		WHERE		B.PROJ_CODE=P.PROJ_CODE		AND		P.PROJ_CODE=PL.PROJ_CODE(+)		AND		B.proj_code=r.proj_code					<isNotEmpty property="pmAdjustCodeList" prepend="and">            r.report_code in            <iterate property="pmAdjustCodeList"  conjunction="," open="(" close=")">                #pmAdjustCodeList[]#            </iterate>        </isNotEmpty>				</select><resultMap class="java.util.HashMap" id="baojiaoDetailHashMap">		<result property="bj_code"  column="bj_code"/>		<result property="xj_code"  column="xj_code"/>		<result property="sp_price"  column="sp_price"/>		<result property="sp_num"  column="sp_num"/>		<result property="sp_total_sum"  column="sp_total_sum"/>		<result property="have_xian_huo"  column="have_xian_huo"/>		<result property="gong_huo_date"  column="gong_huo_date"/>		<result property="remark"  column="remark"/>		<result property="bj_detail_code"  column="bj_detail_code"/>		<result property="unit"  column="unit"/></resultMap>	<select id="getBaoJiaDetailByBjCode" resultMap="baojiaoDetailHashMap"		parameterClass="string">		SELECT * FROM zc_eb_xunjia_baojia_detail  		WHERE bj_code=#value#	</select>		<delete id="deleteBaoJiaDetailByBjCode" parameterClass="String">		delete from zc_eb_xunjia_baojia_detail where bj_code = #value#	</delete>			<insert id="insertBaoJiaDetailByImportData"  parameterClass="Map" >		insert into ZC_EB_XUNJIA_BAOJIA_DETAIL		  (bj_code,		   xj_code,		   sp_price,		   sp_num,		   sp_total_sum,		   have_xian_huo,		   gong_huo_date,		   remark,		   bj_detail_code,		   unit)		values		  (#bj_code#,		   #xj_code#,		   $sp_price$,		   $sp_num$,		   $sp_total_sum$,		   #have_xian_huo#,		   #gong_huo_date#,		   #remark#,		   #bj_detail_code#,		  #unit#)	</insert>	<resultMap class="java.util.HashMap" id="baojiaoPackHashMap">		<result property="bj_code"  column="bj_code"/> 		<result property="pack_code"  column="pack_code"/> 		<result property="status"  column="status"/> 		<result property="sp_date"  column="sp_date"/>	</resultMap>	<select id="getBaojiaPackByBjCode" resultMap="baojiaoPackHashMap" parameterClass="string" >		select * from zc_eb_xunjia_baojia_pack where bj_code=#value#	</select>	<insert id="insertBaojiaPackByImportData"  parameterClass="Map" >		insert into zc_eb_xunjia_baojia_pack (bj_code, pack_code, status, sp_date)		values (#bj_code#,#pack_code#,#status#,#sp_date#)	</insert>	<delete id="deleteBaojiaPackByBjCode" parameterClass="String">		delete from zc_eb_xunjia_baojia_pack where bj_code = #value#	</delete>
+</sqlMap>

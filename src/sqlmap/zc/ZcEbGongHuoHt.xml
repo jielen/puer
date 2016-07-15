@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ZcEbGongHuoHt">
+
+	<typeAlias alias="ZcEbGongHuoHt" type="com.ufgov.zc.common.zc.model.ZcEbGongHuoHt" />
+	<typeAlias alias="GongHuoHtFile" type="com.ufgov.zc.common.system.model.AsFile" />
+	
+	<resultMap id="gongHuoHtFileResult" class="GongHuoHtFile">
+		<result property="fileContent" column="FILE_CONTENT" typeHandler="org.springframework.orm.ibatis.support.BlobByteArrayTypeHandler"/>   
+	</resultMap>
+	<resultMap id="ZcEbGongHuoHtResult" class="ZcEbGongHuoHt">
+		<result property="htCode" column="HT_CODE" />
+		<result property="htName" column="HT_NAME" />
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="projCode" column="PROJ_NAME" />
+		<result property="packCode" column="PACK_CODE" />
+		<result property="packName" column="PACK_NAME" />
+		<result property="providerCode" column="PROVIDER_CODE" />
+		<result property="providerName" column="PROVIDER_NAME" />
+		<result property="htModelType" column="HT_MODEL_TYPE" />
+		<result property="coCode" column="CO_CODE" />
+		<result property="coName" column="ZC_CO_NAME" />
+		<result property="agentCode" column="AGENT_CODE" />
+		<result property="agentName" column="AGENT_NAME" />
+		<result property="htTotalMoney" column="HT_TOTAL_MONEY" />
+		<result property="payMoney" column="PAY_MONEY" />
+		<result property="fileId" column="FILE_ID" />
+		<result property="createDate" column="CREATE_DATE" />
+		<result property="createor" column="CREATEOR" />
+		<result property="zcCosignedDate" column="ZC_CO_SIGNED_DATE" />
+		<result property="providersignedDate" column="PROVIDER_SIGNED_DATE" />
+		<result property="agentsignedDate" column="AGENT_SIGNED_DATE" />
+		<result property="status" column="STATUS" />
+		<result property="nd" column="ND" />
+		<result column="PROCESS_INST_ID" jdbcType="DECIMAL" property="processInstId" />
+		<result column="HT_FILE" property="htFile" jdbcType="VARCHAR" />
+		
+	</resultMap>
+	<resultMap id="ZcEbGongHuoHtFullResult" class="com.ufgov.zc.common.zc.model.ZcEbGongHuoHt" extends="ZcEbGongHuoHtResult">
+		<result column="HT_FILE_CONTENT" property="gonghuohtFileContent" jdbcType="BLOB" javaType="[B" typeHandler="org.springframework.orm.ibatis.support.BlobByteArrayTypeHandler" />
+	</resultMap>
+		
+	<select id="getZcEbGongHuoHtList" resultMap="ZcEbGongHuoHtResult"
+		parameterClass="elementCondition">
+		select
+		*
+		from
+		ZC_EB_GONGHUO_HT master
+		where
+		1=1
+	<isNotEqual prepend="AND" compareValue="0" property="nd">
+		master.ND =#nd#
+	</isNotEqual>
+		<isNotNull prepend="and" property="status">
+			<isEqual property="status" compareValue="todo">
+				exists (select
+				instance_id from v_wf_current_task_gk53 where executor =#executor#
+				and instance_id = master.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				exists (select
+				instance_id from V_WF_ACTION_HISTORY_GK53 where executor =
+				#executor# and instance_id = master.process_inst_id)
+				and
+				master.status!='cancel'
+				and master.status!='exec'
+			</isEqual>
+			<isEqual property="status" compareValue="exec">
+				(master.status
+				='exec')
+			</isEqual>
+			<isEqual property="status" compareValue="draft">
+				exists (select
+				WF_DRAFT_NAME from as_wf_draft where user_id=#executor# and
+				compo_id=#wfcompoId# and WF_DRAFT_ID=master.process_inst_id)
+			</isEqual>
+		</isNotNull>
+		<isNotNull prepend="and" property="projCode">
+			master.PROJ_CODE=#projCode#
+		</isNotNull>
+		<isNotNull prepend="and" property="coCode">
+			master.CO_CODE=#coCode#
+		</isNotNull>
+		<!--  <isNotNull prepend="and" property="providerCode">
+			master.PROVIDER_CODE=#providerCode#
+		</isNotNull>-->
+		order by
+		master.CREATE_DATE
+	</select>
+	<select id="getZcEbGongHuoHtById" resultMap="ZcEbGongHuoHtResult"
+		parameterClass="string">
+		select
+		*
+		from
+		ZC_EB_GONGHUO_HT master
+		where
+		master.HT_CODE=#ht_code#
+	</select>
+	<select id="getGongHuoHtDefaultTemplateContent" parameterClass="string"  resultMap="gongHuoHtFileResult">
+		select
+		       (select AS_FILE.FILE_CONTENT from AS_FILE where AS_FILE.FILE_ID = ZC_EB_BULLETIN_WORD_MOLD.FILE_ID ) as FILE_CONTENT
+		  from
+		       ZC_EB_BULLETIN_WORD_MOLD
+		 where
+		       BULLETIN_MOLD_TYPE = 'HT'
+		   and
+		       STATUS = '2'
+		   and FILE_ID = #file_id#
+	</select>
+	<select id="getGongHuoHtByHtCode" resultMap="ZcEbGongHuoHtFullResult" parameterClass="string">
+    select  
+            master.*,
+           (select AS_FILE.FILE_CONTENT from AS_FILE where AS_FILE.FILE_ID = master.file_id ) as PROT_FILE_CONTENT
+      from
+           zc_eb_gonghuo_ht master
+     where
+           master.ht_code=#ht_code#   
+	</select>		
+	<insert id="insertZcEbGongHuoHt" parameterClass="ZcEbGongHuoHt">
+		insert into
+		ZC_EB_GONGHUO_HT
+		(HT_CODE,
+		HT_NAME,
+		PROJ_CODE,
+		PROJ_NAME,
+		PACK_CODE ,
+		PACK_NAME ,
+		PROVIDER_CODE,
+		PROVIDER_NAME,
+		HT_MODEL_TYPE,
+		CO_CODE,
+		ZC_CO_NAME,
+		AGENT_CODE,
+		AGENT_NAME,
+		HT_TOTAL_MONEY,
+		PAY_MONEY,
+		FILE_ID,
+		STATUS,
+		PROCESS_INST_ID,
+		CREATE_DATE,
+		CREATEOR,
+		ND,
+		ZC_CO_SIGNED_DATE,
+		PROVIDER_SIGNED_DATE,
+		AGENT_SIGNED_DATE)
+		values
+
+		(#htCode#,#htName#,#projCode#, #projName#, #packCode#,
+		#packName#,
+		#providerCode#, #providerName#, #htModelType#, #coCode#,
+		#coName#,#agentCode#,#agentName#,#htTotalMoney#,#payMoney#,
+		#fileId#,#status#,#processInstId#,#createDate#,#createor#,#nd#,
+		#zcCosignedDate#,#providersignedDate#,#agentsignedDate#
+		)
+	</insert>
+	<!-- update -->
+	<update id="updateZcEbGongHuoHt" parameterClass="ZcEbGongHuoHt">
+		update
+		ZC_EB_GONGHUO_HT
+		set
+		HT_NAME=#htName:VARCHAR#,
+		PROJ_CODE=#projCode:VARCHAR#,
+		PROJ_NAME=#projName:VARCHAR#,
+		PACK_CODE=#packCode:VARCHAR#,
+		PACK_NAME=#packName:VARCHAR#,
+		PROVIDER_CODE=#providerCode:VARCHAR#,
+		PROVIDER_NAME=#providerName:VARCHAR#,
+		HT_MODEL_TYPE=#htModelType:VARCHAR#,
+		CO_CODE=#coCode:VARCHAR#,
+		AGENT_CODE=#agentCode:VARCHAR#,
+		AGENT_NAME=#agentName:VARCHAR#,
+		ZC_CO_NAME=#coName:VARCHAR#,
+		HT_TOTAL_MONEY=#htTotalMoney:VARCHAR#,
+		PAY_MONEY=#payMoney:VARCHAR#,
+		FILE_ID=#fileId:VARCHAR#,
+		STATUS=#status:VARCHAR#,
+		PROCESS_INST_ID=#processInstId:VARCHAR#,
+		CREATE_DATE=#createDate:DATE#,
+		CREATEOR=#createor:VARCHAR#,
+		ND=#nd:VARCHAR#
+		ZC_CO_SIGNED_DATE DATE=#zcCosignedDate:DATE#,
+		PROVIDER_SIGNED_DATE DATE=#providersignedDate:DATE#,
+		AGENT_SIGNED_DATE DATE=#agentsignedDate:DATE#,
+		WHERE
+		HT_CODE=#htCode#
+	</update>
+	<delete id="deleteZcEbGongHuoHtById" parameterClass="string">
+		delete
+		from
+		ZC_EB_GONGHUO_HT
+		where HT_CODE=#htCode#
+    </delete>
+</sqlMap>

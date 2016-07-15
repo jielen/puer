@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.ufgov.zc.server.sf.dao.SfChargeMapper">
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+  <resultMap id="BaseResultMap" class="com.ufgov.zc.common.sf.model.SfCharge">
+    <result column="CHARGE_ID" jdbcType="DECIMAL" property="chargeId" />
+    <result column="ENTRUST_ID" jdbcType="DECIMAL" property="entrustId" />
+    <result column="CASHIER" jdbcType="VARCHAR" property="cashier" />
+    <result column="CASH_DATE" jdbcType="DATE" property="cashDate" />
+    <result column="INPUTOR" jdbcType="VARCHAR" property="inputor" />
+    <result column="INPUT_DATE" jdbcType="DATE" property="inputDate" />
+    <result column="ND" jdbcType="DECIMAL" property="nd" />
+    <result column="PAYER" jdbcType="VARCHAR" property="payer" />
+    <result column="TOTAL_PRICE" jdbcType="DECIMAL" property="totalPrice" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="PROCESS_INST_ID" jdbcType="DECIMAL" property="processInstId" />
+    <result column="ENTRUST_CODE" jdbcType="VARCHAR" property="entrustCode" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="PAYER_TEL" jdbcType="VARCHAR" property="payerTel" />
+  </resultMap>
+  <resultMap id="feeResultMap" class="com.ufgov.zc.common.sf.model.SfPayFees">
+    <result column="ENTRUST_ID" jdbcType="DECIMAL" property="entrust.entrustId" />
+    <result column="ENTRUST_CODE" jdbcType="VARCHAR" property="entrust.code" />
+    <result column="ENTRUSTOR_ID" jdbcType="VARCHAR" property="entrustor.entrustorId" />
+    <result column="ENTRUSTOR_NAME" jdbcType="VARCHAR" property="entrustor.name" />
+    <result column="TOTAL_FEE" jdbcType="DECIMAL" property="totalFee" />
+    <result column="PAYED_FEE" jdbcType="DECIMAL" property="payedFee" />
+    <result column="MAJOR_NAME" jdbcType="VARCHAR" property="majorName" />
+    <result column="JD_FZR" jdbcType="VARCHAR" property="jdFzr" />
+    <result column="JD_FHR" jdbcType="VARCHAR" property="jdFhr" />
+    <result column="WT_DATE" jdbcType="DATE" property="entrust.wtDate" />
+    <result column="PAY_TIME" jdbcType="DATE" property="payTime" />  
+  </resultMap>
+  <sql id="Base_Column_List">
+    CHARGE_ID, ENTRUST_ID, CASHIER, CASH_DATE, INPUTOR, INPUT_DATE, ND, PAYER, TOTAL_PRICE, 
+    REMARK, PROCESS_INST_ID, ENTRUST_CODE, NAME,STATUS,PAYER_TEL
+  </sql>
+  <select id="selectByPrimaryKey" parameterClass="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SF_CHARGE
+    where CHARGE_ID = #chargeId:DECIMAL#
+  </select>
+  <select id="selectMainDataLst" parameterClass="elementCondition" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SF_CHARGE
+    where 1=1  
+		<include refid="BusiNumLim.BusiNumLimStr" />  
+		<isNotNull prepend="AND" property="dattr1"> 
+			ENTRUST_ID=#dattr1#
+		</isNotNull> 
+		<!-- 列表界面上的搜索条件 -->
+		<isNotNull prepend="AND" property="dattr5"> 
+			ENTRUST_ID=#dattr5#
+		</isNotNull>   
+	<isNotEqual prepend="and" compareValue="0" property="nd">
+			SF_CHARGE.ND = #nd#
+   </isNotEqual>
+		<isNotNull prepend="AND" property="status">
+			<isEqual property="status" compareValue="todo">
+				exists (select instance_id from V_WF_CURRENT_TASK_ZC_TODO where 
+				executor=#executor# and instance_id = SF_CHARGE.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="untread">
+				exists (select instance_id from V_WF_CURRENT_TASK_ZC_UNTREAD where
+				executor=#executor# and instance_id = SF_CHARGE.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				exists (select instance_id from V_WF_ACTION_HISTORY_GK53 where 
+				executor =#executor# and instance_id = SF_CHARGE.process_inst_id)
+				and SF_CHARGE.STATUS!= 'cancel' and SF_CHARGE.STATUS != 'exec'
+			</isEqual>
+			<isEqual property="status" compareValue="draft">
+				( exists (select WF_DRAFT_NAME from as_wf_draft where
+				user_id=#executor# and
+				compo_id=#wfcompoId# and
+				WF_DRAFT_ID=SF_CHARGE.process_inst_id)
+				or
+				SF_CHARGE.process_inst_id = -1 )
+				and SF_CHARGE.STATUS ='0'
+			</isEqual>
+			<isEqual property="status" compareValue="exec">
+				(SF_CHARGE.STATUS='exec')
+			</isEqual>
+			<isEqual property="status" compareValue="all">
+				1=1
+			</isEqual>
+		</isNotNull>
+   order by SF_CHARGE.CHARGE_ID desc
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="java.math.BigDecimal">
+    delete from SF_CHARGE
+    where CHARGE_ID = #chargeId:DECIMAL#
+  </delete>
+  <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfCharge">
+    insert into SF_CHARGE (CHARGE_ID, ENTRUST_ID, CASHIER, 
+      CASH_DATE, INPUTOR, INPUT_DATE, 
+      ND, PAYER, TOTAL_PRICE, 
+      REMARK, PROCESS_INST_ID, ENTRUST_CODE, 
+      NAME,STATUS,PAYER_TEL)
+    values (#chargeId:DECIMAL#, #entrustId:DECIMAL#, #cashier:VARCHAR#, 
+      #cashDate:DATE#, #inputor:VARCHAR#, #inputDate:DATE#, 
+      #nd:DECIMAL#, #payer:VARCHAR#, #totalPrice:DECIMAL#, 
+      #remark:VARCHAR#, #processInstId:DECIMAL#, #entrustCode:VARCHAR#, 
+      #name:VARCHAR#,#status#,#payerTel#)
+  </insert>
+  <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfCharge">
+    update SF_CHARGE
+    set ENTRUST_ID = #entrustId:DECIMAL#,
+      CASHIER = #cashier:VARCHAR#,
+      CASH_DATE = #cashDate:DATE#,
+      INPUTOR = #inputor:VARCHAR#,
+      INPUT_DATE = #inputDate:DATE#,
+      ND = #nd:DECIMAL#,
+      PAYER = #payer:VARCHAR#,
+      TOTAL_PRICE = #totalPrice:DECIMAL#,
+      REMARK = #remark:VARCHAR#,
+      PROCESS_INST_ID = #processInstId:DECIMAL#,
+      ENTRUST_CODE = #entrustCode:VARCHAR#,
+      NAME = #name:VARCHAR#,
+      STATUS=#status#,
+      PAYER_TEL=#payerTel#
+    where CHARGE_ID = #chargeId:DECIMAL#
+  </update>
+  
+  <select id="getEntrustFees" parameterClass="com.ufgov.zc.common.system.dto.SfElementConditionDto" resultMap="feeResultMap">
+	  SELECT E.ENTRUST_ID,
+	       E.CODE          AS ENTRUST_CODE,
+	       ER.ENTRUSTOR_ID,
+	       ER.NAME         AS ENTRUSTOR_NAME,
+	       M.MAJOR_NAME,
+	       E.JD_FZR,
+	       E.JD_FHR,
+	       E.WT_DATE,
+	       TP.TOTAL_FEE,
+	       PAY.PAY_TIME,
+	       PAY.PAYED_FEE
+	  FROM SF_ENTRUST E,
+	       SF_ENTRUSTOR ER,
+	       SF_MAJOR M,
+	       (SELECT CD.ENTRUST_ID, SUM(CD.TOTAL_PRICE) AS TOTAL_FEE
+	          FROM SF_CHARGE_DETAIL CD
+	         GROUP BY CD.ENTRUST_ID) TP,
+	       (SELECT C.ENTRUST_ID,
+	               MAX(C.CASH_DATE) AS PAY_TIME,
+	               SUM(C.TOTAL_PRICE) AS PAYED_FEE
+	          FROM SF_CHARGE C
+	         GROUP BY C.ENTRUST_ID) PAY
+	 WHERE E.ENTRUSTOR_ID = ER.ENTRUSTOR_ID
+	   AND E.MAJOR_CODE = M.MAJOR_CODE
+	   AND E.ENTRUST_ID = TP.ENTRUST_ID
+	   AND E.ENTRUST_ID = PAY.ENTRUST_ID(+)
+	   <isNotNull prepend="AND" property="entrust.entrustId">
+	   		E.ENTRUST_ID=#entrust.entrustId:DECIMAL#
+	   </isNotNull>
+	   <isNull property="entrust.entrustId">
+		   	<isNotNull prepend="AND" property="entrustor.entrustorId">
+		   		E.ENTRUSTOR_ID=#entrustor.entrustorId:DECIMAL#
+		   	</isNotNull>	   		   	
+	   		<isNotNull prepend="AND" property="isPay">	
+				<isEqual property="isPay" compareValue="Y">
+					<![CDATA[nvl(TP.TOTAL_FEE,0)<=nvl(PAY.PAYED_FEE,0)]]>
+				</isEqual>  
+	   			<isEqual property="isPay" compareValue="N">
+	   				<![CDATA[nvl(TP.TOTAL_FEE,0)>nvl(PAY.PAYED_FEE,0)]]>
+	   			</isEqual>
+	   		</isNotNull> 
+		   	<isNotNull prepend="AND" property="major.majorCode">
+		   		E.MAJOR_CODE=#major.majorCode#
+		   	</isNotNull>
+		   	<isNotNull prepend="AND" property="entrust.jdFzr">
+		   		E.JD_FZR=#entrust.jdFzr#
+		   	</isNotNull>
+		   	<isNotNull prepend="AND" property="entrust.jdFhr">
+		   		E.JD_FHR=#entrust.jdFhr#	   	
+		   	</isNotNull>
+		   	<isNotNull prepend="AND" property="wtBeginTime">
+		   		<![CDATA[E.WT_DATE>=#wtBeginTime:DATE#]]>   	
+		   	</isNotNull>
+		   	<isNotNull prepend="AND" property="wtEndTime">
+		   		<![CDATA[E.WT_DATE<=#wtEndTime:DATE#]]>    	
+		   	</isNotNull>
+		   	<isNotNull prepend="AND" property="payBeginTime">
+		   		<![CDATA[PAY.PAY_TIME>=#payBeginTime:DATE#]]>   	
+		   	</isNotNull>
+		   	<isNotNull prepend="AND" property="payEndTime">
+		   		<![CDATA[PAY.PAY_TIME<=#payEndTime:DATE#]]>    	
+		   	</isNotNull>
+		   	<isNotNull prepend="AND" property="nd">
+		   		E.nd=#nd#
+		   	</isNotNull>
+	   </isNull>
+	   order by E.ENTRUST_ID desc
+  </select>
+  
+  <select id="selectByEntrustId" parameterClass="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SF_CHARGE
+    where ENTRUST_ID = #entrustId:DECIMAL#
+  </select>
+</sqlMap>

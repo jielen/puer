@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.ufgov.zc.server.sf.dao.SfAgreementMapper">
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+  <resultMap id="BaseResultMap" class="com.ufgov.zc.common.sf.model.SfAgreement">
+    <result column="AGREEMENT_ID" jdbcType="DECIMAL" property="agreementId" />
+    <result column="ENTRUST_ID" jdbcType="DECIMAL" property="entrustId" />
+    <result column="INPUTOR" jdbcType="VARCHAR" property="inputor" />
+    <result column="INPUT_DATE" jdbcType="DATE" property="inputDate" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="ND" jdbcType="DECIMAL" property="nd" />
+    <result column="ENTRUST_CODE" jdbcType="VARCHAR" property="entrustCode" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="FILE_ID" jdbcType="VARCHAR" property="fileId" /> 
+	<result column="PROCESS_INST_ID" jdbcType="DECIMAL" property="processInstId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    AGREEMENT_ID, ENTRUST_ID, INPUTOR, INPUT_DATE, STATUS, REMARK, ND, ENTRUST_CODE, 
+    NAME,FILE_ID,PROCESS_INST_ID
+  </sql>
+  <select id="selectByPrimaryKey" parameterClass="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SF_AGREEMENT
+    where AGREEMENT_ID = #agreementId:DECIMAL#
+  </select>
+  <select id="selectMainDataLst" parameterClass="elementCondition" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SF_AGREEMENT
+    where 1=1      
+ 	<include refid="BusiNumLim.BusiNumLimStr" />
+		<isNotNull prepend="AND" property="dattr1"> 
+			ENTRUST_ID=#dattr1#
+		</isNotNull>
+   
+	<isNotEqual prepend="and" compareValue="0" property="nd">
+			SF_AGREEMENT.ND = #nd#
+   </isNotEqual>
+		<isNotNull prepend="AND" property="status">
+			<isEqual property="status" compareValue="todo">
+				exists (select instance_id from V_WF_CURRENT_TASK_ZC_TODO where 
+				executor=#executor# and instance_id = SF_AGREEMENT.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="untread">
+				exists (select instance_id from V_WF_CURRENT_TASK_ZC_UNTREAD where
+				executor=#executor# and instance_id = SF_AGREEMENT.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				exists (select instance_id from V_WF_ACTION_HISTORY_GK53 where 
+				executor =#executor# and instance_id = SF_AGREEMENT.process_inst_id)
+				and SF_AGREEMENT.STATUS!= 'cancel' and SF_AGREEMENT.STATUS != 'exec'
+			</isEqual>
+			<isEqual property="status" compareValue="draft">
+				( exists (select WF_DRAFT_NAME from as_wf_draft where
+				user_id=#executor# and
+				compo_id=#wfcompoId# and
+				WF_DRAFT_ID=SF_AGREEMENT.process_inst_id)
+				or
+				SF_AGREEMENT.process_inst_id = -1 )
+				and SF_AGREEMENT.STATUS ='0'
+			</isEqual>
+			<isEqual property="status" compareValue="exec">
+				(SF_AGREEMENT.STATUS='exec')
+			</isEqual>
+			<isEqual property="status" compareValue="all">
+				1=1
+			</isEqual>
+		</isNotNull>
+   order by SF_AGREEMENT.AGREEMENT_ID desc
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="java.math.BigDecimal">
+    delete from SF_AGREEMENT
+    where AGREEMENT_ID = #agreementId:DECIMAL#
+  </delete>
+  <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfAgreement">
+    insert into SF_AGREEMENT (AGREEMENT_ID, ENTRUST_ID, INPUTOR, 
+      INPUT_DATE, STATUS, REMARK, 
+      ND, ENTRUST_CODE, NAME,FILE_ID,PROCESS_INST_ID
+      )
+    values (#agreementId:DECIMAL#, #entrustId:DECIMAL#, #inputor:VARCHAR#, 
+      #inputDate:DATE#, #status:VARCHAR#, #remark:VARCHAR#, 
+      #nd:DECIMAL#, #entrustCode:VARCHAR#, #name:VARCHAR#,#fileId#,#processInstId:DECIMAL#
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfAgreement">
+    update SF_AGREEMENT
+    set ENTRUST_ID = #entrustId:DECIMAL#,
+      INPUTOR = #inputor:VARCHAR#,
+      INPUT_DATE = #inputDate:DATE#,
+      STATUS = #status:VARCHAR#,
+      REMARK = #remark:VARCHAR#,
+      ND = #nd:DECIMAL#,
+      ENTRUST_CODE = #entrustCode:VARCHAR#,
+      NAME = #name:VARCHAR#,
+      FILE_ID=#fileId#,
+      PROCESS_INST_ID=#processInstId:DECIMAL#
+    where AGREEMENT_ID = #agreementId:DECIMAL#
+  </update>
+</sqlMap>

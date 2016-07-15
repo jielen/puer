@@ -1,0 +1,1 @@
+package com.ufgov.zc.client.component.button;public class AcceptedButton extends FuncButton {  private static final long serialVersionUID = -4801282269234069575L;  public AcceptedButton() {    super();  }  protected void init() {    this.funcId = "faccepted";    this.defaultText = "接收";    this.iconName = "accepted.png";    super.init();  }}

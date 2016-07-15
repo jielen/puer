@@ -1,0 +1,1 @@
+package com.ufgov.zc.client.component.button;public class CancelDzButton extends FuncButton {  private static final long serialVersionUID = 2214506469222969779L;  public CancelDzButton() {    super();  }  protected void init() {    this.funcId = "fcanceldz";    this.defaultText = "取消到帐";    super.init();  }}

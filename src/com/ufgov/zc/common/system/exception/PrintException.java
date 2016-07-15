@@ -1,0 +1,1 @@
+package com.ufgov.zc.common.system.exception;public class PrintException extends BaseException {  public PrintException() {    super();  }  public PrintException(String message) {    super(message);  }  public PrintException(String message, Throwable cause) {    super(message, cause);  }  public PrintException(Throwable cause) {    super(cause);  }}

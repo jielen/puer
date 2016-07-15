@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="AsVal">
+	<resultMap id="asVal" class="com.ufgov.zc.common.system.model.AsVal">
+		<result property="valSetId" column="VALSET_ID" />
+		<result property="valId" column="VAL_ID" />
+		<result property="val" column="VAL" />
+	</resultMap>
+
+	<select id="getAsVal" resultMap="asVal" parameterClass="string">
+		Select VALSET_ID,VAL_ID,VAL From as_val t Where t.valset_id
+		=#valSetId:VARCHAR# ORDER BY ORD_INDEX ,VAL_ID
+	</select>
+	
+	<select id="getAsValSql" resultClass="HashMap" parameterClass="string">
+		select * from as_valset where valset_id=#valSetId:VARCHAR#
+	</select>	
+	
+	<select id="getAsValBySql" resultMap="asVal" parameterClass="string">
+		$sql$
+	</select>
+	
+	<resultMap id="asValMap" class="com.ufgov.zc.common.system.model.AsVal" >
+	 	<result property="valId"  column="VAL_ID" />
+	    <result property="val" column="VAL" />
+	</resultMap>
+	
+	<select id="getAsValMap" resultMap="asValMap" parameterClass="string">
+		Select VAL_ID,VAL From as_val t Where t.valset_id=#valSetId:VARCHAR# ORDER BY ORD_INDEX ,VAL_ID
+	</select>
+
+	<sql id="companyLevel">
+		select VAL_ID, VAL from as_val where valset_id='MA_CP_TZD_CO_LEVEL'
+	</sql>
+	<select id="getCompanyLevel" resultClass="com.ufgov.zc.common.system.model.AsVal" parameterClass="Map">
+		<isEqual property="sqlId" compareValue="companyLevel">
+			<include refid="companyLevel"/>
+		</isEqual>
+	</select>
+	<select id="getSuperintendentOrg" resultMap="asValMap" parameterClass="string">
+		SELECT ORG.ORG_CODE VAL_ID, ORG.ORG_NAME VAL
+  FROM AS_ORG ORG
+ where co_code='000'
+	</select>
+</sqlMap>

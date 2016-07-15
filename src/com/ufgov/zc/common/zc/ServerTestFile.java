@@ -1,0 +1,1 @@
+package com.ufgov.zc.common.zc;import java.util.Map;public interface ServerTestFile {  Map ifFileExist(Map parameterMap);}

@@ -1,0 +1,1 @@
+package com.ufgov.zc.server.gwk.dao;import java.util.List;import com.ufgov.zc.common.system.dto.ElementConditionDto;public interface ICpCctradeInfoDao {  void insert(List tradeInfoList);  List getTradeInfo(ElementConditionDto dto);  void deleteTradeInfo(List tradeInfoList);  void updateTradeInfoStatus(List tradeInfoList);}

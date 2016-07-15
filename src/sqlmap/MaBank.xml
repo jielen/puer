@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MaBank">
+
+	<resultMap id="maBank" class="com.ufgov.zc.common.commonbiz.model.MaBank">
+		<result property="nd" column="nd" />
+		<result property="code" column="bank_code" />
+		<result property="name" column="bank_name" />
+		<result property="bankNo" column="bank_no" />
+		<result property="bankAbbName" column="bank_abb_name" />
+		<result property="baSendTarget" column="ba_send_target" />
+	</resultMap>
+	<sql id="selectMaBank">
+		select nd,bank_code,bank_name,bank_no,bank_abb_name,ba_send_target from ma_bank
+	</sql>
+
+	<select id="getAllBank" resultMap="maBank" parameterClass="int">
+		<include refid="selectMaBank" />
+		  where nd=#nd#
+	</select>
+
+	<select id="getZeroBalanceBank" resultMap="maBank" parameterClass="int">
+		<include refid="selectMaBank" />
+		where nd=#nd# and
+		bank_code IN (SELECT bank_code FROM  ma_bank_acc WHERE nd=#nd# AND acco_type='04')
+	</select>
+	<select id="getAgentBank" resultMap="maBank" parameterClass="int">
+		<include refid="selectMaBank" />
+		where nd=#nd# and
+		bank_code IN (
+			SELECT bank_code FROM  ma_bank_acc WHERE nd=#nd# AND acco_type='03'
+			 <isNotNull prepend="AND" property="userid">
+				userid like '%[' || #userid# || ']%'
+			</isNotNull>
+		)
+	</select>
+
+</sqlMap>

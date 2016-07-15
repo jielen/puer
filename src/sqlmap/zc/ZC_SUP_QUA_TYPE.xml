@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ZC_SUP_QUA_TYPE" >
+	<resultMap id="_ZcSupQuaTypeResult" class="com.ufgov.zc.common.zc.model.ZcSupQuaType" >
+		<result column="TYPE_CODE" property="typeCode" jdbcType="VARCHAR" />
+		<result column="TYPE_NAME" property="typeName" jdbcType="VARCHAR" />
+		<result column="PARENT_TYPE_CODE" property="parentTypeCode" jdbcType="VARCHAR" />
+		<result column="PARENT_TYPE_NAME" property="parentTypeName" jdbcType="VARCHAR" />
+		<result column="ZC_CATALOGUE_CODE" property="zcCatalogueCode" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="DATE" />
+		<result column="EXECUTOR" property="executor" jdbcType="VARCHAR" />
+		<result column="IS_LOWEST" property="isLowest" jdbcType="VARCHAR" />
+	</resultMap>
+	<select id="_selectSupQuaList" resultMap="_ZcSupQuaTypeResult">
+     SELECT TYPE_CODE,
+         TYPE_NAME,
+         PARENT_TYPE_CODE,
+         PARENT_TYPE_NAME,
+         ZC_CATALOGUE_CODE,
+         CREATE_TIME,
+         EXECUTOR,
+         IS_LOWEST
+    FROM ZC_SUP_QUA_TYPE ZE
+   START WITH ZE.PARENT_TYPE_CODE IS NULL
+  CONNECT BY PRIOR ZE.TYPE_CODE = ZE.PARENT_TYPE_CODE
+   ORDER BY TYPE_CODE
+	</select>
+  
+	<select id="_selectByPrimaryKey" resultMap="_ZcSupQuaTypeResult" parameterClass="String">
+    select TYPE_CODE, TYPE_NAME, PARENT_TYPE_CODE, PARENT_TYPE_NAME, ZC_CATALOGUE_CODE, CREATE_TIME,
+      EXECUTOR, IS_LOWEST
+    from ZC_SUP_QUA_TYPE
+    where TYPE_CODE = #typeCode:VARCHAR#
+	</select>
+	<delete id="_deleteByPrimaryKey" parameterClass="String" >
+    delete from ZC_SUP_QUA_TYPE
+    where TYPE_CODE = #typeCode:VARCHAR#
+	</delete>
+	<insert id="_insert" parameterClass="com.ufgov.zc.common.zc.model.ZcSupQuaType" >
+    insert into ZC_SUP_QUA_TYPE (TYPE_CODE, TYPE_NAME, PARENT_TYPE_CODE, PARENT_TYPE_NAME,
+      ZC_CATALOGUE_CODE, CREATE_TIME, EXECUTOR, IS_LOWEST)
+    values (#typeCode:VARCHAR#, #typeName:VARCHAR#, #parentTypeCode:VARCHAR#,
+      #parentTypeName:VARCHAR#, #zcCatalogueCode:VARCHAR#, #createTime:DATE#, #executor:VARCHAR#,
+      #isLowest:VARCHAR#)
+	</insert>
+	<update id="_updateByPrimaryKey" parameterClass="com.ufgov.zc.common.zc.model.ZcSupQuaType" >
+    update ZC_SUP_QUA_TYPE
+		<dynamic prepend="set" >
+			<isNotNull prepend="," property="typeName" >
+        TYPE_NAME = #typeName:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="parentTypeCode" >
+        PARENT_TYPE_CODE = #parentTypeCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="parentTypeName" >
+        PARENT_TYPE_NAME = #parentTypeName:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="zcCatalogueCode" >
+        ZC_CATALOGUE_CODE = #zcCatalogueCode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+        CREATE_TIME = #createTime:DATE#
+			</isNotNull>
+			<isNotNull prepend="," property="executor" >
+        EXECUTOR = #executor:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="isLowest" >
+        IS_LOWEST = #isLowest:VARCHAR#
+			</isNotNull>
+		</dynamic>
+    where TYPE_CODE = #typeCode:VARCHAR#
+	</update>
+	<select id="_countByExample" parameterClass="com.ufgov.zc.common.zc.model.ZcSupQuaType" resultClass="java.lang.Integer" >
+    select count(*) from ZC_SUP_QUA_TYPE
+	</select>
+  
+	<select id="_isExisSameCode" parameterClass="java.lang.String" resultClass="java.lang.Integer" >
+    select count(*) from ZC_SUP_QUA_TYPE
+    where
+    type_Code=#typeCode#
+	</select>
+</sqlMap>

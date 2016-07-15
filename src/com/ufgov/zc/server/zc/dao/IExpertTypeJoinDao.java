@@ -1,0 +1,1 @@
+package com.ufgov.zc.server.zc.dao;import com.ufgov.zc.common.zc.model.EmExpertTypeJoin;public interface IExpertTypeJoinDao {  void insertExpertTypeJoin(EmExpertTypeJoin emExpertTypeJoin);}

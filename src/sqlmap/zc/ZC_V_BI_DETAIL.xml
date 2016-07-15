@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ZC_V_BI_DETAIL">
+  <typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+ 
+ <resultMap class="com.ufgov.zc.common.zc.model.ZcVBiDetail" id="vBiResult">
+    <result column="ZC_BI_NO" jdbcType="VARCHAR" property="zcBiNo" />
+    <result column="ZC_BI_DO_SUM" jdbcType="DECIMAL" property="zcBiDoSum" />
+    <result column="FUND_CODE" jdbcType="VARCHAR" property="zcFundCode" />
+    <result column="FUND_NAME" jdbcType="VARCHAR" property="zcFundName" />
+    <result column="ORIGIN_CODE" jdbcType="VARCHAR" property="orginCode" />
+    <result column="ORIGIN_NAME" jdbcType="VARCHAR" property="orginName" />
+    <result column="PAYTYPE_CODE" jdbcType="VARCHAR" property="paytypeCode" />
+    <result column="PAYTYPE_NAME" jdbcType="VARCHAR" property="paytypeName" />
+    <result column="SENDDOC_CODE" jdbcType="VARCHAR" property="senddocCode" />
+    <result column="SENDDOC_NAME" jdbcType="VARCHAR" property="senddocName" />
+ </resultMap>
+
+	<select id="getZcVBiDetail" resultMap="vBiResult"
+		parameterClass="elementCondition">
+         select d.ZC_BI_NO,
+                d.ZC_BI_DO_SUM,
+                d.FUND_CODE,
+                d.FUND_NAME,
+                d.ORIGIN_CODE,
+                d.ORIGIN_NAME,
+                d.PAYTYPE_CODE,
+                d.PAYTYPE_NAME,
+                d.SENDDOC_CODE,
+                d.SENDDOC_NAME
+           from ZC_V_BI_DETAIL d
+           where  d.nd=#nd#
+           <isNotNull prepend="AND" property="coCode">
+		     d.CO_CODE=#coCode#
+		   </isNotNull>  
+	</select>
+		
+</sqlMap>

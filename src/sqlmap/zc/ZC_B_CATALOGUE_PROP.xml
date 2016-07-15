@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ZcBCatalogueProp">
+
+  <typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+
+  <resultMap id="ZcBCataloguePropResult" class="com.ufgov.zc.common.zc.model.ZcBCatalogueProp" >
+    <result column="ZC_CATALOGUE_CODE" jdbcType="VARCHAR" property="zcCatalogueCode" />
+    <result column="ZC_CATA_PROP_EN_NAME" jdbcType="VARCHAR" property="zcCataPropEnName" />
+    <result column="ZC_CATA_PROP_CH_NAME" jdbcType="VARCHAR" property="zcCataPropChName" />
+    <result column="ZC_CATA_PROP_ORDER" property="zcCataPropOrder" />
+  </resultMap>
+  
+  <resultMap id="ZcBMerCataloguePropValueResult" class="com.ufgov.zc.common.zc.model.ZcBMerCatalogueProp" >
+    <result column="ZC_MER_CODE" jdbcType="VARCHAR" property="zcMerCode" />
+    <result column="ZC_CATALOGUE_CODE" jdbcType="VARCHAR" property="zcCatalogueCode" />
+    <result column="ZC_CATA_PROP_EN_NAME" jdbcType="VARCHAR" property="zcCataPropEnName" />
+    <result column="ZC_CATA_PROP_VALUE" jdbcType="VARCHAR" property="zcCataPropValue" />
+    <result column="ZC_CATA_PROP_ORDER" property="zcCataPropOrder" />
+  </resultMap>
+
+  <select id="getCataloguePeopForID" resultMap="ZcBCataloguePropResult" parameterClass="string">
+	 select 
+	 	c.ZC_CATALOGUE_CODE,
+	 	c.ZC_CATA_PROP_EN_NAME,
+	 	c.ZC_CATA_PROP_CH_NAME,
+	 	c.ZC_CATA_PROP_ORDER
+	 from
+	    ZC_CATALOGUE_PROP c
+	 where c.ZC_CATALOGUE_CODE = #catalogueID#
+	 order by c.ZC_CATA_PROP_ORDER
+  </select>
+  
+  <select id="getMerCataloguePropValueForID" resultMap="ZcBMerCataloguePropValueResult" parameterClass="com.ufgov.zc.common.zc.model.ZcBMerchandise">
+	 select 
+	 	*
+	 from
+	    ZC_MER_CATALOGUE_PROP c
+	 where c.ZC_CATALOGUE_CODE = #zcCatalogueCode#
+	   and c.ZC_MER_CODE = #zcMerCode#
+	 order by c.ZC_CATA_PROP_ORDER
+  </select>
+  
+</sqlMap>

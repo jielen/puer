@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="EmCallExpertRecord">
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<typeAlias alias="EmCallExpertRecord" type="com.ufgov.zc.common.zc.model.EmCallExpertRecord" />
+	<resultMap id="rltMapping" class="EmCallExpertRecord">
+		<result property="emBillCode" column="EM_BILL_CODE" />
+		<result property="callNum" column="CALL_NUM" />
+		<result property="callTime" column="CALL_TIME" />	
+		<result property="callState" column="CALL_STATE" />	
+		<result property="emExpert.emExpertCode" column="EM_EXPERT_CODE" />
+		<result property="emExpert.emExpertName" column="EM_EXPERT_NAME" />
+		<result property="emExpert.emMobile" column="EM_MOBILE" />
+	</resultMap>
+	
+		<insert id="insertCallRecord" parameterClass="EmCallExpertRecord">
+		insert into
+		EM_CALL_EXPERT_RECORD
+		(EM_BILL_CODE,EM_EXPERT_CODE,CALL_NUM,
+		CALL_TIME, CALL_STATE
+		)
+		values
+		(#emBillCode:VARCHAR#,#emExpert.emExpertCode#,#callNum#,#callTime#,#callState:VARCHAR#)
+	</insert>
+	<delete id="deleteCallRecordByBillCode" parameterClass="map">
+		DELETE FROM EM_CALL_EXPERT_RECORD B
+		where B.EM_BILL_CODE = #EM_BILL_CODE#
+	</delete>
+	<select id="listByEmBillCode" resultMap="rltMapping" parameterClass="map">
+		SELECT * FROM EM_CALL_EXPERT_RECORD R, ZC_EM_B_EXPERT E
+		 WHERE R.EM_EXPERT_CODE = E.EM_EXPERT_CODE
+		 AND R.EM_BILL_CODE = #EM_BILL_CODE#
+		 ORDER BY R.CALL_TIME DESC
+	</select>
+	
+	<select id="read" resultMap="rltMapping" parameterClass="map">
+		SELECT * FROM ZC_EM_EXPERT_PRO_BILL B, ZC_P_PRO_MAKE M
+		WHERE B.EM_MAKE_CODE = M.ZC_MAKE_CODE
+		AND B.EM_BILL_CODE = #EM_BILL_CODE#
+	</select>
+	
+	<delete id="delete" parameterClass="map">
+		DELETE FROM ZC_EM_EXPERT_PRO_BILL B
+		where B.EM_BILL_CODE = #EM_BILL_CODE#
+	</delete>
+</sqlMap>

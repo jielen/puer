@@ -1,0 +1,1 @@
+package com.ufgov.zc.client.common;import java.applet.Applet;public interface AppletAware {  public void setApplet(Applet applet);  public Applet getApplet();}

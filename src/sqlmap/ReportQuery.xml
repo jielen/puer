@@ -1,0 +1,816 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ReportQuery">
+	<typeAlias alias="queryCondition"
+		type="com.ufgov.zc.common.commonbiz.dto.ReportQueryDto" />
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<typeAlias alias="biPayQuery"
+		type="com.ufgov.zc.common.cp.model.report.BiPayQuery" />
+	<typeAlias alias="baseReportBill"
+		type="com.ufgov.zc.common.commonbiz.model.BaseReportBill" />
+	<typeAlias alias="cpCcaccountInfo"
+		type="com.ufgov.zc.common.gwk.model.CpCcaccountInfo" />
+
+	<resultMap id="cpCcaccountInfoResult" class="cpCcaccountInfo">
+        <result column="CO_CODE" property="coCode" jdbcType="VARCHAR" />
+        <result column="CO_NAME" property="coName" jdbcType="VARCHAR" />
+        <result column="CARD_SERIAL" property="cardSerial" jdbcType="VARCHAR" />
+        <result column="RECE_BANK_CODE" property="receBankCode" jdbcType="VARCHAR" />
+        <result column="RECE_BANK_NAME" property="receBankName" jdbcType="VARCHAR" />
+		<result column="ND" property="nd" jdbcType="DECIMAL" />
+		<result column="CREDIT_NUM" property="creditNum" jdbcType="DECIMAL" />
+		<result column="CARD_USER" property="cardUser" jdbcType="VARCHAR" />
+		 <result column="STATUS" property="status" jdbcType="VARCHAR" />
+
+	</resultMap>
+
+	<resultMap id="baseReportBillMap" class="baseReportBill">
+		<result property="coCode" column="co_code" />
+		<result property="originCode" column="origin_code" />
+		<result property="fundCode" column="fund_code" />
+		<result property="baccCode" column="b_acc_code" />
+		<result property="projectCode" column="project_code" />
+		<result property="outlayCode" column="outlay_code" />
+		<result property="orgCode" column="org_code" />
+		<result property="payoutCode" column="payout_code" />
+		<result property="sendDocCode" column="senddoc_code" />
+		<result property="manageCode" column="manage_code" />
+		<result property="operationTypeCode" column="operation_type_code" />
+		<result property="paytypeCode" column="paytype_code" />
+		<result property="balModeCode" column="bal_mode_code" />
+		<result property="inceptdocCode" column="inceptdoc_code" />
+		<result property="dattr1" column="d_attr1" />
+		<result property="dattr2" column="d_attr2" />
+		<result property="dattr3" column="d_attr3" />
+		<result property="dattr4" column="d_attr4" />
+		<result property="dattr5" column="d_attr5" />
+		<result property="money1" column="money1" nullValue="0" />
+		<result property="money2" column="money2" nullValue="0" />
+		<result property="money3" column="money3" nullValue="0" />
+		<result property="money4" column="money4" nullValue="0" />
+		<result property="money5" column="money5" nullValue="0" />
+		<result property="money6" column="money6" nullValue="0" />
+		<result property="money7" column="money7" nullValue="0" />
+		<result property="money8" column="money8" nullValue="0" />
+		<result property="money9" column="money9" nullValue="0" />
+		<result property="money10" column="money10" nullValue="0" />
+		<result property="money11" column="money11" nullValue="0" />
+		<result property="money12" column="money12" nullValue="0" />
+	</resultMap>
+
+	<parameterMap id="commonReportQueryMap" class="java.util.HashMap">
+		<parameter property="resultSets" jdbcType="ORACLECURSOR"
+			javaType="java.sql.ResultSet" mode="OUT" resultMap="baseReportBillMap" />
+		<parameter property="PROCEDURE_NAME" jdbcType="VARCHAR"
+			javaType="java.lang.String" mode="IN" />
+		<parameter property="ND" jdbcType="INTEGER" javaType="java.lang.Integer"
+			mode="IN" />
+		<parameter property="CO_CODE" jdbcType="VARCHAR" javaType="java.lang.String"
+			mode="IN" />
+		<parameter property="ORIGIN_CODE" jdbcType="VARCHAR"
+			javaType="java.lang.String" mode="IN" />
+		<parameter property="FUND_CODE" jdbcType="VARCHAR" javaType="java.lang.String"
+			mode="IN" />
+		<parameter property="B_ACC_CODE" jdbcType="VARCHAR"
+			javaType="java.lang.String" mode="IN" />
+		<parameter property="PROJECT_CODE" jdbcType="VARCHAR"
+			javaType="java.lang.String" mode="IN" />
+		<parameter property="OUTLAY_CODE" jdbcType="VARCHAR"
+			javaType="java.lang.String" mode="IN" />
+		<parameter property="ORG_CODE" jdbcType="VARCHAR" javaType="java.lang.String"
+			mode="IN" />
+		<parameter property="PAYOUT_CODE" jdbcType="VARCHAR"
+			javaType="java.lang.String" mode="IN" />
+		<parameter property="SENDDOC_CODE" jdbcType="VARCHAR"
+			javaType="java.lang.String" mode="IN" />
+		<parameter property="MANAGE_CODE" jdbcType="VARCHAR"
+			javaType="java.lang.String" mode="IN" />
+		<parameter property="OPERATION_TYPE_CODE" jdbcType="VARCHAR"
+			javaType="java.lang.String" mode="IN" />
+		<parameter property="PAYTYPE_CODE" jdbcType="VARCHAR"
+			javaType="java.lang.String" mode="IN" />
+		<parameter property="BAL_MODE_CODE" jdbcType="VARCHAR"
+			javaType="java.lang.String" mode="IN" />
+		<parameter property="INCEPTDOC_CODE" jdbcType="VARCHAR"
+			javaType="java.lang.String" mode="IN" />
+		<parameter property="NUM_LIM_STR" jdbcType="VARCHAR"
+			javaType="java.lang.String" mode="IN" />
+		<parameter property="D_ATTR1" jdbcType="VARCHAR" javaType="java.lang.String"
+			mode="IN" />
+		<parameter property="D_ATTR2" jdbcType="VARCHAR" javaType="java.lang.String"
+			mode="IN" />
+		<parameter property="D_ATTR3" jdbcType="VARCHAR" javaType="java.lang.String"
+			mode="IN" />
+		<parameter property="D_ATTR4" jdbcType="VARCHAR" javaType="java.lang.String"
+			mode="IN" />
+		<parameter property="D_ATTR5" jdbcType="VARCHAR" javaType="java.lang.String"
+			mode="IN" />
+		<parameter property="PARAM1" jdbcType="VARCHAR" javaType="java.lang.String"
+			mode="IN" />
+		<parameter property="PARAM2" jdbcType="VARCHAR" javaType="java.lang.String"
+			mode="IN" />
+		<parameter property="PARAM3" jdbcType="VARCHAR" javaType="java.lang.String"
+			mode="IN" />
+		<parameter property="PARAM4" jdbcType="VARCHAR" javaType="java.lang.String"
+			mode="IN" />
+		<parameter property="PARAM5" jdbcType="VARCHAR" javaType="java.lang.String"
+			mode="IN" />
+		<parameter property="PARAM6" jdbcType="VARCHAR" javaType="java.lang.String"
+			mode="IN" />
+		<parameter property="PARAM7" jdbcType="VARCHAR" javaType="java.lang.String"
+			mode="IN" />
+		<parameter property="PARAM8" jdbcType="VARCHAR" javaType="java.lang.String"
+			mode="IN" />
+		<parameter property="PARAM9" jdbcType="VARCHAR" javaType="java.lang.String"
+			mode="IN" />
+		<parameter property="PARAM10" jdbcType="VARCHAR" javaType="java.lang.String"
+			mode="IN" />
+	</parameterMap>
+
+	<procedure id="getBaseReportQuery" parameterMap="commonReportQueryMap">
+		{? = call
+		FN_BASE_REPORT_QUERY(?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?, ?, ? ,?, ?, ? ,?,?
+		,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}
+	</procedure>
+
+	<resultMap id="reportResult"
+		class="com.ufgov.zc.common.cp.model.report.PayQueryReport">
+		<result property="nd" column="nd" jdbcType="INTEGER" />
+		<result property="coCode" column="co_code" />
+		<result property="coName" column="co_name" />
+		<result property="originCode" column="origin_code" />
+		<result property="originName" column="origin_name" />
+		<result property="fundCode" column="fund_code" />
+		<result property="fundName" column="fund_name" />
+		<result property="kmlb" column="kmlb" />
+		<result property="baccCode" column="b_acc_code" />
+		<result property="baccName" column="b_acc_name" />
+		<result property="projectCode" column="project_code" />
+		<result property="projectName" column="project_name" />
+		<result property="outlayCode" column="outlay_code" />
+		<result property="outlayName" column="outlay_name" />
+		<result property="orgCode" column="org_code" />
+		<result property="orgName" column="org_name" />
+		<result column="d_attr1" property="dattr1" />
+		<result column="d_attr2" property="dattr2" />
+		<result column="d_attr3" property="dattr3" />
+		<result column="d_attr4" property="dattr4" />
+		<result column="d_attr5" property="dattr5" />
+		<result column="PAYOUT_NAME" property="payoutName" />
+		<result column="PAYOUT_CODE" property="payoutCode" />
+		<result property="sendDocCode" column="senddoc_code" />
+		<result property="sendDocName" column="senddoc_name" />
+	</resultMap>
+
+	<resultMap id="biPayQueryAmApplyResult" extends="reportResult"
+		class="com.ufgov.zc.common.cp.model.report.BiPayQueryAmApply">
+		<result property="unauditAmApply" column="unauditamapply" />
+		<result property="auditAmApply" column="auditamapply" />
+	</resultMap>
+
+	<resultMap id="biPayQueryAmVoucherResult" extends="reportResult"
+		class="com.ufgov.zc.common.cp.model.report.BiPayQueryAmVoucher">
+		<result property="unauditAmVou" column="unauditamvou" />
+		<result property="auditAmVou" column="auditamvou" />
+	</resultMap>
+
+	<resultMap id="biPayQueryBiTrackResult" extends="reportResult"
+		class="com.ufgov.zc.common.cp.model.report.BiPayQueryBiTrack">
+		<result property="unauditBi" column="unauditbi" />
+		<result property="auditBi" column="auditbi" />
+		<result property="freezeBi" column="freezebi" />
+		<result property="adjustaddBi" column="adjustaddbi" />
+		<result property="adjustdelBi" column="adjustdelbi" />
+	</resultMap>
+
+	<resultMap id="biPayQueryCpApplyResult" extends="reportResult"
+		class="com.ufgov.zc.common.cp.model.report.BiPayQueryCpApply">
+		<result property="unauditCpApply" column="unauditcpapply" />
+		<result property="auditCpApply" column="auditcpapply" />
+	</resultMap>
+
+	<resultMap id="biPayQueryCpVoucher0201Result" extends="reportResult"
+		class="com.ufgov.zc.common.cp.model.report.BiPayQueryCpVoucherD">
+		<result property="unauditCpVou0201" column="unauditcpvou0201" />
+		<result property="auditCpVou0201" column="auditcpvou0201" />
+	</resultMap>
+
+	<resultMap id="biPayQueryCpVoucher0202Result" extends="reportResult"
+		class="com.ufgov.zc.common.cp.model.report.BiPayQueryCpVoucherA">
+		<result property="auditCpVou0202" column="auditcpvou0202" />
+	</resultMap>
+
+	<resultMap id="biPayQueryDpDetailResult" extends="reportResult"
+		class="com.ufgov.zc.common.cp.model.report.BiPayQueryDpDetail">
+		<result property="unauditdp0201" column="unauditdp0201" />
+		<result property="unauditdp0202" column="unauditdp0202" />
+		<result property="auditdp0201" column="auditdp0201" />
+		<result property="auditdp0202" column="auditdp0202" />
+		<result property="effectdp0202" column="effectdp0202" />
+	</resultMap>
+
+	<resultMap id="biPayQueryResult" class="biPayQuery">
+		<result property="coCode" column="co_code" />
+		<result property="coName" column="co_name" />
+		<result property="originCode" column="origin_code" />
+		<result property="originName" column="origin_name" />
+		<result property="fundCode" column="fund_code" />
+		<result property="fundName" column="fund_name" />
+		<result property="kmlb" column="kmlb" />
+		<result property="kmlbName" column="kmlbName" />
+		<result property="baccCode" column="b_acc_code" />
+		<result property="baccName" column="b_acc_name" />
+		<result property="projectCode" column="project_code" />
+		<result property="projectName" column="project_name" />
+		<result property="projectDetailCode" column="project_detail_code" />
+		<result property="projectDetailName" column="project_detail_name" />
+		<result property="outlayCode" column="outlay_code" />
+		<result property="outlayName" column="outlay_name" />
+		<result property="orgCode" column="org_code" />
+		<result property="orgName" column="org_name" />
+		<result column="PAYOUT_NAME" property="payoutName" />
+		<result column="PAYOUT_CODE" property="payoutCode" />
+		<result property="sendDocCode" column="senddoc_code" />
+		<result property="sendDocName" column="senddoc_name" />
+		<result property="payPercent" column="pay_percent" jdbcType="VARCHAR"/>
+		<result property="auditPercent" column="audit_percent" jdbcType="VARCHAR"/>
+		<result column="d_attr1" property="dattr1" />
+		<result column="d_attr2" property="dattr2" />
+		<result column="d_attr3" property="dattr3" />
+		<result column="d_attr4" property="dattr4" />
+		<result column="d_attr5" property="dattr5" />
+		<result property="unauditbi" column="unauditbi" />
+		<result property="auditbi" column="auditbi" />
+		<result property="freezebi" column="freezebi" />
+		<result property="adjustaddbi" column="adjustaddbi" />
+		<result property="adjustdelbi" column="adjustdelbi" />
+		<result property="totalbi" column="totalbi" />
+		<result property="unauditamapply" column="unauditamapply" />
+		<result property="auditamapply" column="auditamapply" />
+		<result property="unauditcpapply" column="unauditcpapply" />
+		<result property="auditcpapply" column="auditcpapply" />
+		<result property="unauditdp0201" column="unauditdp0201" />
+		<result property="unauditdp0202" column="unauditdp0202" />
+		<result property="auditdp0201" column="auditdp0201" />
+		<result property="auditdp0202" column="auditdp0202" />
+		<result property="unauditamvou" column="unauditamvou" />
+		<result property="auditamvou" column="auditamvou" />
+		<result property="unauditcpvou0201" column="unauditcpvou0201" />
+		<result property="auditcpvou0201" column="auditcpvou0201" />
+		<result property="effectdp0202" column="effectdp0202" />
+		<result property="auditcpvou0202" column="auditcpvou0202" />
+		<result property="leftbi" column="leftbi" />
+		<result property="leftdp0202" column="leftdp0202" />
+
+	</resultMap>
+
+	<parameterMap id="paramBiPayQueryMap" class="java.util.HashMap">
+		<parameter property="resultSets" jdbcType="ORACLECURSOR"
+			javaType="java.sql.ResultSet" mode="OUT" resultMap="biPayQueryResult" />
+		<parameter property="nd" jdbcType="INTEGER" javaType="java.lang.Integer"
+			mode="IN" />
+		<parameter property="co_code" jdbcType="VARCHAR" javaType="java.lang.String"
+			mode="IN" />
+		<parameter property="origin_code" jdbcType="VARCHAR"
+			javaType="java.lang.String" mode="IN" />
+		<parameter property="fund_code" jdbcType="VARCHAR" javaType="java.lang.String"
+			mode="IN" />
+		<parameter property="kmlb" jdbcType="VARCHAR" javaType="java.lang.String"
+			mode="IN" />
+		<parameter property="b_acc_code" jdbcType="VARCHAR"
+			javaType="java.lang.String" mode="IN" />
+		<parameter property="project_code" jdbcType="VARCHAR"
+			javaType="java.lang.String" mode="IN" />
+		<parameter property="project_detail_code" jdbcType="VARCHAR"
+			javaType="java.lang.String" mode="IN" />
+		<parameter property="outlay_code" jdbcType="VARCHAR"
+			javaType="java.lang.String" mode="IN" />
+		<parameter property="org_code" jdbcType="VARCHAR" javaType="java.lang.String"
+			mode="IN" />
+		<parameter property="payout_code" jdbcType="VARCHAR"
+			javaType="java.lang.String" mode="IN" />
+		<parameter property="senddoc_code" jdbcType="VARCHAR"
+			javaType="java.lang.String" mode="IN" />
+		<parameter property="d_attr1" jdbcType="VARCHAR" javaType="java.lang.String"
+			mode="IN" />
+		<parameter property="d_attr2" jdbcType="VARCHAR" javaType="java.lang.String"
+			mode="IN" />
+		<parameter property="d_attr3" jdbcType="VARCHAR" javaType="java.lang.String"
+			mode="IN" />
+		<parameter property="d_attr4" jdbcType="VARCHAR" javaType="java.lang.String"
+			mode="IN" />
+		<parameter property="d_attr5" jdbcType="VARCHAR" javaType="java.lang.String"
+			mode="IN" />
+		<parameter property="sel_str" jdbcType="VARCHAR" javaType="java.lang.String"
+			mode="IN" />
+		<parameter property="sel_str_out" jdbcType="VARCHAR"
+			javaType="java.lang.String" mode="IN" />
+	</parameterMap>
+	<procedure id="getBiPayQuery" parameterMap="paramBiPayQueryMap">
+		{? = call
+		GK53_TYPE.FN_CP_BI_PAY_QUERY(?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?, ?, ? ,?,
+		?, ? ,? ,?,?)}
+	</procedure>
+
+	<sql id="conditionItems">
+		<isNotNull prepend="AND" property="coCode">
+			<isEqual property="coCode" compareValue="null">
+				MASTER.CO_CODE is
+				null
+			</isEqual>
+			<isNotEqual property="coCode" compareValue="null">
+				MASTER.CO_CODE
+				= #coCode#
+			</isNotEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="originCode">
+			<isEqual property="originCode" compareValue="null">
+				MASTER.ORIGIN_CODE is null
+			</isEqual>
+			<isNotEqual property="originCode" compareValue="null">
+				MASTER.ORIGIN_CODE = #originCode#
+			</isNotEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="fundCode">
+			<isEqual property="fundCode" compareValue="null">
+				MASTER.FUND_CODE is
+				null
+			</isEqual>
+			<isNotEqual property="fundCode" compareValue="null">
+				MASTER.FUND_CODE = #fundCode#
+			</isNotEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="kmlb">
+			<isEqual property="kmlb" compareValue="null">
+				MASTER.KMLB is null
+			</isEqual>
+			<isNotEqual property="kmlb" compareValue="null">
+				MASTER.kmlb =
+				#kmlb#
+			</isNotEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="projectCode">
+			<isEqual property="projectCode" compareValue="null">
+				MASTER.PROJECT_CODE is null
+			</isEqual>
+			<isNotEqual property="projectCode" compareValue="null">
+				MASTER.PROJECT_CODE = #projectCode#
+			</isNotEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="baccCode">
+			<isEqual property="baccCode" compareValue="null">
+				MASTER.B_ACC_CODE
+				is null
+			</isEqual>
+			<isNotEqual property="baccCode" compareValue="null">
+				MASTER.B_ACC_CODE = #baccCode#
+			</isNotEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="outlayCode">
+			<isEqual property="outlayCode" compareValue="null">
+				MASTER.OUTLAY_CODE is null
+			</isEqual>
+			<isNotEqual property="outlayCode" compareValue="null">
+				MASTER.OUTLAY_CODE = #outlayCode#
+			</isNotEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="orgCode">
+			<isEqual property="orgCode" compareValue="null">
+				MASTER.ORG_CODE is
+				null
+			</isEqual>
+			<isNotEqual property="orgCode" compareValue="null">
+				MASTER.ORG_CODE = #orgCode#
+			</isNotEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="payoutCode">
+			<isEqual property="payoutCode" compareValue="null">
+				MASTER.PAYOUT_CODE is null
+			</isEqual>
+			<isNotEqual property="payoutCode" compareValue="null">
+				MASTER.PAYOUT_CODE = #payoutCode#
+			</isNotEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="sendDocCode">
+			<isEqual property="sendDocCode" compareValue="null">
+				MASTER.SENDDOC_CODE is null
+			</isEqual>
+			<isNotEqual property="sendDocCode" compareValue="null">
+				MASTER.SENDDOC_CODE = #sendDocCode#
+			</isNotEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="dattr1">
+			<isEqual property="dattr1" compareValue="null">
+				MASTER.D_ATTR1 is
+				null
+			</isEqual>
+			<isNotEqual property="dattr1" compareValue="null">
+				MASTER.D_ATTR1
+				= #dattr1#
+			</isNotEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="dattr2">
+			<isEqual property="dattr2" compareValue="null">
+				MASTER.D_ATTR2 is
+				null
+			</isEqual>
+			<isNotEqual property="dattr2" compareValue="null">
+				MASTER.D_ATTR2
+				= #dattr2#
+			</isNotEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="dattr3">
+			<isEqual property="dattr3" compareValue="null">
+				MASTER.D_ATTR3 is
+				null
+			</isEqual>
+			<isNotEqual property="dattr3" compareValue="null">
+				MASTER.D_ATTR3
+				= #dattr3#
+			</isNotEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="dattr4">
+			<isEqual property="dattr4" compareValue="null">
+				MASTER.D_ATTR4 is
+				null
+			</isEqual>
+			<isNotEqual property="dattr4" compareValue="null">
+				MASTER.D_ATTR4
+				= #dattr4#
+			</isNotEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="dattr5">
+			<isEqual property="dattr5" compareValue="null">
+				MASTER.D_ATTR5 is
+				null
+			</isEqual>
+			<isNotEqual property="dattr5" compareValue="null">
+				MASTER.D_ATTR5
+				= #dattr5#
+			</isNotEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="startDate">
+			<![CDATA[
+			MASTER.PROC_DATE >= #startDate#
+			]]>
+		</isNotNull>
+		<isNotNull prepend="AND" property="endDate">
+			<![CDATA[
+			MASTER.PROC_DATE <= #endDate#
+			]]>
+		</isNotNull>
+	</sql>
+
+	<sql id="conditionItems1">
+		<isNotNull prepend="AND" property="coCode">
+			<isEqual property="coCode" compareValue="null">
+				MASTER.CO_CODE is
+				null
+			</isEqual>
+			<isNotEqual property="coCode" compareValue="null">
+				MASTER.CO_CODE
+				= #coCode#
+			</isNotEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="coCodeFilter">
+			$coCodeFilter$
+		</isNotNull>
+		<isNotNull prepend="AND" property="originCode">
+			<isEqual property="originCode" compareValue="null">
+				MASTER.ORIGIN_CODE is null
+			</isEqual>
+			<isNotEqual property="originCode" compareValue="null">
+				MASTER.ORIGIN_CODE = #originCode#
+			</isNotEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="fundCode">
+			<isEqual property="fundCode" compareValue="null">
+				MASTER.FUND_CODE is
+				null
+			</isEqual>
+			<isNotEqual property="fundCode" compareValue="null">
+				MASTER.FUND_CODE = #fundCode#
+			</isNotEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="projectCode">
+			<isEqual property="projectCode" compareValue="null">
+				MASTER.PROJECT_CODE is null
+			</isEqual>
+			<isNotEqual property="projectCode" compareValue="null">
+				MASTER.PROJECT_CODE = #projectCode#
+			</isNotEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="baccCode">
+			<isEqual property="baccCode" compareValue="null">
+				MASTER.B_ACC_CODE
+				is null
+			</isEqual>
+			<isNotEqual property="baccCode" compareValue="null">
+				MASTER.B_ACC_CODE = #baccCode#
+			</isNotEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="outlayCode">
+			<isEqual property="outlayCode" compareValue="null">
+				MASTER.OUTLAY_CODE is null
+			</isEqual>
+			<isNotEqual property="outlayCode" compareValue="null">
+				MASTER.OUTLAY_CODE = #outlayCode#
+			</isNotEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="orgCode">
+			<isEqual property="orgCode" compareValue="null">
+				MASTER.ORG_CODE is
+				null
+			</isEqual>
+			<isNotEqual property="orgCode" compareValue="null">
+				MASTER.ORG_CODE = #orgCode#
+			</isNotEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="payoutCode">
+			<isEqual property="payoutCode" compareValue="null">
+				MASTER.PAYOUT_CODE is null
+			</isEqual>
+			<isNotEqual property="payoutCode" compareValue="null">
+				MASTER.PAYOUT_CODE = #payoutCode#
+			</isNotEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="sendDocCode">
+			<isEqual property="sendDocCode" compareValue="null">
+				MASTER.SENDDOC_CODE is null
+			</isEqual>
+			<isNotEqual property="sendDocCode" compareValue="null">
+				MASTER.SENDDOC_CODE = #sendDocCode#
+			</isNotEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="dattr1">
+			<isEqual property="dattr1" compareValue="null">
+				MASTER.D_ATTR1 is
+				null
+			</isEqual>
+			<isNotEqual property="dattr1" compareValue="null">
+				MASTER.D_ATTR1
+				= #dattr1#
+			</isNotEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="dattr2">
+			<isEqual property="dattr2" compareValue="null">
+				MASTER.D_ATTR2 is
+				null
+			</isEqual>
+			<isNotEqual property="dattr2" compareValue="null">
+				MASTER.D_ATTR2
+				= #dattr2#
+			</isNotEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="dattr3">
+			<isEqual property="dattr3" compareValue="null">
+				MASTER.D_ATTR3 is
+				null
+			</isEqual>
+			<isNotEqual property="dattr3" compareValue="null">
+				MASTER.D_ATTR3
+				= #dattr3#
+			</isNotEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="dattr4">
+			<isEqual property="dattr4" compareValue="null">
+				MASTER.D_ATTR4 is
+				null
+			</isEqual>
+			<isNotEqual property="dattr4" compareValue="null">
+				MASTER.D_ATTR4
+				= #dattr4#
+			</isNotEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="dattr5">
+			<isEqual property="dattr5" compareValue="null">
+				MASTER.D_ATTR5 is
+				null
+			</isEqual>
+			<isNotEqual property="dattr5" compareValue="null">
+				MASTER.D_ATTR5
+				= #dattr5#
+			</isNotEqual>
+		</isNotNull>
+		<isNotNull prepend="AND" property="startDate">
+			<![CDATA[
+			MASTER.PROC_DATE >= #startDate#
+			]]>
+		</isNotNull>
+		<isNotNull prepend="AND" property="endDate">
+			<![CDATA[
+			MASTER.PROC_DATE <= #endDate#
+			]]>
+		</isNotNull>
+	</sql>
+	<select id="getAllCpCcaccountInfo" resultMap="biPayQueryAmApplyResult"
+		parameterClass="queryCondition">
+		select * from V_BI_PAY_QUERY_AMAPPLY MASTER where nd=#nd:INTEGER#
+		<include refid="conditionItems" />
+	</select>
+
+	<select id="getBiPayQueryVoucher" resultMap="biPayQueryAmVoucherResult"
+		parameterClass="queryCondition">
+		select * from V_BI_PAY_QUERY_AMVOUCHER MASTER where nd=#nd#
+		<include refid="conditionItems" />
+	</select>
+
+	<select id="getBiPayQueryBiTrack" resultMap="biPayQueryBiTrackResult"
+		parameterClass="queryCondition">
+		select * from V_BI_PAY_QUERY_BITRACK MASTER where nd=#nd#
+		<include refid="conditionItems" />
+	</select>
+
+	<select id="getBiPayQueryCpApply" resultMap="biPayQueryCpApplyResult"
+		parameterClass="queryCondition">
+		select * from V_BI_PAY_QUERY_CPAPPLY MASTER where nd=#nd#
+		<include refid="conditionItems" />
+	</select>
+
+	<select id="getBiPayQueryCpVoucher0201" resultMap="biPayQueryCpVoucher0201Result"
+		parameterClass="queryCondition">
+		select * from V_BI_PAY_QUERY_CPVOUCHER MASTER where nd=#nd#
+		<include refid="conditionItems" />
+	</select>
+
+	<select id="getBiPayQueryCpVoucher0202" resultMap="biPayQueryCpVoucher0202Result"
+		parameterClass="queryCondition">
+		select * from V_BI_PAY_QUERY_CPVOUCHER0202 MASTER where nd=#nd#
+		<include refid="conditionItems" />
+	</select>
+
+	<select id="getBiPayQueryDpDetail" resultMap="biPayQueryDpDetailResult"
+		parameterClass="queryCondition">
+		select * from V_BI_PAY_QUERY_DPDETAIL MASTER where nd=#nd#
+		<include refid="conditionItems" />
+	</select>
+
+	<select id="getBiPayQueryAmApply" resultMap="biPayQueryAmApplyResult" parameterClass="queryCondition">
+		select * from V_BI_PAY_QUERY_AMAPPLY MASTER where nd=#nd:INTEGER#
+		<include refid="conditionItems"/>
+	</select>
+
+
+	<!-- add by liubo-->
+	<select id="getBudgetExeQuery" parameterClass="elementCondition"
+		resultClass="hashmap">
+		select
+		<isNotNull property="extField2">
+			$extField2$,
+			</isNotNull>
+		sum(master.money11) money11,
+		sum(master.money12) money12,
+		sum(master.money13) money13,
+		sum(master.money21) money21,
+		sum(master.money22) money22,
+		sum(master.money23) money23,
+		sum(master.money31) money31,
+		sum(master.money32) money32,
+		sum(master.money33) money33
+		from (
+		select
+		<isNotNull property="extField1">
+			$extField1$,
+					</isNotNull>
+		sum(money1) money11,
+		sum(money2) money12,
+		(sum(money1) - sum(money2)) money13,
+		0 money21,
+		0 money22,
+		0 money23,
+		0 money31,
+		0 money32,
+		0 money33
+		from (
+		select
+		<isNotNull property="groupFieldStr">
+			$groupFieldStr$,
+							</isNotNull>
+		sum(case when (master.bi_adjust_code IN
+		('101','201','402','501','502') and master.a_status_code = '3') then
+		master.cur_money when (master.bi_adjust_code IN
+		('202','102','103','401') and master.a_status_code = '3') then
+		-master.cur_money when master.bi_adjust_code='301' then
+		master.cur_money when master.bi_adjust_code='302' then
+		-master.cur_money else 0 end) money1,
+		0 money2
+		from bi_track master
+		where master.is_valid = '1'
+		and master.bi_level = '03'
+		<include refid="conditionItems1" />
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		<isNotNull property="extField1">
+			group by $extField1$
+		                  </isNotNull>
+
+		union all
+
+		select
+		<isNotNull property="groupFieldStr">
+			$groupFieldStr$,
+							</isNotNull>
+		0 money1,
+		sum(case when master.PM_ADJUST_CODE in ('101', '201', '301') then cur_money
+		when master.PM_ADJUST_CODE in ('202', '302') then -master.cur_money
+		else 0 end) money2
+		from dp_detail master
+		where master.is_valid = '1'
+		and master.a_status_code >='3'
+		and master.is_sum_dp = '0'
+		<include refid="conditionItems1" />
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		<isNotNull property="groupConditionStr">
+			group by $groupConditionStr$
+		                  </isNotNull>
+		) master
+		<isNotNull property="extField1">
+			group by $extField1$
+		                  </isNotNull>
+
+		union all
+
+		select
+		<isNotNull property="groupFieldStr">
+			$groupFieldStr$,
+					</isNotNull>
+		0 money11,
+		0 money12,
+		0 money13,
+		sum(case when master.PM_ADJUST_CODE in ('101','201','301') then cur_money when
+		master.PM_ADJUST_CODE in ('202', '302') then -master.cur_money else 0
+		end) money21,
+		sum(case when master.PM_ADJUST_CODE in ('101','201','301') and
+		master.paytype_code='0201' then cur_money when master.PM_ADJUST_CODE
+		in ('202', '302') and master.paytype_code='0201' then
+		-master.cur_money else 0 end) money22,
+		sum(case when master.PM_ADJUST_CODE in ('101','201','301') and
+		master.paytype_code='0202' then cur_money when master.PM_ADJUST_CODE
+		in ('202', '302') and master.paytype_code='0202' then
+		-master.cur_money else 0 end) money23,
+		0 money31,
+		0 money32,
+		0 money33
+		from dp_detail master
+		where master.is_effect = '1'
+		and master.is_valid = '1'
+		and master.a_status_code>=3
+		and master.is_sum_dp = '0'
+		<include refid="conditionItems1" />
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		<isNotNull property="groupConditionStr">
+			group by $groupConditionStr$
+		           </isNotNull>
+
+		union all
+
+		select
+		<isNotNull property="groupFieldStr">
+			$groupFieldStr$,
+					</isNotNull>
+		0 money11,
+		0 money12,
+		0 money13,
+		0 money21,
+		0 money22,
+		0 money23,
+		sum(master.cur_money) money31,
+		sum(decode(master.paytype_code, '0201', master.cur_money, 0)) money32,
+		sum(decode(master.paytype_code, '0202', master.cur_money, 0)) money33
+		from cp_voucher master
+		where master.is_valid = '1'
+		and master.is_sum_cp_voucher = '0'
+		<include refid="conditionItems1" />
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		<isNotNull property="groupConditionStr">
+			group by $groupConditionStr$
+		         </isNotNull>
+		) master
+		<isNotNull property="extField1">
+			group by rollup($extField1$)
+		         </isNotNull>
+
+	</select>
+
+	<select id="getCpCcaccountInfo" resultMap="cpCcaccountInfoResult"
+		parameterClass="elementCondition">
+	   SELECT * FROM cp_ccaccount_info MASTER
+	   <dynamic prepend="WHERE">
+	   	<isNotNull prepend="AND" property="receBankCode">
+			MASTER.rece_bank_code = #receBankCode#
+		</isNotNull>
+		<isNotNull prepend="AND" property="status">
+			MASTER.status = #status#
+		</isNotNull>
+	    <isNotNull prepend="AND" property="nd">
+	  		MASTER.nd = #nd#
+	  	</isNotNull>
+	  	<include refid="BusiNumLim.BusiNumLimStr" />
+		<include refid="ElementCondition.CoCodeFilter"/>
+		</dynamic>
+	</select>
+</sqlMap>

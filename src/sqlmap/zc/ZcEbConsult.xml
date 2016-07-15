@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ZcEbConsult">
+	<typeAlias alias="ZcEbConsult" type="com.ufgov.zc.common.zc.model.ZcEbConsult" />
+
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+
+	<resultMap id="ZcEbConsultSimResult" class="ZcEbConsult">
+		<result property="id" column="ID" />
+		<result property="title" column="TITLE" />		<result property="nd" column="ND" />
+		<result property="processInstId" column="PROCESS_INST_ID" />
+		<result property="status" column="STATUS" />
+		<result property="type" column="TYPE" />
+		<result property="executor" column="EXECUTOR" />
+		<result property="executeDate" column="EXECUTE_DATE" />
+		<result property="replyDate" column="REPLY_DATE" />		<result property="executorName" column="zc_su_name" />		<result property="replier" column="replier" />		<result property="replierName" column="replier_Name" />
+	</resultMap>	<resultMap id="ZcEbConsultResult" class="ZcEbConsult">		<result property="id" column="ID" />		<result property="title" column="TITLE" />		<result property="nd" column="ND" />		<result property="processInstId" column="PROCESS_INST_ID" />		<result property="status" column="STATUS" />		<result property="type" column="TYPE" />		<result property="executor" column="EXECUTOR" />		<result property="executeDate" column="EXECUTE_DATE" />		<result property="replyDate" column="REPLY_DATE" />		<result property="executorName" column="zc_su_name" />		<result property="problem" column="PROBLEM" />		<result property="reply" column="REPLY" />		<result property="replier" column="replier" />		<result property="replierName" column="replier_Name" />	</resultMap>		<resultMap class="java.util.HashMap" id="userMap">		<result property="USER_ID" column="USER_ID" />		<result property="USER_NAME" column="USER_NAME" />		<result property="ORG_NAME" column="ORG_NAME" />	</resultMap>
+	<select id="findList" resultMap="ZcEbConsultSimResult"
+		parameterClass="elementCondition">		select t.*,s.zc_su_name from ZC_EB_CONSULT t,zc_b_supplier s		where t.executor=s.zc_su_code(+)		<isNotEqual prepend="AND" property="nd" compareValue="0">			t.ND=#nd#		</isNotEqual>		<include refid="BusiNumLim.BusiNumLimStr" />		<isNotNull prepend="and" property="status">			<isEqual property="status" compareValue="todo">				exists (select instance_id from V_WF_CURRENT_TASK_ZC_TODO where executor				=#executor# and instance_id = t.process_inst_id)			</isEqual>			<isEqual property="status" compareValue="untread">				exists (select instance_id from V_WF_CURRENT_TASK_ZC_UNTREAD where				executor =#executor# and instance_id = t.process_inst_id)			</isEqual>			<isEqual property="status" compareValue="done">				exists (select instance_id from V_WF_ACTION_HISTORY_GK53 where executor =				#executor# and instance_id = t.process_inst_id)				and t.status!='cancel'				and t.status!='exec'			</isEqual>			<isEqual property="status" compareValue="exec">				(t.status ='exec')			</isEqual>			<isEqual property="status" compareValue="draft">				exists (select WF_DRAFT_NAME from as_wf_draft where user_id=#executor# and				compo_id=#wfcompoId# and WF_DRAFT_ID=t.process_inst_id)			</isEqual>		</isNotNull>
+	</select>
+	<select id="findConsultById" resultMap="ZcEbConsultResult" parameterClass="String">		select t.*,s.zc_su_name from ZC_EB_CONSULT t,zc_b_supplier s		where t.executor=s.zc_su_code(+) and t.id=#value#
+	</select>
+	<update id="updateConsult" parameterClass="ZcEbConsult">
+	update ZC_EB_CONSULT	set Title=#title#,	Status=#status#,	nd=#nd#,	Type=#type#,	Executor=#executor#,	Execute_Date=#executeDate#,	Problem=#problem#,	Reply=#reply#,	Reply_Date=#replyDate#,	replier=#replier#,	replier_Name=#replierName#	where id=#id#
+	</update>	<update id="updateConsultReplyTimeById" parameterClass="String">	update ZC_EB_CONSULT	set Reply_Date=sysDate,	replier=#replier#,	replier_Name=#replierName#	where id=#value#	</update>
+
+	<delete id="deleteById" parameterClass="String">
+		delete from ZC_EB_CONSULT where id=#value#
+	</delete>
+
+	<insert id="insertConsult" parameterClass="ZcEbConsult">insert into ZC_EB_CONSULT  (id,   Title,   Process_Inst_Id,   Status,   nd,   Type,   Executor,   Execute_Date,   Problem,   Reply,   Reply_Date,   replier,   replier_Name)values  (#id#,  #title#,  #processInstId#,  #status#,  #nd#,  #type#,  #executor#,  sysdate,  #problem#,  #reply#,  #replyDate#,  #replier#,  #replierName#  )
+	</insert>	<select id="findYWUser" resultMap="userMap">	select user_id,user_name,chr_name org_name from sys_usermanage u,ele_manage_branch b	where org_type='008' and u.gp_org=b.chr_id and b.chr_code!='900' order by b.chr_code	</select>
+	<insert id="insertWcmsAsk" parameterClass="ZcEbConsult">	insert into zc_wcms_zx_article (id,title,content,zx_date) values(#id#, #title#, #problem#, #executeDate#)	</insert>	<insert id="insertWcmsAns" parameterClass="ZcEbConsult">	insert into zc_wcms_zx_article_answer (id,content,author,answer_date) values(#id#, #reply#, #replierName#, #replyDate#)	</insert>
+</sqlMap>

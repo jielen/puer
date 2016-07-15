@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ZcEbOpenBid">
+	<typeAlias alias="ZcEbOpenBid" type="com.ufgov.zc.common.zc.model.ZcEbOpenBid" />
+
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+
+	<resultMap id="ZcEbOpenBidResult" class="ZcEbOpenBid">
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="projName" column="PROJ_NAME" />
+		<result property="packCode" column="PACK_CODE" />
+		<result property="packName" column="PACK_NAME" />
+		<result property="providerCode" column="PROVIDER_CODE" />
+		<result property="providerName" column="PROVIDER_NAME" />
+		<result property="signupId" column="SIGNUP_ID" />
+		<result property="signupPackId" column="SIGNUP_PACK_ID" />
+		<result property="bidSum" column="BID_SUM" />
+		<result property="bidSumMask" column="BID_SUM_MASK" />
+		<result property="openBidStatus" column="OPEN_BID_STATUS" />
+		<result property="openBidRemark" column="OPEN_BID_REMARK" />
+		<result property="openBidDate" column="OPEN_BID_DATE" />
+		<result property="bidDocId" column="BID_DOC_ID" />
+		<result property="bidDocName" column="BID_DOC_NAME" />
+		<result property="ecbjSum" column="ECBJ_SUM" />
+		<result property="tbylbFileId" column="TBYLB_FILE_ID" />
+		<result property="tbylbFileName" column="TBYLB_FILE_NAME" />
+		<result property="promiseWorkDate" column="PROMISE_WORK_DATE" />		<result property="isSubmitBidDoc" column="IS_SUBMIT_BID_DOC" />
+	</resultMap>
+
+	<select id="getZcEbOpenBid" resultMap="ZcEbOpenBidResult"
+		parameterClass="elementCondition">		SELECT		* FROM ZC_V_OPEN_BID ZC_V_OPEN_BID		WHERE 1=1		<isNotEqual prepend="AND" compareValue="0" property="nd">			ZC_V_OPEN_BID.ND = #nd#		</isNotEqual>		<include refid="BusiNumLim.BusiNumLimStr" />		<isNotNull prepend="AND" property="status">			<isEqual property="status" compareValue="todo">				(ZC_V_OPEN_BID.open_bid_status='0' or ZC_V_OPEN_BID.open_bid_status				is null)			</isEqual>			<isEqual property="status" compareValue="success">				ZC_V_OPEN_BID.open_bid_status='1'			</isEqual>			<isEqual property="status" compareValue="fail">				ZC_V_OPEN_BID.open_bid_status='2'			</isEqual>			<isEqual property="status" compareValue="all">				1=1			</isEqual>		</isNotNull>		<isNotNull prepend="AND" property="projCode">			ZC_V_OPEN_BID.proj_code=#projCode#		</isNotNull>		<isNotNull prepend="AND" property="zcText0">			( ZC_V_OPEN_BID.pack_code			like			'%'||#zcText0#||'%' or ZC_V_OPEN_BID.pack_name like			'%'||#zcText0#||'%' )		</isNotNull>		<isNotNull prepend="AND" property="billStatus">			ZC_V_OPEN_BID.OPEN_BID_STATUS=#billStatus#		</isNotNull>	</select>
+	<update id="updateZcEbOpenBid" parameterClass="ZcEbOpenBid">
+		UPDATE
+		ZC_EB_SIGNUP_PACK C
+		SET C.OPEN_BID_STATUS=#openBidStatus#,
+		C.OPEN_BID_REMARK=#openBidRemark#,
+		C.OPEN_BID_DATE=#openBidDate:DATE#,
+		C.BID_SUM=#bidSum#,
+		C.ECBJ_SUM=#ecbjSum#,
+		C.TBYLB_FILE_ID=#tbylbFileId#,
+		C.TBYLB_FILE_NAME=#tbylbFileName#,
+		C.PROMISE_WORK_DATE=#promiseWorkDate#,		C.IS_SUBMIT_BID_DOC=#isSubmitBidDoc#
+		WHERE
+		C.SIGNUP_ID=#signupId#
+		AND C.PACK_CODE=#packCode#
+	</update>
+	<update id="updateZcEbPackStatus" parameterClass="ZcEbOpenBid">
+		UPDATE
+		ZC_EB_PACK C
+		SET C.STATUS='1'
+		WHERE C.PACK_CODE=#packCode#
+		AND
+		C.PROJ_CODE=#projCode#
+	</update>
+	<!-- 获得开标成功的供应商的个数 -->
+	<select id="getZcEbSuccessOpenBidNum" resultClass="Integer"
+		parameterClass="String">
+		select count(*)
+		from Zc_Eb_Signup_Pack SIGNUP_PACK
+		where SIGNUP_PACK.PACK_CODE = #packCode#
+		and SIGNUP_PACK.Open_Bid_Status = '1'
+	</select>
+</sqlMap>

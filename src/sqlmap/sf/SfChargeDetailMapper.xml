@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.ufgov.zc.server.sf.dao.SfChargeDetailMapper" >
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+  <resultMap id="BaseResultMap" class="com.ufgov.zc.common.sf.model.SfChargeDetail" >
+    <result column="ENTRUST_ID" property="entrustId" jdbcType="DECIMAL" />
+    <result column="CHARGE_STANDARD_ID" property="chargeStandardId" jdbcType="DECIMAL" />
+    <result column="QUANTITY" property="quantity" jdbcType="DECIMAL" />
+    <result column="PRICE" property="price" jdbcType="DECIMAL" />
+    <result column="TOTAL_PRICE" property="totalPrice" jdbcType="DECIMAL" />
+    <result column="PRICE_TYPE" property="priceType" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CHARGE_STANDARD_NAME" property="chargeStandardName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ENTRUST_ID, CHARGE_STANDARD_ID, QUANTITY, PRICE, TOTAL_PRICE, PRICE_TYPE, REMARK, 
+    CHARGE_STANDARD_NAME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from SF_CHARGE_DETAIL
+    where ENTRUST_ID = #entrustId:DECIMAL#
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="java.math.BigDecimal" >
+    delete from SF_CHARGE_DETAIL
+    where ENTRUST_ID = #entrustId:DECIMAL#
+  </delete>
+  <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfChargeDetail" >
+    insert into SF_CHARGE_DETAIL (ENTRUST_ID, CHARGE_STANDARD_ID, QUANTITY, 
+      PRICE, TOTAL_PRICE, PRICE_TYPE, 
+      REMARK, CHARGE_STANDARD_NAME)
+    values (#entrustId:DECIMAL#, #chargeStandardId:DECIMAL#, #quantity:DECIMAL#, 
+      #price:DECIMAL#, #totalPrice:DECIMAL#, #priceType:VARCHAR#, 
+      #remark:VARCHAR#, #chargeStandardName:VARCHAR#)
+  </insert>
+</sqlMap>

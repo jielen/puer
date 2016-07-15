@@ -1,0 +1,1 @@
+package com.ufgov.zc.client.component.button;public class CheckInButton extends FuncButton {  private static final long serialVersionUID = 8234516953086678297L;  public CheckInButton() {    super();  }  protected void init() {    this.funcId = "fcheckin";    this.defaultText = "登记";    super.init();  }}

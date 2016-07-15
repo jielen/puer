@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="SendDoc">
+	<typeAlias alias="sendDoc"
+		type="com.ufgov.zc.common.commonbiz.model.SendDoc" />
+
+	<resultMap id="sendDocResult"
+		class="com.ufgov.zc.common.commonbiz.model.SendDoc">
+		<result property="nd" column="nd" />
+		<result property="code" column="sendDoc_code" />
+		<result property="name" column="sendDoc_name" />
+		<result property="parentCode" column="parent_code" />
+	</resultMap>
+
+	<select id="getSendDoc" resultMap="sendDocResult"
+		parameterClass="int">
+		select nd,sendDoc_code,sendDoc_name ,parent_code from
+		ma_cp_sendDoc where nd=#value# and is_used='1' order by
+		sendDoc_code
+	</select>
+
+	<select id="codeExist" resultClass="int" parameterClass="sendDoc">
+		select count(*) from ma_cp_sendDoc where nd=#nd# and
+		sendDoc_code=#code#
+	</select>
+
+	<select id="nameExist" resultClass="int" parameterClass="sendDoc">
+		select count(*) from ma_cp_sendDoc where nd=#nd# and
+		sendDoc_name=#name#
+	</select>
+
+	<select id="nameExisteSelfExcluded" resultClass="int" parameterClass="sendDoc">
+		select count(*) from ma_cp_sendDoc where nd=#nd# and
+		sendDoc_name=#name# and	sendDoc_code!=#code#
+	</select>
+
+
+	<insert id="insertSendDoc" parameterClass="sendDoc">
+		insert into
+		ma_cp_senddoc(nd,senddoc_code,senddoc_name,parent_code,is_lowest,current_level,is_used,inputor)
+		values(#nd:INTEGER#,#code:VARCHAR#,#name:VARCHAR#,#parentCode:VARCHAR#,#isLowest:VARCHAR#,#level:VARCHAR#,#isUsed:VARCHAR#
+		,#inputor:VARCHAR#)
+	</insert>
+
+	<update id="updateSendDoc" parameterClass="sendDoc">
+		UPDATE ma_cp_senddoc SET senddoc_name=#name:VARCHAR#
+		WHERE nd=#nd# and sendDoc_code=#code#
+	</update>
+
+	<sql id="sendDocCodes">
+	    select senddoc_code from ma_cp_senddoc 	start with nd=#nd#  and
+		senddoc_code=#code# connect by prior senddoc_code = parent_code and
+		nd=#nd#
+	</sql>
+	
+	<delete id="deleteSendDoc" parameterClass="sendDoc">
+		delete from ma_cp_senddoc WHERE nd=#nd# 
+		and	sendDoc_code in (<include refid="sendDocCodes" />)
+	</delete>
+
+
+	
+	<select id="getUsedSendDocNum" resultClass="int" parameterClass="sendDoc">
+		select count(*) from bi_balance where nd=#nd# and
+		sendDoc_code in (<include refid="sendDocCodes" />)
+	</select>
+
+
+</sqlMap>

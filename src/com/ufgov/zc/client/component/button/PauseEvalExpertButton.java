@@ -1,0 +1,1 @@
+package com.ufgov.zc.client.component.button;public class PauseEvalExpertButton extends FuncButton {  private static final long serialVersionUID = 844834107177390781L;  public PauseEvalExpertButton() {    super();  }  protected void init() {    this.funcId = "fpauseEval";    this.defaultText = "暂停";    //this.iconName="exit.jpg";    super.init();  }}

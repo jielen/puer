@@ -1,0 +1,1 @@
+package com.ufgov.zc.client.common;import java.awt.Window;public interface ParentWindowAware {  void setParentWindow(Window window);  Window getParentWindow();}

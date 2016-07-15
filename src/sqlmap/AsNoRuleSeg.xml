@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="AsNoRuleSeg" >
+	
+  <resultMap id="AsNoRuleSegResult" class="com.ufgov.zc.common.system.model.AsNoRuleSeg" >
+    <result column="COMPO_ID" property="compoId" jdbcType="VARCHAR" />
+    <result column="ORD_INDEX" property="ordIndex" jdbcType="DECIMAL" />
+    <result column="RULE_CODE" property="ruleCode" jdbcType="VARCHAR" />
+    <result column="SEG_FIELD" property="segField" jdbcType="VARCHAR" />
+    <result column="SEG_SV" property="segSv" jdbcType="VARCHAR" />
+    <result column="SEG_CONST" property="segConst" jdbcType="VARCHAR" />
+    <result column="SEG_LEN" property="segLen" jdbcType="DECIMAL" />
+    <result column="SEG_FILL_POSI" property="segFillPosi" jdbcType="CHAR" />
+    <result column="SEG_FILL" property="segFill" jdbcType="CHAR" />
+    <result column="SEG_DELI" property="segDeli" jdbcType="VARCHAR" />
+    <result column="DATE_FMT" property="dateFmt" jdbcType="VARCHAR" />
+    <result column="IS_BEFORE_NO" property="isBeforeNo" jdbcType="CHAR" />
+  </resultMap>
+	
+	<select id="getAsNoRuleSeg" resultMap="AsNoRuleSegResult" parameterClass="map">
+		select COMPO_ID, ORD_INDEX, RULE_CODE, SEG_FIELD, SEG_SV, SEG_CONST, SEG_LEN,
+			SEG_FILL_POSI, SEG_FILL, SEG_DELI, DATE_FMT, IS_BEFORE_NO 
+		from AS_NO_RULE_SEG
+		where COMPO_ID = #compoId:VARCHAR# and RULE_CODE = #ruleCode:VARCHAR#
+		order by ORD_INDEX 
+	</select>
+
+</sqlMap>

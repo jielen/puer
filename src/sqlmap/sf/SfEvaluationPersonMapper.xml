@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.ufgov.zc.server.sf.dao.SfEvaluationPersonMapper">
+  <resultMap id="BaseResultMap" class="com.ufgov.zc.common.sf.model.SfEvaluationPerson">
+    <result column="EVALUATION_ID" jdbcType="DECIMAL" property="evaluationId" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="CODE" jdbcType="VARCHAR" property="code" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    EVALUATION_ID, NAME, CODE
+  </sql>
+  <select id="selectByPrimaryKey" parameterClass="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SF_EVALUATION_PERSON
+    where EVALUATION_ID = #evaluationId:DECIMAL#
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="java.math.BigDecimal">
+    delete from SF_EVALUATION_PERSON
+    where EVALUATION_ID = #evaluationId:DECIMAL#
+  </delete>
+  <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfEvaluationPerson">
+    insert into SF_EVALUATION_PERSON (EVALUATION_ID, NAME, CODE
+      )
+    values (#evaluationId:DECIMAL#, #name:VARCHAR#, #code:VARCHAR#
+      )
+  </insert>
+</sqlMap>

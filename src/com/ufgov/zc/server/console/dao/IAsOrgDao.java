@@ -1,0 +1,1 @@
+package com.ufgov.zc.server.console.dao;import java.util.List;import java.util.Map;public interface IAsOrgDao {  List getAsOrg(int nd);  List getAsOrg(int nd, String coCode);  List getAsOrgByCocode(String cocode, String nd);}

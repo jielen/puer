@@ -1,0 +1,1 @@
+package com.ufgov.zc.client.component.button;public class CommitButton extends FuncButton {  /**   *    */  private static final long serialVersionUID = 1L;  public CommitButton() {    super();  }  protected void init() {    this.funcId = "fcalc";    this.defaultText = "提交";    this.iconName = "commit.jpg";    super.init();  }}

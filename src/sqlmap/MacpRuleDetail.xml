@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="MacpRuleDetail" >
+
+	<resultMap id="macpRuleDetailResult" class="com.ufgov.zc.common.commonbiz.model.MacpRuleDetail" >
+		<result column="ND" property="nd" />
+		<result column="TNS_RELATION_ID" property="relationId" />
+		<result column="IN_FIELDNAME" property="inFieldName" />
+		<result column="SOURCE_VALUE_CODE" property="sourceValueCode" />
+		<result column="SOURCE_VALUE_NAME" property="sourceValueName" />
+		<result column="OUT_VALUE_CODE" property="outValueCode" />
+		<result column="OUT_VALUE_NAME" property="outValueName" />
+	</resultMap>
+	
+	<select id="getMacpRuleDetail" resultMap="macpRuleDetailResult" parameterClass="map">
+		select A.ND,
+		       A.IN_FIELDNAME,
+		       A.TNS_RELATION_ID,
+		       B.SOURCE_VALUE_CODE,
+		       B.SOURCE_VALUE_NAME,
+		       B.OUT_VALUE_CODE,
+		       B.OUT_VALUE_NAME
+		  from MA_CP_IO_RULE_DETAIL A, MA_CP_GLVOU_TNS_R_DETAIL B
+		 where A.ND = B.ND
+		   and A.TNS_RELATION_ID = B.TNS_RELATION_ID
+		   and a.nd = #nd#
+		   and a.TNS_RELATION_ID = #relationId#
+		   and a.in_fieldname=#infieldname#
+	</select>
+
+</sqlMap>

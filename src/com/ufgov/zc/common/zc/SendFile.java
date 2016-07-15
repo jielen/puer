@@ -1,0 +1,1 @@
+package com.ufgov.zc.common.zc;import java.util.Map;public interface SendFile {  Map sendFileByStream(Map parameterMap, byte[] buff, String sequenceOrder);  Map sendFileByStreamB(Map parameterMap, String sequenceOrder);}

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Org">
+<typeAlias alias="elementCondition"	type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<resultMap id="org"
+		class="com.ufgov.zc.common.commonbiz.model.Org">
+		<result property="nd" column="nd" />
+		<result property="coCode" column="co_code" />
+		<result property="code" column="org_code" />
+		<result property="name" column="org_name" />
+		<result property="parentCode" column="parent_org_code" />
+	</resultMap>
+
+	<resultMap id="position"
+		class="com.ufgov.zc.common.commonbiz.model.Position">
+		<result property="nd" column="nd" />
+		<result property="coCode" column="co_code" />
+		<result property="orgCode" column="org_code" />
+		<result property="posiCode" column="posi_code" />
+		<result property="posiName" column="posi_name" />
+	</resultMap>
+
+	<resultMap id="emp"
+		class="com.ufgov.zc.common.commonbiz.model.Emp">
+		<result property="nd" column="nd" />
+		<result property="coCode" column="co_code" />
+		<result property="orgCode" column="org_code" />
+		<result property="posiCode" column="posi_code" />
+		<result property="empCode" column="emp_code" />
+		<result property="empName" column="emp_name" />
+		<result property="userId" column="user_id" />
+
+	</resultMap>
+
+	<select id="getCzOrg" resultMap="org" parameterClass="int">
+		Select nd,co_code,org_code,org_name,parent_org_code From
+		v_cp_org where nd = #value# order by org_code
+	</select>
+
+	<select id="getZcOrg" resultMap="org" parameterClass="int">
+		Select nd,co_code,org_code,org_name,parent_org_code From
+		v_zc_org where nd = #value# order by org_code
+	</select>
+
+	<select id="getOrg" resultMap="org" parameterClass="int">
+		Select * From as_org where nd = #value# order by co_code,
+		org_code
+	</select>
+
+	<select id="getOrgByDto" resultMap="org" parameterClass="elementCondition">
+	Select * From as_org where nd = #nd#
+	    <include refid="BusiNumLim.BusiNumLimStr" />
+		order by co_code,
+		org_code
+	</select>
+
+	<select id="getPosition" resultMap="position"
+		parameterClass="int">
+		Select Distinct Aep.Nd, Aep.Co_Code, Aep.Org_Code,
+		Aep.Posi_Code, Ap.Posi_Name From as_org_position Aep Inner Join
+		As_Position Ap On Aep.Posi_Code = Ap.Posi_Code Where aep.nd=
+		#value#
+	</select>
+
+	<select id="getEmp" resultMap="emp"
+		parameterClass="int">
+		 Select Distinct nd
+		,aep.co_code,org_code,aep.Posi_Code,aep.emp_code
+		,emp_name,user_id From as_emp_position aep Inner Join as_emp ae
+		On aep.emp_code=ae.emp_code Where aep.nd=	#value#
+	</select>
+
+
+
+</sqlMap>

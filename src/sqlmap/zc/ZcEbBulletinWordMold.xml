@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ZcEbBulletinWordMold">
+
+	<typeAlias alias="ZcEbBulletinWordMold"
+		type="com.ufgov.zc.common.zc.model.ZcEbBulletinWordMold" />
+		
+	<typeAlias alias="ZcEbBulletinWordMoldForeign"
+		type="com.ufgov.zc.common.zc.model.ZcEbBulletinWordMold" />	
+			
+	<typeAlias alias="ZcEbBulletinWordMoldParamValue"
+		type="com.ufgov.zc.common.zc.model.ZcEbBulletinWordMoldParamValue" />
+		
+	<typeAlias alias="ZcEbBulletinWordMoldParam"
+		type="com.ufgov.zc.common.zc.model.ZcEbBulletinWordMoldParam" />					
+		
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+
+
+	<resultMap id="ZcEbBulletinWordMoldResult" class="ZcEbBulletinWordMold">
+		<result property="bulletinMoldCode" column="BULLETIN_MOLD_CODE" />
+		<result property="bulletinMoldName" column="BULLETIN_MOLD_NAME" />
+		<result property="bulletinMoldType" column="BULLETIN_MOLD_TYPE" />
+    	        <result property="fileName" column="FILE_NAME" />
+    	        <result property="fileID" column="FILE_ID" />
+		<result property="status" column="STATUS" />
+		<result property="inputDate" column="INPUT_DATE" />
+                <result property="inputorName" column="INPUTOR_NAME" />            
+		<result property="remark" column="REMARK" />
+		<result property="nd" column="ND" />		
+		<result property="dataView" column="DATA_VIEW" />	
+	</resultMap>
+	
+	<resultMap id="ZcEbBulletinWordMoldForeign" class="ZcEbBulletinWordMold">
+		<result property="bulletinMoldCode"  column="BULLETIN_MOLD_CODE" />
+		<result property="bulletinMoldName"  column="BULLETIN_MOLD_NAME" />
+		<result property="bulletinMoldType"  column="BULLETIN_MOLD_TYPE" />
+		<result property="status"            column="STATUS" />           
+		<result property="remark"            column="REMARK" />	
+	        <result property="dataView"          column="DATA_VIEW" />
+	        <result property="fileID"            column="FILE_ID" />
+	        <result property="fileName"          column="FILE_NAME" />
+	</resultMap>		
+	
+	 
+        <resultMap id="ZcEbBulletinWordMoldParamResult" class="ZcEbBulletinWordMoldParam">  
+                <result property="bulletinParamID"  column="BULLETIN_PARAM_ID" />
+		<result property="bulletinMoldCode" column="BULLETIN_MOLD_CODE" />
+		<result property="paramName"         column="PARAM_NAME" />
+		<result property="fieldName"         column="FIELD_NAME" />
+		<result property="paramType"         column="PARAM_TYPE" />		           
+		<result property="paramDesc"         column="PARAM_DESC" />	
+	</resultMap>
+
+        <resultMap id="ZcEbBulletinDataViewColResult" class="ZcEbBulletinWordMoldParam">                  
+		<result property="paramName"         column="PARAM_NAME" />
+		<result property="fieldName"         column="FIELD_NAME" />
+		<result property="paramType"         column="PARAM_TYPE" />		           	
+	</resultMap>	
+		                
+
+	<resultMap id="ZcEbBulletinWordMoldParamValueResult" class="ZcEbBulletinWordMoldParamValue">
+		<result property="projCode" column="PROJECT_CODE" />
+		<result property="fieldValue" column="FIELD_VALUE" />
+	</resultMap>	
+
+        <select id="getZcEbBulletinWordMold" resultMap="ZcEbBulletinWordMoldResult"
+		parameterClass="elementCondition">
+		select T.BULLETIN_MOLD_CODE,
+                       T.BULLETIN_MOLD_NAME,
+                       T.BULLETIN_MOLD_TYPE,
+                       T.FILE_NAME,	
+                       T.FILE_ID,
+                       T.STATUS,	 	
+                       T.INPUT_DATE,	
+                       T.INPUTOR_NAME,	 
+                       T.REMARK,	 
+                       T.ND	,
+                       T.DATA_VIEW
+	    from 
+	       ZC_EB_BULLETIN_WORD_MOLD T 
+	    where 
+	        1=1
+	  <isNotNull prepend="AND" property="bulletinMoldType">
+	  	<isEqual property="bulletinMoldType" compareValue="all">
+				1=1
+			</isEqual>			 
+			<isNotEqual property="bulletinMoldType" compareValue="all">
+			   T.BULLETIN_MOLD_TYPE=#bulletinMoldType#
+			</isNotEqual>			
+		</isNotNull>
+		<isNotNull prepend="AND" property="status">
+			<isEqual property="status" compareValue="edit">
+				T.STATUS='1'
+			</isEqual>
+			<isEqual property="status" compareValue="enable">
+				T.STATUS='2'
+			</isEqual>
+                        <isEqual property="status" compareValue="unable">
+				T.STATUS='0'
+			</isEqual>		
+			<isEqual property="status" compareValue="all">
+				1=1
+			</isEqual>
+		</isNotNull>
+		ORDER BY INPUT_DATE DESC
+	</select>
+	
+        <select id="selectMoldByPrimaryKey" resultMap="ZcEbBulletinWordMoldResult"
+		parameterClass="String">
+		select T.BULLETIN_MOLD_CODE,
+                       T.BULLETIN_MOLD_NAME,
+                       T.BULLETIN_MOLD_TYPE,
+                       T.FILE_NAME,	
+                       T.FILE_ID,
+                       T.STATUS,	 	
+                       T.INPUT_DATE,	
+                       T.INPUTOR_NAME,	 
+                       T.REMARK,	 
+                       T.ND	,
+                       T.DATA_VIEW
+	    from 
+	       ZC_EB_BULLETIN_WORD_MOLD T 
+	    where 
+	       T.BULLETIN_MOLD_CODE = #wordMoldID:VARCHAR# 
+	</select>		      
+<!--招标公告-->	
+	<select id="getZcEbBulletinWordMoldBid" resultMap="ZcEbBulletinWordMoldForeign"
+		parameterClass="elementCondition">
+		select T.BULLETIN_MOLD_CODE,
+                       T.BULLETIN_MOLD_NAME,
+                       T.BULLETIN_MOLD_TYPE,
+                       T.STATUS,	  
+                       T.REMARK,
+                       T.DATA_VIEW,
+                       T.FILE_ID,
+                       T.FILE_NAME	 
+	    from 
+	       ZC_EB_BULLETIN_WORD_MOLD T 
+	    where     
+	    T.STATUS ='2'   
+		<isEqual prepend="and" property="type" compareValue="1"><!--公开招标-->
+			 T.BULLETIN_MOLD_TYPE='B'
+		</isEqual>
+		<isEqual prepend="and" property="type" compareValue="2"><!--邀请招标-->
+			 T.BULLETIN_MOLD_TYPE='B'
+		</isEqual>
+		<isEqual prepend="and" property="type" compareValue="3"><!--竞争性谈判-->
+			 T.BULLETIN_MOLD_TYPE='B'
+		</isEqual>
+		<isEqual prepend="and" property="type" compareValue="4"><!--单一来源-->
+			 T.BULLETIN_MOLD_TYPE='B'
+		</isEqual>
+		<isEqual prepend="and" property="type" compareValue="5"><!--询价-->
+			 T.BULLETIN_MOLD_TYPE='XB'
+		</isEqual>
+		<isEqual prepend="and" property="type" compareValue="6"><!--其他-->
+			 T.BULLETIN_MOLD_TYPE in ('B','B')
+		</isEqual>
+		<isEqual prepend="and" property="type" compareValue="7"><!--协议供货二次谈判-->
+			 T.BULLETIN_MOLD_TYPE='B'
+		</isEqual>
+		<isNotNull prepend="and" property="zcText1">
+	       T.BULLETIN_MOLD_CODE=#zcText1#
+		</isNotNull>	
+	</select>
+	
+	<select id="getZcEbBulletinWordMoldJingJiaBid" resultMap="ZcEbBulletinWordMoldForeign"
+		parameterClass="elementCondition">
+		select T.BULLETIN_MOLD_CODE,
+                       T.BULLETIN_MOLD_NAME,
+                       T.BULLETIN_MOLD_TYPE,
+                       T.STATUS,	  
+                       T.REMARK,
+                       T.DATA_VIEW,
+                       T.FILE_ID,
+                       T.FILE_NAME	 
+	    from 
+	       ZC_EB_BULLETIN_WORD_MOLD T 
+	    where 
+	        T.BULLETIN_MOLD_TYPE ='JB'
+	    and T.STATUS ='2'    
+	</select>
+
+<select id="getZcEbBulletinWordMoldXunJiaBid" resultMap="ZcEbBulletinWordMoldForeign"
+		parameterClass="elementCondition">
+		select T.BULLETIN_MOLD_CODE,
+                       T.BULLETIN_MOLD_NAME,
+                       T.BULLETIN_MOLD_TYPE,
+                       T.STATUS,	  
+                       T.REMARK,
+                       T.DATA_VIEW,
+                       T.FILE_ID,
+                       T.FILE_NAME	 
+	    from 
+	       ZC_EB_BULLETIN_WORD_MOLD T 
+	    where 
+	        T.BULLETIN_MOLD_TYPE ='XB'
+	    and T.STATUS ='2'    
+	</select>
+
+<select id="getZcEbBulletinWordMoldJingJiaWid" resultMap="ZcEbBulletinWordMoldForeign"
+		parameterClass="elementCondition">
+		select T.BULLETIN_MOLD_CODE,
+                       T.BULLETIN_MOLD_NAME,
+                       T.BULLETIN_MOLD_TYPE,
+                       T.STATUS,	  
+                       T.REMARK,
+                       T.DATA_VIEW,
+                       T.FILE_ID,
+                       T.FILE_NAME	 
+	    from 
+	       ZC_EB_BULLETIN_WORD_MOLD T 
+	    where 
+	        T.BULLETIN_MOLD_TYPE ='JW'
+	    and T.STATUS ='2'    
+	</select>
+
+	<select id="getZcEbBulletinWordMoldChg" resultMap="ZcEbBulletinWordMoldForeign"
+		parameterClass="elementCondition">
+		select T.BULLETIN_MOLD_CODE,
+                       T.BULLETIN_MOLD_NAME,
+                       T.BULLETIN_MOLD_TYPE,
+                       T.STATUS,	  
+                       T.REMARK,
+                       T.DATA_VIEW,
+                       T.FILE_ID,
+                       T.FILE_NAME	 
+	    from 
+	       ZC_EB_BULLETIN_WORD_MOLD T 
+	    where 
+	        T.BULLETIN_MOLD_TYPE ='C'
+	    and T.STATUS ='2'    
+	</select>
+<!--中标公告-->
+	<select id="getZcEbBulletinWordMoldWid" resultMap="ZcEbBulletinWordMoldForeign"
+		parameterClass="elementCondition">
+		select T.BULLETIN_MOLD_CODE,
+                       T.BULLETIN_MOLD_NAME,
+                       T.BULLETIN_MOLD_TYPE,
+                       T.STATUS,	  
+                       T.REMARK,
+                       T.DATA_VIEW,
+                       T.FILE_ID,
+                       T.FILE_NAME	 
+	    from 
+	       ZC_EB_BULLETIN_WORD_MOLD T 
+	    where  
+	     T.STATUS ='2' and  T.BULLETIN_MOLD_TYPE='W'
+	</select>
+		
+	<select id="getZcEbBulletinWordMoldSpd" resultMap="ZcEbBulletinWordMoldForeign"
+		parameterClass="elementCondition">
+		select T.BULLETIN_MOLD_CODE,
+                       T.BULLETIN_MOLD_NAME,
+                       T.BULLETIN_MOLD_TYPE,
+                       T.STATUS,	  
+                       T.REMARK,
+                       T.DATA_VIEW,
+                       T.FILE_ID,
+                       T.FILE_NAME	 
+	    from  
+	       ZC_EB_BULLETIN_WORD_MOLD T 
+	    where 
+	        T.BULLETIN_MOLD_TYPE ='S'
+	    and T.STATUS ='2'    
+	</select>
+<!--中标通知书-->	
+	<select id="getZcEbNoticeMold" resultMap="ZcEbBulletinWordMoldForeign"
+		parameterClass="elementCondition">
+		select T.BULLETIN_MOLD_CODE,
+                       T.BULLETIN_MOLD_NAME,
+                       T.BULLETIN_MOLD_TYPE,
+                       T.STATUS,	  
+                       T.REMARK,
+                       T.DATA_VIEW,
+                       T.FILE_ID,
+                       T.FILE_NAME	 
+	    from 
+	       ZC_EB_BULLETIN_WORD_MOLD T 
+	    where 
+	    T.STATUS ='2'    		AND	    T.BULLETIN_MOLD_TYPE='N2'
+	</select>
+
+	<select id="getZcGongHuoHtWordMold" resultMap="ZcEbBulletinWordMoldForeign"
+		parameterClass="elementCondition">
+		select T.BULLETIN_MOLD_CODE,
+                       T.BULLETIN_MOLD_NAME,
+                       T.BULLETIN_MOLD_TYPE,
+                       T.STATUS,	  
+                       T.REMARK,
+                       T.DATA_VIEW,
+                       T.FILE_ID,
+                       T.FILE_NAME	 
+	    from 
+	       ZC_EB_BULLETIN_WORD_MOLD T 
+	    where 1=1	        <isNotEmpty prepend="and" property="type">	        T.BULLETIN_MOLD_TYPE =#type#	        </isNotEmpty>	        <isEmpty prepend="and" property="type">	        T.BULLETIN_MOLD_TYPE = ' '	        </isEmpty>
+	    and T.STATUS ='2'    
+	</select>
+<!--委托协议-->
+	<select id="getZcProtocolWordMold" resultMap="ZcEbBulletinWordMoldForeign"
+		parameterClass="elementCondition">
+		select T.BULLETIN_MOLD_CODE,
+                       T.BULLETIN_MOLD_NAME,
+                       T.BULLETIN_MOLD_TYPE,
+                       T.STATUS,	  
+                       T.REMARK,
+                       T.DATA_VIEW,
+                       T.FILE_ID,
+                       T.FILE_NAME	 
+	    from 
+	       ZC_EB_BULLETIN_WORD_MOLD T 
+	    where T.STATUS ='2'
+		<isEqual prepend="and" property="type" compareValue="1"><!--公开招标-->
+			 T.BULLETIN_MOLD_TYPE='P1'
+		</isEqual>
+		<isEqual prepend="and" property="type" compareValue="2"><!--邀请招标-->
+			 T.BULLETIN_MOLD_TYPE='P1'
+		</isEqual>
+		<isEqual prepend="and" property="type" compareValue="3"><!--竞争性谈判-->
+			 T.BULLETIN_MOLD_TYPE='P3'
+		</isEqual>
+		<isEqual prepend="and" property="type" compareValue="4"><!--单一来源-->
+			 T.BULLETIN_MOLD_TYPE='P2'
+		</isEqual>
+		<isEqual prepend="and" property="type" compareValue="6"><!--其他 目前未设定其他类型的委托协议模版，默认采用公开招标的委托协议模版-->
+			 T.BULLETIN_MOLD_TYPE = 'P1'
+		</isEqual>
+		<isEqual prepend="and" property="type" compareValue="7"><!--协议供货二次谈判-->
+			 T.BULLETIN_MOLD_TYPE='P3'
+		</isEqual>
+	</select>
+	
+	<select id="getZcOptionsWordMold" resultMap="ZcEbBulletinWordMoldForeign"
+		parameterClass="elementCondition">
+		select T.BULLETIN_MOLD_CODE,
+                       T.BULLETIN_MOLD_NAME,
+                       T.BULLETIN_MOLD_TYPE,
+                       T.STATUS,	  
+                       T.REMARK,
+                       T.DATA_VIEW,
+                       T.FILE_ID,
+                       T.FILE_NAME	 
+	    from 
+	       ZC_EB_BULLETIN_WORD_MOLD T 
+	    where 
+	        T.BULLETIN_MOLD_TYPE ='T'
+	    and T.STATUS ='2'    
+	</select>
+	
+	<select id="getZcEbWordMoldByType" resultMap="ZcEbBulletinWordMoldForeign"
+		parameterClass="elementCondition">
+		select T.BULLETIN_MOLD_CODE,
+                       T.BULLETIN_MOLD_NAME,
+                       T.BULLETIN_MOLD_TYPE,
+                       T.STATUS,	  
+                       T.REMARK,
+                       T.DATA_VIEW,
+                       T.FILE_ID,
+                       T.FILE_NAME	 
+	    from 
+	       ZC_EB_BULLETIN_WORD_MOLD T
+	    where  T.STATUS ='2'
+          <isNotNull prepend="and" property="zcText0">
+              T.BULLETIN_MOLD_TYPE = #zcText0#
+          </isNotNull> 	         
+	</select>
+		
+			
+        <update id="updateByPrimaryKeySelective" 
+        parameterClass="com.ufgov.zc.common.zc.model.ZcEbBulletinWordMold">
+          update ZC_EB_BULLETIN_WORD_MOLD
+          <dynamic prepend="set">
+            <isNotNull prepend="," property="bulletinMoldName">
+              BULLETIN_MOLD_NAME = #bulletinMoldName:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="bulletinMoldType">
+              BULLETIN_MOLD_TYPE = #bulletinMoldType:VARCHAR#
+            </isNotNull>    
+            <isNotNull prepend="," property="status">
+              STATUS = #status:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="fileName">
+              FILE_NAME = #fileName:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="fileID">
+              FILE_ID = #fileID:VARCHAR#
+            </isNotNull>              
+            <isNotNull prepend="," property="inputDate">
+              INPUT_DATE = #inputDate:TIMESTAMP#
+            </isNotNull>   
+            <isNotNull prepend="," property="inputorName">
+              INPUTOR_NAME= #inputorName:VARCHAR#
+            </isNotNull>                
+            <isNotNull prepend="," property="remark">
+              REMARK = #remark:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="nd">
+              ND = #nd:VARCHAR#
+            </isNotNull>      
+            <isNotNull prepend="," property="dataView">
+              DATA_VIEW = #dataView:VARCHAR#
+            </isNotNull>             
+          </dynamic>
+          where BULLETIN_MOLD_CODE = #bulletinMoldCode:VARCHAR#
+        </update>
+       
+        <insert id="insert" parameterClass="com.ufgov.zc.common.zc.model.ZcEbBulletinWordMold">
+          insert into ZC_EB_BULLETIN_WORD_MOLD (BULLETIN_MOLD_CODE,BULLETIN_MOLD_NAME,BULLETIN_MOLD_TYPE,FILE_NAME,FILE_ID,STATUS,INPUT_DATE,INPUTOR_NAME,REMARK,ND,DATA_VIEW)
+          values (#bulletinMoldCode:VARCHAR#, #bulletinMoldName:VARCHAR#, #bulletinMoldType:VARCHAR#, #fileName:VARCHAR#,#fileID:VARCHAR#,
+            #status:VARCHAR#, #inputDate:TIMESTAMP#,#inputorName:VARCHAR#, #remark:VARCHAR#,#nd:VARCHAR#,#dataView:VARCHAR#)
+        </insert>
+       
+        <delete id="deleteByPrimaryKey" parameterClass="com.ufgov.zc.common.zc.model.ZcEbBulletinWordMold">
+          delete from ZC_EB_BULLETIN_WORD_MOLD
+          where BULLETIN_MOLD_CODE = #bulletinMoldCode:VARCHAR#
+        </delete>
+           
+        <select id="getZcEbDataViewCol" parameterClass="string" resultMap="ZcEbBulletinDataViewColResult">
+           select
+               COLUMN_NAME PARAM_NAME,
+               COLUMN_NAME FIELD_NAME,
+               'FIELD'     PARAM_TYPE
+           from USER_TAB_COLS U
+           where
+               TABLE_NAME = #value:VARCHAR#        
+        </select>
+	
+        <insert id="insertMoldParam" parameterClass="com.ufgov.zc.common.zc.model.ZcEbBulletinWordMoldParam">
+          insert into ZC_EB_BULLETIN_WORD_MOLD_PARAM (BULLETIN_PARAM_ID,BULLETIN_MOLD_CODE,PARAM_NAME,FIELD_NAME,PARAM_DESC,PARAM_TYPE)
+          values (#bulletinParamID:VARCHAR#, #bulletinMoldCode:VARCHAR#, #paramName:VARCHAR#, #fieldName:VARCHAR#,#paramDesc:VARCHAR#,
+            #paramType:VARCHAR#)
+        </insert>
+        
+        <delete id="deleteParamByPrimaryKey" parameterClass="string">
+          delete from ZC_EB_BULLETIN_WORD_MOLD_PARAM
+          where BULLETIN_MOLD_CODE = #bulletinMoldCode:VARCHAR#
+        </delete>        
+        
+        <select id="getZcEbBulletinWordMoldParam" parameterClass="string" resultMap="ZcEbBulletinWordMoldParamResult">
+           select
+               BULLETIN_PARAM_ID,
+               BULLETIN_MOLD_CODE,
+               PARAM_NAME,
+               FIELD_NAME,
+               PARAM_TYPE,
+               PARAM_DESC
+           from ZC_EB_BULLETIN_WORD_MOLD_PARAM
+           where
+               BULLETIN_MOLD_CODE = #bulletinParamID:VARCHAR#        
+     </select>
+        
+     <select id="getZcEbBulletinMoldTableParamValue" parameterClass="java.util.HashMap" resultClass="java.util.HashMap" remapResults= "true">
+          <![CDATA[
+          select
+              *
+           from $tableName$
+           where
+	      PROJECT_CODE = #projCode:VARCHAR#	
+           ]]>   
+     </select>        
+        
+       <select id="getZcEbBulletinWordMoldParamValue" parameterClass="java.util.HashMap"                      remapResults="true"              resultClass="java.util.HashMap">
+          select
+             *
+           from $tableName$
+           where
+	      PROJECT_CODE = #projCode:VARCHAR#	
+
+		<isNotNull prepend="and" property="packCode" >
+			PACK_CODE = #packCode:VARCHAR#	
+		 </isNotNull>
+     </select>
+     
+     <select id="getZcEbPresentWordMold" resultMap="ZcEbBulletinWordMoldForeign"
+		parameterClass="elementCondition">
+		select T.BULLETIN_MOLD_CODE,
+                       T.BULLETIN_MOLD_NAME,
+                       T.BULLETIN_MOLD_TYPE,
+                       T.STATUS,	  
+                       T.REMARK,
+                       T.DATA_VIEW,
+                       T.FILE_ID,
+                       T.FILE_NAME	 
+	    from 
+	       ZC_EB_BULLETIN_WORD_MOLD T 
+	    where 
+	        T.BULLETIN_MOLD_TYPE ='ZC'
+	    and T.STATUS ='2'    
+	</select>	      <!--吉林新加公告-->		<select id="getZcEbBulletinWordMoldJLCGZX" resultMap="ZcEbBulletinWordMoldForeign"		parameterClass="elementCondition">		select T.BULLETIN_MOLD_CODE,                       T.BULLETIN_MOLD_NAME,                       T.BULLETIN_MOLD_TYPE,                       T.STATUS,	                         T.REMARK,                       T.DATA_VIEW,                       T.FILE_ID,                       T.FILE_NAME	 	    from 	       ZC_EB_BULLETIN_WORD_MOLD T 	    where     	    T.STATUS ='2'		<isNotEmpty prepend="and" property="type">			 T.BULLETIN_MOLD_TYPE=#type#				</isNotEmpty>		<isNotNull prepend="and" property="zcText1">	       T.BULLETIN_MOLD_CODE=#zcText1#		</isNotNull>		</select>
+</sqlMap>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="WfCommonEdit">
+	<sql id="WFCommonEditProcDate">
+		<isNotNull prepend="AND" property="startDate">
+			<isNotNull property="endDate">
+				<isNotEqual property="status" compareValue="unSended">
+					MASTER.PROC_DATE BETWEEN #startDate:DATE# AND
+					#endDate:DATE#
+				</isNotEqual>
+			</isNotNull>
+		</isNotNull>
+	</sql>
+	<sql id="wfCommonEdit">
+		<isNotNull prepend="AND" property="status">
+			<isEqual property="status" compareValue="unSended">
+				a_status_code in ('4','0') and  master.process_inst_id in
+				(
+				   ( select wf_draft_id from	as_wf_draft where user_id=#executor:VARCHAR# )
+				   union all 
+				 (select instance_id from
+				  v_wf_current_task_gk53 where executor =	#executor:VARCHAR# )
+				 
+				)
+			</isEqual>
+			<isEqual property="status" compareValue="sended">
+				master.process_inst_id in (select instance_id from
+				v_wf_action_history_gk53 where executor =
+				#executor:VARCHAR# ) and a_status_code!='3' and
+				a_status_code!='5'
+			</isEqual>
+			<isEqual property="status" compareValue="audited">
+				(a_status_code ='3' or a_status_code='5')
+			</isEqual>
+			<isEqual property="status" compareValue="invalid">
+				is_valid = '0'
+			</isEqual>
+			<isEqual property="status" compareValue="all">
+				is_valid != '9'
+			</isEqual>
+		</isNotNull>
+	</sql>
+
+	<sql id="wfCommonEditStartAndEndDate">
+		<isNotEqual property="status" compareValue="unSended">
+			<isNotEqual prepend="AND" property="startMonth"
+				compareValue="0">
+				MASTER.MONTH
+				<![CDATA[>=]]>
+				#startMonth#
+			</isNotEqual>
+			<isNotEqual prepend="AND" property="endMonth"
+				compareValue="0">
+				MASTER.MONTH
+				<![CDATA[<=]]>
+				#endMonth#
+			</isNotEqual>
+		</isNotEqual>
+	</sql>
+	<sql id="wfCommonEditMonth">
+		<isNotEqual property="status" compareValue="unSended">
+			<isNotEqual prepend="AND" property="month"
+				compareValue="0">
+				MASTER.MONTH = #month#
+			</isNotEqual>
+		</isNotEqual>
+	</sql>
+
+</sqlMap>

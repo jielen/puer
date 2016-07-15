@@ -1,0 +1,1 @@
+package com.ufgov.zc.server.console.dao;import com.ufgov.zc.common.system.RequestMeta;public interface ISqlCheckDao {  void checkSelectSql(String selectSql, RequestMeta requestMeta);}

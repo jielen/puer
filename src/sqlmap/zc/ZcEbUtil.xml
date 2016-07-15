@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ZcEbUtil">
+
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+		<select id="getNextVal" parameterClass="java.lang.String" resultClass="String" >		select $seqName$.NEXTVAL AS ID from DUAL	</select>
+	<select id="getNextSeqVal" resultClass="String" >
+		select ZC_SEQ_BASE.NEXTVAL AS ID from DUAL
+	</select>	
+	<select id="getPackNextSeqVal" resultClass="String">
+		select ZC_SEQ_PACK.NEXTVAL AS ID from DUAL
+	</select>
+	<select id="getPackReqNextSeqVal" resultClass="String">
+		select ZC_SEQ_PACK_REQ.NEXTVAL AS ID from DUAL
+	</select>
+	<select id="getBidConNextSeqVal" resultClass="String">
+		select ZC_SEQ_INVITE_CON.NEXTVAL AS ID from DUAL
+	</select>
+	<select id="getXunJiaNextSeqVal" resultClass="String">
+		select ZC_SEQ_XUN_JIA.NEXTVAL AS ID from DUAL
+	</select>
+	<select id="getXunJiaBaoJiaNextSeqVal" resultClass="String">
+		select ZC_SEQ_XUNJIA_BAOJIA.NEXTVAL AS ID from DUAL
+	</select>
+	<select id="getXunJiaBaoJiaDetailNextSeqVal" resultClass="String">
+		select ZC_SEQ_XUNJIA_BAOJIA_DE.NEXTVAL AS ID from DUAL
+	</select>
+	<select id="getMitemNextSeqVal" resultClass="String">
+		select ZC_SEQ_PRO_MITEM.NEXTVAL AS ID from DUAL
+	</select>
+	<select id="getJingJiaBaoJiaDetailNextSeqVal" resultClass="String">
+		select ZC_SEQ_JINGJIA_BAOJIA_DE.NEXTVAL AS ID from DUAL
+	</select>		<select id="getXunJiaOpenBidRfqNextSeqVal" resultClass="String">		select ZC_SEQ_JINGJIA_BAOJIA_RFQ.NEXTVAL AS ID from DUAL	</select>
+	<select id="getEntrustNextSeqVal" resultClass="String">
+		select ZC_SEQ_ENTRUST.NEXTVAL AS ID from DUAL
+	</select>
+	<select id="getAsEmpNextSeqVal" resultClass="String">
+		select ZC_SEQ_ASEMP.NEXTVAL AS ID from DUAL
+	</select>
+   <select id="getZcEbFormulaParamNextSeqVal" resultClass="String">
+		select ZC_SEQ_FORMULA_PARAM.NEXTVAL AS ID from DUAL	</select>		 <select id="getSysUserManageNextSeqVal" resultClass="String">		select SEQ_SYS_FRAME_ID.NEXTVAL AS ID from DUAL	</select>		 <select id="getBullitinNextSeqVal" resultClass="String">		select ZC_SEQ_BULLITIN_ID.NEXTVAL AS ID from DUAL	</select>
+		
+</sqlMap>

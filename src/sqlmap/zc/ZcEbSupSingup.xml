@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+
+
+<!DOCTYPE sqlMap      
+
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+
+<sqlMap namespace="ZcEbSupSingup">
+
+	<typeAlias alias="ZcEbSupSinup" type="com.ufgov.zc.common.zc.model.ZcEbSupSingup" />
+	<resultMap id="ZcEbSupSinupResult" class="ZcEbSupSinup">
+		<result property="snCode" column="SN_CODE" />
+		<result property="zcMakeName" column="ZC_MAKE_NAME" />
+		<result property="projCode" column="PROJ_CODE" />
+		<result property="projName" column="PROJ_NAME" />
+		<result property="packDesc" column="PACK_DESC" />
+		<result property="packName" column="PACK_NAME" />
+		<result property="singUpDate" column="SINGNUP_DATE" />
+		<result property="isSite" column="IS_SITE" />
+	</resultMap>
+
+	<select id="getZcEbSupSinupListBySuCode" resultMap="ZcEbSupSinupResult"
+		parameterClass="String">
+		SELECT
+		Zc_Eb_Duty_Audit_Sheet.Sn_Code,
+		Zc_Eb_Duty_Audit_Sheet.Zc_Make_Name,
+		Zc_Eb_Proj.Proj_Code,
+		Zc_Eb_Proj.Proj_Name,
+		ZC_EB_PACK.Pack_Desc,
+		ZC_EB_PACK.Pack_Name,
+		Zc_Eb_Signup.Is_Site,
+		Zc_Eb_Signup.Singnup_Date
+		FROM Zc_Eb_Signup Zc_Eb_Signup,
+		Zc_Eb_Signup_Pack Zc_Eb_Signup_Pack,
+		Zc_Eb_Duty_Audit_Sheet Zc_Eb_Duty_Audit_Sheet,
+		Zc_Eb_Proj Zc_Eb_Proj,
+		ZC_EB_PACK ZC_EB_PACK
+		WHERE Zc_Eb_Signup.Signup_Id = Zc_Eb_Signup_Pack.Signup_Id
+		AND Zc_Eb_Signup.Proj_Code = ZC_EB_PACK.Proj_Code
+		AND Zc_Eb_Signup_Pack.Pack_Code = ZC_EB_PACK.Pack_Code
+		AND Zc_Eb_Proj.Proj_Code = ZC_EB_PACK.Proj_Code
+		AND Zc_Eb_Duty_Audit_Sheet.Sn = ZC_EB_PACK.Entrust_Code
+		AND Zc_Eb_Signup.Provider_Code=#code#
+	</select>
+</sqlMap>
+

@@ -1,0 +1,1 @@
+package com.ufgov.zc.server.zc.service;import java.util.List;public interface IExpertTypeJoinService {  List insertListExpertTypeJoin(List emExpertTypeJoinlist);}

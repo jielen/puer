@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+
+
+<!DOCTYPE sqlMap      
+
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+
+<sqlMap namespace="NumLimCompo">
+
+	
+
+	<typeAlias type="com.ufgov.zc.common.commonbiz.model.NumLimCompo" alias="numLimCompo"/>
+
+	
+
+	<resultMap class="numLimCompo" id="numLimCompoResult">
+
+		<result property="compoId" column="compo_id"></result>
+
+		<result property="compoName" column="compo_name"></result>
+
+		<result property="parentCompoId" column="parent_compo_id"></result>
+
+		<result property="tableId" column="table_id"></result>
+
+		<result property="billTypeCode" column="bill_type_code"></result>
+
+		<result property="remark" column="remark"></result>
+
+	</resultMap>
+
+	
+
+	<select id="getNumLimCompo" resultMap="numLimCompoResult">
+
+		<!--select * from ZC_SYS_NUM_LIM_COMPO order by parent_compo_id||compo_id-->
+
+		SELECT * FROM ZC_SYS_NUM_LIM_COMPO start WITH PARENT_COMPO_ID IS NULL connect by prior COMPO_ID = PARENT_COMPO_ID 
+
+	</select>
+
+
+
+	<select id="getNumLimCompoByCompoId" resultMap="numLimCompoResult" parameterClass="String">
+
+		select * from ZC_SYS_NUM_LIM_COMPO where compo_id=#compo_id#
+
+	</select>
+
+
+
+	<select id="getNumLimCompoByParentCompoId" resultMap="numLimCompoResult" parameterClass="String">
+
+		select * from ZC_SYS_NUM_LIM_COMPO where parent_compo_id=#parent_compo_id# order by compo_id
+
+	</select>
+
+	
+
+</sqlMap>

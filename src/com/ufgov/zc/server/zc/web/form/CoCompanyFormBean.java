@@ -1,0 +1,1 @@
+package com.ufgov.zc.server.zc.web.form;public class CoCompanyFormBean extends AbstractActionForm {  private static final long serialVersionUID = 261453011975465428L;  public String regCoCompany() {    String forward = "regPage";    return forward;  }}

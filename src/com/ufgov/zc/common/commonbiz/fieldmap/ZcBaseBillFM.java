@@ -1,0 +1,1 @@
+package com.ufgov.zc.common.commonbiz.fieldmap;import java.util.HashMap;import java.util.Map;public class ZcBaseBillFM {  public static Map fieldMap = new HashMap();  static {    fieldMap.put("ND", "nd");    fieldMap.put("PROCESS_INST_ID", "processInstId");  }}

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="LangTrans">
+
+	<resultMap id="langTrans" class="com.ufgov.zc.common.system.model.LangTrans">
+		<result property="resId" column="res_id" />
+		<result property="langId" column="lang_id" />
+		<result property="resNa" column="res_na" />
+	</resultMap>
+    
+	<select id="getLangTrans" resultMap="langTrans" parameterClass="string">
+		  Select * From as_lang_trans where res_id like #value#
+	</select>
+	
+	<update id="updateAsLangTrans" parameterClass="com.ufgov.zc.common.system.model.LangTrans">
+		update AS_LANG_TRANS
+		set RES_NA = #resNa:VARCHAR#
+		where RES_ID = #resId:VARCHAR# 
+				and LANG_ID=#langId:VARCHAR#
+	</update>
+</sqlMap>

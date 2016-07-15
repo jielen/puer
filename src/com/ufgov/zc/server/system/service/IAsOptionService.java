@@ -1,0 +1,1 @@
+package com.ufgov.zc.server.system.service;import java.util.List;import java.util.Map;import com.ufgov.zc.common.system.model.AsOption;public interface IAsOptionService {  AsOption getAsOption(String optId);  void updateOptionVal(AsOption asOption);  Map getFieldLevelOptions();  public List getAllAsOptionById(String optId);}

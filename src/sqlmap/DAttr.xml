@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="DAttr">
+ <typeAlias alias="elementCondition"	type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+ 
+	<resultMap id="dAttr" class="com.ufgov.zc.common.commonbiz.model.DAttr">
+		<result property="nd" column="nd" />
+		<result property="type" column="extend_type" />
+		<result property="code" column="extend_code" />
+		<result property="name" column="extend_name" />
+		<result property="level" column="current_level" />
+		<result property="parentCode" column="parent_code" />
+	</resultMap>
+
+	<select id="getDAttr" resultMap="dAttr" parameterClass="elementCondition">
+		SELECT MASTER.* FROM (
+		  SELECT nd, extend_type, extend_code, extend_name, current_level, parent_code,
+		    decode(extend_type,'01',extend_code,'')  d_attr1,
+		    decode(extend_type,'02',extend_code,'')  d_attr2,
+		    decode(extend_type,'03',extend_code,'')  d_attr3,
+		    decode(extend_type,'04',extend_code,'')  d_attr4,
+		    decode(extend_type,'05',extend_code,'')  d_attr5 
+		  FROM ma_cp_extend 
+		) MASTER
+		where nd=#nd:INTEGER# and extend_type=#dattrType:VARCHAR#  
+		<include refid="BusiNumLim.BusiNumLimStr" />
+		order by extend_type,extend_code
+	</select>
+
+
+</sqlMap>

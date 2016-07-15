@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ZcExpertQuestion">
+   <typeAlias alias="dto" type="com.ufgov.zc.common.system.dto.ElementConditionDto"/>
+   <typeAlias alias="zcExpertQuestion" type="com.ufgov.zc.common.zc.model.ZcExpertQuestion"/>
+   
+   <resultMap class="zcExpertQuestion" id="ZcExpertQuestionResult">
+      <result property="id" column="id"/>
+      <result property="projCode" column="proj_code"/>
+      <result property="packCode" column="pack_code"/>
+      <result property="expertName" column="expert_name"/>
+      <result property="supplierName" column="supplier_name"/>
+   </resultMap>
+   
+   <insert id="insertZcExpertQuestion" parameterClass="zcExpertQuestion">
+     <selectKey keyProperty="id" resultClass="long">
+       select SEQ_ZCEXPERTQUESTION.nextval as id from dual
+     </selectKey>
+     insert into zc_expert_question
+     (id, proj_code, pack_code, expert_name, supplier_name)
+     values
+     (#id#, #projCode#, #packCode#, #expertName#, #supplierName#)
+   </insert>
+   
+   <select id="getZcExpertQuestion" parameterClass="dto" resultMap="ZcExpertQuestionResult">
+      select * from zc_expert_question
+      <dynamic prepend="where">
+        <isNotNull prepend="and" property="extField1">
+           proj_code = #extField1#
+        </isNotNull>
+        <isNotNull prepend="and" property="extField2">
+           pack_code = #extField2#
+        </isNotNull>
+        <isNotNull prepend="and" property="extField3">
+           expert_name = #extField3#
+        </isNotNull>
+        <isNotNull prepend='and' property="extField4">
+           supplier_name = #extField4#
+        </isNotNull>
+      </dynamic>
+   </select>
+
+
+</sqlMap>

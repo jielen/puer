@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="InceptDoc">
+
+	<resultMap id="inceptDoc" class="com.ufgov.zc.common.commonbiz.model.InceptDoc">
+		<result property="nd" column="nd" />
+		<result property="code" column="inceptDoc_code" />
+		<result property="name" column="inceptDoc_name" />
+	</resultMap>
+
+	<select id="getInceptDoc" resultMap="inceptDoc"
+		parameterClass="int">
+		select nd,inceptDoc_code,inceptDoc_name from ma_cp_inceptDoc
+		where nd=#value# and is_used='1' order by inceptDoc_code
+	</select>
+
+
+</sqlMap>

@@ -1,0 +1,1 @@
+package com.ufgov.zc.server.cp.dao;import java.util.List;public interface ICpPlanClearRelationDao {  public List getCpPlanClearRelation(String planAgentBillId);  public List getCpPlanClearRelationForVouNo(String vouNo);  public void insertCpPlanClearRelations(List cpPlanClearRelations);}

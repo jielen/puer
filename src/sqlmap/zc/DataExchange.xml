@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+
+
+<!DOCTYPE sqlMap      
+
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+
+<sqlMap namespace="DataExchange">
+
+
+
+	<typeAlias alias="dataExchangeLog" type="com.ufgov.zc.common.zc.model.DataExchangeLog" />
+
+	<typeAlias alias="dataExchange" type="com.ufgov.zc.common.zc.model.DataExchange" />
+
+	<typeAlias alias="dataExchangeRedo" type="com.ufgov.zc.common.zc.model.DataExchangeRedo" />
+
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+
+
+
+	<resultMap id="DataExchangeLog" class="dataExchangeLog">
+
+		<result property="ID" column="LOG_ID" />
+
+		<result property="dataTypeID" column="DATA_TYPE_ID" />
+
+		<result property="dataTypeName" column="DATA_TYPE_NAME" />
+
+		<result property="recSrcTab" column="REC_SRC_TAB" />
+
+		<result property="recSrcID" column="REC_SRC_ID" />
+
+		<result property="recSrcName" column="REC_SRC_NAME" />
+
+		<result property="optDateTime" column="OPT_DATETIME" />
+
+		<result property="gentType" column="GENT_TYPE" />
+
+		<result property="userID" column="USER_ID" />
+
+		<result property="detailInfo" column="DETAIL_INFO" />
+
+		<result property="exceptText" column="EXCEPT_TEXT" />
+
+		<result property="recStatus" column="REC_STATUS" />
+
+	</resultMap>
+
+	<resultMap id="DataExchange" class="dataExchange">
+
+		<result property="dataTypeID" column="DATA_TYPE_ID" />
+
+		<result property="dataTypeName" column="DATA_TYPE_NAME" />
+
+		<result property="dataTypeMainTab" column="DATA_TYPE_MAIN_TAB" />
+
+		<result property="dataTypeExecutor" column="DATA_TYPE_EXECUTOR" />
+
+		<result property="memo" column="MEMO" />
+
+	</resultMap>
+
+	<resultMap id="DataExchangeRedo" class="dataExchangeRedo">
+
+		<result property="id" column="ID" />
+
+		<result property="dataTypeID" column="DATA_TYPE_ID" />
+
+		<result property="dataTypeName" column="DATA_TYPE_NAME" />
+
+		<result property="recordName" column="RECORD_NAME" />
+
+		<result property="recordID" column="RECORD_ID" />
+
+		<result property="recordIDcol" column="RECORD_ID_COL" />
+
+		<result property="recordContent" column="RECORD_CONTENT" />
+
+		<result property="masterTableName" column="MASTER_TABLE_NAME" />
+
+		<result property="generateDate" column="GENERATE_DATE" />
+
+		<result property="isExported" column="IS_EXPORTED" />
+
+		<result property="operateType" column="OPERATE_TYPE" />
+
+	</resultMap>
+
+	<select id="getDataExchangeLog" resultMap="DataExchangeLog" parameterClass="elementCondition">
+
+		SELECT *
+
+	    FROM ZC_DATA_EXCHANGE_LOG master 
+
+	    WHERE master.USER_ID = #executor#
+
+	    <isNotNull prepend="AND" property="startDate">
+
+		  <![CDATA[master.OPT_DATETIME >= #startDate#]]>
+
+	    </isNotNull>
+
+	    <isNotNull prepend="AND" property="endDate">
+
+		  <![CDATA[master.OPT_DATETIME <= #endDate#]]>
+
+	    </isNotNull>
+
+	    <isNotNull prepend="AND" property="status">
+
+		  master.GENT_TYPE = #status#
+
+	    </isNotNull>
+
+	  	ORDER BY master.OPT_DATETIME DESC
+
+	</select>
+
+	
+
+	<select id="getDataExchange" resultMap="DataExchange">
+
+		SELECT *
+
+	    FROM ZC_DATA_EXCHANGE master
+        WHERE master.is_valide='Y'
+	  	ORDER BY master.DATA_TYPE_MAIN_TAB DESC
+
+	</select>
+
+	
+
+	<select id="getDataExchangeRedo" resultMap="DataExchangeRedo" parameterClass="elementCondition">
+
+		SELECT *
+
+	    FROM ZC_DATA_EXCHANGE_REDO master
+
+	    WHERE 1=1
+
+	    <isNotNull prepend="AND" property="startDate">
+
+		  <![CDATA[master.GENERATE_DATE >= #startDate#]]>
+
+	    </isNotNull>
+
+	    <isNotNull prepend="AND" property="endDate">
+
+		  <![CDATA[master.GENERATE_DATE <= #endDate#]]>
+
+	    </isNotNull>
+
+	    <isNotNull prepend="AND" property="billType">
+
+		  master.DATA_TYPE_ID = #billType#
+
+	    </isNotNull>
+
+	    <isNotNull prepend="AND" property="status">
+
+		  master.IS_EXPORTED = #status#
+
+	    </isNotNull>
+
+	    <isNotNull prepend="AND" property="extField1">
+
+	      master.RECORD_ID = #extField1#
+
+	    </isNotNull>
+
+	  	ORDER BY master.GENERATE_DATE DESC
+
+	</select>
+
+	<select id="getDataExchangeRedoByLikeRecordID" resultMap="DataExchangeRedo" parameterClass="elementCondition">
+
+		SELECT *
+
+	    FROM ZC_DATA_EXCHANGE_REDO master
+
+	    WHERE 1=1
+
+	    <isNotNull prepend="AND" property="extField1">
+
+	      master.RECORD_ID like #extField1#||'%'
+
+	    </isNotNull>
+
+	</select>	
+
+	<insert id="insertDataExchange" parameterClass="dataExchange">
+
+		insert into ZC_DATA_EXCHANGE
+
+		  (DATA_TYPE_ID,DATA_TYPE_NAME,DATA_TYPE_MAIN_TAB,DATA_TYPE_EXECUTOR,MEMO)
+
+		values
+
+		  (#dataTypeID#,#dataTypeName#, #dataTypeMainTab#, #dataTypeExecutor#,#memo#)
+
+	</insert>
+
+	<update id="updateDataExchange" parameterClass="dataExchange">
+
+		update 
+
+		  ZC_DATA_EXCHANGE
+
+		set
+
+		  DATA_TYPE_NAME=#dataTypeName#,
+
+		  DATA_TYPE_MAIN_TAB=#dataTypeMainTab#,
+
+		  DATA_TYPE_EXECUTOR=#dataTypeExecutor#,
+
+		  MEMO=#memo#
+
+		where
+
+		  DATA_TYPE_ID=#dataTypeID#
+
+	</update>
+
+	<insert id="insertDataExchangeLog" parameterClass="dataExchangeLog">
+
+		insert into ZC_DATA_EXCHANGE_LOG
+
+		  (LOG_ID,DATA_TYPE_ID,DATA_TYPE_NAME,REC_SRC_TAB,REC_SRC_ID,REC_SRC_NAME,OPT_DATETIME,GENT_TYPE,USER_ID,DETAIL_INFO,EXCEPT_TEXT,REC_STATUS)
+
+		values
+
+		  (ZC_SEQ_DATA_EXCHANGE_LOG.Nextval,#dataTypeID#,#dataTypeName#, #recSrcTab#, #recSrcID#, #recSrcName#, #optDateTime#, #gentType#, #userID#, #detailInfo#, #exceptText#,#recStatus#)
+
+	</insert>
+
+	<insert id="insertDataExchangeRedo" parameterClass="dataExchangeRedo">
+
+		insert into ZC_DATA_EXCHANGE_REDO
+
+		  (ID,DATA_TYPE_ID,DATA_TYPE_NAME,RECORD_NAME,RECORD_ID,RECORD_ID_COL,RECORD_CONTENT,GENERATE_DATE,MASTER_TABLE_NAME,IS_EXPORTED)
+
+		values
+
+		  (ZC_SEQ_DATA_EXCHANGE_REDO.Nextval,#dataTypeID#,#dataTypeName#, #recordName#, #recordID#, #recordIDcol#, #recordContent#, #generateDate#, #masterTableName#,#isExported#)
+
+	</insert>
+
+	<update id="updateDataExchangeRedo" parameterClass="dataExchangeRedo">
+
+		update 
+
+		  ZC_DATA_EXCHANGE_REDO
+
+		set
+
+		  DATA_TYPE_ID=#dataTypeID#,
+
+		  DATA_TYPE_NAME=#dataTypeName#,
+
+		  RECORD_NAME=#recordName#,
+
+		  RECORD_ID=#recordID#,
+
+		  RECORD_ID_COL=#recordIDcol#,
+
+		  RECORD_CONTENT=#recordContent#,
+
+		  GENERATE_DATE=#generateDate#,
+
+		  IS_EXPORTED=#isExported#,
+
+		  OPERATE_TYPE = #operateType#
+
+		where
+
+		  ID=#id#
+
+	</update>
+
+	<update id="updateDataExchangeRedoIsExported" parameterClass="dataExchangeRedo">
+
+		update 
+
+		  ZC_DATA_EXCHANGE_REDO
+
+		set
+
+		  IS_EXPORTED=#isExported#
+
+		where
+
+		  ID=#id#
+
+	</update>	
+
+
+
+	<delete id="deleteByRecordIdAndIsExported" parameterClass="dataExchangeRedo">
+
+		delete from ZC_DATA_EXCHANGE_REDO
+
+		where RECORD_ID=#recordID#
+
+		  AND IS_EXPORTED = #isExported#
+
+		  AND MASTER_TABLE_NAME = #masterTableName#
+
+	</delete>
+	<delete id="deleteByRecordIdAndDataTypeId" parameterClass="dataExchangeRedo">
+
+		delete from ZC_DATA_EXCHANGE_REDO
+
+		where RECORD_ID like #recordID#||'%'
+
+		  AND DATA_TYPE_ID = #dataTypeID#
+
+	</delete>
+	
+	<!-- 工作流数据交换 -->
+	
+	<!-- 草稿 -->
+	<insert id="create_Draft" parameterClass="com.kingdrive.workflow.model.runtime.DraftModel">
+		
+		INSERT INTO AS_WF_DRAFT
+		  (WF_DRAFT_ID,
+		   WF_DRAFT_NAME,
+		   COMPO_ID,
+		   MASTER_TAB_ID,
+		   USER_ID,
+		   USER_NAME,
+		   SAVE_TIME,
+		   STATUS)
+		VALUES
+		  (#draftId#,
+		   #draftName#,
+		   #compoId#,
+		   #masteTableId#,
+		   #userId#,
+		   #userName#,
+		   #saveTime#,
+		   #status#)
+	</insert>
+	<!-- 实例 -->
+	<insert id="create_Instance" parameterClass="com.kingdrive.workflow.model.runtime.InstanceModel">
+		INSERT INTO WF_INSTANCE
+		  (INSTANCE_ID,
+		   NAME,
+		   DESCRIPTION,
+		   TEMPLATE_ID,
+		   OWNER,
+		   START_TIME,
+		   END_TIME,
+		   STATUS,
+		   PARENT_INSTANCE_ID)
+		VALUES
+		  (#instanceId#,
+		   #name#,
+		   #description:VARCHAR#,
+		   #templateId#,
+		   #owner#,
+		   #startTime#,
+		   #endTime#,
+		   #status#,
+		   #parentInstanceId#)
+	</insert>	
+		 
+	<!-- action -->
+	<insert id="create_Action" parameterClass="com.kingdrive.workflow.model.runtime.ActionModel">
+		INSERT INTO WF_ACTION
+		  (ACTION_ID,
+		   INSTANCE_ID,
+		   NODE_ID,
+		   ACTION_NAME,
+		   EXECUTOR,
+		   EXECUTE_TIME,
+		   DESCRIPTION,
+		   OWNER,
+		   LIMIT_EXECUTE_TIME)
+		VALUES
+		  (#actionId#,
+		   #instanceId#,
+		   #nodeId#,
+		   #actionName:VARCHAR#,
+		   #executor#,
+		   #executeTime#,
+		   #description:VARCHAR#,
+		   #owner#,
+		   #limitExecuteTime:VARCHAR#)		
+	</insert>
+	
+	<!-- current task -->
+	<insert id="create_CurrentTask" parameterClass="com.kingdrive.workflow.model.runtime.CurrentTaskModel">
+		INSERT INTO WF_CURRENT_TASK
+		  (CURRENT_TASK_ID,
+		   INSTANCE_ID,
+		   NODE_ID,
+		   EXECUTOR,
+		   DELEGATION_ID,
+		   OWNER,
+		   CREATOR,
+		   CREATE_TIME,
+		   LIMIT_EXECUTE_TIME,
+		   RESPONSIBILITY,
+		   PARENT_TASK_ID,
+		   GRANTER_ID,
+		   GRANTER_INFO)
+		VALUES
+		  (#currentTaskId#,
+		   #instanceId#,
+		   #nodeId#,
+		   #executor#,
+		   #delegationId#,
+		   #owner#,
+		   #creator#,
+		   #createTime#,
+		   #limitExecuteTime:VARCHAR#,
+		   #responsibility#,
+		   #parentTaskId#,
+		   #granterId#,
+		   #granterInfo#)
+	</insert>
+	
+	<!-- actionhistory -->
+	<insert id="create_ActionHistory" parameterClass="com.kingdrive.workflow.model.runtime.ActionHistoryModel">
+		
+		INSERT INTO WF_ACTION_HISTORY
+		  (ACTION_HISTORY_ID,
+		   INSTANCE_ID,
+		   NODE_ID,
+		   ACTION_NAME,
+		   EXECUTOR,
+		   EXECUTE_TIME,
+		   DESCRIPTION,
+		   OWNER,
+		   LIMIT_EXECUTE_TIME)
+		VALUES
+		  (#actionHistoryId#,
+		   #instanceId#,
+		   #nodeId#,
+		   #actionName:VARCHAR#,
+		   #executor#,
+		   #executeTime#,
+		   #description:VARCHAR#,
+		   #owner#,
+		   #limitExecuteTime:VARCHAR#)
+	</insert>
+	<delete id="remove_ActionHistory" parameterClass="com.kingdrive.workflow.model.runtime.ActionHistoryModel">
+		DELETE FROM WF_ACTION_HISTORY t where t.INSTANCE_ID=#instanceId# and t.ACTION_HISTORY_ID=#actionHistoryId#	
+	</delete>
+	
+		<!-- statevalue -->
+	<insert id="create_StateValue" parameterClass="com.kingdrive.workflow.model.runtime.StateValueModel">		
+		INSERT INTO WF_STATE_VALUE
+		  (STATE_VALUE_ID, INSTANCE_ID, STATE_ID, VALUE)
+		VALUES
+		  (#stateValueId#,
+		   #instanceId#,
+		   #stateId#,
+		   #value#)
+	</insert>
+</sqlMap>
+

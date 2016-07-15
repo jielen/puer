@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="WfCommonAudited">
+	<sql id="WFCommonAuditedProcDate">
+		<isNotNull prepend="AND" property="startDate">
+			<isNotNull property="endDate">
+				<isNotEqual property="status" compareValue="todo">
+					MASTER.PROC_DATE BETWEEN #startDate:DATE# AND #endDate:DATE#
+				</isNotEqual>
+			</isNotNull>
+	  	</isNotNull>
+	</sql>
+	<sql id="WfCommonAudited">
+		<isNotNull prepend="AND" property="status">
+			<isEqual property="status" compareValue="todo">
+				master.process_inst_id in (select instance_id from v_wf_current_task_gk53 where executor = #executor:VARCHAR# )
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				master.process_inst_id in ( select instance_id from V_WF_ACTION_HISTORY_GK53 where executor = #executor:VARCHAR# )
+				and a_status_code!='3' and a_status_code!='5'
+	  		</isEqual>
+			<isEqual property="status" compareValue="audited">
+				(a_status_code ='3' or a_status_code='5')
+	  	    </isEqual>
+			<isEqual property="status" compareValue="invalid">
+				is_valid = '0'
+			</isEqual>
+			<isEqual property="status" compareValue="all">
+				is_valid  != '9'
+			</isEqual>
+		</isNotNull>
+	</sql>
+	<sql id="WfCommonAuditedForWfGrant">
+		<isNotNull prepend="AND" property="status">
+			<isEqual property="status" compareValue="todo">
+				master.process_inst_id in (select instance_id from v_wf_current_task_gk53 where executor = #executor:VARCHAR# )
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				master.process_inst_id in ( select instance_id from V_WF_ACTION_HISTORY_GK53 where executor = #executor:VARCHAR# )
+				and a_status_code!='3' and a_status_code!='5'
+	  		</isEqual>
+			<isEqual property="status" compareValue="audited">
+				master.process_inst_id in ( select instance_id from V_WF_ACTION_HISTORY_GK53 where executor = #executor:VARCHAR# )
+				and (a_status_code ='3' or a_status_code='5')
+	  	    </isEqual>
+			<isEqual property="status" compareValue="invalid">
+				is_valid = '0'
+			</isEqual>
+			<isEqual property="status" compareValue="all">
+				is_valid  != '9'
+			</isEqual>
+		</isNotNull>
+	</sql>
+
+			<sql id="WfCommonAuditedStartAndEndDate">
+			<isNotEqual property="status" compareValue="todo">
+				<isNotEqual prepend="AND" property="startMonth" compareValue="0">
+					MASTER.MONTH <![CDATA[>=]]> #startMonth#
+				</isNotEqual>
+				<isNotEqual prepend="AND" property="endMonth" compareValue="0">
+					MASTER.MONTH <![CDATA[<=]]> #endMonth#
+				</isNotEqual>
+			</isNotEqual>
+		</sql>
+		<sql id="WfCommonAuditedMonth">
+			<isNotEqual property="status" compareValue="todo">
+				<isNotEqual prepend="AND" property="month" compareValue="0">
+					MASTER.MONTH = #month#
+				</isNotEqual>
+			</isNotEqual>
+		</sql>
+</sqlMap>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="GkBusinessLog">
+	<typeAlias alias="gkBusinessLog"
+		type="com.ufgov.zc.common.system.model.GkBusinessLog" />
+
+	<resultMap id="gkBusinessLogResult" class="gkBusinessLog">
+		<result property="nd" column="nd" />
+		<result property="userId" column="user_Id" />
+		<result property="userName" column="user_name" />
+		<result property="coCode" column="co_code" />
+		<result property="coName" column="co_name" />
+		<result property="orgCode" column="org_code" />
+		<result property="orgName" column="org_name" />
+		<result property="posiCode" column="posi_code" />
+		<result property="posiName" column="posi_name" />
+		<result property="compoId" column="compo_id" />
+		<result property="funcId" column="func_id" />
+		<result property="billId" column="bill_id" />
+		<result property="tableName" column="table_name" />
+		<result property="operTime" column="oper_time" />
+		<result property="money" column="money" />
+		<result property="remark" column="remark" />
+	</resultMap>
+
+	<insert id="saveLog" parameterClass="gkBusinessLog">
+		insert into gk_business_log(oid,USER_ID, co_code, org_code,
+		posi_code, oper_time, remark, money, nd,
+		bill_id,table_name,compo_id,func_id) values(#oid:VARCHAR#,
+		#userId:VARCHAR#, #coCode:VARCHAR#, #orgCode:VARCHAR#,
+		#posiCode:VARCHAR#, #operTime:TIMESTAMP#, #remark:VARCHAR#,
+		#money:DECIMAL#, #nd:VARCHAR#, #billId:VARCHAR#,
+		#tableName:VARCHAR#,#compoId:VARCHAR#,#funcId:VARCHAR#)
+	</insert>
+
+	<select id="getGkBusinessLog" resultMap="gkBusinessLogResult"
+		parameterClass="map">
+		select t.*, (select user_name from as_user au where
+		t.user_id=au.user_id) user_name, (select co_name from as_company
+		ac where t.co_code = ac.CO_CODE and t.nd = ac.ND) co_name,
+		(select org_name from as_org ao where t.org_code = ao.org_code
+		and t.nd = ao.nd and t.co_code = ao.co_code) org_name, (select
+		ap.posi_name from as_position ap where t.posi_code =
+		ap.posi_code) posi_name from gk_business_log t where
+		t.bill_id=#billId:VARCHAR# and table_name=#tableName:VARCHAR#
+		and t.nd=#nd:INTEGER# order by t.oper_time
+	</select>
+
+</sqlMap>

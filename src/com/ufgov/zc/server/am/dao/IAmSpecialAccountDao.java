@@ -1,0 +1,1 @@
+package com.ufgov.zc.server.am.dao;import java.util.List;import com.ufgov.zc.common.system.RequestMeta;import com.ufgov.zc.common.system.dto.ElementConditionDto;public interface IAmSpecialAccountDao {  List getSpecialAccount(ElementConditionDto dto, RequestMeta requestMeta);}

@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+	
+	<!-- 大会致辞 -->
+	<bean id="ZcEbPresentServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEbPresentServiceDelegate"
+		scope="singleton">
+		<property name="zcEbPresentservice" ref="zcEbPresentservice" />
+	</bean>
+	
+	<bean id="zcEbEntrustServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEbEntrustServiceDelegate"
+		scope="singleton">
+		<property name="zcEbEntrustService" ref="zcEbEntrustService" />
+	</bean>
+
+	<bean id="zcEbProtocolServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEbProtocolServiceDelegate"
+		scope="singleton">
+		<property name="zcEbProtocolService" ref="zcEbProtocolService" />
+	</bean>
+	
+	<bean id="zcEbOptionsServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEbOptionsServiceDelegate"
+		scope="singleton">
+		<property name="zcEbOptionsService" ref="zcEbOptionsService" />
+	</bean>
+
+	<bean id="zcEbGuaranteeServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEbGuaranteeServiceDelegate"
+		scope="singleton">
+		<property name="zcEbGuaranteeService" ref="zcEbGuaranteeService" />
+	</bean>
+
+	<bean id="zcEbBaseServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEbBaseServiceDelegate"
+		scope="singleton">
+		<property name="zcEbBaseService" ref="zcEbBaseService" />
+	</bean>
+
+	<bean id="zcEbSupplierServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEbSupplierServiceDelegate"
+		scope="singleton">
+		<property name="zcEbSupplierService" ref="zcEbSupplierService" />
+	</bean>
+
+	<bean id="zcPProMakeServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcPProMakeServiceDelegate"
+		scope="singleton">
+		<property name="zcPProMakeService" ref="zcPProMakeService" />
+	</bean>
+
+	<bean id="zcQxServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcQxServiceDelegate"
+		scope="singleton">
+		<property name="zcQxService" ref="zcQxService" />
+	</bean>
+	<bean id="zcQbServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcQbServiceDelegate"
+		scope="singleton">
+		<property name="zcQbService" ref="zcQbService" />
+	</bean>
+	<bean id="zcEbSignupServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEbSignupServiceDelegate"
+		scope="singleton">
+		<property name="zcEbSignupService" ref="zcEbSignupService" />
+	</bean>
+
+	<bean id="zcEbBulletinServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEbBulletinServiceDelegate"
+		scope="singleton">
+		<property name="zcEbBulletinService" ref="zcEbBulletinService" />
+		<property name="asFileService" ref="asFileService"></property>
+	</bean>
+	<bean id="zcEbEvalServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEbEvalServiceDelegate"
+		scope="singleton">
+		<property name="zcEbEvalService" ref="zcEbEvalService" />
+	</bean>
+	<bean id="zcEbRequirementServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEbRequirementServiceDelegate"
+		scope="singleton">
+		<property name="zcEbRequirementService" ref="zcEbRequirementService" />
+	</bean>
+
+	<bean id="zcXmcgHtServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcXmcgHtServiceDelegate"
+		scope="singleton">
+		<property name="zcXmcgHtService" ref="zcXmcgHtService" />
+	</bean>
+	<bean id="zcEbFormulaServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEbFormulaServiceDelegate"
+		scope="singleton">
+		<property name="zcEbFormulaService" ref="zcEbFormulaService" />
+	</bean>
+	<bean id="zcEbBulletinWordMoldServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEbBulletinWordMoldServiceDelegate"
+		scope="singleton">
+		<property name="zcEbBulletinWordMoldService" ref="zcEbBulletinWordMoldService" />
+		<property name="asFileService" ref="asFileService"></property>
+	</bean>
+	<bean id="zcEbOpenBidServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEbOpenBidServiceDelegate"
+		scope="singleton">
+		<property name="zcEbOpenBidService" ref="zcEbOpenBidService" />
+	</bean>
+	<bean id="foreignEntityServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ForeignEntityDelegate"
+		scope="singleton">
+		<property name="foreignEntityService" ref="foreignEntityService" />
+	</bean>
+
+	<bean id="zcEbProjServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEbProjServiceDelegate"
+		scope="singleton">
+		<property name="zcEbProjService" ref="zcEbProjService" />
+	</bean>
+	<bean id="zcEbOpenBidTeamServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEbOpenBidTeamServiceDelegate"
+		scope="singleton">
+		<property name="zcEbOpenBidTeamService" ref="zcEbOpenBidTeamService" />
+	</bean>
+	<bean id="zcEbEvalBidTeamServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEbEvalBidTeamServiceDelegate"
+		scope="singleton">
+		<property name="zcEbEvalBidTeamService" ref="zcEbEvalBidTeamService" />
+	</bean>
+	<bean id="zcEbPlanServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEbPlanServiceDelegate"
+		scope="singleton">
+		<property name="zcEbPlanService" ref="zcEbPlanService" />
+	</bean>
+	<bean id="zcEbNoticeServiceDelegate"
+
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEbNoticeServiceDelegate"
+		scope="singleton">
+		<property name="zcEbNoticeService" ref="zcEbNoticeService" />
+		<property name="asFileService" ref="asFileService"></property>
+	</bean>
+	<bean id="zcEbFormulaTemplateServiceDelegate"
+
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEbFormulaTemplateServiceDelegate"
+		scope="singleton">
+		<property name="zcEbFormulaTemplateService" ref="zcEbFormulaTemplateService" />
+	</bean>
+
+	
+
+	<bean id="zcEbEvalExpertCommentServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEbEvalExpertCommentServiceDelegate"
+		scope="singleton">
+		<property name="zcEbEvalExpertCommentService" ref="zcEbEvalExpertCommentService" />
+	</bean>
+	<bean id="zcebZbServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcebZbServiceDelegate"
+		scope="singleton">
+		<property name="zcebZbService" ref="zcebZbService" />
+	</bean>
+	<bean id="zcEbProjChangeServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEbProjChangeServiceDelegate"
+		scope="singleton">
+		<property name="zcEbProjChangeService" ref="zcEbProjChangeService" />
+	</bean>
+	<bean id="zcEbProjectSupervisionServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEbProjectSupervisionServiceDelegate"
+		scope="singleton">
+		<property name="zcEbProjectSupervisionService" ref="zcEbProjectSupervisionService" />
+    <!--评审专家实时质疑问答  -->
+	</bean>
+		<bean id="expertQuestionDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ExpertQuestionDelegate"
+		scope="singleton">
+		<property name="zcExpertQuestionService" ref="zcExpertQuestionService"></property>
+		<property name="zcExpertQuestionContentService" ref="zcExpertQuestionContentService"></property>
+	</bean>
+	<!-- 结束 -->
+	<bean id="zcEbProjectLivingChangeDelegate" class="com.ufgov.zc.server.zc.publish.impl.ZcEbProjectLivingChangeDelegate" scope="singleton">
+	   <property name="zcEbProjectLivingChangeService" ref="zcEbProjectLivingChangeService"></property>
+	</bean>
+	<bean id="zcSuppleMentPProMakeServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcSuppleMentPProMarkDelegate"
+		scope="singleton">
+		<property name="zcSuppleMentPProMakeService" ref="zcSuppleMentPProMakeService" />
+	</bean>
+	<bean id="zcPProBalServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcPProBalServiceDelegate"
+		scope="singleton">
+		<property name="zcPProBalService" ref="zcPProBalService" />
+	</bean>
+	<bean id="zcebXjbjServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEbXjbjServiceDelegate"
+		scope="singleton">
+		<property name="baoJiaService" ref="baoJiaService" />
+	</bean>
+	
+	<!--专家抽取-->
+	<bean id="zcEmExpertSelectionServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEmExpertSelectionServiceDelegate" scope="singleton">
+		<property name="zcEmExpertSelectionService" ref="zcEmExpertSelectionService" />
+	</bean>
+
+	<!--批办单-->
+	<bean id="zcEbAuditSheetServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEbAuditSheetServiceDelegate" scope="singleton">
+		<property name="zcEbAuditSheetService" ref="zcEbAuditSheetService" />
+	</bean>	
+	
+	<bean id="dataExchangeServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.DataExchangeServiceDelegate" scope="singleton">
+		<property name="dataExchangeService" ref="dataExchangeService" />
+	</bean>
+	<!--询价管理 -->
+	<bean id="zcEbRfqServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEbRfqServiceDelegate" scope="singleton">
+		<property name="zcEbRfqService" ref="zcEbRfqService" />
+		<property name="zcEbPlanService" ref="zcEbPlanService" />
+	</bean>
+	<bean id="zcEbProMakeOuterServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEbProMakeOuterServiceDeleagate"
+		scope="singleton">
+		<property name="zcProMakeOuterservice" ref="zcProMakeOuterservice" />
+	</bean>
+	<!-- 经费开支管理 -->
+	<bean id="zcEmFundPayServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEmFundPayServiceDelegate" scope="singleton">
+		<property name="zcEmFundPaySevice" ref="zcEmFundPaySevice" />
+	</bean>
+<!-- 验收单-->
+	<bean id="zcEbYanShouBillServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEbYanShouBillServiceDelegate" scope="singleton">
+		<property name="zcEbYanShouBillService" ref="zcEbYanShouBillService" />
+	</bean>
+
+	<bean id="zcEmExpertTypeServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEmExpertTypeServiceDelegate" scope="singleton">
+		<property name="zcEmExpertTypeService" ref="zcEmExpertTypeService" />
+	</bean>
+	<!-- 供应商初审-->
+	<bean id="zcEbProviderPreAuditServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEbProviderPreAuditServiceDelegate" scope="singleton">
+		<property name="zcEbProviderPreAuditService" ref="zcEbProviderPreAuditService" />
+	</bean>
+	<!-- 专家评价-->
+	<bean id="zcEmExpertEvaluateServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEmExpertEvaluateServiceDelegate" scope="singleton">
+		<property name="zcEmExpertEvaluateService" ref="zcEmExpertEvaluateService" />
+	</bean>
+	
+	<!-- 供货合同 -->
+	<bean id="zcEbGongHuoHtServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEbGongHuoHtServiceDelegate" scope="singleton">
+		<property name="zcEbGongHuoHtService" ref="zcEbGongHuoHtService" />
+	</bean>
+	<!--二次报价 -->
+	<bean id="zcEbEcbjServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEbEcbjServiceDelegate" scope="singleton">
+		<property name="zcEbEcbjService" ref="zcEbEcbjService" />	
+	</bean>
+	<!--项目论证 -->
+	<bean id="zcEbProArgueDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEbProArgueDelegate" scope="singleton">
+		<property name="zcEbProArgueService" ref="ZcEbProArgueService" />
+	</bean>
+	<!-- 招标文件审核 -->
+	<bean id="zcEbZbFileServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEbZbFileServiceDelegate" scope="singleton">
+		<property name="zcEbZbFileService" ref="zcEbZbFileService" />	
+	</bean>
+	<!--加解密记录-->
+	<bean id="zcEbXieyiServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEbXieyiServiceDelegate" scope="singleton">
+		<property name="zcEbXieyiService" ref="zcEbXieyiService" />	
+	</bean>
+	<!--加解密记录-->
+	<bean id="zcEbSecurityRecordServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEbSecurityRecordServiceDelegate" scope="singleton">
+		<property name="zcEbSecurityRecordService" ref="zcEbSecurityRecordService" />	
+	</bean>
+	<!-- 竣工 -->
+	<bean id="zcEbProCompletionDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEbProCompletionDelegate" scope="singleton">
+		<property name="zcEbProCompletionService" ref="zcEbProCompletionService" />
+	</bean>
+	<!-- 项目归档 -->
+	<bean id="zcEbGuiDangBillServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEbGuiDangBillServiceDelegate" scope="singleton">
+		<property name="zcEbGuiDangBillService" ref="zcEbGuiDangBillService" />	
+	</bean>
+	
+	<!-- 质疑 -->
+	<bean id="zcQuestionServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZCQuestionServiceDelegate" scope="singleton">
+		<property name="zcQuestionService" ref="zcQuestionService" />
+	</bean>
+	<!-- 投诉 -->
+	<bean id="zcEbComplainServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEbComplainDelegate" scope="singleton">
+		<property name="complainService" ref="complainService" />
+	</bean>
+	
+	<!-- 供应商诚信管理 -->
+	<bean id="supplierIntegrityManageDelegate" class="com.ufgov.zc.server.zc.publish.impl.SupplierIntegrityManageDelegate" scope="singleton">
+		<property name="integrityManageService" ref="integrityManageService"></property>
+	</bean>
+	<!--内网数据提取-->
+	<bean id="intranetDataExpServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.IntranetDataExpServiceDelegate" scope="singleton">
+		<property name="intranetDataExpService" ref="intranetDataExpService" />	
+	</bean>
+	<!--评标网数据导入-->
+	<bean id="bidNetworkDataImpDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.BidNetworkDataImpDelegate" scope="singleton">
+		<property name="bidNetworkDataImpService" ref="bidNetworkDataImpService" />	
+	</bean>
+	<!--评标网数据导出-->
+	<bean id="bidNetworkDataExpDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.BidNetworkDataExpDelegate" scope="singleton">
+		<property name="bidNetworkDataExpService" ref="bidNetworkDataExpService" />	
+	</bean>
+	<!--内网数据导入-->
+	<bean id="intranetDataImpDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.IntranetDataImpDelegate" scope="singleton">
+		<property name="intranetDataImpService" ref="intranetDataImpService" />	
+	</bean>
+	
+	<bean id="zcEbPurchaseDepartReviewDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEbPurchaseDepartReviewDelegate" scope="singleton">
+		<property name="zcEbPurchaseDepartReviewService" ref="zcEbPurchaseDepartReviewService" />	
+	</bean>
+
+	<bean id="zcEbWenHaoToolDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEbWenHaoToolDelegate" scope="singleton">
+		<property name="zcEbWenHaoToolService" ref="zcEbWenHaoToolService" />	
+	</bean>
+	<bean id="agencyServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEbAgencyServiceDelegate"
+		scope="singleton">
+		<property name="zcAgencyService" ref="zcAgencyService" />
+	</bean>
+	<bean id="zcXmcgHtChgServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcXmcgHtChgServiceDelegate"
+		scope="singleton">
+		<property name="zcXmcgHtChgService" ref="zcXmcgHtChgService" />
+	</bean>
+	<bean id="zcNotepadDelegate" class="com.ufgov.zc.server.zc.publish.impl.ZcNotepadDelegate"
+		scope="singleton">
+		<property name="zcNotePadService" ref="zcNotePadService" />
+	</bean>
+	<bean id="zcEbEntrustCancelServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEbEntrustCancelServiceDelegate"
+		scope="singleton">
+		<property name="zcEbEntrustCancelService" ref="zcEbEntrustCancelService"></property>
+	</bean>
+	<bean id="zcEbEntrustBulletinServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEbEntrustBulletinServiceDelegate"
+		scope="singleton">
+		<property name="bullService" ref="zcEbEntrustBulletinService" />
+	</bean>	
+	<bean id="catalogueServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEBCatalogueServiceDelegate"
+		scope="singleton">
+		<property name="zcCatalogueService" ref="zcCatalogueService" />
+	</bean>
+	<bean id="animationServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcAnimationServiceDelegate"
+		scope="singleton">
+		<property name="animationSerivce" ref="animationService"></property>
+	</bean>
+	<bean id="zcEbMessageDelegate" class="com.ufgov.zc.server.zc.publish.impl.MessageDelegate"
+		scope="singleton">
+		<property name="messageService" ref="zcEbMessageService"></property>
+	</bean>
+	<bean id="supplierPriceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.SupplierPriceDelegate"
+		scope="singleton">
+		<property name="priceService" ref="supplierPriceService"></property>
+	</bean>
+
+	<bean id="zcEmExpertServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEmExpertServiceDelegate"
+		scope="singleton">
+		<property name="zcEmExpertService" ref="zcEmExpertService"></property>
+	</bean>
+
+	<bean id="zcEmExpertAbilityServiceDelegate"
+		class="com.ufgov.zc.server.zc.publish.impl.ZcEmExpertAbilityServiceDelegate"
+		scope="singleton">
+		<property name="zcEmExpertAbilityService" ref="zcEmExpertAbilityService"></property>
+	</bean>
+</beans>

@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+
+
+<!DOCTYPE sqlMap
+
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+
+<sqlMap namespace="BillElement">
+
+
+
+	<resultMap id="billElement" class="com.ufgov.zc.common.commonbiz.model.BillElement">
+
+		<result property="elementId" column="element_id" />
+
+		<result property="nd" column="nd" />
+
+		<result property="billTypeCode" column="bill_type_code" />
+
+		<result property="elementCode" column="element_code" />
+
+		<result property="elementName" column="element_name" />
+
+		<result property="include" column="is_include" />
+
+		<result property="inherit" column="is_inherit" />
+
+		<result property="edit" column="is_edit" />
+
+		<result property="decFlag" column="dec_flag" />
+
+		<result property="randomEdit" column="is_random_edit" />
+
+		<result property="levelCtrl" column="level_ctrl" />
+
+		<result property="levelStr" column="opt_val" />
+
+		<result property="nullable" column="is_null" />
+
+		<result property="renderType" column="extend_element_type" />
+
+		<result property="displayOrderIndex" column="DISPLAY_ORDER_INDEX" />
+
+		<result property="parentLevelCtrl" column="PARENT_LEVEL_CTRL" />
+
+	</resultMap>
+
+
+
+	<resultMap id="elementCode" class="com.ufgov.zc.common.commonbiz.model.BillElement">
+
+		<result property="elementCode" column="element_code" />
+
+	</resultMap>
+
+
+
+	<select id="getBillElement" resultMap="billElement"  parameterClass="map">
+
+		Select me.element_id,me.nd,me.bill_type_code,me.element_code,me.element_name,
+
+		       me.is_include,me.is_inherit,me.is_edit,dec_flag, me.is_random_edit,me.level_ctrl,
+
+		       me.is_null,me.extend_element_type , elc.opt_val,me.DISPLAY_ORDER_INDEX, me.PARENT_LEVEL_CTRL
+
+		From  ZC_SYS_BILL_ELEMENT me Left Join (
+
+		   Select Distinct t.element_code ,t.level_id ,ao.opt_val From
+
+		   ZC_ELEMENT_CONFIG t Inner Join as_option ao
+
+		   On t.level_id=ao.opt_id And ao.Is_Syst_Opt='Y' And ao.co_code='*'
+
+          )  elc On me.element_code= elc.element_code
+
+		where me.nd=#nd:INTEGER# and me.bill_type_code=#billTypeCode:VARCHAR#
+
+	</select>
+
+
+
+	<select id="getBillDecElement" resultMap="elementCode" parameterClass="map">
+
+		SELECT ELEMENT_CODE FROM ZC_SYS_BILL_ELEMENT
+
+ 			WHERE BILL_TYPE_CODE = #billTypeCode:VARCHAR# AND IS_INCLUDE = '1'
+
+   		AND DEC_FLAG = '1' AND ND=#nd#
+
+	</select>
+
+	
+
+	<select id="getBillIncludeElement" resultMap="elementCode" parameterClass="map">
+
+		SELECT ELEMENT_CODE FROM ZC_SYS_BILL_ELEMENT
+
+ 			WHERE BILL_TYPE_CODE = #billTypeCode:VARCHAR# AND IS_INCLUDE = '1' AND ND=#nd#
+
+	</select>	
+
+
+
+	<resultMap id="billElementResult" class="com.ufgov.zc.common.commonbiz.model.BillElement">
+
+		<result property="elementId" column="element_id" />
+
+		<result property="nd" column="nd" />
+
+		<result property="billTypeCode" column="bill_type_code" />
+
+		<result property="elementCode" column="element_code" />
+
+		<result property="elementName" column="element_name" />
+
+		<result property="include" column="is_include" />
+
+		<result property="inherit" column="is_inherit" />
+
+		<result property="edit" column="is_edit" />
+
+		<result property="decFlag" column="dec_flag" />
+
+		<result property="randomEdit" column="is_random_edit" />
+
+		<result property="levelCtrl" column="level_ctrl" />
+
+		<result property="nullable" column="is_null" />
+
+		<result property="renderType" column="extend_element_type" />
+
+		<result property="displayOrderIndex" column="DISPLAY_ORDER_INDEX" />
+
+	</resultMap>
+
+	<select id="getBillDecFlagElement" resultMap="billElementResult"
+
+		parameterClass="map">
+
+		SELECT * FROM ZC_SYS_BILL_ELEMENT
+
+		WHERE BILL_TYPE_CODE = #billTypeCode:VARCHAR# AND ND=#nd# AND is_include = '1'
+
+		<isNotNull prepend="" property="displayFieldType">
+
+			<isNotEqual prepend="AND" property="displayFieldType" compareValue="0">
+
+				DISPLAY_ORDER_INDEX > 0 and IS_INCLUDE='1'
+
+				order by DISPLAY_ORDER_INDEX asc
+
+			</isNotEqual>
+
+		</isNotNull>
+
+	</select>
+
+
+
+	<select id="getAllBillDecFlagElement" resultMap="billElementResult"
+
+		parameterClass="map">
+
+		SELECT * FROM ZC_SYS_BILL_ELEMENT
+
+		WHERE BILL_TYPE_CODE = #billTypeCode:VARCHAR# AND ND=#nd#
+
+		<isNotNull prepend="" property="displayFieldType">
+
+			<isNotEqual prepend="AND" property="displayFieldType" compareValue="0">
+
+				DISPLAY_ORDER_INDEX > 0
+
+				order by DISPLAY_ORDER_INDEX asc
+
+			</isNotEqual>
+
+		</isNotNull>
+
+	</select>
+
+
+
+	<update id="updateIncludeForBillElement" parameterClass="com.ufgov.zc.common.commonbiz.model.BillElement">
+
+		update ZC_SYS_BILL_ELEMENT set IS_INCLUDE=#include:VARCHAR#
+
+		where ELEMENT_ID=#elementId:VARCHAR# and  ND=#nd:INTEGER#
+
+	</update>
+
+	<update id="updateBillElementGroupInfo" parameterClass="com.ufgov.zc.common.commonbiz.model.BillElement">
+
+		UPDATE ZC_SYS_BILL_ELEMENT T
+
+		   SET T.DEC_FLAG = #decFlag#, T.LEVEL_CTRL = #levelCtrl#
+
+		 WHERE T.ELEMENT_ID = #elementId#
+
+	</update>
+
+
+
+	<update id="updateBillElementForBb" parameterClass="com.ufgov.zc.common.commonbiz.model.BillElement">
+
+		UPDATE ZC_SYS_BILL_ELEMENT T
+
+		   SET T.DEC_FLAG = #decFlag#, T.LEVEL_CTRL = #levelCtrl#
+
+		 WHERE T.BILL_TYPE_CODE = #billTypeCode#
+
+		   AND T.ND = #nd#
+
+		   AND T.ELEMENT_CODE = #elementCode#
+
+	</update>
+
+
+
+	<resultMap id="resultMap" class="com.ufgov.zc.common.commonbiz.model.BillElement" >
+
+	 	<result property="elementCode"  column="DATA_ITEM" />
+
+	    <result property="elementName" column="READ_WRITE" />
+
+	</resultMap>
+
+
+
+	<select id="getWfCanEditField" resultMap="resultMap" parameterClass="map">
+
+		SELECT data_item,read_write FROM as_wf_activity_field  t
+
+		WHERE t.wf_node_id = ( SELECT distinct node_id FROM wf_current_task WHERE instance_id=#proInstId:NUMERIC# and executor=#executor:VARCHAR#)
+
+			and t.wf_template_id=(select default_wf_template from as_compo where compo_id=#compoId:VARCHAR#)
+
+			and read_write='2'
+
+	</select>
+
+
+
+
+
+	<resultMap id="resultMap" class="com.ufgov.zc.common.commonbiz.model.BillElement" >
+
+	 	<result property="elementCode"  column="DATA_ITEM" />
+
+	    <result property="elementName" column="READ_WRITE" />
+
+	</resultMap>
+
+
+
+	<select id="getWfNodeEnableFunc" resultClass="string" parameterClass="map">
+
+	    select 
+
+	         FUNC_ID
+
+	    from 
+
+	         AS_WF_FUNC_ACTIVITY
+
+	    where 
+
+	         (WF_NODE_ID in (select NODE_ID FROM WF_CURRENT_TASK t,wf_instance i
+                      WHERE t.instance_id=i.instance_id and t.INSTANCE_ID = #proInstId:NUMERIC# and t.EXECUTOR = #executor:VARCHAR# and i.status!='9'
+               union
+                    select NODE_ID from wf_action_history t,wf_instance i
+                    WHERE t.instance_id=i.instance_id and t.INSTANCE_ID = #proInstId:NUMERIC# and t.EXECUTOR = #executor:VARCHAR# and i.status='9')
+              or (WF_NODE_ID in (select NODE_ID from wf_action_history t, wf_instance i
+                    WHERE t.instance_id = i.instance_id and t.INSTANCE_ID = #proInstId:NUMERIC# and t.EXECUTOR = #executor:VARCHAR# and i.status != '9') and FUNC_ID='fcallback')
+              )
+
+	      and
+
+	         WF_TEMPLATE_ID =(select DEFAULT_WF_TEMPLATE from AS_COMPO where COMPO_ID=#compoId:VARCHAR#)
+
+	</select>
+
+</sqlMap>

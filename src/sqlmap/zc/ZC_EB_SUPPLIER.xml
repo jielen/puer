@@ -1,0 +1,553 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ZcEbSupplier">
+
+	<typeAlias alias="ZcEbSupplier" type="com.ufgov.zc.common.zc.model.ZcEbSupplier" />
+
+	<typeAlias alias="elementCondition"
+		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+
+	<resultMap id="ZcEbSupplierResult" class="ZcEbSupplier">
+		<result property="code" column="ZC_SU_CODE" />
+		<result property="name" column="ZC_SU_NAME" />
+		<result property="linkMan" column="ZC_SU_LINKMAN" />
+		<result property="phone" column="ZC_SU_TEL" />
+		<result property="operator" column="ZC_ASSESS_CODE" />
+		<result property="address" column="ZC_SU_ADDR" />
+		<result property="zipCode" column="ZC_POST_CODE" />
+		<result property="operDate" column="ZC_ASSESS_DATE" />
+		<result property="status" column="ZC_SU_STATUS" />
+		<result property="isZxqy" column="ZC_IS_ZXQY" />
+		<result property="isXysu" column="ZC_IS_XYSU" />
+		<result property="gnw" column="ZC_GNW" />
+		<result property="snw" column="ZC_SNW" />
+		<result property="corpCode" column="ZC_CORP_CODE" />
+		<result property="accCode" column="ZC_SU_ACC_CODE" />
+		<result property="bankCode" column="ZC_SU_BANK_CODE" />
+		<result property="bankName" column="ZC_SU_BANK_NAME" />
+		<result property="email" column="EMAIL" />
+		<result property="establishDate" column="ESTABLISH_DATE" />
+		<result property="linkManPhone" column="LINK_MAN_PHONE" />
+		<result property="linkManMobile" column="LINK_MAN_MOBILE" />
+		<result property="fax" column="FAX" />
+		<result property="scale" column="SCALE" />
+		<result property="loginName" column="LOGIN_NAME" />
+		<result property="url" column="URL" />
+		<result property="description" column="DESCRIPTION" />
+		<result property="legalPerson" column="LEGAL_PERSON" />
+		<result property="legalPersonAddr" column="LEGAL_PERSON_ADDR" />
+		<result property="legalPersonIDCard" column="LEGAL_PERSON_ID_CARD" />
+		<result property="legalCardType" column="LEGAL_CARD_TYPE" />
+		<result property="legalPersonFax" column="LEGAL_PERSON_FAX" />
+		<result property="legalPersonMobile" column="LEGAL_PERSON_MOBILE" />
+		<result property="legalPersonTel" column="LEGAL_PERSON_TEL" />
+		<result property="regCapital" column="REG_CAPITAL" />
+		<result property="mainBusinesses" column="MAIN_BUSINESSES" />
+		<result property="supplierType" column="SUPPLIER_TYPE" />
+		<result property="isExported" column="IS_EXPORTED" />
+		<result property="licenseId" column="ZC_LICENSE_ID" />
+		<result property="licenseTimeStart" column="ZC_LICENSE_DATE_START" />
+		<result property="licenseTimeEnd" column="ZC_LICENSE_DATE_END" />
+		<result property="stateTaxRegId" column="STATE_TAX_REG_ID" />
+		<result property="stateTaxRegDate" column="STATE_TAX_REG_DATE" />
+		<result property="localTaxRegId" column="LOCAL_TAX_REG_ID" />
+		<result property="localTaxRegDate" column="LOCAL_TAX_REG_DATE" />
+		<result property="zcCatalogueCode" column="ZC_CATALOGUE_CODE" />
+		<result property="caSerial" column="CA_SERIAL" />
+		<result property="zcSupplierType" column="ZC_SUPPLIER_TYPE" />
+		<result property="zcSupplierKind" column="ZC_SUPPLIER_KIND" />
+        <result property="xyFile" column="XYFILE" />
+        <result property="xyFileBlobID" column="XYFILE_BLOBID" />
+		<!-- 添加注册时间和审批时间字段 -->
+		<result property="createDate" column="ZC_CREAT_DATE"/>
+	</resultMap>
+
+	<resultMap id="ZcMerSupplierResult" class="ZcEbSupplier">
+		<result property="code" column="ZC_SU_CODE" />
+		<result property="name" column="ZC_SU_NAME" />
+		<result property="linkMan" column="ZC_SU_LINKMAN" />
+		<result property="linkManPhone" column="LINK_MAN_MOBILE" />
+		<result property="address" column="ZC_SU_ADDR" />
+		<result property="zcMerXyDisRate" column="ZC_TREATY_DISCOUNT_RATE" />
+		<result property="disPrice" column="PRICE" />
+	</resultMap>
+	
+	<resultMap id="ZcMerSupplierBaseResult" class="ZcEbSupplier">
+		<result property="code" column="ZC_SU_CODE" />
+		<result property="name" column="ZC_SU_NAME" />
+		<result property="linkMan" column="ZC_SU_LINKMAN" />
+		<result property="linkManPhone" column="LINK_MAN_MOBILE" />
+		<result property="address" column="ZC_SU_ADDR" />
+	</resultMap>
+	<resultMap id="ZcEbSupplierHandlerResult" class="ZcEbSupplier">
+		<result property="code" column="ZC_SU_CODE" />
+		<result property="name" column="ZC_SU_NAME" />
+		<result property="linkMan" column="ZC_SU_LINKMAN" />
+	</resultMap>
+
+	<sql id="ZcSupplier.page_start">
+	<![CDATA[
+	   select * from (select row_.*,rownum rownum_ from (
+	]]>
+	</sql>
+
+	<sql id="ZcSupplier.page_end">
+	<![CDATA[
+	   ) row_ where rownum <= #end# ) where rownum_ >=  #start#
+	]]>
+	</sql>
+	<select id="getZcEbSupplier" resultMap="ZcEbSupplierResult"
+		parameterClass="elementCondition">
+		SELECT B.*,(select CA_SERIAL from as_emp where emp_code=b.zc_su_code)
+		as CA_SERIAL
+		FROM ZC_B_SUPPLIER B
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="status">
+				<isEqual property="status" compareValue="todo">
+					B.ZC_SU_STATUS='0'
+				</isEqual>
+				<isEqual property="status" compareValue="done">
+					B.ZC_SU_STATUS='2'
+				</isEqual>
+				<isEqual property="status" compareValue="freeze">
+					B.ZC_SU_STATUS='3'
+				</isEqual>
+				<isEqual property="status" compareValue="updating">
+					B.ZC_SU_STATUS='4'
+				</isEqual>
+				<isEqual property="status" compareValue="all">
+					1=1
+				</isEqual>
+			</isNotNull>
+			<include refid="BusiNumLim.BusiNumLimStr" />
+			<isNotNull prepend="AND" property="zcText0">
+				B.ZC_SU_STATUS =
+				#zcText0#
+			</isNotNull>
+			<isNotNull prepend="AND" property="zcText1">
+				B.IS_EXPORTED = #zcText0#
+			</isNotNull>
+			<isNotNull prepend="AND" property="extField1">
+				B.LOGIN_NAME =
+				#extField1#
+			</isNotNull>
+			<isNotNull prepend="AND" property="zcText3">
+			 <![CDATA[
+				ROWNUM<6 and B.ZC_SU_STATUS='2' ORDER BY B.ZC_AUDIT_DATE DESC 
+			 ]]>
+			</isNotNull>
+			<isNotNull prepend="AND" property="zcText4">
+			<![CDATA[
+				ROWNUM<6 and B.ZC_SU_STATUS='0'  ORDER BY B.ZC_REG_DATE DESC 
+			]]>
+			</isNotNull>
+			<isNotNull prepend="AND" property="extField2">
+				B.ZC_SU_CODE like 'temp_%'
+			</isNotNull>
+		</dynamic>
+	</select>
+
+    <select id="getZcEbSupplierBySupplierID" resultMap="ZcEbSupplierResult"
+            parameterClass="elementCondition">
+        SELECT B.*,(select CA_SERIAL from as_emp where emp_code=b.zc_su_code)
+        as CA_SERIAL
+        FROM ZC_B_SUPPLIER B
+        WHERE  ZC_SU_CODE=#executor#
+        <isNotNull prepend="AND" property="status">
+            <isEqual property="status" compareValue="todo">
+                B.ZC_SU_STATUS='0'
+            </isEqual>
+            <isEqual property="status" compareValue="done">
+                B.ZC_SU_STATUS='2'
+            </isEqual>
+            <isEqual property="status" compareValue="freeze">
+                B.ZC_SU_STATUS='3'
+            </isEqual>
+            <isEqual property="status" compareValue="all">
+                1=1
+            </isEqual>
+        </isNotNull>
+    </select>
+	<select id="getZcEbSupplierListByIDs" resultMap="ZcEbSupplierResult"
+		parameterClass="elementCondition">
+		SELECT
+		B.*,(select CA_SERIAL from as_emp where emp_code=B.zc_su_code)
+		as CA_SERIAL
+		FROM
+		ZC_B_SUPPLIER B
+		WHERE 1=1
+		<iterate prepend="AND" property="pmAdjustCodeList" open="("
+			close=")" conjunction="or">
+			B.ZC_SU_CODE=#pmAdjustCodeList[]#
+		</iterate>
+	</select>
+	
+	<select id="getZcEbSupplierList" resultMap="ZcMerSupplierBaseResult">
+		select * from zc_b_supplier s order by s.zc_su_name
+	</select>
+	
+	<select id="getZcEbSupplierDetailListByZcMerCode" resultMap="ZcEbSupplierResult"
+		parameterClass="string">
+		select
+		B.*,(select CA_SERIAL from as_emp where
+		emp_code=B.zc_su_code) as CA_SERIAL
+		from
+		ZC_B_SUPPLIER B
+		where
+		B.ZC_SU_STATUS = '2'
+		and
+		B.ZC_SU_CODE in (select ZC_SU_CODE from
+		ZC_B_MER_PRICE where
+		ZC_B_MER_PRICE.ZC_MER_CODE = #value#)
+		order by
+		B.ZC_SU_NAME    
+	</select>
+
+	<resultMap id="ZcEbSupplierSimpleResult" class="com.ufgov.zc.common.zc.model.ZcXmcgHt">
+		<result property="zcSuCode" column="ZC_SU_CODE" />
+		<result property="zcSuName" column="ZC_SU_NAME" />
+		<result property="zcSuLinkman" column="ZC_SU_LINKMAN" />
+		<result property="zcSuBankName" column="ZC_SU_BANK_NAME" />
+		<result property="zcSuBankCode" column="ZC_SU_BANK_CODE" />
+		<result property="zcSuAccCode" column="ZC_SU_ACC_CODE" />
+	</resultMap>
+	<select id="getSimpleZcEbSupplier" resultMap="ZcEbSupplierSimpleResult"
+		parameterClass="elementCondition">
+		SELECT B.ZC_SU_CODE,
+		B.ZC_SU_NAME,
+		B.ZC_SU_LINKMAN,
+		B.ZC_SU_ACC_CODE,
+		B.ZC_SU_BANK_CODE,
+		B.ZC_SU_BANK_NAME
+		FROM ZC_B_SUPPLIER B
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="status">
+				<isEqual property="status" compareValue="todo">
+					B.ZC_SU_STATUS='0'
+				</isEqual>
+				<isEqual property="status" compareValue="done">
+					B.ZC_SU_STATUS='2'
+				</isEqual>
+				<isEqual property="status" compareValue="freeze">
+					B.ZC_SU_STATUS='3'
+				</isEqual>
+				<isEqual property="status" compareValue="all">
+					1=1
+				</isEqual>
+			</isNotNull>
+			<isNotNull prepend="AND" property="executor">
+				B.ZC_SU_CODE = #executor#
+			</isNotNull>
+		</dynamic>
+	</select>
+
+	<delete id="deleteSupplier" parameterClass="String">
+		delete
+		from
+		ZC_B_SUPPLIER p
+		WHERE p.ZC_SU_CODE=#VALUE#
+	</delete>
+
+	<select id="getZcEbSupplierById" resultMap="ZcEbSupplierResult"
+		parameterClass="String">
+		select p.*,(select CA_SERIAL from as_emp where
+		emp_code=p.zc_su_code) as CA_SERIAL
+		from ZC_B_SUPPLIER p
+		WHERE
+		p.ZC_SU_CODE=#VALUE#
+	</select>
+	<select id="getZcEbSupplierByName" resultMap="ZcEbSupplierResult"
+		parameterClass="String">
+		select p.*,(select CA_SERIAL from as_emp where
+		emp_code=p.zc_su_code) as CA_SERIAL
+		from ZC_B_SUPPLIER p
+		WHERE
+		p.ZC_SU_NAME=#VALUE#
+	</select>
+	<select id="getZcEbSupplierByLoginName" resultMap="ZcEbSupplierResult"
+		parameterClass="String">
+		select p.*,(select CA_SERIAL from as_emp where
+		emp_code=p.zc_su_code) as CA_SERIAL
+		from ZC_B_SUPPLIER p
+		WHERE
+		p.LOGIN_NAME=#VALUE#
+	</select>
+	<insert id="insertZcEbSupplier" parameterClass="ZcEbSupplier">
+		insert into
+		ZC_B_SUPPLIER(
+		ZC_SU_CODE,
+		ZC_SU_NAME,
+		ZC_SU_LINKMAN,
+		ZC_SU_TEL,
+		ZC_ASSESS_CODE,
+		ZC_SU_ADDR,
+		ZC_POST_CODE,
+		ZC_ASSESS_DATE,
+		ZC_SU_STATUS,
+		SUPPLIER_TYPE,
+		ZC_IS_ZXQY,
+		ZC_IS_XYSU,
+		ZC_GNW,
+		ZC_SNW,
+		ZC_CORP_CODE,
+		ZC_SU_ACC_CODE,
+		ZC_SU_BANK_CODE,
+		ZC_SU_BANK_NAME,
+		EMAIL,
+		ESTABLISH_DATE,
+		LINK_MAN_PHONE,
+		LINK_MAN_MOBILE,
+		FAX,
+		SCALE,
+		LOGIN_NAME,
+		URL,
+		DESCRIPTION,
+		LEGAL_PERSON,
+		LEGAL_PERSON_ADDR,
+		LEGAL_PERSON_ID_CARD,
+		LEGAL_CARD_TYPE,
+		LEGAL_PERSON_FAX,
+		LEGAL_PERSON_MOBILE,
+		LEGAL_PERSON_TEL,
+		REG_CAPITAL,
+		MAIN_BUSINESSES,
+		IS_EXPORTED,
+		ZC_LICENSE_ID,
+		ZC_LICENSE_DATE_START,
+		ZC_LICENSE_DATE_END,
+		STATE_TAX_REG_ID,
+		STATE_TAX_REG_DATE,
+		LOCAL_TAX_REG_ID,
+		LOCAL_TAX_REG_DATE,
+		ZC_CATALOGUE_CODE,
+		ZC_SUPPLIER_TYPE,
+		ZC_SUPPLIER_KIND,
+		ZC_CREAT_DATE,
+		ZC_AUDIT_DATE,
+		XYFILE,
+		XYFILE_BLOBID
+		)
+		values(
+		#code#
+		,#name#
+		,#linkMan#
+		,#phone#
+		,#operator#
+		,#address#
+		,#zipCode#
+		,#operDate:DATE#
+		,#status#
+		,#supplierType#
+		,#isZxqy#
+		,#isXysu#
+		,#gnw#
+		,#snw#
+		,#corpCode#
+		,#accCode#
+		,#bankCode#
+		,#bankName#
+		,#email#
+		,#establishDate#
+		,#linkManPhone#
+		,#linkManMobile#
+		,#fax#
+		,#scale#
+		,#loginName#
+		,#url#
+		,#description#
+		,#legalPerson#
+		,#legalPersonAddr#
+		,#legalPersonIDCard#
+		,#legalCardType#
+		,#legalPersonFax#
+		,#legalPersonMobile#
+		,#legalPersonTel#
+		,#regCapital#
+		,#mainBusinesses#
+		,#isExported#
+		,#licenseId#
+		,#licenseTimeStart#
+		,#licenseTimeEnd#
+		,#stateTaxRegId#
+		,#stateTaxRegDate#
+		,#localTaxRegId#
+		,#localTaxRegDate#
+		,#zcCatalogueCode#
+		,#zcSupplierType#
+		,#zcSupplierKind#
+		,#zcCreateDate#
+		,#zcAuditDate#
+		,#xyFile#
+		,#xyFileBlobID#
+		)
+		
+	</insert>
+	<update id="updateZcEbSupplier" parameterClass="ZcEbSupplier">
+		update
+		ZC_B_SUPPLIER set
+		ZC_SU_CODE=#code#,
+		ZC_SU_NAME=#name#,
+		ZC_SU_LINKMAN=#linkMan#,
+		ZC_SU_TEL=#phone#,
+		ZC_ASSESS_CODE=#operator#,
+		ZC_SU_ADDR=#address#,
+		ZC_POST_CODE=#zipCode#,
+		ZC_ASSESS_DATE=#operDate#,
+		ZC_SU_STATUS=#status#,
+		ZC_IS_ZXQY=#isZxqy#,
+		ZC_IS_XYSU=#isXysu#,
+		ZC_GNW=#gnw#,
+		ZC_SNW=#snw#,
+		ZC_CORP_CODE=#corpCode#,
+		ZC_SU_ACC_CODE=#accCode#,
+		ZC_SU_BANK_CODE=#bankCode#,
+		ZC_SU_BANK_NAME=#bankName#,
+		EMAIL=#email#,
+		SUPPLIER_TYPE=#supplierType#,
+		ESTABLISH_DATE=#establishDate#,
+		LINK_MAN_PHONE=#linkManPhone#,
+		LINK_MAN_MOBILE=#linkManMobile#,
+		FAX=#fax#,
+		SCALE=#scale#,
+		LOGIN_NAME=#loginName#,
+		URL=#url#,
+		DESCRIPTION=#description#,
+		LEGAL_PERSON=#legalPerson#,
+		LEGAL_PERSON_ADDR=#legalPersonAddr#,
+		LEGAL_PERSON_ID_CARD=#legalPersonIDCard#,
+		LEGAL_CARD_TYPE=#legalCardType#,
+		LEGAL_PERSON_FAX=#legalPersonFax#,
+		LEGAL_PERSON_MOBILE=#legalPersonMobile#,
+		LEGAL_PERSON_TEL=#legalPersonTel#,
+		REG_CAPITAL=#regCapital#,
+		MAIN_BUSINESSES=#mainBusinesses#,
+		IS_EXPORTED=#isExported#,
+		ZC_LICENSE_ID=#licenseId#,
+		ZC_LICENSE_DATE_START=#licenseTimeStart#,
+		ZC_LICENSE_DATE_END=#licenseTimeEnd#,
+		STATE_TAX_REG_ID=#stateTaxRegId#,
+		STATE_TAX_REG_DATE=#stateTaxRegDate#,
+		LOCAL_TAX_REG_ID=#localTaxRegId#,
+		LOCAL_TAX_REG_DATE=#localTaxRegDate#,
+		ZC_CATALOGUE_CODE=#zcCatalogueCode#,
+		ZC_SUPPLIER_TYPE=#zcSupplierType#,
+		ZC_SUPPLIER_KIND=#zcSupplierKind#,
+        XYFILE=#xyFile#,
+        XYFILE_BLOBID=#xyFileBlobID#
+		where 
+		<isNotEmpty prepend=" " property="oldCode">
+		ZC_SU_CODE=#oldCode#
+	    </isNotEmpty>
+	    <isEmpty prepend=" " property="oldCode">
+		ZC_SU_CODE=#code#
+	    </isEmpty>
+	</update>
+
+	<select id="getZcEbSupplierByMer" resultMap="ZcEbSupplierResult"
+		parameterClass="elementCondition">
+		SELECT B.*,(select CA_SERIAL from as_emp where
+		emp_code=B.zc_su_code) as CA_SERIAL
+		FROM ZC_B_SUPPLIER B,ZC_B_MER_PRICE
+		M
+		WHERE B.ZC_SU_CODE=M.ZC_SU_CODE
+		AND B.ZC_SU_STATUS=#zcText0#
+		AND
+		M.ZC_MER_CODE=#zcText1#
+		AND M.ZC_BRA_CODE=#zcText2#
+	</select>
+
+	<select id="getZcDiscountByMerSu" resultMap="ZcMerSupplierResult"
+		parameterClass="elementCondition">
+		select * from
+		(select * from ZC_B_MER_DISCOUNT dis
+		where
+		#zcText3# between dis.ZC_TREATY_LOWER_LIMIT and
+		dis.ZC_TREATY_UPPER_LIMIT) t
+		where t.ZC_SU_CODE=#zcText4#
+		and
+		t.ZC_MER_CODE=#zcText1#	
+	</select>
+
+	<select id="getZcSuDisByMerNo" resultMap="ZcMerSupplierResult"
+		parameterClass="elementCondition">	
+		 SELECT SUP.LINK_MAN_MOBILE,
+             SUP.ZC_SU_CODE,
+             SUP.ZC_SU_NAME,
+             SUP.ZC_SU_ADDR,
+             SUP.ZC_SU_LINKMAN,
+             MER.ZC_MER_M_PRICE * (100 - NVL(DIS.ZC_TREATY_DISCOUNT_RATE, 0)) / 100 AS PRICE,
+             NVL(DIS.ZC_TREATY_DISCOUNT_RATE, 0) AS ZC_TREATY_DISCOUNT_RATE,
+             (SELECT CA_SERIAL FROM AS_EMP WHERE EMP_CODE = SUP.ZC_SU_CODE) AS CA_SERIAL
+        FROM ZC_B_SUPPLIER SUP, ZC_B_MERCHANDISE MER, ZC_B_MER_DISCOUNT DIS
+       WHERE SUP.ZC_SU_CODE = DIS.ZC_SU_CODE
+         AND MER.ZC_MER_CODE = DIS.ZC_MER_CODE
+         AND MER.ZC_MER_CODE = #zcText1#
+         AND SUP.ZC_SU_STATUS = #zcText0#
+         AND MER.ZC_MER_STATUS = 'exec'
+         AND #zcText3# BETWEEN DIS.ZC_TREATY_LOWER_LIMIT AND
+                          DIS.ZC_TREATY_UPPER_LIMIT
+	</select>
+
+
+
+	<select id="getSupplierCount" resultClass="java.lang.Integer"
+		parameterClass="Map">
+     <![CDATA[
+	 select
+	        count(*) as COUNT_NUM
+	   from
+	        ZC_B_SUPPLIER
+	  ]]>
+		<isNotEmpty prepend="where" property="status">
+			ZC_SU_STATUS =
+			#status#
+	    </isNotEmpty>
+	</select>
+
+	<select id="getSupplier" resultMap="ZcEbSupplierResult"
+		parameterClass="Map">
+		<include refid="ZcSupplier.page_start" />
+		select ZC_B_SUPPLIER.*,'' as CA_SERIAL from ZC_B_SUPPLIER
+		<isNotEmpty prepend="where" property="status">
+			ZC_SU_STATUS =
+			#status#
+	    </isNotEmpty>
+		<iterate prepend="order by" property="orders" conjunction=",">
+			$orders[]$
+	    </iterate>
+		<include refid="ZcSupplier.page_end" />
+	</select>
+	<!-- 供应商启用 -->
+	<update id="enableSupplier" parameterClass="ZcEbSupplier">
+		UPDATE ZC_B_SUPPLIER S
+   		SET S.ZC_AUDIT_DATE = #auditDate#, S.ZC_SU_STATUS = '2'
+		WHERE S.ZC_SU_CODE = #code#
+	</update>
+	
+	<!-- 供应商状态 -->
+	<update id="updateSupplierStatus" parameterClass="ZcEbSupplier">
+		UPDATE ZC_B_SUPPLIER S
+   		SET S.ZC_AUDIT_DATE = #auditDate#, S.ZC_SU_STATUS = #status#
+		WHERE S.ZC_SU_CODE = #code#
+	</update>
+	
+  <select id="getEnableSupplierList" resultMap="ZcMerSupplierBaseResult" parameterClass="elementCondition">
+		select * from ZC_B_SUPPLIER s where s.ZC_SU_STATUS ='2' 
+		
+		<isNotNull prepend="and" property="zcText4">
+			s.zc_su_code not in ($zcText4$)
+		</isNotNull>
+		 order by s.ZC_SU_CODE
+	</select>
+	
+  <select id="getSupplierListForHandler" resultMap="ZcEbSupplierHandlerResult">
+		select ZC_SU_CODE,ZC_SU_NAME,ZC_SU_LINKMAN from ZC_B_SUPPLIER s where s.ZC_SU_STATUS ='2' order by s.ZC_SU_CODE
+	</select>
+	<select id="getSuMail" resultClass="string" parameterClass="string">
+	select t.email from zc_b_supplier t where t.zc_su_code=#value# and email is not null
+	</select>
+</sqlMap>

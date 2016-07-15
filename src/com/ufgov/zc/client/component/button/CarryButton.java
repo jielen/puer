@@ -1,0 +1,1 @@
+package com.ufgov.zc.client.component.button;public class CarryButton extends FuncButton {  /**   *    */  private static final long serialVersionUID = 1L;  public CarryButton() {    super();  }  protected void init() {    this.funcId = "fcarry";    this.defaultText = "注销额度";    super.init();  }}

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ZcEbProArgueDetail">
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<typeAlias alias="ZcEbProArgueDetail" type="com.ufgov.zc.common.zc.model.ZcEbProArgueDetail" />
+	<resultMap id="ZcEbProArgueDetailResult" class="ZcEbProArgueDetail">
+		<result property="id" column="id" />
+		<result property="argueId" column="argue_id" />
+		<result property="expert" column="expert" />
+		<result property="expertOrg" column="expert_org" />
+		<result property="expertTel" column="expert_tel" />
+		<result property="memo" column="memo" />
+	</resultMap>
+	
+	<!-- list页面数据 -->
+	<select id="getZcEbProArgueDetailList" resultMap="ZcEbProArgueDetailResult"
+		parameterClass="elementCondition">
+		select
+			id,        
+			argue_id,  
+			expert,    
+			expert_org,
+			expert_tel,
+			memo    
+		from
+		zc_eb_pro_argue_detail master
+		where 1=1
+		<isNotNull prepend="and" property="zcText0">
+		argue_id = #zcText0#
+		</isNotNull>
+		order by id
+	</select>
+	<!-- 通过主键查询验收单 -->
+	<select id="getZcEbProArgueDetailById" resultMap="ZcEbProArgueDetailResult"
+		parameterClass="string">
+		select
+			id,        
+			argue_id,  
+			expert,    
+			expert_org,
+			expert_tel,
+			memo    
+		from
+		zc_eb_pro_argue_detail master
+		where
+		master.id=#id#
+	</select>
+	<!-- 保存主表数据 -->
+	<insert id="insertZcEbProArgueDetail" parameterClass="ZcEbProArgueDetail">
+		insert into
+		zc_eb_pro_argue_detail
+		(id,argue_id,expert,expert_org,expert_tel,memo)
+		values
+		(seq_zc_eb_pro_argue_detail.nextval,#argueId#,#expert#, #expertOrg#, #expertTel#, #memo#)
+	</insert>
+	
+	<update id="updateZcEbProArgueDetail" parameterClass="ZcEbProArgueDetail">
+		update
+		zc_eb_pro_argue_detail
+		set id= #id:INTEGER#,
+		argue_id=#argueId:VARCHAR#,
+		expert=#expert:VARCHAR#,
+		expert_org=#expertOrg:VARCHAR#,
+		expert_tel=#expertTel:VARCHAR#,
+		memo=#memo:VARCHAR#
+		where
+		id = #id#
+	</update>
+	<delete id="deleteZcEbProArgueDetailById" parameterClass="integer">
+		delete
+		from
+		zc_eb_pro_argue_detail
+		where id = #id#
+    </delete>
+    <delete id="deleteZcEbProArgueDetailByArgueId" parameterClass="string">
+		delete
+		from
+		zc_eb_pro_argue_detail
+		where argue_id = #argueId#
+    </delete>
+</sqlMap>
