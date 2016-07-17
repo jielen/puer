@@ -1,0 +1,12 @@
+BH 编号KPTJ-469-14 
+BB 第1版
+XD 第0次修订
+JGMC 天津市开平司法鉴定中心
+
+
+
+Select 'SF_VS_MAJOR' AS VALSET_ID,
+       M.MAJOR_CODE AS VAL_ID,
+       M.MAJOR_CODE||M.MAJOR_NAME AS VAL
+  From sf_major m
+  order by M.MAJOR_CODE

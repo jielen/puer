@@ -1,0 +1,189 @@
+--1清空自动编号计数
+update AS_NUM_TOOL_NO N set n.num_no='0' WHERE N.NUM_TOOL_ID='SF_ENTRUSTOR_GEN';
+
+delete from AS_NUM_TOOL_NO n where n.NUM_TOOL_ID='SF_ENTRUSTOR_GEN';
+
+--2 初始化seq
+drop sequence SEQ_SF_ENTRUSTOR_ID;
+create sequence SEQ_SF_ENTRUSTOR_ID
+minvalue 1
+maxvalue 99999999999999999
+start with 1
+increment by 1
+cache 2;
+
+drop sequence SEQ_SF_JD_TARGET_ID;
+create sequence SEQ_SF_JD_TARGET_ID
+minvalue 1
+maxvalue 99999999999999999
+start with 1
+increment by 1
+cache 2;
+
+drop sequence SEQ_SF_ENTRUST_ID;
+create sequence SEQ_SF_ENTRUST_ID
+minvalue 1
+maxvalue 99999999999999999
+start with 1
+increment by 1
+cache 2;
+
+drop sequence SEQ_SF_MATERIALS_ID;
+create sequence SEQ_SF_MATERIALS_ID
+minvalue 1
+maxvalue 99999999999999999
+start with 1
+increment by 1
+cache 2;
+
+
+drop sequence SEQ_SF_EVALUATION_ID;
+create sequence SEQ_SF_EVALUATION_ID
+minvalue 1
+maxvalue 99999999999999999
+start with 1
+increment by 1
+cache 2;
+
+
+drop sequence SEQ_SF_AGREEMENT_ID;
+create sequence SEQ_SF_AGREEMENT_ID
+minvalue 1
+maxvalue 99999999999999999
+start with 1
+increment by 1
+cache 2;
+
+drop sequence SEQ_SF_CHARGE_STANDARD_ID;
+create sequence SEQ_SF_CHARGE_STANDARD_ID
+minvalue 1
+maxvalue 99999999999999999
+start with 1
+increment by 1
+cache 2;
+
+drop sequence SEQ_SF_CHARGE_ID;
+create sequence SEQ_SF_CHARGE_ID
+minvalue 1
+maxvalue 99999999999999999
+start with 1
+increment by 1
+cache 2;
+
+
+drop sequence SEQ_SF_RECEIPT_ID;
+create sequence SEQ_SF_RECEIPT_ID
+minvalue 1
+maxvalue 99999999999999999
+start with 1
+increment by 1
+cache 2;
+
+drop sequence SEQ_APPEND_MATERIAL_NOTICE_ID;
+create sequence SEQ_APPEND_MATERIAL_NOTICE_ID
+minvalue 1
+maxvalue 99999999999999999
+start with 1
+increment by 1
+cache 2;
+
+drop sequence SEQ_SF_OUT_INFO_ID;
+create sequence SEQ_SF_OUT_INFO_ID
+minvalue 1
+maxvalue 99999999999999999
+start with 1
+increment by 1
+cache 2;
+
+drop sequence SEQ_SF_OUT_INFO_DETAIL_ID;
+create sequence SEQ_SF_OUT_INFO_DETAIL_ID
+minvalue 1
+maxvalue 99999999999999999
+start with 1
+increment by 1
+cache 2;
+
+
+drop sequence SEQ_SF_MATERIALS_TRANSFER_ID;
+create sequence SEQ_SF_MATERIALS_TRANSFER_ID
+minvalue 1
+maxvalue 99999999999999999
+start with 1
+increment by 1
+cache 2;
+
+drop sequence SEQ_SF_JD_RESULT_ID;
+create sequence SEQ_SF_JD_RESULT_ID
+minvalue 1
+maxvalue 99999999999999999
+start with 1
+increment by 1
+cache 2;
+
+drop sequence SEQ_SF_JD_PERSON_ID;
+create sequence SEQ_SF_JD_PERSON_ID
+minvalue 1
+maxvalue 99999999999999999
+start with 1
+increment by 1
+cache 2;
+
+drop sequence SEQ_SF_JD_PERSON_ID;
+create sequence SEQ_SF_JD_PERSON_ID
+minvalue 1
+maxvalue 99999999999999999
+start with 1
+increment by 1
+cache 2;
+
+drop sequence SEQ_SF_JD_DOC_AUDIT_ID;
+create sequence SEQ_SF_JD_DOC_AUDIT_ID
+minvalue 1
+maxvalue 99999999999999999
+start with 1
+increment by 1
+cache 2;
+
+drop sequence SEQ_SF_DOSSIER_ID;
+create sequence SEQ_SF_DOSSIER_ID
+minvalue 1
+maxvalue 99999999999999999
+start with 1
+increment by 1
+cache 2;
+
+drop sequence SEQ_SF_ASSIST_FILE_ID;
+create sequence SEQ_SF_ASSIST_FILE_ID
+minvalue 1
+maxvalue 99999999999999999
+start with 1
+increment by 1
+cache 2;
+
+--3清空业务数据
+
+
+delete from sf_agreement;
+delete from sf_append_material_notice;
+delete from sf_charge;
+delete from sf_charge_detail;
+delete from sf_dossier;
+delete from sf_entrust;
+delete from sf_entrustor;
+delete from sf_evaluation;
+delete from sf_receipt;
+delete from sf_jd_doc_audit;
+delete from sf_jd_doc_audit_detail;
+delete from sf_jd_result;
+delete from sf_jd_target;
+delete from sf_materials;
+delete from sf_materials_transfer;
+delete from sf_materials_transfer_detail;
+delete from sf_out_info;
+delete from sf_out_info_detail;
+delete from sf_out_info_validate_detail;
+delete from as_log;
+delete from AS_USER_SESSION ;
+
+--委托编号，每年开始时执行这个
+delete from AS_NUM_TOOL_NO n where n.num_tool_id='SF_ENTRUST_CODE_GEN_ID';
