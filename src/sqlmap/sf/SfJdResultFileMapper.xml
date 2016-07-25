@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.ufgov.zc.server.sf.dao.SfJdResultFileMapper" >
+  <resultMap id="BaseResultMap" class="com.ufgov.zc.common.sf.model.SfJdResultFile" > 
+    <result column="SF_JD_RESULT_FILE_ID" property="sfJdResultFileId" jdbcType="DECIMAL" />
+    <result column="JD_RESULT_ID" property="jdResultId" jdbcType="DECIMAL" />
+    <result column="FILE_ID" property="fileId" jdbcType="VARCHAR" />
+    <result column="FILE_NAME" property="fileName" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="MODEL_ID" property="model.modelId" jdbcType="DECIMAL" />
+    <result column="FILE_TYPE" property="model.fileType" jdbcType="VARCHAR" /> 
+  </resultMap>
+  <sql id="Base_Column_List" > 
+    SF_JD_RESULT_FILE_ID, MODEL_ID, JD_RESULT_ID, FILE_ID, FILE_NAME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="java.math.BigDecimal" > 
+    select 
+    f.SF_JD_RESULT_FILE_ID, f.MODEL_ID, f.JD_RESULT_ID, f.FILE_ID, f.FILE_NAME,m.file_type,F.name
+    from SF_JD_RESULT_FILE f,SF_JD_RECORD_FILE_MODEL m
+    where f.SF_JD_RESULT_FILE_ID = #sfJdResultFileId:DECIMAL#
+    and f.model_id=m.model_id
+  </select>
+  <select id="selectByResultId" resultMap="BaseResultMap" parameterClass="java.math.BigDecimal" > 
+    select 
+    f.SF_JD_RESULT_FILE_ID, f.MODEL_ID, f.JD_RESULT_ID, f.FILE_ID, f.FILE_NAME,m.file_type,F.name
+    from SF_JD_RESULT_FILE f,SF_JD_RECORD_FILE_MODEL m
+    where f.JD_RESULT_ID = #jdResultId:DECIMAL#
+    and  f.model_id=m.model_id
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="java.math.BigDecimal" > 
+    delete from SF_JD_RESULT_FILE
+    where SF_JD_RESULT_FILE_ID = #sfJdResultFileId:DECIMAL#
+  </delete>
+  <delete id="deleteByResultId" parameterClass="java.math.BigDecimal" > 
+    delete from SF_JD_RESULT_FILE
+    where JD_RESULT_ID = #jdResultId:DECIMAL#
+  </delete>
+  <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfJdResultFile" > 
+    insert into SF_JD_RESULT_FILE (SF_JD_RESULT_FILE_ID, MODEL_ID, JD_RESULT_ID, 
+      FILE_ID, FILE_NAME,NAME)
+    values (#sfJdResultFileId:DECIMAL#, #model.modelId:DECIMAL#, #jdResultId:DECIMAL#, 
+      #fileId:VARCHAR#, #fileName:VARCHAR#,#name#)
+  </insert> 
+  <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfJdResultFile" > 
+    update SF_JD_RESULT_FILE
+    set MODEL_ID = #model.modelId:DECIMAL#,
+      JD_RESULT_ID = #jdResultId:DECIMAL#,
+      FILE_ID = #fileId:VARCHAR#,
+      FILE_NAME = #fileName:VARCHAR#,
+      NAME=#name#
+    where SF_JD_RESULT_FILE_ID = #sfJdResultFileId:DECIMAL#
+  </update>
+</sqlMap>

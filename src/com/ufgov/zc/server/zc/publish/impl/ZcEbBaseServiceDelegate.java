@@ -63,7 +63,7 @@ public class ZcEbBaseServiceDelegate implements IZcEbBaseServiceDelegate {
 
   }
 
-  public void updateObjectList(String sqlMapUpdateId, List list, RequestMeta meta) {
+  public void updateObjectListFN(String sqlMapUpdateId, List list, RequestMeta meta) {
 
     this.zcEbBaseService.updateObjectList(sqlMapUpdateId, list);
 
@@ -142,6 +142,29 @@ public class ZcEbBaseServiceDelegate implements IZcEbBaseServiceDelegate {
 
     }
   }
+ 
+public void insertWithDeleteFN(String delSqlId, Object delValue,		String insertSqlId, Object insertValue, RequestMeta meta) {
+	zcEbBaseService.insertWithDelete(delSqlId, delValue, insertSqlId, insertValue, meta);
+}
+
+ 
+public void insertFN(String insertSqlId, Object insertValue, RequestMeta meta) {
+	zcEbBaseService.insertObject(insertSqlId, insertValue);
+}
+ 
+public void insertObjectListFN(String insertSqlId, List list,RequestMeta meta) {
+	zcEbBaseService.insertObjectList(insertSqlId, list);
+}
+
+ 
+public void delete(String sqlMapDeleteId, Object parameter,RequestMeta meta) {
+	zcEbBaseService.delete(sqlMapDeleteId, parameter);
+}
+
+ 
+public String getNextVal(String sequenceName, RequestMeta meta) {
+	return zcEbBaseService.getNextVal(sequenceName);
+}
 
 
 }

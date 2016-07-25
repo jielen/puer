@@ -1,10 +1,12 @@
 package com.ufgov.zc.server.sf.service.impl;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.ufgov.zc.common.sf.model.SfEntrust;
 import com.ufgov.zc.common.sf.model.SfJdResult;
+import com.ufgov.zc.common.sf.model.SfJdResultFile;
 import com.ufgov.zc.common.system.RequestMeta;
 import com.ufgov.zc.common.system.dto.ElementConditionDto;
 import com.ufgov.zc.common.system.model.AsWfDraft;
@@ -14,6 +16,7 @@ import com.ufgov.zc.server.sf.service.ISfJdResultService;
 import com.ufgov.zc.server.system.dao.IWorkflowDao;
 import com.ufgov.zc.server.system.workflow.WFEngineAdapter;
 import com.ufgov.zc.server.zc.ZcSUtil;
+import com.ufgov.zc.server.zc.service.IZcEbBaseService;
 
 public class SfJdResultService implements ISfJdResultService {
 
@@ -24,6 +27,8 @@ public class SfJdResultService implements ISfJdResultService {
   private SfJdResultMapper jdResultMapper;
 
   private ISfEntrustService sfEntrustService;
+  
+  private IZcEbBaseService zcEbBaseService;
 
   public IWorkflowDao getWorkflowDao() {
     return workflowDao;
@@ -59,6 +64,8 @@ public class SfJdResultService implements ISfJdResultService {
     SfJdResult rtn = jdResultMapper.selectByPrimaryKey(id);
     SfEntrust entrust = sfEntrustService.selectByPrimaryKey(rtn.getEntrustId(), requestMeta);
     rtn.setEntrust(entrust == null ? new SfEntrust() : entrust);
+    List resultFileLst=zcEbBaseService.queryDataForList("com.ufgov.zc.server.sf.dao.SfJdResultFileMapper.selectByResultId", id);
+    rtn.setJdRecordFileLst(resultFileLst==null?new ArrayList():resultFileLst);
     rtn.setDbDigest(rtn.digest());
     return rtn;
   }
@@ -79,7 +86,9 @@ public class SfJdResultService implements ISfJdResultService {
         inData.setProcessInstId(draftid);
         isDraft = true;
       }
-      jdResultMapper.insert(inData);
+      jdResultMapper.insert(inData); 
+      
+      
       if (isDraft) {
         AsWfDraft asWfDraft = new AsWfDraft();
         asWfDraft.setCompoId(compoId);
@@ -92,12 +101,28 @@ public class SfJdResultService implements ISfJdResultService {
     } else {
       jdResultMapper.updateByPrimaryKey(inData);
     }
+    _saveSubLst(inData,requestMeta);
     return inData;
   }
 
-  public void deleteByPrimaryKeyFN(BigDecimal id, RequestMeta requestMeta) {
+  private void _saveSubLst(SfJdResult inData, RequestMeta requestMeta) {
+	  
+	  zcEbBaseService.delete("com.ufgov.zc.server.sf.dao.SfJdResultFileMapper.deleteByResultId", inData.getJdResultId());
+	  if(inData.getJdRecordFileLst()==null||inData.getJdRecordFileLst().size()==0)return;
+	  for(int i=0;i<inData.getJdRecordFileLst().size();i++){
+		  SfJdResultFile rf=(SfJdResultFile) inData.getJdRecordFileLst().get(i);
+		  rf.setJdResultId(inData.getJdResultId());
+		  BigDecimal id = new BigDecimal(ZcSUtil.getNextVal(SfJdResultFile.SEQ_SF_JD_RESULT_FILE_ID));
+		  rf.setSfJdResultFileId(id);
+	  }
+	  zcEbBaseService.insertObjectList("com.ufgov.zc.server.sf.dao.SfJdResultFileMapper.insert", inData.getJdRecordFileLst()); 
+}
+
+public void deleteByPrimaryKeyFN(BigDecimal id, RequestMeta requestMeta) {
     // TCJLODO Auto-generated method stub
     jdResultMapper.deleteByPrimaryKey(id);
+
+    zcEbBaseService.delete("com.ufgov.zc.server.sf.dao.SfJdResultFileMapper.deleteByResultId", id);
   }
 
   public SfJdResult unAuditFN(SfJdResult qx, RequestMeta requestMeta) {
@@ -138,5 +163,13 @@ public class SfJdResultService implements ISfJdResultService {
   public void setSfEntrustService(ISfEntrustService sfEntrustService) {
     this.sfEntrustService = sfEntrustService;
   }
+
+public IZcEbBaseService getZcEbBaseService() {
+	return zcEbBaseService;
+}
+
+public void setZcEbBaseService(IZcEbBaseService zcEbBaseService) {
+	this.zcEbBaseService = zcEbBaseService;
+}
 
 }

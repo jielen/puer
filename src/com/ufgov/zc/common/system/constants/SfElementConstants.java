@@ -52,6 +52,14 @@ public interface SfElementConstants {
    * 鉴定机构信息：联系电话
    */
   public static final String OPT_SF_JD_COMPANY_TEL = "OPT_SF_JD_COMPANY_TEL";
+  /**
+   * 鉴定机构信息：联系电话
+   */
+  public static final String OPT_SF_JD_COMPANY_LINK_MAN = "OPT_SF_JD_COMPANY_LINK_MAN";
+  /**
+   * 鉴定机构信息：联系电话
+   */
+  public static final String OPT_SF_JD_COMPANY_FAX = "OPT_SF_JD_COMPANY_FAX";
 
   /**
    * 法医鉴定专业编号

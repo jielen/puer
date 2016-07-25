@@ -271,7 +271,7 @@ public class SfAppendMaterialNoticeEditPanel extends AbstractMainSubEditPanel {
   }
 
   private void refreshSubTableData() {
-    refreshWordPanel();
+    refreshFilePanel();
   }
 
   public synchronized void closeWordPanel(WordPane wp, boolean isSave) {
@@ -284,7 +284,7 @@ public class SfAppendMaterialNoticeEditPanel extends AbstractMainSubEditPanel {
    * 
   * 刷新word文本
    */
-  public void refreshWordPanel() {
+  public void refreshFilePanel() {
 
     SfAppendMaterialNotice bill = (SfAppendMaterialNotice) listCursor.getCurrentObject();
     String fileId = bill.getFileId();

@@ -86,4 +86,12 @@
 	<bean id="sfAssistFileServiceDelegate"		class="com.ufgov.zc.server.sf.publish.impl.SfAssistFileServiceDelegate"		scope="singleton">
 		<property name="assistFileService" ref="assistFileService" />
 	</bean>
+	
+	<bean id="sfJdDocCodeServiceDelegate"		class="com.ufgov.zc.server.sf.publish.impl.SfJdDocCodeServiceDelegate"		scope="singleton">
+		<property name="sfJdDocCodeService" ref="sfJdDocCodeService" />
+	</bean>
+	
+	<bean id="sfJdReportServiceDelegate"		class="com.ufgov.zc.server.sf.publish.impl.SfJdReportServiceDelegate"		scope="singleton">
+		<property name="sfJdReportService" ref="sfJdReportService" />
+	</bean>
 </beans>

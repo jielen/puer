@@ -41,37 +41,25 @@ public class SfJdRecordDialog extends GkBaseDialog {
 
 	    add(editPanel);
 
+
 	    this.setTitle(LangTransMeta.translate(listPanel.getcompoId()));
-
-	    this.setSize(UIConstants.DIALOG_3_LEVEL_WIDTH, UIConstants.DIALOG_3_LEVEL_HEIGHT);
-
-	    this.moveToScreenCenter();
-
-	    this.pack();
-
-	    //editPanel.refreshData();s
-
-//	    this.setMaxSizeWindow();
-
-//	    this.setVisible(true); 
 	    int WINDOW_WIDTH=Toolkit.getDefaultToolkit().getScreenSize().width-20;
 	    int WINDOW_HEIGHT=Toolkit.getDefaultToolkit().getScreenSize().height-50;
 	    int WINDOW_LEFT = 5;
 	    int WINDOW_TOP = 5;
-	//  this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-	//  this.setLocation(WINDOW_LEFT, WINDOW_TOP);
 
-	    this.setSize(UIConstants.DIALOG_3_LEVEL_WIDTH, UIConstants.DIALOG_3_LEVEL_HEIGHT);
-
+	    this.setSize(UIConstants.DIALOG_0_LEVEL_WIDTH, UIConstants.DIALOG_0_LEVEL_HEIGHT);
 	    this.moveToScreenCenter();
 	    this.pack();
-	    
-	    editPanel.refreshData();
+
 
 	    this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 	    this.setLocation(WINDOW_LEFT, WINDOW_TOP);
-	    
+
+	    //界面显示后，再加载word控件，否则报peer not created错误
+	    editPanel.refreshFilePanel();
 	    this.setVisible(true);
+	    this.dispose();
 	  }
 
 	  

@@ -12,6 +12,7 @@ import java.util.Map;
 
 import com.ufgov.zc.client.common.AsOptionMeta;
 import com.ufgov.zc.client.datacache.AsValDataCache;
+import com.ufgov.zc.client.sf.util.SfBookmarkUtil;
 import com.ufgov.zc.client.util.ChangeRMB;
 import com.ufgov.zc.client.util.freemark.StringUtil;
 import com.ufgov.zc.client.util.freemark.WordHandlerAdapter;
@@ -134,7 +135,7 @@ public abstract class SfEntrustWordPrintBasicHandler  extends WordHandlerAdapter
 	}
 
 	protected void setMaterialsInfo(Map<String, Object> dataMap, SfEntrust entrust) {
-		    StringBuffer sb = new StringBuffer();
+		    /*StringBuffer sb = new StringBuffer();
 		    if (entrust.getMaterials() == null) {
 		      entrust.setMaterials(new ArrayList());
 		    }
@@ -169,8 +170,8 @@ public abstract class SfEntrustWordPrintBasicHandler  extends WordHandlerAdapter
 			 if(sb.length()>0){
 				 sb.append("\n");
 			 }
-		     sb.append(ybSb.toString()); 	
-		    dataMap.put("JDCL", StringUtil.freeMarkFillWordChar(sb.toString()));
+		     sb.append(ybSb.toString()); */	
+		    dataMap.put("JDCL", StringUtil.freeMarkFillWordChar(SfBookmarkUtil.getJdclString(entrust)));
 	}
 
 	protected void setIsErCiJianDing(Map<String, Object> dataMap,			SfEntrust entrust) {

@@ -279,5 +279,10 @@
 	<sqlMap resource="sqlmap/sf/SfAssistFileMapper.xml"/>
 	<sqlMap resource="sqlmap/sf/SfXysxTypeMapper.xml"/>
 	<sqlMap resource="sqlmap/sf/SfXysxMapper.xml"/>
+	<sqlMap resource="sqlmap/sf/SfJdDocCodeMapper.xml"/>
+	<sqlMap resource="sqlmap/sf/SfJdReportMapper.xml"/>
+	<sqlMap resource="sqlmap/sf/SfJdRecordFileModelMapper.xml"/>
+	<sqlMap resource="sqlmap/sf/SfJdResultFileMapper.xml"/>
+	<sqlMap resource="sqlmap/sf/SfJdRecordModelMapper.xml"/>
      
 </sqlMapConfig>

@@ -291,7 +291,8 @@ public class WordFileUtil {
       }
 
       //下载到本地时,使用原来的fileID做新的文件名称
-      fullFileName = createFile(fileID + fileExtName, fileContent);
+//      fullFileName = createFile(fileID + fileExtName, fileContent);
+      fullFileName = createFile(System.currentTimeMillis() + fileExtName, fileContent);
     } catch (Exception e) {
       logger.error(e.getMessage(), e);
     }

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.ufgov.zc.server.sf.dao.SfJdRecordFileModelMapper" >
+  <resultMap id="BaseResultMap" class="com.ufgov.zc.common.sf.model.SfJdRecordFileModel" > 
+    <result column="MODEL_ID" property="modelId" jdbcType="DECIMAL" />
+    <result column="MAJOR_CODE" property="majorCode" jdbcType="VARCHAR" />
+    <result column="ND" property="nd" jdbcType="DECIMAL" />
+    <result column="CO_CODE" property="coCode" jdbcType="VARCHAR" />
+    <result column="INPUT_DATE" property="inputDate" jdbcType="DATE" />
+    <result column="INPUTOR" property="inputor" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="DESCRIPTION" property="description" jdbcType="VARCHAR" />
+    <result column="FILE_ID" property="fileId" jdbcType="VARCHAR" />
+    <result column="FILE_NAME" property="fileName" jdbcType="VARCHAR" />
+    <result column="FILE_TYPE" property="fileType" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="IS_ENABLE" property="isEnable" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" > 
+    MODEL_ID, MAJOR_CODE, ND, CO_CODE, INPUT_DATE, INPUTOR, REMARK, DESCRIPTION, FILE_ID, 
+    FILE_TYPE, NAME, IS_ENABLE,FILE_NAME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="java.math.BigDecimal" > 
+    select 
+    <include refid="Base_Column_List" />
+    from SF_JD_RECORD_FILE_MODEL
+    where MODEL_ID = #modelId:DECIMAL#
+  </select>   
+  <select id="selectMainDataLst" resultMap="BaseResultMap" parameterClass="elementCondition" >    
+    select *
+    from SF_JD_RECORD_FILE_MODEL
+    where 1=1
+	<isNotEqual prepend="and" compareValue="0" property="nd">
+			ND = #nd#
+   </isNotEqual>
+   <isEqual prepend="and" compareValue="isUsing" property="dattr1">
+   		EXISTS(SELECT * FROM SF_JD_RESULT_FILE F WHERE F.MODEL_ID=SF_JD_RECORD_FILE_MODEL.MODEL_ID)
+   </isEqual>
+   <isNotNull prepend="AND" property="status">   
+			<isEqual property="status" compareValue="enable"> 
+				IS_ENABLE=#status#
+			</isEqual>   
+			<isEqual property="status" compareValue="disable">  
+				IS_ENABLE=#status#
+			</isEqual>   
+			<isEqual property="status" compareValue="all"> 
+			</isEqual>
+   </isNotNull>
+    order by MODEL_ID desc
+    
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="java.math.BigDecimal" > 
+    delete from SF_JD_RECORD_FILE_MODEL
+    where MODEL_ID = #modelId:DECIMAL#
+  </delete>
+  <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfJdRecordFileModel" > 
+    insert into SF_JD_RECORD_FILE_MODEL (MODEL_ID, MAJOR_CODE, ND, 
+      CO_CODE, INPUT_DATE, INPUTOR, 
+      REMARK, DESCRIPTION, FILE_ID, 
+      FILE_TYPE, NAME, IS_ENABLE,FILE_NAME
+      )
+    values (#modelId:DECIMAL#, #majorCode:VARCHAR#, #nd:DECIMAL#, 
+      #coCode:VARCHAR#, #inputDate:DATE#, #inputor:VARCHAR#, 
+      #remark:VARCHAR#, #description:VARCHAR#, #fileId:VARCHAR#, 
+      #fileType:VARCHAR#, #name:VARCHAR#, #isEnable:VARCHAR#,#fileName#
+      )
+  </insert> 
+  <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfJdRecordFileModel" > 
+    update SF_JD_RECORD_FILE_MODEL
+    set MAJOR_CODE = #majorCode:VARCHAR#,
+      ND = #nd:DECIMAL#,
+      CO_CODE = #coCode:VARCHAR#,
+      INPUT_DATE = #inputDate:DATE#,
+      INPUTOR = #inputor:VARCHAR#,
+      REMARK = #remark:VARCHAR#,
+      DESCRIPTION = #description:VARCHAR#,
+      FILE_ID = #fileId:VARCHAR#,
+      FILE_TYPE = #fileType:VARCHAR#,
+      NAME = #name:VARCHAR#,
+      IS_ENABLE = #isEnable:VARCHAR#,
+      FILE_NAME=#fileName#
+    where MODEL_ID = #modelId:DECIMAL#
+  </update>
+  
+  <select id="getModelFileMenuItem" resultClass="java.util.HashMap" >     
+    SELECT 
+    F.NAME AS MENUITEMNAME,
+    F.MODEL_ID,F.FILE_NAME,F.FILE_ID,F.NAME,F.FILE_TYPE,'0' as MAJOR_CODE,
+    F.MODEL_ID
+    FROM SF_JD_RECORD_FILE_MODEL F 
+    WHERE F.MAJOR_CODE is null
+    and f.is_enable='enable'
+    
+    union all 
+
+    SELECT 
+    M.MAJOR_NAME||'-->'||F.NAME AS MENUITEMNAME,
+    F.MODEL_ID,F.FILE_NAME,F.FILE_ID,F.NAME,F.FILE_TYPE,F.MAJOR_CODE,
+    F.MODEL_ID
+    FROM SF_JD_RECORD_FILE_MODEL F,SF_MAJOR M 
+    WHERE F.MAJOR_CODE=M.MAJOR_CODE
+    and f.is_enable='enable'
+    and f.major_code is not null
+    ORDER BY MAJOR_CODE  
+  </select>   
+  
+</sqlMap>

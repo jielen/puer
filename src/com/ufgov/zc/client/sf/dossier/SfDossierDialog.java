@@ -48,7 +48,7 @@ public class SfDossierDialog  extends GkBaseDialog {
     this.setLocation(WINDOW_LEFT, WINDOW_TOP);
 
     //界面显示后，再加载word控件，否则报peer not created错误
-    editPanel.refreshWordPanel();
+    editPanel.refreshFilePanel();
     this.setVisible(true);
     this.dispose();
 

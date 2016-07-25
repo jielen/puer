@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.ufgov.zc.server.sf.dao.SfJdReportMapper" >
+  <resultMap id="BaseResultMap" class="com.ufgov.zc.common.sf.model.SfJdReport" > 
+    <result column="JD_REPOR_ID" property="jdReporId" jdbcType="DECIMAL" />
+    <result column="JD_RESULT_ID" property="jdResultId" jdbcType="DECIMAL" />
+    <result column="ENTRUST_ID" property="entrustId" jdbcType="DECIMAL" />
+    <result column="JD_REPORT_FILE_ID" property="jdReportFileId" jdbcType="VARCHAR" />
+    <result column="ND" property="nd" jdbcType="DECIMAL" />
+    <result column="CO_CODE" property="coCode" jdbcType="VARCHAR" />
+    <result column="INPUTOR" property="inputor" jdbcType="VARCHAR" />
+    <result column="INPUT_DATE" property="inputDate" jdbcType="DATE" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="PUBLISH_TIME" property="publishTime" jdbcType="DATE" />
+    <result column="REPORT_CODE" property="reportCode" jdbcType="VARCHAR" />
+    <result column="PROCESS_INST_ID" property="processInstId" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" > 
+    JD_REPOR_ID, JD_RESULT_ID, ENTRUST_ID, JD_REPORT_FILE_ID, ND, CO_CODE, INPUTOR, INPUT_DATE, 
+    STATUS, REMARK, PUBLISH_TIME, REPORT_CODE, PROCESS_INST_ID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="java.math.BigDecimal" > 
+    select 
+    <include refid="Base_Column_List" />
+    from SF_JD_REPORT
+    where JD_REPOR_ID = #jdReporId:DECIMAL#
+  </select>
+  
+  <select id="selectMainDataLst" parameterClass="elementCondition" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SF_JD_REPORT
+    where 1=1  
+		<include refid="BusiNumLim.BusiNumLimStr" />  
+	<isNotEqual prepend="and" compareValue="0" property="nd">
+			SF_JD_REPORT.ND = #nd#
+   </isNotEqual>
+		<isNotNull prepend="AND" property="status">
+			<isEqual property="status" compareValue="todo">
+				exists (select instance_id from V_WF_CURRENT_TASK_ZC_TODO where 
+				inputor=#inputor# and instance_id = SF_JD_REPORT.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="untread">
+				exists (select instance_id from V_WF_CURRENT_TASK_ZC_UNTREAD where
+				inputor=#inputor# and instance_id = SF_JD_REPORT.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				exists (select instance_id from V_WF_ACTION_HISTORY_GK53 where 
+				inputor =#inputor# and instance_id = SF_JD_REPORT.process_inst_id)
+				and SF_JD_REPORT.STATUS!= 'cancel' and SF_JD_REPORT.STATUS != 'exec'
+			</isEqual>
+			<isEqual property="status" compareValue="draft">
+				( exists (select WF_DRAFT_NAME from as_wf_draft where
+				user_id=#inputor# and
+				compo_id=#wfcompoId# and
+				WF_DRAFT_ID=SF_JD_REPORT.process_inst_id)
+				or
+				SF_JD_REPORT.process_inst_id = -1 )
+				and SF_JD_REPORT.STATUS ='0'
+			</isEqual>
+			<isEqual property="status" compareValue="exec">
+				(SF_JD_REPORT.STATUS='exec')
+			</isEqual>
+			<isEqual property="status" compareValue="all">
+				1=1
+			</isEqual>
+		</isNotNull>
+   order by SF_JD_REPORT.JD_REPOR_ID desc
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="java.math.BigDecimal" > 
+    delete from SF_JD_REPORT
+    where JD_REPOR_ID = #jdReporId:DECIMAL#
+  </delete>
+  <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfJdReport" > 
+    insert into SF_JD_REPORT (JD_REPOR_ID, JD_RESULT_ID, ENTRUST_ID, 
+      JD_REPORT_FILE_ID, ND, CO_CODE, 
+      INPUTOR, INPUT_DATE, STATUS, 
+      REMARK, PUBLISH_TIME, REPORT_CODE, 
+      PROCESS_INST_ID)
+    values (#jdReporId:DECIMAL#, #jdResultId:DECIMAL#, #entrustId:DECIMAL#, 
+      #jdReportFileId:VARCHAR#, #nd:DECIMAL#, #coCode:VARCHAR#, 
+      #inputor:VARCHAR#, #inputDate:DATE#, #status:VARCHAR#, 
+      #remark:VARCHAR#, #publishTime:DATE#, #reportCode:VARCHAR#, 
+      #processInstId:DECIMAL#)
+  </insert> 
+  <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfJdReport" > 
+    update SF_JD_REPORT
+    set JD_RESULT_ID = #jdResultId:DECIMAL#,
+      ENTRUST_ID = #entrustId:DECIMAL#,
+      JD_REPORT_FILE_ID = #jdReportFileId:VARCHAR#,
+      ND = #nd:DECIMAL#,
+      CO_CODE = #coCode:VARCHAR#,
+      INPUTOR = #inputor:VARCHAR#,
+      INPUT_DATE = #inputDate:DATE#,
+      STATUS = #status:VARCHAR#,
+      REMARK = #remark:VARCHAR#,
+      PUBLISH_TIME = #publishTime:DATE#,
+      REPORT_CODE = #reportCode:VARCHAR#,
+      PROCESS_INST_ID = #processInstId:DECIMAL#
+    where JD_REPOR_ID = #jdReporId:DECIMAL#
+  </update>
+</sqlMap>

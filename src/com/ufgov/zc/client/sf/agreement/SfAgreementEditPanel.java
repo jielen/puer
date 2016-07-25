@@ -265,7 +265,7 @@ public class SfAgreementEditPanel extends AbstractMainSubEditPanel {
   }
 
   private void refreshSubTableData() {
-    refreshWordPanel();
+    refreshFilePanel();
     updateBtnFields();
   }
 
@@ -279,7 +279,7 @@ public class SfAgreementEditPanel extends AbstractMainSubEditPanel {
    * 
   * 刷新word文本
    */
-  public void refreshWordPanel() {
+  public void refreshFilePanel() {
 
     SfAgreement agreement = (SfAgreement) listCursor.getCurrentObject();
     String fileId = agreement.getFileId();

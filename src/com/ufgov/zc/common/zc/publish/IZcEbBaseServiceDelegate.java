@@ -34,14 +34,23 @@ public interface IZcEbBaseServiceDelegate extends Publishable {
 
   public List queryDataForList(String sqlMapSelectId, Map parameter, RequestMeta meta);
 
-  public String getSequenceNextVal(String sequenceName, RequestMeta meta);
+  public String getSequenceNextVal(String sequenceName, RequestMeta meta);  
+
+  public String getNextVal(String sequenceName, RequestMeta meta);
 
   public List queryDataForList(String sqlMapSelectId, Object param, RequestMeta meta);
 
   public Object queryObject(String sqlMapSelectId, Object param, RequestMeta meta);
 
-  public void updateObjectList(String sqlMapUpdateId, List list, RequestMeta meta);  
+  public void updateObjectListFN(String sqlMapUpdateId, List list, RequestMeta meta);  
 
+  public void insertWithDeleteFN(String delSqlId,Object delValue,String insertSqlId,Object insertValue,RequestMeta meta);
+  
+  public void insertFN(String insertSqlId,Object insertValue,RequestMeta meta);
+
+  public void insertObjectListFN(String insertSqlId, List list,RequestMeta meta);
+  
+  public void delete(String sqlMapDeleteId, Object parameter,RequestMeta meta);
 
   /*
    * 工作流相关

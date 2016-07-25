@@ -117,6 +117,8 @@ public class SfEntrust extends ZcBaseBill {
   public static final String COL_JD_DOC_SEND_TYPE_FZ = "SF_ENTRUST_JD_DOC_SEND_TYPE_FZ";//鉴定文书发送方式附注
 
   public static final String COL_JD_CHARGE = "SF_ENTRUST_JD_CHARGE";//鉴定费用
+  
+  public static final String BKMK_MATERIALS="BKMK_MATERIALS";//检材样板
 
   private String inputorName;
 

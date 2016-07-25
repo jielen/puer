@@ -50,8 +50,8 @@
 		nodeBusiness="com.ufgov.zc.client.sf.dataflow.nodebusiness.SfMaterialsTransferNodeBusiness"/>
 		
 	<node compoId="SF_JD_RESULT"
-		text="鉴定结果"
-		toolTip="鉴定结果" 
+		text="鉴定记录"
+		toolTip="鉴定记录" 
 		icon="graph.bmp"
 		isMutliRecord="false"
 		nodeBusiness="com.ufgov.zc.client.sf.dataflow.nodebusiness.SfJdResultNodeBusiness"/>

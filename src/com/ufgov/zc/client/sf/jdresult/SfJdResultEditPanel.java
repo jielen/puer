@@ -180,6 +180,7 @@ public class SfJdResultEditPanel extends AbstractMainSubEditPanel {
   TextAreaFieldEditor zhuSu = new TextAreaFieldEditor(LangTransMeta.translate(SfJdResult.COL_ZHU_SU), "zhuSu", -1, 5, 5);
 
   private JTabbedPane centerPanel;
+  
 
   private JPanel jdTargetDetailPanel;
 

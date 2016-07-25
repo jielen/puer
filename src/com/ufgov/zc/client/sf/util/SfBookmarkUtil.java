@@ -1,0 +1,384 @@
+/**
+ * 
+ */
+package com.ufgov.zc.client.sf.util;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.ufgov.zc.client.common.AsOptionMeta;
+import com.ufgov.zc.client.datacache.AsValDataCache;
+import com.ufgov.zc.common.sf.model.SfBookmark;
+import com.ufgov.zc.common.sf.model.SfEntrust;
+import com.ufgov.zc.common.sf.model.SfEntrustor;
+import com.ufgov.zc.common.sf.model.SfJdResult;
+import com.ufgov.zc.common.sf.model.SfJdTarget;
+import com.ufgov.zc.common.sf.model.SfMaterials;
+import com.ufgov.zc.common.system.constants.SfElementConstants;
+import com.ufgov.zc.common.system.util.DateUtil;
+
+/**
+ * @author Administrator
+ *
+ */
+public class SfBookmarkUtil {
+	
+	public static final List<String> BKMK_NAME_ENTRUST_LST=new ArrayList<String>();
+	public static final List<String> BKMK_NAME_ENTRUSTOR_LST=new ArrayList<String>();
+	public static final List<String> BKMK_NAME_JDTARGET_LST=new ArrayList<String>();
+	
+	static{ 
+		//---------委托---------------
+		BKMK_NAME_ENTRUST_LST.add(SfEntrust.COL_ACCEPTOR);
+		BKMK_NAME_ENTRUST_LST.add(SfEntrust.COL_ACCEPT_DATE);
+		BKMK_NAME_ENTRUST_LST.add(SfEntrust.COL_BRIEF);
+		BKMK_NAME_ENTRUST_LST.add(SfEntrust.COL_CODE);
+		BKMK_NAME_ENTRUST_LST.add(SfEntrust.COL_ENTRUSTOR_ID);
+		BKMK_NAME_ENTRUST_LST.add(SfEntrust.COL_ENTRUSTOR_NAME);
+		BKMK_NAME_ENTRUST_LST.add(SfEntrust.COL_ENTRUST_ID);
+		BKMK_NAME_ENTRUST_LST.add(SfEntrust.COL_INPUTOR);
+		BKMK_NAME_ENTRUST_LST.add(SfEntrust.COL_INPUT_DATE);
+		BKMK_NAME_ENTRUST_LST.add(SfEntrust.COL_IS_ACCEPT);
+		BKMK_NAME_ENTRUST_LST.add(SfEntrust.COL_IS_CXJD);
+		BKMK_NAME_ENTRUST_LST.add(SfEntrust.COL_JD_CHARGE);
+		BKMK_NAME_ENTRUST_LST.add(SfEntrust.COL_JD_COMPANY);
+		BKMK_NAME_ENTRUST_LST.add(SfEntrust.COL_JD_DOC_SEND_TYPE);
+		BKMK_NAME_ENTRUST_LST.add(SfEntrust.COL_JD_DOC_SEND_TYPE_FZ);
+		BKMK_NAME_ENTRUST_LST.add(SfEntrust.COL_JD_FHR);
+		BKMK_NAME_ENTRUST_LST.add(SfEntrust.COL_JD_FZR);
+		BKMK_NAME_ENTRUST_LST.add(SfEntrust.COL_JD_HISTORY);
+		BKMK_NAME_ENTRUST_LST.add(SfEntrust.COL_JD_ORG);
+		BKMK_NAME_ENTRUST_LST.add(SfEntrust.COL_JD_REQUIRE);
+		BKMK_NAME_ENTRUST_LST.add(SfEntrust.COL_JD_TARGET_ID); 
+		BKMK_NAME_ENTRUST_LST.add(SfEntrust.COL_MAJOR_CODE);
+		BKMK_NAME_ENTRUST_LST.add(SfEntrust.COL_NAME);
+		BKMK_NAME_ENTRUST_LST.add(SfEntrust.COL_ND);
+		BKMK_NAME_ENTRUST_LST.add(SfEntrust.COL_NOT_ACCEPT_REASON);
+		BKMK_NAME_ENTRUST_LST.add(SfEntrust.COL_PROCESS_INST_ID);
+		BKMK_NAME_ENTRUST_LST.add(SfEntrust.COL_REMARK);
+		BKMK_NAME_ENTRUST_LST.add(SfEntrust.COL_SJR);
+		BKMK_NAME_ENTRUST_LST.add(SfEntrust.COL_SJR_ADDRESS);
+		BKMK_NAME_ENTRUST_LST.add(SfEntrust.COL_SJR_TEL);
+		BKMK_NAME_ENTRUST_LST.add(SfEntrust.COL_SJR_ZJ_CODE);
+		BKMK_NAME_ENTRUST_LST.add(SfEntrust.COL_SJR_ZJ_TYPE);
+		BKMK_NAME_ENTRUST_LST.add(SfEntrust.COL_STATUS);
+		BKMK_NAME_ENTRUST_LST.add(SfEntrust.COL_WT_DATE);
+		BKMK_NAME_ENTRUST_LST.add(SfEntrust.COL_WT_ID_PARENT);
+		//--------------委托方------
+		BKMK_NAME_ENTRUSTOR_LST.add(SfEntrustor.ADDRESS);
+		BKMK_NAME_ENTRUSTOR_LST.add(SfEntrustor.CODE);
+		BKMK_NAME_ENTRUSTOR_LST.add(SfEntrustor.ENTRUSTOR_ID);
+		BKMK_NAME_ENTRUSTOR_LST.add(SfEntrustor.LINK_MAN);
+		BKMK_NAME_ENTRUSTOR_LST.add(SfEntrustor.LINK_TEL);
+		BKMK_NAME_ENTRUSTOR_LST.add(SfEntrustor.NAME);
+		BKMK_NAME_ENTRUSTOR_LST.add(SfEntrustor.ZIP);
+		//----------鉴定对象 -------------
+		BKMK_NAME_JDTARGET_LST.add(SfJdTarget.COL_ADDRESS);
+		BKMK_NAME_JDTARGET_LST.add(SfJdTarget.COL_AGE);
+		BKMK_NAME_JDTARGET_LST.add(SfJdTarget.COL_ID_CODE);
+		BKMK_NAME_JDTARGET_LST.add(SfJdTarget.COL_ID_NAME);
+		BKMK_NAME_JDTARGET_LST.add(SfJdTarget.COL_JD_TARGET_ID);
+		BKMK_NAME_JDTARGET_LST.add(SfJdTarget.COL_NAME);
+		BKMK_NAME_JDTARGET_LST.add(SfJdTarget.COL_PHONE);
+		BKMK_NAME_JDTARGET_LST.add(SfJdTarget.COL_SEX);
+		BKMK_NAME_JDTARGET_LST.add(SfJdTarget.COL_ZIP);
+	}
+	
+	public List<SfBookmark> getEntrustBookValueLst(SfEntrust bill){
+		List<SfBookmark> rtn=new ArrayList<SfBookmark>();
+		SfBookmark bk=new SfBookmark();
+		bk.setName(SfEntrust.COL_CODE);
+		bk.setValue(bill.getCode());
+		rtn.add(bk);
+		
+		bk=new SfBookmark();
+		bk.setName(SfEntrust.COL_NAME);
+		bk.setValue(bill.getName());
+		rtn.add(bk);
+		
+		bk=new SfBookmark();
+		bk.setName(SfEntrust.COL_BRIEF);
+		bk.setValue(bill.getBrief());
+		rtn.add(bk);
+		
+		bk=new SfBookmark();
+		bk.setName(SfEntrust.COL_ACCEPTOR);
+		bk.setValue(bill.getAcceptor()==null?"":bill.getAcceptorName());
+		rtn.add(bk);
+		
+		bk=new SfBookmark();
+		bk.setName(SfEntrust.COL_ACCEPT_DATE);
+		bk.setValue(bill.getAcceptDate() == null ? "  年    月   日" : DateUtil.dateToDdString(bill.getAcceptDate()));
+		rtn.add(bk);
+		
+		bk=new SfBookmark();
+		bk.setName(SfEntrust.COL_INPUTOR);
+		bk.setValue(bill.getInputor()==null?"":bill.getInputorName());
+		rtn.add(bk);
+		
+		bk=new SfBookmark();
+		bk.setName(SfEntrust.COL_INPUT_DATE);
+		bk.setValue(bill.getInputDate() == null ? "  年    月   日" : DateUtil.dateToDdString(bill.getInputDate()));
+		rtn.add(bk);
+		
+		bk=new SfBookmark();
+		bk.setName(SfEntrust.COL_IS_ACCEPT);
+		bk.setValue(AsValDataCache.getName("VS_Y/N", bill.getIsAccept()));
+		rtn.add(bk);
+		
+		bk=new SfBookmark();
+		bk.setName(SfEntrust.COL_IS_CXJD);
+		bk.setValue(AsValDataCache.getName("VS_Y/N", bill.getIsCxjd()));
+		rtn.add(bk);
+		
+		bk=new SfBookmark();
+		bk.setName(SfEntrust.COL_JD_DOC_SEND_TYPE);
+		bk.setValue(AsValDataCache.getName(SfEntrust.SF_VS_ENTRUST_DOC_SEND_TYPE, bill.getIsCxjd()));
+		rtn.add(bk);
+		
+		bk=new SfBookmark();
+		bk.setName(SfEntrust.COL_JD_DOC_SEND_TYPE_FZ);
+		bk.setValue(bill.getJdDocSendTypeFz());
+		rtn.add(bk);
+		
+		bk=new SfBookmark();
+		bk.setName(SfEntrust.COL_JD_FZR);
+		bk.setValue(bill.getJdFzrName());
+		rtn.add(bk);
+		
+		bk=new SfBookmark();
+		bk.setName(SfEntrust.COL_JD_FHR);
+		bk.setValue(bill.getJdFhrName());
+		rtn.add(bk);
+		
+		bk=new SfBookmark();
+		bk.setName(SfEntrust.COL_JD_HISTORY);
+		bk.setValue(bill.getJdHistory());
+		rtn.add(bk);
+		
+		bk=new SfBookmark();
+		bk.setName(SfEntrust.COL_JD_REQUIRE);
+		bk.setValue(bill.getJdRequire());
+		rtn.add(bk);
+		
+		bk=new SfBookmark();
+		bk.setName(SfEntrust.COL_MAJOR_NAME);
+		bk.setValue(bill.getMajor()==null?bill.getMajorCode():bill.getMajor().getMajorName());
+		rtn.add(bk);
+		
+		bk=new SfBookmark();
+		bk.setName(SfEntrust.COL_ND);
+		bk.setValue(bill.getNd()+"");
+		rtn.add(bk);
+		
+		bk=new SfBookmark();
+		bk.setName(SfEntrust.COL_NOT_ACCEPT_REASON);
+		bk.setValue(bill.getNotAcceptReason());
+		rtn.add(bk);
+		
+		bk=new SfBookmark();
+		bk.setName(SfEntrust.COL_REMARK);
+		bk.setValue(bill.getRemark());
+		rtn.add(bk);
+		
+		bk=new SfBookmark();
+		bk.setName(SfEntrust.COL_SJR);
+		bk.setValue(bill.getSjr());
+		rtn.add(bk);
+		
+		bk=new SfBookmark();
+		bk.setName(SfEntrust.COL_SJR_ADDRESS);
+		bk.setValue(bill.getSjrAddress());
+		rtn.add(bk);
+		
+		bk=new SfBookmark();
+		bk.setName(SfEntrust.COL_SJR_TEL);
+		bk.setValue(bill.getSjrTel());
+		rtn.add(bk);
+		
+		bk=new SfBookmark();
+		bk.setName(SfEntrust.COL_SJR_ZJ_CODE);
+		bk.setValue(bill.getSjrZjCode());
+		rtn.add(bk);
+		
+		bk=new SfBookmark();
+		bk.setName(SfEntrust.COL_SJR_ZJ_TYPE);
+		bk.setValue(bill.getSjrZjType());
+		rtn.add(bk);
+		
+		bk=new SfBookmark();
+		bk.setName(SfEntrust.COL_STATUS);
+		bk.setValue(AsValDataCache.getName(SfEntrust.SF_VS_ENTRUST_STATUS, bill.getStatus()));
+		rtn.add(bk);
+		
+		bk=new SfBookmark();
+		bk.setName(SfEntrust.COL_WT_DATE);
+		bk.setValue(bill.getWtDate() == null ? "  年    月   日" : DateUtil.dateToDdString(bill.getWtDate()));
+		rtn.add(bk);
+
+		bk=new SfBookmark();
+		bk.setName(SfEntrust.BKMK_MATERIALS);
+		bk.setValue(getJdclString(bill));
+		rtn.add(bk);
+		
+		return rtn;
+	}
+	
+
+	public List<SfBookmark> getEntrustorBookValueLst(SfEntrustor bill){
+		List<SfBookmark> rtn=new ArrayList<SfBookmark>();
+
+		SfBookmark bk=new SfBookmark();
+		bk.setName(SfEntrustor.ADDRESS);
+		bk.setValue(bill.getAddress());
+		rtn.add(bk);
+		
+		bk=new SfBookmark();
+		bk.setName(SfEntrustor.LINK_MAN);
+		bk.setValue(bill.getLinkMan());
+		rtn.add(bk);
+		
+		bk=new SfBookmark();
+		bk.setName(SfEntrustor.LINK_TEL);
+		bk.setValue(bill.getLinkTel());
+		rtn.add(bk);
+		
+		bk=new SfBookmark();
+		bk.setName(SfEntrustor.NAME);
+		bk.setValue(bill.getName());
+		rtn.add(bk);
+		
+		bk=new SfBookmark();
+		bk.setName(SfEntrustor.ZIP);
+		bk.setValue(bill.getZip());
+		rtn.add(bk);
+		
+		return rtn;
+	}
+	public List<SfBookmark> getJdTargetBookValueLst(SfJdTarget bill){
+		List<SfBookmark> rtn=new ArrayList<SfBookmark>();
+
+		SfBookmark bk=new SfBookmark();
+		bk.setName(SfJdTarget.COL_ADDRESS);
+		bk.setValue(bill.getAddress());
+		rtn.add(bk);
+		
+		bk=new SfBookmark();
+		bk.setName(SfJdTarget.COL_AGE);
+		bk.setValue(bill.getAge()+"");
+		rtn.add(bk);
+		
+		bk=new SfBookmark();
+		bk.setName(SfJdTarget.COL_ID_CODE);
+		bk.setValue(bill.getIdCode());
+		rtn.add(bk);
+		
+		bk=new SfBookmark();
+		bk.setName(SfJdTarget.COL_ID_NAME);
+		bk.setValue(bill.getIdName());
+		rtn.add(bk);
+		
+		bk=new SfBookmark();
+		bk.setName(SfJdTarget.COL_NAME);
+		bk.setValue(bill.getName());
+		rtn.add(bk);
+		
+		bk=new SfBookmark();
+		bk.setName(SfJdTarget.COL_PHONE);
+		bk.setValue(bill.getPhone());
+		rtn.add(bk);
+		
+		bk=new SfBookmark();
+		bk.setName(SfJdTarget.COL_SEX);
+		bk.setValue(bill.getSex()==null?"":AsValDataCache.getName(SfElementConstants.VS_SEX, bill.getSex()));
+		rtn.add(bk);
+		
+		bk=new SfBookmark();
+		bk.setName(SfJdTarget.COL_ZIP);
+		bk.setValue(bill.getZip());
+		rtn.add(bk);
+		
+		return rtn;
+	}
+
+	public List<SfBookmark> getJdjgBookValueLst(String coCode){
+		List<SfBookmark> rtn=new ArrayList<SfBookmark>();
+		
+		SfBookmark bk=new SfBookmark();
+		bk.setName("JGMC");
+		bk.setValue(AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_JD_COMPANY_NAME)==null?"":AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_JD_COMPANY_NAME));
+		rtn.add(bk);
+		bk=new SfBookmark();
+		bk.setName("XKZH");
+		bk.setValue(AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_JD_COMPANY_XKZ)==null?"":AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_JD_COMPANY_XKZ));
+		rtn.add(bk);
+		bk=new SfBookmark();
+		bk.setName("JGDH");
+		bk.setValue(AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_JD_COMPANY_TEL)==null?"":AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_JD_COMPANY_TEL));
+		rtn.add(bk);
+		bk=new SfBookmark();
+		bk.setName("JG_LINK_MAN");
+		bk.setValue(AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_JD_COMPANY_LINK_MAN)==null?"":AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_JD_COMPANY_LINK_MAN));
+		rtn.add(bk);
+		bk=new SfBookmark();
+		bk.setName("JGDZ");
+		bk.setValue(AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_JD_COMPANY_ADDRESS)==null?"":AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_JD_COMPANY_ADDRESS));
+		rtn.add(bk);
+		bk=new SfBookmark();
+		bk.setName("JGYB");
+		bk.setValue(AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_JD_COMPANY_ZIP)==null?"":AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_JD_COMPANY_ZIP));
+		rtn.add(bk);
+		bk=new SfBookmark();
+		bk.setName("JG_FAX");
+		bk.setValue(AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_JD_COMPANY_FAX)==null?"":AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_JD_COMPANY_FAX));
+		rtn.add(bk);
+		
+		return rtn;
+	}
+	
+	public static String getJdclString(SfEntrust entrust){
+		StringBuffer sb = new StringBuffer();
+	    if (entrust.getMaterials() == null) {
+	      entrust.setMaterials(new ArrayList());
+	    }
+	    StringBuffer jcSb=new StringBuffer();
+	    StringBuffer ybSb=new StringBuffer(); 
+	    for (int i = 0; i < entrust.getMaterials().size(); i++) {
+	    	//先分出检材和样本，如果没有，就混在一起
+	      SfMaterials material = (SfMaterials) entrust.getMaterials().get(i);
+	      
+	      if(material.getMaterialType()!=null && material.getMaterialType().equalsIgnoreCase("1")){//检材
+	    	  if(jcSb.length()>0){
+	    		  jcSb.append("\n");
+	    	  }
+	    	  jcSb.append(material.toString());	    	  
+	      }else if(material.getMaterialType()!=null && material.getMaterialType().equalsIgnoreCase("2")){//样本
+	    	  if(ybSb.length()>0){
+	    		  ybSb.append("\n");
+	    	  }
+	    	  ybSb.append(material.toString());
+	      }else{
+	    	 if(sb.length()>0){
+	    		 sb.append("\n");
+	    	 }
+	    	 sb.append(material.toString());
+	      }
+     
+	    }
+	   	 if(sb.length()>0){
+			 sb.append("\n");
+		 }
+		 sb.append(jcSb.toString());
+		 if(sb.length()>0){
+			 sb.append("\n");
+		 }
+	     sb.append(ybSb.toString()); 
+	     
+	     return sb.toString();
+	}
+	public List<SfBookmark> getJdRecordBookValueLst(SfJdResult bill){
+		List<SfBookmark> rtn=new ArrayList<SfBookmark>();
+		
+		return rtn;
+	} 
+}

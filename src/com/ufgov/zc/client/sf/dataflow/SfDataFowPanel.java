@@ -5,6 +5,7 @@ package com.ufgov.zc.client.sf.dataflow;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -28,6 +29,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import com.ufgov.smartclient.plaf.BlueLookAndFeel;
 import com.ufgov.zc.client.common.LangTransMeta;
@@ -52,6 +55,7 @@ import com.ufgov.zc.client.sf.component.JDragPanel;
 import com.ufgov.zc.client.sf.component.JEnableImageButton;
 import com.ufgov.zc.client.sf.dossier.SfDossierEditPanel;
 import com.ufgov.zc.client.sf.dossier.SfDossierListPanel;
+import com.ufgov.zc.client.sf.jdresult.SfJdRecordEditPanel;
 import com.ufgov.zc.client.sf.receipt.SfReceiptEditPanel;
 import com.ufgov.zc.client.sf.receipt.SfReceiptListPanel;
 import com.ufgov.zc.client.sf.util.ResourceUtil;
@@ -178,6 +182,7 @@ public class SfDataFowPanel extends JPanel {
     if (nodePanel != null) {
       if (!find) {
         tabPanel.addTab(LangTransMeta.translate(currentCompo), nodePanel);
+        _refreshWord(nodePanel);
       }
       tabPanel.setSelectedComponent(nodePanel);
     }
@@ -185,7 +190,9 @@ public class SfDataFowPanel extends JPanel {
 
   public void addTab(JComponent component, String compoId) {
 
-    if (!nodePanels.containsKey(compoId) && !isWordPanel(component)) {
+//    if (!nodePanels.containsKey(compoId) && !isWordPanel(component)) {
+
+        if (!nodePanels.containsKey(compoId)) {
 
       nodePanels.put(compoId, component);
     }
@@ -216,7 +223,7 @@ public class SfDataFowPanel extends JPanel {
   private boolean isWordPanel(JComponent component) {
     // TCJLODO Auto-generated method stub
     if (component instanceof SfAgreementEditPanel || component instanceof SfReceiptEditPanel || component instanceof SfAppendMaterialNoticeEditPanel
-      || component instanceof SfDossierEditPanel)
+      || component instanceof SfDossierEditPanel || component instanceof SfJdRecordEditPanel)
       return true;
     return false;
   }
@@ -473,13 +480,43 @@ public class SfDataFowPanel extends JPanel {
 
     setLayout(new BorderLayout());
     add(tabPanel, BorderLayout.CENTER);
+    
+    tabPanel.addChangeListener(new ChangeListener() {
+		
+		@Override
+		public void stateChanged(ChangeEvent e) {
+			_tabChanged();
+		}
+	});
 
     //       setNodePanelSelected();
 
     //       tabPanel.gett
   }
 
-  public GkBaseDialog getParentDlg() {
+  protected void _tabChanged() {
+	  Component c=tabPanel.getSelectedComponent();
+	  if(c instanceof AbstractMainSubEditPanel){
+			AbstractMainSubEditPanel editP=(AbstractMainSubEditPanel)c;
+			if(editP.getMenuBar()==null){
+				if(parentWindow.getJMenuBar()!=null){
+					parentWindow.getJMenuBar().setVisible(false);
+				}
+			}else{
+				parentWindow.setJMenuBar(editP.getMenuBar());	
+				parentWindow.getJMenuBar().setVisible(true);		
+			}
+		}else{ 
+				if(parentWindow.getJMenuBar()!=null){
+					parentWindow.getJMenuBar().setVisible(false);
+				}
+			 
+		}
+		parentWindow.validate();
+}
+ 
+
+public GkBaseDialog getParentDlg() {
     return parentWindow;
   }
 
@@ -526,7 +563,7 @@ public class SfDataFowPanel extends JPanel {
 
   private void _refreshWord(JComponent c) {
     if (isWordPanel(c) && c instanceof AbstractMainSubEditPanel) {
-      ((AbstractMainSubEditPanel) c).refreshWordPanel();
+      ((AbstractMainSubEditPanel) c).refreshFilePanel();
     }
   }
 }

@@ -271,7 +271,7 @@ public class SfDossierEditPanel extends AbstractMainSubEditPanel {
   }
 
   private void refreshSubTableData() {
-    refreshWordPanel();
+    refreshFilePanel();
     updateBtnFields();
   }
 
@@ -285,7 +285,7 @@ public class SfDossierEditPanel extends AbstractMainSubEditPanel {
    * 
   * 刷新word文本
    */
-  public void refreshWordPanel() {
+  public void refreshFilePanel() {
 
     SfDossier bill = (SfDossier) listCursor.getCurrentObject();
     String fileId = bill.getFileId();

@@ -161,6 +161,7 @@
 		<property name="workflowDao" ref="workflowDao" />
 		<property name="wfEngineAdapter" ref="wfEngineAdapter" />	
 		<property name="sfEntrustService" ref="sfEntrustService" />
+		<property name="zcEbBaseService" ref="zcEbBaseService" />
 	</bean>		
 	<bean id="jdResultMapper" class="com.ufgov.zc.server.sf.dao.ibatis.SfJdResultMapperImp"		scope="singleton">
 		<property name="sqlMapClient" ref="sqlMapClient" />
@@ -212,6 +213,23 @@
 		<property name="asFileDao" ref="asFileDao" />
 	</bean>		
 	<bean id="assistFileMapper" class="com.ufgov.zc.server.sf.dao.ibatis.SfAssistFileMapperImp"		scope="singleton">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>		
+		
+	
+	<bean id="sfJdDocCodeService" class="com.ufgov.zc.server.sf.service.impl.SfJdDocCodeService"		scope="singleton">
+		<property name="jdDocCodeMapper" ref="jdDocCodeMapper" />	 
+	</bean>		
+	<bean id="jdDocCodeMapper" class="com.ufgov.zc.server.sf.dao.ibatis.SfJdDocCodeMapperImp"		scope="singleton">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>		
+	
+	<bean id="sfJdReportService" class="com.ufgov.zc.server.sf.service.impl.SfJdReportService"		scope="singleton">
+		<property name="sfJdReportMapper" ref="sfJdReportMapper" />		
+		<property name="workflowDao" ref="workflowDao" />
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" /> 
+	</bean>		
+	<bean id="sfJdReportMapper" class="com.ufgov.zc.server.sf.dao.ibatis.SfJdReportMapperImp"		scope="singleton">
 		<property name="sqlMapClient" ref="sqlMapClient" />
 	</bean>								
 </beans>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.ufgov.zc.server.sf.dao.SfJdDocCodeMapper" >
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+  <resultMap id="BaseResultMap" class="com.ufgov.zc.common.sf.model.SfJdDocCode" > 
+    <result column="CO_CODE" property="coCode" jdbcType="VARCHAR" />
+    <result column="GONG_ZI" property="gongZi" jdbcType="VARCHAR" />
+    <result column="JIAN_ZI_1" property="jianZi1" jdbcType="VARCHAR" />
+    <result column="JIAN_ZI_2" property="jianZi2" jdbcType="VARCHAR" />
+    <result column="ND" property="nd" jdbcType="DECIMAL" />
+    <result column="NUM" property="num" jdbcType="DECIMAL" />
+    <result column="PIN_JIE_CODE" property="pinJieCode" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <select id="selectByPrimaryKey" parameterClass="java.lang.String" resultMap="BaseResultMap"> 
+    select *
+    from SF_JD_DOC_CODE
+    where PIN_JIE_CODE = #pinJieCode:VARCHAR#
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterClass="java.lang.String"> 
+    delete from SF_JD_DOC_CODE
+    where PIN_JIE_CODE = #pinJieCode:VARCHAR#
+  </delete>
+  
+  <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfJdDocCode"> 
+    update SF_JD_DOC_CODE
+    set CO_CODE = #coCode:VARCHAR#,
+      GONG_ZI = #gongZi:VARCHAR#,
+      JIAN_ZI_1 = #jianZi1:VARCHAR#,
+      JIAN_ZI_2 = #jianZi2:VARCHAR#,
+      ND = #nd:DECIMAL#,
+      NUM = #num:DECIMAL#
+    where PIN_JIE_CODE = #pinJieCode:VARCHAR#
+  </update>
+  <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfJdDocCode" > 
+    insert into SF_JD_DOC_CODE (CO_CODE, GONG_ZI, JIAN_ZI_1, 
+      JIAN_ZI_2, ND, NUM, PIN_JIE_CODE
+      )
+    values (#coCode:VARCHAR#, #gongZi:VARCHAR#, #jianZi1:VARCHAR#, 
+      #jianZi2:VARCHAR#, #nd:DECIMAL#, #num:DECIMAL#, #pinJieCode:VARCHAR#
+      )
+  </insert> 
+  <select id="getSfJdDocCodeLst" resultMap="BaseResultMap" parameterClass="elementCondition" >    
+    select *
+    from SF_JD_DOC_CODE
+    where 1=1
+	<isNotEqual prepend="and" compareValue="0" property="nd">
+			SF_JD_DOC_CODE.ND = #nd#
+   </isNotEqual>
+    order by PIN_JIE_CODE
+    
+  </select>
+</sqlMap>
