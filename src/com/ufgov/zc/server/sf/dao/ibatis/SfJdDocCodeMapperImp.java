@@ -64,7 +64,7 @@ public class SfJdDocCodeMapperImp extends SqlMapClientDaoSupport implements SfJd
 	public List getSfJdDocCodeLst(ElementConditionDto elementConditionDto) {
 		 elementConditionDto.setNumLimitStr(NumLimUtil.getInstance().getNumLimCondByCoType(elementConditionDto.getWfcompoId(), NumLimConstants.FWATCH));
 
-		    List list = getSqlMapClientTemplate().queryForList("com.ufgov.zc.server.sf.dao.SfJdDocCodeMapper.getMajorLst", elementConditionDto);
+		    List list = getSqlMapClientTemplate().queryForList("com.ufgov.zc.server.sf.dao.SfJdDocCodeMapper.getSfJdDocCodeLst", elementConditionDto);
 
 		    return list;
 	}

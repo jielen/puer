@@ -7,15 +7,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ufgov.zc.client.common.AsOptionMeta;
+import com.ufgov.zc.client.common.ServiceFactory;
+import com.ufgov.zc.client.common.WorkEnv;
 import com.ufgov.zc.client.datacache.AsValDataCache;
 import com.ufgov.zc.common.sf.model.SfBookmark;
 import com.ufgov.zc.common.sf.model.SfEntrust;
 import com.ufgov.zc.common.sf.model.SfEntrustor;
 import com.ufgov.zc.common.sf.model.SfJdResult;
 import com.ufgov.zc.common.sf.model.SfJdTarget;
+import com.ufgov.zc.common.sf.model.SfJdjg;
 import com.ufgov.zc.common.sf.model.SfMaterials;
+import com.ufgov.zc.common.system.RequestMeta;
 import com.ufgov.zc.common.system.constants.SfElementConstants;
+import com.ufgov.zc.common.system.dto.ElementConditionDto;
 import com.ufgov.zc.common.system.util.DateUtil;
+import com.ufgov.zc.common.zc.publish.IZcEbBaseServiceDelegate;
 
 /**
  * @author Administrator
@@ -303,7 +309,8 @@ public class SfBookmarkUtil {
 
 	public List<SfBookmark> getJdjgBookValueLst(String coCode){
 		List<SfBookmark> rtn=new ArrayList<SfBookmark>();
-		
+
+		/*
 		SfBookmark bk=new SfBookmark();
 		bk.setName("JGMC");
 		bk.setValue(AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_JD_COMPANY_NAME)==null?"":AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_JD_COMPANY_NAME));
@@ -331,6 +338,44 @@ public class SfBookmarkUtil {
 		bk=new SfBookmark();
 		bk.setName("JG_FAX");
 		bk.setValue(AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_JD_COMPANY_FAX)==null?"":AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_JD_COMPANY_FAX));
+		rtn.add(bk);
+		*/
+
+		IZcEbBaseServiceDelegate zcEbBaseServiceDelegate = (IZcEbBaseServiceDelegate) ServiceFactory.create(IZcEbBaseServiceDelegate.class,"zcEbBaseServiceDelegate");
+		ElementConditionDto dto=new ElementConditionDto();
+		RequestMeta meta=WorkEnv.getInstance().getRequestMeta();
+		dto.setCoCode(meta.getSvCoCode());
+		SfJdjg jdjg=(SfJdjg) zcEbBaseServiceDelegate.queryObject("com.ufgov.zc.server.sf.dao.SfJdjgMapper.selectMainDataLst", dto, meta);
+		if(jdjg==null){
+			jdjg=new SfJdjg();
+		}
+		SfBookmark bk=new SfBookmark();
+		bk.setName("JGMC");
+		bk.setValue(jdjg.getName());
+		rtn.add(bk);
+		bk=new SfBookmark();
+		bk.setName("XKZH");
+		bk.setValue(jdjg.getXkzh());
+		rtn.add(bk);
+		bk=new SfBookmark();
+		bk.setName("JGDH");
+		bk.setValue(jdjg.getTel());
+		rtn.add(bk);
+		bk=new SfBookmark();
+		bk.setName("JG_LINK_MAN");
+		bk.setValue(jdjg.getLinkMan());
+		rtn.add(bk);
+		bk=new SfBookmark();
+		bk.setName("JGDZ");
+		bk.setValue(jdjg.getAddress());
+		rtn.add(bk);
+		bk=new SfBookmark();
+		bk.setName("JGYB");
+		bk.setValue(jdjg.getZip());
+		rtn.add(bk);
+		bk=new SfBookmark();
+		bk.setName("JG_FAX");
+		bk.setValue(jdjg.getFax());
 		rtn.add(bk);
 		
 		return rtn;

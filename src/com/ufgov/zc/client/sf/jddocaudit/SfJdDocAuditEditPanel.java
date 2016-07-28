@@ -80,6 +80,7 @@ import com.ufgov.zc.common.sf.model.SfEntrust;
 import com.ufgov.zc.common.sf.model.SfJdDocAudit;
 import com.ufgov.zc.common.sf.model.SfJdDocAuditDetail;
 import com.ufgov.zc.common.sf.model.SfJdDocType;
+import com.ufgov.zc.common.sf.model.SfJdReport;
 import com.ufgov.zc.common.sf.model.SfJdResult;
 import com.ufgov.zc.common.sf.publish.ISfEntrustServiceDelegate;
 import com.ufgov.zc.common.sf.publish.ISfJdDocAuditServiceDelegate;
@@ -977,7 +978,7 @@ public class SfJdDocAuditEditPanel extends AbstractMainSubEditPanel {
     TextFieldEditor jdFzr = new TextFieldEditor(LangTransMeta.translate(SfEntrust.COL_JD_FZR), "entrust.jdFzrName");
     TextFieldEditor photographer = new TextFieldEditor(LangTransMeta.translate(SfJdDocAudit.COL_PHOTOGRAPHER), "photographer");
     AsValFieldEditor reportType = new AsValFieldEditor(LangTransMeta.translate(SfJdResult.COL_RESULT_TYPE), "reportType",
-      SfJdResult.SF_VS_JD_RESULT_TYPE);
+    		SfJdReport.SF_VS_JD_RESULT_TYPE);
     TextAreaFieldEditor remark = new TextAreaFieldEditor(LangTransMeta.translate(SfJdDocAudit.COL_REMARK), "remark", 100, 2, 5);
     IntFieldEditor docQuatity = new IntFieldEditor(LangTransMeta.translate(SfJdDocAudit.COL_DOC_QUATITY), "docQuatity");
 

@@ -1,4 +1,4 @@
-package com.ufgov.zc.client.sf.jdresult;
+package com.ufgov.zc.client.sf.jdjg;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -23,6 +23,7 @@ import com.ufgov.zc.client.common.LangTransMeta;
 import com.ufgov.zc.client.common.ListCursor;
 import com.ufgov.zc.client.common.ServiceFactory;
 import com.ufgov.zc.client.common.WorkEnv;
+import com.ufgov.zc.client.common.converter.sf.SfJdjgToTableModelConverter;
 import com.ufgov.zc.client.component.GkBaseDialog;
 import com.ufgov.zc.client.component.JFuncToolBar;
 import com.ufgov.zc.client.component.JTablePanel;
@@ -48,18 +49,14 @@ import com.ufgov.zc.client.component.table.cellrenderer.DateCellRenderer;
 import com.ufgov.zc.client.component.table.codecellrenderer.AsValCellRenderer;
 import com.ufgov.zc.client.component.ui.fieldeditor.AbstractFieldEditor;
 import com.ufgov.zc.client.component.zc.AbstractMainSubEditPanel;
-import com.ufgov.zc.client.component.zc.fieldeditor.AsValFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.AutoNumFieldEditor;
-import com.ufgov.zc.client.component.zc.fieldeditor.FileFieldEditor;
-import com.ufgov.zc.client.component.zc.fieldeditor.TextAreaFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.TextFieldEditor;
+import com.ufgov.zc.client.sf.util.SfUtil;
 import com.ufgov.zc.client.util.SwingUtil;
 import com.ufgov.zc.client.zc.ButtonStatus;
 import com.ufgov.zc.client.zc.ZcUtil;
-import com.ufgov.zc.common.sf.model.SfEntrust;
 import com.ufgov.zc.common.sf.model.SfJdPerson;
-import com.ufgov.zc.common.sf.model.SfJdRecordFileModel;
-import com.ufgov.zc.common.sf.model.SfJdReport;
+import com.ufgov.zc.common.sf.model.SfJdjg;
 import com.ufgov.zc.common.system.RequestMeta;
 import com.ufgov.zc.common.system.constants.SfElementConstants;
 import com.ufgov.zc.common.system.constants.ZcSettingConstants;
@@ -68,15 +65,15 @@ import com.ufgov.zc.common.system.util.DigestUtil;
 import com.ufgov.zc.common.system.util.ObjectUtil;
 import com.ufgov.zc.common.zc.publish.IZcEbBaseServiceDelegate;
 
-public class SfJdRecordFileModelEditPanel extends AbstractMainSubEditPanel {
+public class SfJdjgEditPanel  extends AbstractMainSubEditPanel {
 
-	  private static final Logger logger = Logger.getLogger(SfJdRecordFileModelEditPanel.class);
+	  private static final Logger logger = Logger.getLogger(SfJdjgEditPanel.class);
 
 	  protected String pageStatus = ZcSettingConstants.PAGE_STATUS_BROWSE;
 
 	  protected RequestMeta requestMeta = WorkEnv.getInstance().getRequestMeta();
 
-	  private static String compoId = "SF_JD_RECORD_FILE_MODEL";
+	  private static String compoId = "SF_JDJG";
 
 	  protected FuncButton saveButton = new SaveButton();
 
@@ -116,13 +113,13 @@ public class SfJdRecordFileModelEditPanel extends AbstractMainSubEditPanel {
 	  // 工作流退回
 	  protected FuncButton unTreadButton = new UntreadButton();
 
-	  protected ListCursor<SfJdRecordFileModel> listCursor;
+	  protected ListCursor<SfJdjg> listCursor;
 
-	  private SfJdRecordFileModel oldModel;
+	  private SfJdjg oldMajor;
 
-	  public SfJdRecordFileModelListPanel listPanel;
+	  public SfJdjgListPanel listPanel;
 
-	  protected SfJdRecordFileModelEditPanel self = this;
+	  protected SfJdjgEditPanel self = this;
 
 	  protected GkBaseDialog parent;
 
@@ -132,14 +129,15 @@ public class SfJdRecordFileModelEditPanel extends AbstractMainSubEditPanel {
 
 	  private ElementConditionDto eaccDto = new ElementConditionDto();
 
-	  protected IZcEbBaseServiceDelegate zcEbBaseServiceDelegate ;   
- 
+	  protected IZcEbBaseServiceDelegate zcEbBaseServiceDelegate ;  
+
+	  protected JTablePanel detailTablePanel = new JTablePanel();
 	  
-	  public SfJdRecordFileModelEditPanel(SfJdRecordFileModelDialog parent, ListCursor listCursor, String tabStatus, SfJdRecordFileModelListPanel listPanel) {
+	  public SfJdjgEditPanel(SfJdjgDialog parent, ListCursor listCursor, String tabStatus, SfJdjgListPanel listPanel) {
 	    // TCJLODO Auto-generated constructor stub
-	    super(SfJdRecordFileModelEditPanel.class, BillElementMeta.getBillElementMetaWithoutNd(compoId));
+	    super(SfJdjgEditPanel.class, BillElementMeta.getBillElementMetaWithoutNd(compoId));
 	    
-	    mainBillElementMeta = BillElementMeta.getBillElementMetaWithoutNd(compoId);
+	    mainBillElementMeta = BillElementMeta.getBillElementMetaWithoutNd("SF_JDJG");
 	    zcEbBaseServiceDelegate = (IZcEbBaseServiceDelegate) ServiceFactory.create(IZcEbBaseServiceDelegate.class,"zcEbBaseServiceDelegate"); 
 	    
 	    this.workPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), LangTransMeta.translate(compoId),
@@ -153,7 +151,7 @@ public class SfJdRecordFileModelEditPanel extends AbstractMainSubEditPanel {
 
 	    this.parent = parent;
 
-	    this.colCount = 2;
+	    this.colCount = 3;
 
 	    init();
 
@@ -165,28 +163,28 @@ public class SfJdRecordFileModelEditPanel extends AbstractMainSubEditPanel {
 	  private void refreshData() {
 	    // TCJLODO Auto-generated method stub
 
-	    SfJdRecordFileModel model = (SfJdRecordFileModel) listCursor.getCurrentObject();
+	    SfJdjg bill = (SfJdjg) listCursor.getCurrentObject();
 
-	    if (model != null && !"".equals(ZcUtil.safeString(model.getModelId()))) {//列表页面双击进入
+	    if (bill != null && !"".equals(ZcUtil.safeString(bill.getJgId()))) {//列表页面双击进入
 
 	      this.pageStatus = ZcSettingConstants.PAGE_STATUS_BROWSE;
 
-	      model = getModel(model.getModelId());
-	      listCursor.setCurrentObject(model);
-	      this.setEditingObject(model);
+	       
+	      bill = (SfJdjg) zcEbBaseServiceDelegate.queryObject("com.ufgov.zc.server.sf.dao.SfJdjgMapper.selectByPrimaryKey", bill.getJgId(), this.requestMeta);
+
+	      listCursor.setCurrentObject(bill);
+	      this.setEditingObject(bill);
 	    } else {//新增按钮进入
 
 	      this.pageStatus = ZcSettingConstants.PAGE_STATUS_NEW;
 
-	      model = new SfJdRecordFileModel();
-	      
-	      setDefaultValue(model);
+	      bill = new SfJdjg();
 
-	      listCursor.getDataList().add(model);
+	      listCursor.getDataList().add(bill);
 
-	      listCursor.setCurrentObject(model);
+	      listCursor.setCurrentObject(bill);
 
-	      this.setEditingObject(model);
+	      this.setEditingObject(bill);
 
 	    }
 
@@ -200,25 +198,11 @@ public class SfJdRecordFileModelEditPanel extends AbstractMainSubEditPanel {
 
 	  }
 
-	  private void setDefaultValue(SfJdRecordFileModel model) {
-		  model.setCoCode(requestMeta.getSvCoCode());
-		  model.setInputDate(requestMeta.getSysDate());
-		  model.setInputor(requestMeta.getSvUserID());
-		  model.setFileType(SfJdRecordFileModel.SF_VS_JD_FILE_MODEL_TYPE_word);
-		  model.setDocType(SfJdRecordFileModel.SF_VS_JD_FILE_MODEL_DOC_TYPE_RECORD);
-		  model.setIsEnable(SfJdRecordFileModel.SF_VS_JD_FILE_MODEL_STATUS_enable);
-		  model.setNd(requestMeta.getSvNd());
-	}
-
-	private SfJdRecordFileModel getModel(BigDecimal modelId) {
-		return (SfJdRecordFileModel) zcEbBaseServiceDelegate.queryObject("com.ufgov.zc.server.sf.dao.SfJdRecordFileModelMapper.selectByPrimaryKey",modelId, this.requestMeta);
-
-	}
-
-	private void refreshSubData() {
+	  private void refreshSubData() {
 	    // TCJLODO Auto-generated method stub
-	    SfJdRecordFileModel model = (SfJdRecordFileModel) listCursor.getCurrentObject(); 
+	     
 	  }
+
  
 
 	  protected void updateFieldEditorsEditable() {
@@ -237,8 +221,8 @@ public class SfJdRecordFileModelEditPanel extends AbstractMainSubEditPanel {
 	 
 
 	  protected void setButtonStatus() {
-	    SfJdRecordFileModel model = (SfJdRecordFileModel) listCursor.getCurrentObject();
-	    setButtonStatus(model, requestMeta, this.listCursor);
+	    SfJdjg bill = (SfJdjg) listCursor.getCurrentObject();
+	    setButtonStatus(bill, requestMeta, this.listCursor);
 	  }
 
 	  public void setButtonStatusWithoutWf() {
@@ -341,35 +325,19 @@ public class SfJdRecordFileModelEditPanel extends AbstractMainSubEditPanel {
 
 	      bs.addBillStatus(ZcSettingConstants.BILL_STATUS_ALL);
 
-	      btnStatusList.add(bs);
-
-	      bs = new ButtonStatus();
-
-	      bs.setButton(this.sendGkButton);
-
-	      bs.addPageStatus(ZcSettingConstants.PAGE_STATUS_BROWSE);
-
-	      bs.addBillStatus(ZcSettingConstants.BILL_STATUS_AUDITED);
-
-	      btnStatusList.add(bs);
-
-	      bs = new ButtonStatus();
-	      bs.setButton(this.importButton);
-	      bs.addPageStatus(ZcSettingConstants.PAGE_STATUS_EDIT);
-	      bs.addPageStatus(ZcSettingConstants.PAGE_STATUS_NEW);
-	      btnStatusList.add(bs);
+	      btnStatusList.add(bs); 
 
 	    }
 
-	    SfJdRecordFileModel model = (SfJdRecordFileModel) this.listCursor.getCurrentObject();
+	    SfJdjg bill = (SfJdjg) this.listCursor.getCurrentObject();
 	     
-	    ZcUtil.setButtonEnable(this.btnStatusList, null, this.pageStatus, getCompoId(), model.getProcessInstId());
+	    ZcUtil.setButtonEnable(this.btnStatusList, null, this.pageStatus, getCompoId(), bill.getProcessInstId());
 
 	  }
 
 	  protected void setOldObject() {
 
-	    oldModel = (SfJdRecordFileModel) ObjectUtil.deepCopy(listCursor.getCurrentObject());
+	    oldMajor = (SfJdjg) ObjectUtil.deepCopy(listCursor.getCurrentObject());
 
 	  }
 
@@ -535,7 +503,7 @@ public class SfJdRecordFileModelEditPanel extends AbstractMainSubEditPanel {
 
 	      } else {
 
-	        listCursor.setCurrentObject(oldModel);
+	        listCursor.setCurrentObject(oldMajor);
 
 	      }
 
@@ -563,7 +531,7 @@ public class SfJdRecordFileModelEditPanel extends AbstractMainSubEditPanel {
 
 	      } else {
 
-	        listCursor.setCurrentObject(oldModel);
+	        listCursor.setCurrentObject(oldMajor);
 
 	      }
 
@@ -599,17 +567,14 @@ public class SfJdRecordFileModelEditPanel extends AbstractMainSubEditPanel {
 
 	      requestMeta.setFuncId(saveButton.getFuncId());
 
-	      SfJdRecordFileModel inData = (SfJdRecordFileModel) this.listCursor.getCurrentObject();
-	      inData.setCoCode(requestMeta.getSvCoCode());
-	      inData.setInputDate(requestMeta.getSysDate());
-	      inData.setInputor(requestMeta.getSvUserID()); 
-	      inData.setNd(requestMeta.getSvNd());
-		  
-	      if(inData.getModelId()==null){
-	    	  inData.setModelId(new BigDecimal(ZcUtil.getNextVal(SfJdRecordFileModel.SEQ_SF_RECORD_FILE_MODEL_ID)));
-	    	   zcEbBaseServiceDelegate.insertFN("com.ufgov.zc.server.sf.dao.SfJdRecordFileModelMapper.insert", inData, requestMeta);
+	      SfJdjg inData = (SfJdjg) this.listCursor.getCurrentObject();
+
+//	      System.out.println("before=" + inData.getCoCode() + inData.getCoName());
+	      if(inData.getJgId()==null){
+	    	  inData.setJgId(new BigDecimal(ZcUtil.getNextVal(SfJdjg.SEQ_SF_JDJG_ID)));
+	    	  zcEbBaseServiceDelegate.insertFN("com.ufgov.zc.server.sf.dao.SfJdjgMapper.insert", inData, requestMeta);
 	      }else{
-	    	  zcEbBaseServiceDelegate.insertWithDeleteFN("com.ufgov.zc.server.sf.dao.SfJdRecordFileModelMapper.deleteByPrimaryKey", inData.getModelId(), "com.ufgov.zc.server.sf.dao.SfJdRecordFileModelMapper.insert", inData, requestMeta);
+	    	  zcEbBaseServiceDelegate.insertWithDeleteFN("com.ufgov.zc.server.sf.dao.SfJdjgMapper.deleteByPrimaryKey", inData.getJgId(), "com.ufgov.zc.server.sf.dao.SfJdjgMapper.insert", inData, requestMeta);
 	      } 
 	      listCursor.setCurrentObject(inData);
 
@@ -653,18 +618,13 @@ public class SfJdRecordFileModelEditPanel extends AbstractMainSubEditPanel {
 
 	  protected boolean checkBeforeSave() {
 	    List mainNotNullList = mainBillElementMeta.getNotNullBillElement();
-	    SfJdRecordFileModel model = (SfJdRecordFileModel) this.listCursor.getCurrentObject();
+	    SfJdjg bill = (SfJdjg) this.listCursor.getCurrentObject();
 	    StringBuilder errorInfo = new StringBuilder();
-	    String mainValidateInfo = ZcUtil.validateBillElementNull(model, mainNotNullList);     
+	    String mainValidateInfo = ZcUtil.validateBillElementNull(bill, mainNotNullList);     
 	    if (mainValidateInfo.length() != 0) {
 	      errorInfo.append("\n").append(mainValidateInfo.toString()).append("\n");
-	    } 
-	    
-	    if(model.getDocType()!=null && SfJdRecordFileModel.SF_VS_JD_FILE_MODEL_DOC_TYPE_REPORT.equals(model.getDocType())){
-	    	if(model.getReportType()==null){
-	    		 errorInfo.append("\n").append("请指定鉴定意见书类别");
-	    	}
 	    }
+	    
 	    if (errorInfo.length() != 0) {
 	      JOptionPane.showMessageDialog(this, errorInfo.toString(), "提示", JOptionPane.WARNING_MESSAGE);
 	      return false;
@@ -680,12 +640,9 @@ public class SfJdRecordFileModelEditPanel extends AbstractMainSubEditPanel {
 
 	    requestMeta.setFuncId(deleteButton.getFuncId());
 
-	    SfJdRecordFileModel model = (SfJdRecordFileModel) this.listCursor.getCurrentObject();
+	    SfJdjg bill = (SfJdjg) this.listCursor.getCurrentObject();
 
-	    if(isUsing()){
-	      JOptionPane.showMessageDialog(this, "已经被使用，不能删除 ！\n" , "错误", JOptionPane.ERROR_MESSAGE);
-	      return;
-	    }
+	     
 	    int num = JOptionPane.showConfirmDialog(this, "是否删除当前单据", "删除确认", 0);
 
 	    if (num == JOptionPane.YES_OPTION) {
@@ -698,7 +655,7 @@ public class SfJdRecordFileModelEditPanel extends AbstractMainSubEditPanel {
 
 	        requestMeta.setFuncId(deleteButton.getFuncId());
 
-	        zcEbBaseServiceDelegate.delete("com.ufgov.zc.server.sf.dao.SfJdRecordFileModelMapper.deleteByPrimaryKey",model.getModelId(), requestMeta);
+	        zcEbBaseServiceDelegate.delete("com.ufgov.zc.server.sf.dao.SfJdjgMapper.deleteByPrimaryKey", bill.getJgId(), requestMeta);
 
 	      } catch (Exception e) {
 
@@ -714,11 +671,11 @@ public class SfJdRecordFileModelEditPanel extends AbstractMainSubEditPanel {
 
 	        this.listCursor.removeCurrentObject();
 
-	        JOptionPane.showMessageDialog(this, "删除成功！", "提示", JOptionPane.INFORMATION_MESSAGE); 
+	        JOptionPane.showMessageDialog(this, "删除成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
+
+	        this.refreshData();
 
 	        this.listPanel.refreshCurrentTabData();
-	        
-	        doExit();
 
 	      } else {
 
@@ -731,23 +688,13 @@ public class SfJdRecordFileModelEditPanel extends AbstractMainSubEditPanel {
 	  }
 
 	 
-	  private boolean isUsing() {
-		  ElementConditionDto dto=new ElementConditionDto();
-		  dto.setDattr1("isUsing");
-		  List rtn=zcEbBaseServiceDelegate.queryDataForList("com.ufgov.zc.server.sf.dao.SfJdRecordFileModelMapper.selectMainDataLst", dto, requestMeta);
-		  if(rtn!=null && rtn.size()>0){
-			  return true;
-		  }
-		return false;
-	}
-
-	public boolean isDataChanged() {
+	  public boolean isDataChanged() {
 
 	    if (!this.saveButton.isVisible() || !saveButton.isEnabled()) {
 	      return false;
 	    }
 
-	    return !DigestUtil.digest(oldModel).equals(DigestUtil.digest(listCursor.getCurrentObject()));
+	    return !DigestUtil.digest(oldMajor).equals(DigestUtil.digest(listCursor.getCurrentObject()));
 
 	  }
 
@@ -773,29 +720,25 @@ public class SfJdRecordFileModelEditPanel extends AbstractMainSubEditPanel {
 	  public List<AbstractFieldEditor> createFieldEditors() {
 
 	    List<AbstractFieldEditor> editorList = new ArrayList<AbstractFieldEditor>();
-	    
-	    AsValFieldEditor majorCode = new AsValFieldEditor(LangTransMeta.translate(SfEntrust.COL_MAJOR_NAME), "majorCode", "SF_VS_MAJOR");
-	    TextFieldEditor name = new TextFieldEditor(LangTransMeta.translate(SfJdRecordFileModel.COL_NAME), "name");
-	    AsValFieldEditor isEnable = new AsValFieldEditor(LangTransMeta.translate(SfJdRecordFileModel.COL_IS_ENABLE), "isEnable", SfJdRecordFileModel.SF_VS_JD_FILE_MODEL_STATUS);
-	    AsValFieldEditor fileType = new AsValFieldEditor(LangTransMeta.translate(SfJdRecordFileModel.COL_FILE_TYPE), "fileType", SfJdRecordFileModel.SF_VS_JD_FILE_MODEL_TYPE);
-	    TextAreaFieldEditor desc = new TextAreaFieldEditor(LangTransMeta.translate(SfJdRecordFileModel.COL_DESCRIPTION), "description", 100, 1, 3);
-	    TextAreaFieldEditor remark = new TextAreaFieldEditor(LangTransMeta.translate(SfJdRecordFileModel.COL_REMARK), "remark", 100, 3, 3);
-	    FileFieldEditor file = new FileFieldEditor(LangTransMeta.translate(SfJdRecordFileModel.COL_FILE_NAME), "fileName", "fileId");
 
-	    AsValFieldEditor docType = new AsValFieldEditor("文书类别", "docType", SfJdRecordFileModel.SF_VS_JD_FILE_MODEL_DOC_TYPE);
+ 
+	    TextFieldEditor code = new TextFieldEditor(LangTransMeta.translate(SfJdjg.COL_CO_CODE), "coCode");
+	    TextFieldEditor name = new TextFieldEditor(LangTransMeta.translate(SfJdjg.COL_NAME), "name");
+	    TextFieldEditor xkzh = new TextFieldEditor(LangTransMeta.translate(SfJdjg.COL_XKZH), "xkzh");
+	    TextFieldEditor  tel= new TextFieldEditor(LangTransMeta.translate(SfJdjg.COL_TEL), "tel");
+	    TextFieldEditor  linkMan= new TextFieldEditor(LangTransMeta.translate(SfJdjg.COL_LINK_MAN), "linkMan");
+	    TextFieldEditor  address= new TextFieldEditor(LangTransMeta.translate(SfJdjg.COL_ADDRESS), "address");
+	    TextFieldEditor  zip= new TextFieldEditor(LangTransMeta.translate(SfJdjg.COL_ZIP), "zip");
+	    TextFieldEditor  fax= new TextFieldEditor(LangTransMeta.translate(SfJdjg.COL_FAX), "fax"); 
 
-	    AsValFieldEditor reportType = new AsValFieldEditor("鉴定意见书类别", "reportType", SfJdReport.SF_VS_JD_RESULT_TYPE);
-  
-
-	    editorList.add(majorCode); 
-	    editorList.add(name);  
-	    editorList.add(file);  
-	    editorList.add(fileType); 
-	    editorList.add(docType); 
-	    editorList.add(reportType); 
-	    editorList.add(isEnable);
-	    editorList.add(desc); 
-	    editorList.add(remark); 
+	    editorList.add(name);
+	    editorList.add(code);
+	    editorList.add(xkzh);
+	    editorList.add(tel);
+	    editorList.add(linkMan);
+	    editorList.add(address);
+	    editorList.add(zip);
+	    editorList.add(fax);
 	    
 	    return editorList;
 
@@ -807,14 +750,15 @@ public class SfJdRecordFileModelEditPanel extends AbstractMainSubEditPanel {
 	   */
 	  @Override
 	  public JComponent createSubBillPanel() {
-return null;
+
+	    return null;
 	  }
 
 
 	  public void doExit() {
 	    // TCJLODO Auto-generated method stub
 
-	   /* if (isDataChanged()) {
+	    if (isDataChanged()) {
 
 	      int num = JOptionPane.showConfirmDialog(this, "当前页面数据已修改，是否要保存", "保存确认", 0);
 
@@ -829,7 +773,7 @@ return null;
 	      }
 
 	    }
-*/
+
 	    this.parent.dispose();
 
 	  }

@@ -31,17 +31,17 @@ public class SfJdResult extends ZcBaseBill {
   /**
    * 结果类别
    */
-  public static final String SF_VS_JD_RESULT_TYPE = "SF_VS_JD_RESULT_TYPE";
+//  public static final String SF_VS_JD_RESULT_TYPE = "SF_VS_JD_RESULT_TYPE";
 
   /**
    * 检验报告
    */
-  public static final String RESULT_TYPE_JYBG = "JYBG";
+//  public static final String RESULT_TYPE_JYBG = "JYBG";
 
   /**
    * 检验意见书
    */
-  public static final String RESULT_TYPE_YJS = "YJS";
+//  public static final String RESULT_TYPE_YJS = "YJS";
 
   public static final String COL_BRIEF = "SF_JD_RESULT_BRIEF"; // 检案摘要
 

@@ -77,6 +77,7 @@ import com.ufgov.zc.client.component.zc.fieldeditor.TextAreaFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.TextFieldEditor;
 import com.ufgov.zc.client.datacache.AsValDataCache;
 import com.ufgov.zc.client.sf.component.JClosableTabbedPane;
+import com.ufgov.zc.client.sf.dataflow.SfClientUtil;
 import com.ufgov.zc.client.sf.dataflow.SfDataFlowDialog;
 import com.ufgov.zc.client.sf.dataflow.SfDataFlowUtil;
 import com.ufgov.zc.client.sf.entrust.SfEntrustHandler;
@@ -93,9 +94,11 @@ import com.ufgov.zc.common.sf.model.SfBookmark;
 import com.ufgov.zc.common.sf.model.SfEntrust;
 import com.ufgov.zc.common.sf.model.SfEntrustor;
 import com.ufgov.zc.common.sf.model.SfJdRecordFileModel;
+import com.ufgov.zc.common.sf.model.SfJdReport;
 import com.ufgov.zc.common.sf.model.SfJdResult;
 import com.ufgov.zc.common.sf.model.SfJdResultFile;
 import com.ufgov.zc.common.sf.model.SfJdTarget;
+import com.ufgov.zc.common.sf.model.SfJdjg;
 import com.ufgov.zc.common.sf.publish.ISfEntrustServiceDelegate;
 import com.ufgov.zc.common.sf.publish.ISfJdResultServiceDelegate;
 import com.ufgov.zc.common.system.RequestMeta;
@@ -215,63 +218,22 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 		  }
 	  };
 	  
-	  private static final String MENU_INSERT_CONTENT ="插入内容";
-	  private static final String MENU_WTF="委托方";  
-	  private static final String MENU_SJR="送检人"; 
-	  private static final String MENU_JD_TARGET="鉴定对象"; 
-	  private static final String MENU_WTF_NAME=LangTransMeta.translate(SfEntrustor.NAME); 
-	  private static final String MENU_WTF_ADDRESS="委托方"+LangTransMeta.translate(SfEntrustor.ADDRESS); 
-	  private static final String MENU_WTF_ZIP="委托方"+LangTransMeta.translate(SfEntrustor.ZIP); 
-	  private static final String MENU_WTF_LINK_MAN="委托方"+LangTransMeta.translate(SfEntrustor.LINK_MAN); 
-	  private static final String MENU_WTF_LINK_TEL="委托方"+LangTransMeta.translate(SfEntrustor.LINK_TEL);
-	  private static final String MENU_SJR_SJR=LangTransMeta.translate(SfEntrust.COL_SJR); 
-	  private static final String MENU_SJR_SJR_TEL=LangTransMeta.translate(SfEntrust.COL_SJR_TEL);
-	  private static final String MENU_SJR_SJR_ZJ_TYPE=LangTransMeta.translate(SfEntrust.COL_SJR_ZJ_TYPE);
-	  private static final String MENU_SJR_SJR_ZJ_CODE=LangTransMeta.translate(SfEntrust.COL_SJR_ZJ_CODE); 
-	  private static final String MENU_JD_TARGET_NAME=LangTransMeta.translate(SfJdTarget.COL_NAME); 
-	  private static final String MENU_JD_TARGET_SEX=LangTransMeta.translate(SfJdTarget.COL_SEX); 
-	  private static final String MENU_JD_TARGET_AGE="鉴定对象"+LangTransMeta.translate(SfJdTarget.COL_AGE); 
-	  private static final String MENU_JD_TARGET_ID_NAME="鉴定对象"+LangTransMeta.translate(SfJdTarget.COL_ID_NAME); 
-	  private static final String MENU_JD_TARGET_ID_CODE="鉴定对象"+LangTransMeta.translate(SfJdTarget.COL_ID_CODE); 
-	  private static final String MENU_JD_TARGET_PHONE=LangTransMeta.translate(SfJdTarget.COL_PHONE); 
-	  private static final String MENU_JD_TARGET_ADDRESS="鉴定对象"+LangTransMeta.translate(SfJdTarget.COL_ADDRESS); 
-	  private static final String MENU_JD_TARGET_ZIP="鉴定对象"+LangTransMeta.translate(SfJdTarget.COL_ZIP);  
-	  private static final String MENU_JD_BRIEF=LangTransMeta.translate(SfEntrust.COL_BRIEF); 
-	  private static final String MENU_JD_NAME=LangTransMeta.translate(SfEntrust.COL_NAME); 
-	  private static final String MENU_JD_CODE=LangTransMeta.translate(SfEntrust.COL_CODE); 
-	  private static final String MENU_JD_MATERIALS="检材样本";  
-	  private static final String MENU_JD_REQUIRE=LangTransMeta.translate(SfEntrust.COL_JD_REQUIRE); 
-	  private static final String MENU_JD_MAJOR=LangTransMeta.translate(SfEntrust.COL_MAJOR_NAME); 
-	  private static final String MENU_JD_FZR=LangTransMeta.translate(SfEntrust.COL_JD_FZR);  
-	  private static final String MENU_JD_FHR=LangTransMeta.translate(SfEntrust.COL_JD_FHR);  
-	  private static final String MENU_JD_COMPANY=LangTransMeta.translate(SfEntrust.COL_JD_COMPANY); 
-	  private static final String MENU_JD_ACCEPT_DATE=LangTransMeta.translate(SfEntrust.COL_ACCEPT_DATE); 
-	  private static final String MENU_JD_ACCEPT_PERSON=LangTransMeta.translate(SfEntrust.COL_ACCEPTOR); 
-	  private static final String MENU_WT_DATE=LangTransMeta.translate(SfEntrust.COL_WT_DATE); 
-	  
-
-	  private static final String MENU_REFRENCE="引用";
-	  private static final String MENU_REFRENCE_ENTRUST="历史委托";
-	  private static final String MENU_REFRENCE_ENTRUST_RECORD="记录文件"; 
-	  private static final String MENU_FILL="填充模板";
-	  private static final String MENU_FILL_CUR="填充当前模板";
-
-	  private static final String MENU_INSERT_MODEL ="插入模板";
-	  private static final String MENU_SELECT_MODEL ="选择";
 //	  private static final String MENU_MODEL_BLANK="默认模板"; 
-	  JMenu menuInsertModel=new JMenu(MENU_INSERT_MODEL);
+	  JMenu menuInsertModel=new JMenu(SfClientUtil.MENU_INSERT_MODEL);
 	  
-	  JMenu menuInsertContent=new JMenu(MENU_INSERT_CONTENT);
+	  JMenu menuInsertContent=new JMenu(SfClientUtil.MENU_INSERT_CONTENT);
 
-	  JMenu menuInsertWtf=new JMenu(MENU_WTF);
+	  JMenu menuInsertWtf=new JMenu(SfClientUtil.MENU_WTF);
 
-	  JMenu menuInsertSjr=new JMenu(MENU_SJR);
+	  JMenu menuInsertJdjg=new JMenu(SfClientUtil.MENU_JDJG);
 
-	  JMenu menuInsertJdTarget=new JMenu(MENU_JD_TARGET);
+	  JMenu menuInsertSjr=new JMenu(SfClientUtil.MENU_SJR);
+
+	  JMenu menuInsertJdTarget=new JMenu(SfClientUtil.MENU_JD_TARGET);
 	  
-	  JMenu menuRefrence=new JMenu(MENU_REFRENCE);
+	  JMenu menuRefrence=new JMenu(SfClientUtil.MENU_REFRENCE);
 
-	  JMenu menuFill=new JMenu(MENU_FILL);
+	  JMenu menuFill=new JMenu(SfClientUtil.MENU_FILL);
 	  
 	  JMenuBar menuBar=new JMenuBar();
 	  
@@ -288,6 +250,8 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 	  private JProgressBar openWordProgressBar = null;
 
 	  private JDialog progressDialog;
+	  
+	  private List<String> modelFileIdLst=new ArrayList<String>();
 
 
 	  public SfJdRecordEditPanel(GkBaseDialog parent, ListCursor listCursor, String tabStatus, SfJdRecordListPanel listPanel) {
@@ -393,14 +357,10 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 
         double y=(parent.getLocation().getY()+parent.getSize().getHeight())/2-30;
         int yi=Double.valueOf(y).intValue();
-       progressDialog.setLocation(xi, yi);
-
-       
+        progressDialog.setLocation(xi, yi);
 
         String openWordMessage = rf.getModel().getName();
-
         openWordProgressBar.setString("正在加载模板文件:"+openWordMessage+",请稍等。"  );
-
         progressDialog.setVisible(true);
         
 	    loadWordFile(wp,rf);
@@ -531,7 +491,7 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 	    bill.setInputDate(this.requestMeta.getSysDate());
 	    bill.setInputor(requestMeta.getSvUserID());
 	    bill.setCoCode(requestMeta.getSvCoCode());
-	    bill.setResultType(SfJdResult.RESULT_TYPE_YJS);
+	    bill.setResultType(SfJdReport.RESULT_TYPE_YJS);
 	  }
 
 	  protected void updateFieldEditorsEditable() {
@@ -944,8 +904,14 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 		    	if(mb.getTabCompo() instanceof WordPane){
 		    		WordPane wp=(WordPane) mb.getTabCompo();
 		    		wp.save();
-		    		String fileId= WordFileUtil.uploadWordFile(mb.getRecordFile().getFileName(), mb.getRecordFile().getFileId());
-		    		mb.getRecordFile().setFileId(fileId);
+		    		String modelId=mb.getRecordFile().getFileId();
+		    		if(modelFileIdLst.contains(modelId)){//产生一个新的文件号，否则使用的是模板文件的id
+		    			String fileId= WordFileUtil.insertAsFileContent(mb.getRecordFile().getFileName());
+			    		mb.getRecordFile().setFileId(fileId);
+			    		modelFileIdLst.remove(modelId);
+		    		}else{
+			    		WordFileUtil.uploadWordFile(mb.getRecordFile().getFileName(), mb.getRecordFile().getFileId());
+		    		} 
 		    		lst.add(mb.getRecordFile());
 		    	}/*else if(mb.getTabCompo() instanceof WordPane){
 		    		
@@ -1155,7 +1121,7 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 		      entrustHandler.getColumNames(), LangTransMeta.translate(SfJdResult.COL_ENTRUST_CODE), "entrustCode");
 		    TextFieldEditor name = new TextFieldEditor(LangTransMeta.translate(SfJdResult.COL_NAME), "name");
 		    AsValFieldEditor status = new AsValFieldEditor(LangTransMeta.translate(SfJdResult.COL_STATUS), "status", SfJdResult.SF_VS_JD_RESULT_STATUS);
-		    AsValFieldEditor resultType = new AsValFieldEditor(LangTransMeta.translate(SfJdResult.COL_RESULT_TYPE), "resultType",SfJdResult.SF_VS_JD_RESULT_TYPE);
+		    AsValFieldEditor resultType = new AsValFieldEditor(LangTransMeta.translate(SfJdResult.COL_RESULT_TYPE), "resultType",SfJdReport.SF_VS_JD_RESULT_TYPE);
 		    DateFieldEditor jdDate = new DateFieldEditor(LangTransMeta.translate(SfJdResult.COL_JD_DATE), "jdDate");
 		    TextFieldEditor jdAddress = new TextFieldEditor(LangTransMeta.translate(SfJdResult.COL_JD_ADDRESS), "jdAddress");
 		    TextAreaFieldEditor zcPersons = new TextAreaFieldEditor(LangTransMeta.translate(SfJdResult.COL_ZC_PERSONS), "zcPersons", -1, 1, 5);
@@ -1265,261 +1231,323 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 		  
 		  JPopupMenu.setDefaultLightWeightPopupEnabled(false);
  
-		  JMenuItem mItemWtfName=new JMenuItem(MENU_WTF_NAME);
+		  JMenuItem mItemWtfName=new JMenuItem(SfClientUtil.MENU_WTF_NAME);
 		  mItemWtfName.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				insertContent(MENU_WTF_NAME);
+				insertContent(SfClientUtil.MENU_WTF_NAME);
 			}
 		}); 
-		  JMenuItem mItemWtfAdress=new JMenuItem(MENU_WTF_ADDRESS);
+		  JMenuItem mItemWtfAdress=new JMenuItem(SfClientUtil.MENU_WTF_ADDRESS);
 		  mItemWtfAdress.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				insertContent(MENU_WTF_ADDRESS);
+				insertContent(SfClientUtil.MENU_WTF_ADDRESS);
 			}
 		});
-		  JMenuItem mItemWtfZip=new JMenuItem(MENU_WTF_ZIP);
+		  JMenuItem mItemWtfZip=new JMenuItem(SfClientUtil.MENU_WTF_ZIP);
 		  mItemWtfZip.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				insertContent(MENU_WTF_ZIP);
+				insertContent(SfClientUtil.MENU_WTF_ZIP);
 			}
 		});
-		  JMenuItem mItemWtfLinkMan=new JMenuItem(MENU_WTF_LINK_MAN);
+		  JMenuItem mItemWtfLinkMan=new JMenuItem(SfClientUtil.MENU_WTF_LINK_MAN);
 		  mItemWtfLinkMan.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				insertContent(MENU_WTF_LINK_MAN);
+				insertContent(SfClientUtil.MENU_WTF_LINK_MAN);
 			}
 		});
-		  JMenuItem mItemWtfLinkTel=new JMenuItem(MENU_WTF_LINK_TEL);
+		  JMenuItem mItemWtfLinkTel=new JMenuItem(SfClientUtil.MENU_WTF_LINK_TEL);
 		  mItemWtfLinkTel.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				insertContent(MENU_WTF_LINK_TEL);
+				insertContent(SfClientUtil.MENU_WTF_LINK_TEL);
 			}
 		});
-		  JMenuItem mItemSjrName=new JMenuItem(MENU_SJR_SJR);
+		  JMenuItem mItemSjrName=new JMenuItem(SfClientUtil.MENU_SJR_SJR);
 		  mItemSjrName.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				insertContent(MENU_SJR_SJR);
+				insertContent(SfClientUtil.MENU_SJR_SJR);
 			}
 		});
-		  JMenuItem mItemSjrTel=new JMenuItem(MENU_SJR_SJR_TEL);
+		  JMenuItem mItemSjrTel=new JMenuItem(SfClientUtil.MENU_SJR_SJR_TEL);
 		  mItemSjrTel.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				insertContent(MENU_SJR_SJR_TEL);
+				insertContent(SfClientUtil.MENU_SJR_SJR_TEL);
 			}
 		});
-		  JMenuItem mItemSjrZjType=new JMenuItem(MENU_SJR_SJR_ZJ_TYPE);
+		  JMenuItem mItemSjrZjType=new JMenuItem(SfClientUtil.MENU_SJR_SJR_ZJ_TYPE);
 		  mItemSjrZjType.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				insertContent(MENU_SJR_SJR_ZJ_TYPE);
+				insertContent(SfClientUtil.MENU_SJR_SJR_ZJ_TYPE);
 			}
 		});
-		  JMenuItem mItemSjrZjCode=new JMenuItem(MENU_SJR_SJR_ZJ_CODE);
+		  JMenuItem mItemSjrZjCode=new JMenuItem(SfClientUtil.MENU_SJR_SJR_ZJ_CODE);
 		  mItemSjrZjCode.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				insertContent(MENU_SJR_SJR_ZJ_CODE);
+				insertContent(SfClientUtil.MENU_SJR_SJR_ZJ_CODE);
 			}
 		}); 
-		  JMenuItem mItemJdTargetName=new JMenuItem(MENU_JD_TARGET_NAME);
+		  JMenuItem mItemJdTargetName=new JMenuItem(SfClientUtil.MENU_JD_TARGET_NAME);
 		  mItemJdTargetName.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				insertContent(MENU_JD_TARGET_NAME);
+				insertContent(SfClientUtil.MENU_JD_TARGET_NAME);
 			}
 		});
-		  JMenuItem mItemJdTargetSex=new JMenuItem(MENU_JD_TARGET_SEX);
+		  JMenuItem mItemJdTargetSex=new JMenuItem(SfClientUtil.MENU_JD_TARGET_SEX);
 		  mItemJdTargetSex.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				insertContent(MENU_JD_TARGET_SEX);
+				insertContent(SfClientUtil.MENU_JD_TARGET_SEX);
 			}
 		});
-		  JMenuItem mItemJdTargetAge=new JMenuItem(MENU_JD_TARGET_AGE);
+		  JMenuItem mItemJdTargetAge=new JMenuItem(SfClientUtil.MENU_JD_TARGET_AGE);
 		  mItemJdTargetAge.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				insertContent(MENU_JD_TARGET_AGE);
+				insertContent(SfClientUtil.MENU_JD_TARGET_AGE);
 			}
 		});
-		  JMenuItem mItemJdTargetIdName=new JMenuItem(MENU_JD_TARGET_ID_NAME);
+		  JMenuItem mItemJdTargetIdName=new JMenuItem(SfClientUtil.MENU_JD_TARGET_ID_NAME);
 		  mItemJdTargetIdName.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				insertContent(MENU_JD_TARGET_ID_NAME);
+				insertContent(SfClientUtil.MENU_JD_TARGET_ID_NAME);
 			}
 		});
-		  JMenuItem mItemJdTargetIdCode=new JMenuItem(MENU_JD_TARGET_ID_CODE);
+		  JMenuItem mItemJdTargetIdCode=new JMenuItem(SfClientUtil.MENU_JD_TARGET_ID_CODE);
 		  mItemJdTargetIdCode.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				insertContent(MENU_JD_TARGET_ID_CODE);
+				insertContent(SfClientUtil.MENU_JD_TARGET_ID_CODE);
 			}
 		});
-		  JMenuItem mItemJdTargetPhone=new JMenuItem(MENU_JD_TARGET_PHONE);
+		  JMenuItem mItemJdTargetPhone=new JMenuItem(SfClientUtil.MENU_JD_TARGET_PHONE);
 		  mItemJdTargetPhone.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				insertContent(MENU_JD_TARGET_PHONE);
+				insertContent(SfClientUtil.MENU_JD_TARGET_PHONE);
 			}
 		});
-		  JMenuItem mItemJdTargetAddress=new JMenuItem(MENU_JD_TARGET_ADDRESS);
+		  JMenuItem mItemJdTargetAddress=new JMenuItem(SfClientUtil.MENU_JD_TARGET_ADDRESS);
 		  mItemJdTargetAddress.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				insertContent(MENU_JD_TARGET_ADDRESS);
+				insertContent(SfClientUtil.MENU_JD_TARGET_ADDRESS);
 			}
 		});
-		  JMenuItem mItemJdTargetZip=new JMenuItem(MENU_JD_TARGET_ZIP);
+		  JMenuItem mItemJdTargetZip=new JMenuItem(SfClientUtil.MENU_JD_TARGET_ZIP);
 		  mItemJdTargetZip.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				insertContent(MENU_JD_TARGET_ZIP);
+				insertContent(SfClientUtil.MENU_JD_TARGET_ZIP);
 			}
 		});
-		  JMenuItem mItemJdBrief=new JMenuItem(MENU_JD_BRIEF);
+		  JMenuItem mItemJdBrief=new JMenuItem(SfClientUtil.MENU_JD_BRIEF);
 		  mItemJdBrief.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				insertContent(MENU_JD_BRIEF);
+				insertContent(SfClientUtil.MENU_JD_BRIEF);
 			}
 		});
-		  JMenuItem mItemJdName=new JMenuItem(MENU_JD_NAME);
+		  JMenuItem mItemJdName=new JMenuItem(SfClientUtil.MENU_JD_NAME);
 		  mItemJdName.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				insertContent(MENU_JD_NAME);
+				insertContent(SfClientUtil.MENU_JD_NAME);
 			}
 		}); 
-		  JMenuItem mItemJdCode=new JMenuItem(MENU_JD_CODE);
+		  JMenuItem mItemJdCode=new JMenuItem(SfClientUtil.MENU_JD_CODE);
 		  mItemJdCode.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				insertContent(MENU_JD_CODE);
+				insertContent(SfClientUtil.MENU_JD_CODE);
 			}
 		}); 
-		  JMenuItem mItemJdMaterial=new JMenuItem(MENU_JD_MATERIALS);
+		  JMenuItem mItemJdMaterial=new JMenuItem(SfClientUtil.MENU_JD_MATERIALS);
 		  mItemJdMaterial.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				insertContent(MENU_JD_MATERIALS);
+				insertContent(SfClientUtil.MENU_JD_MATERIALS);
 			}
 		}); 
-		  JMenuItem mItemJdRequir=new JMenuItem(MENU_JD_REQUIRE);
+		  JMenuItem mItemJdRequir=new JMenuItem(SfClientUtil.MENU_JD_REQUIRE);
 		  mItemJdRequir.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				insertContent(MENU_JD_REQUIRE);
+				insertContent(SfClientUtil.MENU_JD_REQUIRE);
 			}
 		});
-		  JMenuItem mItemJdMajor=new JMenuItem(MENU_JD_MAJOR);
+		  JMenuItem mItemJdMajor=new JMenuItem(SfClientUtil.MENU_JD_MAJOR);
 		  mItemJdMajor.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				insertContent(MENU_JD_MAJOR);
+				insertContent(SfClientUtil.MENU_JD_MAJOR);
 			}
 		});
-		  JMenuItem mItemJdFzr=new JMenuItem(MENU_JD_FZR);
+		  JMenuItem mItemJdFzr=new JMenuItem(SfClientUtil.MENU_JD_FZR);
 		  mItemJdFzr.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				insertContent(MENU_JD_FZR);
+				insertContent(SfClientUtil.MENU_JD_FZR);
 			}
 		});
-		  JMenuItem mItemJdFhr=new JMenuItem(MENU_JD_FHR);
+		  JMenuItem mItemJdFhr=new JMenuItem(SfClientUtil.MENU_JD_FHR);
 		  mItemJdFhr.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				insertContent(MENU_JD_FHR);
+				insertContent(SfClientUtil.MENU_JD_FHR);
 			}
 		});
-		  JMenuItem mItemJdCompany=new JMenuItem(MENU_JD_COMPANY);
+		  JMenuItem mItemJdCompany=new JMenuItem(SfClientUtil.MENU_JD_COMPANY);
 		  mItemJdCompany.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				insertContent(MENU_JD_COMPANY);
+				insertContent(SfClientUtil.MENU_JD_COMPANY);
 			}
 		});
-		  JMenuItem mItemJdAcceptDate=new JMenuItem(MENU_JD_ACCEPT_DATE);
+		  JMenuItem mItemJdAcceptDate=new JMenuItem(SfClientUtil.MENU_JD_ACCEPT_DATE);
 		  mItemJdAcceptDate.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				insertContent(MENU_JD_ACCEPT_DATE);
+				insertContent(SfClientUtil.MENU_JD_ACCEPT_DATE);
 			}
 		});
-		  JMenuItem mItemJdAcceptor=new JMenuItem(MENU_JD_ACCEPT_PERSON);
+		  JMenuItem mItemJdAcceptor=new JMenuItem(SfClientUtil.MENU_JD_ACCEPT_PERSON);
 		  mItemJdAcceptor.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				insertContent(MENU_JD_ACCEPT_PERSON);
+				insertContent(SfClientUtil.MENU_JD_ACCEPT_PERSON);
 			}
 		});
-		  JMenuItem mItemJdWtDate=new JMenuItem(MENU_WT_DATE);
+		  JMenuItem mItemJdWtDate=new JMenuItem(SfClientUtil.MENU_WT_DATE);
 		  mItemJdWtDate.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				insertContent(MENU_WT_DATE);
+				insertContent(SfClientUtil.MENU_WT_DATE);
+			}
+		});
+
+		  //--------------鉴定机构----start---------
+
+		  JMenuItem mItemJdjgName=new JMenuItem(SfClientUtil.MENU_JDJG_NAME);
+		  mItemJdjgName.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				insertContent(SfClientUtil.MENU_JDJG_NAME);
 			}
 		}); 
-		  JMenuItem mItemReferenceEntrust=new JMenuItem(MENU_REFRENCE_ENTRUST);
+		  JMenuItem mItemJdjgXkzh=new JMenuItem(SfClientUtil.MENU_JDJG_XKZH);
+		  mItemJdjgXkzh.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				insertContent(SfClientUtil.MENU_JDJG_XKZH);
+			}
+		}); 
+		  JMenuItem mItemJdjgAddress=new JMenuItem(SfClientUtil.MENU_JDJG_ADDRESS);
+		  mItemJdjgAddress.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				insertContent(SfClientUtil.MENU_JDJG_ADDRESS);
+			}
+		}); 
+		  JMenuItem mItemJdjgTel=new JMenuItem(SfClientUtil.MENU_JDJG_TEL);
+		  mItemJdjgTel.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				insertContent(SfClientUtil.MENU_JDJG_TEL);
+			}
+		}); 
+		  JMenuItem mItemJdjgFax=new JMenuItem(SfClientUtil.MENU_JDJG_FAX);
+		  mItemJdjgFax.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				insertContent(SfClientUtil.MENU_JDJG_FAX);
+			}
+		}); 
+		  JMenuItem mItemJdjgLinkMan=new JMenuItem(SfClientUtil.MENU_JDJG_LINK_MAN);
+		  mItemJdjgLinkMan.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				insertContent(SfClientUtil.MENU_JDJG_LINK_MAN);
+			}
+		});  
+		  JMenuItem mItemJdjgZip=new JMenuItem(SfClientUtil.MENU_JDJG_ZIP);
+		  mItemJdjgZip.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				insertContent(SfClientUtil.MENU_JDJG_ZIP);
+			}
+		}); 
+		  //--------------鉴定机构----end---------
+		  
+		  
+		  JMenuItem mItemReferenceEntrust=new JMenuItem(SfClientUtil.MENU_REFRENCE_ENTRUST);
 		  mItemReferenceEntrust.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				referenceEntrust(MENU_REFRENCE_ENTRUST);
+				referenceEntrust(SfClientUtil.MENU_REFRENCE_ENTRUST);
 			}
 		}); 
-		  JMenuItem mItemReferenceEntrustFile=new JMenuItem(MENU_REFRENCE_ENTRUST_RECORD);
+		  JMenuItem mItemReferenceEntrustFile=new JMenuItem(SfClientUtil.MENU_REFRENCE_ENTRUST_RECORD);
 		  mItemReferenceEntrustFile.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				referenceFile(MENU_REFRENCE_ENTRUST_RECORD);
+				referenceFile(SfClientUtil.MENU_REFRENCE_ENTRUST_RECORD);
 			}
 		}); 
 		  
-		  JMenuItem mItemFillModel=new JMenuItem(MENU_FILL_CUR);
+		  JMenuItem mItemFillModel=new JMenuItem(SfClientUtil.MENU_FILL_CUR);
 		  mItemFillModel.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				fillModel(MENU_FILL_CUR);
+				fillModel(SfClientUtil.MENU_FILL_CUR);
 			}
 		}); 
 		  
@@ -1557,6 +1585,15 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 		  menuInsertJdTarget.add(mItemJdTargetZip);  
 		  menuInsertContent.addSeparator();
 		  menuInsertContent.add(menuInsertJdTarget);
+		  menuInsertJdjg.add(mItemJdjgName);
+		  menuInsertJdjg.add(mItemJdjgXkzh);
+		  menuInsertJdjg.add(mItemJdjgLinkMan);
+		  menuInsertJdjg.add(mItemJdjgTel);
+		  menuInsertJdjg.add(mItemJdjgFax);
+		  menuInsertJdjg.add(mItemJdjgZip);
+		  menuInsertJdjg.add(mItemJdjgAddress);  
+		  menuInsertContent.addSeparator();
+		  menuInsertContent.add(menuInsertJdjg);
 		  
 		  initModelMenu();
 		  menuBar.add(menuInsertModel);
@@ -1599,7 +1636,9 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 	}
 
 	private void initModelMenu() {
-		List modelLst=zcEbBaseServiceDelegate.queryDataForList("com.ufgov.zc.server.sf.dao.SfJdRecordFileModelMapper.getModelFileMenuItem", new HashMap(), requestMeta);
+		ElementConditionDto dto=new ElementConditionDto();
+		dto.setDattr1(SfJdRecordFileModel.SF_VS_JD_FILE_MODEL_DOC_TYPE_RECORD);
+		List modelLst=zcEbBaseServiceDelegate.queryDataForList("com.ufgov.zc.server.sf.dao.SfJdRecordFileModelMapper.getModelFileMenuItem", dto, requestMeta);
 		for(int i=0;i<modelLst.size();i++){
 			Map m=(Map) modelLst.get(i);
 			String name=(String) m.get("MENUITEMNAME"); 
@@ -1645,6 +1684,7 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 		SfJdResultFile rf=new SfJdResultFile();
 		rf.setModel(model); 
 		rf.setFileId(model.getFileId()); 
+		modelFileIdLst.add(model.getFileId());
 		addTab(rf);
 		
 	}
@@ -1675,7 +1715,14 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 		
 		if(SfJdRecordFileModel.SF_VS_JD_FILE_MODEL_TYPE_word.equals(tb.getRecordFile().getModel().getFileType())){
 			WordPane wp=(WordPane)tb.getTabCompo();
-			String txt=getTxtFromBill(menuTitle);
+//			String txt=getTxtFromBill(menuTitle); 
+			String txt="";
+			if(menuTitle.startsWith("鉴定机构")){
+				SfJdjg jdjg=getJdjg();
+				txt=SfClientUtil.getTxtFromJdjg(menuTitle, jdjg);
+			}else{
+				txt=SfClientUtil.getTxtFromBill(menuTitle, bill.getEntrust(), requestMeta);
+			}
 			wp.insertTextToDoc(txt);
 		}else if(SfJdRecordFileModel.SF_VS_JD_FILE_MODEL_TYPE_excel.equals(tb.getRecordFile().getModel().getFileType())){
 				
@@ -1684,74 +1731,81 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 		mainTab.setSelectedIndex(1);
 		
 	}
-
+/*
 	private String getTxtFromBill(String menuTitle) {
 
 		SfJdResult bill = (SfJdResult) this.listCursor.getCurrentObject();
 		
 		StringBuffer sb=new StringBuffer();
 
-		if(MENU_WTF_NAME.equals(menuTitle)){
+		if(SfClientUtil.MENU_WTF_NAME.equals(menuTitle)){
 			sb.append(bill.getEntrust().getEntrustor().getName());
-		}else if(MENU_WTF_ADDRESS.equals(menuTitle)){
+		}else if(SfClientUtil.MENU_WTF_ADDRESS.equals(menuTitle)){
 			sb.append(bill.getEntrust().getEntrustor().getAddress());
-		}else if(MENU_WTF_ZIP.equals(menuTitle)){
+		}else if(SfClientUtil.MENU_WTF_ZIP.equals(menuTitle)){
 			sb.append(bill.getEntrust().getEntrustor().getZip());
-		}else if(MENU_WTF_LINK_MAN.equals(menuTitle)){
+		}else if(SfClientUtil.MENU_WTF_LINK_MAN.equals(menuTitle)){
 			sb.append(bill.getEntrust().getEntrustor().getLinkMan());
-		}else if(MENU_WTF_LINK_TEL.equals(menuTitle)){
+		}else if(SfClientUtil.MENU_WTF_LINK_TEL.equals(menuTitle)){
 			sb.append(bill.getEntrust().getEntrustor().getLinkTel());
-		}else if(MENU_SJR_SJR.equals(menuTitle)){
+		}else if(SfClientUtil.MENU_SJR_SJR.equals(menuTitle)){
 			sb.append(bill.getEntrust().getSjr());
-		}else if(MENU_SJR_SJR_TEL.equals(menuTitle)){
+		}else if(SfClientUtil.MENU_SJR_SJR_TEL.equals(menuTitle)){
 			sb.append(bill.getEntrust().getSjrTel());
-		}else if(MENU_SJR_SJR_ZJ_TYPE.equals(menuTitle)){
+		}else if(SfClientUtil.MENU_SJR_SJR_ZJ_TYPE.equals(menuTitle)){
 			sb.append(bill.getEntrust().getSjrZjType());
-		}else if(MENU_SJR_SJR_ZJ_CODE.equals(menuTitle)){
+		}else if(SfClientUtil.MENU_SJR_SJR_ZJ_CODE.equals(menuTitle)){
 			sb.append(bill.getEntrust().getSjrZjCode());
-		}else if(MENU_JD_TARGET_NAME.equals(menuTitle)){
+		}else if(SfClientUtil.MENU_JD_TARGET_NAME.equals(menuTitle)){
 			sb.append(bill.getEntrust().getJdTarget().getName());
-		}else if(MENU_JD_TARGET_SEX.equals(menuTitle)){
+		}else if(SfClientUtil.MENU_JD_TARGET_SEX.equals(menuTitle)){
 			sb.append(AsValDataCache.getName(SfElementConstants.VS_SEX, bill.getEntrust().getJdTarget().getSex()));
-		}else if(MENU_JD_TARGET_AGE.equals(menuTitle)){
+		}else if(SfClientUtil.MENU_JD_TARGET_AGE.equals(menuTitle)){
 			sb.append(bill.getEntrust().getJdTarget().getAge());
-		}else if(MENU_JD_TARGET_ID_NAME.equals(menuTitle)){
+		}else if(SfClientUtil.MENU_JD_TARGET_ID_NAME.equals(menuTitle)){
 			sb.append(bill.getEntrust().getJdTarget().getIdName());
-		}else if(MENU_JD_TARGET_ID_CODE.equals(menuTitle)){
+		}else if(SfClientUtil.MENU_JD_TARGET_ID_CODE.equals(menuTitle)){
 			sb.append(bill.getEntrust().getJdTarget().getIdCode());
-		}else if(MENU_JD_TARGET_PHONE.equals(menuTitle)){
+		}else if(SfClientUtil.MENU_JD_TARGET_PHONE.equals(menuTitle)){
 			sb.append(bill.getEntrust().getJdTarget().getPhone());
-		}else if(MENU_JD_TARGET_ADDRESS.equals(menuTitle)){
+		}else if(SfClientUtil.MENU_JD_TARGET_ADDRESS.equals(menuTitle)){
 			sb.append(bill.getEntrust().getJdTarget().getAddress());
-		}else if(MENU_JD_TARGET_ZIP.equals(menuTitle)){
+		}else if(SfClientUtil.MENU_JD_TARGET_ZIP.equals(menuTitle)){
 			sb.append(bill.getEntrust().getJdTarget().getZip());
-		}else if(MENU_JD_BRIEF.equals(menuTitle)){
+		}else if(SfClientUtil.MENU_JD_BRIEF.equals(menuTitle)){
 			sb.append(bill.getEntrust().getBrief());
-		}else if(MENU_JD_NAME.equals(menuTitle)){
+		}else if(SfClientUtil.MENU_JD_NAME.equals(menuTitle)){
 			sb.append(bill.getEntrust().getName());
-		}else if(MENU_JD_CODE.equals(menuTitle)){
+		}else if(SfClientUtil.MENU_JD_CODE.equals(menuTitle)){
 			sb.append(bill.getEntrust().getCode());
-		}else if(MENU_JD_MATERIALS.equals(menuTitle)){
+		}else if(SfClientUtil.MENU_JD_MATERIALS.equals(menuTitle)){
 			sb.append(SfBookmarkUtil.getJdclString(bill.getEntrust()));
-		}else if(MENU_JD_REQUIRE.equals(menuTitle)){
+		}else if(SfClientUtil.MENU_JD_REQUIRE.equals(menuTitle)){
 			sb.append(bill.getEntrust().getJdRequire());
-		}else if(MENU_JD_MAJOR.equals(menuTitle)){
+		}else if(SfClientUtil.MENU_JD_MAJOR.equals(menuTitle)){
 			sb.append(bill.getEntrust().getMajor().getMajorName());
-		}else if(MENU_JD_FZR.equals(menuTitle)){
+		}else if(SfClientUtil.MENU_JD_FZR.equals(menuTitle)){
 			sb.append(EmpMeta.getEmpName(bill.getEntrust().getJdFzr()));
-		}else if(MENU_JD_FHR.equals(menuTitle)){
+		}else if(SfClientUtil.MENU_JD_FHR.equals(menuTitle)){
 			sb.append(bill.getEntrust().getJdFhrName());
-		}else if(MENU_JD_COMPANY.equals(menuTitle)){
+		}else if(SfClientUtil.MENU_JD_COMPANY.equals(menuTitle)){
 			sb.append(requestMeta.getSvCoName());
-		}else if(MENU_JD_ACCEPT_DATE.equals(menuTitle)){
+		}else if(SfClientUtil.MENU_JD_ACCEPT_DATE.equals(menuTitle)){
 			sb.append(DateUtil.dateToChinaString(bill.getEntrust().getAcceptDate()));
-		}else if(MENU_JD_ACCEPT_PERSON.equals(menuTitle)){
+		}else if(SfClientUtil.MENU_JD_ACCEPT_PERSON.equals(menuTitle)){
 			sb.append(bill.getEntrust().getAcceptorName());
-		}else if(MENU_WT_DATE.equals(menuTitle)){
+		}else if(SfClientUtil.MENU_WT_DATE.equals(menuTitle)){
 			sb.append(DateUtil.dateToChinaString(bill.getEntrust().getWtDate()));
 		}
 		
 		return sb.toString().equalsIgnoreCase("null")?"":sb.toString();
+	}*/
+
+	private SfJdjg getJdjg() {
+		ElementConditionDto dto=new ElementConditionDto();
+		dto.setCoCode(requestMeta.getSvCoCode());
+		SfJdjg jdjg=(SfJdjg) zcEbBaseServiceDelegate.queryObject("com.ufgov.zc.server.sf.dao.SfJdjgMapper.selectMainDataLst", dto, requestMeta);
+		return jdjg;
 	}
 
 	/* (non-Javadoc)

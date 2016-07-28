@@ -56,6 +56,14 @@
 		isMutliRecord="false"
 		nodeBusiness="com.ufgov.zc.client.sf.dataflow.nodebusiness.SfJdResultNodeBusiness"/>
 		
+		
+	<node compoId="SF_JD_REPORT"
+		text="鉴定意见书"
+		toolTip="鉴定意见书/报告" 
+		icon="graph.bmp"
+		isMutliRecord="false"
+		nodeBusiness="com.ufgov.zc.client.sf.dataflow.nodebusiness.SfJdReportNodeBusiness"/>
+		
 	<node compoId="SF_JD_DOC_AUDIT"
 		text="鉴定文书审批单"
 		toolTip="鉴定文书审批单" 

@@ -227,7 +227,9 @@
 	<bean id="sfJdReportService" class="com.ufgov.zc.server.sf.service.impl.SfJdReportService"		scope="singleton">
 		<property name="sfJdReportMapper" ref="sfJdReportMapper" />		
 		<property name="workflowDao" ref="workflowDao" />
-		<property name="wfEngineAdapter" ref="wfEngineAdapter" /> 
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+		 <property name="sfEntrustService" ref="sfEntrustService" />
+		 <property name="jdResultService" ref="jdResultService" />
 	</bean>		
 	<bean id="sfJdReportMapper" class="com.ufgov.zc.server.sf.dao.ibatis.SfJdReportMapperImp"		scope="singleton">
 		<property name="sqlMapClient" ref="sqlMapClient" />

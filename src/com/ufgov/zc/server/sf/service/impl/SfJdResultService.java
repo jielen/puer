@@ -86,8 +86,8 @@ public class SfJdResultService implements ISfJdResultService {
         inData.setProcessInstId(draftid);
         isDraft = true;
       }
+
       jdResultMapper.insert(inData); 
-      
       
       if (isDraft) {
         AsWfDraft asWfDraft = new AsWfDraft();

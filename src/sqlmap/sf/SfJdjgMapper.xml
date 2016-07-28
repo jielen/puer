@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.ufgov.zc.server.sf.dao.SfJdjgMapper" >
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+  <resultMap id="BaseResultMap" class="com.ufgov.zc.common.sf.model.SfJdjg" > 
+    <result column="JG_ID" property="jgId" jdbcType="DECIMAL" />
+    <result column="CO_CODE" property="coCode" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="XKZH" property="xkzh" jdbcType="VARCHAR" />
+    <result column="TEL" property="tel" jdbcType="VARCHAR" />
+    <result column="LINK_MAN" property="linkMan" jdbcType="VARCHAR" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="ZIP" property="zip" jdbcType="VARCHAR" />
+    <result column="FAX" property="fax" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" > 
+    JG_ID, CO_CODE, NAME, XKZH, TEL, LINK_MAN, ADDRESS, ZIP, FAX
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="java.math.BigDecimal" > 
+    select 
+    <include refid="Base_Column_List" />
+    from SF_JDJG
+    where JG_ID = #jgId:DECIMAL#
+  </select>
+  <select id="selectMainDataLst" resultMap="BaseResultMap" parameterClass="elementCondition" > 
+    select 
+    <include refid="Base_Column_List" />
+    from SF_JDJG 
+    where 1=1    
+   <isNotNull prepend="AND" property="coCode"> 
+   		co_code=#coCode#
+   </isNotNull>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="java.math.BigDecimal" > 
+    delete from SF_JDJG
+    where JG_ID = #jgId:DECIMAL#
+  </delete>
+  <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfJdjg" > 
+    insert into SF_JDJG (JG_ID, CO_CODE, NAME, 
+      XKZH, TEL, LINK_MAN, 
+      ADDRESS, ZIP, FAX)
+    values (#jgId:DECIMAL#, #coCode:VARCHAR#, #name:VARCHAR#, 
+      #xkzh:VARCHAR#, #tel:VARCHAR#, #linkMan:VARCHAR#, 
+      #address:VARCHAR#, #zip:VARCHAR#, #fax:VARCHAR#)
+  </insert> 
+  <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfJdjg" > 
+    update SF_JDJG
+    set CO_CODE = #coCode:VARCHAR#,
+      NAME = #name:VARCHAR#,
+      XKZH = #xkzh:VARCHAR#,
+      TEL = #tel:VARCHAR#,
+      LINK_MAN = #linkMan:VARCHAR#,
+      ADDRESS = #address:VARCHAR#,
+      ZIP = #zip:VARCHAR#,
+      FAX = #fax:VARCHAR#
+    where JG_ID = #jgId:DECIMAL#
+  </update>
+</sqlMap>

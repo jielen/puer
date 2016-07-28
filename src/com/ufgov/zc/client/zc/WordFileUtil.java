@@ -7,6 +7,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -188,7 +190,7 @@ public class WordFileUtil {
     if (!file.exists()) {
       file.mkdirs();
     }
-
+    deleteOldFile(file);
     FileOutputStream fos = null;
     try {
       delete(fullFileName);
@@ -212,7 +214,26 @@ public class WordFileUtil {
     return fullFileName;
   }
 
-  public static boolean createFile(String path, String filename, JPanel panel, byte[] content) {
+  /**
+   * 删除一个月前的文件
+   * @param dir
+   */
+  private static void deleteOldFile(File dir) {
+	  File[] files=dir.listFiles();
+	  Calendar rightNow = Calendar.getInstance(),fileDate = Calendar.getInstance();
+	  rightNow.setTime(new Date());
+	  
+	  for(int i=0;i<files.length;i++){
+		  Long lastModified=files[i].lastModified();
+		  fileDate.setTimeInMillis(lastModified);
+		  fileDate.add(Calendar.MONTH,1);
+		  if(rightNow.getTimeInMillis()>fileDate.getTimeInMillis()){
+			  files[i].delete();
+		  }
+	  }
+}
+
+public static boolean createFile(String path, String filename, JPanel panel, byte[] content) {
     boolean isSucceed = true;
     File file = new File(path);
     if (!file.exists()) {

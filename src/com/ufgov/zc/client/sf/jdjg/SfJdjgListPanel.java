@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.ufgov.zc.client.sf.jdresult;
+package com.ufgov.zc.client.sf.jdjg;
 
 import java.awt.Color;
 import java.awt.Container;
@@ -35,7 +35,7 @@ import com.ufgov.zc.client.common.MyTableModel;
 import com.ufgov.zc.client.common.ParentWindowAware;
 import com.ufgov.zc.client.common.ServiceFactory;
 import com.ufgov.zc.client.common.WorkEnv;
-import com.ufgov.zc.client.common.converter.sf.SfJdFileModelToTableModelConverter;
+import com.ufgov.zc.client.common.converter.sf.SfJdjgToTableModelConverter;
 import com.ufgov.zc.client.component.JFuncToolBar;
 import com.ufgov.zc.client.component.ui.AbstractDataDisplay;
 import com.ufgov.zc.client.component.ui.AbstractEditListBill;
@@ -45,14 +45,18 @@ import com.ufgov.zc.client.component.ui.SaveableSearchConditionArea;
 import com.ufgov.zc.client.component.ui.TableDisplay;
 import com.ufgov.zc.client.component.ui.conditionitem.AbstractSearchConditionItem;
 import com.ufgov.zc.client.component.ui.conditionitem.SearchConditionUtil;
+import com.ufgov.zc.client.print.PrintPreviewer;
 import com.ufgov.zc.client.print.PrintSettingDialog;
+import com.ufgov.zc.client.print.Printer;
 import com.ufgov.zc.client.util.ListUtil;
 import com.ufgov.zc.client.zc.ZcUtil;
 import com.ufgov.zc.common.commonbiz.model.SearchCondition;
-import com.ufgov.zc.common.sf.model.SfJdRecordFileModel;
+import com.ufgov.zc.common.commonbiz.publish.IBaseDataServiceDelegate;
+import com.ufgov.zc.common.sf.model.SfJdjg;
 import com.ufgov.zc.common.system.RequestMeta;
 import com.ufgov.zc.common.system.constants.WFConstants;
 import com.ufgov.zc.common.system.dto.ElementConditionDto;
+import com.ufgov.zc.common.system.dto.PrintObject;
 import com.ufgov.zc.common.system.util.ObjectUtil;
 import com.ufgov.zc.common.zc.publish.IZcEbBaseServiceDelegate;
 
@@ -60,26 +64,28 @@ import com.ufgov.zc.common.zc.publish.IZcEbBaseServiceDelegate;
  * @author Administrator
  *
  */
-public class SfJdRecordFileModelListPanel  extends AbstractEditListBill implements ParentWindowAware {
+public class SfJdjgListPanel extends AbstractEditListBill implements ParentWindowAware {
 
 	  /**
 	   * 
 	   */
 	  private static final long serialVersionUID = -9039036065611429252L;
 
-	  public static final Logger logger = Logger.getLogger(SfJdRecordFileModelListPanel.class);
+	  public static final Logger logger = Logger.getLogger(SfJdjgListPanel.class);
 
-	  private SfJdRecordFileModelListPanel self = this;
+	  private SfJdjgListPanel self = this;
 
 	  private Window parentWindow;
 
-	  public static final String compoId = "SF_JD_RECORD_FILE_MODEL";
+	  public static final String compoId = "SF_JDJG";
 
 	  private RequestMeta requestMeta = WorkEnv.getInstance().getRequestMeta();
 
 	  private ElementConditionDto elementConditionDto = new ElementConditionDto();
 
-	  private IZcEbBaseServiceDelegate baseDataServiceDelegate;
+	  private IZcEbBaseServiceDelegate zcEbBaseServiceDelegate;
+
+	  private IBaseDataServiceDelegate baseDataServiceDelegate;
 
 	  public Window getParentWindow() {
 
@@ -93,15 +99,19 @@ public class SfJdRecordFileModelListPanel  extends AbstractEditListBill implemen
 
 	  }
 
-	  public SfJdRecordFileModelListPanel() {
-	     baseDataServiceDelegate = (IZcEbBaseServiceDelegate) ServiceFactory.create(IZcEbBaseServiceDelegate.class, "zcEbBaseServiceDelegate");
+	  public SfJdjgListPanel() {
+		    zcEbBaseServiceDelegate = (IZcEbBaseServiceDelegate) ServiceFactory.create(IZcEbBaseServiceDelegate.class, "zcEbBaseServiceDelegate");
+		    
+	    baseDataServiceDelegate = (IBaseDataServiceDelegate) ServiceFactory.create(IBaseDataServiceDelegate.class, "baseDataServiceDelegate");
 
 	    UIUtilities.asyncInvoke(new DefaultInvokeHandler<List<SearchCondition>>() {
 
 	      @Override
 	      public List<SearchCondition> execute() throws Exception {
 
-	        List<SearchCondition> needDisplaySearchConditonList = SearchConditionUtil.getNeedDisplaySearchConditonList(WorkEnv.getInstance().getCurrUserId(), SfJdRecordFileModel.TAB_ID_SF_JD_RECORD_FILE_MODEL);
+	        List<SearchCondition> needDisplaySearchConditonList = SearchConditionUtil.getNeedDisplaySearchConditonList(WorkEnv.getInstance()
+
+	        .getCurrUserId(), SfJdjg.TAB_ID);
 
 	        return needDisplaySearchConditonList;
 
@@ -116,7 +126,7 @@ public class SfJdRecordFileModelListPanel  extends AbstractEditListBill implemen
 
 	        revalidate();
 
-	        repaint();
+	        repaint(); 
 
 	      }
 
@@ -127,7 +137,7 @@ public class SfJdRecordFileModelListPanel  extends AbstractEditListBill implemen
 
 	  private AbstractDataDisplay createDataDisplay(List<TableDisplay> showingDisplays) {
 
-	    return new DataDisplay(SearchConditionUtil.getAllTableDisplay(SfJdRecordFileModel.TAB_ID_SF_JD_RECORD_FILE_MODEL), showingDisplays,
+	    return new DataDisplay(SearchConditionUtil.getAllTableDisplay(SfJdjg.TAB_ID), showingDisplays,
 
 	    createTopConditionArea(), false);//true:显示收索条件区 false：不显示收索条件区
 
@@ -153,7 +163,7 @@ public class SfJdRecordFileModelListPanel  extends AbstractEditListBill implemen
 
 	    boolean showConditionArea) {
 
-	      super(displays, showingDisplays, conditionArea, showConditionArea, SfJdRecordFileModel.TAB_ID_SF_JD_RECORD_FILE_MODEL);
+	      super(displays, showingDisplays, conditionArea, showConditionArea, SfJdjg.TAB_ID);
 
 	      setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), LangTransMeta.translate(compoId), TitledBorder.CENTER,
 	        TitledBorder.TOP, new Font("宋体",
@@ -184,7 +194,7 @@ public class SfJdRecordFileModelListPanel  extends AbstractEditListBill implemen
 
 	              List viewList = (List) ObjectUtil.deepCopy(ListUtil.convertToTableViewOrderList(model.getList(), table));
 
-	              new SfJdRecordFileModelDialog(self, viewList, row, tabStatus);
+	              new SfJdjgDialog(self, viewList, row, tabStatus);
 
 	            }
 
@@ -203,9 +213,7 @@ public class SfJdRecordFileModelListPanel  extends AbstractEditListBill implemen
 
 	      elementConditionDto.setExecutor(WorkEnv.getInstance().getCurrUserId());
 
-//	      elementConditionDto.setNd(WorkEnv.getInstance().getTransNd());
-
-	      elementConditionDto.setNd(0);
+	      elementConditionDto.setNd(WorkEnv.getInstance().getTransNd());
 
 	      elementConditionDto.setStatus(tableDisplay.getStatus());
 
@@ -242,7 +250,7 @@ public class SfJdRecordFileModelListPanel  extends AbstractEditListBill implemen
 	        @Override
 	        public TableModel execute() throws Exception {
 
-	          return SfJdFileModelToTableModelConverter.convertToTableModel(self.baseDataServiceDelegate.queryDataForList("com.ufgov.zc.server.sf.dao.SfJdRecordFileModelMapper.selectMainDataLst", elementConditionDto, requestMeta));
+	          return SfJdjgToTableModelConverter.convertMainLst(self.zcEbBaseServiceDelegate.queryDataForList("com.ufgov.zc.server.sf.dao.SfJdjgMapper.selectMainDataLst",elementConditionDto, requestMeta));
 
 	        }
 
@@ -288,7 +296,7 @@ public class SfJdRecordFileModelListPanel  extends AbstractEditListBill implemen
 	          e.printStackTrace();
 
 	        }
-	        SfJdRecordFileModelListPanel bill = new SfJdRecordFileModelListPanel();
+	        SfJdjgListPanel bill = new SfJdjgListPanel();
 
 	        JFrame frame = new JFrame("frame");
 
@@ -575,13 +583,13 @@ public class SfJdRecordFileModelListPanel  extends AbstractEditListBill implemen
 
 	  public void refreshCurrentTabData(List beanList) {
 
-	    topDataDisplay.getActiveTableDisplay().getTable().setModel(SfJdFileModelToTableModelConverter.convertToTableModel(beanList));
+	    topDataDisplay.getActiveTableDisplay().getTable().setModel(SfJdjgToTableModelConverter.convertMainLst(beanList));
 
 	  }
 
 	  public List getCheckedList() {
 
-	    List<SfJdRecordFileModel> beanList = new ArrayList<SfJdRecordFileModel>();
+	    List<SfJdjg> beanList = new ArrayList<SfJdjg>();
 
 	    JGroupableTable table = topDataDisplay.getActiveTableDisplay().getTable();
 
@@ -597,7 +605,7 @@ public class SfJdRecordFileModelListPanel  extends AbstractEditListBill implemen
 
 	      int accordDataRow = table.convertRowIndexToModel(checkedRow);
 
-	      SfJdRecordFileModel bean = (SfJdRecordFileModel) list.get(accordDataRow);
+	      SfJdjg bean = (SfJdjg) list.get(accordDataRow);
 
 	      beanList.add(bean);
 
@@ -609,7 +617,7 @@ public class SfJdRecordFileModelListPanel  extends AbstractEditListBill implemen
 
 	  private void doAdd() {
 
-	    new SfJdRecordFileModelDialog(self, new ArrayList(1), -1, topDataDisplay.getActiveTableDisplay().getStatus());
+	    new SfJdjgDialog(self, new ArrayList(1), -1, topDataDisplay.getActiveTableDisplay().getStatus());
 
 	  }
 
@@ -647,7 +655,7 @@ public class SfJdRecordFileModelListPanel  extends AbstractEditListBill implemen
 
 	    for (int i = 0; i < beanList.size(); i++) {
 
-	      SfJdRecordFileModel bean = (SfJdRecordFileModel) beanList.get(i);
+	      SfJdjg bean = (SfJdjg) beanList.get(i);
 
 	      ZcUtil.showTraceDialog(bean, compoId);
 
@@ -660,7 +668,48 @@ public class SfJdRecordFileModelListPanel  extends AbstractEditListBill implemen
 	  }
 
 	  private void doPrint() {
- 
+
+	    List printList = getCheckedList();
+
+	    if (printList.size() == 0) {
+
+	      JOptionPane.showMessageDialog(this, "请选择需要打印的数据 ！", "提示", JOptionPane.INFORMATION_MESSAGE);
+
+	      return;
+
+	    }
+
+	    requestMeta.setFuncId(this.printButton.getFuncId());
+
+	    requestMeta.setPageType(this.compoId + "_L");
+
+	    boolean success = true;
+
+	    boolean printed = false;
+
+	    try {
+
+	      PrintObject printObject = this.baseDataServiceDelegate.genMainBillPrintObjectFN(printList, requestMeta);
+
+	      if (Printer.print(printObject)) {
+
+	        printed = true;
+
+	      }
+
+	    } catch (Exception e) {
+
+	      success = false;
+
+	      logger.error(e.getMessage(), e);
+
+	      JOptionPane.showMessageDialog(this, "打印出错！\n" + e.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
+
+	    }
+
+	    if (success && printed) {
+
+	    }
 
 	  }
 
@@ -670,7 +719,41 @@ public class SfJdRecordFileModelListPanel  extends AbstractEditListBill implemen
 
 	  private void doPrintPreview() {
 
-	     
+	    final List printList = getCheckedList();
+
+	    if (printList.size() == 0) {
+
+	      JOptionPane.showMessageDialog(this, "请选择需要打印预览的数据 ！", "提示", JOptionPane.INFORMATION_MESSAGE);
+
+	      return;
+
+	    }
+
+	    requestMeta.setFuncId(this.printPreviewButton.getFuncId());
+
+	    requestMeta.setPageType(this.compoId + "_L");
+
+	    try {
+
+	      PrintObject printObject = this.baseDataServiceDelegate.genMainBillPrintObjectFN(printList, requestMeta);
+
+	      PrintPreviewer previewer = new PrintPreviewer(printObject) {
+
+	        protected void afterSuccessPrint() {
+
+	        }
+
+	      };
+
+	      previewer.preview();
+
+	    } catch (Exception e) {
+
+	      logger.error(e.getMessage(), e);
+
+	      JOptionPane.showMessageDialog(this, "打印预览出错！\n" + e.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
+
+	    }
 
 	  }
 

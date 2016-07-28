@@ -2,6 +2,7 @@ package com.ufgov.zc.server.sf.publish.impl;
 
 import java.util.List;
 
+import com.ufgov.zc.common.sf.exception.SfBusinessException;
 import com.ufgov.zc.common.sf.model.SfJdDocCode;
 import com.ufgov.zc.common.sf.publish.ISfJdDocCodeServiceDelegate;
 import com.ufgov.zc.common.system.RequestMeta;
@@ -22,7 +23,7 @@ public class SfJdDocCodeServiceDelegate implements ISfJdDocCodeServiceDelegate {
 	}
 
 	
-	public SfJdDocCode saveFN(SfJdDocCode inData, RequestMeta requestMeta) {
+	public SfJdDocCode saveFN(SfJdDocCode inData, RequestMeta requestMeta) throws SfBusinessException{
 		return sfJdDocCodeService.saveFN(inData, requestMeta);
 	}
 
@@ -32,7 +33,7 @@ public class SfJdDocCodeServiceDelegate implements ISfJdDocCodeServiceDelegate {
 	}
 
 	
-	public int updateByPrimaryKeyFN(SfJdDocCode inData, RequestMeta requestMeta) {
+	public int updateByPrimaryKeyFN(SfJdDocCode inData, RequestMeta requestMeta) throws SfBusinessException{
 		return sfJdDocCodeService.updateByPrimaryKeyFN(inData, requestMeta);
 	}
 

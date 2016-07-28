@@ -13,6 +13,7 @@ import com.ufgov.zc.common.sf.model.SfEntrust;
 import com.ufgov.zc.common.sf.model.SfEntrustor;
 import com.ufgov.zc.common.sf.model.SfJdDocAudit;
 import com.ufgov.zc.common.sf.model.SfJdDocAuditDetail;
+import com.ufgov.zc.common.sf.model.SfJdReport;
 import com.ufgov.zc.common.sf.model.SfJdResult;
 import com.ufgov.zc.common.system.constants.SfElementConstants;
 import com.ufgov.zc.common.system.util.DateUtil;
@@ -70,7 +71,7 @@ public class SfJdDocAuditWordHandler extends WordHandlerAdapter {
       StringUtil.freeMarkFillWordChar(jdDocAudit.getInputDate() == null ? "  年    月   日" : DateUtil.dateToChinaString(jdDocAudit.getInputDate())));
 
     dataMap.put("fj", getFj(jdDocAudit));
-    if (SfJdResult.RESULT_TYPE_YJS.equals(jdDocAudit.getReportType())) {
+    if (SfJdReport.RESULT_TYPE_YJS.equals(jdDocAudit.getReportType())) {
       dataMap.put("jdyjs", StringUtil.freeMarkFillWordChar(StringUtil.FU_HAO_GOU));
       dataMap.put("jdbg", StringUtil.freeMarkFillWordChar(StringUtil.FU_HAO_KUANG));
     } else {

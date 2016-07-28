@@ -58,6 +58,7 @@ import com.ufgov.zc.client.sf.dossier.SfDossierListPanel;
 import com.ufgov.zc.client.sf.jdresult.SfJdRecordEditPanel;
 import com.ufgov.zc.client.sf.receipt.SfReceiptEditPanel;
 import com.ufgov.zc.client.sf.receipt.SfReceiptListPanel;
+import com.ufgov.zc.client.sf.report.SfJdReportEditPanel;
 import com.ufgov.zc.client.sf.util.ResourceUtil;
 import com.ufgov.zc.common.sf.exception.SfBusinessException;
 import com.ufgov.zc.common.sf.model.SfEntrust;
@@ -223,7 +224,7 @@ public class SfDataFowPanel extends JPanel {
   private boolean isWordPanel(JComponent component) {
     // TCJLODO Auto-generated method stub
     if (component instanceof SfAgreementEditPanel || component instanceof SfReceiptEditPanel || component instanceof SfAppendMaterialNoticeEditPanel
-      || component instanceof SfDossierEditPanel || component instanceof SfJdRecordEditPanel)
+      || component instanceof SfDossierEditPanel || component instanceof SfJdRecordEditPanel || component instanceof SfJdReportEditPanel)
       return true;
     return false;
   }

@@ -185,6 +185,9 @@
 		<isEqual property="dattr1" compareValue="SF_JD_RESULT">  <!--鉴定结果部件选择委托sql  -->
 			not exists(select * from SF_JD_RESULT t where t.entrust_id=SF_ENTRUST.ENTRUST_ID)
 		</isEqual>
+		<isEqual property="dattr1" compareValue="SF_JD_REPORT">  <!--鉴定意见书部件选择委托sql  -->
+			not exists(select * from SF_JD_REPORT t where t.entrust_id=SF_ENTRUST.ENTRUST_ID)
+		</isEqual>
 		<isEqual property="dattr1" compareValue="SF_JD_DOC_AUDIT">  <!--鉴定文书审批单部件选择委托sql  -->
 			not exists(select * from SF_JD_DOC_AUDIT t where t.entrust_id=SF_ENTRUST.ENTRUST_ID)
 		</isEqual>	 		

@@ -69,6 +69,7 @@ import com.ufgov.zc.client.util.freemark.IWordHandler;
 import com.ufgov.zc.client.zc.ButtonStatus;
 import com.ufgov.zc.client.zc.ZcUtil;
 import com.ufgov.zc.common.sf.model.SfEntrust;
+import com.ufgov.zc.common.sf.model.SfJdReport;
 import com.ufgov.zc.common.sf.model.SfJdResult;
 import com.ufgov.zc.common.sf.model.SfJdTarget;
 import com.ufgov.zc.common.sf.publish.ISfEntrustServiceDelegate;
@@ -260,7 +261,7 @@ public class SfJdResultEditPanel extends AbstractMainSubEditPanel {
     bill.setNd(this.requestMeta.getSvNd());
     bill.setInputDate(this.requestMeta.getSysDate());
     bill.setInputor(requestMeta.getSvUserID());
-    bill.setResultType(SfJdResult.RESULT_TYPE_YJS);
+    bill.setResultType(SfJdReport.RESULT_TYPE_YJS);
     bill.setJdAddress(AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_JD_COMPANY_ADDRESS));
   }
 
@@ -669,7 +670,7 @@ public class SfJdResultEditPanel extends AbstractMainSubEditPanel {
     }
 
     IWordHandler handler;
-    if (SfJdResult.RESULT_TYPE_JYBG.equalsIgnoreCase(jdResult.getResultType())) {
+    if (SfJdReport.RESULT_TYPE_JYBG.equalsIgnoreCase(jdResult.getResultType())) {
       userData.put(IWordHandler.FILE_NAME, jdResult.getEntrust().getCode() + "检验报告" + zfb);
       handler = new SfJdReport1WordHandler(printZb);
     } else {
@@ -994,7 +995,7 @@ public class SfJdResultEditPanel extends AbstractMainSubEditPanel {
     TextFieldEditor name = new TextFieldEditor(LangTransMeta.translate(SfJdResult.COL_NAME), "name");
     AsValFieldEditor status = new AsValFieldEditor(LangTransMeta.translate(SfJdResult.COL_STATUS), "status", SfJdResult.SF_VS_JD_RESULT_STATUS);
     AsValFieldEditor resultType = new AsValFieldEditor(LangTransMeta.translate(SfJdResult.COL_RESULT_TYPE), "resultType",
-      SfJdResult.SF_VS_JD_RESULT_TYPE);
+    		SfJdReport.SF_VS_JD_RESULT_TYPE);
     DateFieldEditor jdDate = new DateFieldEditor(LangTransMeta.translate(SfJdResult.COL_JD_DATE), "jdDate");
     TextFieldEditor jdAddress = new TextFieldEditor(LangTransMeta.translate(SfJdResult.COL_JD_ADDRESS), "jdAddress");
     TextAreaFieldEditor zcPersons = new TextAreaFieldEditor(LangTransMeta.translate(SfJdResult.COL_ZC_PERSONS), "zcPersons", 100, 2, 5);

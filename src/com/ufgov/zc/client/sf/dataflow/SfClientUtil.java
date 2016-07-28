@@ -19,12 +19,24 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import com.ufgov.zc.client.common.LangTransMeta;
 import com.ufgov.zc.client.common.StringToModel;
 import com.ufgov.zc.client.component.ui.fieldeditor.AbstractFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.NewLineFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.TextAreaFieldEditor;
+import com.ufgov.zc.client.datacache.AsValDataCache;
 import com.ufgov.zc.client.sf.component.JDragPanel;
+import com.ufgov.zc.client.sf.util.SfBookmarkUtil;
 import com.ufgov.zc.common.sf.exception.SfBusinessException;
+import com.ufgov.zc.common.sf.model.SfEntrust;
+import com.ufgov.zc.common.sf.model.SfEntrustor;
+import com.ufgov.zc.common.sf.model.SfJdResult;
+import com.ufgov.zc.common.sf.model.SfJdTarget;
+import com.ufgov.zc.common.sf.model.SfJdjg;
+import com.ufgov.zc.common.system.RequestMeta;
+import com.ufgov.zc.common.system.constants.SfElementConstants;
+import com.ufgov.zc.common.system.util.DateUtil;
+import com.ufgov.zc.common.util.EmpMeta;
 
 /**
  * @author Administrator
@@ -32,7 +44,165 @@ import com.ufgov.zc.common.sf.exception.SfBusinessException;
  */
 public class SfClientUtil {
 
-  public JDragPanel createPanel(List<AbstractFieldEditor> editorList,int cols, Window parent) {
+	  public static final String MENU_INSERT_CONTENT ="插入内容";
+	  
+	  public static final String MENU_WTF="委托方";  
+	  public static final String MENU_SJR="送检人"; 
+	  public static final String MENU_JD_TARGET="鉴定对象"; 
+	  
+	  public static final String MENU_WTF_NAME=LangTransMeta.translate(SfEntrustor.NAME); 
+	  public static final String MENU_WTF_ADDRESS="委托方"+LangTransMeta.translate(SfEntrustor.ADDRESS); 
+	  public static final String MENU_WTF_ZIP="委托方"+LangTransMeta.translate(SfEntrustor.ZIP); 
+	  public static final String MENU_WTF_LINK_MAN="委托方"+LangTransMeta.translate(SfEntrustor.LINK_MAN); 
+	  public static final String MENU_WTF_LINK_TEL="委托方"+LangTransMeta.translate(SfEntrustor.LINK_TEL);
+	  
+	  public static final String MENU_SJR_SJR=LangTransMeta.translate(SfEntrust.COL_SJR); 
+	  public static final String MENU_SJR_SJR_TEL=LangTransMeta.translate(SfEntrust.COL_SJR_TEL);
+	  public static final String MENU_SJR_SJR_ZJ_TYPE=LangTransMeta.translate(SfEntrust.COL_SJR_ZJ_TYPE);
+	  public static final String MENU_SJR_SJR_ZJ_CODE=LangTransMeta.translate(SfEntrust.COL_SJR_ZJ_CODE); 
+	  
+	  public static final String MENU_JD_TARGET_NAME=LangTransMeta.translate(SfJdTarget.COL_NAME); 
+	  public static final String MENU_JD_TARGET_SEX=LangTransMeta.translate(SfJdTarget.COL_SEX); 
+	  public static final String MENU_JD_TARGET_AGE="鉴定对象"+LangTransMeta.translate(SfJdTarget.COL_AGE); 
+	  public static final String MENU_JD_TARGET_ID_NAME="鉴定对象"+LangTransMeta.translate(SfJdTarget.COL_ID_NAME); 
+	  public static final String MENU_JD_TARGET_ID_CODE="鉴定对象"+LangTransMeta.translate(SfJdTarget.COL_ID_CODE); 
+	  public static final String MENU_JD_TARGET_PHONE=LangTransMeta.translate(SfJdTarget.COL_PHONE); 
+	  public static final String MENU_JD_TARGET_ADDRESS="鉴定对象"+LangTransMeta.translate(SfJdTarget.COL_ADDRESS); 
+	  public static final String MENU_JD_TARGET_ZIP="鉴定对象"+LangTransMeta.translate(SfJdTarget.COL_ZIP);  
+	  
+	  public static final String MENU_JD_BRIEF=LangTransMeta.translate(SfEntrust.COL_BRIEF); 
+	  public static final String MENU_JD_NAME=LangTransMeta.translate(SfEntrust.COL_NAME); 
+	  public static final String MENU_JD_CODE=LangTransMeta.translate(SfEntrust.COL_CODE); 
+	  public static final String MENU_JD_MATERIALS="检材样本";  
+	  public static final String MENU_JD_REQUIRE=LangTransMeta.translate(SfEntrust.COL_JD_REQUIRE); 
+	  public static final String MENU_JD_MAJOR=LangTransMeta.translate(SfEntrust.COL_MAJOR_NAME); 
+	  public static final String MENU_JD_FZR=LangTransMeta.translate(SfEntrust.COL_JD_FZR);  
+	  public static final String MENU_JD_FHR=LangTransMeta.translate(SfEntrust.COL_JD_FHR);  
+	  public static final String MENU_JD_COMPANY=LangTransMeta.translate(SfEntrust.COL_JD_COMPANY); 
+	  public static final String MENU_JD_ACCEPT_DATE=LangTransMeta.translate(SfEntrust.COL_ACCEPT_DATE); 
+	  public static final String MENU_JD_ACCEPT_PERSON=LangTransMeta.translate(SfEntrust.COL_ACCEPTOR); 
+	  public static final String MENU_WT_DATE=LangTransMeta.translate(SfEntrust.COL_WT_DATE); 
+	  
+
+	  public static final String MENU_REFRENCE="引用";
+	  public static final String MENU_REFRENCE_ENTRUST="其他委托";
+	  public static final String MENU_REFRENCE_ENTRUST_RECORD="其他记录文件"; 
+	  public static final String MENU_REFRENCE_REORT="其他意见书";
+	  public static final String MENU_FILL="填充模板";
+	  public static final String MENU_FILL_CUR="填充当前模板";
+
+	  public static final String MENU_INSERT_MODEL ="插入模板";
+	  public static final String MENU_SELECT_MODEL ="选择";
+	  
+
+	  public static final String MENU_JDJG ="鉴定机构";
+	  public static final String MENU_JDJG_NAME =MENU_JDJG+LangTransMeta.translate(SfJdjg.COL_NAME);
+	  public static final String MENU_JDJG_XKZH =MENU_JDJG+LangTransMeta.translate(SfJdjg.COL_XKZH);
+	  public static final String MENU_JDJG_ADDRESS =MENU_JDJG+LangTransMeta.translate(SfJdjg.COL_ADDRESS);
+	  public static final String MENU_JDJG_TEL =MENU_JDJG+LangTransMeta.translate(SfJdjg.COL_TEL);
+	  public static final String MENU_JDJG_LINK_MAN =MENU_JDJG+LangTransMeta.translate(SfJdjg.COL_LINK_MAN);
+	  public static final String MENU_JDJG_ZIP =MENU_JDJG+LangTransMeta.translate(SfJdjg.COL_ZIP);
+	  public static final String MENU_JDJG_FAX =MENU_JDJG+LangTransMeta.translate(SfJdjg.COL_FAX); 
+	  
+
+	  public static String getTxtFromBill(String menuTitle,Object obj,RequestMeta meta) {
+		  StringBuffer sb=new StringBuffer();
+			if(obj instanceof SfEntrust){
+				SfEntrust bill=(SfEntrust)obj;
+				sb.append(getTxtFromEntrust(menuTitle,bill,meta)); 
+				sb.append(getTxtFromEntrustor(menuTitle,bill.getEntrustor(),meta)); 
+				sb.append(getTxtFromSfJdTarget(menuTitle,bill.getJdTarget(),meta)); 
+			}else if(obj instanceof SfEntrustor){
+				SfEntrustor bill=(SfEntrustor)obj;
+				sb.append(getTxtFromEntrustor(menuTitle, bill,meta));
+			}else if(obj instanceof SfJdTarget){
+				SfJdTarget bill=(SfJdTarget)obj;
+				sb.append(getTxtFromSfJdTarget(menuTitle, bill,meta));
+			} 
+			return sb.toString();
+		}
+
+  private static String getTxtFromSfJdTarget(String menuTitle, SfJdTarget bill,RequestMeta meta) {
+	  StringBuffer sb=new StringBuffer();
+	  if(SfClientUtil.MENU_JD_TARGET_NAME.equals(menuTitle)){
+			sb.append(bill.getName());
+		}else if(SfClientUtil.MENU_JD_TARGET_SEX.equals(menuTitle)){
+			sb.append(AsValDataCache.getName(SfElementConstants.VS_SEX, bill.getSex()));
+		}else if(SfClientUtil.MENU_JD_TARGET_AGE.equals(menuTitle)){
+			sb.append(bill.getAge());
+		}else if(SfClientUtil.MENU_JD_TARGET_ID_NAME.equals(menuTitle)){
+			sb.append(bill.getIdName());
+		}else if(SfClientUtil.MENU_JD_TARGET_ID_CODE.equals(menuTitle)){
+			sb.append(bill.getIdCode());
+		}else if(SfClientUtil.MENU_JD_TARGET_PHONE.equals(menuTitle)){
+			sb.append(bill.getPhone());
+		}else if(SfClientUtil.MENU_JD_TARGET_ADDRESS.equals(menuTitle)){
+			sb.append(bill.getAddress());
+		}else if(SfClientUtil.MENU_JD_TARGET_ZIP.equals(menuTitle)){
+			sb.append(bill.getZip());
+		} 
+	  
+	  return sb.toString().equalsIgnoreCase("null")?"":sb.toString();
+	}
+
+private static String getTxtFromEntrustor(String menuTitle, SfEntrustor bill,RequestMeta meta) {
+	StringBuffer sb=new StringBuffer();
+
+	if(SfClientUtil.MENU_WTF_NAME.equals(menuTitle)){
+		sb.append(bill.getName());
+	}else if(SfClientUtil.MENU_WTF_ADDRESS.equals(menuTitle)){
+		sb.append(bill.getAddress());
+	}else if(SfClientUtil.MENU_WTF_ZIP.equals(menuTitle)){
+		sb.append(bill.getZip());
+	}else if(SfClientUtil.MENU_WTF_LINK_MAN.equals(menuTitle)){
+		sb.append(bill.getLinkMan());
+	}else if(SfClientUtil.MENU_WTF_LINK_TEL.equals(menuTitle)){
+		sb.append(bill.getLinkTel());
+	} 
+		return sb.toString().equalsIgnoreCase("null")?"":sb.toString();
+	}
+
+private static String getTxtFromEntrust(String menuTitle, SfEntrust bill,RequestMeta meta) {
+	StringBuffer sb=new StringBuffer();
+	
+	if(SfClientUtil.MENU_SJR_SJR.equals(menuTitle)){
+		sb.append(bill.getSjr());
+	}else if(SfClientUtil.MENU_SJR_SJR_TEL.equals(menuTitle)){
+		sb.append(bill.getSjrTel());
+	}else if(SfClientUtil.MENU_SJR_SJR_ZJ_TYPE.equals(menuTitle)){
+		sb.append(bill.getSjrZjType());
+	}else if(SfClientUtil.MENU_SJR_SJR_ZJ_CODE.equals(menuTitle)){
+		sb.append(bill.getSjrZjCode());
+	}else if(SfClientUtil.MENU_JD_BRIEF.equals(menuTitle)){
+		sb.append(bill.getBrief());
+	}else if(SfClientUtil.MENU_JD_NAME.equals(menuTitle)){
+		sb.append(bill.getName());
+	}else if(SfClientUtil.MENU_JD_CODE.equals(menuTitle)){
+		sb.append(bill.getCode());
+	}else if(SfClientUtil.MENU_JD_MATERIALS.equals(menuTitle)){
+		sb.append(SfBookmarkUtil.getJdclString(bill));
+	}else if(SfClientUtil.MENU_JD_REQUIRE.equals(menuTitle)){
+		sb.append(bill.getJdRequire());
+	}else if(SfClientUtil.MENU_JD_MAJOR.equals(menuTitle)){
+		sb.append(bill.getMajor().getMajorName());
+	}else if(SfClientUtil.MENU_JD_FZR.equals(menuTitle)){
+		sb.append(EmpMeta.getEmpName(bill.getJdFzr()));
+	}else if(SfClientUtil.MENU_JD_FHR.equals(menuTitle)){
+		sb.append(bill.getJdFhrName());
+	}else if(SfClientUtil.MENU_JD_COMPANY.equals(menuTitle)){
+		sb.append(meta.getSvCoName());
+	}else if(SfClientUtil.MENU_JD_ACCEPT_DATE.equals(menuTitle)){
+		sb.append(DateUtil.dateToChinaString(bill.getAcceptDate()));
+	}else if(SfClientUtil.MENU_JD_ACCEPT_PERSON.equals(menuTitle)){
+		sb.append(bill.getAcceptorName());
+	}else if(SfClientUtil.MENU_WT_DATE.equals(menuTitle)){
+		sb.append(DateUtil.dateToChinaString(bill.getWtDate()));
+	} 
+	
+	return sb.toString().equalsIgnoreCase("null")?"":sb.toString();
+	}
+
+public JDragPanel createPanel(List<AbstractFieldEditor> editorList,int cols, Window parent) {
     // TCJLODO Auto-generated method stub
 
     JDragPanel panel=new JDragPanel(parent);
@@ -195,4 +365,28 @@ public class SfClientUtil {
     }
     return 0;
   }
+
+public static String getTxtFromJdjg(String menuTitle, SfJdjg jdjg) {
+	
+	if(jdjg==null){
+		return "";
+	}
+	  StringBuffer sb=new StringBuffer();
+	  if(SfClientUtil.MENU_JDJG_ADDRESS.equals(menuTitle)){
+			sb.append(jdjg.getAddress());
+		}else if(SfClientUtil.MENU_JDJG_FAX.equals(menuTitle)){
+			sb.append(jdjg.getFax());
+		}else if(SfClientUtil.MENU_JDJG_LINK_MAN.equals(menuTitle)){
+			sb.append(jdjg.getLinkMan());
+		}else if(SfClientUtil.MENU_JDJG_NAME.equals(menuTitle)){
+			sb.append(jdjg.getName());
+		}else if(SfClientUtil.MENU_JDJG_TEL.equals(menuTitle)){
+			sb.append(jdjg.getTel());
+		}else if(SfClientUtil.MENU_JDJG_XKZH.equals(menuTitle)){
+			sb.append(jdjg.getXkzh());
+		}else if(SfClientUtil.MENU_JDJG_ZIP.equals(menuTitle)){
+			sb.append(jdjg.getZip());
+		} 
+	  return sb.toString().equalsIgnoreCase("null")?"":sb.toString();
+}
 }

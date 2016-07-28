@@ -16,6 +16,7 @@ import com.ufgov.zc.common.commonbiz.model.BaseElement;
 import com.ufgov.zc.common.sf.model.SfJdDocAudit;
 import com.ufgov.zc.common.sf.model.SfJdDocAuditDetail;
 import com.ufgov.zc.common.sf.model.SfJdDocType;
+import com.ufgov.zc.common.sf.model.SfJdReport;
 import com.ufgov.zc.common.sf.model.SfJdResult;
 import com.ufgov.zc.common.system.util.BeanUtil;
 
@@ -41,7 +42,7 @@ public static TableModel convertMainLst(List mainLst) {
       SfJdDocAudit outInfo = (SfJdDocAudit) mainLst.get(i);
       rowData.add(outInfo.getEntrustCode());
       rowData.add(outInfo.getName());
-      rowData.add(AsValDataCache.getName(SfJdResult.SF_VS_JD_RESULT_TYPE, outInfo.getReportType()));
+      rowData.add(AsValDataCache.getName(SfJdReport.SF_VS_JD_RESULT_TYPE, outInfo.getReportType()));
       rowData.add(AsValDataCache.getName(SfJdDocAudit.SF_VS_JD_DOC_AUDIT_STATUS, outInfo.getStatus()));
       rowData.add(outInfo.getInputDate()==null?null:df.format(outInfo.getInputDate()));
       values.add(rowData);

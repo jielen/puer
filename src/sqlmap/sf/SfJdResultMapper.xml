@@ -40,6 +40,12 @@
     from SF_JD_RESULT
     where JD_RESULT_ID = #jdResultId:DECIMAL#
   </select>
+  <select id="selectByEntrustId" parameterClass="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SF_JD_RESULT
+    where ENTRUST_ID = #entrustId:DECIMAL#
+  </select>
   <select id="selectMainDataLst" parameterClass="elementCondition" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -137,10 +143,5 @@
     where JD_RESULT_ID = #jdResultId:DECIMAL#
   </update>
   
-  <select id="selectByEntrustId" parameterClass="java.math.BigDecimal" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from SF_JD_RESULT
-    where ENTRUST_ID = #entrustId:DECIMAL#
-  </select>
+   
 </sqlMap>

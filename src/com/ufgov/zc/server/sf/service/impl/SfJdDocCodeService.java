@@ -5,6 +5,7 @@ package com.ufgov.zc.server.sf.service.impl;
 
 import java.util.List;
 
+import com.ufgov.zc.common.sf.exception.SfBusinessException;
 import com.ufgov.zc.common.sf.model.SfJdDocCode;
 import com.ufgov.zc.common.system.RequestMeta;
 import com.ufgov.zc.common.system.dto.ElementConditionDto;
@@ -40,10 +41,15 @@ public class SfJdDocCodeService implements ISfJdDocCodeService {
 	 * @see com.ufgov.zc.server.sf.service.ISfJdDocCodeService#saveFN(com.ufgov.zc.common.sf.model.SfJdDocCode, com.ufgov.zc.common.system.RequestMeta)
 	 */
 	
-	public SfJdDocCode saveFN(SfJdDocCode inData, RequestMeta requestMeta) {
+	public SfJdDocCode saveFN(SfJdDocCode inData, RequestMeta requestMeta) throws SfBusinessException{
 		SfJdDocCode t=selectByPrimaryKey(inData.getPinJieCode(), requestMeta);
+		 
 		if(t!=null){
-			jdDocCodeMapper.updateByPrimaryKey(inData);
+			if(t.getNum().intValue()>=inData.getNum().intValue()){
+				throw new SfBusinessException("编号"+inData.getCode()+"已被占用，请重新选择");
+			}else{
+				jdDocCodeMapper.updateByPrimaryKey(inData);
+			}
 		}else{
 			jdDocCodeMapper.insert(inData);
 		}
@@ -62,7 +68,7 @@ public class SfJdDocCodeService implements ISfJdDocCodeService {
 	 * @see com.ufgov.zc.server.sf.service.ISfJdDocCodeService#updateByPrimaryKeyFN(com.ufgov.zc.common.sf.model.SfJdDocCode, com.ufgov.zc.common.system.RequestMeta)
 	 */
 	
-	public int updateByPrimaryKeyFN(SfJdDocCode inData, RequestMeta requestMeta) {
+	public int updateByPrimaryKeyFN(SfJdDocCode inData, RequestMeta requestMeta) throws SfBusinessException{
 		jdDocCodeMapper.updateByPrimaryKey(inData);
 		return 0;
 	}

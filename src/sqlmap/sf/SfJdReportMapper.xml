@@ -4,7 +4,8 @@
   <resultMap id="BaseResultMap" class="com.ufgov.zc.common.sf.model.SfJdReport" > 
     <result column="JD_REPOR_ID" property="jdReporId" jdbcType="DECIMAL" />
     <result column="JD_RESULT_ID" property="jdResultId" jdbcType="DECIMAL" />
-    <result column="ENTRUST_ID" property="entrustId" jdbcType="DECIMAL" />
+    <result column="ENTRUST_ID" property="entrust.entrustId" jdbcType="DECIMAL" />
+    <result column="ENTRUST_CODE" property="entrust.code" jdbcType="VARCHAR" />
     <result column="JD_REPORT_FILE_ID" property="jdReportFileId" jdbcType="VARCHAR" />
     <result column="ND" property="nd" jdbcType="DECIMAL" />
     <result column="CO_CODE" property="coCode" jdbcType="VARCHAR" />
@@ -15,10 +16,12 @@
     <result column="PUBLISH_TIME" property="publishTime" jdbcType="DATE" />
     <result column="REPORT_CODE" property="reportCode" jdbcType="VARCHAR" />
     <result column="PROCESS_INST_ID" property="processInstId" jdbcType="DECIMAL" />
+    <result column="REPORT_TYPE" property="reportType" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" > 
     JD_REPOR_ID, JD_RESULT_ID, ENTRUST_ID, JD_REPORT_FILE_ID, ND, CO_CODE, INPUTOR, INPUT_DATE, 
-    STATUS, REMARK, PUBLISH_TIME, REPORT_CODE, PROCESS_INST_ID
+    STATUS, REMARK, PUBLISH_TIME, REPORT_CODE, PROCESS_INST_ID,ENTRUST_CODE,REPORT_TYPE,NAME
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="java.math.BigDecimal" > 
     select 
@@ -39,20 +42,20 @@
 		<isNotNull prepend="AND" property="status">
 			<isEqual property="status" compareValue="todo">
 				exists (select instance_id from V_WF_CURRENT_TASK_ZC_TODO where 
-				inputor=#inputor# and instance_id = SF_JD_REPORT.process_inst_id)
+				inputor=#executor# and instance_id = SF_JD_REPORT.process_inst_id)
 			</isEqual>
 			<isEqual property="status" compareValue="untread">
 				exists (select instance_id from V_WF_CURRENT_TASK_ZC_UNTREAD where
-				inputor=#inputor# and instance_id = SF_JD_REPORT.process_inst_id)
+				inputor=#executor# and instance_id = SF_JD_REPORT.process_inst_id)
 			</isEqual>
 			<isEqual property="status" compareValue="done">
 				exists (select instance_id from V_WF_ACTION_HISTORY_GK53 where 
-				inputor =#inputor# and instance_id = SF_JD_REPORT.process_inst_id)
+				inputor =#executor# and instance_id = SF_JD_REPORT.process_inst_id)
 				and SF_JD_REPORT.STATUS!= 'cancel' and SF_JD_REPORT.STATUS != 'exec'
 			</isEqual>
 			<isEqual property="status" compareValue="draft">
 				( exists (select WF_DRAFT_NAME from as_wf_draft where
-				user_id=#inputor# and
+				user_id=#executor# and
 				compo_id=#wfcompoId# and
 				WF_DRAFT_ID=SF_JD_REPORT.process_inst_id)
 				or
@@ -77,12 +80,12 @@
       JD_REPORT_FILE_ID, ND, CO_CODE, 
       INPUTOR, INPUT_DATE, STATUS, 
       REMARK, PUBLISH_TIME, REPORT_CODE, 
-      PROCESS_INST_ID)
+      PROCESS_INST_ID,ENTRUST_CODE,REPORT_TYPE,NAME)
     values (#jdReporId:DECIMAL#, #jdResultId:DECIMAL#, #entrustId:DECIMAL#, 
       #jdReportFileId:VARCHAR#, #nd:DECIMAL#, #coCode:VARCHAR#, 
       #inputor:VARCHAR#, #inputDate:DATE#, #status:VARCHAR#, 
       #remark:VARCHAR#, #publishTime:DATE#, #reportCode:VARCHAR#, 
-      #processInstId:DECIMAL#)
+      #processInstId:DECIMAL#,#entrust.code#,#reportType#,#name#)
   </insert> 
   <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfJdReport" > 
     update SF_JD_REPORT
@@ -97,7 +100,10 @@
       REMARK = #remark:VARCHAR#,
       PUBLISH_TIME = #publishTime:DATE#,
       REPORT_CODE = #reportCode:VARCHAR#,
-      PROCESS_INST_ID = #processInstId:DECIMAL#
+      PROCESS_INST_ID = #processInstId:DECIMAL#,
+      ENTRUST_CODE=#entrust.code#,
+      REPORT_TYPE=#reportType#,
+      NAME=#name#
     where JD_REPOR_ID = #jdReporId:DECIMAL#
   </update>
 </sqlMap>

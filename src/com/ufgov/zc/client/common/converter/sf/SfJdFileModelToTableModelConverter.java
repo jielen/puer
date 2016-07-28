@@ -31,6 +31,7 @@ public class SfJdFileModelToTableModelConverter {
 	    names.add(LangTransMeta.translate(SfJdRecordFileModel.COL_NAME));
 	    names.add(LangTransMeta.translate(SfMajor.COL_MAJOR_NAME));
 	    names.add(LangTransMeta.translate(SfJdRecordFileModel.COL_FILE_TYPE));
+	    names.add("文书类别");
 	    names.add(LangTransMeta.translate(SfJdRecordFileModel.COL_DESCRIPTION));
 	    names.add(LangTransMeta.translate(SfJdRecordFileModel.COL_IS_ENABLE));
 
@@ -45,6 +46,7 @@ public class SfJdFileModelToTableModelConverter {
 	        rowData.add(model.getName()); 
 	        rowData.add(AsValDataCache.getName("SF_VS_MAJOR", model.getMajorCode())); 
 	        rowData.add(AsValDataCache.getName(SfJdRecordFileModel.SF_VS_JD_FILE_MODEL_TYPE, model.getFileType())); 
+	        rowData.add(AsValDataCache.getName(SfJdRecordFileModel.SF_VS_JD_FILE_MODEL_DOC_TYPE, model.getDocType())); 
 	        rowData.add(model.getDescription()); 
 	        rowData.add(AsValDataCache.getName(SfJdRecordFileModel.SF_VS_JD_FILE_MODEL_STATUS, model.getIsEnable())); 
 	        values.add(rowData);
