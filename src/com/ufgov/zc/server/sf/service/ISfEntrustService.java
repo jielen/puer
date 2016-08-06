@@ -27,4 +27,8 @@ public interface ISfEntrustService {
 
   SfEntrust callbackFN(SfEntrust qx, RequestMeta requestMeta);
 
+  SfEntrust acceptFN(SfEntrust inData, RequestMeta requestMeta) throws Exception;
+
+  SfEntrust unAcceptFN(SfEntrust inData, RequestMeta requestMeta) throws Exception;
+
 }

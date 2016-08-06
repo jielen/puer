@@ -43,6 +43,8 @@ public class SfMaterials extends ZcBaseBill {
   public static final String SF_VS_MATERIAL_TYPE_yangben = "2";
   
 
+  private BigDecimal appendMaterialId;
+  
 
   private String bianhao;
   
@@ -267,5 +269,13 @@ public void setBianhao(String bianhao) {
 	  }
 	  return sb.toString();
   }
+
+public BigDecimal getAppendMaterialId() {
+	return appendMaterialId;
+}
+
+public void setAppendMaterialId(BigDecimal appendMaterialId) {
+	this.appendMaterialId = appendMaterialId;
+}
  
 }

@@ -1,6 +1,7 @@
 package com.ufgov.zc.client.common.converter.sf;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -8,8 +9,17 @@ import javax.swing.table.TableModel;
 
 import com.ufgov.zc.client.common.LangTransMeta;
 import com.ufgov.zc.client.common.MyTableModel;
+import com.ufgov.zc.client.component.table.BeanTableModel;
+import com.ufgov.zc.client.component.table.ColumnBeanPropertyPair;
 import com.ufgov.zc.client.datacache.AsValDataCache;
+import com.ufgov.zc.common.commonbiz.model.BaseElement;
 import com.ufgov.zc.common.sf.model.SfJdResult;
+import com.ufgov.zc.common.sf.model.SfJdResultFile;
+import com.ufgov.zc.common.system.Guid;
+import com.ufgov.zc.common.system.constants.ZcElementConstants;
+import com.ufgov.zc.common.system.model.AsFile;
+import com.ufgov.zc.common.system.util.BeanUtil;
+import com.ufgov.zc.common.zc.model.TreeNodeValueObject;
 
 public class SfJdResultToTableModelConverter {
 
@@ -59,4 +69,87 @@ public class SfJdResultToTableModelConverter {
     return tableModel;
   }
 
+  @SuppressWarnings("unchecked")
+  public static TableModel convertAttacheFileToTableModel(List itemList) {
+
+    BeanTableModel<SfJdResultFile> tm = new BeanTableModel<SfJdResultFile>() {
+
+      private static final long serialVersionUID = 6888363838628062064L;
+
+      @Override
+      public boolean isCellEditable(int row, int column) { 
+
+        return super.isCellEditable(row, column);
+
+      }
+
+      @Override
+      public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+
+        SfJdResultFile bean = dataBeanList.get(rowIndex);
+
+        if (aValue instanceof BaseElement) {
+
+          BeanUtil.set(columnBeanPropertyPairList.get(columnIndex).getBeanPropertyName(), ((BaseElement) aValue).getName(), bean);
+
+          fireTableCellUpdated(rowIndex, columnIndex);
+
+          putEditedData(dataBeanList.get(rowIndex));
+
+        } else  if (SfJdResultFile.COL_FILE_NAME.equals(this.getColumnIdentifier(columnIndex))) {
+
+          if (aValue == null) {
+
+            this.getBean(rowIndex).setFileId(null);
+
+            this.getBean(rowIndex).setFileName(null);
+
+          } else {
+
+            this.getBean(rowIndex).setFileName(((AsFile) aValue).getFileName());
+
+            this.getBean(rowIndex).setFileId(((AsFile) aValue).getFileId());
+
+          }
+
+          fireTableCellUpdated(rowIndex, columnIndex);
+
+          putEditedData(dataBeanList.get(rowIndex));
+
+        } else {
+
+          super.setValueAt(aValue, rowIndex, columnIndex);
+
+        }
+
+      }
+
+    };
+
+    tm.setOidFieldName("tempId");
+
+    for (Object o : itemList) {
+
+      ((SfJdResultFile) o).setTempId(Guid.genID());
+
+    }
+
+    tm.setDataBean(itemList, itemInfo);
+
+    return tm;
+
+  }
+  private static List<ColumnBeanPropertyPair> itemInfo = new ArrayList<ColumnBeanPropertyPair>();
+
+  static { 
+
+    itemInfo.add(new ColumnBeanPropertyPair(SfJdResultFile.COL_FILE_NAME, "fileName", LangTransMeta.translate(SfJdResultFile.COL_FILE_NAME))); 
+    itemInfo.add(new ColumnBeanPropertyPair(SfJdResultFile.COL_REMARK, "remark", LangTransMeta.translate(SfJdResultFile.COL_REMARK))); 
+
+  }
+public static List<ColumnBeanPropertyPair> getItemInfo() {
+
+    return itemInfo;
+
+  }
 }

@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -43,16 +44,21 @@ import com.ufgov.zc.client.component.ui.fieldeditor.AbstractFieldEditor;
 import com.ufgov.zc.client.component.zc.AbstractMainSubEditPanel;
 import com.ufgov.zc.client.component.zc.fieldeditor.AsValFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.ForeignEntityDialog;
+import com.ufgov.zc.client.component.zc.fieldeditor.NewLineFieldEditor;
+import com.ufgov.zc.client.component.zc.fieldeditor.PasswordFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.TextAreaFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.TextFieldEditor;
 import com.ufgov.zc.client.zc.ButtonStatus;
 import com.ufgov.zc.client.zc.ZcUtil;
 import com.ufgov.zc.common.sf.model.SfEntrust;
 import com.ufgov.zc.common.sf.model.SfEntrustor;
+import com.ufgov.zc.common.sf.model.SfEntrustorUser;
 import com.ufgov.zc.common.sf.publish.ISfEntrustorServiceDelegate;
 import com.ufgov.zc.common.system.RequestMeta;
+import com.ufgov.zc.common.system.constants.SfElementConstants;
 import com.ufgov.zc.common.system.constants.ZcSettingConstants;
 import com.ufgov.zc.common.system.dto.ElementConditionDto;
+import com.ufgov.zc.common.system.model.User;
 import com.ufgov.zc.common.system.util.DigestUtil;
 import com.ufgov.zc.common.system.util.ObjectUtil;
 import com.ufgov.zc.common.zc.publish.IZcEbBaseServiceDelegate;
@@ -143,7 +149,7 @@ public class SfEntrustorEditPanel extends AbstractMainSubEditPanel {
 
     this.parent = parent;
 
-    this.colCount = 3;
+    this.colCount = 2;
 
     init();
 
@@ -173,7 +179,7 @@ public class SfEntrustorEditPanel extends AbstractMainSubEditPanel {
     this.workPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), LangTransMeta.translate(compoId),
       TitledBorder.CENTER, TitledBorder.TOP, new Font("宋体", Font.BOLD, 15), Color.BLUE));
 
-    this.colCount = 3;
+    this.colCount = 2;
 
     init();
 
@@ -197,7 +203,6 @@ public class SfEntrustorEditPanel extends AbstractMainSubEditPanel {
       this.pageStatus = ZcSettingConstants.PAGE_STATUS_BROWSE;
 
       entrustor = sfEntrutstorServiceDelegate.selectByPrimaryKey(entrustor.getEntrustorId(), this.requestMeta);
-
       listCursor.setCurrentObject(entrustor);
       this.setEditingObject(entrustor);
     } else {//新增按钮进入
@@ -653,15 +658,70 @@ public class SfEntrustorEditPanel extends AbstractMainSubEditPanel {
     if (haveSameName()) {
       errorInfo.append("\n").append("已存在同名的委托方！");
     }
-
-    if (errorInfo.length() != 0) {
-      JOptionPane.showMessageDialog(this, errorInfo.toString(), "提示", JOptionPane.WARNING_MESSAGE);
-      return false;
+    
+    if(isLongin()){
+	    if(!checkPasswd()){
+	    	errorInfo.append("\n").append("密码不正确！");
+	    }
+	    if(entrustor.getUser().getUserId()==null || entrustor.getUser().getUserId().trim().length()==0){
+	    	errorInfo.append("\n").append("登陆账号不能为空，请输入登陆账号！");
+	    }else   if(haveSameUserId()){
+	    	errorInfo.append("\n").append("登陆账号已经存在，请重新输入登陆账号！");
+	    } 
+	    
     }
+    if (errorInfo.length() != 0) {
+	      JOptionPane.showMessageDialog(this, errorInfo.toString(), "提示", JOptionPane.WARNING_MESSAGE);
+	      return false;
+	    }
     return true;
   }
 
-  private boolean haveSameName() {
+  private boolean haveSameUserId() {
+
+	  SfEntrustor entrustor = (SfEntrustor) this.listCursor.getCurrentObject();//
+	  SfEntrustorUser wtfUser=(SfEntrustorUser) zcEbBaseServiceDelegate.queryObject("com.ufgov.zc.server.sf.dao.SfEntrustorMapper.getWtfUser", entrustor.getEntrustorId(), requestMeta);
+	  User existsUser=(User) zcEbBaseServiceDelegate.queryObject("User.getUserById", entrustor.getUser().getUserId(), requestMeta);
+	  if(entrustor.getEntrustorId()==null){//新建委托方
+		  if(existsUser!=null){
+			  return true;
+		  }
+	  }else{//更新委托方信息
+		  if(existsUser!=null){ 
+			  if(wtfUser!=null ){ 
+				  if(!wtfUser.getUserId().equals(existsUser.getUserId())){
+					  return true;
+				  } 
+			  }	else{
+				 return true;
+			  }
+		  } 
+	  }
+	return false;
+}
+
+private boolean isLongin() {
+	  SfEntrustor entrustor = (SfEntrustor) this.listCursor.getCurrentObject();
+	  if(SfElementConstants.VAL_Y.equals(entrustor.getIsLogin())){
+		  return true;
+	  }
+	return false;
+}
+
+private boolean checkPasswd() {
+
+	    SfEntrustor entrustor = (SfEntrustor) this.listCursor.getCurrentObject();
+	    if(entrustor.getUser().getPassword()==null){
+	    	if(entrustor.getUser().getPasswordConfrim()!=null)return false;	    	
+	    }else{
+	    	if(!entrustor.getUser().getPassword().trim().equals(entrustor.getUser().getPasswordConfrim())){
+	    		return false;
+	    	}
+	    }
+	return true;
+}
+
+private boolean haveSameName() {
     // TCJLODO Auto-generated method stub
     SfEntrustor entrustor = (SfEntrustor) this.listCursor.getCurrentObject();
 
@@ -767,16 +827,26 @@ public class SfEntrustorEditPanel extends AbstractMainSubEditPanel {
     TextFieldEditor zip = new TextFieldEditor(LangTransMeta.translate(SfEntrustor.ZIP), "zip");
     TextFieldEditor linkMan = new TextFieldEditor(LangTransMeta.translate(SfEntrustor.LINK_MAN), "linkMan");
     TextFieldEditor linkTel = new TextFieldEditor(LangTransMeta.translate(SfEntrustor.LINK_TEL), "linkTel");
-    TextAreaFieldEditor address = new TextAreaFieldEditor(LangTransMeta.translate(SfEntrustor.ADDRESS), "address", 100, 2, 5);
+    TextAreaFieldEditor address = new TextAreaFieldEditor(LangTransMeta.translate(SfEntrustor.ADDRESS), "address", 100, 1, 3);
     AsValFieldEditor type = new AsValFieldEditor(LangTransMeta.translate(SfEntrustor.ENTRUSTOR_TYPE), "entrustorType", SfEntrustor.SF_VS_ENTRUSTOR_TYPE);
+    TextFieldEditor userId = new TextFieldEditor("登陆账号", "user.userId");
+    PasswordFieldEditor passWd = new PasswordFieldEditor("登陆密码", "user.password");
+    PasswordFieldEditor passWdConfirm = new PasswordFieldEditor("确认密码", "user.passwordConfrim"); 
+    AsValFieldEditor isLogin = new AsValFieldEditor("是否登陆系统", "isLogin", SfElementConstants.VS_Y_N);
 
     //    editorList.add(code);
+    editorList.add(type);
     editorList.add(name);
     editorList.add(linkMan);
     editorList.add(linkTel);
     editorList.add(address);
     editorList.add(zip);
-    editorList.add(type);
+    editorList.add(new NewLineFieldEditor());
+    editorList.add(isLogin);
+    editorList.add(userId);
+//    editorList.add(new NewLineFieldEditor());
+    editorList.add(passWd);
+    editorList.add(passWdConfirm); 
 
     return editorList;
 

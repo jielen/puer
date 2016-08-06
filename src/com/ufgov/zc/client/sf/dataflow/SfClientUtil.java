@@ -30,6 +30,7 @@ import com.ufgov.zc.client.sf.util.SfBookmarkUtil;
 import com.ufgov.zc.common.sf.exception.SfBusinessException;
 import com.ufgov.zc.common.sf.model.SfEntrust;
 import com.ufgov.zc.common.sf.model.SfEntrustor;
+import com.ufgov.zc.common.sf.model.SfJdReport;
 import com.ufgov.zc.common.sf.model.SfJdResult;
 import com.ufgov.zc.common.sf.model.SfJdTarget;
 import com.ufgov.zc.common.sf.model.SfJdjg;
@@ -104,6 +105,18 @@ public class SfClientUtil {
 	  public static final String MENU_JDJG_ZIP =MENU_JDJG+LangTransMeta.translate(SfJdjg.COL_ZIP);
 	  public static final String MENU_JDJG_FAX =MENU_JDJG+LangTransMeta.translate(SfJdjg.COL_FAX); 
 	  
+	  //鉴定记录
+	  public static final String MENU_RECORD ="鉴定记录";
+	  public static final String MENU_RECORD_JD_DATE=LangTransMeta.translate(SfJdResult.COL_JD_DATE); 
+	  public static final String MENU_RECORD_JD_OPINION=LangTransMeta.translate(SfJdResult.COL_JD_OPINION); 
+	  public static final String MENU_RECORD_JD_PROCESS=LangTransMeta.translate(SfJdResult.COL_JD_PROCESS); 
+	  public static final String MENU_RECORD_JD_RESULT=LangTransMeta.translate(SfJdResult.COL_JD_RESULT); 
+	  public static final String MENU_RECORD_ZC_PERSONS=LangTransMeta.translate(SfJdResult.COL_ZC_PERSONS); 
+
+	  //鉴定报告
+	  public static final String MENU_REPORT ="鉴定报告";
+	  public static final String MENU_REPORT_NO=LangTransMeta.translate(SfJdReport.COL_REPORT_CODE); 
+	  
 
 	  public static String getTxtFromBill(String menuTitle,Object obj,RequestMeta meta) {
 		  StringBuffer sb=new StringBuffer();
@@ -118,11 +131,53 @@ public class SfClientUtil {
 			}else if(obj instanceof SfJdTarget){
 				SfJdTarget bill=(SfJdTarget)obj;
 				sb.append(getTxtFromSfJdTarget(menuTitle, bill,meta));
-			} 
+			}else if(obj instanceof SfJdResult){
+				SfJdResult result=(SfJdResult)obj;
+				SfEntrust bill=result.getEntrust();
+				sb.append(getTxtFromEntrust(menuTitle,bill,meta)); 
+				sb.append(getTxtFromEntrustor(menuTitle,bill.getEntrustor(),meta)); 
+				sb.append(getTxtFromSfJdTarget(menuTitle,bill.getJdTarget(),meta)); 
+				sb.append(getTxtFromRecord(menuTitle, result, meta));				
+			}else if(obj instanceof SfJdReport){
+				SfJdReport report=(SfJdReport)obj;
+				SfEntrust bill=report.getEntrust();
+				sb.append(getTxtFromEntrust(menuTitle,bill,meta)); 
+				sb.append(getTxtFromEntrustor(menuTitle,bill.getEntrustor(),meta)); 
+				sb.append(getTxtFromSfJdTarget(menuTitle,bill.getJdTarget(),meta));  
+				sb.append(getTxtFromRecord(menuTitle, report.getResult(), meta)); 
+				sb.append(getTxtFromReport(menuTitle, report, meta));								
+				
+			}
 			return sb.toString();
 		}
 
-  private static String getTxtFromSfJdTarget(String menuTitle, SfJdTarget bill,RequestMeta meta) {
+  private static Object getTxtFromReport(String menuTitle, SfJdReport bill,			RequestMeta meta) {
+
+	  StringBuffer sb=new StringBuffer();
+	  if(SfClientUtil.MENU_REPORT_NO.equals(menuTitle)){ 
+			sb.append(bill.getReportCode());
+		}   
+	  return sb.toString().equalsIgnoreCase("null")?"":sb.toString();
+	}
+
+private static Object getTxtFromRecord(String menuTitle, SfJdResult bill,			RequestMeta meta) {
+
+	  StringBuffer sb=new StringBuffer();
+	  if(SfClientUtil.MENU_RECORD_JD_DATE.equals(menuTitle)){
+			sb.append(DateUtil.dateToChinaString(bill.getJdDate()));
+		}else if(SfClientUtil.MENU_RECORD_JD_OPINION.equals(menuTitle)){ 
+			sb.append(bill.getJdOpinion());
+		}else if(SfClientUtil.MENU_RECORD_JD_PROCESS.equals(menuTitle)){
+			sb.append(bill.getJdProcess());
+		}else if(SfClientUtil.MENU_RECORD_JD_RESULT.equals(menuTitle)){
+			sb.append(bill.getJdResult());
+		}else if(SfClientUtil.MENU_RECORD_ZC_PERSONS.equals(menuTitle)){
+			sb.append(bill.getZcPersons());
+		} 	  
+	  return sb.toString().equalsIgnoreCase("null")?"":sb.toString();
+	}
+
+private static String getTxtFromSfJdTarget(String menuTitle, SfJdTarget bill,RequestMeta meta) {
 	  StringBuffer sb=new StringBuffer();
 	  if(SfClientUtil.MENU_JD_TARGET_NAME.equals(menuTitle)){
 			sb.append(bill.getName());

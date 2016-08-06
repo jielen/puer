@@ -94,4 +94,8 @@
 	<bean id="sfJdReportServiceDelegate"		class="com.ufgov.zc.server.sf.publish.impl.SfJdReportServiceDelegate"		scope="singleton">
 		<property name="sfJdReportService" ref="sfJdReportService" />
 	</bean>
+	
+	<bean id="mobileMsgServiceDelegate"		class="com.ufgov.zc.server.sf.publish.impl.ZcMobileMsgServiceDelegate"		scope="singleton">
+		<property name="zcMobileMsgService" ref="zcMobileMsgService"></property>
+	</bean>
 </beans>

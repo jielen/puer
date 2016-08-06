@@ -64,8 +64,14 @@ public class SfJdResultService implements ISfJdResultService {
     SfJdResult rtn = jdResultMapper.selectByPrimaryKey(id);
     SfEntrust entrust = sfEntrustService.selectByPrimaryKey(rtn.getEntrustId(), requestMeta);
     rtn.setEntrust(entrust == null ? new SfEntrust() : entrust);
-    List resultFileLst=zcEbBaseService.queryDataForList("com.ufgov.zc.server.sf.dao.SfJdResultFileMapper.selectByResultId", id);
+    ElementConditionDto dto=new ElementConditionDto();
+    dto.setSfId(id);
+    dto.setDattr1("resultFile");
+    List resultFileLst=zcEbBaseService.queryDataForList("com.ufgov.zc.server.sf.dao.SfJdResultFileMapper.selectByResultId", dto);
     rtn.setJdRecordFileLst(resultFileLst==null?new ArrayList():resultFileLst);
+    dto.setDattr1("attacheFile");
+    resultFileLst=zcEbBaseService.queryDataForList("com.ufgov.zc.server.sf.dao.SfJdResultFileMapper.selectByResultId", dto);
+    rtn.setAttacheFileLst(resultFileLst==null?new ArrayList():resultFileLst);
     rtn.setDbDigest(rtn.digest());
     return rtn;
   }
@@ -106,8 +112,23 @@ public class SfJdResultService implements ISfJdResultService {
   }
 
   private void _saveSubLst(SfJdResult inData, RequestMeta requestMeta) {
-	  
 	  zcEbBaseService.delete("com.ufgov.zc.server.sf.dao.SfJdResultFileMapper.deleteByResultId", inData.getJdResultId());
+	_saveRecordFiles(inData,requestMeta);
+	_saveAttachedFiles(inData,requestMeta);
+}
+
+private void _saveAttachedFiles(SfJdResult inData, RequestMeta requestMeta) { 
+	  if(inData.getAttacheFileLst()==null||inData.getAttacheFileLst().size()==0)return;
+	  for(int i=0;i<inData.getAttacheFileLst().size();i++){
+		  SfJdResultFile rf=(SfJdResultFile) inData.getAttacheFileLst().get(i);
+		  rf.setJdResultId(inData.getJdResultId());
+		  BigDecimal id = new BigDecimal(ZcSUtil.getNextVal(SfJdResultFile.SEQ_SF_JD_RESULT_FILE_ID));
+		  rf.setSfJdResultFileId(id);
+	  }
+	  zcEbBaseService.insertObjectList("com.ufgov.zc.server.sf.dao.SfJdResultFileMapper.insert", inData.getAttacheFileLst()); 
+}
+
+private void _saveRecordFiles(SfJdResult inData, RequestMeta requestMeta) { 
 	  if(inData.getJdRecordFileLst()==null||inData.getJdRecordFileLst().size()==0)return;
 	  for(int i=0;i<inData.getJdRecordFileLst().size();i++){
 		  SfJdResultFile rf=(SfJdResultFile) inData.getJdRecordFileLst().get(i);

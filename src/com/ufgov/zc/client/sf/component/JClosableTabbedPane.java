@@ -151,6 +151,11 @@ public class JClosableTabbedPane extends JTabbedPane implements MouseListener {
   }
 
   public void mouseClicked(MouseEvent e) {
+//	  System.out.println("MOUSE KEY:"+e.getButton());
+	  if(e.getButton()==e.BUTTON3){//right mouse key
+//		  System.out.println("you jian");
+		  return;
+	  }
     int tabNumber = getUI().tabForCoordinate(this, e.getX(), e.getY());
     if (tabNumber < 0) {
       return;

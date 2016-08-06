@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap 
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ZcMobileMsgMapper" >
+	<typeAlias alias="elementCondition"		type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+  <resultMap id="BaseResultMap" class="com.ufgov.zc.common.sf.model.ZcMobileMsg" > 
+    <result column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="MOBILES" property="mobiles" jdbcType="VARCHAR" />
+    <result column="INPUTOR" property="inputor" jdbcType="VARCHAR" />
+    <result column="INPUT_DATE" property="inputDate" jdbcType="DATE" />
+    <result column="INPUTOR_NAME" property="inputorName" jdbcType="VARCHAR" />
+    <result column="SEND_TIME" property="sendTime" jdbcType="DATE" />
+    <result column="IS_SENDED" property="isSended" jdbcType="VARCHAR" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="PROJ_CODE" property="projCode" jdbcType="VARCHAR" />
+    <result column="PROJ_NAME" property="projName" jdbcType="VARCHAR" />
+		<result column="ND" property="nd" />
+  </resultMap>
+  <resultMap id="DetailResultMap" class="com.ufgov.zc.common.sf.model.ZcMobileMsgNumber" > 
+    <result column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
+    <result column="MOBILE_HIDE" property="mobileHide" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="SmsSendingResultMap" class="com.ufgov.zc.common.sf.model.SmsBoxsending" >     
+    <result column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="APPID" jdbcType="VARCHAR" property="appid" />
+    <result column="SENDER" jdbcType="VARCHAR" property="sender" />
+    <result column="RECEIVER" jdbcType="VARCHAR" property="receiver" />
+    <result column="CONTENT" jdbcType="VARCHAR" property="content" />
+    <result column="SENDTIME" jdbcType="VARCHAR" property="sendtime" />
+    <result column="INSERTTIME" jdbcType="VARCHAR" property="inserttime" />
+    <result column="RETRYTIMES" jdbcType="DECIMAL" property="retrytimes" />
+    <result column="PRI" jdbcType="VARCHAR" property="pri" />
+    <result column="INPOOL" jdbcType="VARCHAR" property="inpool" />
+    <result column="INPOOLTIME" jdbcType="VARCHAR" property="inpooltime" />
+    <result column="TASK_BATCHNAME" jdbcType="VARCHAR" property="taskBatchname" />
+    <result column="ADDTION1" jdbcType="VARCHAR" property="addtion1" />
+    <result column="ADDTION2" jdbcType="VARCHAR" property="addtion2" />
+    <result column="ADDTION3" jdbcType="VARCHAR" property="addtion3" />
+    <result column="MODULEID" jdbcType="VARCHAR" property="moduleid" />
+    <result column="SENDMODE" jdbcType="VARCHAR" property="sendmode" />
+    <result column="CONFIGID" jdbcType="VARCHAR" property="configid" />
+    <result column="LINKID1" jdbcType="VARCHAR" property="linkid1" />
+    <result column="LINKID2" jdbcType="VARCHAR" property="linkid2" />
+    <result column="IFRECEIPT" jdbcType="VARCHAR" property="ifreceipt" />
+    <result column="VALIDITYPERIOD" jdbcType="VARCHAR" property="validityperiod" />
+    <result column="OUTTERUSER" jdbcType="VARCHAR" property="outteruser" />
+  </resultMap>
+  <sql id="Base_Column_List" > 
+    CODE, MOBILES, INPUTOR, INPUT_DATE, INPUTOR_NAME, SEND_TIME, IS_SENDED, CONTENT,ND,PROJ_CODE,PROJ_NAME
+  </sql>
+  <select id="getMainLst" resultMap="BaseResultMap" parameterClass="elementCondition" > 
+    select 
+    <include refid="Base_Column_List" />
+    from ZC_MOBILE_MSG
+    where ND = #nd#    
+		<isNotNull prepend="and" property="status">
+			<isEqual property="status" compareValue="sended">
+				INPUTOR =#executor# 
+			</isEqual>	
+			<isEqual property="status" compareValue="recieved">
+			 EXISTS (
+				SELECT 1 FROM ZC_MOBILE_MSG_NUMBER N,AS_EMP P				
+				WHERE ZC_MOBILE_MSG.CODE=N.CODE
+				AND N.MOBILE=P.PHONE
+				AND P.EMP_CODE=#executor#
+				) 
+			</isEqual>
+			<isEqual property="status" compareValue="other">
+				INPUTOR !=#executor#
+			</isEqual>			
+		</isNotNull> 
+	order by INPUT_DATE desc
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="java.lang.String" > 
+    select 
+    <include refid="Base_Column_List" />
+    from ZC_MOBILE_MSG
+    where CODE = #code:VARCHAR#
+  </select>
+  <select id="selectDetail" resultMap="DetailResultMap" parameterClass="java.lang.String" > 
+    select 
+     *
+    from ZC_MOBILE_MSG_NUMBER
+    where CODE = #code:VARCHAR#
+  </select>
+  <delete id="deleteDetail" parameterClass="java.lang.String" > 
+    delete from ZC_MOBILE_MSG_NUMBER
+    where CODE = #code:VARCHAR#
+  </delete>
+  <insert id="insertDetail" parameterClass="com.ufgov.zc.common.sf.model.ZcMobileMsgNumber" > 
+    insert into ZC_MOBILE_MSG_NUMBER (CODE, mobile_hide, mobile)
+    values (#code:VARCHAR#, #mobileHide:VARCHAR#, #mobile:VARCHAR#)
+  </insert>
+  <delete id="deleteByPrimaryKey" parameterClass="java.lang.String" > 
+    delete from ZC_MOBILE_MSG
+    where CODE = #code:VARCHAR#
+  </delete>
+  <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.ZcMobileMsg" > 
+    insert into ZC_MOBILE_MSG (CODE, MOBILES, INPUTOR, INPUT_DATE, INPUTOR_NAME, SEND_TIME, IS_SENDED, CONTENT,ND,PROJ_CODE,PROJ_NAME)
+    values (#code:VARCHAR#, #mobiles:VARCHAR#, #inputor:VARCHAR#, 
+      #inputDate:DATE#, #inputorName:VARCHAR#, #sendTime:DATE#, 
+      #isSended:VARCHAR#, #content:VARCHAR#,#nd#,#projCode#,#projName#)
+  </insert>
+  <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.ZcMobileMsg" > 
+    update ZC_MOBILE_MSG
+    set MOBILES = #mobiles:VARCHAR#,
+      INPUTOR = #inputor:VARCHAR#,
+      INPUT_DATE = #inputDate:DATE#,
+      INPUTOR_NAME = #inputorName:VARCHAR#,
+      SEND_TIME = #sendTime:DATE#,
+      IS_SENDED = #isSended:VARCHAR#,
+      CONTENT = #content:VARCHAR#,
+      ND=#nd#,
+      PROJ_CODE=#projCode#,
+      PROJ_NAME=#projName#
+    where CODE = #code:VARCHAR#
+  </update>
+  
+  <insert id="insertSmsBoxsending" parameterClass="com.ufgov.zc.common.sf.model.SmsBoxsending">
+    insert into SMS_BOXSENDING (ID, APPID, SENDER, 
+      RECEIVER, CONTENT, SENDTIME, 
+      INSERTTIME, RETRYTIMES, PRI, 
+      INPOOL, INPOOLTIME, TASK_BATCHNAME, 
+      ADDTION1, ADDTION2, ADDTION3, 
+      MODULEID, SENDMODE, CONFIGID, 
+      LINKID1, LINKID2, IFRECEIPT, 
+      VALIDITYPERIOD, OUTTERUSER)
+    values (SMS_SEQ_MESSAGEID.NEXTVAL, #appid:VARCHAR#, #sender:VARCHAR#, 
+      #receiver:VARCHAR#, #content:VARCHAR#, #sendtime:VARCHAR#, 
+      #inserttime:VARCHAR#, #retrytimes:DECIMAL#, #pri:VARCHAR#, 
+      #inpool:VARCHAR#, #inpooltime:VARCHAR#, #taskBatchname:VARCHAR#, 
+      #addtion1:VARCHAR#, #addtion2:VARCHAR#, #addtion3:VARCHAR#, 
+      #moduleid:VARCHAR#, #sendmode:VARCHAR#, #configid:VARCHAR#, 
+      #linkid1:VARCHAR#, #linkid2:VARCHAR#, #ifreceipt:VARCHAR#, 
+      #validityperiod:VARCHAR#, #outteruser:VARCHAR#)
+  </insert>
+</sqlMap>

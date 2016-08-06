@@ -14,9 +14,10 @@
     <result column="MATERIAL_TYPE" jdbcType="VARCHAR" property="materialType" />
     <result column="QUANTITY3" jdbcType="VARCHAR" property="quantity3" />
     <result column="BIANHAO" jdbcType="VARCHAR" property="bianhao" />
+    <result column="APPEND_MATERIAL_ID" jdbcType="DECIMAL" property="appendMaterialId" />
   </resultMap>
   <sql id="Base_Column_List">
-    MATERIAL_ID, NAME, QUANTITY, UNIT, DESCRIPTION, ENTRUST_ID,QUANTITY2,QUANTITY3,MATERIAL_TYPE,BIANHAO
+    MATERIAL_ID, NAME, QUANTITY, UNIT, DESCRIPTION, ENTRUST_ID,QUANTITY2,QUANTITY3,MATERIAL_TYPE,BIANHAO,APPEND_MATERIAL_ID
   </sql>
   <select id="selectByPrimaryKey" parameterClass="java.math.BigDecimal" resultMap="BaseResultMap">
     select 
@@ -40,10 +41,10 @@
   </delete>
   <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfMaterials">
     insert into SF_MATERIALS (MATERIAL_ID, NAME, QUANTITY, 
-      UNIT, DESCRIPTION, ENTRUST_ID,QUANTITY2,QUANTITY3,MATERIAL_TYPE,BIANHAO
+      UNIT, DESCRIPTION, ENTRUST_ID,QUANTITY2,QUANTITY3,MATERIAL_TYPE,BIANHAO,APPEND_MATERIAL_ID
       )
     values (#materialId:DECIMAL#, #name:VARCHAR#, #quantity:DECIMAL#, 
-      #unit:VARCHAR#, #description:VARCHAR#, #entrustId:DECIMAL#, #quantity2:DECIMAL#,#quantity3#,#materialType#,#bianhao#
+      #unit:VARCHAR#, #description:VARCHAR#, #entrustId:DECIMAL#, #quantity2:DECIMAL#,#quantity3#,#materialType#,#bianhao#,#appendMaterialId:DECIMAL#
       )
   </insert>
   <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfMaterials">
@@ -56,7 +57,8 @@
       DESCRIPTION = #description:VARCHAR#,
       ENTRUST_ID = #entrustId:DECIMAL#,
       MATERIAL_TYPE=#materialType#,
-      BIANHAO=#bianhao#
+      BIANHAO=#bianhao#,
+      APPEND_MATERIAL_ID=#appendMaterialId:DECIMAL#
     where MATERIAL_ID = #materialId:DECIMAL#
   </update>
 </sqlMap>

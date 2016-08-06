@@ -39,6 +39,7 @@ import com.ufgov.zc.common.sf.model.SfEntrust;
 import com.ufgov.zc.common.system.RequestMeta;
 import com.ufgov.zc.common.system.constants.SfElementConstants;
 import com.ufgov.zc.common.system.constants.SystemOptionConstants;
+import com.ufgov.zc.common.system.constants.ZcSettingConstants;
 import com.ufgov.zc.common.system.dto.ElementConditionDto;
 import com.ufgov.zc.common.zc.publish.IZcEbBaseServiceDelegate;
 
@@ -352,6 +353,26 @@ public class SfUtil {
       if (name.equalsIgnoreCase(fieldName))
         return true;
     }
+    return false;
+  }
+  /**
+   * 返回当前用户是否委托方
+   * @return
+   */
+
+  public static boolean isWtf() {
+
+    if (WorkEnv.getInstance().containRole(ZcSettingConstants.R_SF_WTF) ) { return true; }
+    return false;
+  }
+  /**
+   * 返回当前用户是否鉴定机构
+   * @return
+   */
+
+  public static boolean isJdjg() {
+
+    if (WorkEnv.getInstance().containRole(ZcSettingConstants.R_SF_JDJG) ) { return true; }
     return false;
   }
 }

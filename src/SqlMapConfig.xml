@@ -285,5 +285,6 @@
 	<sqlMap resource="sqlmap/sf/SfJdResultFileMapper.xml"/>
 	<sqlMap resource="sqlmap/sf/SfJdRecordModelMapper.xml"/>
 	<sqlMap resource="sqlmap/sf/SfJdjgMapper.xml"/>
+	<sqlMap resource="sqlmap/sf/ZcMobileMsgMapper.xml"/>
      
 </sqlMapConfig>

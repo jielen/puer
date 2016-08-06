@@ -49,7 +49,8 @@
     <result column="ENTRUSTOR_LINK_MAN" jdbcType="VARCHAR" property="entrustor.linkMan" />
     <result column="ENTRUSTOR_LINK_TEL" jdbcType="VARCHAR" property="entrustor.linkTel" />
     <!-- 鉴定专业 属性-->
-    <result column="MAJOR_CODE" jdbcType="VARCHAR" property="majorCode" />
+    <result column="MAJOR_CODE" jdbcType="VARCHAR" property="majorCode" />    
+    <!-- 鉴定机构 属性-->
     
 	<result column="PROCESS_INST_ID" jdbcType="DECIMAL" property="processInstId" />
     <result column="JD_DOC_SEND_TYPE" jdbcType="VARCHAR" property="jdDocSendType" />
@@ -198,7 +199,12 @@
 			<isNotNull  property="sfId">
 				SF_ENTRUST.ENTRUST_ID!=#sfId:DECIMAL#	
 			</isNotNull>				
-		</isEqual>		
+		</isEqual>			 		
+		<isEqual property="dattr1" compareValue="refrence_menu">  <!--菜单 引用其他委托 sql  -->			
+			<isNotNull  property="sfId">
+				SF_ENTRUST.ENTRUST_ID!=#sfId:DECIMAL#	
+			</isNotNull>				
+		</isEqual>	
    </isNotNull>
    
 	<isNotEqual prepend="and" compareValue="0" property="nd">

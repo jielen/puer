@@ -70,6 +70,8 @@ public class SfEntrust extends ZcBaseBill {
 
   public static final String COL_JD_FZR = "SF_ENTRUST_JD_FZR"; // 鉴定负责人
 
+  public static final String COL_JD_ASSISTOR = "SF_ENTRUST_JD_ASSISTOR"; // 鉴定协助人
+  
   public static final String COL_JD_FHR = "SF_ENTRUST_JD_FHR"; // 鉴定复核人
 
   public static final String COL_JD_HISTORY = "SF_ENTRUST_JD_HISTORY"; // 原鉴定情况
@@ -129,6 +131,10 @@ public class SfEntrust extends ZcBaseBill {
   private String jdFhr;
 
   private String jdFhrName;
+  
+  private String jdAssistor;
+
+  private String jdAssistorName;
 
   private String sjrAddress;
 
@@ -148,6 +154,11 @@ public class SfEntrust extends ZcBaseBill {
    * 鉴定对象
    */
   private SfJdTarget jdTarget = new SfJdTarget();
+  
+  /**
+   * 鉴定机构，系统支持多家鉴定机构
+   */
+  private SfJdjg jdjg=new SfJdjg();
 
   /**
    * 鉴定材料集合
@@ -1062,4 +1073,28 @@ public class SfEntrust extends ZcBaseBill {
   public void setJdTargetName(String jdTargetName) {
     this.jdTargetName = jdTargetName;
   }
+
+public String getJdAssistor() {
+	return jdAssistor;
+}
+
+public void setJdAssistor(String jdAssistor) {
+	this.jdAssistor = jdAssistor;
+}
+
+public String getJdAssistorName() {
+	return EmpMeta.getEmpName(getJdAssistor());
+}
+
+public void setJdAssistorName(String jdAssistorName) {
+	this.jdAssistorName = jdAssistorName;
+}
+
+public SfJdjg getJdjg() {
+	return jdjg;
+}
+
+public void setJdjg(SfJdjg jdjg) {
+	this.jdjg = jdjg;
+}
 }

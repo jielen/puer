@@ -67,4 +67,14 @@ public class SfEntrustServiceDelegate implements ISfEntrustServiceDelegate {
     this.sfEntrustService = sfEntrustService;
   }
 
+ 
+public SfEntrust acceptFN(SfEntrust inData, RequestMeta requestMeta) throws Exception {
+	return this.sfEntrustService.acceptFN(inData, requestMeta);
+}
+
+ 
+public SfEntrust unAcceptFN(SfEntrust inData, RequestMeta requestMeta) throws Exception {
+	return this.sfEntrustService.unAcceptFN(inData, requestMeta);
+}
+
 }

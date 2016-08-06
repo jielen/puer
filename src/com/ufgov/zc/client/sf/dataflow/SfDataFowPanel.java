@@ -400,6 +400,7 @@ public class SfDataFowPanel extends JPanel {
       //      nodeLst = cu.loadModelNode("/com/ufgov/zc/client/sf/dataflow/sf_flow_node_config.xml");
       nodeLst = cu.loadModelNode("sf_flow_node_config.xml");
       for (final SfFlowNode node : nodeLst) {
+    	  System.out.println(node.getCompoId());
         for (int i = 0; i < userCompoLst.size(); i++) {
           String compo = userCompoLst.get(i);
           if (compo.equals(node.getCompoId())) {
@@ -437,6 +438,7 @@ public class SfDataFowPanel extends JPanel {
 
             nodeBtnMap.put(compo, nodeImageBtn);
             nodeBusinessMap.put(compo, nodebusiness);
+            break;
           }
         }
       }

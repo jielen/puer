@@ -36,9 +36,11 @@
 	<isNotEqual prepend="and" compareValue="0" property="nd">
 			ND = #nd#
    </isNotEqual>
+   <!-- 
    <isEqual prepend="and" compareValue="isUsing" property="dattr1">
    		EXISTS(SELECT * FROM SF_JD_RESULT_FILE F WHERE F.MODEL_ID=SF_JD_RECORD_FILE_MODEL.MODEL_ID)
    </isEqual>
+    -->
    <isNotNull prepend="AND" property="status">   
 			<isEqual property="status" compareValue="enable"> 
 				IS_ENABLE=#status#
@@ -95,14 +97,10 @@
     FROM SF_JD_RECORD_FILE_MODEL F 
     WHERE F.MAJOR_CODE is null
     and f.is_enable='enable'
-    	<isNotNull prepend="and" property="dattr1">  					 		
-			<isEqual property="dattr1" compareValue="record">	
-				F.DOC_TYPE='record'
-			</isEqual>  					 		
-			<isEqual property="dattr1" compareValue="report">	
-				F.DOC_TYPE='report'
-			</isEqual> 
+    	<isNotNull prepend="and" property="dattr1">  
+    		F.DOC_TYPE=#dattr1# 
 		</isNotNull> 
+		
     union all 
 
     SELECT 
@@ -112,15 +110,9 @@
     FROM SF_JD_RECORD_FILE_MODEL F,SF_MAJOR M 
     WHERE F.MAJOR_CODE=M.MAJOR_CODE
     and f.is_enable='enable'
-    and f.major_code is not null
-    
-    	<isNotNull prepend="and" property="dattr1">  					 		
-			<isEqual property="dattr1" compareValue="record">	
-				F.DOC_TYPE='report'
-			</isEqual>   					 		
-			<isEqual property="dattr1" compareValue="report">	
-				F.DOC_TYPE='report'
-			</isEqual> 
+    and f.major_code is not null    
+    	<isNotNull prepend="and" property="dattr1">  
+    		F.DOC_TYPE=#dattr1# 
 		</isNotNull> 
     ORDER BY MAJOR_CODE  
   </select>   

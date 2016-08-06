@@ -13,6 +13,7 @@ import com.ufgov.zc.client.datacache.AsValDataCache;
 import com.ufgov.zc.common.sf.model.SfBookmark;
 import com.ufgov.zc.common.sf.model.SfEntrust;
 import com.ufgov.zc.common.sf.model.SfEntrustor;
+import com.ufgov.zc.common.sf.model.SfJdReport;
 import com.ufgov.zc.common.sf.model.SfJdResult;
 import com.ufgov.zc.common.sf.model.SfJdTarget;
 import com.ufgov.zc.common.sf.model.SfJdjg;
@@ -423,6 +424,54 @@ public class SfBookmarkUtil {
 	}
 	public List<SfBookmark> getJdRecordBookValueLst(SfJdResult bill){
 		List<SfBookmark> rtn=new ArrayList<SfBookmark>();
+
+
+		SfBookmark bk=new SfBookmark();
+		bk.setName("JDRECORD_JD_DATE");
+		bk.setValue(bill.getJdDate() == null ? "  年    月   日" : DateUtil.dateToDdString(bill.getJdDate()));
+		rtn.add(bk);
+		
+		bk=new SfBookmark();
+		bk.setName("JDRECORD_JD_OPINION");
+		bk.setValue(bill.getJdOpinion());
+		rtn.add(bk); 
+		
+		bk=new SfBookmark();
+		bk.setName("JDRECORD_JD_PROCESS");
+		bk.setValue(bill.getJdProcess());
+		rtn.add(bk);
+		
+		bk=new SfBookmark();
+		bk.setName("JDRECORD_JD_RESULT");
+		bk.setValue(bill.getJdResult());
+		rtn.add(bk);
+		
+		bk=new SfBookmark();
+		bk.setName("JDRECORD_ZC_PERSONS");
+		bk.setValue(bill.getZcPersons());
+		rtn.add(bk); 
+		
+		bk=new SfBookmark();
+		bk.setName("JDRECORD_JD_ADDRESS");
+		bk.setValue(bill.getJdAddress());
+		rtn.add(bk);  
+		
+		bk=new SfBookmark();
+		bk.setName("JDRECORD_JD_METHOD");
+		bk.setValue(bill.getJdMethod());
+		rtn.add(bk); 
+		
+		return rtn;
+	} 
+	public List<SfBookmark> getJdReportBookValueLst(SfJdReport bill){
+		List<SfBookmark> rtn=new ArrayList<SfBookmark>();
+
+
+		SfBookmark bk=new SfBookmark();
+		bk.setName("JDREPORT_REPORT_CODE");
+		bk.setValue(bill.getReportCode());
+		rtn.add(bk);
+		 
 		
 		return rtn;
 	} 

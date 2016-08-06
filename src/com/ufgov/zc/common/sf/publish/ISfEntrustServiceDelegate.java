@@ -26,5 +26,10 @@ public interface ISfEntrustServiceDelegate {
   SfEntrust newCommitFN(SfEntrust qx, RequestMeta requestMeta);
 
   SfEntrust callbackFN(SfEntrust qx, RequestMeta requestMeta);
+  
+
+  SfEntrust acceptFN(SfEntrust inData, RequestMeta requestMeta) throws Exception;
+
+  SfEntrust unAcceptFN(SfEntrust inData, RequestMeta requestMeta) throws Exception;
 
 }

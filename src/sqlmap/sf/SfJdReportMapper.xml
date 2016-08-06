@@ -29,6 +29,12 @@
     from SF_JD_REPORT
     where JD_REPOR_ID = #jdReporId:DECIMAL#
   </select>
+  <select id="selectByEntrustId" resultMap="BaseResultMap" parameterClass="java.math.BigDecimal" > 
+    select 
+    <include refid="Base_Column_List" />
+    from SF_JD_REPORT
+    where ENTRUST_ID = #entrustId:DECIMAL#
+  </select>
   
   <select id="selectMainDataLst" parameterClass="elementCondition" resultMap="BaseResultMap">
     select 

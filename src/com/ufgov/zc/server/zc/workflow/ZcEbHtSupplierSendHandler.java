@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.ufgov.zc.server.zc.workflow;
 
 import com.kingdrive.workflow.context.WorkflowContext;

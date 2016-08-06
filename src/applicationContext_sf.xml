@@ -16,7 +16,9 @@
 	</bean>
 	
 	<bean id="entrustorService" class="com.ufgov.zc.server.sf.service.impl.SfEntrustorService"		scope="singleton">
-		<property name="entrustorMapper" ref="entrustorMapper" />	
+		<property name="entrustorMapper" ref="entrustorMapper" />
+		<property name="userService" ref="userService" />	
+		<property name="zcEbBaseService" ref="zcEbBaseService" />	
 	</bean>		
 	<bean id="entrustorMapper" class="com.ufgov.zc.server.sf.dao.ibatis.SfEntrustorMapperImp"		scope="singleton">
 		<property name="sqlMapClient" ref="sqlMapClient" />
@@ -233,5 +235,9 @@
 	</bean>		
 	<bean id="sfJdReportMapper" class="com.ufgov.zc.server.sf.dao.ibatis.SfJdReportMapperImp"		scope="singleton">
 		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>	
+		
+	<bean id="zcMobileMsgService" class="com.ufgov.zc.server.sf.service.impl.ZcMobileMsgService"		scope="singleton">
+		<property name="baseDao" ref="zcBaseDao"></property>
 	</bean>								
 </beans>

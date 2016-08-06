@@ -5,23 +5,25 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.DefaultKeyboardFocusManager;
 import java.awt.Dialog;
-import java.awt.Rectangle;
 import java.awt.Dialog.ModalityType;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JMenu;
@@ -31,11 +33,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JProgressBar;
-import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import org.apache.log4j.Logger;
 
@@ -45,6 +45,7 @@ import com.ufgov.zc.client.common.LangTransMeta;
 import com.ufgov.zc.client.common.ListCursor;
 import com.ufgov.zc.client.common.ServiceFactory;
 import com.ufgov.zc.client.common.WorkEnv;
+import com.ufgov.zc.client.common.converter.sf.SfJdResultToTableModelConverter;
 import com.ufgov.zc.client.component.GkBaseDialog;
 import com.ufgov.zc.client.component.GkCommentDialog;
 import com.ufgov.zc.client.component.GkCommentUntreadDialog;
@@ -67,6 +68,9 @@ import com.ufgov.zc.client.component.button.SuggestAuditPassButton;
 import com.ufgov.zc.client.component.button.TraceButton;
 import com.ufgov.zc.client.component.button.UnauditButton;
 import com.ufgov.zc.client.component.button.UntreadButton;
+import com.ufgov.zc.client.component.table.BeanTableModel;
+import com.ufgov.zc.client.component.table.celleditor.TextCellEditor;
+import com.ufgov.zc.client.component.table.codecelleditor.FileCellEditor;
 import com.ufgov.zc.client.component.ui.fieldeditor.AbstractFieldEditor;
 import com.ufgov.zc.client.component.zc.AbstractMainSubEditPanel;
 import com.ufgov.zc.client.component.zc.fieldeditor.AsValFieldEditor;
@@ -75,7 +79,6 @@ import com.ufgov.zc.client.component.zc.fieldeditor.ForeignEntityFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.IntFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.TextAreaFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.TextFieldEditor;
-import com.ufgov.zc.client.datacache.AsValDataCache;
 import com.ufgov.zc.client.sf.component.JClosableTabbedPane;
 import com.ufgov.zc.client.sf.dataflow.SfClientUtil;
 import com.ufgov.zc.client.sf.dataflow.SfDataFlowDialog;
@@ -83,16 +86,15 @@ import com.ufgov.zc.client.sf.dataflow.SfDataFlowUtil;
 import com.ufgov.zc.client.sf.entrust.SfEntrustHandler;
 import com.ufgov.zc.client.sf.util.SfBookmarkUtil;
 import com.ufgov.zc.client.sf.util.SfJdPersonSelectHandler;
-import com.ufgov.zc.client.util.freemark.IWordHandler;
-import com.ufgov.zc.client.util.freemark.WordHandlerFactory;
+import com.ufgov.zc.client.util.SwingUtil;
 import com.ufgov.zc.client.zc.ButtonStatus;
+import com.ufgov.zc.client.zc.ExcelFileUtil;
 import com.ufgov.zc.client.zc.WordFileUtil;
 import com.ufgov.zc.client.zc.ZcUtil;
+import com.ufgov.zc.client.zc.ztb.activex.ExcelPane;
 import com.ufgov.zc.client.zc.ztb.activex.WordPane;
-import com.ufgov.zc.client.zc.ztb.util.GV;
 import com.ufgov.zc.common.sf.model.SfBookmark;
 import com.ufgov.zc.common.sf.model.SfEntrust;
-import com.ufgov.zc.common.sf.model.SfEntrustor;
 import com.ufgov.zc.common.sf.model.SfJdRecordFileModel;
 import com.ufgov.zc.common.sf.model.SfJdReport;
 import com.ufgov.zc.common.sf.model.SfJdResult;
@@ -106,11 +108,9 @@ import com.ufgov.zc.common.system.constants.SfElementConstants;
 import com.ufgov.zc.common.system.constants.ZcSettingConstants;
 import com.ufgov.zc.common.system.dto.ElementConditionDto;
 import com.ufgov.zc.common.system.model.User;
-import com.ufgov.zc.common.system.util.DateUtil;
 import com.ufgov.zc.common.system.util.DigestUtil;
 import com.ufgov.zc.common.system.util.ObjectUtil;
 import com.ufgov.zc.common.system.util.Utils;
-import com.ufgov.zc.common.util.EmpMeta;
 import com.ufgov.zc.common.zc.model.ZcBaseBill;
 import com.ufgov.zc.common.zc.publish.IZcEbBaseServiceDelegate;
 
@@ -119,7 +119,6 @@ import com.ufgov.zc.common.zc.publish.IZcEbBaseServiceDelegate;
  * 用于鉴定过程中记录鉴定步骤、情况和结论
  * 是鉴定文书的来源
  * 针对不同的鉴定专业，其鉴定记录的word模板是不一样的
- * 待办：毒物、法医尸检有多个word记录表，目前合并到一个word里面，后续要转换为一个树，将这几个word挂到树上，分别打开
  * @author Administrator
  *
  */
@@ -204,6 +203,14 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 
 
 	  JTabbedPane mainTab=new JTabbedPane();
+
+	  private JTablePanel attacheFileTable = new JTablePanel();
+
+	  //附件明细
+
+	  JTabbedPane attacheFileTab = null;
+	  
+	  private JFuncToolBar subPackTableToolbar;
 	  
 	  protected JClosableTabbedPane recordFileTabPan = new JClosableTabbedPane(JTabbedPane.BOTTOM){
 		  /**
@@ -235,7 +242,10 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 
 	  JMenu menuFill=new JMenu(SfClientUtil.MENU_FILL);
 	  
+	  JPopupMenu menuPopup;
+	  
 	  JMenuBar menuBar=new JMenuBar();
+	  
 	  
 	  //模板菜单，菜单名称是key，模板文件是value
 	  private HashMap<String, SfJdRecordFileModel> modelFileMenuMap=new HashMap<String, SfJdRecordFileModel>();
@@ -359,16 +369,78 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
         int yi=Double.valueOf(y).intValue();
         progressDialog.setLocation(xi, yi);
 
-        String openWordMessage = rf.getModel().getName();
-        openWordProgressBar.setString("正在加载模板文件:"+openWordMessage+",请稍等。"  );
+        String openWordMessage =rf.getFileName()==null?rf.getModel().getName():rf.getFileName();
+        openWordProgressBar.setString("正在加载文件:"+openWordMessage+",请稍等。"  );
         progressDialog.setVisible(true);
         
 	    loadWordFile(wp,rf);
 	  }
 	  protected void addSubExcelPane(SfJdResultFile rf) {
-		  
+		    //下面一句是为了打开word后刷新窗口
+//		    parent.setSize(new Dimension(parent.getSize().width - 200, parent.getSize().height - 200));
+		    workPanel.setPreferredSize(new Dimension(workPanel.getSize().width - 10, workPanel.getSize().height - 10));
+		    parent.pack();
+		    ExcelPane wp=new ExcelPane();
+		    wp.addPropertyChangeListener(ExcelPane.EVENT_NAME_OPEN_CALLBACK, new PropertyChangeListener() {
+		      public void propertyChange(PropertyChangeEvent evt) {
+		        //打开文件完成之后的回调函数
+		        boolean isSuccess = (Boolean) evt.getNewValue();
+		        if (isSuccess) {
+		          //下面一句是为了打开word后刷新窗口
+//		          parent.setSize(new Dimension(parent.getSize().width +200, parent.getSize().height +200));
+
+		    	    workPanel.setPreferredSize(new Dimension(workPanel.getSize().width + 10, workPanel.getSize().height + 10));
+		    	    parent.pack();
+//		  	    	parent.validate(); 
+			        progressDialog.setVisible(false);
+			        recordFileTabPan.setSelectedIndex(recordFileTabPan.getTabCount()-1);
+		        }
+		      }
+		    });
+		    recordFileTabPan.addTab(rf.getName(), wp);
+		    
+		    MyTab mt=new MyTab();
+		    mt.setRecordFile(rf);
+		    mt.setTabCompo(wp);
+		    mt.setTabTitle(rf.getName());
+		    recordFileTabs.put(rf.getName(), mt);
+//		    recordTabMaps.put(model.getModelId(), wp);
+
+	        progressDialog.setSize(new Dimension(600, 60));
+
+	        double x=(parent.getLocation().getX()+parent.getSize().getWidth())/2-300;
+	        logger.debug(x);
+	        int xi=Double.valueOf(x).intValue();
+
+	        double y=(parent.getLocation().getY()+parent.getSize().getHeight())/2-30;
+	        int yi=Double.valueOf(y).intValue();
+	        progressDialog.setLocation(xi, yi);
+
+	        String openWordMessage = rf.getModel().getName();
+	        openWordProgressBar.setString("正在加载模板文件:"+openWordMessage+",请稍等。"  );
+	        progressDialog.setVisible(true);
+	        
+	        loadExcelFile(wp,rf);
 	  }
 
+	  private void loadExcelFile(ExcelPane wp, SfJdResultFile rf) {
+
+		  String fn="";
+		    if (rf.getFileId() != null && !rf.getFileId().equals("")) {
+
+		      fn = ExcelFileUtil.loadMold(rf.getFileId());
+
+		    } else {
+		    	fn = ExcelFileUtil.loadDefaultMold();
+		    }
+		    if (openAndProtect) {
+//		    	wp.openAndProtect(fn, SfElementConstants.WORD_PASSWORD);
+		    	wp.open(fn);
+		    } else {
+		    	wp.open(fn);
+		    }
+		    rf.setFileName(fn);
+	  }
 	  private void loadWordFile(WordPane wp, SfJdResultFile rf) {
 
 		  String fn="";
@@ -418,6 +490,8 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 	      this.setEditingObject(bill);
 	    }
 
+	    refreshSubTableData();
+	    
 	    updateBtnFields();
 	  }
 
@@ -425,7 +499,7 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 
 	    refreshMainData();
 
-	    refreshSubTableData();
+	    refreshSubData();
 
 	    updateBtnFields();
 	  }
@@ -436,8 +510,16 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 	    updateFieldEditorsEditable();
 	  }
 
+	  private void refreshSubData() {
+		  
+	    refreshFilePanel(); 
+	  }
+
 	  private void refreshSubTableData() {
-	    refreshFilePanel();
+		  SfJdResult bill = (SfJdResult) listCursor.getCurrentObject();
+		    attacheFileTable.setTableModel(SfJdResultToTableModelConverter.convertAttacheFileToTableModel(bill.getAttacheFileLst())); 
+		    ZcUtil.translateColName(this.attacheFileTable.getTable(), SfJdResultToTableModelConverter.getItemInfo()); 
+		    setTableItemEditor(this.attacheFileTable.getTable());
 	  }
 
 	  public synchronized void closeWordPanel(WordPane wp, boolean isSave) {
@@ -446,6 +528,15 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 	    }
 	  }
 
+	  private void setTableItemEditor(JTable table) {
+
+	    table.setDefaultEditor(String.class, new TextCellEditor());
+ 
+	    FileCellEditor fileEditor=new FileCellEditor("fileId",true,(BeanTableModel) table.getModel());
+	    fileEditor.setDownloadFileEnable(true);
+	    SwingUtil.setTableCellEditor(table, SfJdResultFile.COL_FILE_NAME,fileEditor ); 
+	    
+	  }
 	  /**
 	   * 
 	  * 刷新word文本
@@ -465,10 +556,27 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 	    		}
 	    	}
 	    }
-
+	    setParentSize();
 	  }
 
-	  private void addTab(SfJdResultFile rf) {
+	  private void setParentSize() {
+
+		    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		  /*  Dimension frameSize=parent.getSize();
+		    Dimension nw=new Dimension(screenSize);
+		    boolean big=false;
+		    if(frameSize.width+5>screenSize.width || frameSize.height+5>screenSize.height){
+		    	parent.setSize(new Dimension(screenSize.width-10, screenSize.height-100));
+		    	parent.pack();
+		    	parent.moveToScreenCenter();
+		    }*/
+		    parent.setSize(new Dimension(screenSize.width-10, screenSize.height-100));
+	    	parent.pack();
+	    	parent.moveToScreenCenter();
+		    		
+	  }
+
+	private void addTab(SfJdResultFile rf) {
 
 		  if(SfJdRecordFileModel.SF_VS_JD_FILE_MODEL_TYPE_word.equalsIgnoreCase(rf.getModel().getFileType())){
 			  addSubWordPane(rf);
@@ -549,10 +657,19 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 	        }
 	      }
 	    }
-	    //      setWFSubTableEditable(biTablePanel, isEdit);
+	          setWFSubTableEditable(attacheFileTable, isEdit);
+	          setMenuEnable(isEdit);
+	          
 	  }
 
-	  private void protectWordPanel() {
+	  private void setMenuEnable(boolean isEdit) {
+		  menuBar.setEnabled(isEdit);
+		  for(int i=0;i<menuBar.getMenuCount();i++){
+			  menuBar.getMenu(i).setEnabled(isEdit);
+		  }
+	}
+
+	private void protectWordPanel() {
 	    defaultWordPane.protectDoc(SfElementConstants.WORD_PASSWORD);
 	  }
 
@@ -913,9 +1030,19 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 			    		WordFileUtil.uploadWordFile(mb.getRecordFile().getFileName(), mb.getRecordFile().getFileId());
 		    		} 
 		    		lst.add(mb.getRecordFile());
-		    	}/*else if(mb.getTabCompo() instanceof WordPane){
-		    		
-		    	}*/
+		    	}else if(mb.getTabCompo() instanceof ExcelPane){
+		    		ExcelPane wp=(ExcelPane) mb.getTabCompo();
+		    		wp.save();
+		    		String modelId=mb.getRecordFile().getFileId();
+		    		if(modelFileIdLst.contains(modelId)){//产生一个新的文件号，否则使用的是模板文件的id
+		    			String fileId= WordFileUtil.insertAsFileContent(mb.getRecordFile().getFileName());
+			    		mb.getRecordFile().setFileId(fileId);
+			    		modelFileIdLst.remove(modelId);
+		    		}else{
+			    		WordFileUtil.uploadWordFile(mb.getRecordFile().getFileName(), mb.getRecordFile().getFileId());
+		    		} 
+		    		lst.add(mb.getRecordFile());		    		
+		    	}
 		    }
 		    bill.setJdRecordFileLst(lst);
 	}
@@ -1010,19 +1137,41 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 	    if(compo instanceof WordPane){
 	    	WordPane wp=(WordPane)compo;
 	    	wp.print();
-	    } 
+	    }else if(compo instanceof ExcelPane){
+	    	ExcelPane wp=(ExcelPane)compo;
+	    	wp.print();
+	    }
 	  }
 
 	  private void doEdit() {
 
 	    this.pageStatus = ZcSettingConstants.PAGE_STATUS_EDIT;
 	    this.openAndProtect = false;
-	    defaultWordPane.unProtectDoc(SfElementConstants.WORD_PASSWORD);
+	    setFilepanelEditAble(true);
+//	    defaultWordPane.unProtectDoc(SfElementConstants.WORD_PASSWORD);
 	    updateFieldEditorsEditable();
 	    setButtonStatus();
 	  }
 
-	  /* (non-Javadoc)
+	  private void setFilepanelEditAble(boolean isEdit) {
+
+		    Iterator<String> keys=recordFileTabs.keySet().iterator();
+		    while(keys.hasNext()){
+		    	MyTab tb=recordFileTabs.get(keys.next());
+		    	if(tb.getTabCompo()!=null){
+		    		if(tb.getTabCompo() instanceof WordPane){
+		    			WordPane wp=(WordPane)tb.getTabCompo();
+		    			if(isEdit){
+		    			wp.unProtectDoc(SfElementConstants.WORD_PASSWORD);
+		    			}else{
+		    				wp.protectDoc(SfElementConstants.WORD_PASSWORD);
+		    			}
+		    		}
+		    	}
+		    }
+	}
+
+	/* (non-Javadoc)
 	   * @see com.ufgov.zc.client.component.zc.AbstractMainSubEditPanel#createFieldEditors()
 	   */
 	  @Override
@@ -1200,10 +1349,7 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 
 	    workPanel.setLayout(new BorderLayout());
 
-	    JComponent subPanel = createSubBillPanel();
-	    if (subPanel == null) {
-	      subPanel = new JPanel();
-	    }
+	    
 	   /* JSplitPane sp = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 	    sp.setOneTouchExpandable(true);//让分割线显示出箭头
 	    sp.setContinuousLayout(true);//操作箭头，重绘图形
@@ -1215,19 +1361,53 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 	    JPanel p=new JPanel();
 	    p.setLayout(new BorderLayout());
 	    p.add(fieldEditorPanel, BorderLayout.NORTH);
-	    p.add(new JPanel(), BorderLayout.CENTER);
+	    p.add(createSubBillPanel(), BorderLayout.CENTER);
 	    mainTab.add("基本信息", p);
-	    mainTab.add("检验记录", subPanel);
+	    mainTab.add("检验记录", recordFileTabPan);
 	    workPanel.add(mainTab, BorderLayout.CENTER);
 	    this.add(workPanel, BorderLayout.CENTER);
 	    
+	    recordFileTabPan.addMouseListener(new MouseAdapter() {
+	    	 public void mouseClicked(MouseEvent e) {
+	    		 if(e.getButton()==e.BUTTON1){
+//	    			  System.out.println("you jian");
+	    			 super.mouseClicked(e);
+	    			  return;
+	    		  }else if(e.getButton()==e.BUTTON3){
+	    			  doPopupMenu(e);
+	    		  }
+	    	 }
+		});
 	    //增加菜单
 	    initMenu();
 	    //初始化提示框
 	    intProgressDialog();
 	  }
+	 
 
-	  private void initMenu() {
+	protected void changeRecodFileName() {
+
+		  System.out.println("change file name");
+		  
+		  
+	}
+
+	protected void doPopupMenu(MouseEvent e) {
+//		  System.out.println("hello");
+		  menuPopup=new JPopupMenu();		  
+		  JMenuItem changeRecordFileName=new JMenuItem("重命名");
+		  menuPopup.add(changeRecordFileName);
+		  menuPopup.show(this, e.getX(), e.getY());
+		  changeRecordFileName.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					changeRecodFileName();
+				}
+			}); 
+	}
+
+	private void initMenu() {
 		  
 		  JPopupMenu.setDefaultLightWeightPopupEnabled(false);
  
@@ -1602,7 +1782,7 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 		  menuBar.add(menuFill);
 		  
 		  menuRefrence.add(mItemReferenceEntrust);
-		  menuRefrence.add(mItemReferenceEntrustFile);
+//		  menuRefrence.add(mItemReferenceEntrustFile);
 		  menuBar.add(menuRefrence);
 		  
 		  
@@ -1618,16 +1798,18 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 		int selectedId=recordFileTabPan.getSelectedIndex();
 		
 		Component comp=recordFileTabPan.getSelectedComponent();
+		SfJdResult currentBill = (SfJdResult) listCursor.getCurrentObject();
+		SfBookmarkUtil bku=new SfBookmarkUtil();
+		List<SfBookmark> bks=bku.getEntrustBookValueLst(currentBill.getEntrust());
+		bks.addAll(bku.getEntrustorBookValueLst(currentBill.getEntrust().getEntrustor()));
+		bks.addAll(bku.getJdTargetBookValueLst(currentBill.getEntrust().getJdTarget()));
+		bks.addAll(bku.getJdjgBookValueLst(requestMeta.getSvCoCode())); 
 		if(comp instanceof WordPane){
-			WordPane wp=(WordPane)comp;
-			
-			SfJdResult currentBill = (SfJdResult) listCursor.getCurrentObject();
-			SfBookmarkUtil bku=new SfBookmarkUtil();
-			List<SfBookmark> bks=bku.getEntrustBookValueLst(currentBill.getEntrust());
-			bks.addAll(bku.getEntrustorBookValueLst(currentBill.getEntrust().getEntrustor()));
-			bks.addAll(bku.getJdTargetBookValueLst(currentBill.getEntrust().getJdTarget()));
-			bks.addAll(bku.getJdjgBookValueLst(requestMeta.getSvCoCode()));
+			WordPane wp=(WordPane)comp;	
 			wp.replaceBookMarks(bks);
+		}else if(comp instanceof ExcelPane){
+			ExcelPane ep=(ExcelPane)comp;			
+			ep.insertTextToNamedRangs(bks);
 		}
 		
 
@@ -1691,8 +1873,23 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 
 	protected void referenceFile(String menuRefrenceEntrustRecord) {
 	}
-
+	//引用其他委托的的检验记录
 	protected void referenceEntrust(String menuRefrenceEntrust) {
+
+		SfJdResult bill = (SfJdResult) this.listCursor.getCurrentObject();
+		if(bill.getEntrust()==null || bill.getEntrust().getEntrustId()==null){
+			JOptionPane.showMessageDialog(this, "请先选择要记录的委托.", "提示", JOptionPane.INFORMATION_MESSAGE);
+			mainTab.setSelectedIndex(0);
+		      return ;			
+		} 
+		
+		
+		RefrenceEntrustDialog entrustDialog = new RefrenceEntrustDialog(parent,this, bill.getEntrust().getEntrustId());
+//		entrustDialog.setSize(d)
+	    entrustDialog.setMinimumSize(new Dimension(300, 150));
+	    entrustDialog.pack();
+	    entrustDialog.moveToScreenCenter();
+	    entrustDialog.setVisible(true);
 	}
 
 	protected void insertContent(String menuTitle) {
@@ -1725,7 +1922,16 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 			}
 			wp.insertTextToDoc(txt);
 		}else if(SfJdRecordFileModel.SF_VS_JD_FILE_MODEL_TYPE_excel.equals(tb.getRecordFile().getModel().getFileType())){
-				
+			ExcelPane wp=(ExcelPane)tb.getTabCompo();
+//			String txt=getTxtFromBill(menuTitle); 
+			String txt="";
+			if(menuTitle.startsWith("鉴定机构")){
+				SfJdjg jdjg=getJdjg();
+				txt=SfClientUtil.getTxtFromJdjg(menuTitle, jdjg);
+			}else{
+				txt=SfClientUtil.getTxtFromBill(menuTitle, bill.getEntrust(), requestMeta);
+			}
+			wp.insertTextToCurCell(txt);	
 		}
 		
 		mainTab.setSelectedIndex(1);
@@ -1812,37 +2018,75 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 	   * @see com.ufgov.zc.client.component.zc.AbstractMainSubEditPanel#createSubBillPanel()
 	   */
 	  @Override
-	  public JComponent createSubBillPanel() {
+	  public JComponent createSubBillPanel() {		 
 
-	  /*  defaultWordPane.setMinimumSize(new Dimension(10, 100));
-	    this.tabPane.addChangeListener(new ChangeListener() {
+		    attacheFileTab = new JTabbedPane();
 
-	      public void stateChanged(ChangeEvent e) {
-	        JTabbedPane tab = (JTabbedPane) e.getSource();
-	        if(tab.getTabCount()==0){
-	        	addSubPane();
-	        }
-//	        SfJdResult bulletin = (SfJdResult) self.listCursor.getCurrentObject();
-//
-//	        JPanel pan = (JPanel) tab.getSelectedComponent();
+		    attacheFileTable.init();
 
-	         if ("panel_filenamezb".equals(pan.getName())) {
-	           refreshZbFile(zbFileID);
-	         }
-	        
-	        if (isShowPanel && pan!=null) {
-	          if ("panel_filename1".equals(pan.getName()) && cnt1++ < 1) {
-	            refreshWordPaneFile1(bulletin);
-	          } else if ("panel_filename2".equals(pan.getName()) && cnt2++ < 1) {
-	            refreshWordPaneFile2(bulletin);
-	          }
+		    attacheFileTable.setTablePreferencesKey(this.getClass().getName() + "_attacheFiletable");
 
-	        }
-	        
-	      }
-	    });*/
+		    attacheFileTable.getTable().setShowCheckedColumn(true);
 
-	    return this.recordFileTabPan;
+		    attacheFileTable.getSearchBar().setVisible(false);
+
+		    attacheFileTable.getTable().getTableRowHeader().setPreferredSize(new Dimension(50, 0));
+
+		    this.subPackTableToolbar = new JFuncToolBar();
+
+		    JButton addBtn1 = new JButton("添加");
+
+		    JButton insertBtn1 = new JButton("插入");
+
+		    JButton delBtn1 = new JButton("删除");
+
+		    this.subPackTableToolbar.add(addBtn1);
+
+		    this.subPackTableToolbar.add(insertBtn1);
+
+		    this.subPackTableToolbar.add(delBtn1);
+
+		    attacheFileTable.add(this.subPackTableToolbar, BorderLayout.SOUTH);
+
+		    addBtn1.addActionListener(new ActionListener() {
+
+		      public void actionPerformed(ActionEvent e) {
+		    	  SfJdResult entrust = (SfJdResult) listCursor.getCurrentObject();
+		    	  SfJdResultFile attachFile=new SfJdResultFile();  
+		    	  attachFile.setJdResultId(entrust.getJdResultId()); 
+		        addSub(attacheFileTable, attachFile);
+		      }
+
+		    });
+
+		    insertBtn1.addActionListener(new ActionListener() {
+
+		      public void actionPerformed(ActionEvent e) {
+
+		    	  SfJdResult entrust = (SfJdResult) listCursor.getCurrentObject();
+		    	  SfJdResultFile attachFile=new SfJdResultFile();  
+		    	  attachFile.setJdResultId(entrust.getJdResultId()); 
+		        insertSub(attacheFileTable, attachFile);
+
+		      }
+
+		    });
+
+		    delBtn1.addActionListener(new ActionListener() {
+
+		      public void actionPerformed(ActionEvent e) {
+
+		        deleteSub(attacheFileTable); 
+
+		      }
+
+		    });
+
+		    attacheFileTab.setMinimumSize(new Dimension(240, 300));
+		    attacheFileTab.add("相关检验过程文档", attacheFileTable);
+		    
+		    return attacheFileTab; 
+//		  return recordFileTabPan;
 	  }
 
 	  public void doExit() {
@@ -2124,4 +2368,43 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 		    }
 
 		  }
+		  public JDialog getParentDialog() {
+			    return parent;
+			  }
+		public void referenceEntrust(SfEntrust entrust) {
+			if(entrust!=null){
+//				System.out.println(entrust.getCode());
+				entrust=sfEntrustServiceDelegate.selectByPrimaryKey(entrust.getEntrustId(), requestMeta);
+				ElementConditionDto dto=new ElementConditionDto();
+				
+				List lst=zcEbBaseServiceDelegate.queryDataForList("com.ufgov.zc.server.sf.dao.SfJdResultMapper.selectByEntrustId", entrust.getEntrustId(), requestMeta);
+				if(lst!=null && lst.size()>0){
+					SfJdResult bill=(SfJdResult) lst.get(0);
+					bill=sfJdResultServiceDelegate.selectByPrimaryKey(bill.getJdResultId(), requestMeta); 
+
+				    if(bill.getJdRecordFileLst()!=null && bill.getJdRecordFileLst().size()>0){
+
+					    SfJdResult inData = (SfJdResult) this.listCursor.getCurrentObject();
+				    	for(int i=0;i<bill.getJdRecordFileLst().size();i++){
+				    		SfJdResultFile rf=(SfJdResultFile) bill.getJdRecordFileLst().get(i);
+				    		rf=fitFile(rf);
+				    		addTab(rf); 
+				    		rf.setJdResultId(inData.getJdResultId());
+				    		rf.setSfJdResultFileId(null);
+				    		inData.getJdRecordFileLst().add(rf);
+				    	}
+				    }
+				}
+			}
+		}
+
+		private SfJdResultFile fitFile(SfJdResultFile rf) {
+			if(recordFileTabs.containsKey(rf.getName())){
+    			rf.setName(rf.getName()+"-1");
+				return fitFile(rf);
+    		}else{
+    			return rf;
+    		}
+			
+		}
 	}

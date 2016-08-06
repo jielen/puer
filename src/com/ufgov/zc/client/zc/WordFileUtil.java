@@ -31,18 +31,23 @@ import com.ufgov.zc.common.system.model.AsFile;
 public class WordFileUtil {
   private static final Logger logger = Logger.getLogger(WordFileUtil.class);
 
-  private static IBaseDataServiceDelegate baseDataServiceDelegate = (IBaseDataServiceDelegate) ServiceFactory.create(IBaseDataServiceDelegate.class,
+   static IBaseDataServiceDelegate baseDataServiceDelegate = (IBaseDataServiceDelegate) ServiceFactory.create(IBaseDataServiceDelegate.class,
     "baseDataServiceDelegate");
 
-  private static RequestMeta requestMeta = WorkEnv.getInstance().getRequestMeta();
+   static RequestMeta requestMeta = WorkEnv.getInstance().getRequestMeta();
 
-  private static BigDecimal maxSizeM = new BigDecimal(10);
+   static BigDecimal maxSizeM = new BigDecimal(10);
 
-  private static boolean sizeLimit = true;
+   static boolean sizeLimit = true;
 
-  private static String tempDir = ZcUtil.getZcFileTempDir();
+   static String tempDir = ZcUtil.getZcFileTempDir();
 
-  private static String dir;
+   static String dir;
+   
+
+	  static String fileExtName = ".doc";
+
+	static String defaultModelFileId="OPT_ZC_BULLTIN_DEFAULT_FILE_ID";
 
   public static void setDir(String subDir) {
     if (subDir != null && subDir.length() > 0)
@@ -302,7 +307,7 @@ public static boolean createFile(String path, String filename, JPanel panel, byt
    */
   public static String loadMold(String fileID) {
     String fullFileName = "";
-    String fileExtName = ".doc";
+     
     try {
       AsFile asFile = baseDataServiceDelegate.downloadFile(fileID, requestMeta);
 
@@ -321,7 +326,7 @@ public static boolean createFile(String path, String filename, JPanel panel, byt
   }
 
   public static String loadDefaultMold() {
-    String defaultFileID = AsOptionMeta.getOptVal("OPT_ZC_BULLTIN_DEFAULT_FILE_ID");
+    String defaultFileID = AsOptionMeta.getOptVal(defaultModelFileId);
     return loadMold(defaultFileID);
   }
 

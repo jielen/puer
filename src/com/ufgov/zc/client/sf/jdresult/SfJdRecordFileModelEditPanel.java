@@ -60,10 +60,12 @@ import com.ufgov.zc.common.sf.model.SfEntrust;
 import com.ufgov.zc.common.sf.model.SfJdPerson;
 import com.ufgov.zc.common.sf.model.SfJdRecordFileModel;
 import com.ufgov.zc.common.sf.model.SfJdReport;
+import com.ufgov.zc.common.system.MimeMapping;
 import com.ufgov.zc.common.system.RequestMeta;
 import com.ufgov.zc.common.system.constants.SfElementConstants;
 import com.ufgov.zc.common.system.constants.ZcSettingConstants;
 import com.ufgov.zc.common.system.dto.ElementConditionDto;
+import com.ufgov.zc.common.system.model.AsFile;
 import com.ufgov.zc.common.system.util.DigestUtil;
 import com.ufgov.zc.common.system.util.ObjectUtil;
 import com.ufgov.zc.common.zc.publish.IZcEbBaseServiceDelegate;
@@ -682,10 +684,10 @@ public class SfJdRecordFileModelEditPanel extends AbstractMainSubEditPanel {
 
 	    SfJdRecordFileModel model = (SfJdRecordFileModel) this.listCursor.getCurrentObject();
 
-	    if(isUsing()){
+	   /* if(isUsing()){
 	      JOptionPane.showMessageDialog(this, "已经被使用，不能删除 ！\n" , "错误", JOptionPane.ERROR_MESSAGE);
 	      return;
-	    }
+	    }*/
 	    int num = JOptionPane.showConfirmDialog(this, "是否删除当前单据", "删除确认", 0);
 
 	    if (num == JOptionPane.YES_OPTION) {
@@ -780,7 +782,14 @@ public class SfJdRecordFileModelEditPanel extends AbstractMainSubEditPanel {
 	    AsValFieldEditor fileType = new AsValFieldEditor(LangTransMeta.translate(SfJdRecordFileModel.COL_FILE_TYPE), "fileType", SfJdRecordFileModel.SF_VS_JD_FILE_MODEL_TYPE);
 	    TextAreaFieldEditor desc = new TextAreaFieldEditor(LangTransMeta.translate(SfJdRecordFileModel.COL_DESCRIPTION), "description", 100, 1, 3);
 	    TextAreaFieldEditor remark = new TextAreaFieldEditor(LangTransMeta.translate(SfJdRecordFileModel.COL_REMARK), "remark", 100, 3, 3);
-	    FileFieldEditor file = new FileFieldEditor(LangTransMeta.translate(SfJdRecordFileModel.COL_FILE_NAME), "fileName", "fileId");
+	    FileFieldEditor file = new FileFieldEditor(LangTransMeta.translate(SfJdRecordFileModel.COL_FILE_NAME), "fileName", "fileId"){	    	
+	    	public void valueChged(com.ufgov.zc.common.system.model.AsFile asFile){
+	    		  setFileType(asFile);
+	    	  }
+	    	};
+//	    String[] fileExts=new String[]{"doc","docx","xls","xlsx"};
+	    String[] fileExts=new String[]{"doc","xls"};
+	    file.setFileExt(fileExts);
 
 	    AsValFieldEditor docType = new AsValFieldEditor("文书类别", "docType", SfJdRecordFileModel.SF_VS_JD_FILE_MODEL_DOC_TYPE);
 
@@ -802,7 +811,18 @@ public class SfJdRecordFileModelEditPanel extends AbstractMainSubEditPanel {
 	  }
 
 
-	  /* (non-Javadoc)
+	  protected void setFileType(AsFile asFile) {
+		  SfJdRecordFileModel inData = (SfJdRecordFileModel) this.listCursor.getCurrentObject();
+		  if(asFile==null || asFile.getMimeType()==null)return;
+		  if(asFile.getMimeType().indexOf("msword")>=0){
+			  inData.setFileType(SfJdRecordFileModel.SF_VS_JD_FILE_MODEL_TYPE_word);
+		  }else if(asFile.getMimeType().indexOf("excel")>=0){
+			  inData.setFileType(SfJdRecordFileModel.SF_VS_JD_FILE_MODEL_TYPE_excel);
+		  }
+		  setEditingObject(inData);
+	}
+
+	/* (non-Javadoc)
 	   * @see com.ufgov.zc.client.component.zc.AbstractMainSubEditPanel#createSubBillPanel()
 	   */
 	  @Override

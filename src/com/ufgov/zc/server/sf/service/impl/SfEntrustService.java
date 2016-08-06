@@ -280,4 +280,26 @@ public class SfEntrustService implements ISfEntrustService {
   public void setChargeDetailMapper(SfChargeDetailMapper chargeDetailMapper) {
     this.chargeDetailMapper = chargeDetailMapper;
   }
+
+ /**
+  * 受理,同时进行审核操作
+ * @throws Exception 
+  */
+public SfEntrust acceptFN(SfEntrust inData, RequestMeta requestMeta) throws Exception {
+	inData.setIsAccept("Y");
+	auditFN(inData,requestMeta);
+	
+	return selectByPrimaryKey(inData.getEntrustId(), requestMeta);
+}
+
+ /**
+  * 不受理，提交审批
+ * @throws Exception 
+  */
+public SfEntrust unAcceptFN(SfEntrust inData, RequestMeta requestMeta) throws Exception {
+	inData.setIsAccept("N");
+	auditFN(inData,requestMeta);
+	
+	return selectByPrimaryKey(inData.getEntrustId(), requestMeta);
+}
 }

@@ -98,6 +98,7 @@ import com.ufgov.zc.client.sf.dataflow.SfDataFlowDialog;
 import com.ufgov.zc.client.sf.entrustor.SfEntrustorHandler;
 import com.ufgov.zc.client.sf.jdtarget.SfJdTargethandler;
 import com.ufgov.zc.client.sf.util.SfJdPersonSelectHandler;
+import com.ufgov.zc.client.sf.util.SfUtil;
 import com.ufgov.zc.client.util.SwingUtil;
 import com.ufgov.zc.client.util.freemark.IWordHandler;
 import com.ufgov.zc.client.zc.ButtonStatus;
@@ -163,6 +164,11 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
 
   public FuncButton printXyButton = new CommonButton("fprintXy", "print.gif");
   public FuncButton printConfirmButton = new CommonButton("fprintConfirm", "print.gif");
+  
+
+  public FuncButton acceptBtn = new CommonButton("faccepted", "audit.jpg");
+
+  public FuncButton unAccetpBtn = new CommonButton("fback", "untread.jpg");
 
   public FuncButton importButton = new ImportButton();
 
@@ -299,7 +305,6 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
     entrust.setInputor(requestMeta.getSvUserID());
     entrust.setAcceptDate(requestMeta.getSysDate());
     entrust.setAcceptor(requestMeta.getSvUserID());
-    entrust.setJdCompany(AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_JD_COMPANY_NAME));//天津市开平司法鉴定中心
     entrust.setWtDate(requestMeta.getSysDate());
     entrust.setJdDocSendType(SfEntrust.SF_VS_ENTRUST_DOC_SEND_TYPE_ZIQU);
     //获取空的协议事项
@@ -307,6 +312,8 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
     xysxLst = xysxLst == null ? new ArrayList() : xysxLst;
     entrust.setXysxLst(xysxLst);
     entrust.setIsCxjd("N");
+    entrust.setCoCode("000");//设定鉴定机构，目前是满足单一普洱市鉴定所，后续支持多家时，这个值需要在界面上选择
+    entrust.setJdCompany(AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_JD_COMPANY_NAME));//
   }
 
   private void refreshSubData() {
@@ -468,7 +475,14 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
             || "inputDate".equals(editor.getFieldName()) || "jdCharge".equals(editor.getFieldName())) {
             editor.setEnabled(false);
           } else {
-            editor.setEnabled(true);
+        	  if(SfUtil.isWtf()&&("isAccept".equals(editor.getFieldName())||"jdAssistor".equals(editor.getFieldName())
+        			  ||"jdFhr".equals(editor.getFieldName())||"jdFzr".equals(editor.getFieldName())
+        			  ||"jdFzrName".equals(editor.getFieldName())||"jdFhrName".equals(editor.getFieldName())
+        			  ||"jdAssistorName".equals(editor.getFieldName()))){//委托方不能设置是否受理
+        		  editor.setEnabled(false);
+        	  }else{
+        		  editor.setEnabled(true);
+        	  }
           }
           isEdit = true;
         } else {
@@ -665,6 +679,10 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
     toolBar.add(callbackButton);
 
     toolBar.add(deleteButton);
+    
+    toolBar.add(acceptBtn);
+    
+    toolBar.add(unAccetpBtn);
 
     //    toolBar.add(importButton);
 
@@ -687,6 +705,25 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
     //    toolBar.add(nextButton);
 
     toolBar.add(exitButton);
+    
+    acceptBtn.addActionListener(new ActionListener() {
+
+        public void actionPerformed(ActionEvent e) {
+
+          doAccept();
+
+        }
+
+      });
+    unAccetpBtn.addActionListener(new ActionListener() {
+
+        public void actionPerformed(ActionEvent e) {
+
+          doUnAccept();
+
+        }
+
+      });
 
     editButton.addActionListener(new ActionListener() {
 
@@ -811,7 +848,91 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
     });
   }
 
-  protected void doPrevious() {
+  /**
+   * 不受理，配合工作流，直接结束
+   */
+  protected void doUnAccept() {
+
+
+	    SfEntrust bill = this.listCursor.getCurrentObject();
+
+	    //    System.out.println("doSuggestPass 1++++++++++++++++++++++++++=" + bill.getAcceptDate());
+	    XysxPanelUtil.getValue(bill, xysxComponents);
+	    if(bill.getNotAcceptReason()==null){
+		      JOptionPane.showMessageDialog(this, "请说明不受理原因！", "提示", JOptionPane.INFORMATION_MESSAGE);
+		      return;
+	    	
+	    }
+
+	    /*if (!checkBeforeSave()) {
+	      return;
+	    }*/
+	    SfEntrust qx = (SfEntrust) ObjectUtil.deepCopy(this.listCursor.getCurrentObject());
+	    //    System.out.println("doSuggestPass 2++++++++++++++++++++++++++=" + qx.getAcceptDate());
+	    requestMeta.setFuncId(this.unAccetpBtn.getFuncId()); 
+	    boolean success = true;
+	    String errorInfo = "";
+	    try {
+	      qx.setComment("不接受委托");
+	      qx.setAuditorId(WorkEnv.getInstance().getCurrUserId());
+	      //      System.out.println("doSuggestPass 3++++++++++++++++++++++++++=" + qx.getAcceptDate());
+	      qx = sfEntrustServiceDelegate.unAcceptFN(qx, requestMeta);
+	      //      System.out.println("doSuggestPass 4++++++++++++++++++++++++++=" + qx.getAcceptDate());
+	    } catch (Exception e) {
+	      success = false;
+	      logger.error(e.getMessage(), e);
+	      errorInfo += e.getMessage();
+	    }
+	    if (success) {
+	      JOptionPane.showMessageDialog(this, "完成操作！", "提示", JOptionPane.INFORMATION_MESSAGE);
+	      refreshListPanel();
+	      refreshData();
+	      updateDataFlowDialog();
+	    } else {
+	      JOptionPane.showMessageDialog(this, "操作败 ！" + errorInfo, "错误", JOptionPane.ERROR_MESSAGE);
+	    }
+}
+
+  /**
+   * 受理,配合工作流,送给对应的鉴定负责人
+   */
+protected void doAccept() {
+
+    SfEntrust bill = this.listCursor.getCurrentObject();
+
+    //    System.out.println("doSuggestPass 1++++++++++++++++++++++++++=" + bill.getAcceptDate());
+    XysxPanelUtil.getValue(bill, xysxComponents);
+
+    /*if (!checkBeforeSave()) {
+      return;
+    }*/
+    SfEntrust qx = (SfEntrust) ObjectUtil.deepCopy(this.listCursor.getCurrentObject());
+    //    System.out.println("doSuggestPass 2++++++++++++++++++++++++++=" + qx.getAcceptDate());
+    requestMeta.setFuncId(this.acceptBtn.getFuncId()); 
+    boolean success = true;
+    String errorInfo = "";
+    try {
+      qx.setComment("接受委托");
+      qx.setAuditorId(WorkEnv.getInstance().getCurrUserId());
+      //      System.out.println("doSuggestPass 3++++++++++++++++++++++++++=" + qx.getAcceptDate());
+      qx = sfEntrustServiceDelegate.acceptFN(qx, requestMeta);
+      //      System.out.println("doSuggestPass 4++++++++++++++++++++++++++=" + qx.getAcceptDate());
+    } catch (Exception e) {
+      success = false;
+      logger.error(e.getMessage(), e);
+      errorInfo += e.getMessage();
+    }
+    if (success) {
+      JOptionPane.showMessageDialog(this, "成功受理！", "提示", JOptionPane.INFORMATION_MESSAGE);
+      refreshListPanel();
+      refreshData();
+      updateDataFlowDialog();
+    } else {
+      JOptionPane.showMessageDialog(this, "受理失败 ！" + errorInfo, "错误", JOptionPane.ERROR_MESSAGE);
+    }
+}
+
+protected void doPrevious() {
 
     if (isDataChanged()) {
 
@@ -1186,6 +1307,42 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
     ForeignEntityFieldEditor jdFzr = new ForeignEntityFieldEditor(jdFzrHandler.getSqlId(), majorPersonDto, 20, jdFzrHandler,
       jdFzrHandler.getColumNames(), LangTransMeta.translate(SfEntrust.COL_JD_FZR), "jdFzrName");
 
+
+    SfJdPersonSelectHandler jdAssistorHandler = new SfJdPersonSelectHandler() {
+      @Override
+      public void excute(List selectedDatas) {
+        // TCJLODO Auto-generated method stub
+        if (selectedDatas != null && selectedDatas.size() > 0) {
+          SfEntrust cur = listCursor.getCurrentObject();
+          SfJdPerson user = (SfJdPerson) selectedDatas.get(0);
+          cur.setJdAssistor(user.getAccount());
+          cur.setJdAssistorName(user.getName());
+          setEditingObject(cur);
+        }
+      }
+
+      public void afterClear() {
+        SfEntrust currentBill = (SfEntrust) listCursor.getCurrentObject();
+        currentBill.setJdAssistor(null);
+        setEditingObject(currentBill);
+      }
+
+      public boolean beforeSelect(ElementConditionDto dto) {
+        SfEntrust currentBill = (SfEntrust) listCursor.getCurrentObject();
+        if (currentBill.getMajorCode() == null || currentBill.getMajorCode().trim().length() == 0) {
+          JOptionPane
+            .showMessageDialog(self, "请先选择" + LangTransMeta.translate(SfEntrust.COL_MAJOR_NAME) + "！", "提示", JOptionPane.INFORMATION_MESSAGE);
+          return false;
+        }
+        return true;
+      }
+    };
+
+    majorPersonDto.setNd(requestMeta.getSvNd());
+    majorPersonDto.setCoCode(requestMeta.getSvCoCode());
+    ForeignEntityFieldEditor jdAssistor = new ForeignEntityFieldEditor(jdAssistorHandler.getSqlId(), majorPersonDto, 20, jdAssistorHandler,
+    		jdAssistorHandler.getColumNames(), LangTransMeta.translate(SfEntrust.COL_JD_ASSISTOR), "jdAssistorName");
+    
     SfJdPersonSelectHandler jdFhrHandler = new SfJdPersonSelectHandler() {
       @Override
       public void excute(List selectedDatas) {
@@ -1338,9 +1495,9 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
     headFieldEditors.add(majorCode);
     //    editorList.add(jdOrg);
     headFieldEditors.add(jdFzr);
+    headFieldEditors.add(jdAssistor);
+    
     headFieldEditors.add(jdFhr);
-
-    headFieldEditors.add(jdCharge);
     headFieldEditors.add(acceptor);
     headFieldEditors.add(acceptDate);
 
