@@ -451,6 +451,7 @@ public class WordPane extends JPanel {
 			vnames[i] = name == null ? "" : name;
 			String value = bk.getValue();
 			vvalues[i] = value == null ? "" : value;
+//			System.out.println(vnames[i]+"="+vvalues[i]);
 		}
 		return replaceBookMarks(vnames, vvalues);
 	}

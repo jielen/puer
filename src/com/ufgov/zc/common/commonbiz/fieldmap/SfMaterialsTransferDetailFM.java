@@ -20,6 +20,7 @@ public class SfMaterialsTransferDetailFM {
     fieldMap.put("REMARK","remark");
     fieldMap.put("TRANSFER_ID","transfer_id");
     fieldMap.put("UNIT","unit");
+    fieldMap.put("QUANTITY3","quantity3");
 
   }
 }

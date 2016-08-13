@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.ufgov.zc.common.util.EmpMeta;
 import com.ufgov.zc.common.zc.model.ZcBaseBill;
 
 public class ZcMobileMsg extends ZcBaseBill {
@@ -184,6 +185,7 @@ public class ZcMobileMsg extends ZcBaseBill {
    */
   public void setInputor(String inputor) {
     this.inputor = inputor;
+    inputorName=EmpMeta.getEmpName(inputor);
   }
 
   /**

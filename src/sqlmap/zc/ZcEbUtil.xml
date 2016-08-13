@@ -43,5 +43,5 @@
 	</select>
    <select id="getZcEbFormulaParamNextSeqVal" resultClass="String">
 		select ZC_SEQ_FORMULA_PARAM.NEXTVAL AS ID from DUAL	</select>		 <select id="getSysUserManageNextSeqVal" resultClass="String">		select SEQ_SYS_FRAME_ID.NEXTVAL AS ID from DUAL	</select>		 <select id="getBullitinNextSeqVal" resultClass="String">		select ZC_SEQ_BULLITIN_ID.NEXTVAL AS ID from DUAL	</select>
-		
+		  <select id="selectToDoUser" parameterClass="elementCondition" resultClass="java.util.HashMap">  		select t.EXECUTOR from V_WF_CURRENT_TASK_ZC_TODO  t where t.instance_id in (select e.process_inst_id from $dattr1$ e ) and t.instance_id=$dattr2$		  </select>		  <select id="selectUntreadUser" parameterClass="elementCondition" resultClass="java.util.HashMap">  		select t.EXECUTOR from V_WF_CURRENT_TASK_ZC_UNTREAD  t where t.instance_id in (select e.process_inst_id from $dattr1$ e ) and t.instance_id=$dattr2$		  </select>
 </sqlMap>

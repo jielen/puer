@@ -60,7 +60,9 @@ public class SfJdDocAudit extends ZcBaseBill {
   private List detailLst = new ArrayList();
 
   private SfEntrust entrust = new SfEntrust();
-
+  
+  private SfJdReport report=new SfJdReport();
+   
   private String wtf;
 
   /**
@@ -444,4 +446,12 @@ public class SfJdDocAudit extends ZcBaseBill {
   public void setWtf(String wtf) {
     this.wtf = wtf;
   }
+
+public SfJdReport getReport() {
+	return report;
+}
+
+public void setReport(SfJdReport report) {
+	this.report = report;
+}
 }

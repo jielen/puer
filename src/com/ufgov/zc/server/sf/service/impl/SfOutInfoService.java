@@ -1,14 +1,15 @@
 package com.ufgov.zc.server.sf.service.impl;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.ufgov.zc.common.sf.model.SfMaterials;
 import com.ufgov.zc.common.sf.model.SfOutInfo;
-import com.ufgov.zc.common.sf.model.SfOutInfoDetail;
-import com.ufgov.zc.common.sf.model.SfOutInfoValidateDetail;
 import com.ufgov.zc.common.system.RequestMeta;
 import com.ufgov.zc.common.system.dto.ElementConditionDto;
 import com.ufgov.zc.common.system.model.AsWfDraft;
+import com.ufgov.zc.server.sf.dao.SfMaterialsMapper;
 import com.ufgov.zc.server.sf.dao.SfOutInfoDetailMapper;
 import com.ufgov.zc.server.sf.dao.SfOutInfoMapper;
 import com.ufgov.zc.server.sf.dao.SfOutInfoValidateDetailMapper;
@@ -24,9 +25,22 @@ public class SfOutInfoService implements ISfOutInfoService {
   private SfOutInfoMapper outInfoMapper;
   private SfOutInfoDetailMapper outInfoDetailMapper;
   private SfOutInfoValidateDetailMapper outInfoValidateDetailMapper;
+  private SfMaterialsMapper materialsMapper;
   
-  
-  public IWorkflowDao getWorkflowDao() {
+ 
+
+
+public SfMaterialsMapper getMaterialsMapper() {
+	return materialsMapper;
+}
+
+
+public void setMaterialsMapper(SfMaterialsMapper materialsMapper) {
+	this.materialsMapper = materialsMapper;
+}
+
+
+public IWorkflowDao getWorkflowDao() {
     return workflowDao;
   }
 
@@ -86,10 +100,14 @@ public class SfOutInfoService implements ISfOutInfoService {
     // TCJLODO Auto-generated method stub
     SfOutInfo rtn=outInfoMapper.selectByPrimaryKey(id);
     if(rtn==null)return null;
-    ElementConditionDto dto=new ElementConditionDto();
+    /*ElementConditionDto dto=new ElementConditionDto();
     dto.setSfId(id);
     rtn.setDetailLst(outInfoDetailMapper.selectByOutInfoId(dto));
-    rtn.setValidateDetailLst(outInfoValidateDetailMapper.selectByPrimaryKey(id));
+    rtn.setValidateDetailLst(outInfoValidateDetailMapper.selectByPrimaryKey(id));*/
+
+    List materialLst = materialsMapper.selectByAppentMaterialsId(id);
+    rtn.setDetailLst(materialLst == null ? new ArrayList() : materialLst);
+    
     rtn.setDbDigest(rtn.digest());
     return rtn;
   }
@@ -130,8 +148,21 @@ public class SfOutInfoService implements ISfOutInfoService {
   private void update(SfOutInfo inData, RequestMeta requestMeta) {
     // TCJLODO Auto-generated method stub
     outInfoMapper.updateByPrimaryKey(inData);
-    
-    outInfoDetailMapper.deleteByOutInfoId(inData.getOutInfoId());
+    if(inData.getDetailLst()!=null && inData.getDetailLst().size()>0){
+    	SfMaterials mm=(SfMaterials) inData.getDetailLst().get(0);
+        materialsMapper.deleteByAppentMaterialsId(mm.getAppendMaterialId());
+        for(int i=0;i<inData.getDetailLst().size();i++){
+          SfMaterials m=(SfMaterials) inData.getDetailLst().get(i);
+          m.setAppendMaterialId(inData.getOutInfoId());
+          m.setEntrustId(inData.getEntrustId()); 
+          if (m.getMaterialId() == null) {
+            BigDecimal id = new BigDecimal(ZcSUtil.getNextVal(SfMaterials.SEQ_SF_MATERIALS_ID));
+            m.setMaterialId(id);
+          }
+          materialsMapper.insert(m);
+        }
+      }
+   /* outInfoDetailMapper.deleteByOutInfoId(inData.getOutInfoId());
     if(inData.getDetailLst()!=null){
       for(int i=0;i<inData.getDetailLst().size();i++){
         SfOutInfoDetail m=(SfOutInfoDetail) inData.getDetailLst().get(i);
@@ -151,7 +182,7 @@ public class SfOutInfoService implements ISfOutInfoService {
         m.setOutInfoId(inData.getOutInfoId());
         outInfoValidateDetailMapper.insert(m);
       }
-    }
+    }*/
     
   }
 
@@ -159,6 +190,18 @@ public class SfOutInfoService implements ISfOutInfoService {
     // TCJLODO Auto-generated method stub
     outInfoMapper.insert(inData);
     if(inData.getDetailLst()!=null){
+        for(int i=0;i<inData.getDetailLst().size();i++){
+          SfMaterials m=(SfMaterials) inData.getDetailLst().get(i);
+          m.setAppendMaterialId(inData.getOutInfoId());
+          m.setEntrustId(inData.getEntrustId()); 
+          if (m.getMaterialId() == null) {
+            BigDecimal id = new BigDecimal(ZcSUtil.getNextVal(SfMaterials.SEQ_SF_MATERIALS_ID));
+            m.setMaterialId(id);
+          }
+          materialsMapper.insert(m);
+        }
+      }
+    /* if(inData.getDetailLst()!=null){
       for(int i=0;i<inData.getDetailLst().size();i++){
         SfOutInfoDetail m=(SfOutInfoDetail) inData.getDetailLst().get(i);
         m.setOutInfoId(inData.getOutInfoId());
@@ -175,7 +218,7 @@ public class SfOutInfoService implements ISfOutInfoService {
         m.setOutInfoId(inData.getOutInfoId());
         outInfoValidateDetailMapper.insert(m);
       }
-    }
+    }*/
   }
 
   

@@ -440,7 +440,7 @@ public class WorkEnv {
     workEvn.currCompany.setCode("000");
     // this.currCompany.setName("100name");
     workEvn.orgCode = "002";
-    workEvn.poCode = "ysdwcg";
+    workEvn.poCode = "P_WTSL";
     workEvn.orgPoCode = "003007";
     workEvn.token = "" + System.currentTimeMillis();
 

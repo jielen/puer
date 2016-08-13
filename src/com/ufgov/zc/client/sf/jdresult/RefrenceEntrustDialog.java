@@ -174,8 +174,8 @@ private List getEntrusLst() {
         	  SfJdRecordEditPanel recordPanel=(SfJdRecordEditPanel)dd;
         	  recordPanel.referenceEntrust(entrust);
           }else if(dd instanceof SfJdReportEditPanel){
-        	  SfJdReportEditPanel recordPanel=(SfJdReportEditPanel)dd;
-        	  recordPanel.referenceEntrust(entrust);
+        	  SfJdReportEditPanel reportPanel=(SfJdReportEditPanel)dd;
+        	  reportPanel.referenceEntrust(entrust);
           }
            
 

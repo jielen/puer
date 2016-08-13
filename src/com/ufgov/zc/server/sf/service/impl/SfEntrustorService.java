@@ -135,6 +135,9 @@ void addUser(SfEntrustor entrustor) {
   private void insert(SfEntrustor inData, RequestMeta requestMeta) {
     // TCJLODO Auto-generated method stub
     entrustorMapper.insert(inData); 
+    if(inData.getUser()==null ||inData.getUser().getUserId()==null){
+    	return;
+    }
     SfEntrustorUser wtfUser=new SfEntrustorUser();
     wtfUser.setUserId(inData.getUser().getUserId().trim());
     wtfUser.setEntrustorId(inData.getEntrustorId());

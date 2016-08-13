@@ -39,6 +39,8 @@
 		<property name="chargeDetailMapper" ref="chargeDetailMapper" />	
 		<property name="workflowDao" ref="workflowDao" />
 		<property name="wfEngineAdapter" ref="wfEngineAdapter" />	
+		<property name="zcEbBaseService" ref="zcEbBaseService" />
+		<property name="userService" ref="userService" />	
 	</bean>		
 	<bean id="entrustMapper" class="com.ufgov.zc.server.sf.dao.ibatis.SfEntrustMapperImp"		scope="singleton">
 		<property name="sqlMapClient" ref="sqlMapClient" />
@@ -115,7 +117,7 @@
 	</bean>		
 	
 	<bean id="outInfoTypeService" class="com.ufgov.zc.server.sf.service.impl.SfOutInfoTypeService"		scope="singleton">
-		<property name="outInfoTypeMapper" ref="outInfoTypeMapper" />	
+		<property name="outInfoTypeMapper" ref="outInfoTypeMapper" />
 	</bean>		
 	<bean id="outInfoTypeMapper" class="com.ufgov.zc.server.sf.dao.ibatis.SfOutInfoTypeMapperImp"		scope="singleton">
 		<property name="sqlMapClient" ref="sqlMapClient" />
@@ -133,7 +135,8 @@
 		<property name="outInfoDetailMapper" ref="outInfoDetailMapper" />	
 		<property name="outInfoValidateDetailMapper" ref="outInfoValidateDetailMapper" />	
 		<property name="workflowDao" ref="workflowDao" />
-		<property name="wfEngineAdapter" ref="wfEngineAdapter" />	
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+		<property name="materialsMapper" ref="materialsMapper" />		
 	</bean>		
 	<bean id="outInfoMapper" class="com.ufgov.zc.server.sf.dao.ibatis.SfOutInfoMapperImp"		scope="singleton">
 		<property name="sqlMapClient" ref="sqlMapClient" />
@@ -181,7 +184,9 @@
 		<property name="jdDocAuditDetailMapper" ref="jdDocAuditDetailMapper" />		
 		<property name="workflowDao" ref="workflowDao" />
 		<property name="wfEngineAdapter" ref="wfEngineAdapter" />	
-		<property name="sfEntrustService" ref="sfEntrustService" />	
+		<property name="sfEntrustService" ref="sfEntrustService" />		
+		<property name="zcEbBaseService" ref="zcEbBaseService" />			
+		<property name="sfJdReportService" ref="sfJdReportService" />			
 	</bean>		
 	<bean id="jdDocAuditMapper" class="com.ufgov.zc.server.sf.dao.ibatis.SfJdDocAuditMapperImp"		scope="singleton">
 		<property name="sqlMapClient" ref="sqlMapClient" />

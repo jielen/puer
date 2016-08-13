@@ -153,7 +153,7 @@ private static List<ColumnBeanPropertyPair> materialInfo = new ArrayList<ColumnB
 
 static {
   materialInfo.add(new ColumnBeanPropertyPair(SfMaterials.COL_NAME, "material.name", LangTransMeta.translate(SfMaterials.COL_NAME)));
-  materialInfo.add(new ColumnBeanPropertyPair(SfMaterialsTransferDetail.COL_QUANTITY, "quantity", LangTransMeta.translate(SfMaterialsTransferDetail.COL_QUANTITY)));
+  materialInfo.add(new ColumnBeanPropertyPair(SfMaterialsTransferDetail.COL_QUANTITY3, "quantity3", LangTransMeta.translate(SfMaterialsTransferDetail.COL_QUANTITY3)));
   materialInfo.add(new ColumnBeanPropertyPair(SfMaterialsTransferDetail.COL_UNIT, "unit", LangTransMeta.translate(SfMaterialsTransferDetail.COL_UNIT)));
   materialInfo.add(new ColumnBeanPropertyPair(SfMaterialsTransferDetail.COL_PROCESSING, "processing", LangTransMeta.translate(SfMaterialsTransferDetail.COL_PROCESSING)));
   materialInfo.add(new ColumnBeanPropertyPair(SfMaterialsTransferDetail.COL_PROCESSING_MAN, "processingMan", LangTransMeta.translate(SfMaterialsTransferDetail.COL_PROCESSING_MAN)));
@@ -168,7 +168,7 @@ private static List<ColumnBeanPropertyPair> outInfo = new ArrayList<ColumnBeanPr
 
 static {
   outInfo.add(new ColumnBeanPropertyPair(SfOutInfoDetail.COL_NAME, "outInfoDetail.name", LangTransMeta.translate(SfOutInfoDetail.COL_NAME)));
-  outInfo.add(new ColumnBeanPropertyPair(SfMaterialsTransferDetail.COL_QUANTITY, "quantity", LangTransMeta.translate(SfMaterialsTransferDetail.COL_QUANTITY)));
+  outInfo.add(new ColumnBeanPropertyPair(SfMaterialsTransferDetail.COL_QUANTITY3, "quantity3", LangTransMeta.translate(SfMaterialsTransferDetail.COL_QUANTITY3)));
   outInfo.add(new ColumnBeanPropertyPair(SfMaterialsTransferDetail.COL_UNIT, "unit", LangTransMeta.translate(SfMaterialsTransferDetail.COL_UNIT)));
   outInfo.add(new ColumnBeanPropertyPair(SfMaterialsTransferDetail.COL_PROCESSING, "processing", LangTransMeta.translate(SfMaterialsTransferDetail.COL_PROCESSING)));
   outInfo.add(new ColumnBeanPropertyPair(SfMaterialsTransferDetail.COL_PROCESSING_MAN, "processingMan", LangTransMeta.translate(SfMaterialsTransferDetail.COL_PROCESSING_MAN)));

@@ -85,7 +85,7 @@ public class SfMaterialsTransferNodeBusiness implements ISfFlowNodeBusiness {
         SfMaterials m = (SfMaterials) materialLst.get(i);
         SfMaterialsTransferDetail d = new SfMaterialsTransferDetail();
         d.setProcessing(SfMaterialsTransferDetail.HANDLE_STATUS_NEI_BU_LIU_ZHUAN);
-        d.setQuantity(m.getQuantity());
+        d.setQuantity3(m.getQuantity3());
         d.setUnit(m.getUnit());
         d.setMaterial(m);
         rtn.add(d);
@@ -99,7 +99,7 @@ public class SfMaterialsTransferNodeBusiness implements ISfFlowNodeBusiness {
         SfOutInfoDetail m = (SfOutInfoDetail) outInfoLst.get(i);
         SfMaterialsTransferDetail d = new SfMaterialsTransferDetail();
         d.setProcessing(SfMaterialsTransferDetail.HANDLE_STATUS_NEI_BU_LIU_ZHUAN);
-        d.setQuantity(m.getQuantity());
+        d.setQuantity3(""+(m.getQuantity()==null?0:m.getQuantity().doubleValue()));
         d.setUnit(m.getUnit());
         d.setOutInfoDetail(m);
         rtn.add(d);

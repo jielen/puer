@@ -12,7 +12,15 @@ public class SfMajor extends ZcBaseBill{
    */
   private static final long serialVersionUID = 4993199595925293038L;
   
+  /**
+   * 值集，戴编码
+   */
   public static final String SF_VS_MAJOR="SF_VS_MAJOR";
+  
+  /**
+   * 值集，不带编码
+   */
+  public static final String SF_VS_MAJOR_pur="SF_VS_MAJOR_pur"; 
   
   public static final String COL_MAJOR_CODE="SF_MAJOR_CODE";
   
@@ -21,6 +29,7 @@ public class SfMajor extends ZcBaseBill{
   public static final String COL_MAJOR_PARENT_CODE ="SF_PARENT_CODE";
   
   public final static String TAB_ID_SF_MAJOR = "SF_MAJOR_TAB";
+  
   
   private List jdPersonLst=new ArrayList();
   

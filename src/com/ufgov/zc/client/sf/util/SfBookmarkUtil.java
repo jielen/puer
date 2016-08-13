@@ -17,6 +17,7 @@ import com.ufgov.zc.common.sf.model.SfJdReport;
 import com.ufgov.zc.common.sf.model.SfJdResult;
 import com.ufgov.zc.common.sf.model.SfJdTarget;
 import com.ufgov.zc.common.sf.model.SfJdjg;
+import com.ufgov.zc.common.sf.model.SfMajor;
 import com.ufgov.zc.common.sf.model.SfMaterials;
 import com.ufgov.zc.common.system.RequestMeta;
 import com.ufgov.zc.common.system.constants.SfElementConstants;
@@ -170,7 +171,8 @@ public class SfBookmarkUtil {
 		
 		bk=new SfBookmark();
 		bk.setName(SfEntrust.COL_MAJOR_NAME);
-		bk.setValue(bill.getMajor()==null?bill.getMajorCode():bill.getMajor().getMajorName());
+		bk.setValue(AsValDataCache.getName(SfMajor.SF_VS_MAJOR_pur, bill.getMajorCode()));
+//		bk.setValue(bill.getMajor()==null?bill.getMajorCode():bill.getMajor().getMajorName());
 		rtn.add(bk);
 		
 		bk=new SfBookmark();
@@ -468,10 +470,15 @@ public class SfBookmarkUtil {
 
 
 		SfBookmark bk=new SfBookmark();
-		bk.setName("JDREPORT_REPORT_CODE");
+		bk.setName("JDREPORT_REPORT_CODE");//JDREPORT_REPORT_CODE
 		bk.setValue(bill.getReportCode());
 		rtn.add(bk);
-		 
+		
+		bk=new SfBookmark();
+		bk.setName("JDREPORT_NAME");
+		bk.setValue(bill.getName());
+		rtn.add(bk);
+		 //
 		
 		return rtn;
 	} 

@@ -82,6 +82,7 @@ import com.ufgov.zc.common.sf.model.SfJdDocAuditDetail;
 import com.ufgov.zc.common.sf.model.SfJdDocType;
 import com.ufgov.zc.common.sf.model.SfJdReport;
 import com.ufgov.zc.common.sf.model.SfJdResult;
+import com.ufgov.zc.common.sf.model.SfMajor;
 import com.ufgov.zc.common.sf.publish.ISfEntrustServiceDelegate;
 import com.ufgov.zc.common.sf.publish.ISfJdDocAuditServiceDelegate;
 import com.ufgov.zc.common.system.RequestMeta;
@@ -951,9 +952,14 @@ public class SfJdDocAuditEditPanel extends AbstractMainSubEditPanel {
           currentBill.setWtf(entrust.getEntrustor() == null ? null : entrust.getEntrustor().getName());
           SfJdResult result = (SfJdResult) zcEbBaseServiceDelegate.queryObject("com.ufgov.zc.server.sf.dao.SfJdResultMapper.selectByEntrustId",
             entrust.getEntrustId(), requestMeta);
+          SfJdReport report=(SfJdReport)zcEbBaseServiceDelegate.queryObject("com.ufgov.zc.server.sf.dao.SfJdReportMapper.selectByEntrustId", entrust.getEntrustId(), requestMeta);
           if (result != null) {
             currentBill.setReportType(result.getResultType());
           }
+          if(report!=null){
+        	  currentBill.setReport(report);
+        	  currentBill.setReportType(report.getReportType());
+          }          
           setEditingObject(currentBill);
           break;
         }
@@ -971,14 +977,15 @@ public class SfJdDocAuditEditPanel extends AbstractMainSubEditPanel {
     dto.setDattr1("SF_JD_DOC_AUDIT");
     ForeignEntityFieldEditor entrust = new ForeignEntityFieldEditor(entrustHandler.getSqlId(), dto, 20, entrustHandler,
       entrustHandler.getColumNames(), LangTransMeta.translate(SfJdDocAudit.COL_ENTRUST_CODE), "entrustCode");
+    TextFieldEditor reportCode = new TextFieldEditor(LangTransMeta.translate(SfJdReport.COL_REPORT_CODE), "report.reportCode");
     TextFieldEditor name = new TextFieldEditor(LangTransMeta.translate(SfJdDocAudit.COL_NAME), "name");
     AsValFieldEditor status = new AsValFieldEditor(LangTransMeta.translate(SfJdDocAudit.COL_STATUS), "status", SfJdDocAudit.SF_VS_JD_DOC_AUDIT_STATUS);
     TextFieldEditor jdTarget = new TextFieldEditor(LangTransMeta.translate(SfEntrust.COL_JD_TARGET_ID), "entrust.jdTarget.name");
     TextFieldEditor entrustor = new TextFieldEditor(LangTransMeta.translate(SfEntrust.COL_ENTRUSTOR_NAME), "entrust.entrustor.name");
+    AsValFieldEditor major = new AsValFieldEditor(LangTransMeta.translate(SfEntrust.COL_MAJOR_NAME), "entrust.majorCode",SfMajor.SF_VS_MAJOR_pur);
     TextFieldEditor jdFzr = new TextFieldEditor(LangTransMeta.translate(SfEntrust.COL_JD_FZR), "entrust.jdFzrName");
     TextFieldEditor photographer = new TextFieldEditor(LangTransMeta.translate(SfJdDocAudit.COL_PHOTOGRAPHER), "photographer");
-    AsValFieldEditor reportType = new AsValFieldEditor(LangTransMeta.translate(SfJdResult.COL_RESULT_TYPE), "reportType",
-    		SfJdReport.SF_VS_JD_RESULT_TYPE);
+    AsValFieldEditor reportType = new AsValFieldEditor("发文形式", "reportType",SfJdReport.SF_VS_JD_RESULT_TYPE);
     TextAreaFieldEditor remark = new TextAreaFieldEditor(LangTransMeta.translate(SfJdDocAudit.COL_REMARK), "remark", 100, 2, 5);
     IntFieldEditor docQuatity = new IntFieldEditor(LangTransMeta.translate(SfJdDocAudit.COL_DOC_QUATITY), "docQuatity");
 
@@ -989,13 +996,15 @@ public class SfJdDocAuditEditPanel extends AbstractMainSubEditPanel {
     editorList.add(name);
     editorList.add(status);
 
+    editorList.add(reportCode);
     editorList.add(entrustor);
-    editorList.add(jdTarget);
+//    editorList.add(jdTarget);
     editorList.add(jdFzr);
 
-    editorList.add(photographer);
-    editorList.add(docQuatity);
+//    editorList.add(photographer);
     editorList.add(reportType);
+    editorList.add(docQuatity);
+    editorList.add(major);
 
     editorList.add(remark);
 

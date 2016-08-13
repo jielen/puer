@@ -1201,8 +1201,8 @@ public class SfMaterialsTransferEditPanel  extends AbstractMainSubEditPanel {
       for(int i=0;i<materialLst.size();i++){
         SfMaterials m=(SfMaterials)materialLst.get(i);
         SfMaterialsTransferDetail d=new SfMaterialsTransferDetail();
-        d.setProcessing(SfMaterialsTransferDetail.HANDLE_STATUS_NEI_BU_LIU_ZHUAN);
-        d.setQuantity(m.getQuantity());
+        d.setProcessing(SfMaterialsTransferDetail.HANDLE_STATUS_TUI_HUI);
+        d.setQuantity3(m.getQuantity3());
         d.setUnit(m.getUnit());
         d.setMaterial(m);
         rtn.add(d);
@@ -1215,8 +1215,8 @@ public class SfMaterialsTransferEditPanel  extends AbstractMainSubEditPanel {
       for(int i=0;i<outInfoLst.size();i++){
         SfOutInfoDetail m=(SfOutInfoDetail)outInfoLst.get(i);
         SfMaterialsTransferDetail d=new SfMaterialsTransferDetail();
-        d.setProcessing(SfMaterialsTransferDetail.HANDLE_STATUS_NEI_BU_LIU_ZHUAN);
-        d.setQuantity(m.getQuantity());
+        d.setProcessing(SfMaterialsTransferDetail.HANDLE_STATUS_TUI_HUI);
+        d.setQuantity3(""+(m.getQuantity()==null?0:m.getQuantity().doubleValue()));
         d.setUnit(m.getUnit());
         d.setOutInfoDetail(m);
         rtn.add(d);
@@ -1236,7 +1236,7 @@ public class SfMaterialsTransferEditPanel  extends AbstractMainSubEditPanel {
     
     JTabbedPane itemTabPane = new JTabbedPane();
     itemTabPane.addTab("鉴定材料", materialTablePanel);
-    itemTabPane.addTab("外部信息", outInfoTablePanel);
+//    itemTabPane.addTab("外部信息", outInfoTablePanel);
     itemTabPane.setMinimumSize(new Dimension(240, 300));
     return itemTabPane;
   }

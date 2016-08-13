@@ -30,6 +30,7 @@ import com.ufgov.zc.client.common.LangTransMeta;
 import com.ufgov.zc.client.common.ListCursor;
 import com.ufgov.zc.client.common.ServiceFactory;
 import com.ufgov.zc.client.common.WorkEnv;
+import com.ufgov.zc.client.common.converter.sf.SfEntrustToTableModelConverter;
 import com.ufgov.zc.client.common.converter.sf.SfOutInfoToTableModelConverter;
 import com.ufgov.zc.client.component.GkBaseDialog;
 import com.ufgov.zc.client.component.GkCommentDialog;
@@ -237,7 +238,7 @@ public class SfOutInfoEditPanel extends AbstractMainSubEditPanel {
     setButtonStatus();
     updateFieldEditorsEditable();
     //更新信息要求的检索条件
-    updateInfoReqCondition();
+//    updateInfoReqCondition();
   }
 
   private void updateInfoReqCondition() {
@@ -278,17 +279,34 @@ public class SfOutInfoEditPanel extends AbstractMainSubEditPanel {
   private void refreshSubData() {
     // TCJLODO Auto-generated method stub
     refreshDetailTableData();
-    refreshValidateTableData();
+//    refreshValidateTableData();
   }
 
   private void refreshDetailTableData() {
-    SfOutInfo outInfo = (SfOutInfo) listCursor.getCurrentObject();
+    /*SfOutInfo outInfo = (SfOutInfo) listCursor.getCurrentObject();
     detailTablePanel.setTableModel(SfOutInfoToTableModelConverter.convertDetailTableData(outInfo.getDetailLst()));
     ZcUtil.translateColName(detailTablePanel.getTable(), SfOutInfoToTableModelConverter.getDetailInfo());
-    setDetailTablePorperty();
-  }
+    setDetailTablePorperty();*/
+	  SfOutInfo outInfo = (SfOutInfo) listCursor.getCurrentObject();
+	    detailTablePanel.setTableModel(SfEntrustToTableModelConverter.convertMaterialsTableData(outInfo.getDetailLst()));
+	    ZcUtil.translateColName(detailTablePanel.getTable(), SfEntrustToTableModelConverter.getMaterialInfo());
+	    setMaterialsTablePorperty();
 
-  private void refreshValidateTableData() {
+//	    ZcUtil.translateColName(detailTablePanel.getTable(), SfOutInfoToTableModelConverter.getDetailInfo());
+// setDetailTablePorperty();
+  }
+ 
+
+	  private void setMaterialsTablePorperty() {
+	    JPageableFixedTable table = detailTablePanel.getTable();
+	    table.setDefaultEditor(String.class, new TextCellEditor());
+	    SwingUtil.setTableCellEditor(table, SfMaterials.COL_QUANTITY, new MoneyCellEditor(false));
+	    SwingUtil.setTableCellRenderer(table, SfMaterials.COL_QUANTITY, new NumberCellRenderer());
+	    SwingUtil.setTableCellEditor(table, SfMaterials.COL_MATERIAL_TYPE, new AsValComboBoxCellEditor(SfMaterials.SF_VS_MATERIAL_TYPE));
+	    SwingUtil.setTableCellRenderer(table, SfMaterials.COL_MATERIAL_TYPE, new AsValCellRenderer(SfMaterials.SF_VS_MATERIAL_TYPE));
+	  }
+
+private void refreshValidateTableData() {
     SfOutInfo outInfo = (SfOutInfo) listCursor.getCurrentObject();
     validateDetailTablePanel.setTableModel(SfOutInfoToTableModelConverter.convertValidateTableData(outInfo.getValidateDetailLst()));
     ZcUtil.translateColName(validateDetailTablePanel.getTable(), SfOutInfoToTableModelConverter.getValidateDetailInfo());
@@ -413,7 +431,7 @@ public class SfOutInfoEditPanel extends AbstractMainSubEditPanel {
 
     setWFSubTableEditable(detailTablePanel, isEdit);
 
-    setWFSubTableEditable(validateDetailTablePanel, isEdit);
+//    setWFSubTableEditable(validateDetailTablePanel, isEdit);
 
   }
 
@@ -597,7 +615,7 @@ public class SfOutInfoEditPanel extends AbstractMainSubEditPanel {
 
     toolBar.add(traceButton);
 
-    toolBar.add(printButton);
+//    toolBar.add(printButton);
 
     //    toolBar.add(previousButton);
 
@@ -890,7 +908,7 @@ public class SfOutInfoEditPanel extends AbstractMainSubEditPanel {
       errorInfo.append("\n").append(mainValidateInfo.toString());
     }
 
-    List detailNotNullList = detailBillElementMeta.getNotNullBillElement();
+   /* List detailNotNullList = detailBillElementMeta.getNotNullBillElement();
     StringBuffer detailError = new StringBuffer();
     for (int i = 0; i < outInfo.getDetailLst().size(); i++) {
       SfOutInfoDetail detail = (SfOutInfoDetail) outInfo.getDetailLst().get(i);
@@ -915,7 +933,7 @@ public class SfOutInfoEditPanel extends AbstractMainSubEditPanel {
     }
     if (validateError.length() != 0) {
       errorInfo.append("\n").append("验证情况:").append(validateError.toString());
-    }
+    }*/
     /* //去除空行
      List emptyLst=new ArrayList();
      for(int i=0;i<outInfo.getValidateDetailLst().size();i++){
@@ -1018,16 +1036,16 @@ public class SfOutInfoEditPanel extends AbstractMainSubEditPanel {
           currentBill.setName(entrust.getName() + "外部信息");
           //          currentBill.setTgf(entrust.getEntrustor() == null ? null : entrust.getEntrustor().getName());
           currentBill.setTgfPhone(entrust.getEntrustor() == null ? null : entrust.getEntrustor().getLinkTel());
-          if (entrust.getMaterials() != null) {
+         /* if (entrust.getMaterials() != null) {
             for (int i = 0; i < entrust.getMaterials().size(); i++) {
               SfOutInfoDetail d = new SfOutInfoDetail();
               SfMaterials m = (SfMaterials) entrust.getMaterials().get(i);
               d.setName(m.getName());
               currentBill.getDetailLst().add(d);
             }
-          }
+          }*/
           setEditingObject(currentBill);
-          refreshDetailTableData();
+//          refreshDetailTableData();
           break;
         }
       }
@@ -1087,11 +1105,11 @@ public class SfOutInfoEditPanel extends AbstractMainSubEditPanel {
   public JComponent createSubBillPanel() {
 
     initDetailTablePanel();
-    initValidateDetailTablePanel();
+//    initValidateDetailTablePanel();
 
     JTabbedPane itemTabPane = new JTabbedPane();
-    itemTabPane.addTab("信息明细", detailTablePanel);
-    itemTabPane.addTab("验证情况", validateDetailTablePanel);
+    itemTabPane.addTab("检材检样", detailTablePanel);
+//    itemTabPane.addTab("验证情况", validateDetailTablePanel);
     itemTabPane.setMinimumSize(new Dimension(240, 300));
     return itemTabPane;
   }
@@ -1188,10 +1206,11 @@ public class SfOutInfoEditPanel extends AbstractMainSubEditPanel {
 
     detailTablePanel.add(detailBtnBar, BorderLayout.SOUTH);
 
+
     addBtn2.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        SfOutInfoDetail item = new SfOutInfoDetail();
-        setPersonDefaultValue(item);
+        SfMaterials item = new SfMaterials();
+        setMaterialDefaultValue(item);
         int rowNum = addSub(detailTablePanel, item);
         detailTablePanel.getTable().setRowSelectionInterval(rowNum, rowNum);
       }
@@ -1199,8 +1218,8 @@ public class SfOutInfoEditPanel extends AbstractMainSubEditPanel {
 
     insertBtn2.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        SfOutInfoDetail item = new SfOutInfoDetail();
-        setPersonDefaultValue(item);
+        SfMaterials item = new SfMaterials();
+        setMaterialDefaultValue(item);
         int rowNum = insertSub(detailTablePanel, item);
         detailTablePanel.getTable().setRowSelectionInterval(rowNum, rowNum);
       }
@@ -1213,6 +1232,13 @@ public class SfOutInfoEditPanel extends AbstractMainSubEditPanel {
     });
   }
 
+  protected void setMaterialDefaultValue(SfMaterials item) {
+    // TCJLODO Auto-generated method stub
+    item.setTempId("" + System.currentTimeMillis());
+    SfOutInfo e = listCursor.getCurrentObject();
+    item.setEntrustId(e.getEntrustId());
+    item.setMaterialType(SfMaterials.SF_VS_MATERIAL_TYPE_jiancai);
+  }
   protected void setPersonDefaultValue(SfOutInfoDetail item) {
     // TCJLODO Auto-generated method stub
     item.setTempId("" + System.currentTimeMillis());

@@ -92,6 +92,10 @@ public class SfClientUtil {
 	  public static final String MENU_FILL="填充模板";
 	  public static final String MENU_FILL_CUR="填充当前模板";
 
+	  public static final String MENU_LOOKUP="查看";
+	  public static final String MENU_LOOKUP_ENTRUST_RECORD="鉴定记录";
+	  public static final String MENU_LOOKUP_ENTRUST_REPORT="其他鉴定报告";
+
 	  public static final String MENU_INSERT_MODEL ="插入模板";
 	  public static final String MENU_SELECT_MODEL ="选择";
 	  

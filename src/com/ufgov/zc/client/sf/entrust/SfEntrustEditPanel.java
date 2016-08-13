@@ -113,6 +113,7 @@ import com.ufgov.zc.common.sf.model.SfEntrustor;
 import com.ufgov.zc.common.sf.model.SfJdPerson;
 import com.ufgov.zc.common.sf.model.SfJdResult;
 import com.ufgov.zc.common.sf.model.SfJdTarget;
+import com.ufgov.zc.common.sf.model.SfMajor;
 import com.ufgov.zc.common.sf.model.SfMaterials;
 import com.ufgov.zc.common.sf.publish.ISfEntrustServiceDelegate;
 import com.ufgov.zc.common.system.RequestMeta;
@@ -164,6 +165,8 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
 
   public FuncButton printXyButton = new CommonButton("fprintXy", "print.gif");
   public FuncButton printConfirmButton = new CommonButton("fprintConfirm", "print.gif");
+  public FuncButton printMastTmButton = new CommonButton("fprintMastTm", "print.gif");
+  public FuncButton printDetailTmConfirmButton = new CommonButton("fprintDetailTm", "print.gif");
   
 
   public FuncButton acceptBtn = new CommonButton("faccepted", "audit.jpg");
@@ -303,8 +306,21 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
     entrust.setNd(this.requestMeta.getSvNd());
     entrust.setInputDate(this.requestMeta.getSysDate());
     entrust.setInputor(requestMeta.getSvUserID());
-    entrust.setAcceptDate(requestMeta.getSysDate());
-    entrust.setAcceptor(requestMeta.getSvUserID());
+    if(SfUtil.isJdjg()){
+	    entrust.setAcceptDate(requestMeta.getSysDate());
+	    entrust.setAcceptor(requestMeta.getSvUserID());
+	    entrust.setCoCode(requestMeta.getSvCoCode());//设定鉴定机构，目前是满足单一普洱市鉴定所，后续支持多家时，这个值需要在界面上选择
+	    entrust.setJdCompany(requestMeta.getSvCoName());//
+    }else if(SfUtil.isWtf()){
+    	//设置委托方
+    	SfEntrustor entrustor=getEntrustor();
+    	entrust.setEntrustor(entrustor); 
+        entrust.setCoCode("000");//设定鉴定机构，目前是满足单一普洱市鉴定所，后续支持多家时，这个值需要在界面上选择
+        entrust.setJdCompany(AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_JD_COMPANY_NAME));//    	
+    }else{
+        entrust.setCoCode("000");//设定鉴定机构，目前是满足单一普洱市鉴定所，后续支持多家时，这个值需要在界面上选择
+        entrust.setJdCompany(AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_JD_COMPANY_NAME));//      	
+    }
     entrust.setWtDate(requestMeta.getSysDate());
     entrust.setJdDocSendType(SfEntrust.SF_VS_ENTRUST_DOC_SEND_TYPE_ZIQU);
     //获取空的协议事项
@@ -312,11 +328,14 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
     xysxLst = xysxLst == null ? new ArrayList() : xysxLst;
     entrust.setXysxLst(xysxLst);
     entrust.setIsCxjd("N");
-    entrust.setCoCode("000");//设定鉴定机构，目前是满足单一普洱市鉴定所，后续支持多家时，这个值需要在界面上选择
-    entrust.setJdCompany(AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_JD_COMPANY_NAME));//
   }
 
-  private void refreshSubData() {
+  private SfEntrustor getEntrustor() {
+	  SfEntrustor rtn=(SfEntrustor) zcEbBaseServiceDelegate.queryObject("com.ufgov.zc.server.sf.dao.SfEntrustorMapper.selectByLoginAccount", requestMeta.getSvUserID(), requestMeta);
+	return rtn==null?new SfEntrustor():rtn;
+}
+
+private void refreshSubData() {
     // TCJLODO Auto-generated method stub
     SfEntrust entrust = (SfEntrust) listCursor.getCurrentObject();
     materialsTablePanel.setTableModel(SfEntrustToTableModelConverter.convertMaterialsTableData(entrust.getMaterials()));
@@ -472,13 +491,14 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
       for (AbstractFieldEditor editor : fieldEditors) {
         if (pageStatus.equals(ZcSettingConstants.PAGE_STATUS_EDIT) || pageStatus.equals(ZcSettingConstants.PAGE_STATUS_NEW)) {
           if ("code".equals(editor.getFieldName()) || "status".equals(editor.getFieldName()) || "inputor".equals(editor.getFieldName())
-            || "inputDate".equals(editor.getFieldName()) || "jdCharge".equals(editor.getFieldName())) {
+            || "inputDate".equals(editor.getFieldName()) || "jdCharge".equals(editor.getFieldName())
+            ||"acceptDate".equals(editor.getFieldName())||"acceptorName".equals(editor.getFieldName())) {
             editor.setEnabled(false);
           } else {
         	  if(SfUtil.isWtf()&&("isAccept".equals(editor.getFieldName())||"jdAssistor".equals(editor.getFieldName())
         			  ||"jdFhr".equals(editor.getFieldName())||"jdFzr".equals(editor.getFieldName())
-        			  ||"jdFzrName".equals(editor.getFieldName())||"jdFhrName".equals(editor.getFieldName())
-        			  ||"jdAssistorName".equals(editor.getFieldName()))){//委托方不能设置是否受理
+        			  ||"jdFzrName".equals(editor.getFieldName())||"jdFhrName".equals(editor.getFieldName())        			 
+        			  ||"entrustor.name".equals(editor.getFieldName())||"jdAssistorName".equals(editor.getFieldName()))){//委托方不能设置是否受理
         		  editor.setEnabled(false);
         	  }else{
         		  editor.setEnabled(true);
@@ -600,7 +620,7 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
 
       bs.addPageStatus(ZcSettingConstants.PAGE_STATUS_BROWSE);
 
-      bs.addBillStatus(ZcSettingConstants.BILL_STATUS_ALL);
+      bs.addBillStatus(ZcSettingConstants.BILL_STATUS_AUDITED);
 
       btnStatusList.add(bs);
 
@@ -610,7 +630,37 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
 
       bs.addPageStatus(ZcSettingConstants.PAGE_STATUS_BROWSE);
 
-      bs.addBillStatus(ZcSettingConstants.BILL_STATUS_ALL);
+      bs.addBillStatus(ZcSettingConstants.BILL_STATUS_AUDITED);
+
+      btnStatusList.add(bs);
+
+      bs = new ButtonStatus();
+
+      bs.setButton(this.printConfirmButton);
+
+      bs.addPageStatus(ZcSettingConstants.PAGE_STATUS_BROWSE);
+
+      bs.addBillStatus(ZcSettingConstants.BILL_STATUS_AUDITED);
+
+      btnStatusList.add(bs);
+
+      bs = new ButtonStatus();
+
+      bs.setButton(this.printMastTmButton);
+
+      bs.addPageStatus(ZcSettingConstants.PAGE_STATUS_BROWSE);
+
+      bs.addBillStatus(ZcSettingConstants.BILL_STATUS_AUDITED);
+
+      btnStatusList.add(bs);
+
+      bs = new ButtonStatus();
+
+      bs.setButton(this.printDetailTmConfirmButton);
+
+      bs.addPageStatus(ZcSettingConstants.PAGE_STATUS_BROWSE);
+
+      bs.addBillStatus(ZcSettingConstants.BILL_STATUS_AUDITED);
 
       btnStatusList.add(bs);
 
@@ -697,6 +747,14 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
     toolBar.add(printConfirmButton);
     printConfirmButton.setText("委托确认书");
     printConfirmButton.setToolTipText("委托确认书");
+    
+    toolBar.add(printMastTmButton);
+    printMastTmButton.setText("打印总条码");
+    printMastTmButton.setToolTipText("打印总条码");
+
+    toolBar.add(printDetailTmConfirmButton);
+    printDetailTmConfirmButton.setText("打印检材条码");
+    printDetailTmConfirmButton.setToolTipText("打印检材条码");
 
     toolBar.add(traceButton);
 
@@ -914,6 +972,8 @@ protected void doAccept() {
     try {
       qx.setComment("接受委托");
       qx.setAuditorId(WorkEnv.getInstance().getCurrUserId());
+      qx.setAcceptDate(requestMeta.getSysDate());
+      qx.setAcceptor(requestMeta.getSvUserID());
       //      System.out.println("doSuggestPass 3++++++++++++++++++++++++++=" + qx.getAcceptDate());
       qx = sfEntrustServiceDelegate.acceptFN(qx, requestMeta);
       //      System.out.println("doSuggestPass 4++++++++++++++++++++++++++=" + qx.getAcceptDate());
@@ -1257,7 +1317,7 @@ protected void doPrevious() {
     TextFieldEditor sjrZjCode = new TextFieldEditor(LangTransMeta.translate(SfEntrust.COL_SJR_ZJ_CODE), "sjrZjCode");
     TextAreaFieldEditor sjrAddress = new TextAreaFieldEditor(LangTransMeta.translate(SfEntrust.COL_SJR_ADDRESS), "sjrAddress", -1, 1, 5);
 
-    AsValFieldEditor majorCode = new AsValFieldEditor(LangTransMeta.translate(SfEntrust.COL_MAJOR_NAME), "majorCode", "SF_VS_MAJOR") {
+    AsValFieldEditor majorCode = new AsValFieldEditor(LangTransMeta.translate(SfEntrust.COL_MAJOR_NAME), "majorCode", SfMajor.SF_VS_MAJOR) {
       @Override
       protected void afterChange(AsValComboBox field) {
         if (field.getSelectedAsVal() == null) {

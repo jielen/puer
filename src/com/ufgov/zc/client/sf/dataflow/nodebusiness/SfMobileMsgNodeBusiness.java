@@ -5,7 +5,7 @@ import javax.swing.JComponent;
 import com.ufgov.zc.client.sf.dataflow.ISfFlowNodeBusiness;
 import com.ufgov.zc.client.sf.dataflow.SfDataFowPanel;
 import com.ufgov.zc.client.sf.dataflow.SfFlowNode;
-import com.ufgov.zc.client.sf.moblieMsg.ZcMobileMsgListPanel;
+import com.ufgov.zc.client.sf.mobliemsg.ZcMobileMsgListPanel;
 import com.ufgov.zc.common.sf.model.SfEntrust;
 import com.ufgov.zc.common.system.RequestMeta;
 

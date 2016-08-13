@@ -193,9 +193,9 @@ public class SfJdDocCode extends ZcBaseBill {
     	sb.append(")鉴(");
     	sb.append(jianZi2==null?"  ":jianZi2);
     	sb.append(")字[");
-    	sb.append(nd==null?"  ":nd.intValue());
+    	sb.append(nd==null?"  ":""+nd.intValue());
     	sb.append("] ");
-    	sb.append(num==null?"  ":num.intValue());
+    	sb.append(num==null?"  ":""+num.intValue());
     	sb.append(" 号");
     	return sb.toString();
     }

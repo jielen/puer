@@ -6,6 +6,7 @@ import java.util.List;
 import com.ufgov.zc.common.sf.model.SfEntrust;
 import com.ufgov.zc.common.sf.model.SfJdDocAudit;
 import com.ufgov.zc.common.sf.model.SfJdDocAuditDetail;
+import com.ufgov.zc.common.sf.model.SfJdReport;
 import com.ufgov.zc.common.system.RequestMeta;
 import com.ufgov.zc.common.system.dto.ElementConditionDto;
 import com.ufgov.zc.common.system.model.AsWfDraft;
@@ -13,9 +14,11 @@ import com.ufgov.zc.server.sf.dao.SfJdDocAuditDetailMapper;
 import com.ufgov.zc.server.sf.dao.SfJdDocAuditMapper;
 import com.ufgov.zc.server.sf.service.ISfEntrustService;
 import com.ufgov.zc.server.sf.service.ISfJdDocAuditService;
+import com.ufgov.zc.server.sf.service.ISfJdReportService;
 import com.ufgov.zc.server.system.dao.IWorkflowDao;
 import com.ufgov.zc.server.system.workflow.WFEngineAdapter;
 import com.ufgov.zc.server.zc.ZcSUtil;
+import com.ufgov.zc.server.zc.service.IZcEbBaseService;
 
 public class SfJdDocAuditService implements ISfJdDocAuditService {
 
@@ -24,6 +27,8 @@ public class SfJdDocAuditService implements ISfJdDocAuditService {
   private SfJdDocAuditMapper jdDocAuditMapper;
   private SfJdDocAuditDetailMapper jdDocAuditDetailMapper;
   private ISfEntrustService sfEntrustService;
+  private IZcEbBaseService zcEbBaseService;
+  private ISfJdReportService sfJdReportService;
   
   
   public List getMainDataLst(ElementConditionDto elementConditionDto, RequestMeta requestMeta) {
@@ -39,7 +44,10 @@ public class SfJdDocAuditService implements ISfJdDocAuditService {
     SfEntrust e=sfEntrustService.selectByPrimaryKey(rtn.getEntrustId(), requestMeta);
     if(e!=null){
       rtn.setEntrust(e);
-    }
+    } 
+    SfJdReport report=(SfJdReport)zcEbBaseService.queryObject("com.ufgov.zc.server.sf.dao.SfJdReportMapper.selectByEntrustId", rtn.getEntrustId());
+//    SfJdReport report=sfJdReportService.selectByPrimaryKey(id, requestMeta)
+    rtn.setReport(report==null?new SfJdReport():report);
     rtn.setDetailLst(jdDocAuditDetailMapper.selectByPrimaryKey(id));
     rtn.setDbDigest(rtn.digest());
     return rtn;
@@ -195,5 +203,27 @@ public class SfJdDocAuditService implements ISfJdDocAuditService {
   public void setSfEntrustService(ISfEntrustService sfEntrustService) {
     this.sfEntrustService = sfEntrustService;
   }
+
+
+public IZcEbBaseService getZcEbBaseService() {
+	return zcEbBaseService;
+}
+
+
+public void setZcEbBaseService(IZcEbBaseService zcEbBaseService) {
+	this.zcEbBaseService = zcEbBaseService;
+}
+
+
+public ISfJdReportService getSfJdReportService() {
+	return sfJdReportService;
+}
+
+
+public void setSfJdReportService(ISfJdReportService sfJdReportService) {
+	this.sfJdReportService = sfJdReportService;
+}
+
+ 
 
 }

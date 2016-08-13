@@ -2,7 +2,11 @@ package com.ufgov.zc.server.sf.service.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+
+import org.eclipse.jdt.core.compiler.ITerminalSymbols;
 
 import com.ufgov.zc.common.sf.model.SfChargeDetail;
 import com.ufgov.zc.common.sf.model.SfEntrust;
@@ -11,6 +15,7 @@ import com.ufgov.zc.common.sf.model.SfXysx;
 import com.ufgov.zc.common.system.RequestMeta;
 import com.ufgov.zc.common.system.dto.ElementConditionDto;
 import com.ufgov.zc.common.system.model.AsWfDraft;
+import com.ufgov.zc.common.zc.model.SysEmp;
 import com.ufgov.zc.server.sf.dao.SfChargeDetailMapper;
 import com.ufgov.zc.server.sf.dao.SfEntrustMapper;
 import com.ufgov.zc.server.sf.dao.SfMaterialsMapper;
@@ -18,9 +23,11 @@ import com.ufgov.zc.server.sf.dao.SfXysxMapper;
 import com.ufgov.zc.server.sf.dao.SfXysxTypeMapper;
 import com.ufgov.zc.server.sf.service.ISfEntrustService;
 import com.ufgov.zc.server.system.dao.IWorkflowDao;
+import com.ufgov.zc.server.system.service.IUserService;
 import com.ufgov.zc.server.system.util.NumUtil;
 import com.ufgov.zc.server.system.workflow.WFEngineAdapter;
 import com.ufgov.zc.server.zc.ZcSUtil;
+import com.ufgov.zc.server.zc.service.IZcEbBaseService;
 
 public class SfEntrustService implements ISfEntrustService {
 
@@ -37,6 +44,10 @@ public class SfEntrustService implements ISfEntrustService {
   private SfXysxMapper xysxMapper;
 
   private SfChargeDetailMapper chargeDetailMapper;
+  
+  private IZcEbBaseService zcEbBaseService;
+  
+  private IUserService userService;
 
   public SfXysxTypeMapper getXysxTypeMapper() {
     return xysxTypeMapper;
@@ -245,31 +256,82 @@ public class SfEntrustService implements ISfEntrustService {
   public SfEntrust untreadFN(SfEntrust qx, RequestMeta requestMeta) {
     // TCJLODO Auto-generated method stub
     wfEngineAdapter.untread(qx.getComment(), qx, requestMeta);
+    sendMsgUntread(qx,requestMeta);
     return qx;
   }
 
-  public SfEntrust auditFN(SfEntrust qx, RequestMeta requestMeta) throws Exception {
+  private void sendMsgUntread(SfEntrust qx, RequestMeta requestMeta) {
+	  ElementConditionDto dto=new ElementConditionDto();
+	  dto.setDattr1("SF_ENTRUST");
+	  dto.setDattr2(""+qx.getProcessInstId());
+	  List userLst=zcEbBaseService.queryDataForList("ZcEbUtil.selectToDoUser", dto);
+	  if(userLst!=null ){
+		  String mobile="";
+		  String msg=qx.getCode()+"鉴定委托等待您审批,案事件:"+qx.getName()+",请登录鉴定管理系统进行审批。";
+		  ZcSUtil su=new ZcSUtil();
+		  for(int i=0;i<userLst.size();i++){
+			  HashMap row=(HashMap) userLst.get(i);
+			  String user=(String) row.get("EXECUTOR");
+			  HashMap mobiles=su.getUserMobile(user, qx.getProcessInstId(), requestMeta);
+			  Iterator keys=mobiles.keySet().iterator();
+			  while(keys.hasNext()){
+				  String key=keys.next().toString(); 
+				  su.sendToBox(""+qx.getEntrustId().intValue(), "", msg, key, requestMeta.getSysDate(), requestMeta.getSysDate());
+			  } 
+		  }
+	  }	  
+}
+  private void sendMsgAudit(SfEntrust qx, RequestMeta requestMeta) {
+	  ElementConditionDto dto=new ElementConditionDto();
+	  dto.setDattr1("SF_ENTRUST");
+	  dto.setDattr2(""+qx.getProcessInstId());
+	  List userLst=zcEbBaseService.queryDataForList("ZcEbUtil.selectUntreadUser", dto);
+	  if(userLst!=null ){
+		  String mobile="";
+		  String msg=qx.getCode()+"鉴定委托被退回了,请登录鉴定管理系统进行查看处理。";
+		  ZcSUtil su=new ZcSUtil();
+		  for(int i=0;i<userLst.size();i++){
+			  HashMap row=(HashMap) userLst.get(i);
+			  String user=(String) row.get("EXECUTOR");
+			  HashMap mobiles=su.getUserMobile(user, qx.getProcessInstId(), requestMeta);
+			  Iterator keys=mobiles.keySet().iterator();
+			  while(keys.hasNext()){
+				  String key=keys.next().toString(); 
+				  su.sendToBox(""+qx.getEntrustId().intValue(), "", msg, key, requestMeta.getSysDate(), requestMeta.getSysDate());
+			  } 
+		  }
+	  }
+	  
+} 
+ 
+
+public SfEntrust auditFN(SfEntrust qx, RequestMeta requestMeta) throws Exception {
     // TCJLODO Auto-generated method stub
     //    System.out.println("auditFN 1++++++++++++++++++++++++++=" + qx.getAcceptDate());
     qx = saveFN(qx, requestMeta);
     //    System.out.println("auditFN 2++++++++++++++++++++++++++=" + qx.getAcceptDate());
     wfEngineAdapter.commit(qx.getComment(), qx, requestMeta);
-    return selectByPrimaryKey(qx.getEntrustId(), requestMeta);
+    sendMsgAudit(qx,requestMeta);
+     SfEntrust rtn=selectByPrimaryKey(qx.getEntrustId(), requestMeta);
+     return rtn;
   }
 
-  public SfEntrust newCommitFN(SfEntrust qx, RequestMeta requestMeta) {
+
+public SfEntrust newCommitFN(SfEntrust qx, RequestMeta requestMeta) {
     // TCJLODO Auto-generated method stub
 
     //    System.out.println("newCommitFN 1++++++++++++++++++++++++++=" + qx.getAcceptDate());
     qx = saveFN(qx, requestMeta);
     //    System.out.println("newCommitFN 2++++++++++++++++++++++++++=" + qx.getAcceptDate());
     wfEngineAdapter.newCommit(qx.getComment(), qx, requestMeta);
+    sendMsgAudit(qx,requestMeta);
     return selectByPrimaryKey(qx.getEntrustId(), requestMeta);
   }
 
   public SfEntrust callbackFN(SfEntrust qx, RequestMeta requestMeta) {
     // TCJLODO Auto-generated method stub
     wfEngineAdapter.callback(qx.getComment(), qx, requestMeta);
+    
     return qx;
   }
 
@@ -301,5 +363,21 @@ public SfEntrust unAcceptFN(SfEntrust inData, RequestMeta requestMeta) throws Ex
 	auditFN(inData,requestMeta);
 	
 	return selectByPrimaryKey(inData.getEntrustId(), requestMeta);
+}
+
+public IZcEbBaseService getZcEbBaseService() {
+	return zcEbBaseService;
+}
+
+public void setZcEbBaseService(IZcEbBaseService zcEbBaseService) {
+	this.zcEbBaseService = zcEbBaseService;
+}
+
+public IUserService getUserService() {
+	return userService;
+}
+
+public void setUserService(IUserService userService) {
+	this.userService = userService;
 }
 }

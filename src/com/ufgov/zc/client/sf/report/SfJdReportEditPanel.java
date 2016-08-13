@@ -82,6 +82,7 @@ import com.ufgov.zc.client.sf.util.SfBookmarkUtil;
 import com.ufgov.zc.client.zc.ButtonStatus;
 import com.ufgov.zc.client.zc.WordFileUtil;
 import com.ufgov.zc.client.zc.ZcUtil;
+import com.ufgov.zc.client.zc.ztb.activex.ExcelPane;
 import com.ufgov.zc.client.zc.ztb.activex.WordPane;
 import com.ufgov.zc.common.sf.model.SfBookmark;
 import com.ufgov.zc.common.sf.model.SfEntrust;
@@ -186,6 +187,8 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 	protected String fileName = "";
 
 	protected JTabbedPane tabPane = new JTabbedPane();
+	
+	private boolean recordFileOpened=false;
 
 	JTabbedPane mainTab=new JTabbedPane();
 
@@ -206,6 +209,7 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 		JMenu menuInsertJdReport = new JMenu(SfClientUtil.MENU_REPORT);
 
 	JMenu menuRefrence = new JMenu(SfClientUtil.MENU_REFRENCE);
+	JMenu menuLookup = new JMenu(SfClientUtil.MENU_LOOKUP);
 
 	JMenu menuFill = new JMenu(SfClientUtil.MENU_FILL);
 
@@ -222,6 +226,8 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 
 	// 模板菜单，菜单名称是key，模板文件是value
 	private HashMap<String, SfJdRecordFileModel> modelFileMenuMap = new HashMap<String, SfJdRecordFileModel>();
+	
+	private int referencReportNameIndex=0; 
 
 	public SfJdReportEditPanel(GkBaseDialog parent, ListCursor listCursor,
 			String tabStatus, SfJdReportListPanel listPanel) {
@@ -1462,6 +1468,25 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 			}
 		});
 
+		  
+				JMenuItem mItemLookupReport = new JMenuItem(SfClientUtil.MENU_LOOKUP_ENTRUST_REPORT);
+				mItemLookupReport.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						lookupMenuPerform(SfClientUtil.MENU_LOOKUP_ENTRUST_REPORT);
+					}
+				});
+				
+				  
+				JMenuItem mItemLookupRecord = new JMenuItem(SfClientUtil.MENU_LOOKUP_ENTRUST_RECORD);
+				mItemLookupRecord.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						lookupMenuPerform(SfClientUtil.MENU_LOOKUP_ENTRUST_RECORD);
+					}
+				});
+				
 		JMenuItem mItemFillModel = new JMenuItem(SfClientUtil.MENU_FILL_CUR);
 		mItemFillModel.addActionListener(new ActionListener() {
 
@@ -1531,22 +1556,122 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 		initModelMenu();
 		menuBar.add(menuInsertModel);
 
-		menuRefrence.add(mItemReferenceReport);
-		menuBar.add(menuRefrence);
-
 		menuFill.add(mItemFillModel);
 		menuBar.add(menuFill);
+		
+//		menuRefrence.add(mItemReferenceReport);
+//		menuBar.add(menuRefrence);
 
 		menuBar.add(menuInsertContent);
 		parent.setJMenuBar(menuBar);
+		
+		menuLookup.add(mItemLookupRecord);
+		menuLookup.add(mItemLookupReport);
+		menuBar.add(menuLookup);
+		
+	}
+
+	protected void lookupMenuPerform(String menuText) {
+		if(menuText.equals(SfClientUtil.MENU_LOOKUP_ENTRUST_REPORT)){
+			SfJdReport bill = (SfJdReport) this.listCursor.getCurrentObject();
+			RefrenceEntrustDialog entrustDialog = new RefrenceEntrustDialog(parent,this, bill.getEntrust().getEntrustId());
+//			entrustDialog.setSize(d)
+		    entrustDialog.setMinimumSize(new Dimension(300, 150));
+		    entrustDialog.pack();
+		    entrustDialog.moveToScreenCenter();
+		    entrustDialog.setVisible(true);
+		}else if(menuText.equals(SfClientUtil.MENU_LOOKUP_ENTRUST_RECORD)){
+			openJdRecord();
+		}
+	}
+
+	private void openJdRecord() {
+		if(recordFileOpened)return;
+
+		SfJdReport bill = (SfJdReport) this.listCursor.getCurrentObject();
+		if (bill == null || bill.getEntrustCode() == null) {
+			JOptionPane.showMessageDialog(this, "请先选择委托.", "提示",
+					JOptionPane.INFORMATION_MESSAGE);
+			return;
+		}
+		 
+		SfJdResult r=getJdResult(bill.getEntrustId());
+	    if(r.getJdRecordFileLst()!=null && r.getJdRecordFileLst().size()>0){
+	    	for(int i=0;i<r.getJdRecordFileLst().size();i++){
+	    		SfJdResultFile rf=(SfJdResultFile) r.getJdRecordFileLst().get(i); 
+	    			addTab(rf); 
+	    	}
+	    	recordFileOpened=true;
+	    }
+		
+	}
+
+	private void addTab(SfJdResultFile rf) {
+
+		  if(SfJdRecordFileModel.SF_VS_JD_FILE_MODEL_TYPE_word.equalsIgnoreCase(rf.getModel().getFileType())){
+			  addSubWordPane(rf);
+		  }else if(SfJdRecordFileModel.SF_VS_JD_FILE_MODEL_TYPE_excel.equalsIgnoreCase(rf.getModel().getFileType())){
+			  addSubExcelPane(rf);
+		  } 
+		    
+	}
+	private void addSubExcelPane(SfJdResultFile rf) {
+		if(rf.getFileId()!=null){
+			final ExcelPane wp=new ExcelPane(); 
+			workPanel.setPreferredSize(new Dimension(workPanel.getSize().width - 10, workPanel.getSize().height - 10));
+			parent.pack();
+		    wp.addPropertyChangeListener(ExcelPane.EVENT_NAME_OPEN_CALLBACK, new PropertyChangeListener() {
+		      public void propertyChange(PropertyChangeEvent evt) {
+		        //打开文件完成之后的回调函数
+		        boolean isSuccess = (Boolean) evt.getNewValue();
+		        if (isSuccess) {
+		          //下面一句是为了打开word后刷新窗口
+//		          parent.setSize(new Dimension(parent.getSize().width +200, parent.getSize().height +200));
+
+		        	workPanel.setPreferredSize(new Dimension(workPanel.getSize().width + 10, workPanel.getSize().height + 10));
+		    	    parent.pack();
+//		  	    	parent.validate();  
+		        }
+		      }
+		    });
+		    
+			mainTab.add(rf.getName(), wp);
+			mainTab.setSelectedIndex(mainTab.getTabCount()-1);
+			String ff= WordFileUtil.loadMold(rf.getFileId());
+			wp.open(ff);
+		}
+	}
+
+	private void addSubWordPane(SfJdResultFile rf) {
+		if(rf.getFileId()!=null){
+			final WordPane wp=new WordPane(); 
+			workPanel.setPreferredSize(new Dimension(workPanel.getSize().width - 10, workPanel.getSize().height - 10));
+			parent.pack();
+		    wp.addPropertyChangeListener(WordPane.EVENT_NAME_OPEN_CALLBACK, new PropertyChangeListener() {
+			      public void propertyChange(PropertyChangeEvent evt) {
+			        //打开文件完成之后的回调函数
+			        boolean isSuccess = (Boolean) evt.getNewValue();
+			        if (isSuccess) {
+			          //下面一句是为了打开word后刷新窗口
+//			          parent.setSize(new Dimension(parent.getSize().width +200, parent.getSize().height +200));
+
+			        	workPanel.setPreferredSize(new Dimension(workPanel.getSize().width + 10, workPanel.getSize().height + 10));
+			    	    parent.pack();
+//			  	    	parent.validate();  
+			        }
+			      }
+			    });
+			mainTab.add(rf.getName(), wp);
+			mainTab.setSelectedIndex(mainTab.getTabCount()-1);
+			String ff= WordFileUtil.loadMold(rf.getFileId());
+			wp.open(ff);
+		}
 	}
 
 	private void initModelMenu() {
 		ElementConditionDto dto = new ElementConditionDto();
 		dto.setDattr1(SfJdRecordFileModel.SF_VS_JD_FILE_MODEL_DOC_TYPE_REPORT);
-		List modelLst = zcEbBaseServiceDelegate
-				.queryDataForList(
-						"com.ufgov.zc.server.sf.dao.SfJdRecordFileModelMapper.getModelFileMenuItem",
+		List modelLst = zcEbBaseServiceDelegate.queryDataForList("com.ufgov.zc.server.sf.dao.SfJdRecordFileModelMapper.getModelFileMenuItem",
 						dto, requestMeta);
 		for (int i = 0; i < modelLst.size(); i++) {
 			Map m = (Map) modelLst.get(i);
@@ -1592,6 +1717,17 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 		bill.setJdReportFileId(model.getFileId());
 		modelFileId=model.getFileId();
 		refreshFilePanel();
+		//根据菜单有无报告两字，变更相关信息 
+		if(menuText.indexOf("报告")>0 && bill.getName().indexOf("报告")<0){
+			String s1=bill.getName().substring(0, bill.getName().indexOf("意见书"));
+			bill.setName(s1+"报告");
+			bill.setReportType(SfJdReport.RESULT_TYPE_JYBG);
+		}else if(bill.getName().indexOf("报告")>0){
+			String s1=bill.getName().substring(0, bill.getName().indexOf("报告"));
+			bill.setName(s1+"意见书");
+			bill.setReportType(SfJdReport.RESULT_TYPE_YJS);
+		}
+		setEditingObject(bill);
 
 	}
 
@@ -1611,7 +1747,12 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 	}
 
 	protected void fillModel(String menuFillCur) {
-		SfJdReport currentBill = (SfJdReport) listCursor.getCurrentObject();
+		SfJdReport currentBill = (SfJdReport) listCursor.getCurrentObject(); 
+		if (currentBill.getReportCode() == null) {
+			JOptionPane.showMessageDialog(this, "请先选择报告编号.", "提示",
+					JOptionPane.INFORMATION_MESSAGE);
+			return;
+		}
 		SfBookmarkUtil bku = new SfBookmarkUtil();
 		List<SfBookmark> bks = bku.getEntrustBookValueLst(currentBill.getEntrust());
 		bks.addAll(bku.getEntrustorBookValueLst(currentBill.getEntrust().getEntrustor()));
@@ -1636,7 +1777,7 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 			SfJdjg jdjg=getJdjg();
 			txt=SfClientUtil.getTxtFromJdjg(menuTitle, jdjg);
 		}else{
-			txt=SfClientUtil.getTxtFromBill(menuTitle, bill.getEntrust(), requestMeta);
+			txt=SfClientUtil.getTxtFromBill(menuTitle, bill, requestMeta);
 		} 
 		wordPane.insertTextToDoc(txt); 
 	}
@@ -1974,11 +2115,23 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 
 			     //getJdReportFileId
 				SfJdReport inData = (SfJdReport) this.listCursor.getCurrentObject();
-				inData.setJdReportFileId(bill.getJdReportFileId());
-				
-			    refreshFilePanel();
-			     
+				//直接替换当前的模板
+//				inData.setJdReportFileId(bill.getJdReportFileId());				
+//			    refreshFilePanel();
+				//打开报告文件，进行参照
+				addWordPane(bill);
 			}
+		}
+	}
+
+	private void addWordPane(SfJdReport bill) {
+		if(bill.getJdReportFileId()!=null){
+			WordPane wp=new WordPane();
+			referencReportNameIndex=referencReportNameIndex+1;
+			mainTab.add("鉴定报告"+referencReportNameIndex, wp);
+			mainTab.setSelectedIndex(mainTab.getTabCount()-1);
+			String ff= WordFileUtil.loadMold(bill.getJdReportFileId());
+			wp.open(ff);
 		}
 	}
 }

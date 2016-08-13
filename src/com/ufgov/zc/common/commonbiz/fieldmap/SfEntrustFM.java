@@ -47,6 +47,8 @@ public class SfEntrustFM {
     fieldMap.put("JD_DOC_SEND_TYPE", "jdDocSendType");
     fieldMap.put("JD_DOC_SEND_TYPE_FZ", "jdDocSendTypeFz");
     fieldMap.put("JD_CHARGE", "jdCharge");
+    fieldMap.put("CO_CODE", "coCode");
+    fieldMap.put("JD_ASSISTOR", "jdAssistorName");
 
   }
 }

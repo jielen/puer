@@ -84,4 +84,15 @@ public class SfMaterialsMapperImp extends SqlMapClientDaoSupport implements SfMa
     return getSqlMapClientTemplate().queryForList("com.ufgov.zc.server.sf.dao.SfMaterialsMapper.selectByEntrustId", entrustId);
   }
 
+ 
+public int deleteByAppentMaterialsId(BigDecimal appendMaterialsId) {
+
+    return getSqlMapClientTemplate().delete("com.ufgov.zc.server.sf.dao.SfMaterialsMapper.deleteByAppentMaterialsId", appendMaterialsId);
+}
+
+
+public List selectByAppentMaterialsId(BigDecimal appentMaterialsId) {
+	return getSqlMapClientTemplate().queryForList("com.ufgov.zc.server.sf.dao.SfMaterialsMapper.selectByAppentMaterialsId", appentMaterialsId);
+}
+
 }

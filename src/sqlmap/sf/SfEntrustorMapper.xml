@@ -47,6 +47,24 @@ SELECT E.ENTRUSTOR_ID,
   AND E.CODE=M.EMP_CODE(+)
   and  e.ENTRUSTOR_ID = #entrustorId:DECIMAL#
   </select>
+  <select id="selectByLoginAccount" parameterClass="java.lang.String" resultMap="userMap">
+     
+SELECT E.ENTRUSTOR_ID,
+       E.CODE,
+       E.NAME,
+       E.ADDRESS,
+       E.ZIP,
+       E.LINK_MAN,
+       E.LINK_TEL,
+       E.ENTRUSTOR_TYPE,
+       U.PASSWD,
+       CASE WHEN M.EMP_CODE IS NULL THEN 'N'
+         ELSE M.IS_LOGIN END AS IS_LOGIN 
+  FROM SF_ENTRUSTOR E,AS_USER U,AS_EMP M
+  WHERE E.CODE=U.USER_ID(+)
+  AND E.CODE=M.EMP_CODE(+)
+  and  e.CODE = #value#
+  </select>
   <select id="getEntrustorLst"  resultMap="BaseResultMap">
   	select 
     <include refid="Base_Column_List" />

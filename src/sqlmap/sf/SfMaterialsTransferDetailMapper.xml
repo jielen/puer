@@ -10,6 +10,7 @@
     <result column="PROCESSING_MAN" jdbcType="VARCHAR" property="processingMan" />
     <result column="PROCESSING_DATE" jdbcType="DATE" property="processingDate" />
     <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="QUANTITY3" jdbcType="VARCHAR" property="quantity3" />
     <!--outInfoDetail -->
     <result column="INFO_DETAIL_ID" jdbcType="DECIMAL" property="outInfoDetail.outInfoDetailId" />
     <result column="OUT_INFO_ID" jdbcType="DECIMAL" property="outInfoDetail.outInfoId" />
@@ -30,7 +31,7 @@
   </resultMap>
   <sql id="Base_Column_List">
     TRANSFER_ID, MATERIAL_ID, QUANTITY, UNIT, PROCESSING, PROCESSING_MAN, PROCESSING_DATE, 
-    REMARK, OUT_INFO_DETAIL_ID
+    REMARK, OUT_INFO_DETAIL_ID,QUANTITY3
   </sql>
   <delete id="deleteByPrimaryKey" parameterClass="java.math.BigDecimal">
     delete from SF_MATERIALS_TRANSFER_DETAIL
@@ -39,7 +40,7 @@
   <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfMaterialsTransferDetail">
     insert into SF_MATERIALS_TRANSFER_DETAIL (TRANSFER_ID, MATERIAL_ID, QUANTITY, 
       UNIT, PROCESSING, PROCESSING_MAN, 
-      PROCESSING_DATE, REMARK, OUT_INFO_DETAIL_ID
+      PROCESSING_DATE, REMARK, OUT_INFO_DETAIL_ID,QUANTITY3
       )
     values (#transferId:DECIMAL#, #materialId:DECIMAL#, #quantity:DECIMAL#, 
       #unit:VARCHAR#, #processing:VARCHAR#, #processingMan:VARCHAR#, 
@@ -54,6 +55,7 @@
        SF_MATERIALS_TRANSFER_DETAIL.PROCESSING_MAN,
        SF_MATERIALS_TRANSFER_DETAIL.PROCESSING_DATE,
        SF_MATERIALS_TRANSFER_DETAIL.REMARK,
+       SF_MATERIALS_TRANSFER_DETAIL.QUANTITY3,
        NULL                                         AS MATERIAL_ID,
        NULL                                         AS MATERIALS_NAME,
        NULL                                         AS MATERIALS_QUANTITY,
@@ -82,6 +84,7 @@ SELECT SF_MATERIALS_TRANSFER_DETAIL.TRANSFER_ID,
        SF_MATERIALS_TRANSFER_DETAIL.PROCESSING_MAN,
        SF_MATERIALS_TRANSFER_DETAIL.PROCESSING_DATE,
        SF_MATERIALS_TRANSFER_DETAIL.REMARK,
+       SF_MATERIALS_TRANSFER_DETAIL.QUANTITY3,
        SF_MATERIALS.MATERIAL_ID,
        SF_MATERIALS.NAME                            AS MATERIALS_NAME,
        SF_MATERIALS.QUANTITY                        AS MATERIALS_QUANTITY,

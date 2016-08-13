@@ -1,7 +1,4 @@
-/**
- * 
- */
-package com.ufgov.zc.client.sf.mobliemsg;
+package com.ufgov.zc.client.sf.supplier;
 
 import java.awt.Color;
 import java.awt.Container;
@@ -35,7 +32,7 @@ import com.ufgov.zc.client.common.MyTableModel;
 import com.ufgov.zc.client.common.ParentWindowAware;
 import com.ufgov.zc.client.common.ServiceFactory;
 import com.ufgov.zc.client.common.WorkEnv;
-import com.ufgov.zc.client.common.converter.sf.ZcMobileMsgTableModelConverter; 
+import com.ufgov.zc.client.common.converter.sf.SfSjSupplierToTableModelConverter;
 import com.ufgov.zc.client.component.JFuncToolBar;
 import com.ufgov.zc.client.component.ui.AbstractDataDisplay;
 import com.ufgov.zc.client.component.ui.AbstractEditListBill;
@@ -45,42 +42,42 @@ import com.ufgov.zc.client.component.ui.SaveableSearchConditionArea;
 import com.ufgov.zc.client.component.ui.TableDisplay;
 import com.ufgov.zc.client.component.ui.conditionitem.AbstractSearchConditionItem;
 import com.ufgov.zc.client.component.ui.conditionitem.SearchConditionUtil;
+import com.ufgov.zc.client.print.PrintPreviewer;
 import com.ufgov.zc.client.print.PrintSettingDialog;
+import com.ufgov.zc.client.print.Printer;
 import com.ufgov.zc.client.util.ListUtil;
-import com.ufgov.zc.client.zc.ZcUtil; 
+import com.ufgov.zc.client.zc.ZcUtil;
 import com.ufgov.zc.common.commonbiz.model.SearchCondition;
-import com.ufgov.zc.common.sf.model.ZcMobileMsg;
-import com.ufgov.zc.common.sf.publish.IZcMobileMsgServiceDelegate;
+import com.ufgov.zc.common.commonbiz.publish.IBaseDataServiceDelegate;
+import com.ufgov.zc.common.sf.model.SfSjSupplier;
 import com.ufgov.zc.common.system.RequestMeta;
-import com.ufgov.zc.common.system.constants.WFConstants;
-import com.ufgov.zc.common.system.constants.ZcSettingConstants;
 import com.ufgov.zc.common.system.dto.ElementConditionDto;
-import com.ufgov.zc.common.system.util.ObjectUtil; 
-import com.ufgov.zc.common.zc.model.ZcQx; 
+import com.ufgov.zc.common.system.dto.PrintObject;
+import com.ufgov.zc.common.system.util.ObjectUtil;
+import com.ufgov.zc.common.zc.publish.IZcEbBaseServiceDelegate;
 
-/**
- * @author Administrator
- */
-public class ZcMobileMsgListPanel extends AbstractEditListBill implements ParentWindowAware {
+public class SfSjSupplierListPanel extends AbstractEditListBill implements ParentWindowAware {
 
-  public static final Logger logger = Logger.getLogger(ZcMobileMsgListPanel.class);
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -9039036065611429252L;
 
-  private ZcMobileMsgListPanel self = this;
+  public static final Logger logger = Logger.getLogger(SfSjSupplierListPanel.class);
+
+  private SfSjSupplierListPanel self = this;
 
   private Window parentWindow;
 
-  public static final String compoId = "SF_MOBILE_MSG";
+//  public static final String compoId = "SF_JD_DOC_TYPE";
 
   private RequestMeta requestMeta = WorkEnv.getInstance().getRequestMeta();
 
-  private ElementConditionDto elementConditionDto = new ElementConditionDto();
+  private ElementConditionDto elementConditionDto = new ElementConditionDto(); 
 
-  //  private IBaseDataServiceDelegate baseDataServiceDelegate = (IBaseDataServiceDelegate) ServiceFactory.create(IBaseDataServiceDelegate.class,
-  //
-  //  "baseDataServiceDelegate");
+  private IBaseDataServiceDelegate baseDataServiceDelegate;
 
-  //  protected IZcEbBaseServiceDelegate zcEbBaseServiceDelegate = (IZcEbBaseServiceDelegate) ServiceFactory.create(IZcEbBaseServiceDelegate.class, "zcEbBaseServiceDelegate");
-  protected IZcMobileMsgServiceDelegate mobileMsgServiceDelegate = (IZcMobileMsgServiceDelegate) ServiceFactory.create(IZcMobileMsgServiceDelegate.class, "mobileMsgServiceDelegate");
+  private IZcEbBaseServiceDelegate zcEbBaseServiceDelegate;
 
   public Window getParentWindow() {
 
@@ -94,14 +91,18 @@ public class ZcMobileMsgListPanel extends AbstractEditListBill implements Parent
 
   }
 
-  public ZcMobileMsgListPanel() {
-
+  public SfSjSupplierListPanel() {
+	  zcEbBaseServiceDelegate = (IZcEbBaseServiceDelegate) ServiceFactory.create(IZcEbBaseServiceDelegate.class,"zcEbBaseServiceDelegate");
+    baseDataServiceDelegate = (IBaseDataServiceDelegate) ServiceFactory.create(IBaseDataServiceDelegate.class, "baseDataServiceDelegate"); 
+    
     UIUtilities.asyncInvoke(new DefaultInvokeHandler<List<SearchCondition>>() {
 
       @Override
       public List<SearchCondition> execute() throws Exception {
 
-        List<SearchCondition> needDisplaySearchConditonList = SearchConditionUtil.getNeedDisplaySearchConditonList(WorkEnv.getInstance().getCurrUserId(), ZcMobileMsg.TAB_ID);
+        List<SearchCondition> needDisplaySearchConditonList = SearchConditionUtil.getNeedDisplaySearchConditonList(WorkEnv.getInstance()
+
+        .getCurrUserId(), SfSjSupplier.TAB_ID);
 
         return needDisplaySearchConditonList;
 
@@ -122,12 +123,14 @@ public class ZcMobileMsgListPanel extends AbstractEditListBill implements Parent
 
     });
 
-    requestMeta.setCompoId(compoId);
+    requestMeta.setCompoId(getcompoId());
   }
-
+ String getSupplierType(){  
+	 return SfSjSupplier.VS_SF_SUPPLIER_TYPE_GYS;
+ }
   private AbstractDataDisplay createDataDisplay(List<TableDisplay> showingDisplays) {
 
-    return new DataDisplay(SearchConditionUtil.getAllTableDisplay(ZcMobileMsg.TAB_ID), showingDisplays,
+    return new DataDisplay(SearchConditionUtil.getAllTableDisplay(SfSjSupplier.TAB_ID), showingDisplays,
 
     createTopConditionArea(), false);//true:显示收索条件区 false：不显示收索条件区
 
@@ -153,11 +156,12 @@ public class ZcMobileMsgListPanel extends AbstractEditListBill implements Parent
 
     boolean showConditionArea) {
 
-      super(displays, showingDisplays, conditionArea, showConditionArea, ZcMobileMsg.TAB_ID);
+      super(displays, showingDisplays, conditionArea, showConditionArea, SfSjSupplier.TAB_ID);
 
-      setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), LangTransMeta.translate(compoId), TitledBorder.CENTER, TitledBorder.TOP, new Font("宋体",
+      setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), LangTransMeta.translate(getcompoId()), TitledBorder.CENTER,
+        TitledBorder.TOP, new Font("宋体",
 
-      Font.BOLD, 15), Color.BLUE));
+        Font.BOLD, 15), Color.BLUE));
 
     }
 
@@ -183,7 +187,7 @@ public class ZcMobileMsgListPanel extends AbstractEditListBill implements Parent
 
               List viewList = (List) ObjectUtil.deepCopy(ListUtil.convertToTableViewOrderList(model.getList(), table));
 
-              new ZcMobileMsgDialog(self, viewList, row, tabStatus);
+              new SfSjSupplierDialog(self, viewList, row, tabStatus);
 
             }
 
@@ -198,13 +202,15 @@ public class ZcMobileMsgListPanel extends AbstractEditListBill implements Parent
     @Override
     protected void handleTableDisplayActived(AbstractSearchConditionItem[] searchConditionItems, final TableDisplay tableDisplay) {
 
-      elementConditionDto.setWfcompoId(compoId);
+      elementConditionDto.setWfcompoId(getcompoId());
 
       elementConditionDto.setExecutor(WorkEnv.getInstance().getCurrUserId());
 
       elementConditionDto.setNd(WorkEnv.getInstance().getTransNd());
 
       elementConditionDto.setStatus(tableDisplay.getStatus());
+      
+      elementConditionDto.setDattr2(getSupplierType());
 
       for (AbstractSearchConditionItem item : searchConditionItems) {
 
@@ -239,7 +245,7 @@ public class ZcMobileMsgListPanel extends AbstractEditListBill implements Parent
         @Override
         public TableModel execute() throws Exception {
 
-          return ZcMobileMsgTableModelConverter.convertToTableModel(self.mobileMsgServiceDelegate.getMainDataLst(elementConditionDto, requestMeta));
+          return SfSjSupplierToTableModelConverter.convertMainLst(self.zcEbBaseServiceDelegate.queryDataForList("com.ufgov.zc.server.sf.dao.SfSjSupplierMapper.selectMainDataLst",elementConditionDto, requestMeta));
 
         }
 
@@ -248,13 +254,14 @@ public class ZcMobileMsgListPanel extends AbstractEditListBill implements Parent
 
           tableDisplay.setTableModel(model);
 
-          setButtonsVisiable();
-
+          //        setButtonsVisiable();
+          setButtonStatus();
         }
 
       });
 
     }
+
   }
 
   static {
@@ -283,7 +290,7 @@ public class ZcMobileMsgListPanel extends AbstractEditListBill implements Parent
           e.printStackTrace();
 
         }
-        ZcMobileMsgListPanel bill = new ZcMobileMsgListPanel();
+        SfSjSupplierListPanel bill = new SfSjSupplierListPanel();
 
         JFrame frame = new JFrame("frame");
 
@@ -305,7 +312,7 @@ public class ZcMobileMsgListPanel extends AbstractEditListBill implements Parent
 
   public void setButtonsVisiable() {
 
-    String panelId = WFConstants.AUDIT_TAB_STATUS_TODO;
+    /*String panelId = WFConstants.AUDIT_TAB_STATUS_TODO;
 
     if (topDataDisplay != null && topDataDisplay.getActiveTableDisplay() != null) {
 
@@ -475,7 +482,7 @@ public class ZcMobileMsgListPanel extends AbstractEditListBill implements Parent
 
       cancelButton.setVisible(false);
 
-    }
+    }*/
 
   }
 
@@ -484,18 +491,18 @@ public class ZcMobileMsgListPanel extends AbstractEditListBill implements Parent
 
     toolBar.setModuleCode("SF");
 
-    toolBar.setCompoId(compoId);
+    toolBar.setCompoId(getcompoId());
 
     toolBar.add(addButton);
 
     // toolBar.add(updateButton);
 
     //    toolBar.add(deleteButton);
-    //
-    //    toolBar.add(helpButton);
-    //
+
+    toolBar.add(helpButton);
+
     //    toolBar.add(sendButton);//送审
-    //
+
     //    toolBar.add(suggestPassButton);//填写意见审核通过
 
     //    toolBar.add(auditFinalButton);
@@ -525,36 +532,6 @@ public class ZcMobileMsgListPanel extends AbstractEditListBill implements Parent
       public void actionPerformed(ActionEvent e) {
 
         doAdd();
-
-      }
-
-    });
-
-    sendButton.addActionListener(new ActionListener() {
-
-      public void actionPerformed(ActionEvent e) {
-
-        doSend();
-
-      }
-
-    });
-
-    isSendToNextButton.addActionListener(new ActionListener() {
-
-      public void actionPerformed(ActionEvent e) {
-
-        doSendNext();
-
-      }
-
-    });
-
-    deleteButton.addActionListener(new ActionListener() {
-
-      public void actionPerformed(ActionEvent e) {
-
-        doDelete();
 
       }
 
@@ -590,132 +567,6 @@ public class ZcMobileMsgListPanel extends AbstractEditListBill implements Parent
 
     });
 
-    suggestPassButton.addActionListener(new ActionListener() {
-
-      public void actionPerformed(ActionEvent e) {
-
-        doSuggestPass();
-
-      }
-
-    });
-
-    callbackButton.addActionListener(new ActionListener() {
-
-      public void actionPerformed(ActionEvent e) {
-
-        doCallBack();
-
-      }
-
-    });
-
-    unTreadButton.addActionListener(new ActionListener() {
-
-      public void actionPerformed(ActionEvent e) {
-
-        doUnTread();
-
-      }
-
-    });
-
-    unAuditButton.addActionListener(new ActionListener() {
-
-      public void actionPerformed(ActionEvent e) {
-
-        doUnAudit();
-
-      }
-
-    });
-
-    traceButton.addActionListener(new ActionListener() {
-
-      public void actionPerformed(ActionEvent e) {
-
-        doTrace();
-
-      }
-
-    });
-
-    cancelButton.addActionListener(new ActionListener() {
-
-      public void actionPerformed(ActionEvent e) {
-
-        doCancel();
-
-      }
-
-    });
-
-    auditFinalButton.addActionListener(new ActionListener() {
-
-      public void actionPerformed(ActionEvent e) {
-
-        doAuditFinal();
-
-      }
-
-    });
-
-    traceDataButton.addActionListener(new ActionListener() {
-
-      public void actionPerformed(ActionEvent arg0) {
-
-        doTraceDataButton();
-
-      }
-
-    });
-
-  }
-
-  private void doAuditFinal() {
-
-    List beanList = getCheckedList();
-
-    if (beanList.size() == 0) {
-
-      JOptionPane.showMessageDialog(this, "没有选择数据！", " 提示", JOptionPane.INFORMATION_MESSAGE);
-
-      return;
-
-    }
-
-    requestMeta.setFuncId(this.auditFinalButton.getFuncId());
-
-    executeAudit(beanList, ZcSettingConstants.IS_GOON_AUDIT_YES);
-
-  }
-
-  public void doCancel() {
-
-  }
-
-  public void doUnAudit() {
-
-  }
-
-  public void doUnTread() {
-
-  }
-
-  public void doSuggestPass() {
-
-  }
-
-  /**
-   * 是否送主任审核
-   */
-
-  private void doSendNext() {
-
-  }
-
-  private void executeAudit(List beanList, int isGoonAudit) {
-
   }
 
   public void refreshCurrentTabData() {
@@ -726,13 +577,13 @@ public class ZcMobileMsgListPanel extends AbstractEditListBill implements Parent
 
   public void refreshCurrentTabData(List beanList) {
 
-    topDataDisplay.getActiveTableDisplay().getTable().setModel(ZcMobileMsgTableModelConverter.convertToTableModel(beanList));
+    topDataDisplay.getActiveTableDisplay().getTable().setModel(SfSjSupplierToTableModelConverter.convertMainLst(beanList));
 
   }
 
   public List getCheckedList() {
 
-    List<ZcQx> beanList = new ArrayList<ZcQx>();
+    List<SfSjSupplier> beanList = new ArrayList<SfSjSupplier>();
 
     JGroupableTable table = topDataDisplay.getActiveTableDisplay().getTable();
 
@@ -748,7 +599,7 @@ public class ZcMobileMsgListPanel extends AbstractEditListBill implements Parent
 
       int accordDataRow = table.convertRowIndexToModel(checkedRow);
 
-      ZcQx bean = (ZcQx) list.get(accordDataRow);
+      SfSjSupplier bean = (SfSjSupplier) list.get(accordDataRow);
 
       beanList.add(bean);
 
@@ -760,7 +611,7 @@ public class ZcMobileMsgListPanel extends AbstractEditListBill implements Parent
 
   private void doAdd() {
 
-    new ZcMobileMsgDialog(self, new ArrayList(1), -1, topDataDisplay.getActiveTableDisplay().getStatus());
+    new SfSjSupplierDialog(self, new ArrayList(1), -1, topDataDisplay.getActiveTableDisplay().getStatus());
 
   }
 
@@ -769,10 +620,6 @@ public class ZcMobileMsgListPanel extends AbstractEditListBill implements Parent
   }
 
   private void doBatEdit() {
-
-  }
-
-  private void doDelete() {
 
   }
 
@@ -802,9 +649,9 @@ public class ZcMobileMsgListPanel extends AbstractEditListBill implements Parent
 
     for (int i = 0; i < beanList.size(); i++) {
 
-      ZcQx bean = (ZcQx) beanList.get(i);
+      SfSjSupplier bean = (SfSjSupplier) beanList.get(i);
 
-      ZcUtil.showTraceDialog(bean, compoId);
+      ZcUtil.showTraceDialog(bean, getcompoId());
 
     }
 
@@ -816,6 +663,48 @@ public class ZcMobileMsgListPanel extends AbstractEditListBill implements Parent
 
   private void doPrint() {
 
+    List printList = getCheckedList();
+
+    if (printList.size() == 0) {
+
+      JOptionPane.showMessageDialog(this, "请选择需要打印的数据 ！", "提示", JOptionPane.INFORMATION_MESSAGE);
+
+      return;
+
+    }
+
+    requestMeta.setFuncId(this.printButton.getFuncId());
+
+    requestMeta.setPageType(this.getcompoId() + "_L");
+
+    boolean success = true;
+
+    boolean printed = false;
+
+    try {
+
+      PrintObject printObject = this.baseDataServiceDelegate.genMainBillPrintObjectFN(printList, requestMeta);
+
+      if (Printer.print(printObject)) {
+
+        printed = true;
+
+      }
+
+    } catch (Exception e) {
+
+      success = false;
+
+      logger.error(e.getMessage(), e);
+
+      JOptionPane.showMessageDialog(this, "打印出错！\n" + e.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
+
+    }
+
+    if (success && printed) {
+
+    }
+
   }
 
   private void doGroupPrint() {
@@ -823,6 +712,42 @@ public class ZcMobileMsgListPanel extends AbstractEditListBill implements Parent
   }
 
   private void doPrintPreview() {
+
+    final List printList = getCheckedList();
+
+    if (printList.size() == 0) {
+
+      JOptionPane.showMessageDialog(this, "请选择需要打印预览的数据 ！", "提示", JOptionPane.INFORMATION_MESSAGE);
+
+      return;
+
+    }
+
+    requestMeta.setFuncId(this.printPreviewButton.getFuncId());
+
+    requestMeta.setPageType(this.getcompoId() + "_L");
+
+    try {
+
+      PrintObject printObject = this.baseDataServiceDelegate.genMainBillPrintObjectFN(printList, requestMeta);
+
+      PrintPreviewer previewer = new PrintPreviewer(printObject) {
+
+        protected void afterSuccessPrint() {
+
+        }
+
+      };
+
+      previewer.preview();
+
+    } catch (Exception e) {
+
+      logger.error(e.getMessage(), e);
+
+      JOptionPane.showMessageDialog(this, "打印预览出错！\n" + e.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
+
+    }
 
   }
 
@@ -834,39 +759,19 @@ public class ZcMobileMsgListPanel extends AbstractEditListBill implements Parent
 
     requestMeta.setFuncId(this.printSettingButton.getFuncId());
 
-    requestMeta.setPageType(this.compoId + "_L");
+    requestMeta.setPageType(this.getcompoId() + "_L");
 
     new PrintSettingDialog(requestMeta);
 
   }
 
   private void setButtonStatus() {
-
-  }
-
-  private void doTraceDataButton() {
-
-    List beanList = getCheckedList();
-
-    if (beanList.size() == 0) {
-
-      JOptionPane.showMessageDialog(this, "请选择一条要进行跟踪的数据！", "错误", JOptionPane.ERROR_MESSAGE);
-
-      return;
-
-    }
-
-   /* ZcQx sh = (ZcQx) beanList.get(0);
-
-    DataFlowConsoleCanvas dfc = new DataFlowConsoleCanvas(sh.getQxCode(), this.compoId);
-
-    dfc.showWindow();*/
-
+    //    addButton.setVisible(SfUtil.canNew(compoId, requestMeta));
   }
 
   public String getcompoId() {
     // TCJLODO Auto-generated method stub
-    return compoId;
+    return "SF_SJ_SUPPLIER";
   }
 
 }

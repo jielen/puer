@@ -46,8 +46,11 @@ public class SfMaterialsTransferDetail extends ZcBaseBill{
   public static final String COL_REMARK="SF_MATERIALS_TRANSFER_DETAIL_REMARK"; // 备注
   public static final String COL_TRANSFER_ID="SF_MATERIALS_TRANSFER_DETAIL_TRANSFER_ID"; // 材料流转_ID
   public static final String COL_UNIT="SF_MATERIALS_TRANSFER_DETAIL_UNIT"; // 单位
+  public static final String COL_QUANTITY3="SF_MATERIALS_TRANSFER_DETAIL_QUANTITY3"; // 数量
 
 
+  private String quantity3;
+  
   /**
    * 外部信息
    */
@@ -281,6 +284,14 @@ public class SfMaterialsTransferDetail extends ZcBaseBill{
 	 */
 	public void setOutInfoDetailId(BigDecimal outInfoDetailId) {
 		this.outInfoDetailId = outInfoDetailId;
+	}
+
+	public String getQuantity3() {
+		return quantity3;
+	}
+
+	public void setQuantity3(String quantity3) {
+		this.quantity3 = quantity3;
 	}
 
 	/**

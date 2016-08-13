@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.ufgov.zc.server.sf.dao.SfSjSupplierMapper" >
+	<typeAlias alias="elementCondition"		type="com.ufgov.zc.common.system.dto.ElementConditionDto" /> 
+  <resultMap id="BaseResultMap" class="com.ufgov.zc.common.sf.model.SfSjSupplier" > 
+    <result column="SUPPLIER_ID" property="supplierId" jdbcType="DECIMAL" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="PYM" property="pym" jdbcType="VARCHAR" />
+    <result column="ZIP" property="zip" jdbcType="VARCHAR" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="URL" property="url" jdbcType="VARCHAR" />
+    <result column="LINK_MAN" property="linkMan" jdbcType="VARCHAR" />
+    <result column="DUTY" property="duty" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="TEL_WORK" property="telWork" jdbcType="VARCHAR" />
+    <result column="TEL" property="tel" jdbcType="VARCHAR" />
+    <result column="FAX" property="fax" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="SUPPLIER_TYPE" property="supplierType" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" > 
+    SUPPLIER_ID, NAME, PYM, ZIP, ADDRESS, URL, LINK_MAN, DUTY, EMAIL, TEL_WORK, TEL, 
+    FAX, STATUS, SUPPLIER_TYPE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="java.math.BigDecimal" > 
+    select 
+    <include refid="Base_Column_List" />
+    from SF_SJ_SUPPLIER
+    where SUPPLIER_ID = #supplierId:DECIMAL#
+  </select>
+  
+  <select id="selectByName" resultMap="BaseResultMap" parameterClass="elementCondition" > 
+    select 
+    <include refid="Base_Column_List" />
+    from SF_SJ_SUPPLIER
+    where name = #dattr1#
+    	and SUPPLIER_TYPE=#dattr2#
+    	<isNotNull prepend="AND" property="sfId">
+    		SUPPLIER_ID != #sfId:DECIMAL#
+    	</isNotNull> 
+  </select>
+  <select id="selectMainDataLst" resultMap="BaseResultMap" parameterClass="elementCondition" > 
+    select 
+    <include refid="Base_Column_List" />
+    from SF_SJ_SUPPLIER 
+    where 1=1    
+   <isNotNull prepend="AND" property="status"> 
+			<isEqual property="status" compareValue="enable">
+				status ='enable'
+			</isEqual>	
+			<isEqual property="status" compareValue="disable">
+				status ='disable'
+			</isEqual>	
+			<isEqual property="status" compareValue="all">
+				1=1
+			</isEqual>	 
+   </isNotNull>
+   and SUPPLIER_TYPE=#dattr2#
+  </select>
+  
+  <select id="selectUsingById" resultMap="BaseResultMap" parameterClass="elementCondition" > 
+  	select 
+    <include refid="Base_Column_List" />
+    from SF_SJ_SUPPLIER 
+    where SUPPLIER_ID = #sfId:DECIMAL#
+    and (
+	exists (select 1 from sf_sj where sf_sj.productor_id=sf_sj_supplier.supplier_id )
+	or
+	exists (select 1 from sf_sj_in where sf_sj_in.supplier_id=sf_sj_supplier.supplier_id )
+	)
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="java.math.BigDecimal" > 
+    delete from SF_SJ_SUPPLIER
+    where SUPPLIER_ID = #supplierId:DECIMAL#
+  </delete>
+  <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfSjSupplier" > 
+    insert into SF_SJ_SUPPLIER (SUPPLIER_ID, NAME, PYM, 
+      ZIP, ADDRESS, URL, 
+      LINK_MAN, DUTY, EMAIL, 
+      TEL_WORK, TEL, FAX, 
+      STATUS, SUPPLIER_TYPE)
+    values (#supplierId:DECIMAL#, #name:VARCHAR#, #pym:VARCHAR#, 
+      #zip:VARCHAR#, #address:VARCHAR#, #url:VARCHAR#, 
+      #linkMan:VARCHAR#, #duty:VARCHAR#, #email:VARCHAR#, 
+      #telWork:VARCHAR#, #tel:VARCHAR#, #fax:VARCHAR#, 
+      #status:VARCHAR#, #supplierType:VARCHAR#)
+  </insert> 
+  <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfSjSupplier" > 
+    update SF_SJ_SUPPLIER
+    set NAME = #name:VARCHAR#,
+      PYM = #pym:VARCHAR#,
+      ZIP = #zip:VARCHAR#,
+      ADDRESS = #address:VARCHAR#,
+      URL = #url:VARCHAR#,
+      LINK_MAN = #linkMan:VARCHAR#,
+      DUTY = #duty:VARCHAR#,
+      EMAIL = #email:VARCHAR#,
+      TEL_WORK = #telWork:VARCHAR#,
+      TEL = #tel:VARCHAR#,
+      FAX = #fax:VARCHAR#,
+      STATUS = #status:VARCHAR#,
+      SUPPLIER_TYPE = #supplierType:VARCHAR#
+    where SUPPLIER_ID = #supplierId:DECIMAL#
+  </update>
+</sqlMap>

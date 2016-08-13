@@ -66,7 +66,7 @@ public class SfJdDocAuditWordHandler extends WordHandlerAdapter {
     dataMap.put("jddx", StringUtil.freeMarkFillWordChar(entrust.getJdTargetName()));
     dataMap.put("jdfzr", StringUtil.freeMarkFillWordChar(entrust.getJdFzrName()));
     dataMap.put("zppsr", StringUtil.freeMarkFillWordChar(jdDocAudit.getPhotographer()));
-    dataMap.put("fwsl", StringUtil.freeMarkFillWordChar(SfUtil.convertNumToStr(jdDocAudit.getDocQuatity())));
+    dataMap.put("fwsl", StringUtil.freeMarkFillWordChar(jdDocAudit.getDocQuatity()==null?"":SfUtil.convertNumToStr(jdDocAudit.getDocQuatity())));
     dataMap.put("spsj",
       StringUtil.freeMarkFillWordChar(jdDocAudit.getInputDate() == null ? "  年    月   日" : DateUtil.dateToChinaString(jdDocAudit.getInputDate())));
 

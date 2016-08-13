@@ -16,6 +16,7 @@
     <result column="JD_ORG" jdbcType="VARCHAR" property="jdOrg" />
     <result column="JD_FZR" jdbcType="VARCHAR" property="jdFzr" />
     <result column="JD_FHR" jdbcType="VARCHAR" property="jdFhr" />
+    <result column="JD_ASSISTOR" jdbcType="VARCHAR" property="jdAssistor" />
     <result column="JD_HISTORY" jdbcType="CLOB" property="jdHistory"  typeHandler="org.springframework.orm.ibatis.support.ClobStringTypeHandler"/>
     <result column="JD_REQUIRE" jdbcType="CLOB" property="jdRequire"  typeHandler="org.springframework.orm.ibatis.support.ClobStringTypeHandler"/>
     <result column="JD_COMPANY" jdbcType="VARCHAR" property="jdCompany" />
@@ -56,13 +57,14 @@
     <result column="JD_DOC_SEND_TYPE" jdbcType="VARCHAR" property="jdDocSendType" />
     <result column="JD_DOC_SEND_TYPE_FZ" jdbcType="VARCHAR" property="jdDocSendTypeFz" />
     <result column="JD_CHARGE" jdbcType="DECIMAL" property="jdCharge" />
+    <result column="CO_CODE" jdbcType="VARCHAR" property="coCode" />
   </resultMap>
   
   <sql id="Base_Column_List">
     ENTRUST_ID, CODE, NAME, STATUS, ENTRUSTOR_ID, WT_DATE, SJR, SJR_TEL, SJR_ZJ_TYPE, 
     SJR_ZJ_CODE, MAJOR_CODE, JD_ORG, JD_FZR, JD_HISTORY, JD_REQUIRE, JD_COMPANY, REMARK, 
     IS_CXJD, WT_ID_PARENT, BRIEF, INPUTOR, INPUT_DATE, ACCEPTOR, ACCEPT_DATE, IS_ACCEPT, 
-    NOT_ACCEPT_REASON, ND, JD_TARGET_ID,PROCESS_INST_ID,JD_FHR,SJR_ADDRESS,JD_DOC_SEND_TYPE,JD_DOC_SEND_TYPE_FZ,JD_CHARGE
+    NOT_ACCEPT_REASON, ND, JD_TARGET_ID,PROCESS_INST_ID,JD_FHR,SJR_ADDRESS,JD_DOC_SEND_TYPE,JD_DOC_SEND_TYPE_FZ,JD_CHARGE,CO_CODE,JD_ASSISTOR
   </sql>
   <select id="selectByPrimaryKey" parameterClass="java.math.BigDecimal" resultMap="BaseResultMap">
    select SF_ENTRUST.ENTRUST_ID,
@@ -112,7 +114,9 @@
        SF_JD_TARGET.PHONE           as JD_TARGET_PHONE,
        SF_JD_TARGET.ADDRESS         as JD_TARGET_ADDRESS,
        SF_JD_TARGET.ZIP             as JD_TARGET_ZIP,
-       SF_JD_TARGET.JD_TARGET_ID
+       SF_JD_TARGET.JD_TARGET_ID,
+       SF_ENTRUST.CO_CODE,
+       SF_ENTRUST.JD_ASSISTOR
   from SF_ENTRUST, SF_ENTRUSTOR, SF_JD_TARGET
  WHERE SF_ENTRUST.ENTRUSTOR_ID = SF_ENTRUSTOR.ENTRUSTOR_ID
    AND SF_ENTRUST.JD_TARGET_ID = SF_JD_TARGET.JD_TARGET_ID(+)
@@ -166,7 +170,9 @@
        SF_JD_TARGET.PHONE           as JD_TARGET_PHONE,
        SF_JD_TARGET.ADDRESS         as JD_TARGET_ADDRESS,
        SF_JD_TARGET.ZIP             as JD_TARGET_ZIP,
-       SF_JD_TARGET.JD_TARGET_ID
+       SF_JD_TARGET.JD_TARGET_ID,
+       SF_ENTRUST.CO_CODE,
+       SF_ENTRUST.JD_ASSISTOR
   from SF_ENTRUST, SF_ENTRUSTOR, SF_JD_TARGET
  WHERE SF_ENTRUST.ENTRUSTOR_ID = SF_ENTRUSTOR.ENTRUSTOR_ID
    AND SF_ENTRUST.JD_TARGET_ID = SF_JD_TARGET.JD_TARGET_ID(+)
@@ -257,7 +263,7 @@
       INPUT_DATE, ACCEPTOR, ACCEPT_DATE, 
       IS_ACCEPT, NOT_ACCEPT_REASON, ND, 
       JD_TARGET_ID,PROCESS_INST_ID,JD_FHR,
-      SJR_ADDRESS,JD_DOC_SEND_TYPE,JD_DOC_SEND_TYPE_FZ,JD_CHARGE)
+      SJR_ADDRESS,JD_DOC_SEND_TYPE,JD_DOC_SEND_TYPE_FZ,JD_CHARGE,CO_CODE,JD_ASSISTOR)
     values (#entrustId:DECIMAL#, #code:VARCHAR#, #name:VARCHAR#, 
       #status:VARCHAR#, #entrustorId:DECIMAL#, #wtDate:DATE#, 
       #sjr:VARCHAR#, #sjrTel:VARCHAR#, #sjrZjType:VARCHAR#, 
@@ -267,7 +273,8 @@
       #wtIdParent:DECIMAL#, #brief,handler=org.springframework.orm.ibatis.support.ClobStringTypeHandler#, #inputor:VARCHAR#, 
       #inputDate:DATE#, #acceptor:VARCHAR#, #acceptDate:DATE#, 
       #isAccept:VARCHAR#, #notAcceptReason,handler=org.springframework.orm.ibatis.support.ClobStringTypeHandler#, #nd:DECIMAL#, 
-      #jdTargetId:DECIMAL#,#processInstId:DECIMAL#,#jdFhr:VARCHAR#,#sjrAddress:VARCHAR#,#jdDocSendType:VARCHAR#,#jdDocSendTypeFz:VARCHAR#,#jdCharge:DECIMAL#)
+      #jdTargetId:DECIMAL#,#processInstId:DECIMAL#,#jdFhr:VARCHAR#,#sjrAddress:VARCHAR#,#jdDocSendType:VARCHAR#,#jdDocSendTypeFz:VARCHAR#,#jdCharge:DECIMAL#,
+      #coCode#,#jdAssistor#)
   </insert>
   <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfEntrust">
     update SF_ENTRUST
@@ -303,7 +310,8 @@
       JD_FHR=#jdFhr:VARCHAR#,
       JD_DOC_SEND_TYPE=#jdDocSendType:VARCHAR#,
       JD_DOC_SEND_TYPE_FZ=#jdDocSendTypeFz:VARCHAR#,
-      JD_CHARGE=#jdCharge:DECIMAL#
+      JD_CHARGE=#jdCharge:DECIMAL#,
+      CO_CODE=#coCode#,JD_ASSISTOR=#jdAssistor#
     where ENTRUST_ID = #entrustId:DECIMAL#
   </update>
   
@@ -374,10 +382,21 @@
        SF_JD_TARGET.PHONE           as JD_TARGET_PHONE,
        SF_JD_TARGET.ADDRESS         as JD_TARGET_ADDRESS,
        SF_JD_TARGET.ZIP             as JD_TARGET_ZIP,
-       SF_JD_TARGET.JD_TARGET_ID
+       SF_JD_TARGET.JD_TARGET_ID,
+       SF_ENTRUST.CO_CODE,
+       SF_ENTRUST.JD_ASSISTOR
   from SF_ENTRUST, SF_ENTRUSTOR, SF_JD_TARGET
  WHERE SF_ENTRUST.ENTRUSTOR_ID = SF_ENTRUSTOR.ENTRUSTOR_ID
    AND SF_ENTRUST.JD_TARGET_ID = SF_JD_TARGET.JD_TARGET_ID(+)
    AND SF_ENTRUST.PROCESS_INST_ID = #processInstId:DECIMAL#
+  </select>
+  
+  <!-- 根据委托方登陆账号，获取送检人信息，用于发短信 -->
+  <select id="selectSjrInfo" parameterClass="elementCondition" resultClass="java.util.HashMap">
+  	select e.sjr,e.sjr_tel
+	  from sf_entrustor r, sf_entrust e
+	 where r.entrustor_id = e.entrustor_id
+	   and r.code = #dattr1#
+	   and e.PROCESS_INST_ID=#dattr2#	
   </select>
 </sqlMap>

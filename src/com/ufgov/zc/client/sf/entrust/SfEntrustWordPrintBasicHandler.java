@@ -181,8 +181,8 @@ public abstract class SfEntrustWordPrintBasicHandler  extends WordHandlerAdapter
 		      cxjd = "是";
 		      scjdwh=getScjdWh(entrust.getWtIdParent());
 		    }
-		    dataMap.put("SFCXJD", cxjd);
-		    dataMap.put("SCJDJGWH", scjdwh);
+		    dataMap.put("SFCXJD", StringUtil.freeMarkFillWordChar(cxjd));
+		    dataMap.put("SCJDJGWH", StringUtil.freeMarkFillWordChar(scjdwh));
 	}
 
 	protected void setJianAnZhaiYao(Map<String, Object> dataMap, SfEntrust entrust) {
@@ -246,9 +246,9 @@ public abstract class SfEntrustWordPrintBasicHandler  extends WordHandlerAdapter
 
 	protected void setJdTarget(Map<String, Object> dataMap, SfJdTarget jdTarget) {
 		if(jdTarget==null)jdTarget=new SfJdTarget();
-		dataMap.put("BJDRXM", jdTarget.getName());
+		dataMap.put("BJDRXM", StringUtil.freeMarkFillWordChar(jdTarget.getName()));
 		if(jdTarget.getSex()!=null){
-			dataMap.put("XB", AsValDataCache.getName(SfElementConstants.VS_SEX, jdTarget.getSex()));
+			dataMap.put("XB", StringUtil.freeMarkFillWordChar(AsValDataCache.getName(SfElementConstants.VS_SEX, jdTarget.getSex())));
 		}else{
 			dataMap.put("XB","");
 		}
@@ -258,12 +258,12 @@ public abstract class SfEntrustWordPrintBasicHandler  extends WordHandlerAdapter
 			dataMap.put("NN", "");
 		}
 		if(jdTarget.getPhone()!=null){
-			dataMap.put("BJDRDH", ""+jdTarget.getPhone());
+			dataMap.put("BJDRDH", ""+StringUtil.freeMarkFillWordChar(jdTarget.getPhone()));
 		}else{
 			dataMap.put("BJDRDH", "");
 		}
 		if(jdTarget.getAddress()!=null){
-			dataMap.put("BDJRDZ", ""+jdTarget.getAddress());
+			dataMap.put("BDJRDZ", ""+StringUtil.freeMarkFillWordChar(jdTarget.getAddress()));
 		}else{
 			dataMap.put("BDJRDZ", "");
 		}

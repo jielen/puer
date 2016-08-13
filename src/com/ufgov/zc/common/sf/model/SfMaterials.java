@@ -26,6 +26,10 @@ public class SfMaterials extends ZcBaseBill {
   public static final String COL_MATERIAL_TYPE = "SF_MATERIAL_TYPE"; // 类别   1：检材   2：样本  
 
   public static final String COL_BIANHAO = "SF_BIANHAO"; // 编号
+
+  public static final String COL_ATTACH_FILE = "SF_ATTACH_FILE"; // 文件
+
+  public static final String COL_ATTACH_FILE_BLOBID = "SF_ATTACH_FILE_BLOBID"; // 文件ID
   
 
   /**

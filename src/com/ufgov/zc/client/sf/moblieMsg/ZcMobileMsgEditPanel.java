@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.ufgov.zc.client.sf.moblieMsg;
+package com.ufgov.zc.client.sf.mobliemsg;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -192,7 +192,7 @@ public class ZcMobileMsgEditPanel extends AbstractMainSubEditPanel {
     qx.setNd(this.requestMeta.getSvNd());
     qx.setInputDate(this.requestMeta.getSysDate());
     qx.setInputor(requestMeta.getSvUserID());
-    qx.setInputorName(requestMeta.getSvUserName());
+//    qx.setInputorName(requestMeta.getSvUserName());
 
   }
 

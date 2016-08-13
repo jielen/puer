@@ -31,6 +31,12 @@
     from SF_MATERIALS
     where ENTRUST_ID = #entrustId:DECIMAL#
   </select>
+  <select id="selectByAppentMaterialsId" parameterClass="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SF_MATERIALS
+    where APPEND_MATERIAL_ID = #appentMaterialsId:DECIMAL#
+  </select>
   <delete id="deleteByPrimaryKey" parameterClass="java.math.BigDecimal">
     delete from SF_MATERIALS
     where MATERIAL_ID = #materialId:DECIMAL#
@@ -38,6 +44,10 @@
   <delete id="deleteByEntrustId" parameterClass="java.math.BigDecimal">
     delete from SF_MATERIALS
     where ENTRUST_ID = #entrustId:DECIMAL#
+  </delete>
+  <delete id="deleteByAppentMaterialsId" parameterClass="java.math.BigDecimal">
+    delete from SF_MATERIALS
+    where APPEND_MATERIAL_ID = #appendMaterialsId:DECIMAL#
   </delete>
   <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfMaterials">
     insert into SF_MATERIALS (MATERIAL_ID, NAME, QUANTITY, 

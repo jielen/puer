@@ -1,7 +1,4 @@
-/**
- * 
- */
-package com.ufgov.zc.client.sf.mobliemsg;
+package com.ufgov.zc.client.sf.supplier;
 
 import java.awt.BorderLayout;
 import java.awt.Dialog;
@@ -9,26 +6,26 @@ import java.util.List;
 
 import com.ufgov.zc.client.common.LangTransMeta;
 import com.ufgov.zc.client.common.ListCursor;
+import com.ufgov.zc.client.common.UIConstants;
 import com.ufgov.zc.client.component.GkBaseDialog;
 
-/**
- * @author Administrator
- */
-public class ZcMobileMsgDialog extends GkBaseDialog {
+public class SfSjSupplierDialog  extends GkBaseDialog {
 
-  private ZcMobileMsgListPanel listPanel;
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 8151619380263813339L;
+  private SfSjSupplierListPanel listPanel;
+  private SfSjSupplierEditPanel editPanel;
+  private SfSjSupplierDialog self=this;
 
-  private ZcMobileMsgEditPanel editPanel;
-
-  private ZcMobileMsgDialog self = this;
-
-  public ZcMobileMsgDialog(ZcMobileMsgListPanel listPanel, List beanList, int editingRow, String tabStatus) {
+  public SfSjSupplierDialog(SfSjSupplierListPanel listPanel, List beanList, int editingRow, String tabStatus) {
 
     super(listPanel.getParentWindow(), Dialog.ModalityType.APPLICATION_MODAL);
 
     this.listPanel = listPanel;
 
-    editPanel = new ZcMobileMsgEditPanel(this.self, new ListCursor(beanList, editingRow), tabStatus, listPanel);
+    editPanel = new SfSjSupplierEditPanel(this.self, new ListCursor(beanList, editingRow), tabStatus, listPanel);
 
     setLayout(new BorderLayout());
 
@@ -36,15 +33,15 @@ public class ZcMobileMsgDialog extends GkBaseDialog {
 
     this.setTitle(LangTransMeta.translate(listPanel.getcompoId()));
 
-    this.setSize(600, 1000);
+    this.setSize(UIConstants.DIALOG_2_LEVEL_WIDTH, UIConstants.DIALOG_3_LEVEL_HEIGHT);
 
     this.moveToScreenCenter();
 
-    this.pack();
+//    this.pack();
 
     //editPanel.refreshData();s
 
-    //    this.setMaxSizeWindow();
+//    this.setMaxSizeWindow();
 
     this.setVisible(true);
 
@@ -62,5 +59,6 @@ public class ZcMobileMsgDialog extends GkBaseDialog {
     this.editPanel.doExit();
 
   }
+
 
 }
