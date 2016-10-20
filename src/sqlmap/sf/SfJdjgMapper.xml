@@ -12,9 +12,11 @@
     <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
     <result column="ZIP" property="zip" jdbcType="VARCHAR" />
     <result column="FAX" property="fax" jdbcType="VARCHAR" />
+    <result column="EN_NAME" property="enName" jdbcType="VARCHAR" />
+    <result column="SHORT_NAME" property="shortName" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" > 
-    JG_ID, CO_CODE, NAME, XKZH, TEL, LINK_MAN, ADDRESS, ZIP, FAX
+    JG_ID, CO_CODE, NAME, XKZH, TEL, LINK_MAN, ADDRESS, ZIP, FAX,EN_NAME,SHORT_NAME
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="java.math.BigDecimal" > 
     select 
@@ -38,10 +40,10 @@
   <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfJdjg" > 
     insert into SF_JDJG (JG_ID, CO_CODE, NAME, 
       XKZH, TEL, LINK_MAN, 
-      ADDRESS, ZIP, FAX)
+      ADDRESS, ZIP, FAX,EN_NAME,SHORT_NAME)
     values (#jgId:DECIMAL#, #coCode:VARCHAR#, #name:VARCHAR#, 
       #xkzh:VARCHAR#, #tel:VARCHAR#, #linkMan:VARCHAR#, 
-      #address:VARCHAR#, #zip:VARCHAR#, #fax:VARCHAR#)
+      #address:VARCHAR#, #zip:VARCHAR#, #fax:VARCHAR#,#enName#,#shortName#)
   </insert> 
   <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfJdjg" > 
     update SF_JDJG
@@ -52,7 +54,9 @@
       LINK_MAN = #linkMan:VARCHAR#,
       ADDRESS = #address:VARCHAR#,
       ZIP = #zip:VARCHAR#,
-      FAX = #fax:VARCHAR#
+      FAX = #fax:VARCHAR#,
+      EN_NAME=#enName#,
+      SHORT_NAME=#shortName#
     where JG_ID = #jgId:DECIMAL#
   </update>
 </sqlMap>

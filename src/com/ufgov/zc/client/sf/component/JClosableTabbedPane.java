@@ -44,6 +44,8 @@ public class JClosableTabbedPane extends JTabbedPane implements MouseListener {
   private HashMap<String, Component> maps = new HashMap<String, Component>();
   
   private List<Component> notRemoveTabs=new ArrayList<Component>();
+  
+  private boolean closeAble=true;
 
   public JClosableTabbedPane() {
     super();
@@ -161,7 +163,7 @@ public class JClosableTabbedPane extends JTabbedPane implements MouseListener {
       return;
     }
     Rectangle rect = ((CloseTabIcon) getIconAt(tabNumber)).getBounds();
-    if (rect.contains(e.getX(), e.getY())) {
+    if (rect.contains(e.getX(), e.getY()) && closeAble) {
       //the tab is being closed  
     	if(beforeCloseTab()){
     		this.removeTabAt(tabNumber);
@@ -214,5 +216,13 @@ public class JClosableTabbedPane extends JTabbedPane implements MouseListener {
     
     
   }
+
+public boolean isCloseAble() {
+	return closeAble;
+}
+
+public void setCloseAble(boolean closeAble) {
+	this.closeAble = closeAble;
+}
 }
 

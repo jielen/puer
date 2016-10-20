@@ -6,7 +6,7 @@
 	<typeAlias alias="jdTarget" type="com.ufgov.zc.common.sf.model.SfJdTarget" />
 	
   <resultMap id="BaseResultMap" class="jdTarget">
-    <result column="JD_TARGET_ID" jdbcType="DECIMAL" property="jdTargetId" />
+    <result column="ENTRUST_ID" jdbcType="DECIMAL" property="entrustId" />
     <result column="NAME" jdbcType="VARCHAR" property="name" />
     <result column="SEX" jdbcType="VARCHAR" property="sex" />
     <result column="AGE" jdbcType="DECIMAL" property="age" />
@@ -15,34 +15,35 @@
     <result column="PHONE" jdbcType="VARCHAR" property="phone" />
     <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
     <result column="ZIP" jdbcType="VARCHAR" property="zip" />
+    <result column="COMPANY" jdbcType="VARCHAR" property="company" />
   </resultMap>
   <sql id="Base_Column_List">
-    JD_TARGET_ID, NAME, SEX, AGE, ID_NAME, ID_CODE, PHONE, ADDRESS, ZIP
+    ENTRUST_ID, NAME, SEX, AGE, ID_NAME, ID_CODE, PHONE, ADDRESS, ZIP,COMPANY
   </sql>
   <select id="selectByPrimaryKey" parameterClass="java.math.BigDecimal" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from SF_JD_TARGET
-    where JD_TARGET_ID = #jdTargetId:DECIMAL#
+    where ENTRUST_ID = #entrustId:DECIMAL#
   </select>
   <select id="getJdTargetLst" resultMap="BaseResultMap" parameterClass="elementCondition" >    
     select 
     <include refid="Base_Column_List" />
     from SF_JD_TARGET
-    order by JD_TARGET_ID desc
+    order by ENTRUST_ID desc
   </select>
   <delete id="deleteByPrimaryKey" parameterClass="java.math.BigDecimal">
     delete from SF_JD_TARGET
-    where JD_TARGET_ID = #jdTargetId:DECIMAL#
+    where ENTRUST_ID = #entrustId:DECIMAL#
   </delete>
   <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfJdTarget">
-    insert into SF_JD_TARGET (JD_TARGET_ID, NAME, SEX, 
+    insert into SF_JD_TARGET(ENTRUST_ID, NAME, SEX, 
       AGE, ID_NAME, ID_CODE, 
-      PHONE, ADDRESS, ZIP
+      PHONE, ADDRESS, ZIP,COMPANY
       )
-    values (#jdTargetId:DECIMAL#, #name:VARCHAR#, #sex:VARCHAR#, 
+    values (#entrustId:DECIMAL#, #name:VARCHAR#, #sex:VARCHAR#, 
       #age:DECIMAL#, #idName:VARCHAR#, #idCode:VARCHAR#, 
-      #phone:VARCHAR#, #address:VARCHAR#, #zip:VARCHAR#
+      #phone:VARCHAR#, #address:VARCHAR#, #zip:VARCHAR#,#company:VARCHAR#
       )
   </insert>
   <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfJdTarget">
@@ -54,7 +55,8 @@
       ID_CODE = #idCode:VARCHAR#,
       PHONE = #phone:VARCHAR#,
       ADDRESS = #address:VARCHAR#,
-      ZIP = #zip:VARCHAR#
-    where JD_TARGET_ID = #jdTargetId:DECIMAL#
+      ZIP = #zip:VARCHAR#,
+      COMPANY=#company:VARCHAR#
+    where ENTRUST_ID = #entrustId:DECIMAL#
   </update>
 </sqlMap>

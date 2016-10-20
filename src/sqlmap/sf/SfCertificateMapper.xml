@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.ufgov.zc.server.sf.dao.SfCertificateMapper" >
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+  <resultMap id="BaseResultMap" class="com.ufgov.zc.common.sf.model.SfCertificate" >
+    <result column="CER_ID" property="cerId" jdbcType="DECIMAL" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="ZF_AGENCY" property="zfAgency" jdbcType="VARCHAR" />
+    <result column="ZF_CODE" property="zfCode" jdbcType="VARCHAR" />
+    <result column="ZF_DESC" property="zfDesc" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="ZF_FILE_BLOBID" property="zfFileBlobid" jdbcType="VARCHAR" />
+    <result column="ZF_FILE" property="zfFile" jdbcType="VARCHAR" />
+    <result column="IS_NOTICE_EXPIRE" property="isNoticeExpire" jdbcType="VARCHAR" />
+    <result column="ZF_NOTICE_DAYS" property="zfNoticeDays" jdbcType="DECIMAL" />
+    <result column="ZF_OWNER_TYPE" property="zfOwnerType" jdbcType="VARCHAR" />
+    <result column="ZF_OWNER_ID" property="zfOwnerId" jdbcType="DECIMAL" />
+    <result column="ZF_END_DATE" jdbcType="DATE" property="zfEndDate" />
+    <result column="ZF_BEGIN_DATE" jdbcType="DATE" property="zfBeginDate" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CER_ID, NAME, ZF_AGENCY, ZF_CODE, ZF_DESC, REMARK, ZF_FILE_BLOBID, ZF_FILE, IS_NOTICE_EXPIRE, 
+    ZF_NOTICE_DAYS, ZF_OWNER_TYPE, ZF_OWNER_ID,ZF_BEGIN_DATE,ZF_END_DATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from SF_CERTIFICATE
+    where CER_ID = #cerId:DECIMAL#
+  </select>
+  <select id="selectByOwner" resultMap="BaseResultMap" parameterClass="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from SF_CERTIFICATE
+    where ZF_OWNER_ID = #ownerId:DECIMAL#
+  </select>
+  
+  <select id="selectByOwner2" resultMap="BaseResultMap" parameterClass="elementCondition" >
+    select 
+    <include refid="Base_Column_List" />
+    from SF_CERTIFICATE
+    where 1=1       
+	   <isNotNull prepend="AND" property="sfId"> 
+	   		ZF_OWNER_ID = #sfId:DECIMAL#
+	   </isNotNull>      
+	   <isNotNull prepend="AND" property="dattr1"> 
+	   		ZF_OWNER_TYPE=#dattr1#
+	   </isNotNull>
+	     <isNotEmpty property="pmAdjustCodeList" prepend="and">
+            ZF_OWNER_ID in
+            <iterate property="pmAdjustCodeList" conjunction="," open="(" close=")">
+                #pmAdjustCodeList[]:DECIMAL#
+            </iterate>
+        </isNotEmpty> 
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="java.math.BigDecimal" >
+    delete from SF_CERTIFICATE
+    where CER_ID = #cerId:DECIMAL#
+  </delete>
+  <delete id="deleteByOwner" parameterClass="java.math.BigDecimal" >
+    delete from SF_CERTIFICATE
+    where ZF_OWNER_ID = #ownerId:DECIMAL#
+  </delete>
+  <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfCertificate" >
+    insert into SF_CERTIFICATE (CER_ID, NAME, ZF_AGENCY, 
+      ZF_CODE, ZF_DESC, REMARK, 
+      ZF_FILE_BLOBID, ZF_FILE, IS_NOTICE_EXPIRE, 
+      ZF_NOTICE_DAYS, ZF_OWNER_TYPE, ZF_OWNER_ID,ZF_BEGIN_DATE,ZF_END_DATE
+      )
+    values (#cerId:DECIMAL#, #name:VARCHAR#, #zfAgency:VARCHAR#, 
+      #zfCode:VARCHAR#, #zfDesc:VARCHAR#, #remark:VARCHAR#, 
+      #zfFileBlobid:VARCHAR#, #zfFile:VARCHAR#, #isNoticeExpire:VARCHAR#, 
+      #zfNoticeDays:DECIMAL#, #zfOwnerType:VARCHAR#, #zfOwnerId:DECIMAL#,
+      #zfBeginDate:DATE#,#zfEndDate:DATE#
+      )
+  </insert> 
+  <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfCertificate" >
+    update SF_CERTIFICATE
+    set NAME = #name:VARCHAR#,
+      ZF_AGENCY = #zfAgency:VARCHAR#,
+      ZF_CODE = #zfCode:VARCHAR#,
+      ZF_DESC = #zfDesc:VARCHAR#,
+      REMARK = #remark:VARCHAR#,
+      ZF_FILE_BLOBID = #zfFileBlobid:VARCHAR#,
+      ZF_FILE = #zfFile:VARCHAR#,
+      IS_NOTICE_EXPIRE = #isNoticeExpire:VARCHAR#,
+      ZF_NOTICE_DAYS = #zfNoticeDays:DECIMAL#,
+      ZF_OWNER_TYPE = #zfOwnerType:VARCHAR#,
+      ZF_OWNER_ID = #zfOwnerId:DECIMAL#,
+      ZF_BEGIN_DATE=#zfBeginDate:DATE#,ZF_END_DATE=#zfEndDate:DATE#
+    where CER_ID = #cerId:DECIMAL#
+  </update>
+</sqlMap>

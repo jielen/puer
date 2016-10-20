@@ -13,6 +13,7 @@ import com.ufgov.zc.client.datacache.AsValDataCache;
 import com.ufgov.zc.common.sf.model.SfBookmark;
 import com.ufgov.zc.common.sf.model.SfEntrust;
 import com.ufgov.zc.common.sf.model.SfEntrustor;
+import com.ufgov.zc.common.sf.model.SfJdPerson;
 import com.ufgov.zc.common.sf.model.SfJdReport;
 import com.ufgov.zc.common.sf.model.SfJdResult;
 import com.ufgov.zc.common.sf.model.SfJdTarget;
@@ -85,7 +86,7 @@ public class SfBookmarkUtil {
 		BKMK_NAME_JDTARGET_LST.add(SfJdTarget.COL_AGE);
 		BKMK_NAME_JDTARGET_LST.add(SfJdTarget.COL_ID_CODE);
 		BKMK_NAME_JDTARGET_LST.add(SfJdTarget.COL_ID_NAME);
-		BKMK_NAME_JDTARGET_LST.add(SfJdTarget.COL_JD_TARGET_ID);
+//		BKMK_NAME_JDTARGET_LST.add(SfJdTarget.COL_JD_TARGET_ID);
 		BKMK_NAME_JDTARGET_LST.add(SfJdTarget.COL_NAME);
 		BKMK_NAME_JDTARGET_LST.add(SfJdTarget.COL_PHONE);
 		BKMK_NAME_JDTARGET_LST.add(SfJdTarget.COL_SEX);
@@ -100,7 +101,17 @@ public class SfBookmarkUtil {
 		rtn.add(bk);
 		
 		bk=new SfBookmark();
+		bk.setName(SfEntrust.COL_CODE+"2");
+		bk.setValue(bill.getCode());
+		rtn.add(bk);
+		
+		bk=new SfBookmark();
 		bk.setName(SfEntrust.COL_NAME);
+		bk.setValue(bill.getName());
+		rtn.add(bk);
+		
+		bk=new SfBookmark();
+		bk.setName(SfEntrust.COL_NAME+"2");
 		bk.setValue(bill.getName());
 		rtn.add(bk);
 		
@@ -230,6 +241,27 @@ public class SfBookmarkUtil {
 		bk.setValue(getJdclString(bill));
 		rtn.add(bk);
 		
+		SfJdPerson fzr=getJdPerson(bill.getJdFzr());
+		String zfbh="";
+		if(fzr!=null && fzr.getCertificateNo()!=null){
+			zfbh=fzr.getCertificateNo();
+		}
+		bk=new SfBookmark();
+		bk.setName(SfEntrust.BKMK_SF_ENTRUST_JD_FZR_ZSBH);
+		bk.setValue(zfbh);
+		rtn.add(bk);
+		
+		SfJdPerson fhr=getJdPerson(bill.getJdFhr());
+		zfbh="";
+		if(fhr!=null && fhr.getCertificateNo()!=null){
+			zfbh=fhr.getCertificateNo();
+		}		
+		bk=new SfBookmark();
+		bk.setName(SfEntrust.BKMK_SF_ENTRUST_JD_FHR_ZSBH);
+		bk.setValue(zfbh);
+		rtn.add(bk);
+		
+		
 		return rtn;
 	}
 	
@@ -238,22 +270,27 @@ public class SfBookmarkUtil {
 		List<SfBookmark> rtn=new ArrayList<SfBookmark>();
 
 		SfBookmark bk=new SfBookmark();
-		bk.setName(SfEntrustor.ADDRESS);
+		bk.setName("WTF_ADDRESS");
 		bk.setValue(bill.getAddress());
 		rtn.add(bk);
 		
 		bk=new SfBookmark();
-		bk.setName(SfEntrustor.LINK_MAN);
+		bk.setName("WTF_LINK_MAN");
 		bk.setValue(bill.getLinkMan());
 		rtn.add(bk);
 		
 		bk=new SfBookmark();
-		bk.setName(SfEntrustor.LINK_TEL);
+		bk.setName("WTF_LINK_TEL");
 		bk.setValue(bill.getLinkTel());
 		rtn.add(bk);
 		
 		bk=new SfBookmark();
-		bk.setName(SfEntrustor.NAME);
+		bk.setName("WTF_NAME");
+		bk.setValue(bill.getName());
+		rtn.add(bk);
+		
+		bk=new SfBookmark();
+		bk.setName("WTF_NAME2");
 		bk.setValue(bill.getName());
 		rtn.add(bk);
 		
@@ -356,26 +393,42 @@ public class SfBookmarkUtil {
 		bk.setName("JGMC");
 		bk.setValue(jdjg.getName());
 		rtn.add(bk);
+		
+		bk=new SfBookmark();
+		bk.setName("JGMC2");
+		bk.setValue(jdjg.getName());
+		rtn.add(bk);
+		
+		bk=new SfBookmark();
+		bk.setName("JGMC_ENG");
+		bk.setValue(jdjg.getEnName());
+		rtn.add(bk); 
+		
 		bk=new SfBookmark();
 		bk.setName("XKZH");
 		bk.setValue(jdjg.getXkzh());
 		rtn.add(bk);
+		
 		bk=new SfBookmark();
 		bk.setName("JGDH");
 		bk.setValue(jdjg.getTel());
 		rtn.add(bk);
+		
 		bk=new SfBookmark();
 		bk.setName("JG_LINK_MAN");
 		bk.setValue(jdjg.getLinkMan());
 		rtn.add(bk);
+		
 		bk=new SfBookmark();
 		bk.setName("JGDZ");
 		bk.setValue(jdjg.getAddress());
 		rtn.add(bk);
+		
 		bk=new SfBookmark();
 		bk.setName("JGYB");
 		bk.setValue(jdjg.getZip());
 		rtn.add(bk);
+		
 		bk=new SfBookmark();
 		bk.setName("JG_FAX");
 		bk.setValue(jdjg.getFax());
@@ -482,4 +535,12 @@ public class SfBookmarkUtil {
 		
 		return rtn;
 	} 
+	
+	SfJdPerson getJdPerson(String account){
+
+		IZcEbBaseServiceDelegate zcEbBaseServiceDelegate = (IZcEbBaseServiceDelegate) ServiceFactory.create(IZcEbBaseServiceDelegate.class,"zcEbBaseServiceDelegate"); 
+		RequestMeta meta=WorkEnv.getInstance().getRequestMeta(); 
+		SfJdPerson person=(SfJdPerson) zcEbBaseServiceDelegate.queryObject("com.ufgov.zc.server.sf.dao.SfJdPersonMapper.selectByAccount", account, meta);
+		return person;
+	}
 }

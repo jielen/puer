@@ -14,9 +14,11 @@ import com.ufgov.zc.client.component.table.ColumnBeanPropertyPair;
 import com.ufgov.zc.client.datacache.AsValDataCache;
 import com.ufgov.zc.common.commonbiz.model.BaseElement;
 import com.ufgov.zc.common.sf.model.SfEntrust;
+import com.ufgov.zc.common.sf.model.SfJdResultFile;
 import com.ufgov.zc.common.sf.model.SfMajor;
 import com.ufgov.zc.common.sf.model.SfMaterials;
 import com.ufgov.zc.common.system.constants.SfElementConstants;
+import com.ufgov.zc.common.system.model.AsFile;
 import com.ufgov.zc.common.system.util.BeanUtil;
 
 public class SfEntrustToTableModelConverter {
@@ -31,6 +33,7 @@ public class SfEntrustToTableModelConverter {
     Vector values = new Vector();
 
     names.add(LangTransMeta.translate(SfEntrust.COL_CODE));
+    names.add(LangTransMeta.translate(SfEntrust.COL_STATUS));
     names.add(LangTransMeta.translate(SfEntrust.COL_NAME));
     names.add(LangTransMeta.translate(SfEntrust.COL_MAJOR_NAME));
     names.add(LangTransMeta.translate(SfEntrust.COL_ENTRUSTOR_NAME));
@@ -38,7 +41,7 @@ public class SfEntrustToTableModelConverter {
     names.add(LangTransMeta.translate(SfEntrust.COL_SJR_TEL));
     names.add(LangTransMeta.translate(SfEntrust.COL_IS_ACCEPT));
     names.add(LangTransMeta.translate(SfEntrust.COL_ACCEPT_DATE));
-    names.add(LangTransMeta.translate(SfEntrust.COL_STATUS));
+    names.add(LangTransMeta.translate(SfEntrust.COL_ACCEPT_CODE));
     if (entrustLst != null && entrustLst.size() > 0) {
 
       SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -46,6 +49,7 @@ public class SfEntrustToTableModelConverter {
         Vector rowData = new Vector();
         SfEntrust entrust = (SfEntrust) entrustLst.get(i);
         rowData.add(entrust.getCode());
+        rowData.add(AsValDataCache.getName(SfEntrust.SF_VS_ENTRUST_STATUS, entrust.getStatus()));
         rowData.add(entrust.getName());
         rowData.add(AsValDataCache.getName(SfMajor.SF_VS_MAJOR, entrust.getMajorCode()));
         rowData.add(entrust.getEntrustor().getName());
@@ -53,7 +57,7 @@ public class SfEntrustToTableModelConverter {
         rowData.add(entrust.getSjrTel());
         rowData.add(AsValDataCache.getName(SfElementConstants.VS_Y_N, entrust.getIsAccept()));
         rowData.add(entrust.getAcceptDate() == null ? null : df.format(entrust.getAcceptDate()));
-        rowData.add(AsValDataCache.getName(SfEntrust.SF_VS_ENTRUST_STATUS, entrust.getStatus()));
+        rowData.add(entrust.getAcceptCode());
         values.add(rowData);
 
       }
@@ -124,7 +128,27 @@ public class SfEntrustToTableModelConverter {
 
           putEditedData(dataBeanList.get(rowIndex));
 
-        } else {
+        } else  if (SfMaterials.COL_ATTACH_FILE.equals(this.getColumnIdentifier(columnIndex))) {
+
+            if (aValue == null) {
+
+              this.getBean(rowIndex).setAttachFile(null);
+
+              this.getBean(rowIndex).setAttachFileBlobid(null);
+
+            } else {
+
+              this.getBean(rowIndex).setAttachFile(((AsFile) aValue).getFileName());
+
+              this.getBean(rowIndex).setAttachFileBlobid(((AsFile) aValue).getFileId());
+
+            }
+
+            fireTableCellUpdated(rowIndex, columnIndex);
+
+            putEditedData(dataBeanList.get(rowIndex));
+
+          } else {
           super.setValueAt(aValue, rowIndex, columnIndex);
         }
       }
@@ -147,6 +171,12 @@ public class SfEntrustToTableModelConverter {
     materialInfo.add(new ColumnBeanPropertyPair(SfMaterials.COL_QUANTITY3, "quantity3", LangTransMeta.translate(SfMaterials.COL_QUANTITY3)));
         materialInfo.add(new ColumnBeanPropertyPair(SfMaterials.COL_UNIT, "unit", LangTransMeta.translate(SfMaterials.COL_UNIT)));
     materialInfo.add(new ColumnBeanPropertyPair(SfMaterials.COL_DESCRIPTION, "description", LangTransMeta.translate(SfMaterials.COL_DESCRIPTION)));
+    materialInfo.add(new ColumnBeanPropertyPair(SfMaterials.COL_ATTACH_FILE, "attachFile", LangTransMeta.translate(SfMaterials.COL_ATTACH_FILE))); 
+    materialInfo.add(new ColumnBeanPropertyPair(SfMaterials.COL_SAVE_CONDITON, "saveConditon", LangTransMeta.translate(SfMaterials.COL_SAVE_CONDITON))); 
+    materialInfo.add(new ColumnBeanPropertyPair(SfMaterials.COL_SAVE_ADDRESS, "saveAddress", LangTransMeta.translate(SfMaterials.COL_SAVE_ADDRESS))); 
+    materialInfo.add(new ColumnBeanPropertyPair(SfMaterials.COL_JIAN_HOU_STORE_TIME, "jianHouStoreTime", LangTransMeta.translate(SfMaterials.COL_JIAN_HOU_STORE_TIME))); 
+    materialInfo.add(new ColumnBeanPropertyPair(SfMaterials.COL_JIAN_HOU_CHULI_TYPE, "jianHouChuliType", LangTransMeta.translate(SfMaterials.COL_JIAN_HOU_CHULI_TYPE))); 
+    materialInfo.add(new ColumnBeanPropertyPair(SfMaterials.COL_REMARK, "remark", LangTransMeta.translate(SfMaterials.COL_REMARK))); 
   }
 
   public static List<ColumnBeanPropertyPair> getMaterialInfo() {

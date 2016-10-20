@@ -28,8 +28,15 @@ public class SfEntrustFM {
     fieldMap.put("JD_HISTORY", "jdHistory");
     fieldMap.put("JD_ORG", "jdOrg");
     fieldMap.put("JD_REQUIRE", "jdRequire");
-    fieldMap.put("JD_TARGET_ID", "jdTargetId");
     fieldMap.put("JD_TARGET_NAME", "jdTarget.name");//方便工作流上能进行定义修改属性
+    fieldMap.put("JD_TARGET_SEX", "jdTarget.sex");//方便工作流上能进行定义修改属性
+    fieldMap.put("JD_TARGET_AGE", "jdTarget.age");//方便工作流上能进行定义修改属性
+    fieldMap.put("JD_TARGET_ID_CODE", "jdTarget.idCode");//方便工作流上能进行定义修改属性
+    fieldMap.put("JD_TARGET_ID_NAME", "jdTarget.idName");//方便工作流上能进行定义修改属性
+    fieldMap.put("JD_TARGET_PHONE", "jdTarget.phone");//方便工作流上能进行定义修改属性
+    fieldMap.put("JD_TARGET_ADDRESS", "jdTarget.address");//方便工作流上能进行定义修改属性
+    fieldMap.put("JD_TARGET_ZIP", "jdTarget.zip");//方便工作流上能进行定义修改属性
+    fieldMap.put("JD_TARGET_COMPANY", "jdTarget.company");//方便工作流上能进行定义修改属性
     fieldMap.put("MAJOR_CODE", "majorCode");
     fieldMap.put("NAME", "name");
     fieldMap.put("ND", "nd");
@@ -49,6 +56,11 @@ public class SfEntrustFM {
     fieldMap.put("JD_CHARGE", "jdCharge");
     fieldMap.put("CO_CODE", "coCode");
     fieldMap.put("JD_ASSISTOR", "jdAssistorName");
+
+    fieldMap.put("BAR_CODE", "barCode");
+    fieldMap.put("URGENT_LEVEL", "urgentLevel");
+    fieldMap.put("EXPECTED_TIME", "expectedTime");
+    fieldMap.put("COMPLETE_TIME", "completeTime"); 
 
   }
 }

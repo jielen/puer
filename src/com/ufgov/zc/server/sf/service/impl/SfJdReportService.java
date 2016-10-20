@@ -1,6 +1,8 @@
 package com.ufgov.zc.server.sf.service.impl;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import com.kingdrive.workflow.exception.WorkflowException;
@@ -18,6 +20,7 @@ import com.ufgov.zc.server.system.dao.IWorkflowDao;
 import com.ufgov.zc.server.system.workflow.WFEngineAdapter;
 import com.ufgov.zc.server.zc.ZcSUtil;
 import com.ufgov.zc.server.zc.dao.IZcEbBaseServiceDao;
+import com.ufgov.zc.server.zc.service.IZcEbBaseService;
 
 public class SfJdReportService implements ISfJdReportService {
 
@@ -26,6 +29,8 @@ public class SfJdReportService implements ISfJdReportService {
 	  private WFEngineAdapter wfEngineAdapter;
 
 	  private ISfEntrustService sfEntrustService;
+	  
+	  private IZcEbBaseService zcEbBaseService;
 
 
 	private ISfJdResultService jdResultService;
@@ -98,21 +103,80 @@ public class SfJdReportService implements ISfJdReportService {
 	  public SfJdReport untreadFN(SfJdReport record, RequestMeta requestMeta) throws WorkflowException {
 	    // TCJLODO Auto-generated method stub
 	    wfEngineAdapter.untread(record.getComment(), record, requestMeta);
+	    sendMsgUntread(record,requestMeta);
 	    return record;
 	  }
 
-	  public SfJdReport auditFN(SfJdReport record, RequestMeta requestMeta) throws WorkflowException {
+	  private void sendMsgUntread(SfJdReport qx, RequestMeta requestMeta) {
+		  ElementConditionDto dto=new ElementConditionDto();
+		  dto.setDattr1("SF_JD_REPORT");
+		  dto.setDattr2(""+qx.getProcessInstId());
+		  List userLst=zcEbBaseService.queryDataForList("ZcEbUtil.selectUntreadUser", dto);
+		  if(userLst!=null ){
+			  String mobile="";
+			  String msg=qx.getEntrust().getCode()+"鉴定报告被退回了,请登录鉴定管理系统进行查看处理。";
+			  ZcSUtil su=new ZcSUtil();
+			  for(int i=0;i<userLst.size();i++){
+				  HashMap row=(HashMap) userLst.get(i);
+				  String user=(String) row.get("EXECUTOR");
+				  HashMap mobiles=su.getUserMobile(user, qx.getProcessInstId(), requestMeta);
+				  Iterator keys=mobiles.keySet().iterator();
+				  while(keys.hasNext()){
+					  String key=keys.next().toString(); 
+					  su.sendToBox(""+qx.getEntrustId().intValue(), "", msg, key, requestMeta.getSysDate(), requestMeta.getSysDate());
+				  } 
+			  }
+		  }	  
+	}
+	  
+	  public IZcEbBaseService getZcEbBaseService() {
+		return zcEbBaseService;
+	}
+
+
+	public void setZcEbBaseService(IZcEbBaseService zcEbBaseService) {
+		this.zcEbBaseService = zcEbBaseService;
+	}
+
+
+	public SfJdReport auditFN(SfJdReport record, RequestMeta requestMeta) throws WorkflowException {
 	    // TCJLODO Auto-generated method stub 
 	    record = saveFN(record, requestMeta); 
 	    wfEngineAdapter.commit(record.getComment(), record, requestMeta);
+	    sendMsgAudit(record,requestMeta);
 	    return selectByPrimaryKey(record.getJdReporId(), requestMeta);
 	  }
 
+	  private void sendMsgAudit(SfJdReport qx, RequestMeta requestMeta) {
+
+		  ElementConditionDto dto=new ElementConditionDto();
+		  dto.setDattr1("SF_JD_REPORT");
+		  dto.setDattr2(""+qx.getProcessInstId());
+		  List userLst=zcEbBaseService.queryDataForList("ZcEbUtil.selectToDoUser", dto);
+		   
+		  if(userLst!=null ){
+			  String mobile="";
+			  String msg=qx.getEntrust().getCode()+"鉴定报告等待您审批,案事件:"+qx.getName()+",请登录鉴定管理系统进行审批。";
+			  
+			  ZcSUtil su=new ZcSUtil();
+			  for(int i=0;i<userLst.size();i++){
+				  HashMap row=(HashMap) userLst.get(i);
+				  String user=(String) row.get("EXECUTOR");
+				  HashMap mobiles=su.getUserMobile(user, qx.getProcessInstId(), requestMeta);
+				  Iterator keys=mobiles.keySet().iterator();
+				  while(keys.hasNext()){
+					  String key=keys.next().toString(); 
+					  su.sendToBox(""+qx.getEntrustId().intValue(), "", msg, key, requestMeta.getSysDate(), requestMeta.getSysDate());
+				  } 
+			  }
+		  }
+	}
 	  public SfJdReport newCommitFN(SfJdReport record, RequestMeta requestMeta) throws WorkflowException {
 	    // TCJLODO Auto-generated method stub
  
 	    record = saveFN(record, requestMeta); 
 	    wfEngineAdapter.newCommit(record.getComment(), record, requestMeta);
+	    sendMsgAudit(record,requestMeta);
 	    return selectByPrimaryKey(record.getJdReporId(), requestMeta);
 	  }
 

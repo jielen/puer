@@ -30,5 +30,8 @@ public interface ISfEntrustService {
   SfEntrust acceptFN(SfEntrust inData, RequestMeta requestMeta) throws Exception;
 
   SfEntrust unAcceptFN(SfEntrust inData, RequestMeta requestMeta) throws Exception;
+  
+  public void update(SfEntrust inData, RequestMeta requestMeta);
 
+  
 }

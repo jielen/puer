@@ -111,6 +111,7 @@ private static List<ColumnBeanPropertyPair> detailInfo = new ArrayList<ColumnBea
 
 static {
   detailInfo.add(new ColumnBeanPropertyPair(SfJdDocType.COL_DOC_TYPE_NAME, "docType.docTypeName", LangTransMeta.translate(SfJdDocType.COL_DOC_TYPE_NAME)));
+  detailInfo.add(new ColumnBeanPropertyPair(SfJdDocAuditDetail.COL_QUANTITY, "quantity", LangTransMeta.translate(SfJdDocAuditDetail.COL_QUANTITY)));
   detailInfo.add(new ColumnBeanPropertyPair(SfJdDocAuditDetail.COL_REMARK, "remark", LangTransMeta.translate(SfJdDocAuditDetail.COL_REMARK)));
 }
 public static List<ColumnBeanPropertyPair> getDetailInfo(){

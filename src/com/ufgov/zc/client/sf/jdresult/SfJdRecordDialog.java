@@ -50,11 +50,11 @@ public class SfJdRecordDialog extends GkBaseDialog {
 
 	    this.setSize(UIConstants.DIALOG_0_LEVEL_WIDTH, UIConstants.DIALOG_0_LEVEL_HEIGHT);
 	    this.moveToScreenCenter();
-	    this.pack();
+	    this.validate();
 
 
-	    this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-	    this.setLocation(WINDOW_LEFT, WINDOW_TOP);
+//	    this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+//	    this.setLocation(WINDOW_LEFT, WINDOW_TOP);
 
 	    //界面显示后，再加载word控件，否则报peer not created错误
 	    editPanel.refreshFilePanel();

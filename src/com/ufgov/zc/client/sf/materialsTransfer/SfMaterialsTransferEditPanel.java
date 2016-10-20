@@ -1095,6 +1095,7 @@ public class SfMaterialsTransferEditPanel  extends AbstractMainSubEditPanel {
     };
     ElementConditionDto dto = new ElementConditionDto();
     dto.setDattr1("SF_MATERIALS_TRANSFER");
+    dto.setUserId(requestMeta.getSvUserID());
     ForeignEntityFieldEditor entrust = new ForeignEntityFieldEditor(entrustHandler.getSqlId(), dto, 20, entrustHandler,
       entrustHandler.getColumNames(), LangTransMeta.translate(SfMaterialsTransfer.COL_ENTRUST_CODE), "entrustCode");
     TextFieldEditor name = new TextFieldEditor(LangTransMeta.translate(SfMaterialsTransfer.COL_NAME), "name");

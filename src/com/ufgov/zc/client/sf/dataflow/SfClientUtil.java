@@ -95,6 +95,11 @@ public class SfClientUtil {
 	  public static final String MENU_LOOKUP="查看";
 	  public static final String MENU_LOOKUP_ENTRUST_RECORD="鉴定记录";
 	  public static final String MENU_LOOKUP_ENTRUST_REPORT="其他鉴定报告";
+	  public static final String MENU_LOOKUP_ENTRUST_REPORT_FACE="鉴定文书封面";
+	  
+	  public static final String MENU_CERTIFICATES="资质文件";
+	  public static final String MENU_CERTIFICATES_JDJG="鉴定机构";
+	  public static final String MENU_CERTIFICATES_JDRY="鉴定人员";
 
 	  public static final String MENU_INSERT_MODEL ="插入模板";
 	  public static final String MENU_SELECT_MODEL ="选择";

@@ -11,8 +11,8 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -32,6 +32,7 @@ import com.ufgov.zc.client.common.BillElementMeta;
 import com.ufgov.zc.client.common.LangTransMeta;
 import com.ufgov.zc.client.common.ListCursor;
 import com.ufgov.zc.client.common.ServiceFactory;
+import com.ufgov.zc.client.common.UIConstants;
 import com.ufgov.zc.client.common.WorkEnv;
 import com.ufgov.zc.client.component.AsValComboBox;
 import com.ufgov.zc.client.component.GkBaseDialog;
@@ -67,11 +68,12 @@ import com.ufgov.zc.client.sf.component.JClosableTabbedPane;
 import com.ufgov.zc.client.sf.dataflow.SfDataFlowDialog;
 import com.ufgov.zc.client.sf.dataflow.SfDataFlowUtil;
 import com.ufgov.zc.client.sf.entrust.SfEntrustHandler;
-import com.ufgov.zc.client.util.freemark.IWordHandler;
+import com.ufgov.zc.client.sf.util.SfBookmarkUtil;
 import com.ufgov.zc.client.zc.ButtonStatus;
 import com.ufgov.zc.client.zc.WordFileUtil;
 import com.ufgov.zc.client.zc.ZcUtil;
 import com.ufgov.zc.client.zc.ztb.activex.WordPane;
+import com.ufgov.zc.common.sf.model.SfBookmark;
 import com.ufgov.zc.common.sf.model.SfEntrust;
 import com.ufgov.zc.common.sf.model.SfReceipt;
 import com.ufgov.zc.common.sf.publish.ISfEntrustServiceDelegate;
@@ -171,6 +173,8 @@ public class SfReceiptEditPanel extends AbstractMainSubEditPanel {
 
   ElementConditionDto entrustDto = new ElementConditionDto();
 
+private TextFieldEditor noticeName;
+
   public SfReceiptEditPanel(GkBaseDialog parent, ListCursor listCursor, String tabStatus, SfReceiptListPanel listPanel) {
     // TCJLODO Auto-generated constructor stub
     super(SfReceiptEditPanel.class, BillElementMeta.getBillElementMetaWithoutNd(compoId));
@@ -206,14 +210,17 @@ public class SfReceiptEditPanel extends AbstractMainSubEditPanel {
     //下面一句是为了打开word后刷新窗口
     wordPane = new WordPane();
     wordPane.setMinimumSize(new Dimension(10, 100));
-    parent.setSize(parent.getSize().width + 1, parent.getSize().height + 1);
+    parent.setSize(UIConstants.DIALOG_0_LEVEL_WIDTH-10, UIConstants.DIALOG_0_LEVEL_HEIGHT-10);
+    parent.validate();
     wordPane.addPropertyChangeListener(WordPane.EVENT_NAME_OPEN_CALLBACK, new PropertyChangeListener() {
       public void propertyChange(PropertyChangeEvent evt) {
         //打开文件完成之后的回调函数
         boolean isSuccess = (Boolean) evt.getNewValue();
         if (isSuccess) {
           //下面一句是为了打开word后刷新窗口
-          parent.setSize(parent.getSize().width - 1, parent.getSize().height - 1);
+    	    parent.setSize(UIConstants.DIALOG_0_LEVEL_WIDTH, UIConstants.DIALOG_0_LEVEL_HEIGHT);
+    	    parent.validate();
+    	    parent.moveToScreenCenter(); 
         }
       }
     });
@@ -804,6 +811,7 @@ public class SfReceiptEditPanel extends AbstractMainSubEditPanel {
               currentBill.setName(entrust.getName() + "不予受理函");
             }
           }
+//          noticeName.setValue(currentBill);
           setEditingObject(currentBill);
           selectEntrust(entrust);
         }
@@ -830,22 +838,21 @@ public class SfReceiptEditPanel extends AbstractMainSubEditPanel {
     ForeignEntityFieldEditor entrust = new ForeignEntityFieldEditor(entrustHandler.getSqlId(), entrustDto, 20, entrustHandler,
       entrustHandler.getColumNames(), LangTransMeta.translate(SfReceipt.COL_ENTRUST_CODE), "entrustCode");
 
-    TextFieldEditor name = new TextFieldEditor(LangTransMeta.translate(SfReceipt.COL_NAME), "name");
+    noticeName = new TextFieldEditor(LangTransMeta.translate(SfReceipt.COL_NAME), "name");
     AsValFieldEditor status = new AsValFieldEditor(LangTransMeta.translate(SfReceipt.COL_STATUS), "status", "SF_VS_RECEIPT_STATUS");
     AsValFieldEditor receiptType = new AsValFieldEditor(LangTransMeta.translate(SfReceipt.COL_RECEIPT_TYPE), "receiptType", "SF_VS_RECEIPT_TYPE") {
       @Override
       protected void afterChange(AsValComboBox field) {
-        if (field.getSelectedAsVal() == null || pageStatus.equals(ZcSettingConstants.PAGE_STATUS_BROWSE)) {
+        /*if (field.getSelectedAsVal() == null || pageStatus.equals(ZcSettingConstants.PAGE_STATUS_BROWSE)) {
           entrustDto.setDattr2(null);
           return;
         }
         String valId = field.getSelectedAsVal().getValId();
         entrustDto.setDattr2(valId);
         SfReceipt bill = (SfReceipt) listCursor.getCurrentObject();
-        if (bill.getEntrustId() != null && valId != null) {
-          SfEntrust entrust = getEntrust(bill.getEntrustId());
-          selectEntrust(entrust);
-        }
+        if (bill.getEntrustId() != null && valId != null) { 
+          loadFile();
+        }*/
       }
     };
     //    receiptType.addv
@@ -855,7 +862,7 @@ public class SfReceiptEditPanel extends AbstractMainSubEditPanel {
 
     editorList.add(receiptType);
     editorList.add(entrust);
-    editorList.add(name);
+    editorList.add(noticeName);
 
     editorList.add(remark);
 
@@ -867,7 +874,11 @@ public class SfReceiptEditPanel extends AbstractMainSubEditPanel {
 
   }
 
-  protected void init() {
+  protected void loadFile() {
+//	  loadWord(fileId);
+}
+
+protected void init() {
 
     this.initToolBar(toolBar);
 
@@ -965,24 +976,97 @@ public class SfReceiptEditPanel extends AbstractMainSubEditPanel {
     if (entrust != null) {
 
       SfReceipt bill = (SfReceipt) listCursor.getCurrentObject();
+      entrust=sfEntrustServiceDelegate.selectByPrimaryKey(entrust.getEntrustId(), requestMeta);
       bill.setEntrustCode(entrust.getCode());
       bill.setEntrustId(entrust.getEntrustId());
+      bill.setEntrust(entrust);
       if (bill.getReceiptType() != null && bill.getReceiptType().trim().length() > 0) {
-        if (bill.getReceiptType().equals(SfReceipt.RECIEPT_TYPE_SHOU_LI)) {
-          bill.setName(entrust.getName() + "受理回执");
-        } else {
-          bill.setName(entrust.getName() + "不予受理函");
-        }
-      }
-      setEditingObject(bill);
-      createWord(entrust);
+    	  bill.setName(getName(entrust.getName(),bill.getReceiptType()));
+//    	  noticeName.setValue(bill);
+          setEditingObject(bill); 
+    	  String fileId=getFileId(bill.getReceiptType());
+    	  loadWord(fileId);
+      } 
     }
   }
 
-  private void createWord(SfEntrust entrust) {
+  private void loadWord(String fileId) {
+	  
+	  if(fileId==null)return;
+	    parent.setSize(UIConstants.DIALOG_0_LEVEL_WIDTH-10, UIConstants.DIALOG_0_LEVEL_HEIGHT-10);
+	    parent.validate();
+	    wordPane.closeNotSave();
+	    wordPane.addPropertyChangeListener(WordPane.EVENT_NAME_OPEN_CALLBACK, new PropertyChangeListener() {
+		      public void propertyChange(PropertyChangeEvent evt) {
+		        //打开文件完成之后的回调函数
+		        boolean isSuccess = (Boolean) evt.getNewValue();
+		        if (isSuccess) {
+		          //下面一句是为了打开word后刷新窗口
+//		          parent.setSize(new Dimension(parent.getSize().width +200, parent.getSize().height +200));
+
+		    	    parent.setSize(UIConstants.DIALOG_0_LEVEL_WIDTH, UIConstants.DIALOG_0_LEVEL_HEIGHT);
+		    	    parent.validate();
+		    	    parent.moveToScreenCenter(); 
+		    	    replaceBookMarks();
+		        }
+		      }
+		    });
+
+		String ff= WordFileUtil.loadMold(fileId);
+		if(ff==null)return ;
+		wordPane.open(ff);
+}
+
+	protected void replaceBookMarks() {
+
+		SfReceipt currentBill = (SfReceipt) this.listCursor.getCurrentObject();
+		SfBookmarkUtil bku = new SfBookmarkUtil();
+		List<SfBookmark> bks = bku.getEntrustBookValueLst(currentBill.getEntrust());
+		bks.addAll(bku.getEntrustorBookValueLst(currentBill.getEntrust().getEntrustor()));
+		bks.addAll(bku.getJdTargetBookValueLst(currentBill.getEntrust().getJdTarget()));
+		bks.addAll(bku.getJdjgBookValueLst(requestMeta.getSvCoCode())); 
+
+		SfBookmark bk=new SfBookmark();
+		bk.setName("INPUTOR");
+		bk.setValue(requestMeta.getSvUserName());
+		bks.add(bk);
+
+	    SimpleDateFormat df = new SimpleDateFormat("yyyy年MM月dd日");
+	    
+		 bk=new SfBookmark();
+			bk.setName("INPUT_DATE");
+			bk.setValue(df.format(requestMeta.getSysDate()));
+			bks.add(bk);
+			 bk=new SfBookmark();
+				bk.setName("INPUT_DATE2");
+				bk.setValue(df.format(requestMeta.getSysDate()));
+				bks.add(bk);
+		
+		wordPane.replaceBookMarks(bks);
+	}
+
+
+private String getName(String entrustName,String type) {
+	  if(SfReceipt.RECIEPT_TYPE_APPEND.equals(type)){
+		  return entrustName+"补充检材检样告知书";
+	  }else if(SfReceipt.RECIEPT_TYPE_JU_JUE.equals(type)){
+		  return entrustName+"不受理告知书";
+	  }else if(SfReceipt.RECIEPT_TYPE_PAUSE.equals(type)){
+		  return entrustName+"暂停鉴定告知书";
+	  }else if(SfReceipt.RECIEPT_TYPE_STOP.equals(type)){
+		  return entrustName+"终止鉴定告知书";
+	  }
+	  return null;
+}
+
+private void createWord(SfEntrust entrust) {
 
     SfReceipt bill = (SfReceipt) listCursor.getCurrentObject();
-
+    
+    if(entrust != null && bill.getReceiptType() != null ){
+    	
+    }
+/*
     if (entrust != null && bill.getReceiptType() != null && bill.getReceiptType().trim().length() > 0) {
       Hashtable userData = new Hashtable();
       userData.put("receipt", bill);
@@ -1004,7 +1088,7 @@ public class SfReceiptEditPanel extends AbstractMainSubEditPanel {
         wordPane.close(false);
       }
       wordPane.open(this.fileName);
-    }
+    }*/
   }
 
   /**
@@ -1076,7 +1160,8 @@ public class SfReceiptEditPanel extends AbstractMainSubEditPanel {
     }
   }
 
-  /**
+
+/**
    * 销审
    */
   protected void doUnAudit() {
@@ -1168,5 +1253,17 @@ public class SfReceiptEditPanel extends AbstractMainSubEditPanel {
     } else {
       JOptionPane.showMessageDialog(this, "收回失败 ！" + errorInfo, "错误", JOptionPane.ERROR_MESSAGE);
     }
+  }
+  private String getFileId(String type){
+	  if(SfReceipt.RECIEPT_TYPE_APPEND.equals(type)){
+		  return "SF_NOTICE_APPEND";
+	  }else if(SfReceipt.RECIEPT_TYPE_JU_JUE.equals(type)){
+		  return "SF_NOTICE_NOT_ACCEIPT";
+	  }else if(SfReceipt.RECIEPT_TYPE_PAUSE.equals(type)){
+		  return "SF_NOTICE_PAUSE";
+	  } else if(SfReceipt.RECIEPT_TYPE_STOP.equals(type)){
+		  return "SF_NOTICE_STOP";
+	  }
+	  return null;
   }
 }

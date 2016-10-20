@@ -290,5 +290,17 @@
 	
 	<sqlMap resource="sqlmap/sf/SfSjSupplierMapper.xml"/>
 	<sqlMap resource="sqlmap/sf/SfSjMapper.xml"/>
+	
+	<sqlMap resource="sqlmap/sf/SfCertificateMapper.xml"/>
      
+	<sqlMap resource="sqlmap/sf/SfNoticeMapper.xml"/>	
+	
+     <sqlMap resource="sqlmap/sf/ZcFaCardMapper.xml"/>
+     <sqlMap resource="sqlmap/sf/ZcFaCardSubMapper.xml"/>
+     <sqlMap resource="sqlmap/sf/ZcFaUsingMapper.xml"/>
+     <sqlMap resource="sqlmap/sf/ZcFaCardDocMapper.xml"/>
+
+     <sqlMap resource="sqlmap/sf/SfEntrustorWtcodeMapper.xml"/> 
+     <sqlMap resource="sqlmap/sf/SfAppendMaterialMapper.xml"/>     
+	
 </sqlMapConfig>

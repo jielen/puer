@@ -990,6 +990,7 @@ public class SfJdResultEditPanel extends AbstractMainSubEditPanel {
     };
     ElementConditionDto dto = new ElementConditionDto();
     dto.setDattr1("SF_JD_RESULT");
+    dto.setUserId(requestMeta.getSvUserID());
     ForeignEntityFieldEditor entrust = new ForeignEntityFieldEditor(entrustHandler.getSqlId(), dto, 20, entrustHandler,
       entrustHandler.getColumNames(), LangTransMeta.translate(SfJdResult.COL_ENTRUST_CODE), "entrustCode");
     TextFieldEditor name = new TextFieldEditor(LangTransMeta.translate(SfJdResult.COL_NAME), "name");

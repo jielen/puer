@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap  namespace="com.ufgov.zc.server.sf.dao.SfEntrustorWtcodeMapper" > 
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+  <resultMap id="BaseResultMap" class="com.ufgov.zc.common.sf.model.SfEntrustorWtcode" >
+    <result column="WTCODE_ID" property="wtcodeId" jdbcType="DECIMAL" />
+    <result column="ND" property="nd" jdbcType="VARCHAR" />
+    <result column="NUM_NO" property="numNo" jdbcType="VARCHAR" />
+    <result column="ENTRUSTOR_ID" property="entrustorId" jdbcType="DECIMAL" />
+    <result column="JD_COMPANY" property="jdCompany" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    WTCODE_ID, ND, NUM_NO, ENTRUSTOR_ID, JD_COMPANY
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from SF_ENTRUSTOR_WTCODE
+    where WTCODE_ID = #wtcodeId:DECIMAL#
+  </select>
+  <select id="getCurNo" resultMap="BaseResultMap" parameterClass="elementCondition" >
+    select 
+    <include refid="Base_Column_List" />
+    from SF_ENTRUSTOR_WTCODE
+    where nd=#nd#
+    and ENTRUSTOR_ID=#sfId:DECIMAL#
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="java.math.BigDecimal" >
+    delete from SF_ENTRUSTOR_WTCODE
+    where WTCODE_ID = #wtcodeId:DECIMAL#
+  </delete>
+  <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfEntrustorWtcode" >
+    insert into SF_ENTRUSTOR_WTCODE (WTCODE_ID, ND, NUM_NO, 
+      ENTRUSTOR_ID, JD_COMPANY)
+    values (#wtcodeId:DECIMAL#, #nd:VARCHAR#, #numNo:VARCHAR#, 
+      #entrustorId:DECIMAL#, #jdCompany:VARCHAR#)
+  </insert> 
+  <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfEntrustorWtcode" >
+    update SF_ENTRUSTOR_WTCODE
+    set ND = #nd:VARCHAR#,
+      NUM_NO = #numNo:VARCHAR#,
+      ENTRUSTOR_ID = #entrustorId:DECIMAL#,
+      JD_COMPANY = #jdCompany:VARCHAR#
+    where WTCODE_ID = #wtcodeId:DECIMAL#
+  </update>
+</sqlMap>

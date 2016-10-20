@@ -49,12 +49,14 @@ import com.ufgov.zc.common.system.dto.ElementConditionDto;
 import com.ufgov.zc.common.system.util.ObjectUtil;
 
 /**
+ * 这个支持分开编号，即全所每个专业一个编号
  * @author Administrator
  * 
  */
 public class SfReportCodeDialog extends GkBaseDialog {
 
 	/**
+	 * 
 	 * 
 	 */
 	private static final long serialVersionUID = 3561415031309188270L;

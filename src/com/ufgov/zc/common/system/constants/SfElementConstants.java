@@ -1,6 +1,11 @@
 package com.ufgov.zc.common.system.constants;
 
 public interface SfElementConstants {
+  
+  /**
+   * 科室通用受理人userid
+   */
+  public static final String KESHI_SHOULI = "KESHI_SHOULI";
 
   /**
    * 性别值集。0：男，1：女

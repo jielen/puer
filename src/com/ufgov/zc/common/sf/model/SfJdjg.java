@@ -1,6 +1,8 @@
 package com.ufgov.zc.common.sf.model;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.ufgov.zc.common.zc.model.ZcBaseBill;
 
@@ -19,7 +21,15 @@ public class SfJdjg extends ZcBaseBill{
 	public static final String COL_TEL="SF_JDJG_TEL"; // 电话
 	public static final String COL_XKZH="SF_JDJG_XKZH"; // 许可证号
 	public static final String COL_ZIP="SF_JDJG_ZIP"; // 邮编
+	public static final String COL_EN_NAME="SF_JDJG_EN_NAME"; // 英文名称
+  public static final String COL_SHORT_NAME="SF_JDJG_SHORT_NAME"; // 简称
 
+
+	  private List certificatLst=new ArrayList();
+	  
+	  private String shortName;
+	  
+	  private String enName;
 	
     /**
      * 
@@ -282,4 +292,28 @@ public class SfJdjg extends ZcBaseBill{
     public void setFax(String fax) {
         this.fax = fax;
     }
+
+	public List getCertificatLst() {
+		return certificatLst;
+	}
+
+	public void setCertificatLst(List certificatLst) {
+		this.certificatLst = certificatLst;
+	}
+
+	public String getEnName() {
+		return enName;
+	}
+
+	public void setEnName(String enName) {
+		this.enName = enName;
+	}
+
+  public String getShortName() {
+    return shortName;
+  }
+
+  public void setShortName(String shortName) {
+    this.shortName = shortName;
+  }
 }

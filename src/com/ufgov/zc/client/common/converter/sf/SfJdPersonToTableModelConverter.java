@@ -13,10 +13,13 @@ import com.ufgov.zc.client.component.table.BeanTableModel;
 import com.ufgov.zc.client.component.table.ColumnBeanPropertyPair;
 import com.ufgov.zc.client.datacache.AsValDataCache;
 import com.ufgov.zc.common.commonbiz.model.BaseElement;
+import com.ufgov.zc.common.sf.model.SfCertificate;
 import com.ufgov.zc.common.sf.model.SfJdPerson;
 import com.ufgov.zc.common.sf.model.SfJdPersonMajor;
 import com.ufgov.zc.common.sf.model.SfMajor;
+import com.ufgov.zc.common.sf.model.SfMaterials;
 import com.ufgov.zc.common.system.constants.SfElementConstants;
+import com.ufgov.zc.common.system.model.AsFile;
 import com.ufgov.zc.common.system.util.BeanUtil;
 
 public class SfJdPersonToTableModelConverter {
@@ -116,6 +119,84 @@ public class SfJdPersonToTableModelConverter {
   }
   public static List<ColumnBeanPropertyPair> getDetailInfo(){
     return detailInfo;
+  }
+  
+
+  public static TableModel convertCertTableData(List itemList) {
+    // TCJLODO Auto-generated method stub
+
+    BeanTableModel<SfCertificate> tm = new BeanTableModel<SfCertificate>() {
+      /**
+       * 
+       */ 
+      
+      @Override
+      public boolean isCellEditable(int row, int column) {
+        return super.isCellEditable(row, column);
+      }
+      @Override
+      public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+
+    	  SfCertificate bean = dataBeanList.get(rowIndex);
+
+        String currentColName = this.getColumnIdentifier(columnIndex);
+
+        if (aValue instanceof BaseElement) {
+
+          BeanUtil.set(columnBeanPropertyPairList.get(columnIndex).getBeanPropertyName(), ((BaseElement) aValue).getName(), bean);
+
+          fireTableCellUpdated(rowIndex, columnIndex);
+
+          putEditedData(dataBeanList.get(rowIndex));
+
+        } else  if (SfCertificate.COL_ZF_FILE.equals(this.getColumnIdentifier(columnIndex))) {
+
+            if (aValue == null) {
+
+              this.getBean(rowIndex).setZfFile(null);
+
+              this.getBean(rowIndex).setZfFileBlobid(null);
+
+            } else {
+
+              this.getBean(rowIndex).setZfFile(((AsFile) aValue).getFileName());
+
+              this.getBean(rowIndex).setZfFileBlobid(((AsFile) aValue).getFileId());
+
+            }
+
+            fireTableCellUpdated(rowIndex, columnIndex);
+
+            putEditedData(dataBeanList.get(rowIndex));
+        }else {
+          super.setValueAt(aValue, rowIndex, columnIndex);
+        }
+      }
+    };
+
+    tm.setOidFieldName("tempId");
+    tm.setDataBean(itemList, certInfo);
+    return tm;
+  }
+
+  private static List<ColumnBeanPropertyPair> certInfo = new ArrayList<ColumnBeanPropertyPair>();
+
+  static {
+
+	  certInfo.add(new ColumnBeanPropertyPair(SfCertificate.COL_ZF_OWNER_TYPE, "zfOwnerType", LangTransMeta.translate(SfCertificate.COL_ZF_OWNER_TYPE)));
+	  certInfo.add(new ColumnBeanPropertyPair(SfCertificate.COL_NAME, "name", LangTransMeta.translate(SfCertificate.COL_NAME)));
+	  certInfo.add(new ColumnBeanPropertyPair(SfCertificate.COL_ZF_CODE, "zfCode", LangTransMeta.translate(SfCertificate.COL_ZF_CODE)));
+	  certInfo.add(new ColumnBeanPropertyPair(SfCertificate.COL_ZF_AGENCY, "zfAgency", LangTransMeta.translate(SfCertificate.COL_ZF_AGENCY)));
+	  certInfo.add(new ColumnBeanPropertyPair(SfCertificate.COL_ZF_DESC, "zfDesc", LangTransMeta.translate(SfCertificate.COL_ZF_DESC)));
+	  certInfo.add(new ColumnBeanPropertyPair(SfCertificate.COL_ZF_FILE, "zfFile", LangTransMeta.translate(SfCertificate.COL_ZF_FILE)));
+	  certInfo.add(new ColumnBeanPropertyPair(SfCertificate.COL_ZF_BEGIN_DATE, "zfBeginDate", LangTransMeta.translate(SfCertificate.COL_ZF_BEGIN_DATE)));
+	  certInfo.add(new ColumnBeanPropertyPair(SfCertificate.COL_ZF_END_DATE, "zfEndDate", LangTransMeta.translate(SfCertificate.COL_ZF_END_DATE))); 
+	  certInfo.add(new ColumnBeanPropertyPair(SfCertificate.COL_IS_NOTICE_EXPIRE, "isNoticeExpire", LangTransMeta.translate(SfCertificate.COL_IS_NOTICE_EXPIRE)));
+	  certInfo.add(new ColumnBeanPropertyPair(SfCertificate.COL_ZF_NOTICE_DAYS, "zfNoticeDays", LangTransMeta.translate(SfCertificate.COL_ZF_NOTICE_DAYS)));
+
+ }
+  public static List<ColumnBeanPropertyPair> getCertInfo(){
+    return certInfo;
   }
 }
 

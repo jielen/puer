@@ -21,6 +21,7 @@
 		<result property="userId" column="USER_ID"></result>
         <result property="caSerial" column="CA_SERIAL"></result>
 		<result property="isLogin" column="IS_LOGIN"></result>
+		<result property="phone" column="PHONE"></result>
 	</resultMap>
 	
 	<resultMap class="asEmpPosition" id="asEmpPositionResult">

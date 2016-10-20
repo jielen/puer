@@ -98,4 +98,17 @@
 	<bean id="mobileMsgServiceDelegate"		class="com.ufgov.zc.server.sf.publish.impl.ZcMobileMsgServiceDelegate"		scope="singleton">
 		<property name="zcMobileMsgService" ref="zcMobileMsgService"></property>
 	</bean>
+	
+	<bean id="sfJdjgServiceDelegate"		class="com.ufgov.zc.server.sf.publish.impl.SfJdjgServiceDelegate"		scope="singleton">
+		<property name="sfJdjgService" ref="sfJdjgService"></property>
+	</bean>
+	
+	<bean id="zcFaCardServiceDelegate"		class="com.ufgov.zc.server.sf.publish.impl.ZcFaCardServiceDelegate"
+		scope="singleton">
+		<property name="cardService" ref="cardService" />
+	</bean>
+	
+	<bean id="sfAppendMaterialServiceDelegate"		class="com.ufgov.zc.server.sf.publish.impl.SfAppendMaterialServiceDelegate"		scope="singleton">
+		<property name="sfAppendMaterialService" ref="sfAppendMaterialService" />
+	</bean>
 </beans>

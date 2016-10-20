@@ -12,14 +12,7 @@
 		toolTip="回执管理" 
 		icon="note.bmp"
 		isMutliRecord="true"
-		nodeBusiness="com.ufgov.zc.client.sf.dataflow.nodebusiness.SfReceiptNodeBusiness"/>	
-		
-	<node compoId="SF_APPEND_MATERIAL_NOTICE"
-		text="补充鉴定材料通知书"
-		toolTip="补充鉴定材料通知书" 
-		icon="email.bmp"
-		isMutliRecord="true"
-		nodeBusiness="com.ufgov.zc.client.sf.dataflow.nodebusiness.SfAppendMaterialNoticeNodeBusiness"/>
+		nodeBusiness="com.ufgov.zc.client.sf.dataflow.nodebusiness.SfReceiptNodeBusiness"/>	 
 				 
 	<node compoId="SF_JD_RESULT"
 		text="鉴定记录"
@@ -44,12 +37,12 @@
 		nodeBusiness="com.ufgov.zc.client.sf.dataflow.nodebusiness.SfJdDocAuditNodeBusiness"/>
 	
 		
-	<node compoId="SF_OUT_INFO"
-		text="外部信息"
-		toolTip="外部信息" 
+	<node compoId="SF_APPEND_MATERIAL"
+		text="补充检材登记"
+		toolTip="补充检材登记" 
 		icon="dianchi.bmp"
 		isMutliRecord="true"
-		nodeBusiness="com.ufgov.zc.client.sf.dataflow.nodebusiness.SfOutInfoNodeBusiness"/>
+		nodeBusiness="com.ufgov.zc.client.sf.dataflow.nodebusiness.SfAppendMaterialNodeBusiness"/>
 		
 	<node compoId="SF_MATERIALS_TRANSFER"
 		text="鉴定材料流转"
@@ -57,14 +50,7 @@
 		icon="liantong.bmp"
 		isMutliRecord="true"
 		nodeBusiness="com.ufgov.zc.client.sf.dataflow.nodebusiness.SfMaterialsTransferNodeBusiness"/> 
-		
-	<node compoId="SF_DOSSIER"
-		text="鉴定文书归档"
-		toolTip="鉴定文书归档" 
-		icon="pencil.bmp"
-		isMutliRecord="false"
-		nodeBusiness="com.ufgov.zc.client.sf.dataflow.nodebusiness.SfDossierNodeBusiness"/>
-		
+ 		
 	<node compoId="SF_MOBILE_MSG"
 		text="短信管理"
 		toolTip="短信管理" 

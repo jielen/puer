@@ -2,6 +2,8 @@ package com.ufgov.zc.server.sf.service.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import com.ufgov.zc.common.sf.model.SfEntrust;
@@ -155,19 +157,68 @@ public void deleteByPrimaryKeyFN(BigDecimal id, RequestMeta requestMeta) {
   public SfJdResult untreadFN(SfJdResult qx, RequestMeta requestMeta) {
     // TCJLODO Auto-generated method stub
     wfEngineAdapter.untread(qx.getComment(), qx, requestMeta);
+    sendMsgUntread(qx,requestMeta);
     return qx;
   }
 
+  private void sendMsgUntread(SfJdResult qx, RequestMeta requestMeta) {
+	  ElementConditionDto dto=new ElementConditionDto();
+	  dto.setDattr1("SF_JD_RESULT");
+	  dto.setDattr2(""+qx.getProcessInstId());
+	  List userLst=zcEbBaseService.queryDataForList("ZcEbUtil.selectUntreadUser", dto);
+	  if(userLst!=null ){
+		  String mobile="";
+		  String msg=qx.getEntrust().getCode()+"鉴定记录被退回了,请登录鉴定管理系统进行查看处理。";
+		  ZcSUtil su=new ZcSUtil();
+		  for(int i=0;i<userLst.size();i++){
+			  HashMap row=(HashMap) userLst.get(i);
+			  String user=(String) row.get("EXECUTOR");
+			  HashMap mobiles=su.getUserMobile(user, qx.getProcessInstId(), requestMeta);
+			  Iterator keys=mobiles.keySet().iterator();
+			  while(keys.hasNext()){
+				  String key=keys.next().toString(); 
+				  su.sendToBox(""+qx.getEntrustId().intValue(), "", msg, key, requestMeta.getSysDate(), requestMeta.getSysDate());
+			  } 
+		  }
+	  }	  
+}
   public SfJdResult auditFN(SfJdResult qx, RequestMeta requestMeta) throws Exception {
     // TCJLODO Auto-generated method stub
     qx = saveFN(qx, requestMeta);
     wfEngineAdapter.commit(qx.getComment(), qx, requestMeta);
+    sendMsgAudit(qx,requestMeta);
     return selectByPrimaryKey(qx.getJdResultId(), requestMeta);
   }
 
-  public SfJdResult newCommitFN(SfJdResult qx, RequestMeta requestMeta) {
+  private void sendMsgAudit(SfJdResult qx, RequestMeta requestMeta) {
+
+	  ElementConditionDto dto=new ElementConditionDto();
+	  dto.setDattr1("SF_JD_RESULT");
+	  dto.setDattr2(""+qx.getProcessInstId());
+	  List userLst=zcEbBaseService.queryDataForList("ZcEbUtil.selectToDoUser", dto);
+	   
+	  if(userLst!=null ){
+		  String mobile="";
+		  String msg=qx.getEntrust().getCode()+"鉴定记录等待您审批,案事件:"+qx.getName()+",请登录鉴定管理系统进行审批。";
+		  
+		  ZcSUtil su=new ZcSUtil();
+		  for(int i=0;i<userLst.size();i++){
+			  HashMap row=(HashMap) userLst.get(i);
+			  String user=(String) row.get("EXECUTOR");
+			  HashMap mobiles=su.getUserMobile(user, qx.getProcessInstId(), requestMeta);
+			  Iterator keys=mobiles.keySet().iterator();
+			  while(keys.hasNext()){
+				  String key=keys.next().toString(); 
+				  su.sendToBox(""+qx.getEntrustId().intValue(), "", msg, key, requestMeta.getSysDate(), requestMeta.getSysDate());
+			  } 
+		  }
+	  }
+}
+
+public SfJdResult newCommitFN(SfJdResult qx, RequestMeta requestMeta) {
     // TCJLODO Auto-generated method stub
     wfEngineAdapter.newCommit(qx.getComment(), qx, requestMeta);
+    sendMsgAudit(qx,requestMeta);
     return selectByPrimaryKey(qx.getJdResultId(), requestMeta);
   }
 

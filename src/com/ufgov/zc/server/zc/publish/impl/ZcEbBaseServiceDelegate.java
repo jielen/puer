@@ -165,6 +165,10 @@ public void delete(String sqlMapDeleteId, Object parameter,RequestMeta meta) {
 public String getNextVal(String sequenceName, RequestMeta meta) {
 	return zcEbBaseService.getNextVal(sequenceName);
 }
+ 
+public String getAutoNumNo(ZcBaseBill bill, String compoName, String fieldName) {
+	return zcEbBaseService.getAutoNumNo(bill,compoName,fieldName);
+}
 
 
 }

@@ -32,4 +32,7 @@ public class ForeignEntityDataCache {
 
   public static String CACHE_ZC_EB_QUALIFICATION = "cacheZcEbQualification";
 
+  //资产类别
+  public static String CACHE_ZC_FA_TYPE = "CACHE_ZC_FA_TYPE";
+
 }

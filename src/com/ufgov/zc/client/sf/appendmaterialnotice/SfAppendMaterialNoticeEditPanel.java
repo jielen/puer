@@ -35,6 +35,7 @@ import com.ufgov.zc.client.common.BillElementMeta;
 import com.ufgov.zc.client.common.LangTransMeta;
 import com.ufgov.zc.client.common.ListCursor;
 import com.ufgov.zc.client.common.ServiceFactory;
+import com.ufgov.zc.client.common.UIConstants;
 import com.ufgov.zc.client.common.WorkEnv;
 import com.ufgov.zc.client.component.GkBaseDialog;
 import com.ufgov.zc.client.component.GkCommentDialog;
@@ -208,14 +209,17 @@ public class SfAppendMaterialNoticeEditPanel extends AbstractMainSubEditPanel {
 
   protected void addSubPane() {
     //下面一句是为了打开word后刷新窗口
-    parent.setSize(parent.getSize().width + 1, parent.getSize().height + 1);
+	    parent.setSize(UIConstants.DIALOG_0_LEVEL_WIDTH-10, UIConstants.DIALOG_0_LEVEL_HEIGHT-10);
+	    parent.validate();
     wordPane.addPropertyChangeListener(WordPane.EVENT_NAME_OPEN_CALLBACK, new PropertyChangeListener() {
       public void propertyChange(PropertyChangeEvent evt) {
         //打开文件完成之后的回调函数
         boolean isSuccess = (Boolean) evt.getNewValue();
         if (isSuccess) {
           //下面一句是为了打开word后刷新窗口
-          parent.setSize(parent.getSize().width - 1, parent.getSize().height - 1);
+    	    parent.setSize(UIConstants.DIALOG_0_LEVEL_WIDTH, UIConstants.DIALOG_0_LEVEL_HEIGHT);
+    	    parent.validate();
+    	    parent.moveToScreenCenter(); 
         }
       }
     });

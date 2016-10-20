@@ -64,7 +64,7 @@ import com.ufgov.zc.common.system.dto.PrintObject;
 import com.ufgov.zc.common.system.util.ObjectUtil;
 
 /**
- * 委托
+ * 司法委托
  * @author Administrator
  *
  */

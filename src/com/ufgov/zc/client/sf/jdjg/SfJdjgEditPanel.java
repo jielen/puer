@@ -1,5 +1,6 @@
 package com.ufgov.zc.client.sf.jdjg;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
@@ -23,6 +25,7 @@ import com.ufgov.zc.client.common.LangTransMeta;
 import com.ufgov.zc.client.common.ListCursor;
 import com.ufgov.zc.client.common.ServiceFactory;
 import com.ufgov.zc.client.common.WorkEnv;
+import com.ufgov.zc.client.common.converter.sf.SfJdPersonToTableModelConverter;
 import com.ufgov.zc.client.common.converter.sf.SfJdjgToTableModelConverter;
 import com.ufgov.zc.client.component.GkBaseDialog;
 import com.ufgov.zc.client.component.JFuncToolBar;
@@ -41,22 +44,40 @@ import com.ufgov.zc.client.component.button.SaveButton;
 import com.ufgov.zc.client.component.button.SaveSendButton;
 import com.ufgov.zc.client.component.button.SendButton;
 import com.ufgov.zc.client.component.button.SendGkButton;
+import com.ufgov.zc.client.component.button.SubaddButton;
+import com.ufgov.zc.client.component.button.SubdelButton;
+import com.ufgov.zc.client.component.button.SubinsertButton;
 import com.ufgov.zc.client.component.button.SuggestAuditPassButton;
 import com.ufgov.zc.client.component.button.TraceButton;
 import com.ufgov.zc.client.component.button.UnauditButton;
 import com.ufgov.zc.client.component.button.UntreadButton;
+import com.ufgov.zc.client.component.table.BeanTableModel;
+import com.ufgov.zc.client.component.table.celleditor.DateCellEditor;
+import com.ufgov.zc.client.component.table.celleditor.MoneyCellEditor;
+import com.ufgov.zc.client.component.table.celleditor.TextCellEditor;
 import com.ufgov.zc.client.component.table.cellrenderer.DateCellRenderer;
+import com.ufgov.zc.client.component.table.cellrenderer.NumberCellRenderer;
+import com.ufgov.zc.client.component.table.codecelleditor.AsValComboBoxCellEditor;
+import com.ufgov.zc.client.component.table.codecelleditor.FileCellEditor;
 import com.ufgov.zc.client.component.table.codecellrenderer.AsValCellRenderer;
 import com.ufgov.zc.client.component.ui.fieldeditor.AbstractFieldEditor;
 import com.ufgov.zc.client.component.zc.AbstractMainSubEditPanel;
 import com.ufgov.zc.client.component.zc.fieldeditor.AutoNumFieldEditor;
+import com.ufgov.zc.client.component.zc.fieldeditor.ForeignEntityFieldCellEditor;
+import com.ufgov.zc.client.component.zc.fieldeditor.TextAreaFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.TextFieldEditor;
+import com.ufgov.zc.client.sf.jdperson.JdPersonMajorHandler;
 import com.ufgov.zc.client.sf.util.SfUtil;
 import com.ufgov.zc.client.util.SwingUtil;
 import com.ufgov.zc.client.zc.ButtonStatus;
 import com.ufgov.zc.client.zc.ZcUtil;
+import com.ufgov.zc.common.sf.model.SfCertificate;
 import com.ufgov.zc.common.sf.model.SfJdPerson;
+import com.ufgov.zc.common.sf.model.SfJdPersonMajor;
+import com.ufgov.zc.common.sf.model.SfJdResult;
 import com.ufgov.zc.common.sf.model.SfJdjg;
+import com.ufgov.zc.common.sf.model.SfMajor;
+import com.ufgov.zc.common.sf.publish.ISfJdjgServiceDelegate;
 import com.ufgov.zc.common.system.RequestMeta;
 import com.ufgov.zc.common.system.constants.SfElementConstants;
 import com.ufgov.zc.common.system.constants.ZcSettingConstants;
@@ -129,16 +150,18 @@ public class SfJdjgEditPanel  extends AbstractMainSubEditPanel {
 
 	  private ElementConditionDto eaccDto = new ElementConditionDto();
 
-	  protected IZcEbBaseServiceDelegate zcEbBaseServiceDelegate ;  
+//	  protected IZcEbBaseServiceDelegate zcEbBaseServiceDelegate ;  
+	  
+	  private ISfJdjgServiceDelegate sfJdjgServiceDelegate;
 
-	  protected JTablePanel detailTablePanel = new JTablePanel();
+	  protected JTablePanel certTablePanel = new JTablePanel();
 	  
 	  public SfJdjgEditPanel(SfJdjgDialog parent, ListCursor listCursor, String tabStatus, SfJdjgListPanel listPanel) {
 	    // TCJLODO Auto-generated constructor stub
 	    super(SfJdjgEditPanel.class, BillElementMeta.getBillElementMetaWithoutNd(compoId));
 	    
 	    mainBillElementMeta = BillElementMeta.getBillElementMetaWithoutNd("SF_JDJG");
-	    zcEbBaseServiceDelegate = (IZcEbBaseServiceDelegate) ServiceFactory.create(IZcEbBaseServiceDelegate.class,"zcEbBaseServiceDelegate"); 
+	    sfJdjgServiceDelegate = (ISfJdjgServiceDelegate) ServiceFactory.create(ISfJdjgServiceDelegate.class,"sfJdjgServiceDelegate"); 
 	    
 	    this.workPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), LangTransMeta.translate(compoId),
 	      TitledBorder.CENTER, TitledBorder.TOP,
@@ -170,8 +193,8 @@ public class SfJdjgEditPanel  extends AbstractMainSubEditPanel {
 	      this.pageStatus = ZcSettingConstants.PAGE_STATUS_BROWSE;
 
 	       
-	      bill = (SfJdjg) zcEbBaseServiceDelegate.queryObject("com.ufgov.zc.server.sf.dao.SfJdjgMapper.selectByPrimaryKey", bill.getJgId(), this.requestMeta);
-
+	      bill =  sfJdjgServiceDelegate.selectByPrimaryKey(bill.getJgId(), requestMeta);
+	      
 	      listCursor.setCurrentObject(bill);
 	      this.setEditingObject(bill);
 	    } else {//新增按钮进入
@@ -200,24 +223,65 @@ public class SfJdjgEditPanel  extends AbstractMainSubEditPanel {
 
 	  private void refreshSubData() {
 	    // TCJLODO Auto-generated method stub
+		    SfJdjg jdjg = (SfJdjg) listCursor.getCurrentObject();
+		  certTablePanel.setTableModel(SfJdPersonToTableModelConverter.convertCertTableData(jdjg.getCertificatLst()));
+		    ZcUtil.translateColName(certTablePanel.getTable(), SfJdPersonToTableModelConverter.getCertInfo());
+		    setTablePorperty();
 	     
 	  }
 
- 
+
+	  private void setTablePorperty() { 
+	    
+	    JPageableFixedTable ctb = certTablePanel.getTable();
+	    ctb.setDefaultEditor(String.class, new TextCellEditor()); 
+	    
+
+	    SwingUtil.setTableCellEditor(ctb, SfCertificate.COL_ZF_NOTICE_DAYS, new MoneyCellEditor(false));
+	    SwingUtil.setTableCellRenderer(ctb, SfCertificate.COL_ZF_NOTICE_DAYS, new NumberCellRenderer());
+	    SwingUtil.setTableCellEditor(ctb, SfCertificate.COL_IS_NOTICE_EXPIRE, new AsValComboBoxCellEditor(SfElementConstants.VS_Y_N));
+	    SwingUtil.setTableCellRenderer(ctb, SfCertificate.COL_IS_NOTICE_EXPIRE, new AsValCellRenderer(SfElementConstants.VS_Y_N));
+	    SwingUtil.setTableCellEditor(ctb, SfCertificate.COL_ZF_OWNER_TYPE, new AsValComboBoxCellEditor(SfCertificate.VS_SF_CERTIFICATE_TYPE));
+	    SwingUtil.setTableCellRenderer(ctb, SfCertificate.COL_ZF_OWNER_TYPE, new AsValCellRenderer(SfCertificate.VS_SF_CERTIFICATE_TYPE));
+	    
+	    FileCellEditor fileEditor=new FileCellEditor("zfFileBlobid",false,(BeanTableModel) ctb.getModel());
+	    fileEditor.setDownloadFileEnable(true);
+	    SwingUtil.setTableCellEditor(ctb, SfCertificate.COL_ZF_FILE,fileEditor ); 
+	    
+
+	    SwingUtil.setTableCellEditor(ctb, SfCertificate.COL_ZF_BEGIN_DATE, new DateCellEditor());
+	    SwingUtil.setTableCellRenderer(ctb, SfCertificate.COL_ZF_BEGIN_DATE, new DateCellRenderer("YY-MM-DD")); 
+	    SwingUtil.setTableCellEditor(ctb, SfCertificate.COL_ZF_END_DATE, new DateCellEditor());
+	    SwingUtil.setTableCellRenderer(ctb, SfCertificate.COL_ZF_END_DATE, new DateCellRenderer("YY-MM-DD")); 
+	    
+	  }
 
 	  protected void updateFieldEditorsEditable() {
 
 	      for (AbstractFieldEditor editor : fieldEditors) {
 	        if (pageStatus.equals(ZcSettingConstants.PAGE_STATUS_EDIT) || pageStatus.equals(ZcSettingConstants.PAGE_STATUS_NEW)) {
 	          editor.setEnabled(true);
+	          isEdit=true;
 	        } else {
 	          editor.setEnabled(false);
+	          isEdit=false;
 	        }
-	      }
-	    
+	      }	    
 
+	      setWFSubTableEditable(certTablePanel, isEdit);
 	  }
 
+	  public void stopTableEditing() {
+
+	    JPageableFixedTable biTable = this.certTablePanel.getTable();
+
+	    if (biTable.isEditing()) {
+
+	      biTable.getCellEditor().stopCellEditing();
+
+	    } 
+
+	  }
 	 
 
 	  protected void setButtonStatus() {
@@ -570,12 +634,8 @@ public class SfJdjgEditPanel  extends AbstractMainSubEditPanel {
 	      SfJdjg inData = (SfJdjg) this.listCursor.getCurrentObject();
 
 //	      System.out.println("before=" + inData.getCoCode() + inData.getCoName());
-	      if(inData.getJgId()==null){
-	    	  inData.setJgId(new BigDecimal(ZcUtil.getNextVal(SfJdjg.SEQ_SF_JDJG_ID)));
-	    	  zcEbBaseServiceDelegate.insertFN("com.ufgov.zc.server.sf.dao.SfJdjgMapper.insert", inData, requestMeta);
-	      }else{
-	    	  zcEbBaseServiceDelegate.insertWithDeleteFN("com.ufgov.zc.server.sf.dao.SfJdjgMapper.deleteByPrimaryKey", inData.getJgId(), "com.ufgov.zc.server.sf.dao.SfJdjgMapper.insert", inData, requestMeta);
-	      } 
+	    
+	      sfJdjgServiceDelegate.saveFN(inData, requestMeta);
 	      listCursor.setCurrentObject(inData);
 
 	    } catch (Exception e) {
@@ -654,8 +714,8 @@ public class SfJdjgEditPanel  extends AbstractMainSubEditPanel {
 	      try {
 
 	        requestMeta.setFuncId(deleteButton.getFuncId());
-
-	        zcEbBaseServiceDelegate.delete("com.ufgov.zc.server.sf.dao.SfJdjgMapper.deleteByPrimaryKey", bill.getJgId(), requestMeta);
+ 
+	        sfJdjgServiceDelegate.deleteByPrimaryKeyFN(bill.getJgId(), requestMeta);
 
 	      } catch (Exception e) {
 
@@ -724,14 +784,17 @@ public class SfJdjgEditPanel  extends AbstractMainSubEditPanel {
  
 	    TextFieldEditor code = new TextFieldEditor(LangTransMeta.translate(SfJdjg.COL_CO_CODE), "coCode");
 	    TextFieldEditor name = new TextFieldEditor(LangTransMeta.translate(SfJdjg.COL_NAME), "name");
+      TextFieldEditor  shortName= new TextFieldEditor(LangTransMeta.translate(SfJdjg.COL_SHORT_NAME), "shortName"); 
 	    TextFieldEditor xkzh = new TextFieldEditor(LangTransMeta.translate(SfJdjg.COL_XKZH), "xkzh");
 	    TextFieldEditor  tel= new TextFieldEditor(LangTransMeta.translate(SfJdjg.COL_TEL), "tel");
 	    TextFieldEditor  linkMan= new TextFieldEditor(LangTransMeta.translate(SfJdjg.COL_LINK_MAN), "linkMan");
 	    TextFieldEditor  address= new TextFieldEditor(LangTransMeta.translate(SfJdjg.COL_ADDRESS), "address");
 	    TextFieldEditor  zip= new TextFieldEditor(LangTransMeta.translate(SfJdjg.COL_ZIP), "zip");
 	    TextFieldEditor  fax= new TextFieldEditor(LangTransMeta.translate(SfJdjg.COL_FAX), "fax"); 
-
+	    TextAreaFieldEditor enName = new TextAreaFieldEditor(LangTransMeta.translate(SfJdjg.COL_EN_NAME), "enName", -1, 1, 5);
+	    
 	    editorList.add(name);
+      editorList.add(shortName);
 	    editorList.add(code);
 	    editorList.add(xkzh);
 	    editorList.add(tel);
@@ -739,11 +802,18 @@ public class SfJdjgEditPanel  extends AbstractMainSubEditPanel {
 	    editorList.add(address);
 	    editorList.add(zip);
 	    editorList.add(fax);
+	    editorList.add(enName);
 	    
 	    return editorList;
 
 	  }
 
+	  protected void setCerDefaultValue(SfCertificate item) {
+		    item.setTempId("" + System.currentTimeMillis());
+		    SfJdjg e = listCursor.getCurrentObject();
+		    item.setZfOwnerId(e.getJgId());
+		    item.setZfOwnerType(SfCertificate.VS_SF_CERTIFICATE_TYPE_zizhi);
+	}
 
 	  /* (non-Javadoc)
 	   * @see com.ufgov.zc.client.component.zc.AbstractMainSubEditPanel#createSubBillPanel()
@@ -751,7 +821,65 @@ public class SfJdjgEditPanel  extends AbstractMainSubEditPanel {
 	  @Override
 	  public JComponent createSubBillPanel() {
 
-	    return null;
+
+		    JTabbedPane itemTabPane = new JTabbedPane();
+
+		    certTablePanel.init();
+
+		    certTablePanel.setPanelId(this.getClass().getName() + "_cerTablePanel");
+
+		    certTablePanel.getSearchBar().setVisible(false);
+
+		    certTablePanel.setTablePreferencesKey(this.getClass().getName() + "__cerTable");
+
+		    certTablePanel.getTable().setShowCheckedColumn(true);
+
+		    certTablePanel.getTable().getTableRowHeader().setPreferredSize(new Dimension(60, 0)); 
+
+		    JFuncToolBar detailBtnBar3 = new JFuncToolBar();
+
+		    FuncButton addBtn3 = new SubaddButton(false);
+
+		    JButton insertBtn3 = new SubinsertButton(false);
+
+		    JButton delBtn3 = new SubdelButton(false);
+
+		    detailBtnBar3.add(addBtn3);
+
+		    detailBtnBar3.add(insertBtn3);
+
+		    detailBtnBar3.add(delBtn3);
+
+		    certTablePanel.add(detailBtnBar3, BorderLayout.SOUTH);
+
+		    addBtn3.addActionListener(new ActionListener() {
+		      public void actionPerformed(ActionEvent e) {
+		        SfCertificate item = new SfCertificate();
+		        setCerDefaultValue(item);
+		        int rowNum = addSub(certTablePanel, item);
+		        certTablePanel.getTable().setRowSelectionInterval(rowNum, rowNum);
+		      }
+		    });
+
+		    insertBtn3.addActionListener(new ActionListener() {
+		      public void actionPerformed(ActionEvent e) {
+		        SfCertificate item = new SfCertificate();
+		        setCerDefaultValue(item);
+		        int rowNum = insertSub(certTablePanel, item);
+		        certTablePanel.getTable().setRowSelectionInterval(rowNum, rowNum);
+		      }
+		    });
+
+		    delBtn3.addActionListener(new ActionListener() {
+		      public void actionPerformed(ActionEvent e) {
+		        deleteSub(certTablePanel);
+		      }
+		    }); 
+  
+		    itemTabPane.addTab("相关资质文件", certTablePanel);
+		    
+		    itemTabPane.setMinimumSize(new Dimension(240, 300));
+		    return itemTabPane;
 	  }
 
 

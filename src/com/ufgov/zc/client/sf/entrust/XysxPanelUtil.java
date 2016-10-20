@@ -175,7 +175,7 @@ public class XysxPanelUtil {
     w = 50;
     tf.setBounds(x, y, w, h);
     tf.setHorizontalAlignment(SwingUtilities.CENTER);
-    tf.setText("" + 30);
+    tf.setText("" + 7);
     contentPanel.add(tf);
     xysxComponents.put(new BigDecimal(valId), tf);
     ++valId;
@@ -191,7 +191,7 @@ public class XysxPanelUtil {
     w = 50;
     tf.setBounds(x, y, w, h);
     tf.setHorizontalAlignment(SwingUtilities.CENTER);
-    tf.setText("" + 30);
+    tf.setText("" + 7);
     contentPanel.add(tf);
     xysxComponents.put(new BigDecimal(valId), tf);
     ++valId;
@@ -315,7 +315,7 @@ public class XysxPanelUtil {
     l.setBounds(x, y, w, h);
     contentPanel.add(l);
     x = x + w + reg;
-    tf = new JTextField();
+    tf = new JTextField("" + 7);
     w = 50;
     tf.setBounds(x, y, w, h);
     tf.setHorizontalAlignment(SwingUtilities.CENTER);

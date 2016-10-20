@@ -45,22 +45,25 @@
 	<isNotEqual prepend="and" compareValue="0" property="nd">
 			SF_JD_REPORT.ND = #nd#
    </isNotEqual>
+		<isNotNull prepend="AND" property="sfId"><!--根据entustid获取对应的鉴定报告  -->
+			SF_JD_REPORT.ENTRUST_ID=#sfId:DECIMAL#
+		</isNotNull>
 		<isNotNull prepend="AND" property="status">
 			<isEqual property="status" compareValue="todo">
 				exists (select instance_id from V_WF_CURRENT_TASK_ZC_TODO where 
-				inputor=#executor# and instance_id = SF_JD_REPORT.process_inst_id)
+				executor=#executor# and instance_id = SF_JD_REPORT.process_inst_id)
 			</isEqual>
 			<isEqual property="status" compareValue="untread">
 				exists (select instance_id from V_WF_CURRENT_TASK_ZC_UNTREAD where
-				inputor=#executor# and instance_id = SF_JD_REPORT.process_inst_id)
+				executor=#executor# and instance_id = SF_JD_REPORT.process_inst_id)
 			</isEqual>
 			<isEqual property="status" compareValue="done">
 				exists (select instance_id from V_WF_ACTION_HISTORY_GK53 where 
-				inputor =#executor# and instance_id = SF_JD_REPORT.process_inst_id)
+				executor =#executor# and instance_id = SF_JD_REPORT.process_inst_id)
 				and SF_JD_REPORT.STATUS!= 'cancel' and SF_JD_REPORT.STATUS != 'exec'
 			</isEqual>
 			<isEqual property="status" compareValue="draft">
-				( exists (select WF_DRAFT_NAME from as_wf_draft where
+				( exists (select WF_DRAFT_NAME from as_wf_draft where 
 				user_id=#executor# and
 				compo_id=#wfcompoId# and
 				WF_DRAFT_ID=SF_JD_REPORT.process_inst_id)

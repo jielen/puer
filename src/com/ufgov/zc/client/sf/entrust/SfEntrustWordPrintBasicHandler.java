@@ -20,7 +20,6 @@ import com.ufgov.zc.common.sf.model.SfChargeDetail;
 import com.ufgov.zc.common.sf.model.SfEntrust;
 import com.ufgov.zc.common.sf.model.SfEntrustor;
 import com.ufgov.zc.common.sf.model.SfJdTarget;
-import com.ufgov.zc.common.sf.model.SfMaterials;
 import com.ufgov.zc.common.sf.model.SfXysx;
 import com.ufgov.zc.common.system.constants.SfElementConstants;
 import com.ufgov.zc.common.util.EmpMeta;
@@ -57,7 +56,7 @@ public abstract class SfEntrustWordPrintBasicHandler  extends WordHandlerAdapter
 	    setJdjgInfo(dataMap,entrust);
 
 	    //委托编号
-	    setEntrustCode(dataMap,entrust);
+	    setEntrustCode(dataMap,entrust);	     
 
 	    //委托方信息
 	    setEntrustorInfo(dataMap,entrust.getEntrustor());
@@ -106,6 +105,7 @@ public abstract class SfEntrustWordPrintBasicHandler  extends WordHandlerAdapter
 	  protected void setEntrustCode(Map<String, Object> dataMap, SfEntrust entrust) {
 		    dataMap.put("WTBH", StringUtil.freeMarkFillWordChar(entrust.getCode()));
 	}
+	  
 
 	protected void setRemarkInfo(Map<String, Object> dataMap, SfEntrust entrust) {
 		    dataMap.put("REMARK", StringUtil.freeMarkFillWordChar(entrust.getRemark()));
@@ -191,32 +191,43 @@ public abstract class SfEntrustWordPrintBasicHandler  extends WordHandlerAdapter
 
 	protected void setAnJianInfo(Map<String, Object> dataMap, SfEntrust entrust) {
 		    dataMap.put("ASJMC", StringUtil.freeMarkFillWordChar(entrust.getName()));
-		    dataMap.put("AJBH", StringUtil.freeMarkFillWordChar(""));
+		    dataMap.put("AJBH", StringUtil.freeMarkFillWordChar(entrust.getAnjianCode()==null?"无":entrust.getAnjianCode()));
 	}
 
 	protected void setSongJianRenInfo(Map<String, Object> dataMap,			SfEntrust entrust) {
 		    dataMap.put("SJR1", StringUtil.freeMarkFillWordChar(entrust.getSjr()));
-		    dataMap.put("ZJMC1", StringUtil.freeMarkFillWordChar(entrust.getSjrZjType()));
+		    dataMap.put("ZJMC1", StringUtil.freeMarkFillWordChar(entrust.getSjrZjType()==null?"无":AsValDataCache.getName(SfEntrust.SF_VS_ZHENGJIAN, entrust.getSjrZjType())));
 		    dataMap.put("ZJHM1", StringUtil.freeMarkFillWordChar(entrust.getSjrZjCode()));
-		    dataMap.put("SJR2", StringUtil.freeMarkFillWordChar(""));
-		    dataMap.put("ZJMC2", StringUtil.freeMarkFillWordChar(""));
-		    dataMap.put("ZJHM2", StringUtil.freeMarkFillWordChar(""));
-		    dataMap.put("SJRDH", StringUtil.freeMarkFillWordChar(entrust.getSjrTel()==null?entrust.getEntrustor().getLinkTel():entrust.getSjrTel()));
-		    dataMap.put("WTFCZ", StringUtil.freeMarkFillWordChar(""));
+		    dataMap.put("SJR2", StringUtil.freeMarkFillWordChar(entrust.getSjr2())); 
+		    dataMap.put("ZJMC2", StringUtil.freeMarkFillWordChar(entrust.getSjr2ZjType()==null?"无":AsValDataCache.getName(SfEntrust.SF_VS_ZHENGJIAN, entrust.getSjr2ZjType())));
+		    dataMap.put("ZJHM2", StringUtil.freeMarkFillWordChar(entrust.getSjr2ZjCode()));
+		    String dh=StringUtil.freeMarkFillWordChar(entrust.getSjrTel()==null?"":entrust.getSjrTel().trim());
+		    if(dh.trim().length()>0 && entrust.getSjr2Tel()!=null && entrust.getSjr2Tel().trim().length()>0){
+		    	dh=dh+", "+StringUtil.freeMarkFillWordChar(entrust.getSjr2Tel());
+		    }else if(dh.trim().length()==0){
+		    	dh=StringUtil.freeMarkFillWordChar(entrust.getSjr2Tel()==null?"":entrust.getSjr2Tel().trim());
+		    }
+		    if(dh.trim().length()==0){
+		    	dh=StringUtil.freeMarkFillWordChar(entrust.getEntrustor().getLinkTel()==null?"无":entrust.getEntrustor().getLinkTel());
+		    }
+		    dataMap.put("SJRDH", dh);
+		    dataMap.put("WTFCZ", StringUtil.freeMarkFillWordChar(entrust.getSjrFax()==null?"无":entrust.getSjrFax()));
+		    dataMap.put("WTFDZ", StringUtil.freeMarkFillWordChar(entrust.getSjrZip()==null?"无":entrust.getSjrZip()));//放到委托里获取了
 	}
 
 	protected void setShouLiInfo(Map<String, Object> dataMap, SfEntrust entrust) {
 	    dataMap.put("SLR", StringUtil.freeMarkFillWordChar(entrust.getAcceptor()==null?"":EmpMeta.getEmpName(entrust.getAcceptor())));	    
 	    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-	    dataMap.put("SLRQ", df.format(entrust.getAcceptDate()));
+	    dataMap.put("SLRQ", entrust.getAcceptDate()==null?"":df.format(entrust.getAcceptDate()));
+      dataMap.put("SLBH", StringUtil.freeMarkFillWordChar(entrust.getAcceptCode()));
 	}
 
 	protected void setEntrustorInfo(Map<String, Object> dataMap,	SfEntrustor entrustor) {
 
 	    dataMap.put("WTF", StringUtil.freeMarkFillWordChar(entrustor.getName()));
 	    dataMap.put("LXR", StringUtil.freeMarkFillWordChar(entrustor.getLinkMan()));
-	    dataMap.put("WTFDZ", StringUtil.freeMarkFillWordChar(entrustor.getAddress()));
-	    dataMap.put("WTFYB", StringUtil.freeMarkFillWordChar(entrustor.getZip()));
+//	    dataMap.put("WTFDZ", StringUtil.freeMarkFillWordChar(entrustor.getAddress()));//放到委托里获取了
+	    dataMap.put("WTFYB", StringUtil.freeMarkFillWordChar(entrustor.getZip()==null?"无":entrustor.getZip()));
 	    dataMap.put("LXDH", StringUtil.freeMarkFillWordChar(entrustor.getLinkTel()));
 	}
 
@@ -246,28 +257,28 @@ public abstract class SfEntrustWordPrintBasicHandler  extends WordHandlerAdapter
 
 	protected void setJdTarget(Map<String, Object> dataMap, SfJdTarget jdTarget) {
 		if(jdTarget==null)jdTarget=new SfJdTarget();
-		dataMap.put("BJDRXM", StringUtil.freeMarkFillWordChar(jdTarget.getName()));
+		dataMap.put("BJDRXM", StringUtil.freeMarkFillWordChar(jdTarget.getName()==null?"无":jdTarget.getName()));
 		if(jdTarget.getSex()!=null){
 			dataMap.put("XB", StringUtil.freeMarkFillWordChar(AsValDataCache.getName(SfElementConstants.VS_SEX, jdTarget.getSex())));
 		}else{
-			dataMap.put("XB","");
+			dataMap.put("XB","无");
 		}
 		if(jdTarget.getAge()!=null){
 			dataMap.put("NN", ""+jdTarget.getAge().intValue());
 		}else{
-			dataMap.put("NN", "");
+			dataMap.put("NN", "无");
 		}
 		if(jdTarget.getPhone()!=null){
 			dataMap.put("BJDRDH", ""+StringUtil.freeMarkFillWordChar(jdTarget.getPhone()));
 		}else{
-			dataMap.put("BJDRDH", "");
+			dataMap.put("BJDRDH", "无");
 		}
 		if(jdTarget.getAddress()!=null){
 			dataMap.put("BDJRDZ", ""+StringUtil.freeMarkFillWordChar(jdTarget.getAddress()));
 		}else{
-			dataMap.put("BDJRDZ", "");
+			dataMap.put("BDJRDZ", "无");
 		}
-		dataMap.put("BJDRDW", "");
+		dataMap.put("BJDRDW", "无");
 	}
 
 	/**
@@ -298,11 +309,12 @@ public abstract class SfEntrustWordPrintBasicHandler  extends WordHandlerAdapter
 	    // TCJLODO Auto-generated method stub
 	    String val = xysxMaps.get(new BigDecimal(i));
 	    if (isCheckBox(i)) {
-	      if ("Y".equalsIgnoreCase(val)) {
+	      /*if ("Y".equalsIgnoreCase(val)) {
 	        val = StringUtil.FU_HAO_GOU;
 	      } else {
 	        val = StringUtil.FU_HAO_KUANG;
-	      }
+	      }*/
+	    	val = StringUtil.FU_HAO_GOU;
 	    }
 	    return val;
 	  }

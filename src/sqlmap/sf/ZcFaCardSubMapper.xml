@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap   
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"    
+
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ZcFaCardSub" >
+	<typeAlias alias="elementCondition"	type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<typeAlias alias="cardSub"	type="com.ufgov.zc.common.sf.model.ZcFaCardSub" />
+	
+  <resultMap id="BaseResultMap" class="cardSub" >
+    <result column="CARD_SUB_CODE" property="cardSubCode" jdbcType="VARCHAR" />
+    <result column="CARD_ID" property="cardId" jdbcType="VARCHAR" />
+    <result column="FA_SUB_NAME" property="faSubName" jdbcType="VARCHAR" />
+    <result column="FA_SUB_NUM" property="faSubNum" jdbcType="DECIMAL" />
+    <result column="FA_SUB_PRICE" property="faSubPrice" jdbcType="DECIMAL" />
+    <result column="FA_SUB_SPEC" property="faSubSpec" jdbcType="VARCHAR" />
+    <result column="FA_SUB_PURP" property="faSubPurp" jdbcType="VARCHAR" />
+    <result column="FA_SUB_DATE" property="faSubDate" jdbcType="DATE" />
+    <result column="FA_SUB_CODE" property="faSubCode" jdbcType="VARCHAR" />
+  </resultMap>
+ 
+  <sql id="Base_Column_List" >   
+    CARD_SUB_CODE, CARD_ID, FA_SUB_NAME, FA_SUB_NUM, FA_SUB_PRICE, FA_SUB_SPEC, FA_SUB_PURP, 
+    FA_SUB_DATE, FA_SUB_CODE
+  </sql>
+  <select id="selectByCardId" resultMap="BaseResultMap" parameterClass="String" >   
+  select
+    <include refid="Base_Column_List" />
+     from ZC_FA_CARD_SUB where CARD_ID=#value#
+  </select>
+  <delete id="deleteByCardId" parameterClass="String" >   
+    delete from ZC_FA_CARD_SUB where CARD_ID=#value#
+  </delete>
+  <insert id="insert" parameterClass="cardSub" >
+    
+    insert into ZC_FA_CARD_SUB (CARD_SUB_CODE, CARD_ID, FA_SUB_NAME, 
+      FA_SUB_NUM, FA_SUB_PRICE, FA_SUB_SPEC, 
+      FA_SUB_PURP, FA_SUB_DATE, FA_SUB_CODE
+      )
+    values (
+      #cardSubCode:VARCHAR#, #cardId:VARCHAR#, #faSubName:VARCHAR#, 
+      #faSubNum:DECIMAL#, #faSubPrice:DECIMAL#, #faSubSpec:VARCHAR#, 
+      #faSubPurp:VARCHAR#, #faSubDate:DATE#, #faSubCode:VARCHAR#
+      )
+  </insert>
+  <update id="updateByCardId" parameterClass="cardSub" >   
+    update ZC_FA_CARD_SUB
+	set CARD_SUB_CODE = #cardSubCode:VARCHAR,
+      CARD_ID = #cardId:VARCHAR,
+      FA_SUB_NAME = #faSubName:VARCHAR,
+      FA_SUB_NUM = #faSubNum:DECIMAL,
+      FA_SUB_PRICE = #faSubPrice:DECIMAL,
+      FA_SUB_SPEC = #faSubSpec:VARCHAR,
+      FA_SUB_PURP = #faSubPurp:VARCHAR,
+      FA_SUB_DATE = #faSubDate:DATE,
+      FA_SUB_CODE = #faSubCode:VARCHAR#
+      where CARD_ID=#cardId#
+  </update>
+</sqlMap>

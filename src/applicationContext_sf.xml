@@ -41,6 +41,8 @@
 		<property name="wfEngineAdapter" ref="wfEngineAdapter" />	
 		<property name="zcEbBaseService" ref="zcEbBaseService" />
 		<property name="userService" ref="userService" />	
+		<property name="entrustorService" ref="entrustorService" />	
+		<property name="jdTargetService" ref="jdTargetService" />	
 	</bean>		
 	<bean id="entrustMapper" class="com.ufgov.zc.server.sf.dao.ibatis.SfEntrustMapperImp"		scope="singleton">
 		<property name="sqlMapClient" ref="sqlMapClient" />
@@ -101,7 +103,9 @@
 	<bean id="receiptService" class="com.ufgov.zc.server.sf.service.impl.SfReceiptService"		scope="singleton">
 		<property name="receiptMapper" ref="receiptMapper" />	
 		<property name="workflowDao" ref="workflowDao" />
-		<property name="wfEngineAdapter" ref="wfEngineAdapter" />	
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+		<property name="sfEntrustService" ref="sfEntrustService" />	
+		<property name="zcEbBaseService" ref="zcEbBaseService" />
 	</bean>		
 	<bean id="receiptMapper" class="com.ufgov.zc.server.sf.dao.ibatis.SfReceiptMapperImp"		scope="singleton">
 		<property name="sqlMapClient" ref="sqlMapClient" />
@@ -207,6 +211,7 @@
 	<bean id="jdPersonServic" class="com.ufgov.zc.server.sf.service.impl.SfJdPersonService"		scope="singleton">
 		<property name="jdPersonMapper" ref="jdPersonMapper" />	
 		<property name="jdPersonMajorMapper" ref="jdPersonMajorMapper" />	
+		<property name="zcEbBaseService" ref="zcEbBaseService" />	
 	</bean>		
 	<bean id="jdPersonMapper" class="com.ufgov.zc.server.sf.dao.ibatis.SfJdPersonMapperImp"		scope="singleton">
 		<property name="sqlMapClient" ref="sqlMapClient" />
@@ -226,6 +231,7 @@
 	
 	<bean id="sfJdDocCodeService" class="com.ufgov.zc.server.sf.service.impl.SfJdDocCodeService"		scope="singleton">
 		<property name="jdDocCodeMapper" ref="jdDocCodeMapper" />	 
+		<property name="zcEbBaseService" ref="zcEbBaseService" />	
 	</bean>		
 	<bean id="jdDocCodeMapper" class="com.ufgov.zc.server.sf.dao.ibatis.SfJdDocCodeMapperImp"		scope="singleton">
 		<property name="sqlMapClient" ref="sqlMapClient" />
@@ -237,6 +243,7 @@
 		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
 		 <property name="sfEntrustService" ref="sfEntrustService" />
 		 <property name="jdResultService" ref="jdResultService" />
+		<property name="zcEbBaseService" ref="zcEbBaseService" />	
 	</bean>		
 	<bean id="sfJdReportMapper" class="com.ufgov.zc.server.sf.dao.ibatis.SfJdReportMapperImp"		scope="singleton">
 		<property name="sqlMapClient" ref="sqlMapClient" />
@@ -244,5 +251,47 @@
 		
 	<bean id="zcMobileMsgService" class="com.ufgov.zc.server.sf.service.impl.ZcMobileMsgService"		scope="singleton">
 		<property name="baseDao" ref="zcBaseDao"></property>
-	</bean>								
+	</bean>		
+	
+	<bean id="sfJdjgService" class="com.ufgov.zc.server.sf.service.impl.SfJdjgService"		scope="singleton">
+		<property name="zcEbBaseService" ref="zcEbBaseService"></property>
+	</bean>		
+	
+	<bean id="cardService" class="com.ufgov.zc.server.sf.service.impl.ZcFaCardService"
+		scope="singleton">
+		<property name="baseDao" ref="zcBaseDao"></property>
+		<property name="workflowDao" ref="workflowDao"></property>
+		<property name="cardDao" ref="cardDao"></property>
+		<property name="cardSubDao" ref="cardSubDao"></property>
+		<property name="cardDocDao" ref="cardDocDao"></property>
+		<property name="cardUsingDao" ref="cardUsingDao"></property>
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+	</bean>	
+	<bean id="cardDao" class="com.ufgov.zc.server.sf.dao.ibatis.ZcFaCardDao"
+		scope="singleton">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>	
+	<bean id="cardSubDao" class="com.ufgov.zc.server.sf.dao.ibatis.ZcFaCardSubDao"
+		scope="singleton">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>	
+	<bean id="cardDocDao" class="com.ufgov.zc.server.sf.dao.ibatis.ZcFaCardDocDao"
+		scope="singleton">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	<bean id="cardUsingDao" class="com.ufgov.zc.server.sf.dao.ibatis.ZcFaUsingDao"
+		scope="singleton">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+			
+	<bean id="sfAppendMaterialService" class="com.ufgov.zc.server.sf.service.impl.SfAppendMaterialService"		scope="singleton">
+		<property name="appendMaterialMapper" ref="appendMaterialMapper" />		
+		<property name="workflowDao" ref="workflowDao" />
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" />
+		<property name="materialsMapper" ref="materialsMapper" />
+		<property name="zcEbBaseService" ref="zcEbBaseService" />		
+	</bean>		
+	<bean id="appendMaterialMapper" class="com.ufgov.zc.server.sf.dao.ibatis.SfAppendMaterialMapperImp"		scope="singleton">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>						
 </beans>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap   
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"    
+
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ZcFaCardDoc" >
+
+	<typeAlias alias="elementCondition"	type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<typeAlias alias="cardDoc"	type="com.ufgov.zc.common.sf.model.ZcFaCardDoc" />
+	
+  <resultMap id="BaseResultMap" class="cardDoc" >
+    <result column="CARD_ID" property="cardId" jdbcType="VARCHAR" />
+    <result column="CARD_DOC_LIST" property="cardDocList" jdbcType="VARCHAR" />
+    <result column="CARD_DOC" property="cardDoc" jdbcType="VARCHAR" />
+    <result column="CARD_DOC_BLOBID" property="cardDocBlobid" jdbcType="VARCHAR" />
+    <result column="CARD_DOC_PURP" property="cardDocPurp" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CARD_ID, CARD_DOC_LIST, CARD_DOC, CARD_DOC_BLOBID, CARD_DOC_PURP
+  </sql>
+  <select id="selectByCardId" resultMap="BaseResultMap" parameterClass="String" >   
+  	select
+    <include refid="Base_Column_List" />
+     from ZC_FA_CARD_DOC where CARD_ID=#value#
+  </select>
+  <delete id="deleteByCardId" parameterClass="String" >   
+    delete from ZC_FA_CARD_DOC where CARD_ID=#value#
+  </delete>
+  <insert id="insert" parameterClass="cardDoc" >
+    insert into ZC_FA_CARD_DOC (CARD_ID, CARD_DOC_LIST, CARD_DOC, 
+      CARD_DOC_BLOBID, CARD_DOC_PURP)
+    values (#cardId:VARCHAR#, #cardDocList:VARCHAR#, #cardDoc:VARCHAR#, 
+      #cardDocBlobid:VARCHAR#, #cardDocPurp:VARCHAR#)
+  </insert>
+  <update id="update" parameterClass="cardDoc" >
+    update ZC_FA_CARD_DOC
+    set CARD_ID = #cardId:VARCHAR#,
+      CARD_DOC_LIST = #cardDocList:VARCHAR#,
+      CARD_DOC = #cardDoc:VARCHAR#,
+      CARD_DOC_BLOBID = #cardDocBlobid:VARCHAR#,
+      CARD_DOC_PURP = #cardDocPurp:VARCHAR#
+      where CARD_ID=#cardId#
+  </update>
+</sqlMap>

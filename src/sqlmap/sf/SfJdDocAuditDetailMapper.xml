@@ -7,13 +7,14 @@
     <result column="DOC_TYPE_CODE" property="docType.docTypeCode" jdbcType="VARCHAR" />
     <result column="DOC_TYPE_NAME" property="docType.docTypeName" jdbcType="VARCHAR" />
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="QUANTITY" property="quantity" jdbcType="DECIMAL" />
   </resultMap>
   <sql id="Base_Column_List" > 
-    JD_DOC_AUDIT_ID, DOC_TYPE_CODE, REMARK
+    JD_DOC_AUDIT_ID, DOC_TYPE_CODE, REMARK,QUANTITY
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="java.math.BigDecimal" > 
     select 
-    d.JD_DOC_AUDIT_ID, t.DOC_TYPE_CODE,t.DOC_TYPE_NAME, d.REMARK
+    d.JD_DOC_AUDIT_ID, t.DOC_TYPE_CODE,t.DOC_TYPE_NAME, d.REMARK,D.QUANTITY
     from SF_JD_DOC_AUDIT_DETAIL d,SF_JD_DOC_TYPE t
     where JD_DOC_AUDIT_ID = #jdDocAuditId:DECIMAL#
     AND D.DOC_TYPE_CODE=t.DOC_TYPE_CODE
@@ -23,15 +24,16 @@
     where JD_DOC_AUDIT_ID = #jdDocAuditId:DECIMAL#
   </delete>
   <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfJdDocAuditDetail" > 
-    insert into SF_JD_DOC_AUDIT_DETAIL (JD_DOC_AUDIT_ID, DOC_TYPE_CODE, REMARK
+    insert into SF_JD_DOC_AUDIT_DETAIL (JD_DOC_AUDIT_ID, DOC_TYPE_CODE, REMARK,QUANTITY
       )
-    values (#jdDocAuditId:DECIMAL#, #docTypeCode:VARCHAR#, #remark:VARCHAR#
+    values (#jdDocAuditId:DECIMAL#, #docTypeCode:VARCHAR#, #remark:VARCHAR#,#quantity:DECIMAL#
       )
   </insert>
   <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfJdDocAuditDetail" > 
     update SF_JD_DOC_AUDIT_DETAIL
     set DOC_TYPE_CODE = #docTypeCode:VARCHAR#,
-      REMARK = #remark:VARCHAR#
+      REMARK = #remark:VARCHAR#,
+      QUANTITY=#quantity:DECIMAL#
     where JD_DOC_AUDIT_ID = #jdDocAuditId:DECIMAL#
   </update>
 </sqlMap>

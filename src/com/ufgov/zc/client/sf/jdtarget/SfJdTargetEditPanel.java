@@ -192,11 +192,11 @@ public class SfJdTargetEditPanel extends AbstractMainSubEditPanel {
 
     SfJdTarget jdTarget = (SfJdTarget) listCursor.getCurrentObject();
 
-    if (jdTarget != null && jdTarget.getJdTargetId() != null) {//列表页面双击进入
+    if (jdTarget != null && jdTarget.getEntrustId() != null) {//列表页面双击进入
 
       this.pageStatus = ZcSettingConstants.PAGE_STATUS_BROWSE;
 
-      jdTarget = sfJdTargetServiceDelegate.selectByPrimaryKey(jdTarget.getJdTargetId(), this.requestMeta);
+      jdTarget = sfJdTargetServiceDelegate.selectByPrimaryKey(jdTarget.getEntrustId(), this.requestMeta);
 
       listCursor.setCurrentObject(jdTarget);
       this.setEditingObject(jdTarget);
@@ -661,7 +661,7 @@ public class SfJdTargetEditPanel extends AbstractMainSubEditPanel {
 
     SfJdTarget jdTarget = (SfJdTarget) this.listCursor.getCurrentObject();
 
-    if (sfJdTargetServiceDelegate.isUsing(jdTarget.getJdTargetId(), requestMeta)) {
+    if (sfJdTargetServiceDelegate.isUsing(jdTarget.getEntrustId(), requestMeta)) {
       JOptionPane.showMessageDialog(this, "已经被使用，不能删除 ！\n", "错误", JOptionPane.ERROR_MESSAGE);
       return;
     }
@@ -677,7 +677,7 @@ public class SfJdTargetEditPanel extends AbstractMainSubEditPanel {
 
         requestMeta.setFuncId(deleteButton.getFuncId());
 
-        sfJdTargetServiceDelegate.deleteByPrimaryKeyFN(jdTarget.getJdTargetId(), requestMeta);
+        sfJdTargetServiceDelegate.deleteByPrimaryKeyFN(jdTarget.getEntrustId(), requestMeta);
 
       } catch (Exception e) {
 

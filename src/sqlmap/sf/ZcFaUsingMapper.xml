@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"    
+
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ZcFaUsing" >
+	<typeAlias alias="elementCondition"	type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<typeAlias alias="cardUsing"	type="com.ufgov.zc.common.sf.model.ZcFaUsing" />
+  <resultMap id="BaseResultMap" class="cardUsing" >
+    <result column="CARD_ID" property="cardId" jdbcType="VARCHAR" />
+    <result column="ORG_CODE" property="orgCode" jdbcType="VARCHAR" />
+    <result column="USE_RAT" property="useRat" jdbcType="DECIMAL" />
+    <result column="SERIAL" property="serial" jdbcType="VARCHAR" />
+    <result column="USE_EMP_NAME" property="useEmpName" jdbcType="VARCHAR" />
+    <result column="ND" property="nd" jdbcType="DECIMAL" />
+    <result column="CO_CODE" property="coCode" jdbcType="VARCHAR" />
+    <result column="USE_EMP_CODE" property="useEmpCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CARD_ID, ORG_CODE, USE_RAT, SERIAL, USE_EMP_NAME, ND, CO_CODE, USE_EMP_CODE
+  </sql>
+  <select id="selectByCardId" resultMap="BaseResultMap" parameterClass="String" >   
+  select
+    <include refid="Base_Column_List" />
+     from ZC_FA_USING where CARD_ID=#value#
+  </select>
+  <delete id="deleteByCardId" parameterClass="String" >   
+    delete from ZC_FA_USING where CARD_ID=#value#
+  </delete>
+  <update id="update" parameterClass="cardUsing" >
+    update ZC_FA_USING
+    set CARD_ID =#cardId:VARCHAR#,
+      ORG_CODE =#orgCode:VARCHAR#,
+      USE_RAT =#useRat:DECIMAL#,
+      SERIAL =#serial:VARCHAR#,
+      USE_EMP_NAME =#useEmpName:VARCHAR#,
+      ND =#nd:DECIMAL#,
+      CO_CODE =#coCode:VARCHAR#,
+      USE_EMP_CODE =#useEmpCode:VARCHAR#
+      where CARD_ID=#cardId#
+  </update>
+  <insert id="insert" parameterClass="cardUsing" >    
+    insert into ZC_FA_USING (
+    CARD_ID, ORG_CODE, USE_RAT, SERIAL, USE_EMP_NAME, ND, CO_CODE, USE_EMP_CODE
+      )
+    values (
+      #cardId:VARCHAR#, #orgCode:VARCHAR#, #useRat:DECIMAL#, 
+      #serial:VARCHAR#, #useEmpName:VARCHAR#, #nd:DECIMAL#, 
+      #coCode:VARCHAR#, #useEmpCode:VARCHAR#
+      )
+  </insert>
+</sqlMap>

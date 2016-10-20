@@ -24,8 +24,8 @@ public class SfEntrustWorkFlowLisenter extends TaskAdapter {
     IZcEbBaseServiceDao zcEbBaseServiceDao = (IZcEbBaseServiceDao) SpringContext.getBean("zcEbBaseServiceDao");
     SfEntrust evalution = (SfEntrust) zcEbBaseServiceDao.queryObject("com.ufgov.zc.server.sf.dao.SfEntrustMapper.selectByProcessinstid",
       new BigDecimal(processId.longValue()));
-    if(SfElementConstants.VAL_Y.equals(evalution.getIsAccept()) && evalution.getJdFzr() == null){
-    	throw new WorkflowException("请指定鉴定负责人");
+    if(SfElementConstants.VAL_Y.equals(evalution.getIsAccept()) && evalution.getJdFhr() == null){
+    	throw new WorkflowException("请指定鉴定复核人");
     } 
   }
 }

@@ -7,29 +7,36 @@ import com.ufgov.zc.common.zc.model.ZcBaseBill;
 public class SfMaterials extends ZcBaseBill {
   public static final String SEQ_SF_MATERIALS_ID = "SEQ_SF_MATERIALS_ID";
 
-  public static final String COL_DESCRIPTION = "SF_MATERIALS_DESCRIPTION"; // 描述
+  public static final String COL_APPEND_MATERIAL_ID="SF_MATERIALS_APPEND_MATERIAL_ID"; // 追加检材ID
+  public static final String COL_ATTACH_FILE="SF_MATERIALS_ATTACH_FILE"; // 文件
+  public static final String COL_ATTACH_FILE_BLOBID="SF_MATERIALS_ATTACH_FILE_BLOBID"; // 文件ID
+  public static final String COL_BAR_CODE="SF_MATERIALS_BAR_CODE"; // 条码
+  public static final String COL_BIANHAO="SF_BIANHAO"; // 编号
+  public static final String COL_DESCRIPTION="SF_MATERIALS_DESCRIPTION"; // 描述
+  public static final String COL_ENTRUST_ID="SF_MATERIALS_ENTRUST_ID"; // 委托ID
+  public static final String COL_JIAN_HOU_CHULI_TYPE="SF_MATERIALS_JIAN_HOU_CHULI_TYPE"; // 鉴后处理
+  public static final String COL_JIAN_HOU_STORE_TIME="SF_MATERIALS_JIAN_HOU_STORE_TIME"; // 鉴定后存储时间
+  public static final String COL_MATERIAL_ID="SF_MATERIALS_MATERIAL_ID"; // 材料ID
+  public static final String COL_MATERIAL_TYPE="SF_MATERIAL_TYPE"; // 类别  1：检材  2：样本"
+  public static final String COL_NAME="SF_MATERIALS_NAME"; // 名称
+  public static final String COL_QUANTITY="SF_MATERIALS_QUANTITY"; // 数量
+  public static final String COL_QUANTITY2="SF_MATERIALS_QUANTITY2"; // 数量2
+  public static final String COL_QUANTITY3="SF_MATERIALS_QUANTITY3"; // 数量3,用于直接描述，如几只、几个等
+  public static final String COL_REMARK="SF_MATERIALS_REMARK"; // 补充说明
+  public static final String COL_SAVE_ADDRESS="SF_MATERIALS_SAVE_ADDRESS"; // 存储位置
+  public static final String COL_SAVE_CONDITON="SF_MATERIALS_SAVE_CONDITON"; // 存储条件
+  public static final String COL_UNIT="SF_MATERIALS_UNIT"; // 单位
 
-  public static final String COL_ENTRUST_ID = "SF_MATERIALS_ENTRUST_ID"; // 委托ID
+  
+//  public static final String COL_ATTACH_FILE="SF_MATERIALS_ATTACH_FILE"; // 文件
+//  public static final String COL_ATTACH_FILE_BLOBID="SF_MATERIALS_ATTACH_FILE_BLOBID"; // 文件ID
+//  public static final String COL_JIAN_HOU_CHULI_TYPE="SF_MATERIALS_JIAN_HOU_CHULI_TYPE"; // 鉴后处理
+//  public static final String COL_SAVE_CONDITON="SF_MATERIALS_SAVE_CONDITON"; // 存储条件
+//  public static final String COL_REMARK="SF_MATERIALS_REMARK"; // 补充说明
+//  public static final String COL_JIAN_HOU_STORE_TIME="SF_MATERIALS_JIAN_HOU_STORE_TIME"; // 鉴定后存储时间
+//  public static final String COL_SAVE_ADDRESS="SF_MATERIALS_SAVE_ADDRESS"; // 存储位置
+//  public static final String COL_BAR_CODE="SF_MATERIALS_BAR_CODE"; // 条码
 
-  public static final String COL_MATERIAL_ID = "SF_MATERIALS_MATERIAL_ID"; // 材料ID
-
-  public static final String COL_NAME = "SF_MATERIALS_NAME"; // 名称
-
-  public static final String COL_QUANTITY = "SF_MATERIALS_QUANTITY"; // 数量-份
-
-  public static final String COL_QUANTITY2 = "SF_MATERIALS_QUANTITY2"; // 数量-张
-
-  public static final String COL_QUANTITY3 = "SF_MATERIALS_QUANTITY3"; // 数量-用于直接描述，如几只、几个等
-
-  public static final String COL_UNIT = "SF_MATERIALS_UNIT"; // 单位
-
-  public static final String COL_MATERIAL_TYPE = "SF_MATERIAL_TYPE"; // 类别   1：检材   2：样本  
-
-  public static final String COL_BIANHAO = "SF_BIANHAO"; // 编号
-
-  public static final String COL_ATTACH_FILE = "SF_ATTACH_FILE"; // 文件
-
-  public static final String COL_ATTACH_FILE_BLOBID = "SF_ATTACH_FILE_BLOBID"; // 文件ID
   
 
   /**
@@ -47,7 +54,40 @@ public class SfMaterials extends ZcBaseBill {
   public static final String SF_VS_MATERIAL_TYPE_yangben = "2";
   
 
-  private BigDecimal appendMaterialId;
+  /**
+   * 类别
+   */
+  public static final String SF_VS_MATERIAL_JIAN_HOU_CHULI_TYPE = "SF_VS_MATERIAL_JIAN_HOU_CHULI_TYPE";
+  public static final String SF_VS_MATERIAL_JIAN_HOU_CHULI_TYPE_tuihui = "2";
+  public static final String SF_VS_MATERIAL_JIAN_HOU_CHULI_TYPE_cundang = "3";
+  public static final String SF_VS_MATERIAL_JIAN_HOU_CHULI_TYPE_xiaohui = "6"; 
+  
+  /**
+   * 检材默认保存天数
+   */
+  public static final String OPT_SF_MATERIALS_STORE_DAYS="OPT_SF_MATERIALS_STORE_DAYS";
+  
+ /* private String  attachFile;
+  private String attachFileBlobid;
+  private String jianHouChuliType;
+  private String saveConditon;
+  private String remark;
+  private BigDecimal jianHouStoreTime;
+  private String saveAddress;
+  private String barCode;*/
+  
+
+  private String attachFile;
+  private String attachFileBlobid;
+  private String jianHouChuliType;
+  private String saveConditon;
+  private String remark;
+  private BigDecimal jianHouStoreTime;
+  private String saveAddress;
+  private String barCode;
+  
+
+private BigDecimal appendMaterialId;
   
 
   private String bianhao;
@@ -280,6 +320,70 @@ public BigDecimal getAppendMaterialId() {
 
 public void setAppendMaterialId(BigDecimal appendMaterialId) {
 	this.appendMaterialId = appendMaterialId;
+}
+
+public String getAttachFile() {
+	return attachFile;
+}
+
+public void setAttachFile(String attachFile) {
+	this.attachFile = attachFile;
+}
+
+public String getAttachFileBlobid() {
+	return attachFileBlobid;
+}
+
+public void setAttachFileBlobid(String attachFileBlobid) {
+	this.attachFileBlobid = attachFileBlobid;
+}
+
+public String getJianHouChuliType() {
+	return jianHouChuliType;
+}
+
+public void setJianHouChuliType(String jianHouChuliType) {
+	this.jianHouChuliType = jianHouChuliType;
+}
+
+public String getSaveConditon() {
+	return saveConditon;
+}
+
+public void setSaveConditon(String saveConditon) {
+	this.saveConditon = saveConditon;
+}
+
+public String getRemark() {
+	return remark;
+}
+
+public void setRemark(String remark) {
+	this.remark = remark;
+}
+
+public BigDecimal getJianHouStoreTime() {
+	return jianHouStoreTime;
+}
+
+public void setJianHouStoreTime(BigDecimal jianHouStoreTime) {
+	this.jianHouStoreTime = jianHouStoreTime;
+}
+
+public String getSaveAddress() {
+	return saveAddress;
+}
+
+public void setSaveAddress(String saveAddress) {
+	this.saveAddress = saveAddress;
+}
+
+public String getBarCode() {
+	return barCode;
+}
+
+public void setBarCode(String barCode) {
+	this.barCode = barCode;
 }
  
 }

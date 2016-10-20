@@ -77,5 +77,7 @@ public interface IZcEbBaseServiceDelegate extends Publishable {
   public void unAuditFN(List billList, RequestMeta meta);
 
   public void untreadFN(List billList, RequestMeta meta);
+  
+  public String getAutoNumNo(ZcBaseBill bill,String compoName,String fieldName);
 
 }

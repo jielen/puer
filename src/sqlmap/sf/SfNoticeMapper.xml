@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.ufgov.zc.server.sf.dao.SfNoticeMapper" >
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+  <resultMap id="BaseResultMap" class="com.ufgov.zc.common.sf.model.SfNotice" >
+    <result column="NOTICE_ID" property="noticeId" jdbcType="DECIMAL" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="BUSINESS_HANDLER" property="businessHandler" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="BEFORE_TIMES1" property="beforeTimes1" jdbcType="DECIMAL" />
+    <result column="TIME_UNIT1" property="timeUnit1" jdbcType="VARCHAR" />
+    <result column="RATE1" property="rate1" jdbcType="DECIMAL" />
+    <result column="RATE1_TYPE" property="rate1Type" jdbcType="VARCHAR" />
+    <result column="BEFORE_TIMES2" property="beforeTimes2" jdbcType="DECIMAL" />
+    <result column="TIME_UNIT2" property="timeUnit2" jdbcType="VARCHAR" />
+    <result column="RATE2" property="rate2" jdbcType="DECIMAL" />
+    <result column="RATE2_TYPE" property="rate2Type" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    NOTICE_ID, NAME, BUSINESS_HANDLER, REMARK, STATUS, BEFORE_TIMES1, TIME_UNIT1, RATE1, 
+    RATE1_TYPE, BEFORE_TIMES2, TIME_UNIT2, RATE2, RATE2_TYPE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from SF_NOTICE
+    where NOTICE_ID = #noticeId:DECIMAL#
+  </select>
+  
+  <select id="selectMainDataLst" resultMap="BaseResultMap" parameterClass="elementCondition" > 
+   select 
+    <include refid="Base_Column_List" />
+    from SF_NOTICE
+    where 1=1
+   <isNotNull prepend="AND" property="status"> 
+			<isEqual property="status" compareValue="enable">
+				SF_NOTICE.status ='enable'
+			</isEqual>	
+			<isEqual property="status" compareValue="disable">
+				SF_NOTICE.status ='disable'
+			</isEqual>	
+			<isEqual property="status" compareValue="all">
+				1=1
+			</isEqual>	 
+   </isNotNull>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="java.math.BigDecimal" >
+    delete from SF_NOTICE
+    where NOTICE_ID = #noticeId:DECIMAL#
+  </delete>
+  <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfNotice" >
+    insert into SF_NOTICE (NOTICE_ID, NAME, BUSINESS_HANDLER, 
+      REMARK, STATUS, BEFORE_TIMES1, 
+      TIME_UNIT1, RATE1, RATE1_TYPE, 
+      BEFORE_TIMES2, TIME_UNIT2, RATE2, 
+      RATE2_TYPE)
+    values (#noticeId:DECIMAL#, #name:VARCHAR#, #businessHandler:VARCHAR#, 
+      #remark:VARCHAR#, #status:VARCHAR#, #beforeTimes1:DECIMAL#, 
+      #timeUnit1:VARCHAR#, #rate1:DECIMAL#, #rate1Type:VARCHAR#, 
+      #beforeTimes2:DECIMAL#, #timeUnit2:VARCHAR#, #rate2:DECIMAL#, 
+      #rate2Type:VARCHAR#)
+  </insert> 
+  <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfNotice" >
+    update SF_NOTICE
+    set NAME = #name:VARCHAR#,
+      BUSINESS_HANDLER = #businessHandler:VARCHAR#,
+      REMARK = #remark:VARCHAR#,
+      STATUS = #status:VARCHAR#,
+      BEFORE_TIMES1 = #beforeTimes1:DECIMAL#,
+      TIME_UNIT1 = #timeUnit1:VARCHAR#,
+      RATE1 = #rate1:DECIMAL#,
+      RATE1_TYPE = #rate1Type:VARCHAR#,
+      BEFORE_TIMES2 = #beforeTimes2:DECIMAL#,
+      TIME_UNIT2 = #timeUnit2:VARCHAR#,
+      RATE2 = #rate2:DECIMAL#,
+      RATE2_TYPE = #rate2Type:VARCHAR#
+    where NOTICE_ID = #noticeId:DECIMAL#
+  </update>
+</sqlMap>

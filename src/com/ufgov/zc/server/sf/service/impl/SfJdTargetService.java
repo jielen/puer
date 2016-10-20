@@ -28,14 +28,9 @@ public class SfJdTargetService implements ISfJdTargetService {
   public SfJdTarget saveFN(SfJdTarget inData, RequestMeta requestMeta) {
     // TCJLODO Auto-generated method stub
 
-    if (inData.getJdTargetId()==null) {
-
-       BigDecimal id=new BigDecimal(ZcSUtil.getNextVal(SfJdTarget.SEQ_SF_JD_TARGET_ID));
-       inData.setJdTargetId(id);       
-       insert(inData,requestMeta);
-    }else{
-      update(inData,requestMeta);
-    }
+    deleteByPrimaryKeyFN(inData.getEntrustId(), requestMeta);
+          
+       insert(inData,requestMeta); 
     return inData;
   }
   

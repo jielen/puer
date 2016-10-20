@@ -80,7 +80,7 @@ public class SfJdReportNodeBusiness implements ISfFlowNodeBusiness {
 	    IZcEbBaseServiceDelegate zcEbBaseServiceDelegate = (IZcEbBaseServiceDelegate) ServiceFactory.create(IZcEbBaseServiceDelegate.class,
 	      "zcEbBaseServiceDelegate");
 	    ElementConditionDto dto = new ElementConditionDto();
-	    dto.setDattr1("" + entrustId.intValue());
+	    dto.setSfId(entrustId);
 	    List<SfJdReport> billLst = zcEbBaseServiceDelegate.queryDataForList("com.ufgov.zc.server.sf.dao.SfJdReportMapper.selectMainDataLst", dto, meta);
 	    return billLst;
 	  }

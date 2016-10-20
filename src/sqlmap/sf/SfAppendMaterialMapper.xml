@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.ufgov.zc.server.sf.dao.SfAppendMaterialMapper" >
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+  <resultMap id="BaseResultMap" class="com.ufgov.zc.common.sf.model.SfAppendMaterial" >
+    <result column="APPEND_MATERIAL_ID" property="appendMaterialId" jdbcType="DECIMAL" />
+    <result column="ENTRUST_CODE" property="entrustCode" jdbcType="VARCHAR" />
+    <result column="SJR_TEL" property="sjrTel" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="INPUTOR" property="inputor" jdbcType="VARCHAR" />
+    <result column="INPUT_DATE" property="inputDate" jdbcType="DATE" />
+    <result column="ACCEPTOR" property="acceptor" jdbcType="VARCHAR" />
+    <result column="ACCEPT_DATE" property="acceptDate" jdbcType="DATE" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="ND" property="nd" jdbcType="DECIMAL" />
+    <result column="PROCESS_INST_ID" property="processInstId" jdbcType="DECIMAL" />
+    <result column="VALIDATOR" property="validator" jdbcType="VARCHAR" />
+    <result column="VALIDAT_DATE" property="validatDate" jdbcType="DATE" />
+    <result column="VALIDAT_OPINION" property="validatOpinion" jdbcType="VARCHAR" />
+    <result column="VALIDAT_IS_PASS" property="validatIsPass" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CO_CODE" property="coCode" jdbcType="VARCHAR" />
+    <result column="ENTRUST_ID" property="entrustId" jdbcType="DECIMAL" />
+    <result column="SJR" property="sjr" jdbcType="VARCHAR" />
+    <result column="SJR_ZJ_TYPE" property="sjrZjType" jdbcType="VARCHAR" />
+    <result column="SJR_ZJ_CODE" property="sjrZjCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    APPEND_MATERIAL_ID, ENTRUST_CODE, SJR_TEL, NAME, INPUTOR, INPUT_DATE, ACCEPTOR, ACCEPT_DATE, 
+    STATUS, ND, PROCESS_INST_ID, VALIDATOR, VALIDAT_DATE, VALIDAT_OPINION, VALIDAT_IS_PASS, 
+    REMARK, CO_CODE, ENTRUST_ID, SJR, SJR_ZJ_TYPE, SJR_ZJ_CODE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from SF_APPEND_MATERIAL
+    where APPEND_MATERIAL_ID = #appendMaterialId:DECIMAL#
+  </select>
+  <select id="selectMainDataLst" parameterClass="elementCondition" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SF_APPEND_MATERIAL
+    where 1=1  
+		<include refid="BusiNumLim.BusiNumLimStr" />   
+		<isNotNull prepend="AND" property="dattr1"> 
+			ENTRUST_ID=#dattr1#
+		</isNotNull> 
+		<!-- 列表界面上的搜索条件 -->
+		<isNotNull prepend="AND" property="dattr5"> 
+			ENTRUST_ID=#dattr5#
+		</isNotNull>    
+	<isNotEqual prepend="and" compareValue="0" property="nd">
+			SF_APPEND_MATERIAL.ND = #nd#
+   </isNotEqual>
+		<isNotNull prepend="AND" property="status">
+			<isEqual property="status" compareValue="todo">				
+				(exists (select T.instance_id from V_SF_WF_CURRENT_TASK_TODO T,sf_entrust  where 
+				          T.executor=#executor# and t.instance_id = SF_APPEND_MATERIAL.process_inst_id
+				          AND SUBSTR(SF_ENTRUST.MAJOR_CODE, 0, 3)=T.MAJOR_CODE
+				          and SF_ENTRUST.Entrust_Id=SF_APPEND_MATERIAL.Entrust_Id)
+				  or         
+				 exists (select instance_id from V_WF_CURRENT_TASK_ZC_TODO where 
+				          executor=#executor# and instance_id = SF_APPEND_MATERIAL.process_inst_id) 			          	
+				)
+			</isEqual>
+			<isEqual property="status" compareValue="untread">
+				exists (select instance_id from V_WF_CURRENT_TASK_ZC_UNTREAD where
+				executor=#executor# and instance_id = SF_APPEND_MATERIAL.process_inst_id)
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				exists (select instance_id from V_WF_ACTION_HISTORY_GK53 where 
+				executor =#executor# and instance_id = SF_APPEND_MATERIAL.process_inst_id)
+				and SF_APPEND_MATERIAL.STATUS!= 'cancel' and SF_APPEND_MATERIAL.STATUS != 'exec'
+			</isEqual>
+			<isEqual property="status" compareValue="draft">
+				( exists (select WF_DRAFT_NAME from as_wf_draft where
+				user_id=#executor# and
+				compo_id=#wfcompoId# and
+				WF_DRAFT_ID=SF_APPEND_MATERIAL.process_inst_id)
+				or
+				SF_APPEND_MATERIAL.process_inst_id = -1 )
+				and SF_APPEND_MATERIAL.STATUS ='0'
+			</isEqual>
+			<isEqual property="status" compareValue="exec">
+				(SF_APPEND_MATERIAL.STATUS='exec')
+			</isEqual>
+			<isEqual property="status" compareValue="all">
+				1=1
+			</isEqual>
+		</isNotNull>
+   order by SF_APPEND_MATERIAL.APPEND_MATERIAL_ID desc
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="java.math.BigDecimal" >
+    delete from SF_APPEND_MATERIAL
+    where APPEND_MATERIAL_ID = #appendMaterialId:DECIMAL#
+  </delete>
+  <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfAppendMaterial" >
+    insert into SF_APPEND_MATERIAL (APPEND_MATERIAL_ID, ENTRUST_CODE, SJR_TEL, 
+      NAME, INPUTOR, INPUT_DATE, 
+      ACCEPTOR, ACCEPT_DATE, STATUS, 
+      ND, PROCESS_INST_ID, VALIDATOR, 
+      VALIDAT_DATE, VALIDAT_OPINION, VALIDAT_IS_PASS, 
+      REMARK, CO_CODE, ENTRUST_ID, 
+      SJR, SJR_ZJ_TYPE, SJR_ZJ_CODE
+      )
+    values (#appendMaterialId:DECIMAL#, #entrustCode:VARCHAR#, #sjrTel:VARCHAR#, 
+      #name:VARCHAR#, #inputor:VARCHAR#, #inputDate:DATE#, 
+      #acceptor:VARCHAR#, #acceptDate:DATE#, #status:VARCHAR#, 
+      #nd:DECIMAL#, #processInstId:DECIMAL#, #validator:VARCHAR#, 
+      #validatDate:DATE#, #validatOpinion:VARCHAR#, #validatIsPass:VARCHAR#, 
+      #remark:VARCHAR#, #coCode:VARCHAR#, #entrustId:DECIMAL#, 
+      #sjr:VARCHAR#, #sjrZjType:VARCHAR#, #sjrZjCode:VARCHAR#
+      )
+  </insert> 
+  <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfAppendMaterial" >
+    update SF_APPEND_MATERIAL
+    set ENTRUST_CODE = #entrustCode:VARCHAR#,
+      SJR_TEL = #sjrTel:VARCHAR#,
+      NAME = #name:VARCHAR#,
+      INPUTOR = #inputor:VARCHAR#,
+      INPUT_DATE = #inputDate:DATE#,
+      ACCEPTOR = #acceptor:VARCHAR#,
+      ACCEPT_DATE = #acceptDate:DATE#,
+      STATUS = #status:VARCHAR#,
+      ND = #nd:DECIMAL#,
+      PROCESS_INST_ID = #processInstId:DECIMAL#,
+      VALIDATOR = #validator:VARCHAR#,
+      VALIDAT_DATE = #validatDate:DATE#,
+      VALIDAT_OPINION = #validatOpinion:VARCHAR#,
+      VALIDAT_IS_PASS = #validatIsPass:VARCHAR#,
+      REMARK = #remark:VARCHAR#,
+      CO_CODE = #coCode:VARCHAR#,
+      ENTRUST_ID = #entrustId:DECIMAL#,
+      SJR = #sjr:VARCHAR#,
+      SJR_ZJ_TYPE = #sjrZjType:VARCHAR#,
+      SJR_ZJ_CODE = #sjrZjCode:VARCHAR#
+    where APPEND_MATERIAL_ID = #appendMaterialId:DECIMAL#
+  </update>
+  <!-- 判断当前业务数据是否处在业务科室受理人的待办任务里-->
+  <select id="isKeshiShouliToDo" parameterClass="elementCondition" resultClass="java.lang.Long">
+  	select T.instance_id
+    from V_SF_WF_CURRENT_TASK_TODO T, SF_APPEND_MATERIAL m,sf_entrust e
+	 where T.executor = #executor#
+	   and t.instance_id = m.process_inst_id
+	   and m.process_inst_id = #processInstId:DECIMAL#
+     and m.entrust_id=e.entrust_id
+	   AND SUBSTR(e.MAJOR_CODE, 0, 3) = T.MAJOR_CODE
+  </select>
+  <!-- 判断当前业务数据是否处在退回到业务科室受理人的任务里-->
+  <select id="isKeshiShouliUntreat" parameterClass="elementCondition" resultClass="java.lang.Long">
+  	select T.instance_id
+	  from V_SF_WF_CURRENT_TASK_UNTREAD T, SF_ENTRUST e,sf_append_material m
+	 where T.executor = #executor#
+	   and t.instance_id = m.process_inst_id
+	   and m.process_inst_id = #processInstId:DECIMAL#
+     and m.entrust_id=e.entrust_id
+	   AND SUBSTR(e.MAJOR_CODE, 0, 3) = T.MAJOR_CODE
+  </select>
+</sqlMap>

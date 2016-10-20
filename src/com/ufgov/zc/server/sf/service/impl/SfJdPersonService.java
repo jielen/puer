@@ -1,8 +1,10 @@
 package com.ufgov.zc.server.sf.service.impl;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.ufgov.zc.common.sf.model.SfCertificate;
 import com.ufgov.zc.common.sf.model.SfJdPerson;
 import com.ufgov.zc.common.sf.model.SfJdPersonMajor;
 import com.ufgov.zc.common.system.RequestMeta;
@@ -11,12 +13,15 @@ import com.ufgov.zc.server.sf.dao.SfJdPersonMajorMapper;
 import com.ufgov.zc.server.sf.dao.SfJdPersonMapper;
 import com.ufgov.zc.server.sf.service.ISfJdPersonService;
 import com.ufgov.zc.server.zc.ZcSUtil;
+import com.ufgov.zc.server.zc.service.IZcEbBaseService;
 
 public class SfJdPersonService implements ISfJdPersonService {
 
   private SfJdPersonMapper jdPersonMapper;
   
   private SfJdPersonMajorMapper jdPersonMajorMapper;
+  
+  private IZcEbBaseService zcEbBaseService;
   
   public SfJdPersonMapper getJdPersonMapper() {
     return jdPersonMapper;
@@ -48,6 +53,8 @@ public class SfJdPersonService implements ISfJdPersonService {
     // TCJLODO Auto-generated method stub
     SfJdPerson rtn=jdPersonMapper.selectByPrimaryKey(id);
     rtn.setMajorLst(jdPersonMajorMapper.selectByPrimaryKey(id));
+    List certLst=zcEbBaseService.queryDataForList("com.ufgov.zc.server.sf.dao.SfCertificateMapper.selectByOwner", id);
+    rtn.setCertificatLst(certLst==null?new ArrayList():certLst);
     rtn.setDbDigest(rtn.digest());
     return rtn;
   }
@@ -79,6 +86,18 @@ public class SfJdPersonService implements ISfJdPersonService {
         jdPersonMajorMapper.insert(m);
       }
     }
+    
+zcEbBaseService.delete("com.ufgov.zc.server.sf.dao.SfCertificateMapper.deleteByOwner", inData.getJdPersonId());
+    if(inData.getCertificatLst()!=null){
+    	for(int i=0;i<inData.getCertificatLst().size();i++){
+    		SfCertificate cer=(SfCertificate) inData.getCertificatLst().get(i);
+    		cer.setZfOwnerId(inData.getJdPersonId());
+    		if(cer.getCerId()==null){
+    			cer.setCerId(new BigDecimal(ZcSUtil.getNextVal(SfCertificate.SEQ_SF_CERTIFICATE)));
+    		}
+    		zcEbBaseService.insertObject("com.ufgov.zc.server.sf.dao.SfCertificateMapper.insert", cer);
+    	}
+    }
   }
 
   private void insert(SfJdPerson inData, RequestMeta requestMeta) {
@@ -91,6 +110,14 @@ public class SfJdPersonService implements ISfJdPersonService {
         jdPersonMajorMapper.insert(m);
       }
     }
+    if(inData.getCertificatLst()!=null){
+    	for(int i=0;i<inData.getCertificatLst().size();i++){
+    		SfCertificate cer=(SfCertificate) inData.getCertificatLst().get(i);
+    		cer.setZfOwnerId(inData.getJdPersonId());
+    		cer.setCerId(new BigDecimal(ZcSUtil.getNextVal(SfCertificate.SEQ_SF_CERTIFICATE)));
+    		zcEbBaseService.insertObject("com.ufgov.zc.server.sf.dao.SfCertificateMapper.insert", cer);
+    	}
+    }
   }
 
   
@@ -99,5 +126,15 @@ public class SfJdPersonService implements ISfJdPersonService {
     jdPersonMapper.deleteByPrimaryKey(id);
     jdPersonMajorMapper.deleteByPrimaryKey(id);
   }
+
+
+public IZcEbBaseService getZcEbBaseService() {
+	return zcEbBaseService;
+}
+
+
+public void setZcEbBaseService(IZcEbBaseService zcEbBaseService) {
+	this.zcEbBaseService = zcEbBaseService;
+}
 
 }

@@ -41,12 +41,18 @@
     <include refid="Base_Column_List" />
     from SF_JD_PERSON
     where 1=1  		
+ <include refid="BusiNumLim.BusiNumLimStr" />
 		<isNotNull prepend="and" property="dattr1"> <!--司法鉴定人员部件选择人员sql  -->	
 				exists(
 					select * from sf_jd_person_major m
 					where m.major_code like #dattr1#||'%'
 					and m.jd_person_id=SF_JD_PERSON.JD_PERSON_ID
 					)
+		</isNotNull>  		
+		<isNotNull prepend="and" property="dattr2"> <!--资质菜单sql  -->	
+			<isEqual property="dattr2" compareValue="haveZizhi">	
+				CERTIFICATE_NO is not null
+			</isEqual> 
 		</isNotNull> 		
 		<isNotNull prepend="and" property="status">  					 		
 			<isEqual property="status" compareValue="enable">	
@@ -96,8 +102,7 @@
 		select u.user_id,u.user_name from 
 		as_emp_position ep,as_emp e,as_user u
 		where 
-		ep.co_code=#coCode#
-		and ep.emp_code=e.emp_code
+		  ep.emp_code=e.emp_code
 		and e.user_id=u.user_id
 		and ep.nd=#nd#		
 		<isNotNull prepend="and" property="dattr1"> <!--司法鉴定人员部件选择人员sql  -->		 		
@@ -107,6 +112,9 @@
 					where m.ACCOUNT=u.user_id
 					)
 			</isEqual>
+		</isNotNull>		
+		<isNotNull prepend="and" property="coCode">		
+			ep.co_code=#coCode#		
 		</isNotNull>
 	</select>
 </sqlMap>

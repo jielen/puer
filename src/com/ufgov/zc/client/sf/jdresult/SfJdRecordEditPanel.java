@@ -44,6 +44,7 @@ import com.ufgov.zc.client.common.BillElementMeta;
 import com.ufgov.zc.client.common.LangTransMeta;
 import com.ufgov.zc.client.common.ListCursor;
 import com.ufgov.zc.client.common.ServiceFactory;
+import com.ufgov.zc.client.common.UIConstants;
 import com.ufgov.zc.client.common.WorkEnv;
 import com.ufgov.zc.client.common.converter.sf.SfJdResultToTableModelConverter;
 import com.ufgov.zc.client.component.GkBaseDialog;
@@ -95,6 +96,7 @@ import com.ufgov.zc.client.zc.ztb.activex.ExcelPane;
 import com.ufgov.zc.client.zc.ztb.activex.WordPane;
 import com.ufgov.zc.common.sf.model.SfBookmark;
 import com.ufgov.zc.common.sf.model.SfEntrust;
+import com.ufgov.zc.common.sf.model.SfJdPerson;
 import com.ufgov.zc.common.sf.model.SfJdRecordFileModel;
 import com.ufgov.zc.common.sf.model.SfJdReport;
 import com.ufgov.zc.common.sf.model.SfJdResult;
@@ -332,8 +334,14 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 	  protected void addSubWordPane(SfJdResultFile rf) {
 	    //下面一句是为了打开word后刷新窗口
 //	    parent.setSize(new Dimension(parent.getSize().width - 200, parent.getSize().height - 200));
-	    workPanel.setPreferredSize(new Dimension(workPanel.getSize().width - 10, workPanel.getSize().height - 10));
-	    parent.pack();
+//		  System.out.println("with="+parent.getSize().width);
+//		  System.out.println("height="+parent.getSize().height);
+//	    workPanel.setPreferredSize(new Dimension(workPanel.getSize().width - 10, workPanel.getSize().height - 10));
+	    parent.setSize(UIConstants.DIALOG_0_LEVEL_WIDTH-10, UIConstants.DIALOG_0_LEVEL_HEIGHT-10);
+	    parent.validate();
+
+//		  System.out.println("with2="+parent.getSize().width);
+//		  System.out.println("height2="+parent.getSize().height);
 	    WordPane wp=new WordPane();
 	    wp.addPropertyChangeListener(WordPane.EVENT_NAME_OPEN_CALLBACK, new PropertyChangeListener() {
 	      public void propertyChange(PropertyChangeEvent evt) {
@@ -343,8 +351,13 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 	          //下面一句是为了打开word后刷新窗口
 //	          parent.setSize(new Dimension(parent.getSize().width +200, parent.getSize().height +200));
 
-	    	    workPanel.setPreferredSize(new Dimension(workPanel.getSize().width + 10, workPanel.getSize().height + 10));
-	    	    parent.pack();
+//	    	    workPanel.setPreferredSize(new Dimension(workPanel.getSize().width + 10, workPanel.getSize().height + 10));
+	    	    parent.setSize(UIConstants.DIALOG_0_LEVEL_WIDTH, UIConstants.DIALOG_0_LEVEL_HEIGHT);
+	    	    parent.validate();
+	    	    parent.moveToScreenCenter();
+
+//	  		  System.out.println("with3="+parent.getSize().width);
+//	  		  System.out.println("height3="+parent.getSize().height);
 //	  	    	parent.validate(); 
 		        progressDialog.setVisible(false);
 		        recordFileTabPan.setSelectedIndex(recordFileTabPan.getTabCount()-1);
@@ -370,7 +383,7 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
         int yi=Double.valueOf(y).intValue();
         progressDialog.setLocation(xi, yi);
 
-        String openWordMessage =rf.getFileName()==null?rf.getModel().getName():rf.getFileName();
+        String openWordMessage =rf.getName()==null?rf.getModel().getName():rf.getName();
         openWordProgressBar.setString("正在加载文件:"+openWordMessage+",请稍等。"  );
         progressDialog.setVisible(true);
         
@@ -509,6 +522,11 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 	    setOldObject();
 	    setButtonStatus();
 	    updateFieldEditorsEditable();
+	    if(ZcSettingConstants.PAGE_STATUS_BROWSE.equals(pageStatus)){
+	    	recordFileTabPan.setCloseAble(false);
+	    }else{
+	    	recordFileTabPan.setCloseAble(true);
+	    }
 	  }
 
 	  private void refreshSubData() {
@@ -1154,6 +1172,11 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 //	    defaultWordPane.unProtectDoc(SfElementConstants.WORD_PASSWORD);
 	    updateFieldEditorsEditable();
 	    setButtonStatus();
+	    if(ZcSettingConstants.PAGE_STATUS_BROWSE.equals(pageStatus)){
+	    	recordFileTabPan.setCloseAble(false);
+	    }else{
+	    	recordFileTabPan.setCloseAble(true);
+	    }
 	  }
 
 	  private void setFilepanelEditAble(boolean isEdit) {
@@ -1286,8 +1309,10 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 		        // TCJLODO Auto-generated method stub
 		        for (Object obj : selectedDatas) {
 		          SfJdResult currentBill = (SfJdResult) listCursor.getCurrentObject();
-		          User jdr = (User) obj;
-		          currentBill.setJdr(jdr.getUserId());
+		          SfJdPerson jdr = (SfJdPerson) obj;
+		          currentBill.setJdr(jdr.getAccount());
+		          currentBill.setJdrName(jdr.getName());
+		          setEditingObject(currentBill);
 		          break;
 		        }
 		      }
@@ -1295,6 +1320,8 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 		    dto = new ElementConditionDto();
 		    ForeignEntityFieldEditor jdr = new ForeignEntityFieldEditor(jdrHandler.getSqlId(), dto, 20, jdrHandler, jdrHandler.getColumNames(),
 		      LangTransMeta.translate(SfJdResult.COL_JDR), "jdrName");
+
+//		    TextFieldEditor jdr = new TextFieldEditor(LangTransMeta.translate(SfJdResult.COL_JDR), "jdr");
 		    TextFieldEditor inputor = new TextFieldEditor(LangTransMeta.translate(SfJdResult.COL_INPUTOR), "inputorName");
 		    DateFieldEditor inputDate = new DateFieldEditor(LangTransMeta.translate(SfJdResult.COL_INPUT_DATE), "inputDate");
 
@@ -1392,7 +1419,24 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 
 		  System.out.println("change file name");
 		  
+		  if(recordFileTabPan.getSelectedIndex()<0){
+			  return;
+		  }
+		  String txt=recordFileTabPan.getTitleAt(recordFileTabPan.getSelectedIndex());
+
+		  System.out.println("change file name="+txt);
+		  showChangeNameDialog(false,txt,null);
+	}
+
+	private void showChangeNameDialog(boolean isNew,String oldTitle,String menuTxt) {
+
 		  
+		  ChangeNameDialog entrustDialog = new ChangeNameDialog(parent,this.self,isNew,oldTitle,menuTxt);
+//			entrustDialog.setSize(d)
+		    entrustDialog.setMinimumSize(new Dimension(300, 150));
+		    entrustDialog.pack();
+		    entrustDialog.moveToScreenCenter();
+		    entrustDialog.setVisible(true);
 	}
 
 	protected void doPopupMenu(MouseEvent e) {
@@ -1856,23 +1900,26 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 			JOptionPane.showMessageDialog(this, "请先选择委托.", "提示", JOptionPane.INFORMATION_MESSAGE);
 		      return ;
 		}
-		
 		 SfJdRecordFileModel model=modelFileMenuMap.get(menuText);
-		 if(recordFileTabs.get(model.getName())!=null){
-				JOptionPane.showMessageDialog(this, "模板已经添加.", "提示", JOptionPane.INFORMATION_MESSAGE);
-			      return ;			 
-		 }
 		 if(model==null || model.getFileId()==null){
 
 				JOptionPane.showMessageDialog(this, "没有对应的模板文件.", "提示", JOptionPane.INFORMATION_MESSAGE);
 			      return ;
 		 }
-		 mainTab.setSelectedIndex(1);
-		SfJdResultFile rf=new SfJdResultFile();
-		rf.setModel(model); 
-		rf.setFileId(model.getFileId()); 
-		modelFileIdLst.add(model.getFileId());
-		addTab(rf);
+		
+		 if(recordFileTabs.get(model.getName())!=null){
+			 showChangeNameDialog(true,model.getName(),menuText);
+				/*JOptionPane.showMessageDialog(this, "模板已经添加.", "提示", JOptionPane.INFORMATION_MESSAGE);
+			      return ;	*/		 
+		 }else{
+			 mainTab.setSelectedIndex(1);
+			SfJdResultFile rf=new SfJdResultFile();
+			SfJdRecordFileModel model2 = (SfJdRecordFileModel) ObjectUtil.deepCopy(model);
+			rf.setModel(model2); 
+			rf.setFileId(model2.getFileId()); 
+			modelFileIdLst.add(model2.getFileId());
+			addTab(rf);
+		 }
 		
 	}
 
@@ -1897,6 +1944,53 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 	    entrustDialog.setVisible(true);
 	}
 
+	public boolean changeName(String newTitle,String oldTitle,String menuTxt, boolean isNew) {
+		System.out.println(newTitle);
+		if(isNew){
+			for(int i=0;i<recordFileTabPan.getTabCount();i++){
+				if(newTitle.equals(recordFileTabPan.getTitleAt(i))){
+					return false;
+				}
+			}
+			System.out.println(oldTitle);
+			 SfJdRecordFileModel model=modelFileMenuMap.get(menuTxt);
+
+				SfJdRecordFileModel model2 = (SfJdRecordFileModel) ObjectUtil.deepCopy(model);
+				model2.setName(newTitle);
+			 mainTab.setSelectedIndex(1);
+			SfJdResultFile rf=new SfJdResultFile();
+			rf.setModel(model2); 
+			rf.setFileId(model2.getFileId()); 
+			modelFileIdLst.add(model2.getFileId());
+			addTab(rf);
+			return true;
+		}else{
+			int oldIndex=recordFileTabPan.getSelectedIndex();
+			int newIndex=-1;
+			for(int i=0;i<recordFileTabPan.getTabCount();i++){
+				
+				if(newTitle.equals(recordFileTabPan.getTitleAt(i))){
+					newIndex=i;
+					break;
+				}
+			}
+			if(oldIndex==newIndex){
+				return true;
+			}
+			if(oldIndex!=newIndex && newIndex>=0){
+				return false;
+			}
+			if(newIndex==-1){
+				recordFileTabPan.setTitleAt(oldIndex, newTitle);
+				MyTab m=recordFileTabs.get(oldTitle);
+				m.getRecordFile().setName(newTitle);
+				recordFileTabs.remove(oldTitle);
+				recordFileTabs.put(newTitle, m);
+				return true;
+			}
+		}
+		return false;
+	}
 	protected void insertContent(String menuTitle) {
 		SfJdResult bill = (SfJdResult) this.listCursor.getCurrentObject();
 		if(bill==null || bill.getEntrustCode()==null){
@@ -2413,7 +2507,8 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 		}
 
 		private void addSubExcelPane(SfJdResultFile rf, JTabbedPane tp) {
-			 workPanel.setPreferredSize(new Dimension(workPanel.getSize().width - 10, workPanel.getSize().height - 10));
+		    parent.setSize(UIConstants.DIALOG_0_LEVEL_WIDTH-10, UIConstants.DIALOG_0_LEVEL_HEIGHT-10);
+		    parent.validate();
 			    parent.pack();
 			    ExcelPane wp=new ExcelPane();
 			    wp.addPropertyChangeListener(ExcelPane.EVENT_NAME_OPEN_CALLBACK, new PropertyChangeListener() {
@@ -2424,9 +2519,9 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 			          //下面一句是为了打开word后刷新窗口
 //			          parent.setSize(new Dimension(parent.getSize().width +200, parent.getSize().height +200));
 
-			    	    workPanel.setPreferredSize(new Dimension(workPanel.getSize().width + 10, workPanel.getSize().height + 10));
-			    	    parent.pack();
-//			  	    	parent.validate(); 
+			    	    parent.setSize(UIConstants.DIALOG_0_LEVEL_WIDTH, UIConstants.DIALOG_0_LEVEL_HEIGHT);
+			    	    parent.validate();
+			    	    parent.moveToScreenCenter();
 				        progressDialog.setVisible(false);
 				        recordFileTabPan.setSelectedIndex(recordFileTabPan.getTabCount()-1);
 			        }

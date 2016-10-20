@@ -18,10 +18,11 @@
     <result column="ENTRUST_ID" property="entrust.entrustId" jdbcType="DECIMAL" />
     <result column="WTF" property="wtf" jdbcType="VARCHAR" />
     <result column="REPORT_CODE" property="report.reportCode" jdbcType="VARCHAR" />
+    <result column="CO_CODE" property="coCode" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" > 
     JD_DOC_AUDIT_ID, INPUTOR, INPUT_DATE, DOC_QUATITY, REPORT_TYPE, REMARK, STATUS, PHOTOGRAPHER, 
-    ENTRUST_ID, ND, PROCESS_INST_ID, NAME, ENTRUST_CODE,WTF,REPORT_CODE
+    ENTRUST_ID, ND, PROCESS_INST_ID, NAME, ENTRUST_CODE,WTF,REPORT_CODE,CO_CODE
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="java.math.BigDecimal" > 
     select 
@@ -86,12 +87,12 @@
       DOC_QUATITY, REPORT_TYPE, REMARK, 
       STATUS, PHOTOGRAPHER, ENTRUST_ID, 
       ND, PROCESS_INST_ID, NAME, 
-      ENTRUST_CODE,WTF,REPORT_CODE)
+      ENTRUST_CODE,WTF,REPORT_CODE,CO_CODE)
     values (#jdDocAuditId:DECIMAL#, #inputor:VARCHAR#, #inputDate:DATE#, 
       #docQuatity:DECIMAL#, #reportType:VARCHAR#, #remark:VARCHAR#, 
       #status:VARCHAR#, #photographer:VARCHAR#, #entrust.entrustId:DECIMAL#, 
       #nd:DECIMAL#, #processInstId:DECIMAL#, #name:VARCHAR#, 
-      #entrust.code:VARCHAR#,#wtf:VARCHAR#,#report.reportCode:VARCHAR#)
+      #entrust.code:VARCHAR#,#wtf:VARCHAR#,#report.reportCode:VARCHAR#,#coCode#)
   </insert>
   
   <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfJdDocAudit" > 
@@ -109,7 +110,8 @@
       NAME = #name:VARCHAR#,
       ENTRUST_CODE = #entrust.code:VARCHAR#,
       WTF=#wtf:VARCHAR#,
-      REPORT_CODE=#report.reportCode:VARCHAR#
+      REPORT_CODE=#report.reportCode:VARCHAR#,
+      CO_CODE=#coCode#
     where JD_DOC_AUDIT_ID = #jdDocAuditId:DECIMAL#
   </update>
 </sqlMap>

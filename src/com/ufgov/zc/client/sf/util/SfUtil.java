@@ -80,9 +80,9 @@ public class SfUtil {
     return haveFunc(compoId, null, func, meta);
   }
 
-  public static boolean haveFunc(String compoId, String func, RequestMeta meta, String moduleCode) {
+  /*public static boolean haveFunc(String compoId, String func, RequestMeta meta, String moduleCode) {
     return haveFunc(compoId, null, func, meta, moduleCode);
-  }
+  }*/
 
   /**
    * 判断当前用户对当前部件是否有对应权限
@@ -93,7 +93,7 @@ public class SfUtil {
    */
   public static boolean haveFunc(String compoId, SfEntrust entrust, String func, RequestMeta meta) {
 
-    return haveFunc(compoId, entrust, func, meta, "SF");
+    return haveFunc(compoId, func, meta, "SF");
   }
 
   /**
@@ -104,7 +104,7 @@ public class SfUtil {
    * @param compoPreFix
    * @return
    */
-  public static boolean haveFunc(String compoId, SfEntrust entrust, String func, RequestMeta meta, String compoPreFix) {
+  public static boolean haveFunc(String compoId, String func, RequestMeta meta, String compoPreFix) {
     if (compoId == null || compoId.trim().length() == 0 || func == null || func.trim().length() == 0) {
       return false;
     }

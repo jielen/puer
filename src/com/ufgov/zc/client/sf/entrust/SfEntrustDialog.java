@@ -42,7 +42,7 @@ public class SfEntrustDialog extends GkBaseDialog {
 
     this.setTitle(LangTransMeta.translate(listPanel.getcompoId()));
 
-    this.setSize(UIConstants.DIALOG_3_LEVEL_WIDTH, UIConstants.DIALOG_3_LEVEL_HEIGHT);
+    this.setSize(UIConstants.DIALOG_0_LEVEL_WIDTH, UIConstants.DIALOG_0_LEVEL_HEIGHT);
 
     this.moveToScreenCenter();
 
@@ -50,7 +50,7 @@ public class SfEntrustDialog extends GkBaseDialog {
 
     //editPanel.refreshData();s
 
-    this.setMaxSizeWindow();
+//    this.setMaxSizeWindow();
 
     this.setVisible(true);
 

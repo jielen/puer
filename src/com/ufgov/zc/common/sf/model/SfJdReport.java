@@ -26,6 +26,11 @@ public class SfJdReport extends ZcBaseBill {
 
 
 	  public static final String SF_VS_REPORT_STATUS = "SF_VS_REPORT_STATUS";
+	  
+
+
+	  public static final String OPT_SF_REPORT_FACE_FILE_ID = "OPT_SF_REPORT_FACE_FILE_ID";
+
 
 	
 	public static final String COL_CO_CODE="SF_JD_REPORT_CO_CODE"; // 单位代码

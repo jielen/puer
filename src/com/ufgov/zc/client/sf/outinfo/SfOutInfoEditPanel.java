@@ -10,6 +10,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
@@ -25,6 +26,7 @@ import org.apache.log4j.Logger;
 
 import com.ufgov.smartclient.common.UIUtilities;
 import com.ufgov.smartclient.component.table.fixedtable.JPageableFixedTable;
+import com.ufgov.zc.client.common.AsOptionMeta;
 import com.ufgov.zc.client.common.BillElementMeta;
 import com.ufgov.zc.client.common.LangTransMeta;
 import com.ufgov.zc.client.common.ListCursor;
@@ -64,6 +66,7 @@ import com.ufgov.zc.client.component.table.celleditor.TextCellEditor;
 import com.ufgov.zc.client.component.table.cellrenderer.DateCellRenderer;
 import com.ufgov.zc.client.component.table.cellrenderer.NumberCellRenderer;
 import com.ufgov.zc.client.component.table.codecelleditor.AsValComboBoxCellEditor;
+import com.ufgov.zc.client.component.table.codecelleditor.FileCellEditor;
 import com.ufgov.zc.client.component.table.codecellrenderer.AsValCellRenderer;
 import com.ufgov.zc.client.component.ui.fieldeditor.AbstractFieldEditor;
 import com.ufgov.zc.client.component.zc.AbstractMainSubEditPanel;
@@ -304,6 +307,14 @@ public class SfOutInfoEditPanel extends AbstractMainSubEditPanel {
 	    SwingUtil.setTableCellRenderer(table, SfMaterials.COL_QUANTITY, new NumberCellRenderer());
 	    SwingUtil.setTableCellEditor(table, SfMaterials.COL_MATERIAL_TYPE, new AsValComboBoxCellEditor(SfMaterials.SF_VS_MATERIAL_TYPE));
 	    SwingUtil.setTableCellRenderer(table, SfMaterials.COL_MATERIAL_TYPE, new AsValCellRenderer(SfMaterials.SF_VS_MATERIAL_TYPE));
+
+	    FileCellEditor fileEditor=new FileCellEditor("attachFileBlobid",true,(BeanTableModel) table.getModel());
+	    fileEditor.setDownloadFileEnable(true);
+	    SwingUtil.setTableCellEditor(table, SfMaterials.COL_ATTACH_FILE,fileEditor ); 
+	    SwingUtil.setTableCellEditor(table, SfMaterials.COL_JIAN_HOU_STORE_TIME, new MoneyCellEditor(false));
+	    SwingUtil.setTableCellRenderer(table, SfMaterials.COL_JIAN_HOU_STORE_TIME, new NumberCellRenderer());
+	    SwingUtil.setTableCellEditor(table, SfMaterials.COL_JIAN_HOU_CHULI_TYPE, new AsValComboBoxCellEditor(SfMaterials.SF_VS_MATERIAL_JIAN_HOU_CHULI_TYPE));
+	    SwingUtil.setTableCellRenderer(table, SfMaterials.COL_JIAN_HOU_CHULI_TYPE, new AsValCellRenderer(SfMaterials.SF_VS_MATERIAL_JIAN_HOU_CHULI_TYPE));
 	  }
 
 private void refreshValidateTableData() {
@@ -1238,6 +1249,8 @@ private void refreshValidateTableData() {
     SfOutInfo e = listCursor.getCurrentObject();
     item.setEntrustId(e.getEntrustId());
     item.setMaterialType(SfMaterials.SF_VS_MATERIAL_TYPE_jiancai);
+    item.setJianHouChuliType(SfMaterials.SF_VS_MATERIAL_JIAN_HOU_CHULI_TYPE_tuihui);
+    item.setJianHouStoreTime(new BigDecimal(AsOptionMeta.getOptVal(SfMaterials.OPT_SF_MATERIALS_STORE_DAYS)));
   }
   protected void setPersonDefaultValue(SfOutInfoDetail item) {
     // TCJLODO Auto-generated method stub

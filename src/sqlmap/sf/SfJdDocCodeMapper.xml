@@ -40,7 +40,7 @@
     values (#coCode:VARCHAR#, #gongZi:VARCHAR#, #jianZi1:VARCHAR#, 
       #jianZi2:VARCHAR#, #nd:DECIMAL#, #num:DECIMAL#, #pinJieCode:VARCHAR#
       )
-  </insert> 
+  </insert>  
   <select id="getSfJdDocCodeLst" resultMap="BaseResultMap" parameterClass="elementCondition" >    
     select CO_CODE, GONG_ZI, JIAN_ZI_1, 
       JIAN_ZI_2, ND, NUM+1 AS NUM, PIN_JIE_CODE
@@ -53,6 +53,16 @@
 			SF_JD_DOC_CODE.CO_CODE = #coCode#
    </isNotEqual>
     order by PIN_JIE_CODE
-    
+  </select> 
+  
+  <select id="getMaxum" resultClass="java.util.HashMap" parameterClass="elementCondition" >    
+    select max(num)+1 as num from sf_jd_doc_code 
+    where 1=1
+	<isNotEqual prepend="and" compareValue="0" property="nd">
+			SF_JD_DOC_CODE.ND = #nd#
+   </isNotEqual>
+	<isNotEqual prepend="and" compareValue="0" property="coCode">
+			SF_JD_DOC_CODE.CO_CODE = #coCode#
+   </isNotEqual> 
   </select>
 </sqlMap>

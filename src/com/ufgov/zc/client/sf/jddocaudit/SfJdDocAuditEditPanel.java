@@ -10,6 +10,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
@@ -57,7 +58,9 @@ import com.ufgov.zc.client.component.button.TraceButton;
 import com.ufgov.zc.client.component.button.UnauditButton;
 import com.ufgov.zc.client.component.button.UntreadButton;
 import com.ufgov.zc.client.component.table.BeanTableModel;
+import com.ufgov.zc.client.component.table.celleditor.IntCellEditor;
 import com.ufgov.zc.client.component.table.celleditor.TextCellEditor;
+import com.ufgov.zc.client.component.table.cellrenderer.IntCellRenderer;
 import com.ufgov.zc.client.component.ui.fieldeditor.AbstractFieldEditor;
 import com.ufgov.zc.client.component.zc.AbstractMainSubEditPanel;
 import com.ufgov.zc.client.component.zc.fieldeditor.AsValFieldEditor;
@@ -262,6 +265,7 @@ public class SfJdDocAuditEditPanel extends AbstractMainSubEditPanel {
       SfJdDocType docType = (SfJdDocType) typeLst.get(i);
       SfJdDocAuditDetail vd = new SfJdDocAuditDetail();
       vd.setDocType(docType);
+      vd.setQuantity(new BigDecimal(1));
       bill.getDetailLst().add(vd);
     }
   }
@@ -306,6 +310,12 @@ public class SfJdDocAuditEditPanel extends AbstractMainSubEditPanel {
       docTypeHandler.getColumNames(), "鉴定文书类别", "docTypeName");
 
     SwingUtil.setTableCellEditor(table, SfJdDocType.COL_DOC_TYPE_NAME, foreignInfoTypeEditor);
+    
+    IntCellEditor ic=new IntCellEditor(false);
+    SwingUtil.setTableCellEditor(table, SfJdDocAuditDetail.COL_QUANTITY, ic);
+    IntCellRenderer ir=new IntCellRenderer();
+    SwingUtil.setTableCellRenderer(table, SfJdDocAuditDetail.COL_QUANTITY, ir);
+    
 
   }
 
@@ -347,7 +357,8 @@ public class SfJdDocAuditEditPanel extends AbstractMainSubEditPanel {
           if ("inputDate".equals(editor.getFieldName()) || "inputorName".equals(editor.getFieldName()) || "status".equals(editor.getFieldName())
             || "nd".equals(editor.getFieldName()) || "entrust.jdTarget.name".equals(editor.getFieldName())
             || "entrust.entrustor.name".equals(editor.getFieldName()) || "entrust.jdFzrName".equals(editor.getFieldName())
-            || "reportType".equals(editor.getFieldName())) {
+//            || "reportType".equals(editor.getFieldName())
+            ) {
             editor.setEnabled(false);
           } else {
             editor.setEnabled(true);
@@ -959,7 +970,8 @@ public class SfJdDocAuditEditPanel extends AbstractMainSubEditPanel {
           if(report!=null){
         	  currentBill.setReport(report);
         	  currentBill.setReportType(report.getReportType());
-          }          
+          }  
+          currentBill.setCoCode(entrust.getCoCode());
           setEditingObject(currentBill);
           break;
         }
@@ -975,6 +987,8 @@ public class SfJdDocAuditEditPanel extends AbstractMainSubEditPanel {
     };
     ElementConditionDto dto = new ElementConditionDto();
     dto.setDattr1("SF_JD_DOC_AUDIT");
+    dto.setCoCode(requestMeta.getSvCoCode());
+    dto.setUserId(requestMeta.getSvUserID());
     ForeignEntityFieldEditor entrust = new ForeignEntityFieldEditor(entrustHandler.getSqlId(), dto, 20, entrustHandler,
       entrustHandler.getColumNames(), LangTransMeta.translate(SfJdDocAudit.COL_ENTRUST_CODE), "entrustCode");
     TextFieldEditor reportCode = new TextFieldEditor(LangTransMeta.translate(SfJdReport.COL_REPORT_CODE), "report.reportCode");

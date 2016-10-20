@@ -15,9 +15,19 @@
     <result column="QUANTITY3" jdbcType="VARCHAR" property="quantity3" />
     <result column="BIANHAO" jdbcType="VARCHAR" property="bianhao" />
     <result column="APPEND_MATERIAL_ID" jdbcType="DECIMAL" property="appendMaterialId" />
+    <result column="ATTACH_FILE" jdbcType="VARCHAR" property="attachFile" />
+    <result column="ATTACH_FILE_BLOBID" jdbcType="VARCHAR" property="attachFileBlobid" />
+    <result column="JIAN_HOU_CHULI_TYPE" jdbcType="VARCHAR" property="jianHouChuliType" />
+    <result column="SAVE_CONDITON" jdbcType="VARCHAR" property="saveConditon" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="JIAN_HOU_STORE_TIME" jdbcType="DECIMAL" property="jianHouStoreTime" />
+    <result column="SAVE_ADDRESS" jdbcType="VARCHAR" property="saveAddress" />
+    <result column="BAR_CODE" jdbcType="VARCHAR" property="barCode" />
   </resultMap>
   <sql id="Base_Column_List">
-    MATERIAL_ID, NAME, QUANTITY, UNIT, DESCRIPTION, ENTRUST_ID,QUANTITY2,QUANTITY3,MATERIAL_TYPE,BIANHAO,APPEND_MATERIAL_ID
+    MATERIAL_ID, NAME, QUANTITY, UNIT, DESCRIPTION, ENTRUST_ID,QUANTITY2,QUANTITY3,MATERIAL_TYPE,BIANHAO,APPEND_MATERIAL_ID, 
+    ATTACH_FILE, ATTACH_FILE_BLOBID, JIAN_HOU_CHULI_TYPE, 
+    SAVE_CONDITON, REMARK, JIAN_HOU_STORE_TIME, SAVE_ADDRESS, BAR_CODE
   </sql>
   <select id="selectByPrimaryKey" parameterClass="java.math.BigDecimal" resultMap="BaseResultMap">
     select 
@@ -51,10 +61,16 @@
   </delete>
   <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfMaterials">
     insert into SF_MATERIALS (MATERIAL_ID, NAME, QUANTITY, 
-      UNIT, DESCRIPTION, ENTRUST_ID,QUANTITY2,QUANTITY3,MATERIAL_TYPE,BIANHAO,APPEND_MATERIAL_ID
+      UNIT, DESCRIPTION, ENTRUST_ID,QUANTITY2,QUANTITY3,MATERIAL_TYPE,BIANHAO,APPEND_MATERIAL_ID, 
+    ATTACH_FILE, ATTACH_FILE_BLOBID, JIAN_HOU_CHULI_TYPE, 
+    SAVE_CONDITON, REMARK, JIAN_HOU_STORE_TIME, SAVE_ADDRESS, BAR_CODE
       )
     values (#materialId:DECIMAL#, #name:VARCHAR#, #quantity:DECIMAL#, 
-      #unit:VARCHAR#, #description:VARCHAR#, #entrustId:DECIMAL#, #quantity2:DECIMAL#,#quantity3#,#materialType#,#bianhao#,#appendMaterialId:DECIMAL#
+      #unit:VARCHAR#, #description:VARCHAR#, #entrustId:DECIMAL#, #quantity2:DECIMAL#,#quantity3#,#materialType#,#bianhao#,
+      #appendMaterialId:DECIMAL#, #attachFile:VARCHAR#, #attachFileBlobid:VARCHAR#,
+      #jianHouChuliType:VARCHAR#, #saveConditon:VARCHAR#, 
+      #remark:VARCHAR#, #jianHouStoreTime:DECIMAL#, #saveAddress:VARCHAR#, 
+      #barCode:VARCHAR#
       )
   </insert>
   <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfMaterials">
@@ -68,7 +84,15 @@
       ENTRUST_ID = #entrustId:DECIMAL#,
       MATERIAL_TYPE=#materialType#,
       BIANHAO=#bianhao#,
-      APPEND_MATERIAL_ID=#appendMaterialId:DECIMAL#
+      APPEND_MATERIAL_ID=#appendMaterialId:DECIMAL#,
+      ATTACH_FILE = #attachFile:VARCHAR#,
+      ATTACH_FILE_BLOBID = #attachFileBlobid:VARCHAR#,
+      JIAN_HOU_CHULI_TYPE = #jianHouChuliType:VARCHAR#,
+      SAVE_CONDITON = #saveConditon:VARCHAR#,
+      REMARK = #remark:VARCHAR#,
+      JIAN_HOU_STORE_TIME = #jianHouStoreTime:DECIMAL#,
+      SAVE_ADDRESS = #saveAddress:VARCHAR#,
+      BAR_CODE = #barCode:VARCHAR#
     where MATERIAL_ID = #materialId:DECIMAL#
   </update>
 </sqlMap>

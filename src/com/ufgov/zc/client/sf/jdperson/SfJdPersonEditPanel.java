@@ -49,10 +49,13 @@ import com.ufgov.zc.client.component.button.TraceButton;
 import com.ufgov.zc.client.component.button.UnauditButton;
 import com.ufgov.zc.client.component.button.UntreadButton;
 import com.ufgov.zc.client.component.table.BeanTableModel;
+import com.ufgov.zc.client.component.table.celleditor.DateCellEditor;
 import com.ufgov.zc.client.component.table.celleditor.MoneyCellEditor;
 import com.ufgov.zc.client.component.table.celleditor.TextCellEditor;
+import com.ufgov.zc.client.component.table.cellrenderer.DateCellRenderer;
 import com.ufgov.zc.client.component.table.cellrenderer.NumberCellRenderer;
 import com.ufgov.zc.client.component.table.codecelleditor.AsValComboBoxCellEditor;
+import com.ufgov.zc.client.component.table.codecelleditor.FileCellEditor;
 import com.ufgov.zc.client.component.table.codecellrenderer.AsValCellRenderer;
 import com.ufgov.zc.client.component.ui.fieldeditor.AbstractFieldEditor;
 import com.ufgov.zc.client.component.zc.AbstractMainSubEditPanel;
@@ -72,10 +75,13 @@ import com.ufgov.zc.client.sf.util.SfUserSelectHandler;
 import com.ufgov.zc.client.util.SwingUtil;
 import com.ufgov.zc.client.zc.ButtonStatus;
 import com.ufgov.zc.client.zc.ZcUtil;
+import com.ufgov.zc.common.sf.model.SfCertificate;
 import com.ufgov.zc.common.sf.model.SfEntrust;
 import com.ufgov.zc.common.sf.model.SfJdPerson;
 import com.ufgov.zc.common.sf.model.SfJdPersonMajor;
 import com.ufgov.zc.common.sf.model.SfMajor;
+import com.ufgov.zc.common.sf.model.SfMaterials;
+import com.ufgov.zc.common.sf.model.SfMaterialsTransferDetail;
 import com.ufgov.zc.common.sf.publish.ISfJdPersonServiceDelegate;
 import com.ufgov.zc.common.system.RequestMeta;
 import com.ufgov.zc.common.system.constants.SfElementConstants;
@@ -152,7 +158,9 @@ public class SfJdPersonEditPanel  extends AbstractMainSubEditPanel {
   private BillElementMeta mainBillElementMeta;
   private BillElementMeta detailBillElementMeta;
 
-  protected JTablePanel detailTablePanel = new JTablePanel();
+  protected JTablePanel majorTablePanel = new JTablePanel();  
+
+  protected JTablePanel certTablePanel = new JTablePanel();
 
   protected IZcEbBaseServiceDelegate zcEbBaseServiceDelegate;
 
@@ -220,14 +228,16 @@ public class SfJdPersonEditPanel  extends AbstractMainSubEditPanel {
   private void refreshSubData() {
     // TCJLODO Auto-generated method stub
     SfJdPerson jdPerson = (SfJdPerson) listCursor.getCurrentObject();
-    detailTablePanel.setTableModel(SfJdPersonToTableModelConverter.convertMajorsTableData(jdPerson.getMajorLst()));
-    ZcUtil.translateColName(detailTablePanel.getTable(), SfJdPersonToTableModelConverter.getDetailInfo());
+    majorTablePanel.setTableModel(SfJdPersonToTableModelConverter.convertMajorsTableData(jdPerson.getMajorLst()));
+    ZcUtil.translateColName(majorTablePanel.getTable(), SfJdPersonToTableModelConverter.getDetailInfo());
+    certTablePanel.setTableModel(SfJdPersonToTableModelConverter.convertCertTableData(jdPerson.getCertificatLst()));
+    ZcUtil.translateColName(certTablePanel.getTable(), SfJdPersonToTableModelConverter.getCertInfo());
     setTablePorperty();
   }
 
 
   private void setTablePorperty() {
-    final JPageableFixedTable table = detailTablePanel.getTable();
+    final JPageableFixedTable table = majorTablePanel.getTable();
     table.setDefaultEditor(String.class, new TextCellEditor());
     JdPersonMajorHandler handler = new JdPersonMajorHandler() {
       @Override
@@ -253,6 +263,28 @@ public class SfJdPersonEditPanel  extends AbstractMainSubEditPanel {
       handler.getColumNames(), "鉴定专业", "majorName");
 
     SwingUtil.setTableCellEditor(table, SfMajor.COL_MAJOR_NAME, foreignExpertCodeEditor);
+    
+    JPageableFixedTable ctb = certTablePanel.getTable();
+    ctb.setDefaultEditor(String.class, new TextCellEditor()); 
+    
+
+    SwingUtil.setTableCellEditor(ctb, SfCertificate.COL_ZF_NOTICE_DAYS, new MoneyCellEditor(false));
+    SwingUtil.setTableCellRenderer(ctb, SfCertificate.COL_ZF_NOTICE_DAYS, new NumberCellRenderer());
+    SwingUtil.setTableCellEditor(ctb, SfCertificate.COL_IS_NOTICE_EXPIRE, new AsValComboBoxCellEditor(SfElementConstants.VS_Y_N));
+    SwingUtil.setTableCellRenderer(ctb, SfCertificate.COL_IS_NOTICE_EXPIRE, new AsValCellRenderer(SfElementConstants.VS_Y_N));
+    SwingUtil.setTableCellEditor(ctb, SfCertificate.COL_ZF_OWNER_TYPE, new AsValComboBoxCellEditor(SfCertificate.VS_SF_CERTIFICATE_TYPE));
+    SwingUtil.setTableCellRenderer(ctb, SfCertificate.COL_ZF_OWNER_TYPE, new AsValCellRenderer(SfCertificate.VS_SF_CERTIFICATE_TYPE));
+    
+    FileCellEditor fileEditor=new FileCellEditor("zfFileBlobid",false,(BeanTableModel) ctb.getModel());
+    fileEditor.setDownloadFileEnable(true);
+    SwingUtil.setTableCellEditor(ctb, SfCertificate.COL_ZF_FILE,fileEditor ); 
+    
+
+    SwingUtil.setTableCellEditor(ctb, SfCertificate.COL_ZF_BEGIN_DATE, new DateCellEditor());
+    SwingUtil.setTableCellRenderer(ctb, SfCertificate.COL_ZF_BEGIN_DATE, new DateCellRenderer("YY-MM-DD")); 
+    SwingUtil.setTableCellEditor(ctb, SfCertificate.COL_ZF_END_DATE, new DateCellEditor());
+    SwingUtil.setTableCellRenderer(ctb, SfCertificate.COL_ZF_END_DATE, new DateCellRenderer("YY-MM-DD")); 
+    
   }
 
   protected void updateFieldEditorsEditable() {
@@ -267,7 +299,8 @@ public class SfJdPersonEditPanel  extends AbstractMainSubEditPanel {
       }
     }
 
-    setWFSubTableEditable(detailTablePanel, isEdit);
+    setWFSubTableEditable(majorTablePanel, isEdit);
+    setWFSubTableEditable(certTablePanel, isEdit);
   }
 
   protected void setButtonStatus() {
@@ -617,8 +650,27 @@ public class SfJdPersonEditPanel  extends AbstractMainSubEditPanel {
 
   }
 
-  public boolean doSave() {
+  public void stopTableEditing() {
 
+    JPageableFixedTable biTable = this.certTablePanel.getTable();
+
+    if (biTable.isEditing()) {
+
+      biTable.getCellEditor().stopCellEditing();
+
+    }
+
+    JPageableFixedTable itemTable = this.majorTablePanel.getTable();
+
+    if (itemTable.isEditing()) {
+
+      itemTable.getCellEditor().stopCellEditing();
+
+    }
+
+  }
+  public boolean doSave() {
+	  stopTableEditing();
     if (!isDataChanged()) {
 
       JOptionPane.showMessageDialog(this, "数据没有发生改变，不用保存.", "提示", JOptionPane.INFORMATION_MESSAGE);
@@ -693,7 +745,7 @@ public class SfJdPersonEditPanel  extends AbstractMainSubEditPanel {
 
    */
 
-  protected boolean checkBeforeSave() {
+  protected boolean checkBeforeSave() { 
     List mainNotNullList = mainBillElementMeta.getNotNullBillElement();
     SfJdPerson jdPerson = (SfJdPerson) this.listCursor.getCurrentObject();
     StringBuilder errorInfo = new StringBuilder();
@@ -836,19 +888,17 @@ public class SfJdPersonEditPanel  extends AbstractMainSubEditPanel {
 
     JTabbedPane itemTabPane = new JTabbedPane();
 
-    detailTablePanel.init();
+    majorTablePanel.init();
 
-    detailTablePanel.setPanelId(this.getClass().getName() + "_detailTablePanel");
+    majorTablePanel.setPanelId(this.getClass().getName() + "_detailTablePanel");
 
-    detailTablePanel.getSearchBar().setVisible(false);
+    majorTablePanel.getSearchBar().setVisible(false);
 
-    detailTablePanel.setTablePreferencesKey(this.getClass().getName() + "__detailTable");
+    majorTablePanel.setTablePreferencesKey(this.getClass().getName() + "__detailTable");
 
-    detailTablePanel.getTable().setShowCheckedColumn(true);
+    majorTablePanel.getTable().setShowCheckedColumn(true);
 
-    detailTablePanel.getTable().getTableRowHeader().setPreferredSize(new Dimension(60, 0));
-
-    itemTabPane.addTab("鉴定专业", detailTablePanel);
+    majorTablePanel.getTable().getTableRowHeader().setPreferredSize(new Dimension(60, 0));
 
     JFuncToolBar detailBtnBar = new JFuncToolBar();
 
@@ -864,14 +914,14 @@ public class SfJdPersonEditPanel  extends AbstractMainSubEditPanel {
 
     detailBtnBar.add(delBtn2);
 
-    detailTablePanel.add(detailBtnBar, BorderLayout.SOUTH);
+    majorTablePanel.add(detailBtnBar, BorderLayout.SOUTH);
 
     addBtn2.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         SfJdPersonMajor item = new SfJdPersonMajor();
         setPersonDefaultValue(item);
-        int rowNum = addSub(detailTablePanel, item);
-        detailTablePanel.getTable().setRowSelectionInterval(rowNum, rowNum);
+        int rowNum = addSub(majorTablePanel, item);
+        majorTablePanel.getTable().setRowSelectionInterval(rowNum, rowNum);
       }
     });
 
@@ -879,21 +929,88 @@ public class SfJdPersonEditPanel  extends AbstractMainSubEditPanel {
       public void actionPerformed(ActionEvent e) {
         SfJdPersonMajor item = new SfJdPersonMajor();
         setPersonDefaultValue(item);
-        int rowNum = insertSub(detailTablePanel, item);
-        detailTablePanel.getTable().setRowSelectionInterval(rowNum, rowNum);
+        int rowNum = insertSub(majorTablePanel, item);
+        majorTablePanel.getTable().setRowSelectionInterval(rowNum, rowNum);
       }
     });
 
     delBtn2.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        deleteSub(detailTablePanel);
+        deleteSub(majorTablePanel);
       }
     });
+    
+
+
+    certTablePanel.init();
+
+    certTablePanel.setPanelId(this.getClass().getName() + "_cerTablePanel");
+
+    certTablePanel.getSearchBar().setVisible(false);
+
+    certTablePanel.setTablePreferencesKey(this.getClass().getName() + "__cerTable");
+
+    certTablePanel.getTable().setShowCheckedColumn(true);
+
+    certTablePanel.getTable().getTableRowHeader().setPreferredSize(new Dimension(60, 0)); 
+
+    JFuncToolBar detailBtnBar3 = new JFuncToolBar();
+
+    FuncButton addBtn3 = new SubaddButton(false);
+
+    JButton insertBtn3 = new SubinsertButton(false);
+
+    JButton delBtn3 = new SubdelButton(false);
+
+    detailBtnBar3.add(addBtn3);
+
+    detailBtnBar3.add(insertBtn3);
+
+    detailBtnBar3.add(delBtn3);
+
+    certTablePanel.add(detailBtnBar3, BorderLayout.SOUTH);
+
+    addBtn3.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        SfCertificate item = new SfCertificate();
+        setCerDefaultValue(item);
+        int rowNum = addSub(certTablePanel, item);
+        certTablePanel.getTable().setRowSelectionInterval(rowNum, rowNum);
+      }
+    });
+
+    insertBtn3.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        SfCertificate item = new SfCertificate();
+        setCerDefaultValue(item);
+        int rowNum = insertSub(certTablePanel, item);
+        certTablePanel.getTable().setRowSelectionInterval(rowNum, rowNum);
+      }
+    });
+
+    delBtn3.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        deleteSub(certTablePanel);
+      }
+    });
+
+
+    itemTabPane.addTab("鉴定专业", majorTablePanel);
+
+    itemTabPane.addTab("相关资质文件", certTablePanel);
+    
     itemTabPane.setMinimumSize(new Dimension(240, 300));
     return itemTabPane;
   }
 
-  protected void setPersonDefaultValue(SfJdPersonMajor item) {
+  protected void setCerDefaultValue(SfCertificate item) {
+	    item.setTempId("" + System.currentTimeMillis());
+	    SfJdPerson e = listCursor.getCurrentObject();
+	    item.setZfOwnerId(e.getJdPersonId());
+	    item.setZfOwnerType(SfCertificate.VS_SF_CERTIFICATE_TYPE_zizhi);
+}
+
+protected void setPersonDefaultValue(SfJdPersonMajor item) {
     // TCJLODO Auto-generated method stub
     item.setTempId("" + System.currentTimeMillis());
     SfJdPerson e = listCursor.getCurrentObject();

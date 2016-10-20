@@ -7,8 +7,10 @@ import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
 
 import com.ufgov.zc.common.sf.model.SfJdPerson;
 import com.ufgov.zc.common.sf.model.SfOutInfo;
+import com.ufgov.zc.common.system.constants.NumLimConstants;
 import com.ufgov.zc.common.system.dto.ElementConditionDto;
 import com.ufgov.zc.server.sf.dao.SfJdPersonMapper;
+import com.ufgov.zc.server.system.util.NumLimUtil;
 
 public class SfJdPersonMapperImp extends SqlMapClientDaoSupport implements SfJdPersonMapper {
 
@@ -52,7 +54,8 @@ public class SfJdPersonMapperImp extends SqlMapClientDaoSupport implements SfJdP
 
   
   public List getMainDataLst(ElementConditionDto elementConditionDto) {
-    // TCJLODO Auto-generated method stub
+    // TCJLODO Auto-generated method stub 
+	  elementConditionDto.setNumLimitStr(NumLimUtil.getInstance().getNumLimCondByCoType(elementConditionDto.getWfcompoId(), NumLimConstants.FWATCH));
     return getSqlMapClientTemplate().queryForList("com.ufgov.zc.server.sf.dao.SfJdPersonMapper.selectMainDataLst",elementConditionDto);
   }
 

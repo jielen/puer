@@ -3,6 +3,7 @@ package com.ufgov.zc.client.sf.report;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.DefaultKeyboardFocusManager;
+import java.awt.Desktop;
 import java.awt.Dialog;
 import java.awt.Dialog.ModalityType;
 import java.awt.Dimension;
@@ -11,15 +12,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -35,6 +40,7 @@ import javax.swing.event.ChangeListener;
 import org.apache.log4j.Logger;
 
 import com.ufgov.smartclient.common.UIUtilities;
+import com.ufgov.zc.client.common.AsOptionMeta;
 import com.ufgov.zc.client.common.BillElementMeta;
 import com.ufgov.zc.client.common.LangTransMeta;
 import com.ufgov.zc.client.common.ListCursor;
@@ -82,22 +88,28 @@ import com.ufgov.zc.client.sf.util.SfBookmarkUtil;
 import com.ufgov.zc.client.zc.ButtonStatus;
 import com.ufgov.zc.client.zc.WordFileUtil;
 import com.ufgov.zc.client.zc.ZcUtil;
+import com.ufgov.zc.client.zc.activeztb.TbDocService;
 import com.ufgov.zc.client.zc.ztb.activex.ExcelPane;
 import com.ufgov.zc.client.zc.ztb.activex.WordPane;
+import com.ufgov.zc.common.commonbiz.publish.IBaseDataServiceDelegate;
 import com.ufgov.zc.common.sf.model.SfBookmark;
+import com.ufgov.zc.common.sf.model.SfCertificate;
 import com.ufgov.zc.common.sf.model.SfEntrust;
+import com.ufgov.zc.common.sf.model.SfJdPerson;
 import com.ufgov.zc.common.sf.model.SfJdRecordFileModel;
 import com.ufgov.zc.common.sf.model.SfJdReport;
 import com.ufgov.zc.common.sf.model.SfJdResult;
 import com.ufgov.zc.common.sf.model.SfJdResultFile;
 import com.ufgov.zc.common.sf.model.SfJdjg;
 import com.ufgov.zc.common.sf.publish.ISfEntrustServiceDelegate;
+import com.ufgov.zc.common.sf.publish.ISfJdPersonServiceDelegate;
 import com.ufgov.zc.common.sf.publish.ISfJdReportServiceDelegate;
 import com.ufgov.zc.common.sf.publish.ISfJdResultServiceDelegate;
 import com.ufgov.zc.common.system.RequestMeta;
 import com.ufgov.zc.common.system.constants.SfElementConstants;
 import com.ufgov.zc.common.system.constants.ZcSettingConstants;
 import com.ufgov.zc.common.system.dto.ElementConditionDto;
+import com.ufgov.zc.common.system.model.AsFile;
 import com.ufgov.zc.common.system.util.DigestUtil;
 import com.ufgov.zc.common.system.util.ObjectUtil;
 import com.ufgov.zc.common.system.util.Utils;
@@ -179,6 +191,11 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 	private ISfEntrustServiceDelegate sfEntrustServiceDelegate;
 
 	private ISfJdResultServiceDelegate sfJdResultServiceDelegate;
+	
+	  private ISfJdPersonServiceDelegate sfJdPersonServiceDelegate;
+	  
+
+	private  IBaseDataServiceDelegate baseDataServiceDelegate ;
 
 	protected WordPane wordPane;
 
@@ -189,6 +206,9 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 	protected JTabbedPane tabPane = new JTabbedPane();
 	
 	private boolean recordFileOpened=false;
+	
+
+	private boolean recordFaceOpened=false;
 
 	JTabbedPane mainTab=new JTabbedPane();
 
@@ -210,17 +230,26 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 
 	JMenu menuRefrence = new JMenu(SfClientUtil.MENU_REFRENCE);
 	JMenu menuLookup = new JMenu(SfClientUtil.MENU_LOOKUP);
+	
+
+	JMenu menuCertificateFile = new JMenu(SfClientUtil.MENU_CERTIFICATES);
+	JMenu menuCertificateFileJdjg = new JMenu(SfClientUtil.MENU_CERTIFICATES_JDJG);
+	JMenu menuCertificateFileJdPerson = new JMenu(SfClientUtil.MENU_CERTIFICATES_JDRY);
 
 	JMenu menuFill = new JMenu(SfClientUtil.MENU_FILL);
 
 	JMenuBar menuBar = new JMenuBar();
+	
+	private Hashtable<String, SfCertificate> jdjgCerts=new Hashtable<String, SfCertificate>();
+	
+	private Hashtable<String, SfCertificate> jdPersonCerts=new Hashtable<String, SfCertificate>();
 
 	private JDialog progressDialog;
 	private JProgressBar openWordProgressBar = null;
 
 	ElementConditionDto entrustDto = new ElementConditionDto();
 
-	SfReportCodeDialog codeDialog = null;
+	SfReportCodeDialog2 codeDialog = null;
 	
 	private String modelFileId="";//模板文件id
 
@@ -244,7 +273,8 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 
 		sfJdResultServiceDelegate = (ISfJdResultServiceDelegate) ServiceFactory.create(ISfJdResultServiceDelegate.class,
 						"sfJdResultServiceDelegate");
-
+	    sfJdPersonServiceDelegate = (ISfJdPersonServiceDelegate) ServiceFactory.create(ISfJdPersonServiceDelegate.class, "sfJdPersonServiceDelegate");
+	    baseDataServiceDelegate = (IBaseDataServiceDelegate) ServiceFactory.create(IBaseDataServiceDelegate.class, "baseDataServiceDelegate");
 		this.workPanel.setBorder(BorderFactory.createTitledBorder(
 				BorderFactory.createEtchedBorder(),
 				LangTransMeta.translate(compoId), TitledBorder.CENTER,
@@ -331,6 +361,7 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 				this.pageStatus = ZcSettingConstants.PAGE_STATUS_NEW;
 				this.openAndProtect = false;
 				setDefaultValue(bill);
+				bill.setResult(getJdResult(bill.getEntrustId()));
 				listCursor.getDataList().add(bill);
 				listCursor.setCurrentObject(bill);
 				this.setEditingObject(bill);
@@ -496,7 +527,14 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 	}
 
 	  private void setMenuEnable(boolean isEdit) {
-		  menuBar.setEnabled(isEdit);
+		  for(int i=0;i<menuBar.getMenuCount();i++){
+			  JMenu menu=menuBar.getMenu(i);
+			  if(menu.equals(menuCertificateFile) || menu.equals(menuLookup)){
+				  continue;
+			  }
+			  menu.setEnabled(isEdit);
+		  }
+//		  menuBar.setEnabled(isEdit);
 	}
 	private void protectWordPanel() {
 		wordPane.protectDoc(SfElementConstants.WORD_PASSWORD);
@@ -726,7 +764,7 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 	 */
 	protected void getNo() {
 		SfJdReport bill = (SfJdReport) this.listCursor.getCurrentObject();
-		codeDialog = new SfReportCodeDialog(parent,this);
+		codeDialog = new SfReportCodeDialog2(parent,this);
 		codeDialog.setSize(UIConstants.DIALOG_3_LEVEL_WIDTH,UIConstants.DIALOG_3_LEVEL_HEIGHT);
 		codeDialog.pack();
 		codeDialog.moveToScreenCenter();
@@ -990,6 +1028,9 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 			 */
 		};
 		entrustDto.setDattr1("SF_JD_REPORT");
+		entrustDto.setCoCode(requestMeta.getSvCoCode());
+		entrustDto.setUserId(requestMeta.getSvUserID());
+		
 		ForeignEntityFieldEditor entrust = new ForeignEntityFieldEditor(entrustHandler.getSqlId(), entrustDto, 20, entrustHandler,
 				entrustHandler.getColumNames(), "鉴定委托", "entrustCode");
 
@@ -1486,7 +1527,15 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 						lookupMenuPerform(SfClientUtil.MENU_LOOKUP_ENTRUST_RECORD);
 					}
 				});
-				
+				  
+				JMenuItem mItemReprotFace = new JMenuItem(SfClientUtil.MENU_LOOKUP_ENTRUST_REPORT_FACE);
+				mItemReprotFace.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						lookupMenuPerform(SfClientUtil.MENU_LOOKUP_ENTRUST_REPORT_FACE);
+					}
+				});
+						
 		JMenuItem mItemFillModel = new JMenuItem(SfClientUtil.MENU_FILL_CUR);
 		mItemFillModel.addActionListener(new ActionListener() {
 
@@ -1567,10 +1616,204 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 		
 		menuLookup.add(mItemLookupRecord);
 		menuLookup.add(mItemLookupReport);
+		menuLookup.add(mItemReprotFace);
 		menuBar.add(menuLookup);
+		
+		initCertificateMenu();
+		menuBar.add(menuCertificateFile);
 		
 	}
 
+	private void initCertificateMenu() {
+		//get jdjg certificates
+		_initCertificateJdjgMenu();
+		
+		//get jdperson certificates
+		_initCertificateJdPersonMenu();
+		
+		menuCertificateFile.add(menuCertificateFileJdjg);
+		menuCertificateFile.add(menuCertificateFileJdPerson);
+	}
+
+	private void _initCertificateJdPersonMenu() {
+		ElementConditionDto dto=new ElementConditionDto();
+		dto.setCoCode(requestMeta.getSvCoCode());
+		dto.setDattr2("haveZizhi");
+		List personLst=sfJdPersonServiceDelegate.getMainDataLst(dto, requestMeta);
+		if(personLst!=null && personLst.size()>0){
+			List idLst=new ArrayList();
+			for(int i=0;i<personLst.size();i++){
+				SfJdPerson jg=(SfJdPerson) personLst.get(i);
+				idLst.add(jg.getJdPersonId());
+			}
+			dto=new ElementConditionDto();
+			dto.setDattr1(SfCertificate.VS_SF_CERTIFICATE_TYPE_zizhi);
+			dto.setPmAdjustCodeList(idLst);
+			List certs=zcEbBaseServiceDelegate.queryDataForList("com.ufgov.zc.server.sf.dao.SfCertificateMapper.selectByOwner2", dto, requestMeta); 			
+			if(certs!=null){
+				for(int i=0;i<certs.size();i++){
+					final SfCertificate cer=(SfCertificate) certs.get(i);
+					for(int j=0;j<personLst.size();j++){
+						SfJdPerson person=(SfJdPerson) personLst.get(j);
+						if(cer.getZfOwnerId().equals(person.getJdPersonId())){
+							 String name=person.getName(); 
+							final String name2=getRightName(name,jdPersonCerts); 
+							JMenuItem mitem = new JMenuItem(name2);
+							mitem.addActionListener(new ActionListener() {
+								@Override
+								public void actionPerformed(ActionEvent e) {
+									showCertPerson(name2);
+								}
+							});
+							menuCertificateFileJdPerson.add(mitem);
+							jdPersonCerts.put(name2, cer);
+							
+						}
+						
+					}
+				}
+			}
+		}
+	}
+	
+/**
+ * 解决多个资质的情况
+ * @param name
+ * @return
+ */
+	private String getRightName(String name, Hashtable lst) {
+
+		if(lst.containsKey(name)){
+			name=name+">";
+			return getRightName(name,lst);
+		}else{
+			return name;
+		} 
+	}
+
+
+	private void _initCertificateJdjgMenu() {
+		ElementConditionDto dto=new ElementConditionDto();
+		dto.setCoCode(requestMeta.getSvCoCode());
+		List jgLst=zcEbBaseServiceDelegate.queryDataForList("com.ufgov.zc.server.sf.dao.SfJdjgMapper.selectMainDataLst", dto, requestMeta);
+		if(jgLst!=null && jgLst.size()>0){
+			SfJdjg jg=(SfJdjg) jgLst.get(0);
+			dto.setSfId(jg.getJgId());
+			dto.setDattr1(SfCertificate.VS_SF_CERTIFICATE_TYPE_zizhi);
+			List certs=zcEbBaseServiceDelegate.queryDataForList("com.ufgov.zc.server.sf.dao.SfCertificateMapper.selectByOwner2", dto, requestMeta);
+			if(certs!=null){
+				for(int i=0;i<certs.size();i++){
+					SfCertificate cer=(SfCertificate) certs.get(i);
+					final String name=getRightName(cer.getName(), jdjgCerts);
+					JMenuItem mitem = new JMenuItem(name);
+					mitem.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							showCertJdjg(name);
+						}
+					});
+					menuCertificateFileJdjg.add(mitem);
+					jdjgCerts.put(name, cer);
+				}
+			}
+		}
+	}
+
+	protected void showCertPerson(String cerName) {
+		SfCertificate cer=jdPersonCerts.get(cerName);
+		if(cer==null)return;
+		showCerFile(cer);
+	}
+	protected void showCertJdjg(String cerName) {
+		SfCertificate cer=jdjgCerts.get(cerName);
+		if(cer==null)return;
+		showCerFile(cer);
+	}
+
+	private void showCerFile(SfCertificate cer) {
+		 try {
+		      if (cer.getZfFileBlobid() == null || "".equals(cer.getZfFileBlobid())) {
+		        return;
+		      }
+
+		    AsFile  asFile = baseDataServiceDelegate.downloadFile(cer.getZfFileBlobid(), requestMeta);
+		    String defaultSavePath = "C:/ufgov/certificates/";
+		    
+		        File dir = new File(defaultSavePath);
+		        TbDocService.deleteFile(dir);//将下载目录的文件夹清空
+		        if (!dir.exists()) {
+		          dir.mkdirs();
+		        }
+		        File defaultFile = new File(defaultSavePath + asFile.getFileName());
+		        defaultFile.delete();
+		        saveFileToLocal(defaultFile,asFile);
+		       
+		    } catch (Exception e) {
+		      logger.error(e.getMessage(), e);
+		      JOptionPane.showMessageDialog(this, "打开文件失败！", "错误", JOptionPane.ERROR_MESSAGE);
+
+		    }
+	}
+
+	  private void saveFileToLocal(File defaultFile,AsFile asFile) {
+
+	    int result = JFileChooser.APPROVE_OPTION; //fileChooser.showSaveDialog(this);
+
+	    if (result == JFileChooser.APPROVE_OPTION) {
+
+	      File selectedFile = defaultFile;
+
+	      FileOutputStream os = null;
+
+	      try {
+
+	        os = new FileOutputStream(defaultFile);
+
+	        os.write(asFile.getFileContent());
+
+	      } catch (Exception e) {
+
+	        throw new RuntimeException(e);
+
+	      } finally {
+
+	        try {
+
+	          if (os != null) {
+
+	            os.close();
+
+	          }
+
+	        } catch (Exception e) {
+
+	          new RuntimeException(e.getMessage(), e);
+
+	        }
+
+	      }
+
+	      int yesNoResult = JOptionPane.YES_OPTION;
+
+	      if (yesNoResult == JOptionPane.YES_OPTION) {
+
+	        try {
+
+	          Desktop.getDesktop().open(defaultFile);
+
+	        } catch (Exception e) {
+
+	          JOptionPane.showMessageDialog(this, "抱歉！没有找到合适的程序来打开文件！", "提示", JOptionPane.INFORMATION_MESSAGE);
+
+	          return;
+
+	        }
+
+	      }
+
+	    }
+
+	  }
 	protected void lookupMenuPerform(String menuText) {
 		if(menuText.equals(SfClientUtil.MENU_LOOKUP_ENTRUST_REPORT)){
 			SfJdReport bill = (SfJdReport) this.listCursor.getCurrentObject();
@@ -1582,7 +1825,71 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 		    entrustDialog.setVisible(true);
 		}else if(menuText.equals(SfClientUtil.MENU_LOOKUP_ENTRUST_RECORD)){
 			openJdRecord();
+		}else if(menuText.equals(SfClientUtil.MENU_LOOKUP_ENTRUST_REPORT_FACE)){
+			openJdReportFace();
 		}
+	}
+
+	/**
+	 * 打开鉴定文书封面
+	 */
+	private void openJdReportFace() {
+
+		if(recordFaceOpened)return;
+		
+		SfJdReport bill = (SfJdReport) this.listCursor.getCurrentObject();
+		if (bill == null || bill.getEntrustCode() == null) {
+			JOptionPane.showMessageDialog(this, "请先选择委托.", "提示",
+					JOptionPane.INFORMATION_MESSAGE);
+			return;
+		} 
+		if (bill.getReportCode() == null) {
+			JOptionPane.showMessageDialog(this, "请先选择报告编号.", "提示",
+					JOptionPane.INFORMATION_MESSAGE);
+			return;
+		}
+		
+		String fileId=AsOptionMeta.getOptVal(SfJdReport.OPT_SF_REPORT_FACE_FILE_ID);
+		
+		if(fileId!=null){
+			final WordPane wp=new WordPane(); 
+		    parent.setSize(UIConstants.DIALOG_0_LEVEL_WIDTH-10, UIConstants.DIALOG_0_LEVEL_HEIGHT-10);
+		    parent.validate();
+		    wp.addPropertyChangeListener(WordPane.EVENT_NAME_OPEN_CALLBACK, new PropertyChangeListener() {
+			      public void propertyChange(PropertyChangeEvent evt) {
+			        //打开文件完成之后的回调函数
+			        boolean isSuccess = (Boolean) evt.getNewValue();
+			        if (isSuccess) {
+			          //下面一句是为了打开word后刷新窗口
+//			          parent.setSize(new Dimension(parent.getSize().width +200, parent.getSize().height +200));
+
+			    	    parent.setSize(UIConstants.DIALOG_0_LEVEL_WIDTH, UIConstants.DIALOG_0_LEVEL_HEIGHT);
+			    	    parent.validate();
+			    	    parent.moveToScreenCenter(); 
+			    	    _initFaceFile(wp);
+			        }
+			      }
+			    });
+			mainTab.add("鉴定意见书封面", wp);
+			mainTab.setSelectedIndex(mainTab.getTabCount()-1);
+			String ff= WordFileUtil.loadMold(fileId);
+			wp.open(ff);
+	    	recordFaceOpened=true;
+		}
+ 
+	}
+
+	protected void _initFaceFile(WordPane wp) {
+
+		SfJdReport currentBill = (SfJdReport) this.listCursor.getCurrentObject();
+		SfBookmarkUtil bku = new SfBookmarkUtil();
+		List<SfBookmark> bks = bku.getEntrustBookValueLst(currentBill.getEntrust());
+		bks.addAll(bku.getEntrustorBookValueLst(currentBill.getEntrust().getEntrustor()));
+		bks.addAll(bku.getJdTargetBookValueLst(currentBill.getEntrust().getJdTarget()));
+		bks.addAll(bku.getJdjgBookValueLst(requestMeta.getSvCoCode()));
+		bks.addAll(bku.getJdRecordBookValueLst(currentBill.getResult()));
+		bks.addAll(bku.getJdReportBookValueLst(currentBill));
+		wp.replaceBookMarks(bks);
 	}
 
 	private void openJdRecord() {
@@ -1618,8 +1925,8 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 	private void addSubExcelPane(SfJdResultFile rf) {
 		if(rf.getFileId()!=null){
 			final ExcelPane wp=new ExcelPane(); 
-			workPanel.setPreferredSize(new Dimension(workPanel.getSize().width - 10, workPanel.getSize().height - 10));
-			parent.pack();
+		    parent.setSize(UIConstants.DIALOG_0_LEVEL_WIDTH-10, UIConstants.DIALOG_0_LEVEL_HEIGHT-10);
+		    parent.validate();
 		    wp.addPropertyChangeListener(ExcelPane.EVENT_NAME_OPEN_CALLBACK, new PropertyChangeListener() {
 		      public void propertyChange(PropertyChangeEvent evt) {
 		        //打开文件完成之后的回调函数
@@ -1628,8 +1935,9 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 		          //下面一句是为了打开word后刷新窗口
 //		          parent.setSize(new Dimension(parent.getSize().width +200, parent.getSize().height +200));
 
-		        	workPanel.setPreferredSize(new Dimension(workPanel.getSize().width + 10, workPanel.getSize().height + 10));
-		    	    parent.pack();
+		    	    parent.setSize(UIConstants.DIALOG_0_LEVEL_WIDTH, UIConstants.DIALOG_0_LEVEL_HEIGHT);
+		    	    parent.validate();
+		    	    parent.moveToScreenCenter();
 //		  	    	parent.validate();  
 		        }
 		      }
@@ -1645,8 +1953,8 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 	private void addSubWordPane(SfJdResultFile rf) {
 		if(rf.getFileId()!=null){
 			final WordPane wp=new WordPane(); 
-			workPanel.setPreferredSize(new Dimension(workPanel.getSize().width - 10, workPanel.getSize().height - 10));
-			parent.pack();
+		    parent.setSize(UIConstants.DIALOG_0_LEVEL_WIDTH-10, UIConstants.DIALOG_0_LEVEL_HEIGHT-10);
+		    parent.validate();
 		    wp.addPropertyChangeListener(WordPane.EVENT_NAME_OPEN_CALLBACK, new PropertyChangeListener() {
 			      public void propertyChange(PropertyChangeEvent evt) {
 			        //打开文件完成之后的回调函数
@@ -1655,9 +1963,9 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 			          //下面一句是为了打开word后刷新窗口
 //			          parent.setSize(new Dimension(parent.getSize().width +200, parent.getSize().height +200));
 
-			        	workPanel.setPreferredSize(new Dimension(workPanel.getSize().width + 10, workPanel.getSize().height + 10));
-			    	    parent.pack();
-//			  	    	parent.validate();  
+			    	    parent.setSize(UIConstants.DIALOG_0_LEVEL_WIDTH, UIConstants.DIALOG_0_LEVEL_HEIGHT);
+			    	    parent.validate();
+			    	    parent.moveToScreenCenter(); 
 			        }
 			      }
 			    });
@@ -2134,4 +2442,5 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 			wp.open(ff);
 		}
 	}
+
 }
