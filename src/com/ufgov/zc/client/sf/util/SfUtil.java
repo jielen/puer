@@ -15,6 +15,7 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -36,6 +37,8 @@ import com.ufgov.zc.client.zc.ZcUtil;
 import com.ufgov.zc.common.commonbiz.fieldmap.FieldMapRegister;
 import com.ufgov.zc.common.commonbiz.model.BillElement;
 import com.ufgov.zc.common.sf.model.SfEntrust;
+import com.ufgov.zc.common.sf.model.SfZongheZhiban;
+import com.ufgov.zc.common.sf.publish.ISfZongheZhibanServiceDelegate;
 import com.ufgov.zc.common.system.RequestMeta;
 import com.ufgov.zc.common.system.constants.SfElementConstants;
 import com.ufgov.zc.common.system.constants.SystemOptionConstants;
@@ -372,7 +375,29 @@ public class SfUtil {
 
   public static boolean isJdjg() {
 
-    if (WorkEnv.getInstance().containRole(ZcSettingConstants.R_SF_JDJG) ) { return true; }
+    if (WorkEnv.getInstance().containRole(ZcSettingConstants.R_SF_JDJG) ||WorkEnv.getInstance().containRole(ZcSettingConstants.R_SF_JD_PERSON)) { return true; }
     return false;
+  }
+
+  public static Date getSysDate() {
+    return baseDataServiceDelegate.getSysDate(WorkEnv.getInstance().getRequestMeta());
+  }
+  
+  /**
+   * 判断当前登录人是否在综合组值班
+   * @return
+   */
+  public static boolean isZhiban(){
+    RequestMeta meta=WorkEnv.getInstance().getRequestMeta();
+    ISfZongheZhibanServiceDelegate sfZongheZhibanServiceDelegate = (ISfZongheZhibanServiceDelegate) ServiceFactory.create(ISfZongheZhibanServiceDelegate.class, "sfZongheZhibanServiceDelegate");
+    ElementConditionDto dto=new ElementConditionDto();
+    dto.setNd(meta.getSvNd());
+    dto.setCoCode(meta.getSvCoCode());
+    SfZongheZhiban zb=sfZongheZhibanServiceDelegate.getCurrent(dto, meta);
+    if(zb==null || !meta.getSvUserID().equals(zb.getUserId())){
+      return false;
+    }
+    
+    return true;
   }
 }

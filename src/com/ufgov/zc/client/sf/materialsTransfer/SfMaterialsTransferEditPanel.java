@@ -1183,8 +1183,8 @@ public class SfMaterialsTransferEditPanel  extends AbstractMainSubEditPanel {
     editorList.add(nd);
     
     editorList.add(materialsDesc);
-    editorList.add(completionDesc);
-    editorList.add(remark);
+//    editorList.add(completionDesc);
+//    editorList.add(remark);
 
     return editorList;
   }

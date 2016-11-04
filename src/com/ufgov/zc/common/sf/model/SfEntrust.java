@@ -2,6 +2,7 @@ package com.ufgov.zc.common.sf.model;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -9,6 +10,68 @@ import com.ufgov.zc.common.util.EmpMeta;
 import com.ufgov.zc.common.zc.model.ZcBaseBill;
 
 public class SfEntrust extends ZcBaseBill {
+  /**
+   * 草稿
+   */
+  public static final String STATUS_DRAFT ="0";
+  /**
+   * 核准委托信息
+   */
+  public static final String STATUS_HE_ZHUN ="2";
+  /**
+   * 业务科室确认
+   */
+  public static final String STATUS_QUE_REN ="3";
+  /**
+   * 接收检材
+   */
+  public static final String STATUS_JIE_SHOU_JIANCAI ="4";
+  /**
+   * 业务科室受理
+   */
+  public static final String STATUS_KE_SHI_SHOULI ="5";
+  /**
+   * 鉴定完成
+   */
+  public static final String STATUS_COMPLETE ="complete";
+  /**
+   * 鉴定中
+   */
+  public static final String STATUS_DOING ="doing";
+  /**
+   * 终审
+   */
+  public static final String STATUS_EXEC ="exec";
+  /**
+   * 鉴定逾期
+   */
+  public static final String STATUS_EXPIRE ="expire";
+  /**
+   * 鉴定暂停
+   */
+  public static final String STATUS_PAUSE ="pause";
+  /**
+   * 鉴定终止
+   */
+  public static final String STATUS_STOP ="stop";
+  /**
+   * 鉴定延期
+   */
+  public static final String STATUS_DELAY ="delay";
+  /**
+   * 不受理
+   */
+  public static final String STATUS_UNACCEPT ="unaccept";
+  /**
+   * 转送其他鉴定中心
+   */
+  public static final String STATUS_ZHUANSONG ="zhuansong";
+  /**
+   * 鉴定退回不做了，退回委托方
+   */
+  public static final String STATUS_BACK ="back";
+  
+  
 
 	public static final String SEQ_SF_ENTRUST_ID = "SEQ_SF_ENTRUST_ID";
 
@@ -1338,7 +1401,33 @@ public class SfEntrust extends ZcBaseBill {
 	public void setExpectedTime(BigDecimal expectedTime) {
 		this.expectedTime = expectedTime;
 	}
-
+	/**
+	 * 预期完成日期
+	 * @return
+	 */
+	public Date getExpetedCompleteDate(){ 
+	  if(getAcceptDate()!=null){
+	    Calendar rightNow = Calendar.getInstance();
+	    rightNow.setTime(getAcceptDate());
+	    int k=getExpectedTime()==null?0:getExpectedTime().intValue();
+	    rightNow.add(Calendar.DAY_OF_YEAR,k);//
+	    return rightNow.getTime();
+	  }
+	  return null;
+	}
+	/**
+	 * 是否逾期
+	 * @return
+	 */
+	public boolean isExpire(){
+	  /*if(getExpetedCompleteDate()!=null){
+	    Date sysDate=SfUtil.getSysDate();
+	    if(sysDate.getTime()<getExecuteDate().getTime()){
+	      return true;
+	    }
+	  }*/
+	  return false;
+	}
 	public Date getCompleteTime() {
 		return completeTime;
 	}

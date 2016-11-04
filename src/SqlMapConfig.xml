@@ -301,6 +301,8 @@
      <sqlMap resource="sqlmap/sf/ZcFaCardDocMapper.xml"/>
 
      <sqlMap resource="sqlmap/sf/SfEntrustorWtcodeMapper.xml"/> 
-     <sqlMap resource="sqlmap/sf/SfAppendMaterialMapper.xml"/>     
+     <sqlMap resource="sqlmap/sf/SfAppendMaterialMapper.xml"/>   
+     <sqlMap resource="sqlmap/sf/SfEntrustManageMapper.xml"/>    
+     <sqlMap resource="sqlmap/sf/SfZongheZhibanMapper.xml"/>     
 	
 </sqlMapConfig>

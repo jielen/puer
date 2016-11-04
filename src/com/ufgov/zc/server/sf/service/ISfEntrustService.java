@@ -9,6 +9,8 @@ import com.ufgov.zc.common.system.dto.ElementConditionDto;
 
 public interface ISfEntrustService {
 
+  public static final String WF_OPERATION_UNTREAD="untead";
+  public static final String WF_OPERATION_AUDIT="audit";
   List getEntrustLst(ElementConditionDto elementConditionDto, RequestMeta requestMeta);
 
   SfEntrust selectByPrimaryKey(BigDecimal id, RequestMeta requestMeta);

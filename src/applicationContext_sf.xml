@@ -190,7 +190,8 @@
 		<property name="wfEngineAdapter" ref="wfEngineAdapter" />	
 		<property name="sfEntrustService" ref="sfEntrustService" />		
 		<property name="zcEbBaseService" ref="zcEbBaseService" />			
-		<property name="sfJdReportService" ref="sfJdReportService" />			
+		<property name="sfJdReportService" ref="sfJdReportService" />	
+		<property name="materialsTransferDetailMapper" ref="materialsTransferDetailMapper" />			
 	</bean>		
 	<bean id="jdDocAuditMapper" class="com.ufgov.zc.server.sf.dao.ibatis.SfJdDocAuditMapperImp"		scope="singleton">
 		<property name="sqlMapClient" ref="sqlMapClient" />
@@ -293,5 +294,23 @@
 	</bean>		
 	<bean id="appendMaterialMapper" class="com.ufgov.zc.server.sf.dao.ibatis.SfAppendMaterialMapperImp"		scope="singleton">
 		<property name="sqlMapClient" ref="sqlMapClient" />
-	</bean>						
+	</bean>		
+			
+	<bean id="sfEntrustManageService" class="com.ufgov.zc.server.sf.service.impl.SfEntrustManageService"		scope="singleton">
+		<property name="sfEntrustManageMapper" ref="sfEntrustManageMapper" />		
+		<property name="workflowDao" ref="workflowDao" />
+		<property name="wfEngineAdapter" ref="wfEngineAdapter" /> 
+		<property name="zcEbBaseService" ref="zcEbBaseService" />
+		<property name="sfEntrustService" ref="sfEntrustService" />		
+	</bean>		
+	<bean id="sfEntrustManageMapper" class="com.ufgov.zc.server.sf.dao.ibatis.SfEntrustManageMapperImp"		scope="singleton">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>		
+			
+	<bean id="sfZongheZhibanService" class="com.ufgov.zc.server.sf.service.impl.SfZongheZhibanService"		scope="singleton">
+		<property name="sfZongheZhibanMapper" ref="sfZongheZhibanMapper" />	 
+	</bean>					
+	<bean id="sfZongheZhibanMapper" class="com.ufgov.zc.server.sf.dao.ibatis.SfZongheZhibanMapperImp"		scope="singleton">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>								
 </beans>

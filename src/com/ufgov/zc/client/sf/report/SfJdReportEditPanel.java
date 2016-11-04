@@ -123,8 +123,7 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 	   */
 	private static final long serialVersionUID = -6258499243419971245L;
 
-	private static final Logger logger = Logger
-			.getLogger(SfJdReportEditPanel.class);
+	private static final Logger logger = Logger.getLogger(SfJdReportEditPanel.class);
 
 	protected String pageStatus = ZcSettingConstants.PAGE_STATUS_BROWSE;
 
@@ -543,6 +542,9 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 	protected void setButtonStatus() {
 		SfJdReport bill = (SfJdReport) listCursor.getCurrentObject();
 		setButtonStatus(bill, requestMeta, this.listCursor);
+		if(bill.getReportCode()!=null){
+		  getNoBtn.setVisible(false);
+		}
 	}
 
 	public void setButtonStatusWithoutWf() {

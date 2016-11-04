@@ -55,7 +55,7 @@ public class SfDataFlowDialog extends GkBaseDialog {
 
     this.setMaxSizeWindow();
 
-    editPanel.setSelectedTab();
+//    editPanel.setSelectedTab();
     /**
      * 界面显示后，再加载word控件，否则报peer not created错误
      */

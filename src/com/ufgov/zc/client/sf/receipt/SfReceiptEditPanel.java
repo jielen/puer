@@ -175,6 +175,8 @@ public class SfReceiptEditPanel extends AbstractMainSubEditPanel {
 
 private TextFieldEditor noticeName;
 
+private AsValFieldEditor receiptType;
+
   public SfReceiptEditPanel(GkBaseDialog parent, ListCursor listCursor, String tabStatus, SfReceiptListPanel listPanel) {
     // TCJLODO Auto-generated constructor stub
     super(SfReceiptEditPanel.class, BillElementMeta.getBillElementMetaWithoutNd(compoId));
@@ -224,7 +226,7 @@ private TextFieldEditor noticeName;
         }
       }
     });
-    tabPane.addTab("回执内容", wordPane);
+    tabPane.addTab("内容", wordPane);
     tabPane.validate();
     tabPane.repaint();
   }
@@ -840,7 +842,7 @@ private TextFieldEditor noticeName;
 
     noticeName = new TextFieldEditor(LangTransMeta.translate(SfReceipt.COL_NAME), "name");
     AsValFieldEditor status = new AsValFieldEditor(LangTransMeta.translate(SfReceipt.COL_STATUS), "status", "SF_VS_RECEIPT_STATUS");
-    AsValFieldEditor receiptType = new AsValFieldEditor(LangTransMeta.translate(SfReceipt.COL_RECEIPT_TYPE), "receiptType", "SF_VS_RECEIPT_TYPE") {
+    receiptType = new AsValFieldEditor(LangTransMeta.translate(SfReceipt.COL_RECEIPT_TYPE), "receiptType", "SF_VS_RECEIPT_TYPE") {
       @Override
       protected void afterChange(AsValComboBox field) {
         /*if (field.getSelectedAsVal() == null || pageStatus.equals(ZcSettingConstants.PAGE_STATUS_BROWSE)) {
@@ -855,6 +857,14 @@ private TextFieldEditor noticeName;
         }*/
       }
     };
+    receiptType.getField().addActionListener(new ActionListener() {
+
+      public void actionPerformed(ActionEvent e) {
+
+        selectEntrust(null);
+      }
+
+    });
     //    receiptType.addv
     TextAreaFieldEditor remark = new TextAreaFieldEditor(LangTransMeta.translate(SfReceipt.COL_REMARK), "remark", 100, 2, 5);
     TextFieldEditor inputor = new TextFieldEditor(LangTransMeta.translate(SfReceipt.COL_INPUTOR), "inputorName");
@@ -971,11 +981,12 @@ protected void init() {
     }
   }
 
+  
   protected void selectEntrust(SfEntrust entrust) {
 
+    SfReceipt bill = (SfReceipt) listCursor.getCurrentObject();
     if (entrust != null) {
 
-      SfReceipt bill = (SfReceipt) listCursor.getCurrentObject();
       entrust=sfEntrustServiceDelegate.selectByPrimaryKey(entrust.getEntrustId(), requestMeta);
       bill.setEntrustCode(entrust.getCode());
       bill.setEntrustId(entrust.getEntrustId());
@@ -987,9 +998,14 @@ protected void init() {
     	  String fileId=getFileId(bill.getReceiptType());
     	  loadWord(fileId);
       } 
+    }else{
+      if(bill.getEntrust()!=null && receiptType.getField().getSelectedAsVal()!=null && bill.getFileId() ==null){          
+        String fileId=getFileId(receiptType.getField().getSelectedAsVal().getValId());
+        loadWord(fileId);
+      }
     }
-  }
-
+  } 
+  
   private void loadWord(String fileId) {
 	  
 	  if(fileId==null)return;
@@ -1012,9 +1028,9 @@ protected void init() {
 		      }
 		    });
 
-		String ff= WordFileUtil.loadMold(fileId);
-		if(ff==null)return ;
-		wordPane.open(ff);
+	    SfReceiptEditPanel.this.fileName= WordFileUtil.loadMold(fileId);
+		if(SfReceiptEditPanel.this.fileName==null)return ;
+		wordPane.open(SfReceiptEditPanel.this.fileName);
 }
 
 	protected void replaceBookMarks() {

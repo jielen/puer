@@ -6,6 +6,11 @@ public interface SfElementConstants {
    * 科室通用受理人userid
    */
   public static final String KESHI_SHOULI = "KESHI_SHOULI";
+  
+  /**
+   * 综合值班人userid
+   */
+  public static final String ZONGHE_SHOULI = "ZONGHE_SHOULI";
 
   /**
    * 性别值集。0：男，1：女

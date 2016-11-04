@@ -2,6 +2,7 @@ package com.ufgov.zc.client.sf.appendmaterial;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.DefaultKeyboardFocusManager;
 import java.awt.Desktop;
 import java.awt.Dialog.ModalityType;
@@ -12,8 +13,10 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -58,6 +61,7 @@ import com.ufgov.zc.client.component.button.SuggestAuditPassButton;
 import com.ufgov.zc.client.component.button.TraceButton;
 import com.ufgov.zc.client.component.button.UnauditButton;
 import com.ufgov.zc.client.component.button.UntreadButton;
+import com.ufgov.zc.client.component.button.zc.CommonButton;
 import com.ufgov.zc.client.component.table.BeanTableModel;
 import com.ufgov.zc.client.component.table.celleditor.MoneyCellEditor;
 import com.ufgov.zc.client.component.table.celleditor.TextCellEditor;
@@ -68,6 +72,7 @@ import com.ufgov.zc.client.component.table.codecellrenderer.AsValCellRenderer;
 import com.ufgov.zc.client.component.ui.fieldeditor.AbstractFieldEditor;
 import com.ufgov.zc.client.component.zc.AbstractMainSubEditPanel;
 import com.ufgov.zc.client.component.zc.fieldeditor.AsValFieldEditor;
+import com.ufgov.zc.client.component.zc.fieldeditor.AutoNumFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.DateFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.ForeignEntityFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.TextAreaFieldEditor;
@@ -76,6 +81,7 @@ import com.ufgov.zc.client.sf.component.JClosableTabbedPane;
 import com.ufgov.zc.client.sf.dataflow.SfDataFlowDialog;
 import com.ufgov.zc.client.sf.dataflow.SfDataFlowUtil;
 import com.ufgov.zc.client.sf.entrust.SfEntrustHandler;
+import com.ufgov.zc.client.sf.entrust.XysxPanelUtil;
 import com.ufgov.zc.client.sf.outinfo.SfOutInfoWordPrintHandler;
 import com.ufgov.zc.client.sf.util.SfUtil;
 import com.ufgov.zc.client.util.SwingUtil;
@@ -83,6 +89,7 @@ import com.ufgov.zc.client.util.freemark.IWordHandler;
 import com.ufgov.zc.client.zc.ButtonStatus;
 import com.ufgov.zc.client.zc.WordFileUtil;
 import com.ufgov.zc.client.zc.ZcUtil;
+import com.ufgov.zc.common.commonbiz.model.WfAware;
 import com.ufgov.zc.common.sf.model.SfAppendMaterial;
 import com.ufgov.zc.common.sf.model.SfEntrust;
 import com.ufgov.zc.common.sf.model.SfMaterials;
@@ -140,6 +147,8 @@ public class SfAppendMaterialEditPanel extends AbstractMainSubEditPanel {
 
   //送国库
   private FuncButton sendGkButton = new SendGkButton();
+
+  public FuncButton acceptBtn = new CommonButton("faccepted", "audit.jpg");
 
   // 工作流填写意见审核通过
   protected FuncButton suggestPassButton = new SuggestAuditPassButton();
@@ -205,11 +214,7 @@ public class SfAppendMaterialEditPanel extends AbstractMainSubEditPanel {
 
     requestMeta.setCompoId(getCompoId());
 
-    refreshData();
-
-    setButtonStatus();
-
-    updateFieldEditorsEditable();
+    refreshData(); 
   }
 
   private void refreshData() {
@@ -327,7 +332,7 @@ public class SfAppendMaterialEditPanel extends AbstractMainSubEditPanel {
         if (pageStatus.equals(ZcSettingConstants.PAGE_STATUS_EDIT) || pageStatus.equals(ZcSettingConstants.PAGE_STATUS_NEW)) {
           if ("inputDate".equals(editor.getFieldName()) || "inputorName".equals(editor.getFieldName()) || "status".equals(editor.getFieldName())
             || "nd".equals(editor.getFieldName()) || "acceptor".equals(editor.getFieldName()) || "acceptorName".equals(editor.getFieldName())
-            || "acceptDate".equals(editor.getFieldName())) {
+            || "acceptDate".equals(editor.getFieldName())|| "appendMaterialIdStr".equals(editor.getFieldName())) {
             editor.setEnabled(false);
           } else {
             editor.setEnabled(true);
@@ -349,7 +354,14 @@ public class SfAppendMaterialEditPanel extends AbstractMainSubEditPanel {
   protected void setButtonStatus() {
     SfAppendMaterial material = (SfAppendMaterial) listCursor.getCurrentObject();
     setButtonStatus(material, requestMeta, this.listCursor);
-
+    if(!SfUtil.isWtf()){
+      if(material.getStatus().equalsIgnoreCase("5")
+        ||material.getStatus().equalsIgnoreCase("10")
+        ||material.getStatus().equalsIgnoreCase("exec")
+        ){
+        printButton.setVisible(true); 
+      }
+    }
   }
 
   public void setButtonStatusWithoutWf() {
@@ -374,6 +386,12 @@ public class SfAppendMaterialEditPanel extends AbstractMainSubEditPanel {
 
       bs.addBillStatus(ZcSettingConstants.WF_STATUS_DRAFT);
 
+      btnStatusList.add(bs);
+
+      bs = new ButtonStatus();
+      bs.setButton(this.acceptBtn);
+      bs.addPageStatus(ZcSettingConstants.PAGE_STATUS_BROWSE);
+      bs.addBillStatus(ZcSettingConstants.BILL_STATUS_ALL);
       btnStatusList.add(bs);
 
       bs = new ButtonStatus();
@@ -511,6 +529,8 @@ public class SfAppendMaterialEditPanel extends AbstractMainSubEditPanel {
     //        toolBar.add(saveAndSendButton);
 
     toolBar.add(suggestPassButton);
+    
+    toolBar.add(acceptBtn);
 
     //    toolBar.add(sendGkButton);
 
@@ -526,13 +546,23 @@ public class SfAppendMaterialEditPanel extends AbstractMainSubEditPanel {
 
     toolBar.add(traceButton);
 
-//    toolBar.add(printButton);
+    toolBar.add(printButton);
 
     //    toolBar.add(previousButton);
 
     //    toolBar.add(nextButton);
 
     toolBar.add(exitButton);
+
+    acceptBtn.addActionListener(new ActionListener() {
+
+      public void actionPerformed(ActionEvent e) {
+
+        doAccept();
+
+      }
+
+    });
 
     addButton.addActionListener(new ActionListener() {
 
@@ -906,9 +936,9 @@ public class SfAppendMaterialEditPanel extends AbstractMainSubEditPanel {
     SfAppendMaterial material = (SfAppendMaterial) this.listCursor.getCurrentObject();
     SfEntrust entrust = sfEntrustServiceDelegate.selectByPrimaryKey(material.getEntrustId(), requestMeta);
     userData.put("entrust", entrust);
-    userData.put("material", material);
-    userData.put(IWordHandler.FILE_NAME, entrust.getCode() + "外部信息");
-    IWordHandler handler = new SfOutInfoWordPrintHandler();
+    userData.put("appendMaterial", material);
+    userData.put(IWordHandler.FILE_NAME, entrust.getCode() + "补充检材");
+    IWordHandler handler = new SfAppendMaterialWordPrintHandler();
     String fileName = handler.createDocumnet(userData);
     try {
       Desktop.getDesktop().open(new File(fileName));
@@ -994,6 +1024,7 @@ public class SfAppendMaterialEditPanel extends AbstractMainSubEditPanel {
     TextAreaFieldEditor validatOpinion = new TextAreaFieldEditor(LangTransMeta.translate(SfAppendMaterial.COL_VALIDAT_OPINION), "validatOpinion", 100, 2, 5);
     AsValFieldEditor validatIsPass = new AsValFieldEditor(LangTransMeta.translate(SfAppendMaterial.COL_VALIDAT_IS_PASS), "validatIsPass",
       SfElementConstants.VS_Y_N, true);
+    AutoNumFieldEditor id = new AutoNumFieldEditor(LangTransMeta.translate(SfAppendMaterial.COL_APPEND_MATERIAL_ID), "appendMaterialIdStr");
 
     editorList.add(entrust);
     editorList.add(name);
@@ -1010,6 +1041,7 @@ public class SfAppendMaterialEditPanel extends AbstractMainSubEditPanel {
     
     editorList.add(inputor);
     editorList.add(inputDate);
+    editorList.add(id);
     
     return editorList;
   }
@@ -1157,6 +1189,39 @@ public class SfAppendMaterialEditPanel extends AbstractMainSubEditPanel {
   }
 
   /**
+   * 受理,配合工作流,送给对应的鉴定负责人
+   */
+  protected void doAccept() {
+ 
+    SfAppendMaterial qx = (SfAppendMaterial) ObjectUtil.deepCopy(this.listCursor.getCurrentObject());
+    //    System.out.println("doSuggestPass 2++++++++++++++++++++++++++=" + qx.getAcceptDate());
+    requestMeta.setFuncId(this.acceptBtn.getFuncId());
+    boolean success = true;
+    String errorInfo = "";
+    try {
+      qx.setComment("同意");
+      qx.setAuditorId(WorkEnv.getInstance().getCurrUserId());
+      qx.setAcceptDate(requestMeta.getSysDate());
+      qx.setAcceptor(requestMeta.getSvUserID()); 
+      //      System.out.println("doSuggestPass 3++++++++++++++++++++++++++=" + qx.getAcceptDate());
+      qx = sfAppendMaterialServiceDelegate.auditFN(qx, requestMeta);
+      //      System.out.println("doSuggestPass 4++++++++++++++++++++++++++=" + qx.getAcceptDate());
+    } catch (Exception e) {
+      success = false;
+      logger.error(e.getMessage(), e);
+      errorInfo += e.getMessage();
+    }
+    if (success) {
+      JOptionPane.showMessageDialog(this, "审核成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
+      refreshListPanel();
+      refreshData();
+      updateDataFlowDialog();
+    } else {
+      JOptionPane.showMessageDialog(this, "审核失败 ！" + errorInfo, "错误", JOptionPane.ERROR_MESSAGE);
+    }
+  }
+
+  /**
    * 审核
    */
   protected void doSuggestPass() {
@@ -1294,5 +1359,110 @@ public class SfAppendMaterialEditPanel extends AbstractMainSubEditPanel {
       return;
     }
     ZcUtil.showTraceDialog(bean, compoId);
+  }
+
+
+  protected void setButtonStatus(WfAware baseBill, RequestMeta requestMeta, ListCursor listCursor) {
+
+    Long processInstId = baseBill.getProcessInstId();
+
+    if (processInstId == null || processInstId.longValue() < 0) {
+
+      // 新增单据,草稿单据或不挂接工作流的单据
+
+      Component[] funcs = toolBar.getComponents();
+
+      String funcId;
+
+      for (Component func : funcs) {
+
+        funcId = ((FuncButton) func).getFuncId();
+
+        if ("fauditfinal" == funcId || "fcallback" == funcId
+
+        || "fautocommit" == funcId || "funaudit" == funcId
+
+        || "funtread" == funcId
+
+        || "fshowinstancetrace" == funcId
+
+        || "f_uncollectcreate" == funcId
+
+        || "fconfirmsup" == funcId || "fmanualcommit" == funcId
+
+        || "fsendnextcommit" == funcId
+
+        ) {
+          func.setVisible(false);
+        }
+
+      }
+      setButtonStatusWithoutWf();
+
+    } else {
+
+      // 流程已经启动
+
+      List enableFuncs = this.getWFNodeEnableFunc(baseBill, requestMeta);
+
+      if (enableFuncs == null || enableFuncs.size() == 0) {//委托里面，委托流转到科室时，不是指定科室的具体人，而是用了一个公用的用户(KESHI_SHOULI 科室受理人)，根据当前单据流程号、鉴定专业判断当当前单据是否应该接受这个单据
+
+        enableFuncs = getKeshiShouliEnableFunc(baseBill, requestMeta);
+      }
+
+      ZcUtil.setWfNodeEnableFunc(toolBar, enableFuncs, processInstId, requestMeta);
+
+    }
+
+    if (listCursor == null || listCursor.getDataList() == null || listCursor.getDataList().size() <= 1) {
+
+      // 如果listCursor中只有一条记录，就隐藏上一条下一条按钮
+
+      FuncButton previousButton = toolBar.getButtonByDefaultText("上一条");
+
+      FuncButton nextButton = toolBar.getButtonByDefaultText("下一条");
+
+      if (previousButton != null) {
+
+        previousButton.setVisible(false);
+
+      }
+
+      if (nextButton != null) {
+
+        nextButton.setVisible(false);
+
+      }
+
+    }
+
+  }
+
+
+  private List getKeshiShouliEnableFunc(WfAware baseBill, RequestMeta meta) {
+    ElementConditionDto dto = new ElementConditionDto();
+    dto.setProcessInstId(baseBill.getProcessInstId());
+    dto.setExecutor(meta.getSvUserID());
+    dto.setCompoId(getCompoId());
+    List funcs = zcEbBaseServiceDelegate.queryDataForList("com.ufgov.zc.server.sf.dao.SfAppendMaterialMapper.getKeshiShouliEnableFunc", dto, meta);
+
+    return funcs == null ? new ArrayList() : funcs;
+  }
+
+  private Map getKeshiShouliEnableField(WfAware baseBill, RequestMeta meta) {
+    ElementConditionDto dto = new ElementConditionDto();
+    dto.setProcessInstId(baseBill.getProcessInstId());
+    dto.setExecutor(meta.getSvUserID());
+    dto.setCompoId(getCompoId());
+    List funcs = zcEbBaseServiceDelegate.queryDataForList("com.ufgov.zc.server.sf.dao.SfAppendMaterialMapper.getKeshiShouliEnableField", dto, meta);
+
+    if (funcs == null) { return null; }
+    Map rtn = new HashMap();
+    for (int i = 0; i < funcs.size(); i++) {
+      HashMap row = (HashMap) funcs.get(i);
+      rtn.put(row.get("DATA_ITEM"), row.get("READ_WRITE"));
+    }
+
+    return rtn;
   }
 }

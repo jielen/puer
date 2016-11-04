@@ -58,4 +58,11 @@
 		isMutliRecord="false"
 		nodeBusiness="com.ufgov.zc.client.sf.dataflow.nodebusiness.SfMobileMsgNodeBusiness"/>
 		
+	<node compoId="SF_ENTRUST_MANAGE"
+		text="管理日志"
+		toolTip="管理日志" 
+		icon="clock.bmp"
+		isMutliRecord="false"
+		nodeBusiness="com.ufgov.zc.client.sf.dataflow.nodebusiness.SfEntrustManageNodeBusiness"/>
+		
 </network>

@@ -78,7 +78,11 @@ public class SfEntrustMapperImp extends SqlMapClientDaoSupport implements SfEntr
   public List getEntrustLst(ElementConditionDto dto) {
     // TCJLODO Auto-generated method stub
 
-    dto.setNumLimitStr(NumLimUtil.getInstance().getNumLimCondByCoType(dto.getWfcompoId(), NumLimConstants.FWATCH));
+    if(!dto.isZhiban()){//值班的时候能查看所有的数据，不值班时，需要加上数据条件
+      dto.setNumLimitStr(NumLimUtil.getInstance().getNumLimCondByCoType(dto.getWfcompoId(), NumLimConstants.FWATCH));
+    }else{
+      dto.setNumLimitStr(null);
+    }
 
     return getSqlMapClientTemplate().queryForList("com.ufgov.zc.server.sf.dao.SfEntrustMapper.selectEntrustLst", dto);
   }

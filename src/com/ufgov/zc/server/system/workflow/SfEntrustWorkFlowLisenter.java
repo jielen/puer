@@ -17,9 +17,10 @@ import com.ufgov.zc.server.zc.dao.IZcEbBaseServiceDao;
  * @author Administrator
  *
  */
-public class SfEntrustWorkFlowLisenter extends TaskAdapter {
+public class SfEntrustWorkFlowLisenter extends SfEntrustBasicWorkFlowLisenter {
 
   public void beforeExecution(WorkflowContext context) throws WorkflowException {
+    super.beforeExecution(context);
     Long processId = context.getInstanceId();
     IZcEbBaseServiceDao zcEbBaseServiceDao = (IZcEbBaseServiceDao) SpringContext.getBean("zcEbBaseServiceDao");
     SfEntrust evalution = (SfEntrust) zcEbBaseServiceDao.queryObject("com.ufgov.zc.server.sf.dao.SfEntrustMapper.selectByProcessinstid",

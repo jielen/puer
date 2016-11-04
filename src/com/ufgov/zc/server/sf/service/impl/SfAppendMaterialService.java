@@ -213,8 +213,7 @@ public class SfAppendMaterialService implements ISfAppendMaterialService {
     }else{    
       wfEngineAdapter.commit(qx.getComment(), qx, requestMeta);
     }
-     
-    wfEngineAdapter.commit(qx.getComment(), qx, requestMeta);
+      
     return selectByPrimaryKey(qx.getAppendMaterialId(),requestMeta);
   }
 

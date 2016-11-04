@@ -39,6 +39,7 @@ public class SfReceiptNodeBusiness implements ISfFlowNodeBusiness {
         SfReceipt agreement = new SfReceipt();
         agreement.setEntrustCode(entrust.getCode());
         agreement.setEntrustId(entrust.getEntrustId());
+        agreement.setEntrust(entrust);
         lstCursor.getDataList().add(agreement);
         lstCursor.setCurrentObject(agreement);
         SfReceiptEditPanel editPanel = new SfReceiptEditPanel(flowPanel.getParentDlg(), lstCursor, null, null);

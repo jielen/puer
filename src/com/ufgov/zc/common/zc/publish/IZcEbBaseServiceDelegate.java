@@ -12,6 +12,7 @@
 
 package com.ufgov.zc.common.zc.publish;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -79,5 +80,5 @@ public interface IZcEbBaseServiceDelegate extends Publishable {
   public void untreadFN(List billList, RequestMeta meta);
   
   public String getAutoNumNo(ZcBaseBill bill,String compoName,String fieldName);
-
+  Date getSysDate(RequestMeta requestMeta);
 }

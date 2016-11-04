@@ -267,11 +267,9 @@ public class SfEntrustorEditPanel extends AbstractMainSubEditPanel {
       btnStatusList.add(bs);
 
       bs = new ButtonStatus();
-
       bs.setButton(this.saveButton);
       bs.addPageStatus(ZcSettingConstants.PAGE_STATUS_EDIT);
       bs.addPageStatus(ZcSettingConstants.PAGE_STATUS_NEW);
-
       btnStatusList.add(bs);
 
       bs = new ButtonStatus();

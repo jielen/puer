@@ -62,6 +62,8 @@ public class SfJdDocAudit extends ZcBaseBill {
   private SfEntrust entrust = new SfEntrust();
   
   private SfJdReport report=new SfJdReport();
+  
+  private List materialLst=new ArrayList(); 
    
   private String wtf;
    
@@ -454,5 +456,13 @@ public SfJdReport getReport() {
 
 public void setReport(SfJdReport report) {
 	this.report = report;
+}
+
+public List getMaterialLst() {
+  return materialLst;
+}
+
+public void setMaterialLst(List materialLst) {
+  this.materialLst = materialLst;
 }
 }

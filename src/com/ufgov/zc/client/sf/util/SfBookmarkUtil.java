@@ -436,46 +436,51 @@ public class SfBookmarkUtil {
 		
 		return rtn;
 	}
-	
-	public static String getJdclString(SfEntrust entrust){
-		StringBuffer sb = new StringBuffer();
-	    if (entrust.getMaterials() == null) {
-	      entrust.setMaterials(new ArrayList());
-	    }
-	    StringBuffer jcSb=new StringBuffer();
-	    StringBuffer ybSb=new StringBuffer(); 
-	    for (int i = 0; i < entrust.getMaterials().size(); i++) {
-	    	//先分出检材和样本，如果没有，就混在一起
-	      SfMaterials material = (SfMaterials) entrust.getMaterials().get(i);
-	      
-	      if(material.getMaterialType()!=null && material.getMaterialType().equalsIgnoreCase("1")){//检材
-	    	  if(jcSb.length()>0){
-	    		  jcSb.append("\n");
-	    	  }
-	    	  jcSb.append(material.toString());	    	  
-	      }else if(material.getMaterialType()!=null && material.getMaterialType().equalsIgnoreCase("2")){//样本
-	    	  if(ybSb.length()>0){
-	    		  ybSb.append("\n");
-	    	  }
-	    	  ybSb.append(material.toString());
-	      }else{
-	    	 if(sb.length()>0){
-	    		 sb.append("\n");
-	    	 }
-	    	 sb.append(material.toString());
-	      }
+
+  public static String getJdclString(List materials){
+
+    StringBuffer sb = new StringBuffer();
+    if(materials==null){
+      return null;
+    } 
+      StringBuffer jcSb=new StringBuffer();
+      StringBuffer ybSb=new StringBuffer(); 
+      for (int i = 0; i < materials.size(); i++) {
+        //先分出检材和样本，如果没有，就混在一起
+        SfMaterials material = (SfMaterials) materials.get(i);
+        
+        if(material.getMaterialType()!=null && material.getMaterialType().equalsIgnoreCase("1")){//检材
+          if(jcSb.length()>0){
+            jcSb.append("\n");
+          }
+          jcSb.append(material.toString());         
+        }else if(material.getMaterialType()!=null && material.getMaterialType().equalsIgnoreCase("2")){//样本
+          if(ybSb.length()>0){
+            ybSb.append("\n");
+          }
+          ybSb.append(material.toString());
+        }else{
+         if(sb.length()>0){
+           sb.append("\n");
+         }
+         sb.append(material.toString());
+        }
      
-	    }
-	   	 if(sb.length()>0){
-			 sb.append("\n");
-		 }
-		 sb.append(jcSb.toString());
-		 if(sb.length()>0){
-			 sb.append("\n");
-		 }
-	     sb.append(ybSb.toString()); 
-	     
-	     return sb.toString();
+      }
+       if(sb.length()>0){
+       sb.append("\n");
+     }
+     sb.append(jcSb.toString());
+     if(sb.length()>0){
+       sb.append("\n");
+     }
+       sb.append(ybSb.toString()); 
+       
+       return sb.toString();
+  }
+	public static String getJdclString(SfEntrust entrust){
+	  if(entrust==null )return null; 
+	  return getJdclString(entrust.getMaterials());
 	}
 	public List<SfBookmark> getJdRecordBookValueLst(SfJdResult bill){
 		List<SfBookmark> rtn=new ArrayList<SfBookmark>();

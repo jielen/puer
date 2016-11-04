@@ -51,6 +51,8 @@ public class SfAppendMaterial extends ZcBaseBill{
     private List detailLst=new ArrayList();
     
     private BigDecimal appendMaterialId;
+    
+    private String appendMaterialIdStr;
 
     private String entrustCode;
 
@@ -252,5 +254,25 @@ public class SfAppendMaterial extends ZcBaseBill{
 
     public void setInputorName(String inputorName) {
 
+    }
+
+    public String getAppendMaterialIdStr() {
+      if(getAppendMaterialId()!=null){
+        String str=""+getAppendMaterialId().intValue();
+        StringBuffer sb=new StringBuffer();
+        if(str.length()<8){
+          for(int i=0;i<8-str.length();i++){
+            sb.append("0");
+          }
+          sb.append(str);
+          return sb.toString();
+        }
+        return str;
+      }
+      return appendMaterialIdStr;
+    }
+
+    public void setAppendMaterialIdStr(String appendMaterialIdStr) {
+      this.appendMaterialIdStr = appendMaterialIdStr;
     }
 }

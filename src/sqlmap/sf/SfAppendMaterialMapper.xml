@@ -156,4 +156,44 @@
      and m.entrust_id=e.entrust_id
 	   AND SUBSTR(e.MAJOR_CODE, 0, 3) = T.MAJOR_CODE
   </select>
+  <!-- 获取业务科室受理人的工作流可用于按钮-->
+  <select id="getKeshiShouliEnableFunc" parameterClass="elementCondition" resultClass="java.lang.String">
+	select FUNC_ID
+    from AS_WF_FUNC_ACTIVITY
+   where WF_NODE_ID IN (SELECT N.NODE_ID FROM V_SF_KESHI_SHOULI_NODE N,V_SF_KESHI_SHOULI_PERSON_LINK L,SF_ENTRUST E,sf_append_material m
+    WHERE N.INSTANCE_ID=m.PROCESS_INST_ID
+    AND N.EXECUTOR=L.KESHI_SHOULI
+    AND L.ACCOUNT=#executor#
+    AND L.MAJOR_CODE=SUBSTR(E.MAJOR_CODE, 0, 3)
+    and e.entrust_id=m.entrust_id
+    AND m.PROCESS_INST_ID=#processInstId:DECIMAL# )
+    OR (WF_NODE_ID IN(SELECT N.NODE_ID FROM V_SF_KESHI_SHOULI_NODE2 N,V_SF_KESHI_SHOULI_PERSON_LINK L,SF_ENTRUST E,sf_append_material m
+    WHERE N.INSTANCE_ID=m.PROCESS_INST_ID
+    AND N.EXECUTOR=L.KESHI_SHOULI
+    AND L.ACCOUNT=#executor#
+    AND L.MAJOR_CODE=SUBSTR(E.MAJOR_CODE, 0, 3)
+    and e.entrust_id=m.entrust_id
+    AND m.PROCESS_INST_ID=#processInstId:DECIMAL#     
+    )AND FUNC_ID = 'fcallback' )
+     and WF_TEMPLATE_ID =
+       (select DEFAULT_WF_TEMPLATE from AS_COMPO where COMPO_ID = #compoId#) 
+  </select>
+  <!-- 获取业务科室受理人的工作流可编辑字段-->
+  <select id="getKeshiShouliEnableField" parameterClass="elementCondition" resultClass="java.util.HashMap">
+  	SELECT data_item, read_write
+    FROM as_wf_activity_field t
+   WHERE t.wf_node_id = (SELECT distinct K.node_id
+                           FROM wf_current_task K,V_SF_KESHI_SHOULI_PERSON_LINK L,SF_ENTRUST E,sf_append_material m
+                          WHERE K.instance_id = #processInstId:DECIMAL#
+                            and K.executor = 'KESHI_SHOULI'
+                            AND K.EXECUTOR=L.KESHI_SHOULI
+                            AND L.ACCOUNT=#executor#
+                            AND L.MAJOR_CODE=SUBSTR(E.MAJOR_CODE,0,3)
+                            and e.entrust_id=m.entrust_id
+                            AND m.PROCESS_INST_ID=K.INSTANCE_ID
+                            )
+     and t.wf_template_id =
+         (select default_wf_template from as_compo where compo_id = #compoId#)
+     and read_write = '2'
+  </select>
 </sqlMap>

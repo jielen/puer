@@ -1,6 +1,7 @@
 package com.ufgov.zc.server.sf.service.impl;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -9,12 +10,13 @@ import com.ufgov.zc.common.sf.model.SfEntrust;
 import com.ufgov.zc.common.sf.model.SfJdDocAudit;
 import com.ufgov.zc.common.sf.model.SfJdDocAuditDetail;
 import com.ufgov.zc.common.sf.model.SfJdReport;
-import com.ufgov.zc.common.sf.model.SfJdResult;
+import com.ufgov.zc.common.sf.model.SfMaterialsTransferDetail;
 import com.ufgov.zc.common.system.RequestMeta;
 import com.ufgov.zc.common.system.dto.ElementConditionDto;
 import com.ufgov.zc.common.system.model.AsWfDraft;
 import com.ufgov.zc.server.sf.dao.SfJdDocAuditDetailMapper;
 import com.ufgov.zc.server.sf.dao.SfJdDocAuditMapper;
+import com.ufgov.zc.server.sf.dao.SfMaterialsTransferDetailMapper;
 import com.ufgov.zc.server.sf.service.ISfEntrustService;
 import com.ufgov.zc.server.sf.service.ISfJdDocAuditService;
 import com.ufgov.zc.server.sf.service.ISfJdReportService;
@@ -31,7 +33,8 @@ public class SfJdDocAuditService implements ISfJdDocAuditService {
   private SfJdDocAuditDetailMapper jdDocAuditDetailMapper;
   private ISfEntrustService sfEntrustService;
   private IZcEbBaseService zcEbBaseService;
-  private ISfJdReportService sfJdReportService;
+  private ISfJdReportService sfJdReportService; 
+  private SfMaterialsTransferDetailMapper materialsTransferDetailMapper;
   
   
   public List getMainDataLst(ElementConditionDto elementConditionDto, RequestMeta requestMeta) {
@@ -52,6 +55,8 @@ public class SfJdDocAuditService implements ISfJdDocAuditService {
 //    SfJdReport report=sfJdReportService.selectByPrimaryKey(id, requestMeta)
     rtn.setReport(report==null?new SfJdReport():report);
     rtn.setDetailLst(jdDocAuditDetailMapper.selectByPrimaryKey(id));
+    List mlst=materialsTransferDetailMapper.selectByPrimaryKey(id);
+    rtn.setMaterialLst(mlst==null?new ArrayList():mlst);
     rtn.setDbDigest(rtn.digest());
     return rtn;
   }
@@ -101,7 +106,14 @@ public class SfJdDocAuditService implements ISfJdDocAuditService {
         jdDocAuditDetailMapper.insert(m);
       }
     }
-        
+    materialsTransferDetailMapper.deleteByPrimaryKey(inData.getJdDocAuditId());
+    if(inData.getMaterialLst()!=null){
+      for(int i=0;i<inData.getMaterialLst().size();i++){
+        SfMaterialsTransferDetail md=(SfMaterialsTransferDetail) inData.getMaterialLst().get(i);
+        md.setTransferId(inData.getJdDocAuditId());
+        materialsTransferDetailMapper.insert(md);
+      }
+    }
   }
 
   private void insert(SfJdDocAudit inData, RequestMeta requestMeta) {
@@ -112,6 +124,13 @@ public class SfJdDocAuditService implements ISfJdDocAuditService {
         SfJdDocAuditDetail m=(SfJdDocAuditDetail) inData.getDetailLst().get(i);
         m.setJdDocAuditId(inData.getJdDocAuditId());
         jdDocAuditDetailMapper.insert(m);
+      }
+    }
+    if(inData.getMaterialLst()!=null){
+      for(int i=0;i<inData.getMaterialLst().size();i++){
+        SfMaterialsTransferDetail md=(SfMaterialsTransferDetail) inData.getMaterialLst().get(i);
+        md.setTransferId(inData.getJdDocAuditId());
+        materialsTransferDetailMapper.insert(md);
       }
     }
   }
@@ -150,7 +169,7 @@ public class SfJdDocAuditService implements ISfJdDocAuditService {
 		  for(int i=0;i<userLst.size();i++){
 			  HashMap row=(HashMap) userLst.get(i);
 			  String user=(String) row.get("EXECUTOR");
-			  HashMap mobiles=su.getUserMobile(user, qx.getProcessInstId(), requestMeta);
+			  HashMap mobiles=su.getJdjgUser(user, qx.getProcessInstId(), requestMeta);
 			  Iterator keys=mobiles.keySet().iterator();
 			  while(keys.hasNext()){
 				  String key=keys.next().toString(); 
@@ -176,7 +195,7 @@ public class SfJdDocAuditService implements ISfJdDocAuditService {
 		  for(int i=0;i<userLst.size();i++){
 			  HashMap row=(HashMap) userLst.get(i);
 			  String user=(String) row.get("EXECUTOR");
-			  HashMap mobiles=su.getUserMobile(user, qx.getProcessInstId(), requestMeta);
+			  HashMap mobiles=su.getJdjgUser(user,qx.getProcessInstId(), requestMeta);
 			  Iterator keys=mobiles.keySet().iterator();
 			  while(keys.hasNext()){
 				  String key=keys.next().toString(); 
@@ -198,7 +217,9 @@ public class SfJdDocAuditService implements ISfJdDocAuditService {
   
   public SfJdDocAudit newCommitFN(SfJdDocAudit qx, RequestMeta requestMeta) {
     // TCJLODO Auto-generated method stub
-    wfEngineAdapter.newCommit(qx.getComment(), qx, requestMeta);
+    String comment=qx.getComment();
+    qx=saveFN(qx, requestMeta);
+    wfEngineAdapter.newCommit(comment, qx, requestMeta);
     sendMsgAudit(qx,requestMeta);
     return selectByPrimaryKey(qx.getJdDocAuditId(),requestMeta);
   }
@@ -276,6 +297,16 @@ public ISfJdReportService getSfJdReportService() {
 
 public void setSfJdReportService(ISfJdReportService sfJdReportService) {
 	this.sfJdReportService = sfJdReportService;
+}
+
+
+public SfMaterialsTransferDetailMapper getMaterialsTransferDetailMapper() {
+  return materialsTransferDetailMapper;
+}
+
+
+public void setMaterialsTransferDetailMapper(SfMaterialsTransferDetailMapper materialsTransferDetailMapper) {
+  this.materialsTransferDetailMapper = materialsTransferDetailMapper;
 }
 
  

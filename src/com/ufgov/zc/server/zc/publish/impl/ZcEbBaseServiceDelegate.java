@@ -1,5 +1,6 @@
 package com.ufgov.zc.server.zc.publish.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -170,5 +171,10 @@ public String getAutoNumNo(ZcBaseBill bill, String compoName, String fieldName) 
 	return zcEbBaseService.getAutoNumNo(bill,compoName,fieldName);
 }
 
+public Date getSysDate(RequestMeta requestMeta) {
+
+  return new Date();
+
+}
 
 }

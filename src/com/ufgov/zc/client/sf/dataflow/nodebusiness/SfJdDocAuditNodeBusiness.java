@@ -17,6 +17,8 @@ import com.ufgov.zc.client.sf.util.SfUtil;
 import com.ufgov.zc.common.sf.model.SfEntrust;
 import com.ufgov.zc.common.sf.model.SfJdDocAudit;
 import com.ufgov.zc.common.sf.model.SfJdResult;
+import com.ufgov.zc.common.sf.model.SfMaterials;
+import com.ufgov.zc.common.sf.model.SfMaterialsTransferDetail;
 import com.ufgov.zc.common.system.RequestMeta;
 import com.ufgov.zc.common.system.constants.SfElementConstants;
 import com.ufgov.zc.common.system.dto.ElementConditionDto;
@@ -52,6 +54,22 @@ public class SfJdDocAuditNodeBusiness implements ISfFlowNodeBusiness {
           currentBill.setReportType(result.getResultType());
         }
 
+        List materialLst = zcEbBaseServiceDelegate.queryDataForList("com.ufgov.zc.server.sf.dao.SfMaterialsMapper.selectByEntrustId",
+          entrust.getEntrustId(), meta);
+        currentBill.getMaterialLst().clear();
+        if (materialLst != null) {
+          for (int i = 0; i < materialLst.size(); i++) {
+            SfMaterials m = (SfMaterials) materialLst.get(i);
+            SfMaterialsTransferDetail d = new SfMaterialsTransferDetail();
+            d.setProcessing(SfMaterialsTransferDetail.HANDLE_STATUS_TUI_HUI);
+            d.setQuantity3(m.getQuantity3());
+            d.setUnit(m.getUnit());
+            d.setMaterial(m);
+//            d.setProcessingMan(entrust.getJdFzr());
+            currentBill.getMaterialLst().add(d);
+          }
+        }
+        
         lstCursor.getDataList().add(currentBill);
         lstCursor.setCurrentObject(currentBill);
         SfJdDocAuditEditPanel editPanel = new SfJdDocAuditEditPanel(flowPanel.getParentDlg(), lstCursor, null, null);

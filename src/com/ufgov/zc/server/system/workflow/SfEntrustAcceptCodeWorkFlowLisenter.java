@@ -18,9 +18,10 @@ import com.ufgov.zc.server.zc.service.IZcEbBaseService;
  * 综合组在受理检材后,送审时,生成受理编号,用于打印鉴定确认书,让客户拿着鉴定确认书到鉴定人那里签字
  * @author Administrator
  */
-public class SfEntrustAcceptCodeWorkFlowLisenter extends TaskAdapter {
+public class SfEntrustAcceptCodeWorkFlowLisenter extends SfEntrustBasicWorkFlowLisenter {
 
   public void afterExecution(WorkflowContext context) throws WorkflowException {
+    super.afterExecution(context);
     Long processId = context.getInstanceId();
     IZcEbBaseServiceDao zcEbBaseServiceDao = (IZcEbBaseServiceDao) SpringContext.getBean("zcEbBaseServiceDao");
     SfEntrust bill = (SfEntrust) zcEbBaseServiceDao.queryObject("com.ufgov.zc.server.sf.dao.SfEntrustMapper.selectByProcessinstid", new BigDecimal(processId.longValue()));

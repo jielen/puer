@@ -37,6 +37,7 @@ import com.ufgov.zc.client.common.ServiceFactory;
 import com.ufgov.zc.client.common.WorkEnv;
 import com.ufgov.zc.client.component.GkBaseDialog;
 import com.ufgov.zc.client.sf.entrust.SfEntrustEditPanel;
+import com.ufgov.zc.client.sf.jddocaudit.SfJdDocAuditEditPanel;
 import com.ufgov.zc.common.commonbiz.model.BaseElement;
 import com.ufgov.zc.common.system.RequestMeta;
 import com.ufgov.zc.common.system.dto.ElementConditionDto;
@@ -78,7 +79,31 @@ public class UserTreeSelectDialog extends GkBaseDialog {
 
 	protected boolean isMultiSelect;
 
-	protected ElementConditionDto selectedConditon;
+	protected ElementConditionDto selectedConditonDto=null;
+	
+  protected JPanel searchBar = new JPanel() {
+
+    {
+
+      // this.setFloatable(false);
+
+      this.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+    }
+
+  };
+
+  private JLabel searchLabel = new JLabel("查找：");
+
+  protected JTextField searchField = new JTextField(30);
+
+  protected JButton searchButton = new JButton("查找");
+
+  protected Map<Object, DefaultMutableTreeNode> treeNodeMap = new HashMap<Object, DefaultMutableTreeNode>();
+
+  private String title="选择用户";
+  
+  private String sqlId="com.ufgov.zc.server.sf.dao.SfEntrustMapper.selectJdzxUsers";
 
 	/**
 
@@ -88,9 +113,24 @@ public class UserTreeSelectDialog extends GkBaseDialog {
 
 	private static final long serialVersionUID = -3594849692436568807L;
 
+  public UserTreeSelectDialog(Dialog owner, boolean modal,
+      JComponent handler, boolean isSelectTailTag, boolean isMultiSelect) {
+
+    super(owner, modal);
+
+    this.handler = handler;
+
+    this.isSelectTailTag = isSelectTailTag;
+
+    this.isMultiSelect = isMultiSelect; 
+
+    init();
+
+  }
+
 	public UserTreeSelectDialog(Dialog owner, boolean modal,
 			JComponent handler, boolean isSelectTailTag, boolean isMultiSelect,
-			ElementConditionDto selectedConditon) {
+			String sqlId,ElementConditionDto selectedConditon) {
 
 		super(owner, modal);
 
@@ -100,7 +140,9 @@ public class UserTreeSelectDialog extends GkBaseDialog {
 
 		this.isMultiSelect = isMultiSelect;
 
-		this.selectedConditon = selectedConditon;
+		this.selectedConditonDto = selectedConditon;
+		
+		this.sqlId=sqlId;
 
 		init();
 
@@ -108,7 +150,7 @@ public class UserTreeSelectDialog extends GkBaseDialog {
 
 	protected void init() {
 
-		new Thread() {
+/*		new Thread() {
 
 			public void run() {
 
@@ -118,7 +160,8 @@ public class UserTreeSelectDialog extends GkBaseDialog {
 
 			}
 
-		}.start();
+		}.start();*/
+		initDataBufferList();
 
 		this.initTitle();
 
@@ -202,28 +245,12 @@ public class UserTreeSelectDialog extends GkBaseDialog {
 		if(handler instanceof SfEntrustEditPanel){
 			SfEntrustEditPanel entrustPanel=(SfEntrustEditPanel)handler;
 			entrustPanel.auditWithNextExcuter(userObjLst);
+		}else if(handler instanceof SfJdDocAuditEditPanel){
+		  SfJdDocAuditEditPanel docPanel=(SfJdDocAuditEditPanel)handler;
+		  docPanel.auditWithNextExcuter(userObjLst);
 		}
 	}
 
-	protected JPanel searchBar = new JPanel() {
-
-		{
-
-			// this.setFloatable(false);
-
-			this.setLayout(new FlowLayout(FlowLayout.LEFT));
-
-		}
-
-	};
-
-	private JLabel searchLabel = new JLabel("查找：");
-
-	protected JTextField searchField = new JTextField(30);
-
-	protected JButton searchButton = new JButton("查找");
-
-	protected Map<Object, DefaultMutableTreeNode> treeNodeMap = new HashMap<Object, DefaultMutableTreeNode>();
 
 	private void initSearchBar() {
 
@@ -448,7 +475,7 @@ public class UserTreeSelectDialog extends GkBaseDialog {
 
 		LangTransMeta.init("SF%");
 
-		this.setTitle("选择用户");
+		this.setTitle(title);
 	}
 
 	protected void initDataBufferList() { 
@@ -458,13 +485,16 @@ public class UserTreeSelectDialog extends GkBaseDialog {
 	    int nd = WorkEnv.getInstance().getTransNd();
 
 	    RequestMeta requestMeta = WorkEnv.getInstance().getRequestMeta();
-
-	    ElementConditionDto dto = new ElementConditionDto();
-
-	    dto.setNd(nd);
-	    dto.setCoCode(requestMeta.getSvCoCode());
+ 
+//	    dto.setNd(nd);
+//	    dto.setCoCode(requestMeta.getSvCoCode());
+	    if(selectedConditonDto==null){
+	      selectedConditonDto=new ElementConditionDto();
+	      selectedConditonDto.setNd(requestMeta.getSvNd());
+	      selectedConditonDto.setCoCode(requestMeta.getSvCoCode());	      
+	    }
 	    
-	    this.dataBufferList=zcEbBaseServiceDelegate.queryDataForList("com.ufgov.zc.server.sf.dao.SfEntrustMapper.selectJdzxUsers", dto, requestMeta); 
+	    this.dataBufferList=zcEbBaseServiceDelegate.queryDataForList(sqlId, selectedConditonDto, requestMeta); 
 	    dataBufferList=dataBufferList==null?new ArrayList():dataBufferList;
  
 	}

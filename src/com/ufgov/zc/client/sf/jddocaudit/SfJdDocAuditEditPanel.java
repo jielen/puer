@@ -21,6 +21,7 @@ import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.TableColumn;
 
 import org.apache.log4j.Logger;
 
@@ -30,8 +31,10 @@ import com.ufgov.zc.client.common.BillElementMeta;
 import com.ufgov.zc.client.common.LangTransMeta;
 import com.ufgov.zc.client.common.ListCursor;
 import com.ufgov.zc.client.common.ServiceFactory;
+import com.ufgov.zc.client.common.UIConstants;
 import com.ufgov.zc.client.common.WorkEnv;
 import com.ufgov.zc.client.common.converter.sf.SfJdDocAuditToTableModelConverter;
+import com.ufgov.zc.client.common.converter.sf.SfMaterialsTransferToTableModelConverter;
 import com.ufgov.zc.client.component.GkBaseDialog;
 import com.ufgov.zc.client.component.GkCommentDialog;
 import com.ufgov.zc.client.component.GkCommentUntreadDialog;
@@ -57,10 +60,18 @@ import com.ufgov.zc.client.component.button.SuggestAuditPassButton;
 import com.ufgov.zc.client.component.button.TraceButton;
 import com.ufgov.zc.client.component.button.UnauditButton;
 import com.ufgov.zc.client.component.button.UntreadButton;
+import com.ufgov.zc.client.component.button.zc.CommonButton;
+import com.ufgov.zc.client.component.element.UserTreeSelectDialog;
 import com.ufgov.zc.client.component.table.BeanTableModel;
+import com.ufgov.zc.client.component.table.celleditor.DateCellEditor;
 import com.ufgov.zc.client.component.table.celleditor.IntCellEditor;
+import com.ufgov.zc.client.component.table.celleditor.MoneyCellEditor;
 import com.ufgov.zc.client.component.table.celleditor.TextCellEditor;
+import com.ufgov.zc.client.component.table.cellrenderer.DateCellRenderer;
 import com.ufgov.zc.client.component.table.cellrenderer.IntCellRenderer;
+import com.ufgov.zc.client.component.table.cellrenderer.NumberCellRenderer;
+import com.ufgov.zc.client.component.table.codecelleditor.AsValComboBoxCellEditor;
+import com.ufgov.zc.client.component.table.codecellrenderer.AsValCellRenderer;
 import com.ufgov.zc.client.component.ui.fieldeditor.AbstractFieldEditor;
 import com.ufgov.zc.client.component.zc.AbstractMainSubEditPanel;
 import com.ufgov.zc.client.component.zc.fieldeditor.AsValFieldEditor;
@@ -75,10 +86,12 @@ import com.ufgov.zc.client.sf.component.JClosableTabbedPane;
 import com.ufgov.zc.client.sf.dataflow.SfDataFlowDialog;
 import com.ufgov.zc.client.sf.dataflow.SfDataFlowUtil;
 import com.ufgov.zc.client.sf.entrust.SfEntrustHandler;
+import com.ufgov.zc.client.sf.util.SfJdPersonSelectHandler;
 import com.ufgov.zc.client.util.SwingUtil;
 import com.ufgov.zc.client.util.freemark.IWordHandler;
 import com.ufgov.zc.client.zc.ButtonStatus;
 import com.ufgov.zc.client.zc.ZcUtil;
+import com.ufgov.zc.common.commonbiz.model.BaseElement;
 import com.ufgov.zc.common.sf.model.SfEntrust;
 import com.ufgov.zc.common.sf.model.SfJdDocAudit;
 import com.ufgov.zc.common.sf.model.SfJdDocAuditDetail;
@@ -86,11 +99,16 @@ import com.ufgov.zc.common.sf.model.SfJdDocType;
 import com.ufgov.zc.common.sf.model.SfJdReport;
 import com.ufgov.zc.common.sf.model.SfJdResult;
 import com.ufgov.zc.common.sf.model.SfMajor;
+import com.ufgov.zc.common.sf.model.SfMaterials;
+import com.ufgov.zc.common.sf.model.SfMaterialsTransfer;
+import com.ufgov.zc.common.sf.model.SfMaterialsTransferDetail;
+import com.ufgov.zc.common.sf.model.SfOutInfoType;
 import com.ufgov.zc.common.sf.publish.ISfEntrustServiceDelegate;
 import com.ufgov.zc.common.sf.publish.ISfJdDocAuditServiceDelegate;
 import com.ufgov.zc.common.system.RequestMeta;
 import com.ufgov.zc.common.system.constants.ZcSettingConstants;
 import com.ufgov.zc.common.system.dto.ElementConditionDto;
+import com.ufgov.zc.common.system.model.User;
 import com.ufgov.zc.common.system.util.DigestUtil;
 import com.ufgov.zc.common.system.util.ObjectUtil;
 import com.ufgov.zc.common.system.util.Utils;
@@ -148,6 +166,9 @@ public class SfJdDocAuditEditPanel extends AbstractMainSubEditPanel {
   // 工作流退回
   protected FuncButton unTreadButton = new UntreadButton();
 
+  //送科室确认委托信息
+  public FuncButton sendToShouquanqianzirenBtn = new CommonButton("fSendToShouquan", "audit.jpg");
+  
   protected ListCursor<SfJdDocAudit> listCursor;
 
   private SfJdDocAudit oldJdDocAudit;
@@ -165,6 +186,8 @@ public class SfJdDocAuditEditPanel extends AbstractMainSubEditPanel {
   private BillElementMeta detailElementMeta;
 
   protected JTablePanel detailTablePanel = new JTablePanel();
+  
+  protected JTablePanel materialsTablePanel = new JTablePanel();
 
   protected IZcEbBaseServiceDelegate zcEbBaseServiceDelegate;
 
@@ -173,6 +196,8 @@ public class SfJdDocAuditEditPanel extends AbstractMainSubEditPanel {
   private ISfEntrustServiceDelegate sfEntrustServiceDelegate;
 
   private ElementConditionDto docTypeDto = new ElementConditionDto();
+  
+  private boolean newCommit=false;
 
   public SfJdDocAuditEditPanel(GkBaseDialog parent, ListCursor listCursor, String tabStatus, SfJdDocAuditListPanel listPanel) {
     // TCJLODO Auto-generated constructor stub
@@ -258,6 +283,7 @@ public class SfJdDocAuditEditPanel extends AbstractMainSubEditPanel {
     bill.setNd(this.requestMeta.getSvNd());
     bill.setInputDate(this.requestMeta.getSysDate());
     bill.setInputor(requestMeta.getSvUserID());
+    bill.setCoCode(requestMeta.getSvCoCode());
     //    bill.setReportType(SfJdResult.RESULT_TYPE_YJS);
     ElementConditionDto dto = new ElementConditionDto();
     List typeLst = zcEbBaseServiceDelegate.queryDataForList("com.ufgov.zc.server.sf.dao.SfJdDocTypeMapper.selectMainDataLst", dto, this.requestMeta);
@@ -273,8 +299,66 @@ public class SfJdDocAuditEditPanel extends AbstractMainSubEditPanel {
   private void refreshSubData() {
     // TCJLODO Auto-generated method stub
     refreshDetailTableData();
+    refreshMaterialTableData();
   }
 
+  private void refreshMaterialTableData() {
+    SfJdDocAudit bill = (SfJdDocAudit) listCursor.getCurrentObject();
+    materialsTablePanel.setTableModel(SfMaterialsTransferToTableModelConverter.convertMaterialTableData(bill.getMaterialLst()));
+    ZcUtil.translateColName(materialsTablePanel.getTable(), SfMaterialsTransferToTableModelConverter.getMaterialInfo());
+    setMaterialTableProperty();
+
+    JPageableFixedTable ta = materialsTablePanel.getTable();
+    TableColumn tc = ta.getColumn(SfMaterialsTransferDetail.COL_PROCESSING_MAN);
+    ta.getColumnModel().removeColumn(tc);
+    tc = ta.getColumn(SfMaterialsTransferDetail.COL_PROCESSING_DATE);
+    ta.getColumnModel().removeColumn(tc);
+ 
+  }
+  private void setMaterialTableProperty() {   
+    final JPageableFixedTable table=materialsTablePanel.getTable();
+    table.setDefaultEditor(String.class, new TextCellEditor());
+
+    SwingUtil.setTableCellEditor(table, SfMaterialsTransferDetail.COL_PROCESSING, new AsValComboBoxCellEditor(SfMaterials.SF_VS_MATERIAL_JIAN_HOU_CHULI_TYPE));
+    SwingUtil.setTableCellRenderer(table, SfMaterialsTransferDetail.COL_PROCESSING, new AsValCellRenderer(SfMaterials.SF_VS_MATERIAL_JIAN_HOU_CHULI_TYPE)); 
+     
+
+    SwingUtil.setTableCellEditor(table, SfMaterialsTransferDetail.COL_QUANTITY, new MoneyCellEditor(false));
+    SwingUtil.setTableCellRenderer(table, SfMaterialsTransferDetail.COL_QUANTITY, new NumberCellRenderer());  
+
+    SwingUtil.setTableCellEditor(table, SfMaterialsTransferDetail.COL_PROCESSING_DATE, new DateCellEditor());
+    SwingUtil.setTableCellRenderer(table, SfMaterialsTransferDetail.COL_PROCESSING_DATE, new DateCellRenderer("YY-MM-DD")); 
+    
+    SwingUtil.setTableCellEditor(table, SfMaterials.COL_MATERIAL_TYPE, new AsValComboBoxCellEditor(SfMaterials.SF_VS_MATERIAL_TYPE));
+    SwingUtil.setTableCellRenderer(table, SfMaterials.COL_MATERIAL_TYPE, new AsValCellRenderer(SfMaterials.SF_VS_MATERIAL_TYPE));
+    
+
+    SfJdPersonSelectHandler personHandler = new SfJdPersonSelectHandler() {
+      @Override
+      public void excute(List selectedDatas) {
+        BeanTableModel model = (BeanTableModel) table.getModel();
+        int k = table.getSelectedRow();
+        if (k < 0) {
+          return;
+        }
+
+        int k2 = table.convertRowIndexToModel(k);
+        SfMaterialsTransferDetail detail = (SfMaterialsTransferDetail) (model.getBean(k2));
+        for (Object obj : selectedDatas) {
+          User person = (User) obj;
+          detail.setProcessingMan(person.getUserId());
+          break;
+        }
+        model.fireTableRowsUpdated(k, k);
+      }
+    };
+
+    ElementConditionDto dto = new ElementConditionDto();
+    ForeignEntityFieldCellEditor foreignPersonEditor = new ForeignEntityFieldCellEditor(personHandler.getSqlId(), dto, 20, personHandler,
+      personHandler.getColumNames(), "人员", "userName");
+    SwingUtil.setTableCellEditor(table, SfOutInfoType.COL_OUT_INFO_TYPE_NAME, foreignPersonEditor);
+
+  }
   private void refreshDetailTableData() {
     SfJdDocAudit bill = (SfJdDocAudit) listCursor.getCurrentObject();
     detailTablePanel.setTableModel(SfJdDocAuditToTableModelConverter.convertDetailTableData(bill.getDetailLst()));
@@ -371,6 +455,7 @@ public class SfJdDocAuditEditPanel extends AbstractMainSubEditPanel {
     }
 
     setWFSubTableEditable(detailTablePanel, isEdit);
+    setWFSubTableEditable(materialsTablePanel, isEdit);
 
   }
 
@@ -493,6 +578,12 @@ public class SfJdDocAuditEditPanel extends AbstractMainSubEditPanel {
       btnStatusList.add(bs);
 
       bs = new ButtonStatus();
+      bs.setButton(this.sendToShouquanqianzirenBtn);
+      bs.addPageStatus(ZcSettingConstants.PAGE_STATUS_BROWSE);
+      bs.addPageStatus(ZcSettingConstants.BILL_STATUS_ALL);
+      btnStatusList.add(bs);
+      
+      bs = new ButtonStatus();
       bs.setButton(this.importButton);
       bs.addPageStatus(ZcSettingConstants.PAGE_STATUS_EDIT);
       bs.addPageStatus(ZcSettingConstants.PAGE_STATUS_NEW);
@@ -538,7 +629,11 @@ public class SfJdDocAuditEditPanel extends AbstractMainSubEditPanel {
 
     //        toolBar.add(saveAndSendButton);
 
-    toolBar.add(suggestPassButton);
+    toolBar.add(suggestPassButton); 
+    
+    toolBar.add(sendToShouquanqianzirenBtn); 
+    sendToShouquanqianzirenBtn.setText("送授权签字人");
+    sendToShouquanqianzirenBtn.setToolTipText("送授权签字人");    
 
     //    toolBar.add(sendGkButton);
 
@@ -561,6 +656,16 @@ public class SfJdDocAuditEditPanel extends AbstractMainSubEditPanel {
     //    toolBar.add(nextButton);
 
     toolBar.add(exitButton);
+    
+    sendToShouquanqianzirenBtn.addActionListener(new ActionListener() {
+
+      public void actionPerformed(ActionEvent e) {
+
+        doSendToShouquanqianzi();
+
+      }
+
+    });
 
     addButton.addActionListener(new ActionListener() {
 
@@ -646,7 +751,8 @@ public class SfJdDocAuditEditPanel extends AbstractMainSubEditPanel {
 
     sendButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        doSend();
+//        doSend();
+        doNewCommit();
       }
     });
 
@@ -679,6 +785,20 @@ public class SfJdDocAuditEditPanel extends AbstractMainSubEditPanel {
         doTrace();
       }
     });
+  }
+
+  protected void doNewCommit() {
+
+    SfJdDocAudit bill = (SfJdDocAudit) this.listCursor.getCurrentObject();
+    //如果当前录入人是鉴定负责人，则弹出对话框，选择授权签字人，进行送审
+    if(requestMeta.getSvUserID().equals(bill.getEntrust().getJdFzr())){
+      newCommit=true;
+      doSendToShouquanqianzi();
+      newCommit=false;      
+    }else{
+      //送鉴定负责人审核
+      doSend();
+    }
   }
 
   protected void doAdd() {
@@ -749,13 +869,13 @@ public class SfJdDocAuditEditPanel extends AbstractMainSubEditPanel {
 
   public boolean doSave() {
 
-    if (!isDataChanged()) {
+   /* if (!isDataChanged()) {
 
       JOptionPane.showMessageDialog(this, "数据没有发生改变，不用保存.", "提示", JOptionPane.INFORMATION_MESSAGE);
 
       return true;
 
-    }
+    }*/
 
     if (!checkBeforeSave()) {
 
@@ -972,7 +1092,22 @@ public class SfJdDocAuditEditPanel extends AbstractMainSubEditPanel {
         	  currentBill.setReportType(report.getReportType());
           }  
           currentBill.setCoCode(entrust.getCoCode());
+
+          currentBill.getMaterialLst().clear();
+          if (entrust.getMaterials() != null) {
+            for (int i = 0; i < entrust.getMaterials().size(); i++) {
+              SfMaterials m = (SfMaterials) entrust.getMaterials().get(i);
+              SfMaterialsTransferDetail d = new SfMaterialsTransferDetail();
+              d.setProcessing(SfMaterialsTransferDetail.HANDLE_STATUS_TUI_HUI);
+              d.setQuantity3(m.getQuantity3());
+              d.setUnit(m.getUnit());
+              d.setMaterial(m);
+//              d.setProcessingMan(entrust.getJdFzr());
+              currentBill.getMaterialLst().add(d);
+            }
+          }
           setEditingObject(currentBill);
+          refreshMaterialTableData();
           break;
         }
       }
@@ -982,7 +1117,9 @@ public class SfJdDocAuditEditPanel extends AbstractMainSubEditPanel {
         currentBill.setEntrust(new SfEntrust());
         currentBill.setName(null);
         currentBill.setWtf(null);
+        currentBill.getMaterialLst().clear();
         setEditingObject(currentBill);
+        refreshMaterialTableData();
       }
     };
     ElementConditionDto dto = new ElementConditionDto();
@@ -1035,6 +1172,7 @@ public class SfJdDocAuditEditPanel extends AbstractMainSubEditPanel {
 
     JTabbedPane itemTabPane = new JTabbedPane();
     itemTabPane.addTab("文书明细", detailTablePanel);
+    itemTabPane.addTab("检材处置", materialsTablePanel);
     itemTabPane.setMinimumSize(new Dimension(240, 300));
     return itemTabPane;
   }
@@ -1093,6 +1231,20 @@ public class SfJdDocAuditEditPanel extends AbstractMainSubEditPanel {
         updateDocTypeCondition();
       }
     });
+    
+
+
+    materialsTablePanel.init();
+
+    materialsTablePanel.setPanelId(this.getClass().getName() + "_materialTablePanel");
+
+    materialsTablePanel.getSearchBar().setVisible(false);
+
+    materialsTablePanel.setTablePreferencesKey(this.getClass().getName() + "_materialTable");
+
+    materialsTablePanel.getTable().setShowCheckedColumn(true);
+
+    materialsTablePanel.getTable().getTableRowHeader().setPreferredSize(new Dimension(60, 0));
   }
 
   protected void setDetailDefaultValue(SfJdDocAuditDetail item) {
@@ -1105,7 +1257,7 @@ public class SfJdDocAuditEditPanel extends AbstractMainSubEditPanel {
   public void doExit() {
     // TCJLODO Auto-generated method stub
 
-    if (isDataChanged()) {
+   /* if (isDataChanged()) {
 
       int num = JOptionPane.showConfirmDialog(this, "当前页面数据已修改，是否要保存", "保存确认", 0);
 
@@ -1119,7 +1271,7 @@ public class SfJdDocAuditEditPanel extends AbstractMainSubEditPanel {
 
       }
 
-    }
+    }*/
     if (this.parent instanceof SfDataFlowDialog) {
       ((SfDataFlowDialog) parent).removeTab(this, compoId);
     } else {
@@ -1130,17 +1282,33 @@ public class SfJdDocAuditEditPanel extends AbstractMainSubEditPanel {
   /**
    * 送审
    */
+  protected void doSendToShouquanqianzi() {
+
+    ElementConditionDto dto=new ElementConditionDto();
+    dto.setNd(requestMeta.getSvNd());
+    dto.setCoCode(requestMeta.getSvCoCode());
+    String sql="com.ufgov.zc.server.sf.dao.SfEntrustMapper.selectShouquanqianziUsers";
+    UserTreeSelectDialog dialog=new UserTreeSelectDialog(parent, true, this, true, true, sql,dto); 
+    
+    dialog.setSize(UIConstants.DIALOG_4_LEVEL_WIDTH, UIConstants.DIALOG_4_LEVEL_HEIGHT);
+
+    dialog.moveToScreenCenter();
+
+    dialog.pack(); 
+
+    dialog.setVisible(true); 
+
+  }
+  /**
+   * 送审
+   */
   protected void doSend() {
 
     boolean success = true;
 
     SfJdDocAudit afterSaveBill = null;
 
-    if (this.isDataChanged()) {
-      JOptionPane.showMessageDialog(this, "数据发生改变，请先保存.", "提示", JOptionPane.INFORMATION_MESSAGE);
-      return;
-    }
-
+    
     try {
       requestMeta.setFuncId(this.sendButton.getFuncId());
       SfJdDocAudit qx = (SfJdDocAudit) ObjectUtil.deepCopy(this.listCursor.getCurrentObject());
@@ -1300,4 +1468,37 @@ public class SfJdDocAuditEditPanel extends AbstractMainSubEditPanel {
     }
     ZcUtil.showTraceDialog(bean, compoId);
   }
+
+/*  public void auditWithNextExcuter(List nextExcuters) {
+    requestMeta.getWfNextExcuters().clear();
+    if (nextExcuters == null || nextExcuters.size() == 0) {
+      JOptionPane.showMessageDialog(this, "请指定审核人！", "提示", JOptionPane.INFORMATION_MESSAGE);
+      return;
+    }
+    for (int i = 0; i < nextExcuters.size(); i++) {
+      BaseElement e = (BaseElement) nextExcuters.get(0);
+      requestMeta.getWfNextExcuters().add(e.getCode());
+    }
+    doSuggestPass();
+  }*/
+
+  public void auditWithNextExcuter(List nextExcuters) {
+
+    requestMeta.getWfNextExcuters().clear();
+    if (nextExcuters == null || nextExcuters.size() == 0) {
+      JOptionPane.showMessageDialog(this, "请指定审核人！", "提示", JOptionPane.INFORMATION_MESSAGE);
+      return;
+    }
+    for (int i = 0; i < nextExcuters.size(); i++) {
+      BaseElement e = (BaseElement) nextExcuters.get(0);
+      requestMeta.getWfNextExcuters().add(e.getCode());
+    }
+    if(newCommit){
+      doSend();
+    }else{
+      doSuggestPass();
+    }
+    requestMeta.getWfNextExcuters().clear();
+  }
+
 }

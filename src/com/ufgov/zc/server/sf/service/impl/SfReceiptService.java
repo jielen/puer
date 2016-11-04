@@ -205,7 +205,7 @@ private void sendMsg(SfReceipt bill,RequestMeta requestMeta) {
 		  for(int i=0;i<userLst.size();i++){
 			  SfEntrustor row=(SfEntrustor) userLst.get(i);
 			  String user=row.getUser().getUserId();
-			  HashMap mobiles=su.getUserMobile(user, bill.getEntrust().getProcessInstId(), requestMeta);
+			  HashMap mobiles=su.getJdjgUser(user, bill.getEntrust().getProcessInstId(), requestMeta);
 			  Iterator keys=mobiles.keySet().iterator();
 			  while(keys.hasNext()){
 				  String key=keys.next().toString(); 

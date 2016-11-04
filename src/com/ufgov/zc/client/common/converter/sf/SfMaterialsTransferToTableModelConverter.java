@@ -83,7 +83,13 @@ public static TableModel convertMaterialTableData(List materialLst) {
     
     @Override
     public boolean isCellEditable(int row, int column) {
-      return super.isCellEditable(row, column);
+      String columnId = this.getColumnIdentifier(column);
+
+      if (SfMaterialsTransferDetail.COL_REMARK.equals(columnId) || SfMaterialsTransferDetail.COL_PROCESSING.equals(columnId)) {
+        return true;
+      }else{
+        return false;
+      } 
     }
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
@@ -152,13 +158,20 @@ public static TableModel convertOutInfoTableData(List outInfoLst) {
 private static List<ColumnBeanPropertyPair> materialInfo = new ArrayList<ColumnBeanPropertyPair>();
 
 static {
+  materialInfo.add(new ColumnBeanPropertyPair(SfMaterials.COL_MATERIAL_TYPE, "material.materialType", LangTransMeta.translate(SfMaterials.COL_MATERIAL_TYPE)));
+  materialInfo.add(new ColumnBeanPropertyPair(SfMaterials.COL_BIANHAO, "material.bianhao", LangTransMeta.translate(SfMaterials.COL_BIANHAO))); 
   materialInfo.add(new ColumnBeanPropertyPair(SfMaterials.COL_NAME, "material.name", LangTransMeta.translate(SfMaterials.COL_NAME)));
-  materialInfo.add(new ColumnBeanPropertyPair(SfMaterialsTransferDetail.COL_QUANTITY3, "quantity3", LangTransMeta.translate(SfMaterialsTransferDetail.COL_QUANTITY3)));
-  materialInfo.add(new ColumnBeanPropertyPair(SfMaterialsTransferDetail.COL_UNIT, "unit", LangTransMeta.translate(SfMaterialsTransferDetail.COL_UNIT)));
+  materialInfo.add(new ColumnBeanPropertyPair(SfMaterialsTransferDetail.COL_QUANTITY3, "material.quantity3", LangTransMeta.translate(SfMaterialsTransferDetail.COL_QUANTITY3)));
+  materialInfo.add(new ColumnBeanPropertyPair(SfMaterialsTransferDetail.COL_UNIT, "material.unit", LangTransMeta.translate(SfMaterialsTransferDetail.COL_UNIT)));
+  materialInfo.add(new ColumnBeanPropertyPair(SfMaterials.COL_DESCRIPTION, "material.description", LangTransMeta.translate(SfMaterials.COL_DESCRIPTION)));
+  materialInfo.add(new ColumnBeanPropertyPair(SfMaterials.COL_SAVE_CONDITON, "material.saveConditon", LangTransMeta.translate(SfMaterials.COL_SAVE_CONDITON))); 
+  materialInfo.add(new ColumnBeanPropertyPair(SfMaterials.COL_SAVE_ADDRESS, "material.saveAddress", LangTransMeta.translate(SfMaterials.COL_SAVE_ADDRESS))); 
   materialInfo.add(new ColumnBeanPropertyPair(SfMaterialsTransferDetail.COL_PROCESSING, "processing", LangTransMeta.translate(SfMaterialsTransferDetail.COL_PROCESSING)));
   materialInfo.add(new ColumnBeanPropertyPair(SfMaterialsTransferDetail.COL_PROCESSING_MAN, "processingMan", LangTransMeta.translate(SfMaterialsTransferDetail.COL_PROCESSING_MAN)));
   materialInfo.add(new ColumnBeanPropertyPair(SfMaterialsTransferDetail.COL_PROCESSING_DATE, "processingDate", LangTransMeta.translate(SfMaterialsTransferDetail.COL_PROCESSING_DATE)));
   materialInfo.add(new ColumnBeanPropertyPair(SfMaterialsTransferDetail.COL_REMARK, "remark", LangTransMeta.translate(SfMaterialsTransferDetail.COL_REMARK)));
+ 
+  
 }
 public static List<ColumnBeanPropertyPair> getMaterialInfo(){
   return materialInfo;

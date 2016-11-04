@@ -93,6 +93,7 @@ public class SfReportCodeDialog2 extends GkBaseDialog {
 
 	private void updateEditable() {
 		ndTxt.setEnabled(false);
+		numTxt.setEnabled(false);
 	}
 
 	private void refreshData() {

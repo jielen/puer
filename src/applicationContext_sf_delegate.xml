@@ -111,4 +111,12 @@
 	<bean id="sfAppendMaterialServiceDelegate"		class="com.ufgov.zc.server.sf.publish.impl.SfAppendMaterialServiceDelegate"		scope="singleton">
 		<property name="sfAppendMaterialService" ref="sfAppendMaterialService" />
 	</bean>
+	
+	<bean id="sfEntrustManageServiceDelegate"		class="com.ufgov.zc.server.sf.publish.impl.SfEntrustManageServiceDelegate"		scope="singleton">
+		<property name="sfEntrustManageService" ref="sfEntrustManageService" />
+	</bean>
+	
+	<bean id="sfZongheZhibanServiceDelegate"		class="com.ufgov.zc.server.sf.publish.impl.SfZongheZhibanServiceDelegate"		scope="singleton">
+		<property name="sfZongheZhibanService" ref="sfZongheZhibanService" />
+	</bean>
 </beans>

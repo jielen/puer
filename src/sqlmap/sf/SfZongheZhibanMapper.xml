@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.ufgov.zc.server.sf.dao.SfZongheZhibanMapper" >
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+  <resultMap id="BaseResultMap" class="com.ufgov.zc.common.sf.model.SfZongheZhiban" >
+    <result column="ZHIBAN_ID" property="zhibanId" jdbcType="DECIMAL" />
+    <result column="MAC" property="mac" jdbcType="VARCHAR" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="CO_CODE" property="coCode" jdbcType="VARCHAR" />
+    <result column="ND" property="nd" jdbcType="DECIMAL" />
+    <result column="START_TIME" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="END_TIME" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="IP" property="ip" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ZHIBAN_ID, MAC, USER_ID, CO_CODE, ND, START_TIME, END_TIME, IP
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from SF_ZONGHE_ZHIBAN
+    where ZHIBAN_ID = #zhibanId:DECIMAL#
+  </select>
+  <select id="selectCurrentZhiban" resultMap="BaseResultMap" parameterClass="elementCondition" >
+    select 
+    <include refid="Base_Column_List" />
+    from SF_ZONGHE_ZHIBAN
+    where END_TIME is null
+    and nd=#nd#
+    and co_code=#coCode#
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="java.math.BigDecimal" >
+    delete from SF_ZONGHE_ZHIBAN
+    where ZHIBAN_ID = #zhibanId:DECIMAL#
+  </delete>
+  <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfZongheZhiban" >
+    insert into SF_ZONGHE_ZHIBAN (ZHIBAN_ID, MAC, USER_ID, 
+      CO_CODE, ND, START_TIME, 
+      END_TIME, IP)
+    values (#zhibanId:DECIMAL#, #mac:VARCHAR#, #userId:VARCHAR#, 
+      #coCode:VARCHAR#, #nd:DECIMAL#, #startTime:TIMESTAMP#, 
+      #endTime:TIMESTAMP#, #ip:VARCHAR#)
+  </insert> 
+  <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfZongheZhiban" >
+    update SF_ZONGHE_ZHIBAN
+    set MAC = #mac:VARCHAR#,
+      USER_ID = #userId:VARCHAR#,
+      CO_CODE = #coCode:VARCHAR#,
+      ND = #nd:DECIMAL#,
+      START_TIME = #startTime:TIMESTAMP#,
+      END_TIME = #endTime:TIMESTAMP#,
+      IP = #ip:VARCHAR#
+    where ZHIBAN_ID = #zhibanId:DECIMAL#
+  </update>
+</sqlMap>

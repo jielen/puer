@@ -59,6 +59,7 @@ import com.ufgov.zc.client.component.JFuncToolBar;
 import com.ufgov.zc.client.component.JTablePanel;
 import com.ufgov.zc.client.component.button.AddButton;
 import com.ufgov.zc.client.component.button.CallbackButton;
+import com.ufgov.zc.client.component.button.ConfirmButton;
 import com.ufgov.zc.client.component.button.DeleteButton;
 import com.ufgov.zc.client.component.button.EditButton;
 import com.ufgov.zc.client.component.button.ExitButton;
@@ -103,6 +104,7 @@ import com.ufgov.zc.client.component.zc.fieldeditor.TextFieldEditor;
 import com.ufgov.zc.client.sf.charge.ChargeStandardHandler;
 import com.ufgov.zc.client.sf.component.JClosableTabbedPane;
 import com.ufgov.zc.client.sf.dataflow.SfDataFlowDialog;
+import com.ufgov.zc.client.sf.entrustmanage.SfEntrustManageDialog;
 import com.ufgov.zc.client.sf.entrustor.SfEntrustorHandler;
 import com.ufgov.zc.client.sf.jdtarget.SfJdTargethandler;
 import com.ufgov.zc.client.sf.util.SfJdPersonSelectHandler;
@@ -118,6 +120,7 @@ import com.ufgov.zc.common.commonbiz.model.WfAware;
 import com.ufgov.zc.common.sf.model.SfChargeDetail;
 import com.ufgov.zc.common.sf.model.SfChargeStandard;
 import com.ufgov.zc.common.sf.model.SfEntrust;
+import com.ufgov.zc.common.sf.model.SfEntrustManage;
 import com.ufgov.zc.common.sf.model.SfEntrustor;
 import com.ufgov.zc.common.sf.model.SfJdPerson;
 import com.ufgov.zc.common.sf.model.SfJdResult;
@@ -206,6 +209,12 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
 
   // 工作流退回
   protected FuncButton unTreadButton = new UntreadButton();
+  
+  public FuncButton delayBtn = new CommonButton("fdelay", "audit.jpg");
+  public FuncButton pauseBtn = new CommonButton("fpause", "audit.jpg");
+  public FuncButton stopBtn = new CommonButton("fstop", "audit.jpg");
+  public FuncButton startBtn = new CommonButton("fstart", "audit.jpg");
+  public FuncButton zhuansongBtn = new CommonButton("fzhuansong", "audit.jpg");
 
   protected ListCursor<SfEntrust> listCursor;
 
@@ -287,7 +296,7 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
     //    updateFieldEditorsEditable();
   }
 
-  private void refreshData() {
+  public void refreshData() {
     // TCJLODO Auto-generated method stub
 
     SfEntrust entrust = (SfEntrust) listCursor.getCurrentObject();
@@ -510,8 +519,13 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
     if (processInstId != null && processInstId.longValue() > 0) {
       // 工作流的单据
       wfCanEditFieldMap = BillElementMeta.getWfCanEditField(qx, requestMeta);
+      //科室受理的可写字段
       if (wfCanEditFieldMap == null || wfCanEditFieldMap.isEmpty()) {
         wfCanEditFieldMap = getKeshiShouliEnableField(qx, requestMeta);
+      }
+      //综合值班的可写字段
+      if (wfCanEditFieldMap == null || wfCanEditFieldMap.isEmpty()) {
+        wfCanEditFieldMap = getZongheShouliEnableField(qx, requestMeta);
       }
       if ("cancel".equals(this.oldentrust.getStatus())) {// 撤销单据设置字段为不可编辑
         wfCanEditFieldMap = null;
@@ -581,9 +595,16 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
         ||entrust.getStatus().equalsIgnoreCase("expire")
         ||entrust.getStatus().equalsIgnoreCase("pause")
         ||entrust.getStatus().equalsIgnoreCase("stop")
+        ||entrust.getStatus().equalsIgnoreCase("delay")
         ){
         printWtButton.setVisible(true); 
       }
+      delayBtn.setVisible(false);
+      pauseBtn.setVisible(false);        
+      stopBtn.setVisible(false);
+      startBtn.setVisible(false);
+      zhuansongBtn.setVisible(false);
+      agreeWtInfoBtn.setVisible(false);
     }else{
       if(entrust.getStatus().equalsIgnoreCase("5")
         ||entrust.getStatus().equalsIgnoreCase("8")
@@ -594,6 +615,7 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
         ||entrust.getStatus().equalsIgnoreCase("expire")
         ||entrust.getStatus().equalsIgnoreCase("pause")
         ||entrust.getStatus().equalsIgnoreCase("stop")
+        ||entrust.getStatus().equalsIgnoreCase("delay")
         ){
         printWtButton.setVisible(true);
         if(entrust.getAcceptCode() ==null){
@@ -608,8 +630,55 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
         }else{
           printConfirmButton.setVisible(true);
         } 
-      }  
-      
+      }
+     //受理之后才处理这些按钮操作，受理前不能操作
+      delayBtn.setVisible(false);
+      pauseBtn.setVisible(false);        
+      stopBtn.setVisible(false);
+      startBtn.setVisible(false);
+      zhuansongBtn.setVisible(false);
+      if(entrust.getStatus().equalsIgnoreCase(SfEntrust.STATUS_DOING) && entrust.getAcceptor()!=null){
+        delayBtn.setVisible(true);
+        pauseBtn.setVisible(true);        
+        stopBtn.setVisible(true);
+        startBtn.setVisible(false);
+        zhuansongBtn.setVisible(true);
+      }
+      if(entrust.getStatus().equalsIgnoreCase(SfEntrust.STATUS_COMPLETE) && entrust.getAcceptor()!=null){
+        delayBtn.setVisible(false);
+        pauseBtn.setVisible(false);        
+        stopBtn.setVisible(false);
+        startBtn.setVisible(false);
+        zhuansongBtn.setVisible(false);
+      }
+      if(entrust.getStatus().equalsIgnoreCase(SfEntrust.STATUS_PAUSE) && entrust.getAcceptor()!=null){
+        delayBtn.setVisible(false);
+        pauseBtn.setVisible(false);        
+        stopBtn.setVisible(true);
+        startBtn.setVisible(true);
+        zhuansongBtn.setVisible(true);
+      }
+      if(entrust.getStatus().equalsIgnoreCase(SfEntrust.STATUS_STOP) && entrust.getAcceptor()!=null){
+        delayBtn.setVisible(false);
+        pauseBtn.setVisible(false);        
+        stopBtn.setVisible(false);
+        startBtn.setVisible(true);
+        zhuansongBtn.setVisible(false);
+      }
+      if(entrust.getStatus().equalsIgnoreCase(SfEntrust.STATUS_ZHUANSONG) && entrust.getAcceptor()!=null){
+        delayBtn.setVisible(true);
+        pauseBtn.setVisible(true);        
+        stopBtn.setVisible(true);
+        startBtn.setVisible(false);
+        zhuansongBtn.setVisible(false);
+      }
+      if(entrust.getStatus().equalsIgnoreCase(SfEntrust.STATUS_DELAY) && entrust.getAcceptor()!=null){
+        delayBtn.setVisible(true);
+        pauseBtn.setVisible(true);        
+        stopBtn.setVisible(true);
+        startBtn.setVisible(false);
+        zhuansongBtn.setVisible(true);
+      }
     }
   }
 
@@ -663,6 +732,12 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
 
       bs = new ButtonStatus();
       bs.setButton(this.songkeshiBtn);
+      bs.addPageStatus(ZcSettingConstants.PAGE_STATUS_BROWSE);
+      bs.addBillStatus(ZcSettingConstants.BILL_STATUS_ALL);
+      btnStatusList.add(bs);
+      
+      bs = new ButtonStatus();
+      bs.setButton(this.agreeWtInfoBtn);
       bs.addPageStatus(ZcSettingConstants.PAGE_STATUS_BROWSE);
       bs.addBillStatus(ZcSettingConstants.BILL_STATUS_ALL);
       btnStatusList.add(bs);
@@ -891,7 +966,74 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
 
     //    toolBar.add(nextButton);
 
+    toolBar.add(delayBtn);
+    delayBtn.setText("延期");
+    delayBtn.setToolTipText("延期");
+    
+    toolBar.add(pauseBtn);
+    pauseBtn.setText("暂停");
+    pauseBtn.setToolTipText("暂停");
+    
+    toolBar.add(startBtn);
+    startBtn.setText("启动");
+    startBtn.setToolTipText("启动");
+    
+    toolBar.add(stopBtn);
+    stopBtn.setText("终止");
+    stopBtn.setToolTipText("终止");
+    
+    toolBar.add(zhuansongBtn);
+    zhuansongBtn.setText("转送");
+    zhuansongBtn.setToolTipText("转送其他鉴定中心");
+    
     toolBar.add(exitButton);
+    toolBar.add(exitButton);
+
+    zhuansongBtn.addActionListener(new ActionListener() {
+
+      public void actionPerformed(ActionEvent e) {
+
+        doZhuansong();
+
+      }
+
+    });
+    delayBtn.addActionListener(new ActionListener() {
+
+      public void actionPerformed(ActionEvent e) {
+
+        doDelay();
+
+      }
+
+    });
+    pauseBtn.addActionListener(new ActionListener() {
+
+      public void actionPerformed(ActionEvent e) {
+
+        doPause();
+
+      }
+
+    });
+    stopBtn.addActionListener(new ActionListener() {
+
+      public void actionPerformed(ActionEvent e) {
+
+        doStop();
+
+      }
+
+    });
+    startBtn.addActionListener(new ActionListener() {
+
+      public void actionPerformed(ActionEvent e) {
+
+        doStart();
+
+      }
+
+    });
     
     agreeWtInfoBtn.addActionListener(new ActionListener() {
 
@@ -1054,6 +1196,46 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
     });
   }
 
+  protected void doZhuansong() {
+    showManageDialog(SfEntrustManage.MANAGE_TYPE_ZHUANSONG);
+  }
+
+  protected void doStart() {
+    showManageDialog(SfEntrustManage.MANAGE_TYPE_START);
+  }
+
+  protected void doStop() {
+    showManageDialog(SfEntrustManage.MANAGE_TYPE_STOP);
+  }
+
+  protected void doPause() {
+    showManageDialog(SfEntrustManage.MANAGE_TYPE_PAUSE);
+  }
+
+  protected void doDelay() {
+    showManageDialog(SfEntrustManage.MANAGE_TYPE_DELAY);
+  }
+
+  void showManageDialog(String manageType){
+    SfEntrust bill = this.listCursor.getCurrentObject();
+    SfEntrustManage m=new SfEntrustManage();
+    m.setEntrust(bill);
+    m.setEntrustCode(bill.getCode());
+    m.setEntrustId(bill.getEntrustId());
+    m.setManageType(manageType);
+    m.setInputDate(requestMeta.getSysDate());
+    m.setInputor(requestMeta.getSvUserID());
+    m.setNd(requestMeta.getSvNd());
+    m.setCoCode(requestMeta.getSvCoCode());
+    m.setManageTime(requestMeta.getSysDate());
+    if(SfEntrustManage.MANAGE_TYPE_DELAY.equalsIgnoreCase(manageType)){
+      m.setOldEndDate(bill.getExpetedCompleteDate());
+    }
+    List l=new ArrayList();
+    l.add(m);
+    ListCursor lc=new ListCursor(l, 0);
+    new SfEntrustManageDialog(this, lc);
+  }
   protected void doAgreeWtInfo() {
     SfEntrust bill = this.listCursor.getCurrentObject();
     bill.setIsAccept("Y");
@@ -1324,7 +1506,7 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
   /**
    * 更新数据流界面
    */
-  private void updateDataFlowDialog() {
+  public void updateDataFlowDialog() {
     // TCJLODO Auto-generated method stub
     SfEntrust entrust = (SfEntrust) this.listCursor.getCurrentObject();
     if (listPanel != null && listPanel.getParent() instanceof JClosableTabbedPane) { return; }
@@ -2349,7 +2531,7 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
        return;
      }*/
 
-    try {
+    try { 
       requestMeta.setFuncId(this.sendButton.getFuncId());
       //      System.out.println("doSend 2++++++++++++++++++++++++++=" + bill.getAcceptDate());
       SfEntrust qx = (SfEntrust) ObjectUtil.deepCopy(this.listCursor.getCurrentObject());
@@ -2561,6 +2743,13 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
         enableFuncs = getKeshiShouliEnableFunc(baseBill, requestMeta);
       }
 
+
+      if (enableFuncs == null || enableFuncs.size() == 0) {//综合值班不指定到具体人，，而是用了一个公用的用户(ZONGHE_SHOULI 综合受理人)，
+
+        enableFuncs = getZhibanEnableFunc(baseBill, requestMeta);
+      }
+      
+
       ZcUtil.setWfNodeEnableFunc(toolBar, enableFuncs, processInstId, requestMeta);
 
     }
@@ -2588,6 +2777,15 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
     }
 
   }
+  private List getZhibanEnableFunc(WfAware baseBill, RequestMeta meta) {
+    ElementConditionDto dto = new ElementConditionDto();
+    dto.setProcessInstId(baseBill.getProcessInstId());
+    dto.setExecutor(meta.getSvUserID());
+    dto.setCompoId(getCompoId());
+    List funcs = zcEbBaseServiceDelegate.queryDataForList("com.ufgov.zc.server.sf.dao.SfEntrustMapper.getZongheShouliEnableFunc", dto, meta);
+
+    return funcs == null ? new ArrayList() : funcs;
+  }
 
   private List getKeshiShouliEnableFunc(WfAware baseBill, RequestMeta meta) {
     ElementConditionDto dto = new ElementConditionDto();
@@ -2599,6 +2797,23 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
     return funcs == null ? new ArrayList() : funcs;
   }
 
+
+  private Map getZongheShouliEnableField(WfAware baseBill, RequestMeta meta) {
+    ElementConditionDto dto = new ElementConditionDto();
+    dto.setProcessInstId(baseBill.getProcessInstId());
+    dto.setExecutor(meta.getSvUserID());
+    dto.setCompoId(getCompoId());
+    List funcs = zcEbBaseServiceDelegate.queryDataForList("com.ufgov.zc.server.sf.dao.SfEntrustMapper.getZongheShouliEnableField", dto, meta);
+
+    if (funcs == null) { return null; }
+    Map rtn = new HashMap();
+    for (int i = 0; i < funcs.size(); i++) {
+      HashMap row = (HashMap) funcs.get(i);
+      rtn.put(row.get("DATA_ITEM"), row.get("READ_WRITE"));
+    }
+
+    return rtn;
+  }
   private Map getKeshiShouliEnableField(WfAware baseBill, RequestMeta meta) {
     ElementConditionDto dto = new ElementConditionDto();
     dto.setProcessInstId(baseBill.getProcessInstId());
@@ -2614,5 +2829,8 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
     }
 
     return rtn;
+  }
+  public GkBaseDialog getOwner(){
+    return parent;
   }
 }

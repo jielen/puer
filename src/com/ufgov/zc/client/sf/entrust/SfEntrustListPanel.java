@@ -37,6 +37,7 @@ import com.ufgov.zc.client.common.ServiceFactory;
 import com.ufgov.zc.client.common.WorkEnv;
 import com.ufgov.zc.client.common.converter.sf.SfEntrustToTableModelConverter;
 import com.ufgov.zc.client.component.JFuncToolBar;
+import com.ufgov.zc.client.component.button.zc.CommonButton;
 import com.ufgov.zc.client.component.ui.AbstractDataDisplay;
 import com.ufgov.zc.client.component.ui.AbstractEditListBill;
 import com.ufgov.zc.client.component.ui.AbstractSearchConditionArea;
@@ -56,12 +57,15 @@ import com.ufgov.zc.client.zc.ZcUtil;
 import com.ufgov.zc.common.commonbiz.model.SearchCondition;
 import com.ufgov.zc.common.commonbiz.publish.IBaseDataServiceDelegate;
 import com.ufgov.zc.common.sf.model.SfEntrust;
+import com.ufgov.zc.common.sf.model.SfZongheZhiban;
 import com.ufgov.zc.common.sf.publish.ISfEntrustServiceDelegate;
+import com.ufgov.zc.common.sf.publish.ISfZongheZhibanServiceDelegate;
 import com.ufgov.zc.common.system.RequestMeta;
 import com.ufgov.zc.common.system.constants.WFConstants;
 import com.ufgov.zc.common.system.dto.ElementConditionDto;
 import com.ufgov.zc.common.system.dto.PrintObject;
 import com.ufgov.zc.common.system.util.ObjectUtil;
+import com.ufgov.zc.common.zc.publish.IZcEbBaseServiceDelegate;
 
 /**
  * 司法委托
@@ -78,6 +82,8 @@ public class SfEntrustListPanel extends AbstractEditListBill implements ParentWi
   public static final Logger logger = Logger.getLogger(SfEntrustListPanel.class);
 
   private SfEntrustListPanel self = this;
+  
+  private CommonButton zhibanBtn=new CommonButton("fzhiban", "值班", "group_edit.png");
 
   private Window parentWindow;
 
@@ -90,6 +96,9 @@ public class SfEntrustListPanel extends AbstractEditListBill implements ParentWi
   private ISfEntrustServiceDelegate sfEntrustServiceDelegate;
 
   private IBaseDataServiceDelegate baseDataServiceDelegate;
+  protected IZcEbBaseServiceDelegate zcEbBaseServiceDelegate;
+  
+  protected ISfZongheZhibanServiceDelegate sfZongheZhibanServiceDelegate;
 
   public Window getParentWindow() {
 
@@ -106,6 +115,8 @@ public class SfEntrustListPanel extends AbstractEditListBill implements ParentWi
   public SfEntrustListPanel() {
     sfEntrustServiceDelegate = (ISfEntrustServiceDelegate) ServiceFactory.create(ISfEntrustServiceDelegate.class, "sfEntrustServiceDelegate");
     baseDataServiceDelegate = (IBaseDataServiceDelegate) ServiceFactory.create(IBaseDataServiceDelegate.class, "baseDataServiceDelegate");
+    zcEbBaseServiceDelegate = (IZcEbBaseServiceDelegate) ServiceFactory.create(IZcEbBaseServiceDelegate.class, "zcEbBaseServiceDelegate");
+    sfZongheZhibanServiceDelegate = (ISfZongheZhibanServiceDelegate) ServiceFactory.create(ISfZongheZhibanServiceDelegate.class, "sfZongheZhibanServiceDelegate");
     UIUtilities.asyncInvoke(new DefaultInvokeHandler<List<SearchCondition>>() {
 
       @Override
@@ -225,6 +236,8 @@ public class SfEntrustListPanel extends AbstractEditListBill implements ParentWi
       //    elementConditionDto.setNd(WorkEnv.getInstance().getTransNd());
 
       elementConditionDto.setStatus(tableDisplay.getStatus());
+      
+      elementConditionDto.setZhiban(SfUtil.isZhiban());
 
       for (AbstractSearchConditionItem item : searchConditionItems) {
 
@@ -509,6 +522,10 @@ public class SfEntrustListPanel extends AbstractEditListBill implements ParentWi
     toolBar.setCompoId(compoId);
 
     toolBar.add(addButton);
+       
+    toolBar.add(zhibanBtn);
+    zhibanBtn.setText("值班");//值班
+    zhibanBtn.setToolTipText("值班");
 
     // toolBar.add(updateButton);
 
@@ -552,6 +569,16 @@ public class SfEntrustListPanel extends AbstractEditListBill implements ParentWi
 
     });
 
+    zhibanBtn.addActionListener(new ActionListener() {
+
+      public void actionPerformed(ActionEvent e) {
+
+        doZhiban();
+
+      }
+
+    });
+
     printButton.addActionListener(new ActionListener() {
 
       public void actionPerformed(ActionEvent arg0) {
@@ -582,6 +609,38 @@ public class SfEntrustListPanel extends AbstractEditListBill implements ParentWi
 
     });
 
+  }
+
+  /**
+   * 综合受理是每天有人值班，进行办理相关的业务
+   */
+  protected void doZhiban() {
+    
+    
+    ElementConditionDto dto=new ElementConditionDto();
+    dto.setNd(requestMeta.getSvNd());
+    dto.setCoCode(requestMeta.getSvCoCode());
+    SfZongheZhiban zb=sfZongheZhibanServiceDelegate.getCurrent(dto, requestMeta);
+    if(zb!=null && zb.getUserId().equals(requestMeta.getSvUserID())){ 
+        JOptionPane.showMessageDialog(this, "您当前已经在值班了！", "提示", JOptionPane.INFORMATION_MESSAGE);
+        return; 
+    }
+
+    int num = JOptionPane.showConfirmDialog(this, "您确定要值班吗", "确认", 0);
+    if (num == JOptionPane.YES_OPTION) {
+      zb=new SfZongheZhiban();
+      zb.setNd(requestMeta.getSvNd());
+      zb.setCoCode(requestMeta.getSvCoCode());
+      zb.setUserId(requestMeta.getSvUserID());
+      sfZongheZhibanServiceDelegate.saveFN(zb, requestMeta);
+      //刷新当前页签数据
+      elementConditionDto.setZhiban(true);
+      refreshCurrentTabData();
+      zhibanBtn.setText("值班中");//值班
+      zhibanBtn.setToolTipText("值班中"); 
+    }
+    
+    
   }
 
   public void refreshCurrentTabData() {
@@ -783,6 +842,13 @@ public class SfEntrustListPanel extends AbstractEditListBill implements ParentWi
 
   private void setButtonStatus() {
     addButton.setVisible(SfUtil.canNew(compoId, null));
+    if(SfUtil.isZhiban()){
+      zhibanBtn.setText("值班中");//值班
+      zhibanBtn.setToolTipText("值班中");      
+    }else{
+      zhibanBtn.setText("值班");//值班
+      zhibanBtn.setToolTipText("值班");       
+    }
 
   }
 
