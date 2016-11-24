@@ -70,6 +70,7 @@ import com.ufgov.zc.client.sf.component.JClosableTabbedPane;
 import com.ufgov.zc.client.sf.dataflow.SfDataFlowDialog;
 import com.ufgov.zc.client.sf.dataflow.SfDataFlowUtil;
 import com.ufgov.zc.client.sf.entrust.SfEntrustHandler;
+import com.ufgov.zc.client.sf.util.SfUtil;
 import com.ufgov.zc.client.util.freemark.IWordHandler;
 import com.ufgov.zc.client.util.freemark.WordHandlerFactory;
 import com.ufgov.zc.client.zc.ButtonStatus;
@@ -324,7 +325,7 @@ public class SfAppendMaterialNoticeEditPanel extends AbstractMainSubEditPanel {
 
     bill.setStatus(ZcSettingConstants.WF_STATUS_DRAFT);
     bill.setNd(this.requestMeta.getSvNd());
-    bill.setInputDate(this.requestMeta.getSysDate());
+    bill.setInputDate(SfUtil.getSysDate());
     bill.setInputor(requestMeta.getSvUserID());
   }
 

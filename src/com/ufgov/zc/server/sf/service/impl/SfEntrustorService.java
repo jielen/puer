@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import com.ufgov.zc.common.sf.exception.SfBusinessException;
 import com.ufgov.zc.common.sf.model.SfEntrustor;
 import com.ufgov.zc.common.sf.model.SfEntrustorUser;
 import com.ufgov.zc.common.system.RequestMeta;
@@ -55,15 +56,28 @@ public class SfEntrustorService implements ISfEntrustorService {
     	rtn.getUser().setPassword(GeneralFunc.recodePwd(rtn.getUser().getPassword()));
     	rtn.getUser().setPasswordConfrim(rtn.getUser().getPassword());
     }
+    if(rtn.getParentId()!=null){
+      SfEntrustor p=entrustorMapper.selectByPrimaryKey(rtn.getParentId());
+      if(p!=null){
+        rtn.setParentName(p.getName());
+      }
+    }
     rtn.digest();
     return rtn;
   }
 
   
-  public SfEntrustor saveFN(SfEntrustor inData, RequestMeta requestMeta) {
+  public SfEntrustor saveFN(SfEntrustor inData, RequestMeta requestMeta) throws SfBusinessException {
     // TCJLODO Auto-generated method stub
+    if(isSameName(inData, requestMeta)){
+      throw new SfBusinessException(inData.getName()+"已经存在了.");
+    }
+    if(isSameShortName(inData, requestMeta)){
+      throw new SfBusinessException("简称："+inData.getShortName()+"已经存在了，请重新输入一个简称.");
+    }
     if (inData.getEntrustorId()==null) { 
-       BigDecimal id=new BigDecimal(ZcSUtil.getNextVal(SfEntrustor.SEQ_SF_ENTRUSTOR_ID));
+      ZcSUtil su=new ZcSUtil();
+       BigDecimal id=new BigDecimal(su.getNextVal(SfEntrustor.SEQ_SF_ENTRUSTOR_ID));
        inData.setEntrustorId(id);
        
        insert(inData,requestMeta);
@@ -73,6 +87,43 @@ public class SfEntrustorService implements ISfEntrustorService {
     
     return inData;
   } 
+  
+  private boolean isSameShortName(SfEntrustor bill,RequestMeta meta){
+    if(bill.getShortName()==null || bill.getShortName().trim().length()==0){
+      return false;
+    }
+    ElementConditionDto dto=new ElementConditionDto();
+    dto.setDattr3(bill.getShortName());
+    List lst=zcEbBaseService.queryDataForList("com.ufgov.zc.server.sf.dao.SfEntrustorMapper.getEntrustorLst", dto);
+    if(lst==null)return false;
+    for(int i=0;i<lst.size();i++){
+      SfEntrustor t=(SfEntrustor) lst.get(i);
+      if(t.getEntrustorId().equals(bill.getEntrustorId())){
+        continue;
+      }
+      if(t.getShortName().equals(bill.getShortName())){
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  private boolean isSameName(SfEntrustor bill,RequestMeta meta){
+    ElementConditionDto dto=new ElementConditionDto();
+    dto.setDattr2(bill.getName());
+    List lst=zcEbBaseService.queryDataForList("com.ufgov.zc.server.sf.dao.SfEntrustorMapper.getEntrustorLst", dto);
+    if(lst==null)return false;
+    for(int i=0;i<lst.size();i++){
+      SfEntrustor t=(SfEntrustor) lst.get(i);
+      if(t.getEntrustorId().equals(bill.getEntrustorId())){
+        continue;
+      }
+      if(t.getName().equals(bill.getName())){
+        return true;
+      }
+    }
+    return false;
+  }
 
 
 void addUser(SfEntrustor entrustor) {
@@ -100,11 +151,11 @@ void addUser(SfEntrustor entrustor) {
     SfEntrustorUser wtfUser=(SfEntrustorUser) zcEbBaseService.queryObject("com.ufgov.zc.server.sf.dao.SfEntrustorMapper.getWtfUser", inData.getEntrustorId());
     if(wtfUser!=null){
     	if(inData.getUser()==null || inData.getUser().getUserId()==null ||inData.getUser().getUserId().trim().length()==0){
-    		zcEbBaseService.delete("com.ufgov.zc.server.sf.dao.SfEntrustorMapper.deleteWtfUser", inData.getEntrustorId());
+    		zcEbBaseService.deleteFN("com.ufgov.zc.server.sf.dao.SfEntrustorMapper.deleteWtfUser", inData.getEntrustorId());
     		userService.updateAsEmpLogin(wtfUser.getUserId(), false);
     	}else if(!wtfUser.getUserId().equals(inData.getUser().getUserId())){
     		userService.updateAsEmpLogin(wtfUser.getUserId(), false);
-    		zcEbBaseService.delete("com.ufgov.zc.server.sf.dao.SfEntrustorMapper.deleteWtfUser", inData.getEntrustorId());
+    		zcEbBaseService.deleteFN("com.ufgov.zc.server.sf.dao.SfEntrustorMapper.deleteWtfUser", inData.getEntrustorId());
     		 
 	    	    SfEntrustorUser wtfUser2=new SfEntrustorUser();
 	    	    wtfUser2.setUserId(inData.getUser().getUserId().trim());

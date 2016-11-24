@@ -635,9 +635,9 @@ public class SfJdjgEditPanel  extends AbstractMainSubEditPanel {
 
 //	      System.out.println("before=" + inData.getCoCode() + inData.getCoName());
 	    
-	      sfJdjgServiceDelegate.saveFN(inData, requestMeta);
+	      inData=sfJdjgServiceDelegate.saveFN(inData, requestMeta);
 	      listCursor.setCurrentObject(inData);
-
+	      
 	    } catch (Exception e) {
 
 	      logger.error(e.getMessage(), e);

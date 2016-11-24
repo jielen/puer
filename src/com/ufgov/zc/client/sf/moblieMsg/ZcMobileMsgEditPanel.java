@@ -190,8 +190,9 @@ public class ZcMobileMsgEditPanel extends AbstractMainSubEditPanel {
     // TCJLODO Auto-generated method stub
     qx.setIsSended(ZcMobileMsg.ZC_VS_IS_SENDED_DRAF);
     qx.setNd(this.requestMeta.getSvNd());
-    qx.setInputDate(this.requestMeta.getSysDate());
+    qx.setInputDate(SfUtil.getSysDate());
     qx.setInputor(requestMeta.getSvUserID());
+    qx.setCoCode(requestMeta.getSvCoCode());
 //    qx.setInputorName(requestMeta.getSvUserName());
 
   }
@@ -339,7 +340,7 @@ public class ZcMobileMsgEditPanel extends AbstractMainSubEditPanel {
 
       //整理发送号码 
       qx.setCode(null);
-      qx.setSendTime(requestMeta.getSysDate());
+      qx.setSendTime(SfUtil.getSysDate());
       qx.setIsSended("Y");
       qx = mobileMsgServiceDelegate.updateFN(qx, requestMeta);
       afterSaveBill = qx;

@@ -3,6 +3,7 @@ package com.ufgov.zc.server.sf.publish.impl;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.ufgov.zc.common.sf.exception.SfBusinessException;
 import com.ufgov.zc.common.sf.model.SfEntrustor;
 import com.ufgov.zc.common.sf.publish.ISfEntrustorServiceDelegate;
 import com.ufgov.zc.common.system.RequestMeta;
@@ -25,7 +26,7 @@ public class SfEntrustorServiceDelegate implements ISfEntrustorServiceDelegate {
   }
 
   
-  public SfEntrustor saveFN(SfEntrustor inData, RequestMeta requestMeta) {
+  public SfEntrustor saveFN(SfEntrustor inData, RequestMeta requestMeta) throws SfBusinessException{
     // TCJLODO Auto-generated method stub
     return entrustorService.saveFN(inData, requestMeta);
   }

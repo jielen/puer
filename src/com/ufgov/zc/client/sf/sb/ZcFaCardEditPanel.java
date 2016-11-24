@@ -86,6 +86,7 @@ import com.ufgov.zc.client.component.zc.fieldeditor.MoneyFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.NewLineFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.TextAreaFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.TextFieldEditor;
+import com.ufgov.zc.client.sf.util.SfUtil;
 import com.ufgov.zc.client.util.SwingUtil;
 import com.ufgov.zc.client.zc.ButtonStatus;
 import com.ufgov.zc.client.zc.ZcUtil;
@@ -218,7 +219,7 @@ public class ZcFaCardEditPanel extends AbstractMainSubEditPanel {
       this.pageStatus = ZcSettingConstants.PAGE_STATUS_BROWSE;
 
       card = zcFaCardServiceDelegate.selectByPrimaryKey(card.getCardId(), this.requestMeta);
-      card.setCurrentDate(requestMeta.getSysDate());
+      card.setCurrentDate(SfUtil.getSysDate());
       //获取该合同未入资产的金额
       setCandidateSum(card);
       listCursor.setCurrentObject(card);
@@ -331,7 +332,7 @@ public class ZcFaCardEditPanel extends AbstractMainSubEditPanel {
 
   private void setDefaultValue(ZcFaCard card) {
     // TCJLODO Auto-generated method stub
-    card.setCurrentDate(requestMeta.getSysDate());
+    card.setCurrentDate(SfUtil.getSysDate());
     //采购组织形式:政府集中机构采购
     card.setFaItemC22("01");
     card.setCardId("自动编号");
@@ -339,7 +340,7 @@ public class ZcFaCardEditPanel extends AbstractMainSubEditPanel {
     card.setCoCode(requestMeta.getSvCoCode());
     card.setCoName(requestMeta.getSvCoName());
     card.setCardStatu("1");
-    card.setInputDate(requestMeta.getSysDate());
+    card.setInputDate(SfUtil.getSysDate());
     card.setInputEmpCode(requestMeta.getSvUserID());
     card.setInputEmpName(requestMeta.getSvUserName());
     card.setNd(requestMeta.getSvNd());
@@ -619,7 +620,7 @@ public class ZcFaCardEditPanel extends AbstractMainSubEditPanel {
     try {
       card.setComment(commentDialog.getComment());
       card.setAuditorId(WorkEnv.getInstance().getCurrUserId());
-      card.setAuditDate(requestMeta.getSysDate());
+      card.setAuditDate(SfUtil.getSysDate());
       card.setAuditEmpCode(requestMeta.getSvUserID());
       card.setAuditEmpName(requestMeta.getSvUserName());
       card = zcFaCardServiceDelegate.auditFN(card, requestMeta);

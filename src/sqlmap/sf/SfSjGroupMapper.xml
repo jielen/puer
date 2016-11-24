@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.ufgov.zc.server.sf.dao.SfSjGroupMapper" >
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+  <resultMap id="BaseResultMap" class="com.ufgov.zc.common.sf.model.SfSjGroup" >
+    <result column="GROUP_ID" property="groupId" jdbcType="DECIMAL" />
+    <result column="GROUP_NAME" property="groupName" jdbcType="VARCHAR" />
+    <result column="CO_CODE" property="coCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    GROUP_ID, GROUP_NAME, CO_CODE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from SF_SJ_GROUP
+    where GROUP_ID = #groupId:DECIMAL#
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="java.math.BigDecimal" >
+    delete from SF_SJ_GROUP
+    where GROUP_ID = #groupId:DECIMAL#
+  </delete>
+  <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfSjGroup" >
+    insert into SF_SJ_GROUP (GROUP_ID, GROUP_NAME, CO_CODE
+      )
+    values (#groupId:DECIMAL#, #groupName:VARCHAR#, #coCode:VARCHAR#
+      )
+  </insert> 
+  <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfSjGroup" >
+    update SF_SJ_GROUP
+    set GROUP_NAME = #groupName:VARCHAR#,
+      CO_CODE = #coCode:VARCHAR#
+    where GROUP_ID = #groupId:DECIMAL#
+  </update>
+   <select id="selectUsingById" resultMap="BaseResultMap" parameterClass="elementCondition" > 
+    select 
+    <include refid="Base_Column_List" />
+    from SF_SJ_GROUP
+    where GROUP_ID = #sfId:DECIMAL#
+    and  
+	exists (select 1 from sf_sj where sf_sj.group_id=SF_SJ_GROUP.group_id )
+   </select>
+   
+  <select id="selectMainDataLst" resultMap="BaseResultMap" parameterClass="elementCondition" > 
+  select 
+    <include refid="Base_Column_List" />
+    from SF_SJ_GROUP
+    where 1=1  
+		<include refid="BusiNumLim.BusiNumLimStr" />  
+    <isNotNull prepend="AND" property="coCode"> 
+  		 co_code=#coCode#
+   	</isNotNull> 
+    <isNotNull prepend="AND" property="dattr1"> 
+  		 group_name=#dattr1#
+   	</isNotNull>
+  </select>
+</sqlMap>

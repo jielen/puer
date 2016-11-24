@@ -39,7 +39,8 @@ public class SfJdjgService implements ISfJdjgService {
 	
 	public SfJdjg saveFN(SfJdjg inData, RequestMeta requestMeta) {
 		if(inData.getJgId()==null){
-			inData.setJgId(new BigDecimal(ZcSUtil.getNextVal(SfJdjg.SEQ_SF_JDJG_ID)));
+	    ZcSUtil su=new ZcSUtil();
+			inData.setJgId(new BigDecimal(su.getNextVal(SfJdjg.SEQ_SF_JDJG_ID)));
 			insert(inData,requestMeta);
 		}else{
 			update(inData,requestMeta);
@@ -52,13 +53,14 @@ public class SfJdjgService implements ISfJdjgService {
 		List l=new ArrayList();
 		l.add(inData);
 		zcEbBaseService.updateObjectList("com.ufgov.zc.server.sf.dao.SfJdjgMapper.updateByPrimaryKey", l);
-		zcEbBaseService.delete("com.ufgov.zc.server.sf.dao.SfCertificateMapper.deleteByOwner", inData.getJgId());
+		zcEbBaseService.deleteFN("com.ufgov.zc.server.sf.dao.SfCertificateMapper.deleteByOwner", inData.getJgId());
 	    if(inData.getCertificatLst()!=null){
+	      ZcSUtil su=new ZcSUtil();
 	    	for(int i=0;i<inData.getCertificatLst().size();i++){
 	    		SfCertificate cer=(SfCertificate) inData.getCertificatLst().get(i);
 	    		cer.setZfOwnerId(inData.getJgId());
 	    		if(cer.getCerId()==null){
-	    			cer.setCerId(new BigDecimal(ZcSUtil.getNextVal(SfCertificate.SEQ_SF_CERTIFICATE)));
+	    			cer.setCerId(new BigDecimal(su.getNextVal(SfCertificate.SEQ_SF_CERTIFICATE)));
 	    		}
 	    		zcEbBaseService.insertObject("com.ufgov.zc.server.sf.dao.SfCertificateMapper.insert", cer);
 	    	}
@@ -69,11 +71,12 @@ public class SfJdjgService implements ISfJdjgService {
 	private void insert(SfJdjg inData, RequestMeta requestMeta) {
 		zcEbBaseService.insertObject("com.ufgov.zc.server.sf.dao.SfJdjgMapper.insert", inData);		
 	    if(inData.getCertificatLst()!=null){
+	      ZcSUtil su=new ZcSUtil();
 	    	for(int i=0;i<inData.getCertificatLst().size();i++){
 	    		SfCertificate cer=(SfCertificate) inData.getCertificatLst().get(i);
 	    		cer.setZfOwnerId(inData.getJgId());
 	    		if(cer.getCerId()==null){
-	    			cer.setCerId(new BigDecimal(ZcSUtil.getNextVal(SfCertificate.SEQ_SF_CERTIFICATE)));
+	    			cer.setCerId(new BigDecimal(su.getNextVal(SfCertificate.SEQ_SF_CERTIFICATE)));
 	    		}
 	    		zcEbBaseService.insertObject("com.ufgov.zc.server.sf.dao.SfCertificateMapper.insert", cer);
 	    	}
@@ -83,7 +86,7 @@ public class SfJdjgService implements ISfJdjgService {
 
 	public void deleteByPrimaryKeyFN(BigDecimal id, RequestMeta requestMeta) {
 		zcEbBaseService.insertObject("com.ufgov.zc.server.sf.dao.SfJdjgMapper.deleteByPrimaryKey", id);		
-		zcEbBaseService.delete("com.ufgov.zc.server.sf.dao.SfCertificateMapper.deleteByOwner", id); 
+		zcEbBaseService.deleteFN("com.ufgov.zc.server.sf.dao.SfCertificateMapper.deleteByOwner", id); 
 	}
 
 

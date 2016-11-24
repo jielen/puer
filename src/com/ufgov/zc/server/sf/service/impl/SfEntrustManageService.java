@@ -1,6 +1,7 @@
 package com.ufgov.zc.server.sf.service.impl;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
@@ -98,15 +99,71 @@ public class SfEntrustManageService implements ISfEntrustManageService {
 
     if (inData.getManageId()==null ) {
 
-      BigDecimal id=new BigDecimal(ZcSUtil.getNextVal(SfEntrustManage.SEQ_SF_ENTRUST_MANAGE_ID));
+      ZcSUtil su=new ZcSUtil();
+      BigDecimal id=new BigDecimal(su.getNextVal(SfEntrustManage.SEQ_SF_ENTRUST_MANAGE_ID));
       inData.setManageId(id); 
       insert(inData,requestMeta); 
    }else{
      update(inData,requestMeta);
    }
     updateEntrust(inData,requestMeta);
+    //发送消息通知各方
+    
+    ZcSUtil su=new ZcSUtil();
+    String msg=getMsg(inData,requestMeta,su.getSjrInfo(inData.getEntrust(), requestMeta)," 请及时关注.");
+    su.sendMsgToSjr(inData.getEntrust(),msg); 
+    msg=getMsg(inData,requestMeta,""," 特此通知.");
+//    su.sendMsgToJdjgLeader(inData.getEntrust(),msg);  
    return inData;
   }
+
+  private String getMsg(SfEntrustManage inData, RequestMeta requestMeta,String beginMsg,String endMsg) {
+    StringBuffer sb=new StringBuffer(); 
+    if(SfEntrustManage.MANAGE_TYPE_DELAY.equals(inData.getManageType())){
+      if(inData.getNewEndDate()!=null){
+        SimpleDateFormat sm=new SimpleDateFormat("yyyy-MM-dd");
+        sb.append("延期到").append(sm.format(inData.getNewEndDate())).append("完成鉴定.");        
+      }else{
+        sb.append(endMsg);
+      }
+      if(inData.getReason()!=null && inData.getReason().trim().length()>0){
+        sb.append(" 延期原因：").append(inData.getReason().trim());
+      }
+      sb.append(" 请及时关注.");
+    }else if(SfEntrustManage.MANAGE_TYPE_STOP.equals(inData.getManageType())){
+      sb.append("终止鉴定了，");
+      if(inData.getReason()!=null && inData.getReason().trim().length()>0){
+        sb.append("停止原因：").append(inData.getReason().trim());
+      }
+      sb.append(endMsg);
+    }else if(SfEntrustManage.MANAGE_TYPE_START.equals(inData.getManageType())){
+      sb.append("启动鉴定工作了，");
+      if(inData.getReason()!=null && inData.getReason().trim().length()>0){
+        sb.append("启动原因：").append(inData.getReason().trim());
+      }
+      sb.append(endMsg);      
+    }else if(SfEntrustManage.MANAGE_TYPE_PAUSE.equals(inData.getManageType())){
+      sb.append("暂停鉴定了，");
+      if(inData.getReason()!=null && inData.getReason().trim().length()>0){
+        sb.append("暂停原因：").append(inData.getReason().trim());
+      }
+      sb.append(endMsg);      
+    }else if(SfEntrustManage.MANAGE_TYPE_ZHUANSONG.equals(inData.getManageType())){
+      sb.append("转送其他鉴定机构进行鉴定了，");
+      if(inData.getReason()!=null && inData.getReason().trim().length()>0){
+        sb.append("转送原因：").append(inData.getReason().trim());
+      }
+      sb.append(endMsg);      
+    }else if(SfEntrustManage.MANAGE_TYPE_OTHER.equals(inData.getManageType())){
+      
+      if(inData.getReason()!=null && inData.getReason().trim().length()>0){
+        sb.append(inData.getReason().trim());
+      }
+      sb.append(endMsg);      
+    }
+    return sb.toString();
+  }
+
 
   private void updateEntrust(SfEntrustManage inData, RequestMeta requestMeta) {
     SfEntrust e=sfEntrustService.selectByPrimaryKey(inData.getEntrustId(), requestMeta);
@@ -141,7 +198,8 @@ public class SfEntrustManageService implements ISfEntrustManageService {
   public void insert(SfEntrustManage inData, RequestMeta requestMeta) {
     // TCJLODO Auto-generated method stub 
     if (inData.getManageId()==null ) {
-      BigDecimal id=new BigDecimal(ZcSUtil.getNextVal(SfEntrustManage.SEQ_SF_ENTRUST_MANAGE_ID));
+      ZcSUtil su=new ZcSUtil();
+      BigDecimal id=new BigDecimal(su.getNextVal(SfEntrustManage.SEQ_SF_ENTRUST_MANAGE_ID));
       inData.setManageId(id); 
     }
     sfEntrustManageMapper.insert(inData); 

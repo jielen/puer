@@ -50,6 +50,7 @@ import com.ufgov.zc.client.zc.ZcUtil;
 import com.ufgov.zc.common.commonbiz.model.SearchCondition;
 import com.ufgov.zc.common.commonbiz.publish.IBaseDataServiceDelegate;
 import com.ufgov.zc.common.sf.model.SfSjSupplier;
+import com.ufgov.zc.common.sf.publish.ISfSjSupplierServiceDelegate;
 import com.ufgov.zc.common.system.RequestMeta;
 import com.ufgov.zc.common.system.dto.ElementConditionDto;
 import com.ufgov.zc.common.system.dto.PrintObject;
@@ -78,6 +79,8 @@ public class SfSjSupplierListPanel extends AbstractEditListBill implements Paren
   private IBaseDataServiceDelegate baseDataServiceDelegate;
 
   private IZcEbBaseServiceDelegate zcEbBaseServiceDelegate;
+  
+  private ISfSjSupplierServiceDelegate sfSjSupplierServiceDelegate;
 
   public Window getParentWindow() {
 
@@ -94,6 +97,7 @@ public class SfSjSupplierListPanel extends AbstractEditListBill implements Paren
   public SfSjSupplierListPanel() {
 	  zcEbBaseServiceDelegate = (IZcEbBaseServiceDelegate) ServiceFactory.create(IZcEbBaseServiceDelegate.class,"zcEbBaseServiceDelegate");
     baseDataServiceDelegate = (IBaseDataServiceDelegate) ServiceFactory.create(IBaseDataServiceDelegate.class, "baseDataServiceDelegate"); 
+    sfSjSupplierServiceDelegate = (ISfSjSupplierServiceDelegate) ServiceFactory.create(ISfSjSupplierServiceDelegate.class, "sfSjSupplierServiceDelegate"); 
     
     UIUtilities.asyncInvoke(new DefaultInvokeHandler<List<SearchCondition>>() {
 
@@ -245,7 +249,7 @@ public class SfSjSupplierListPanel extends AbstractEditListBill implements Paren
         @Override
         public TableModel execute() throws Exception {
 
-          return SfSjSupplierToTableModelConverter.convertMainLst(self.zcEbBaseServiceDelegate.queryDataForList("com.ufgov.zc.server.sf.dao.SfSjSupplierMapper.selectMainDataLst",elementConditionDto, requestMeta));
+          return SfSjSupplierToTableModelConverter.convertMainLst(self.sfSjSupplierServiceDelegate.getMainLst(elementConditionDto, requestMeta));
 
         }
 

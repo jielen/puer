@@ -97,7 +97,7 @@ public class SfEntrust extends ZcBaseBill {
 	public static final String SF_VS_ENTRUST_URGENT_LEVEL = "SF_VS_ENTRUST_URGENT_LEVEL";
 	
 	public static final String SF_VS_ZHENGJIAN = "SF_VS_ZHENGJIAN";
-
+	 
 	public static final String SF_VS_ENTRUST_URGENT_LEVEL_normal = "1";//普通
 
 	public static final String SF_VS_ENTRUST_URGENT_LEVEL_jinji = "2";//紧急
@@ -212,12 +212,14 @@ public class SfEntrust extends ZcBaseBill {
 
 	public static final String COL_ACCEPT_CODE="SF_ENTRUST_ACCEPT_CODE"; // 受理编号
 	public static final String COL_ANJIAN_CODE="SF_ENTRUST_ANJIAN_CODE"; // 案件编号
+  public static final String COL_CO_CODE="SF_ENTRUST_CO_CODE"; // 鉴定中心
 
 	public static final String BKMK_MATERIALS = "BKMK_MATERIALS";// 检材样板
 	
 	public static final String BKMK_SF_ENTRUST_JD_FHR_ZSBH = "SF_ENTRUST_JD_FHR_ZSBH";// 鉴定复核人证书编号
 	public static final String BKMK_SF_ENTRUST_JD_FZR_ZSBH = "SF_ENTRUST_JD_FZR_ZSBH";// 鉴定负责人证书编号
-
+	
+ 
 	private String acceptCode;
 	
 	private String anjianCode;

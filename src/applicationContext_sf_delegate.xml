@@ -119,4 +119,20 @@
 	<bean id="sfZongheZhibanServiceDelegate"		class="com.ufgov.zc.server.sf.publish.impl.SfZongheZhibanServiceDelegate"		scope="singleton">
 		<property name="sfZongheZhibanService" ref="sfZongheZhibanService" />
 	</bean>
+	
+	<bean id="sfDocSendServiceDelegate"		class="com.ufgov.zc.server.sf.publish.impl.SfDocSendServiceDelegate"		scope="singleton">
+		<property name="sfDocSendService" ref="sfDocSendService" />
+	</bean>
+	
+	<bean id="sfSjSupplierServiceDelegate"		class="com.ufgov.zc.server.sf.publish.impl.SfSjSupplierServiceDelegate"		scope="singleton">
+		<property name="sfSjSupplierService" ref="sfSjSupplierService" />
+	</bean>
+	
+	<bean id="sfSjInServiceDelegate"		class="com.ufgov.zc.server.sf.publish.impl.SfSjInServiceDelegate"		scope="singleton">
+		<property name="sfSjInService" ref="sfSjInService" />
+	</bean>
+	
+	<bean id="sfSjOutServiceDelegate"		class="com.ufgov.zc.server.sf.publish.impl.SfSjOutServiceDelegate"		scope="singleton">
+		<property name="sfSjOutService" ref="sfSjOutService" />
+	</bean>
 </beans>

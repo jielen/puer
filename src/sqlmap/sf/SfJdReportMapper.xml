@@ -19,6 +19,12 @@
     <result column="REPORT_TYPE" property="reportType" jdbcType="VARCHAR" />
     <result column="NAME" property="name" jdbcType="VARCHAR" />
   </resultMap>
+  
+  <resultMap id="ReportCodeResultMap" class="com.ufgov.zc.common.sf.model.SfReportCode" > 
+    <result column="REPORT_CODE" property="reportCode" jdbcType="VARCHAR" />
+    <result column="ENTRUST_ID" property="entrustId" jdbcType="DECIMAL" />
+  </resultMap>
+  
   <sql id="Base_Column_List" > 
     JD_REPOR_ID, JD_RESULT_ID, ENTRUST_ID, JD_REPORT_FILE_ID, ND, CO_CODE, INPUTOR, INPUT_DATE, 
     STATUS, REMARK, PUBLISH_TIME, REPORT_CODE, PROCESS_INST_ID,ENTRUST_CODE,REPORT_TYPE,NAME
@@ -99,7 +105,7 @@
   <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfJdReport" > 
     update SF_JD_REPORT
     set JD_RESULT_ID = #jdResultId:DECIMAL#,
-      ENTRUST_ID = #entrustId:DECIMAL#,
+      ENTRUST_ID = #entrust.entrustId:DECIMAL#,
       JD_REPORT_FILE_ID = #jdReportFileId:VARCHAR#,
       ND = #nd:DECIMAL#,
       CO_CODE = #coCode:VARCHAR#,
@@ -115,4 +121,19 @@
       NAME=#name#
     where JD_REPOR_ID = #jdReporId:DECIMAL#
   </update>
+  
+  <select id="selectExistsReportCode" resultMap="ReportCodeResultMap" parameterClass="java.math.BigDecimal" > 
+    select 
+     ENTRUST_ID,REPORT_CODE
+    from SF_REPORT_CODE
+    where ENTRUST_ID = #entrustId:DECIMAL#
+  </select>
+  <insert id="insertReportCode" parameterClass="com.ufgov.zc.common.sf.model.SfReportCode" > 
+    insert into SF_REPORT_CODE (REPORT_CODE,ENTRUST_ID)
+    values(#reportCode:VARCHAR#,#entrustId:DECIMAL# )    
+  </insert>
+  <delete id="deleteReportCode" parameterClass="java.math.BigDecimal" > 
+    delete from SF_JD_REPORT
+    where ENTRUST_ID = #entrustId:DECIMAL#
+  </delete>
 </sqlMap>

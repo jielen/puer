@@ -87,6 +87,7 @@ import com.ufgov.zc.client.sf.dataflow.SfDataFlowDialog;
 import com.ufgov.zc.client.sf.dataflow.SfDataFlowUtil;
 import com.ufgov.zc.client.sf.entrust.SfEntrustHandler;
 import com.ufgov.zc.client.sf.util.SfJdPersonSelectHandler;
+import com.ufgov.zc.client.sf.util.SfUtil;
 import com.ufgov.zc.client.util.SwingUtil;
 import com.ufgov.zc.client.util.freemark.IWordHandler;
 import com.ufgov.zc.client.zc.ButtonStatus;
@@ -259,29 +260,16 @@ public class SfJdDocAuditEditPanel extends AbstractMainSubEditPanel {
     setOldObject();
     setButtonStatus();
     updateFieldEditorsEditable();
-    //更新信息要求的检索条件
-    updateDocTypeCondition();
+    
   }
 
-  private void updateDocTypeCondition() {
-    // TCJLODO Auto-generated method stub
-    SfJdDocAudit bill = (SfJdDocAudit) listCursor.getCurrentObject();
-    docTypeDto.getPmAdjustCodeList().clear();
-    for (int i = 0; i < bill.getDetailLst().size(); i++) {
-      SfJdDocAuditDetail vd = (SfJdDocAuditDetail) bill.getDetailLst().get(i);
-      if (vd.getDocType().getDocTypeCode() == null)
-        continue;
-      if (!docTypeDto.getPmAdjustCodeList().contains(vd.getDocType().getDocTypeCode())) {
-        docTypeDto.getPmAdjustCodeList().add(vd.getDocType().getDocTypeCode());
-      }
-    }
-  }
+ 
 
   private void setDefaultValue(SfJdDocAudit bill) {
     // TCJLODO Auto-generated method stub
     bill.setStatus(ZcSettingConstants.WF_STATUS_DRAFT);
     bill.setNd(this.requestMeta.getSvNd());
-    bill.setInputDate(this.requestMeta.getSysDate());
+    bill.setInputDate(SfUtil.getSysDate());
     bill.setInputor(requestMeta.getSvUserID());
     bill.setCoCode(requestMeta.getSvCoCode());
     //    bill.setReportType(SfJdResult.RESULT_TYPE_YJS);
@@ -290,9 +278,25 @@ public class SfJdDocAuditEditPanel extends AbstractMainSubEditPanel {
     for (int i = 0; i < typeLst.size(); i++) {
       SfJdDocType docType = (SfJdDocType) typeLst.get(i);
       SfJdDocAuditDetail vd = new SfJdDocAuditDetail();
-      vd.setDocType(docType);
+//      vd.setDocType(docType);
+      vd.setDocName(docType.getDocTypeName());
+      vd.setDocTypeCode(docType.getDocTypeCode());
       vd.setQuantity(new BigDecimal(1));
       bill.getDetailLst().add(vd);
+    }
+
+    bill.getMaterialLst().clear();
+    if (bill.getEntrust().getMaterials() != null) {
+      for (int i = 0; i < bill.getEntrust().getMaterials().size(); i++) {
+        SfMaterials m = (SfMaterials) bill.getEntrust().getMaterials().get(i);
+        SfMaterialsTransferDetail d = new SfMaterialsTransferDetail();
+        d.setProcessing(SfMaterialsTransferDetail.HANDLE_STATUS_TUI_HUI);
+        d.setQuantity3(m.getQuantity3());
+        d.setUnit(m.getUnit());
+        d.setMaterial(m);
+//        d.setProcessingMan(entrust.getJdFzr());
+        bill.getMaterialLst().add(d);
+      }
     }
   }
 
@@ -368,32 +372,7 @@ public class SfJdDocAuditEditPanel extends AbstractMainSubEditPanel {
 
   private void setDetailTablePorperty() {
     final JPageableFixedTable table = detailTablePanel.getTable();
-    table.setDefaultEditor(String.class, new TextCellEditor());
-    JdDocTypeHandler docTypeHandler = new JdDocTypeHandler() {
-      @Override
-      public void excute(List selectedDatas) {
-        BeanTableModel model = (BeanTableModel) table.getModel();
-        int k = table.getSelectedRow();
-        if (k < 0) {
-          return;
-        }
-
-        int k2 = table.convertRowIndexToModel(k);
-        SfJdDocAuditDetail detail = (SfJdDocAuditDetail) (model.getBean(k2));
-        for (Object obj : selectedDatas) {
-          SfJdDocType docType = (SfJdDocType) obj;
-          detail.setDocType(docType);
-          break;
-        }
-        model.fireTableRowsUpdated(k, k);
-        updateDocTypeCondition();
-      }
-    };
-
-    ForeignEntityFieldCellEditor foreignInfoTypeEditor = new ForeignEntityFieldCellEditor(docTypeHandler.getSqlId(), docTypeDto, 20, docTypeHandler,
-      docTypeHandler.getColumNames(), "鉴定文书类别", "docTypeName");
-
-    SwingUtil.setTableCellEditor(table, SfJdDocType.COL_DOC_TYPE_NAME, foreignInfoTypeEditor);
+    table.setDefaultEditor(String.class, new TextCellEditor());    
     
     IntCellEditor ic=new IntCellEditor(false);
     SwingUtil.setTableCellEditor(table, SfJdDocAuditDetail.COL_QUANTITY, ic);
@@ -619,7 +598,7 @@ public class SfJdDocAuditEditPanel extends AbstractMainSubEditPanel {
 
     toolBar.setCompoId(getCompoId());
 
-    //    toolBar.add(addButton);
+        toolBar.add(addButton);
 
     toolBar.add(editButton);
 
@@ -803,10 +782,11 @@ public class SfJdDocAuditEditPanel extends AbstractMainSubEditPanel {
 
   protected void doAdd() {
     // TCJLODO Auto-generated method stub
-    SfJdDocAudit bill = new SfJdDocAudit();
-    setDefaultValue(bill);
-    listCursor.getDataList().add(bill);
-    listCursor.setCurrentObject(bill);
+//    SfJdDocAudit bill = new SfJdDocAudit();
+//    setDefaultValue(bill);
+//    listCursor.getDataList().add(bill);
+//    listCursor.setCurrentObject(bill);
+    listCursor.setCurrentObject(null);
     refreshData();
 
   }
@@ -1227,8 +1207,7 @@ public class SfJdDocAuditEditPanel extends AbstractMainSubEditPanel {
 
     delBtn2.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        deleteSub(detailTablePanel);
-        updateDocTypeCondition();
+        deleteSub(detailTablePanel);         
       }
     });
     

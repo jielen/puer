@@ -34,7 +34,8 @@ public class SfChargeStandardService implements ISfChargeStandardService {
 
       String code = NumUtil.getInstance().getNo("SF_CHARGE_STANDARD", "CODE", inData);
       inData.setCode(code);
-      BigDecimal id=new BigDecimal(ZcSUtil.getNextVal(SfChargeStandard.SEQ_SF_CHARGE_STANDARD_ID));
+      ZcSUtil su=new ZcSUtil();
+      BigDecimal id=new BigDecimal(su.getNextVal(SfChargeStandard.SEQ_SF_CHARGE_STANDARD_ID));
       inData.setChargeStandardId(id);    
       insert(inData,requestMeta);
    }else{

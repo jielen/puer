@@ -76,10 +76,12 @@ import com.ufgov.zc.client.sf.dataflow.SfDataFlowUtil;
 import com.ufgov.zc.client.sf.entrust.SfEntrustHandler;
 import com.ufgov.zc.client.sf.util.SfJdPersonSelectHandler;
 import com.ufgov.zc.client.sf.util.SfUserSelectHandler;
+import com.ufgov.zc.client.sf.util.SfUtil;
 import com.ufgov.zc.client.util.SwingUtil;
 import com.ufgov.zc.client.util.freemark.IWordHandler;
 import com.ufgov.zc.client.zc.ButtonStatus;
 import com.ufgov.zc.client.zc.ZcUtil;
+import com.ufgov.zc.common.console.model.AsEmp;
 import com.ufgov.zc.common.sf.model.SfEntrust;
 import com.ufgov.zc.common.sf.model.SfEvaluation;
 import com.ufgov.zc.common.sf.model.SfEvaluationPerson;
@@ -239,7 +241,7 @@ public class SfEvaluationEditPanel extends AbstractMainSubEditPanel {
 
     Evaluation.setStatus(ZcSettingConstants.WF_STATUS_DRAFT);
     Evaluation.setNd(this.requestMeta.getSvNd());
-    Evaluation.setInputDate(this.requestMeta.getSysDate());
+    Evaluation.setInputDate(SfUtil.getSysDate());
     Evaluation.setInputor(requestMeta.getSvUserID());
     Evaluation.setEvaluateAddress(AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_JD_COMPANY_ADDRESS));
   }
@@ -267,8 +269,8 @@ public class SfEvaluationEditPanel extends AbstractMainSubEditPanel {
         int k2 = table.convertRowIndexToModel(k);
         SfEvaluationPerson person = (SfEvaluationPerson) (model.getBean(k2));
         for (Object obj : selectedDatas) {
-          User user = (User) obj;
-          person.setName(user.getUserName());
+          AsEmp user = (AsEmp) obj;
+          person.setName(user.getEmpName());
           person.setCode(user.getUserId());
         }
         model.fireTableRowsUpdated(k, k);

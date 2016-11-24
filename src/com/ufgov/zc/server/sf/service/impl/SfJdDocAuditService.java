@@ -66,7 +66,8 @@ public class SfJdDocAuditService implements ISfJdDocAuditService {
     // TCJLODO Auto-generated method stub
     if (inData.getJdDocAuditId()==null ) {
 
-      BigDecimal id=new BigDecimal(ZcSUtil.getNextVal(SfJdDocAudit.SEQ_SF_JD_DOC_AUDIT_ID));
+      ZcSUtil su=new ZcSUtil();
+      BigDecimal id=new BigDecimal(su.getNextVal(SfJdDocAudit.SEQ_SF_JD_DOC_AUDIT_ID));
       inData.setJdDocAuditId(id);  
 
       boolean isDraft = false;
@@ -173,7 +174,7 @@ public class SfJdDocAuditService implements ISfJdDocAuditService {
 			  Iterator keys=mobiles.keySet().iterator();
 			  while(keys.hasNext()){
 				  String key=keys.next().toString(); 
-				  su.sendToBox(""+qx.getEntrustId().intValue(), "", msg, key, requestMeta.getSysDate(), requestMeta.getSysDate());
+				  su.sendToBox(""+qx.getEntrustId().intValue(), "", msg, key, ZcSUtil.getSysDate(), ZcSUtil.getSysDate());
 			  } 
 		  }
 	  }	  
@@ -199,7 +200,7 @@ public class SfJdDocAuditService implements ISfJdDocAuditService {
 			  Iterator keys=mobiles.keySet().iterator();
 			  while(keys.hasNext()){
 				  String key=keys.next().toString(); 
-				  su.sendToBox(""+qx.getEntrustId().intValue(), "", msg, key, requestMeta.getSysDate(), requestMeta.getSysDate());
+				  su.sendToBox(""+qx.getEntrustId().intValue(), "", msg, key, ZcSUtil.getSysDate(), ZcSUtil.getSysDate());
 			  } 
 		  }
 	  }

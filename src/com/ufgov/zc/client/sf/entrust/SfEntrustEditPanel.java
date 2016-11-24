@@ -126,6 +126,7 @@ import com.ufgov.zc.common.sf.model.SfJdPerson;
 import com.ufgov.zc.common.sf.model.SfJdResult;
 import com.ufgov.zc.common.sf.model.SfJdResultFile;
 import com.ufgov.zc.common.sf.model.SfJdTarget;
+import com.ufgov.zc.common.sf.model.SfJdjg;
 import com.ufgov.zc.common.sf.model.SfMajor;
 import com.ufgov.zc.common.sf.model.SfMaterials;
 import com.ufgov.zc.common.sf.publish.ISfEntrustServiceDelegate;
@@ -355,10 +356,10 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
 
     entrust.setStatus(ZcSettingConstants.WF_STATUS_DRAFT);
     entrust.setNd(this.requestMeta.getSvNd());
-    entrust.setInputDate(this.requestMeta.getSysDate());
+    entrust.setInputDate(SfUtil.getSysDate());
     entrust.setInputor(requestMeta.getSvUserID());
     if (SfUtil.isJdjg()) {
-      entrust.setAcceptDate(requestMeta.getSysDate());
+      entrust.setAcceptDate(SfUtil.getSysDate());
       entrust.setAcceptor(requestMeta.getSvUserID());
       entrust.setCoCode(requestMeta.getSvCoCode());//设定鉴定机构，目前是满足单一普洱市鉴定所，后续支持多家时，这个值需要在界面上选择
       entrust.setJdCompany(requestMeta.getSvCoName());//
@@ -366,13 +367,13 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
       //设置委托方
       SfEntrustor entrustor = getEntrustor();
       entrust.setEntrustor(entrustor);
-      entrust.setCoCode("000");//设定鉴定机构，目前是满足单一普洱市鉴定所，后续支持多家时，这个值需要在界面上选择
+//      entrust.setCoCode("000");//设定鉴定机构，目前是满足单一普洱市鉴定所，后续支持多家时，这个值需要在界面上选择
       entrust.setJdCompany(AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_JD_COMPANY_NAME));//    	
     } else {
-      entrust.setCoCode("000");//设定鉴定机构，目前是满足单一普洱市鉴定所，后续支持多家时，这个值需要在界面上选择
+//      entrust.setCoCode("000");//设定鉴定机构，目前是满足单一普洱市鉴定所，后续支持多家时，这个值需要在界面上选择
       entrust.setJdCompany(AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_JD_COMPANY_NAME));//      	
     }
-    entrust.setWtDate(requestMeta.getSysDate());
+    entrust.setWtDate(SfUtil.getSysDate());
     entrust.setJdDocSendType(SfEntrust.SF_VS_ENTRUST_DOC_SEND_TYPE_ZIQU);
     //获取空的协议事项
     List xysxLst = zcEbBaseServiceDelegate.queryDataForList("com.ufgov.zc.server.sf.dao.SfXysxMapper.selectByPrimaryKey", null, requestMeta);
@@ -567,6 +568,14 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
               editor.setEnabled(true);
             }
           }
+        //鉴定机构的选择，委托方可以选，鉴定机构的人登录时不可选
+          if ("coCode".equals(editor.getFieldName())){
+            if(SfUtil.isWtf()){
+              editor.setEnabled(true);
+            }else{
+              editor.setEnabled(false);
+            }
+          }
           isEdit = true;
         } else {
           editor.setEnabled(false);
@@ -620,15 +629,19 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
         printWtButton.setVisible(true);
         if(entrust.getAcceptCode() ==null){
           printConfirmButton.setVisible(false);
+          printXyButton.setVisible(false);
         }else{
           printConfirmButton.setVisible(true);
+          printXyButton.setVisible(true);
         }
       }else if(entrust.getStatus().equalsIgnoreCase("4")){
         printWtButton.setVisible(true);
         if(entrust.getAcceptCode() ==null){
           printConfirmButton.setVisible(false);
+          printXyButton.setVisible(false);
         }else{
           printConfirmButton.setVisible(true);
+          printXyButton.setVisible(true);
         } 
       }
      //受理之后才处理这些按钮操作，受理前不能操作
@@ -940,17 +953,17 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
     printWtButton.setText("委托书");
     printWtButton.setToolTipText("委托书");
 
-    /*toolBar.add(printXyButton);
-    printXyButton.setText("委托协议");
-    printXyButton.setToolTipText("委托协议");*/
-
     toolBar.add(printConfirmButton);
     printConfirmButton.setText("委托确认书");
     printConfirmButton.setToolTipText("委托确认书");
 
-    toolBar.add(printMastTmButton);
+    toolBar.add(printXyButton);
+    printXyButton.setText("委托确认书(协议)");
+    printXyButton.setToolTipText("委托确认书(协议)");
+
+/*    toolBar.add(printMastTmButton);
     printMastTmButton.setText("打印总条码");
-    printMastTmButton.setToolTipText("打印总条码");
+    printMastTmButton.setToolTipText("打印总条码");*/
 
     /* toolBar.add(printDetailTmConfirmButton);
      printDetailTmConfirmButton.setText("打印检材条码");
@@ -1223,11 +1236,11 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
     m.setEntrustCode(bill.getCode());
     m.setEntrustId(bill.getEntrustId());
     m.setManageType(manageType);
-    m.setInputDate(requestMeta.getSysDate());
+    m.setInputDate(SfUtil.getSysDate());
     m.setInputor(requestMeta.getSvUserID());
     m.setNd(requestMeta.getSvNd());
     m.setCoCode(requestMeta.getSvCoCode());
-    m.setManageTime(requestMeta.getSysDate());
+    m.setManageTime(SfUtil.getSysDate());
     if(SfEntrustManage.MANAGE_TYPE_DELAY.equalsIgnoreCase(manageType)){
       m.setOldEndDate(bill.getExpetedCompleteDate());
     }
@@ -1354,7 +1367,7 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
     try {
       qx.setComment("接受委托");
       qx.setAuditorId(WorkEnv.getInstance().getCurrUserId());
-      qx.setAcceptDate(requestMeta.getSysDate());
+      qx.setAcceptDate(SfUtil.getSysDate());
       qx.setAcceptor(requestMeta.getSvUserID());
       qx.setJdFzr(requestMeta.getSvUserID());
       qx.setIsAccept("Y");
@@ -1534,7 +1547,14 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
     if (mainValidateInfo.length() != 0) {
       errorInfo.append("\n").append(mainValidateInfo.toString()).append("\n");
     }
-
+    boolean errorTel=false;
+    if(entrust.getSjrTel()!=null && !SfUtil.isMobile(entrust.getSjrTel())){
+      errorInfo.append("送检人电话请留手机号,方便接收鉴定相关短信信息").append("\n");
+      errorTel=true;
+    }
+    if(entrust.getSjr2Tel()!=null && !SfUtil.isMobile(entrust.getSjr2Tel()) &&!errorTel ){
+      errorInfo.append("\n").append("送检人电话请留手机号,方便接收鉴定相关短信信息");
+    }
     if (errorInfo.length() != 0) {
       JOptionPane.showMessageDialog(this, errorInfo.toString(), "提示", JOptionPane.WARNING_MESSAGE);
       return false;
@@ -1617,7 +1637,8 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
     SfEntrust entrust = (SfEntrust) this.listCursor.getCurrentObject();
     userData.put("entrust", entrust);
     userData.put(IWordHandler.FILE_NAME, entrust.getCode() + "委托协议书");
-    IWordHandler handler = new SfAgreementWordHandler();
+//    IWordHandler handler = new SfAgreementWordHandler();
+    IWordHandler handler = new SfEntrustConfirmXyWordHandler();
     String fileName = handler.createDocumnet(userData);
     try {
       Desktop.getDesktop().open(new File(fileName));
@@ -1710,6 +1731,8 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
     TextFieldEditor acceptCode = new TextFieldEditor(LangTransMeta.translate(SfEntrust.COL_ACCEPT_CODE), "acceptCode");
     TextFieldEditor barCode = new TextFieldEditor(LangTransMeta.translate(SfEntrust.COL_BAR_CODE), "barCode");
 
+    AsValFieldEditor jdjg = new AsValFieldEditor(LangTransMeta.translate(SfEntrust.COL_CO_CODE), "coCode", SfJdjg.SF_VS_JDJG);
+    
     AsValFieldEditor majorCode = new AsValFieldEditor(LangTransMeta.translate(SfEntrust.COL_MAJOR_NAME), "majorCode", SfMajor.SF_VS_MAJOR) {
       @Override
       protected void afterChange(AsValComboBox field) {
@@ -1826,7 +1849,7 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
 
     TextAreaFieldEditor jdHistory = new TextAreaFieldEditor(LangTransMeta.translate(SfEntrust.COL_JD_HISTORY), "jdHistory", -1, 3, 5);
     TextAreaFieldEditor jdRequire = new TextAreaFieldEditor(LangTransMeta.translate(SfEntrust.COL_JD_REQUIRE), "jdRequire", -1, 9, 5);
-    TextAreaFieldEditor remark = new TextAreaFieldEditor(LangTransMeta.translate(SfEntrust.COL_REMARK), "remark", -1, 1, 5);
+    TextAreaFieldEditor remark = new TextAreaFieldEditor(LangTransMeta.translate(SfEntrust.COL_REMARK), "remark", -1, 1, 7);
     AsValFieldEditor isCxjd = new AsValFieldEditor(LangTransMeta.translate(SfEntrust.COL_IS_CXJD), "isCxjd", "VS_Y/N");
 
     ElementConditionDto parentEntrustDto = new ElementConditionDto();
@@ -1932,10 +1955,10 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
     headFieldEditors.add(name);
     headFieldEditors.add(anjianCode);
 
+    headFieldEditors.add(jdjg);
+    headFieldEditors.add(majorCode);
     headFieldEditors.add(entrustor);
-    headFieldEditors.add(wtDate);
-    headFieldEditors.add(inputor);
-    headFieldEditors.add(inputDate);
+    headFieldEditors.add(wtDate); 
 
     headFieldEditors.add(sjr);
     headFieldEditors.add(sjrTel);
@@ -1951,7 +1974,6 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
     headFieldEditors.add(sjrAddress);
     headFieldEditors.add(sjrFax);
 
-    headFieldEditors.add(majorCode);
     //    editorList.add(jdOrg);
 
     if (!SfUtil.isWtf()) {
@@ -1973,6 +1995,10 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
     if (!SfUtil.isWtf()) {
       headFieldEditors.add(barCode);
     }
+
+    headFieldEditors.add(inputor);
+    headFieldEditors.add(inputDate);
+    
     headFieldEditors.add(remark);
 
     jdyqFieldEditors.add(jdRequire);
@@ -2565,7 +2591,7 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
     //    System.out.println("doSuggestPass 1++++++++++++++++++++++++++=" + bill.getAcceptDate());
     XysxPanelUtil.getValue(bill, xysxComponents);
 
-    if (!checkBeforeSave()) { return; }
+//    if (!checkBeforeSave()) { return; }
     SfEntrust qx = (SfEntrust) ObjectUtil.deepCopy(this.listCursor.getCurrentObject());
     //    System.out.println("doSuggestPass 2++++++++++++++++++++++++++=" + qx.getAcceptDate());
     requestMeta.setFuncId(this.suggestPassButton.getFuncId());
@@ -2744,7 +2770,9 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
       }
 
 
-      if (enableFuncs == null || enableFuncs.size() == 0) {//综合值班不指定到具体人，，而是用了一个公用的用户(ZONGHE_SHOULI 综合受理人)，
+      if ((enableFuncs == null || enableFuncs.size() == 0) //综合值班不指定到具体人，，而是用了一个公用的用户(ZONGHE_SHOULI 综合受理人)，
+        ||(enableFuncs.size()==1 && enableFuncs.contains("fcallback"))//如果当前登录人是综合值班人，又这个专业是他的专业，需要获取值班按钮。
+        ) {//综合值班不指定到具体人，，而是用了一个公用的用户(ZONGHE_SHOULI 综合受理人)，
 
         enableFuncs = getZhibanEnableFunc(baseBill, requestMeta);
       }

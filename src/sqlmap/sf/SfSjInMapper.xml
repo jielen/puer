@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.ufgov.zc.server.sf.dao.SfSjInMapper" >
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+  <resultMap id="BaseResultMap" class="com.ufgov.zc.common.sf.model.SfSjIn" >
+    <result column="IN_ID" property="inId" jdbcType="DECIMAL" /> 
+    <result column="SHIJI_PIHAO" property="shijiPihao" jdbcType="VARCHAR" />
+    <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+    <result column="PRICE" property="price" jdbcType="DECIMAL" />
+    <result column="EXPIRY_DATE" property="expiryDate" jdbcType="DATE" />
+    <result column="STORE_CODE" property="storeCode" jdbcType="VARCHAR" />
+    <result column="IN_BILL_CODE" property="inBillCode" jdbcType="VARCHAR" />
+    <result column="IN_DATE" property="inDate" jdbcType="DATE" />
+    <result column="INPUTOR" property="inputor" jdbcType="VARCHAR" />
+    <result column="INVOICE_CODE" property="invoiceCode" jdbcType="VARCHAR" />
+    <result column="BUY_CODE" property="buyCode" jdbcType="VARCHAR" />
+    <result column="ND" property="nd" jdbcType="DECIMAL" />
+    <result column="CO_CODE" property="coCode" jdbcType="VARCHAR" />
+    <result column="TOTAL_NUM" property="totalNum" jdbcType="DECIMAL" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    
+    <result column="SUPPLIER_ID" property="supplier.supplierId" jdbcType="DECIMAL" />
+    <result column="SUPPLIER_NAME" property="supplier.name" jdbcType="DECIMAL" />
+    
+    <result column="SJ_ID" property="sj.sjId" jdbcType="DECIMAL" />
+    <result column="NAME" property="sj.name" jdbcType="VARCHAR" />   
+    <result column="PRODUCTOR_ID" property="sj.productor.supplierId" jdbcType="DECIMAL" />
+    <result column="PRODUCTOR_NAME" property="sj.productor.name" jdbcType="VARCHAR" />
+    <result column="SJ_GROUP" property="sj.sjGroup" jdbcType="VARCHAR" />
+    <result column="UNIT_ID" property="sj.unit.unitId" jdbcType="VARCHAR" />
+    <result column="UNIT_NAME" property="sj.unit.unitName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    IN_ID, SJ_ID, SHIJI_PIHAO, AMOUNT, PRICE, EXPIRY_DATE, STORE_CODE, IN_BILL_CODE, 
+    IN_DATE, INPUTOR, INVOICE_CODE, BUY_CODE, ND, CO_CODE, SUPPLIER_ID, UNIT_CODE, TOTAL_NUM
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="java.math.BigDecimal" >
+    select sf_sj_in.in_id, 
+       sf_sj_in.shiji_pihao,
+       sf_sj_in.amount,
+       sf_sj_in.price,
+       sf_sj_in.expiry_date,
+       sf_sj_in.store_code,
+       sf_sj_in.in_bill_code,
+       sf_sj_in.in_date,
+       sf_sj_in.inputor,
+       sf_sj_in.invoice_code,
+       sf_sj_in.buy_code,
+       sf_sj_in.nd,
+       sf_sj_in.co_code,
+       sf_sj_in.total_num, 
+       sf_sj_in.remark,
+       sj.sj_Id,
+       sj.name,
+       unit.unit_id,
+       unit.unit_name,
+       sj.sj_group, 
+       p.name as productor_name,
+       p.supplier_id as productor_id,
+       s.name as supplier_name,
+       s.supplier_id as supplier_id       
+  from sf_sj sj,sf_sj_in ,sf_sj_supplier s,sf_sj_supplier p,sf_sj_unit unit
+  where sj.sj_id=sf_sj_in.sj_id
+  and sj.productor_id=p.supplier_id(+)
+  and sf_sj_in.supplier_id=s.supplier_id(+) 
+  and sf_sj.unit_id=unit.unit_id(+) 
+  and sf_sj_in.IN_ID = #inId:DECIMAL#
+  </select>
+  <select id="getMainLst" resultMap="BaseResultMap" parameterClass="elementCondition" >     
+select sf_sj_in.in_id, 
+       sf_sj_in.shiji_pihao,
+       sf_sj_in.amount,
+       sf_sj_in.price,
+       sf_sj_in.expiry_date,
+       sf_sj_in.store_code,
+       sf_sj_in.in_bill_code,
+       sf_sj_in.in_date,
+       sf_sj_in.inputor,
+       sf_sj_in.invoice_code,
+       sf_sj_in.buy_code,
+       sf_sj_in.nd,
+       sf_sj_in.co_code, 
+       sf_sj_in.total_num, 
+       sf_sj_in.remark,
+       sj.sj_Id,
+       sj.name,
+       unit.unit_id,
+       unit.unit_name,
+       sj.sj_group, 
+       p.name as productor_name,
+       p.supplier_id as productor_id,
+       s.name as supplier_name,
+       s.supplier_id as supplier_id       
+  from sf_sj sj,sf_sj_in ,sf_sj_supplier s,sf_sj_supplier p,sf_sj_unit unit
+  where sj.sj_id=sf_sj_in.sj_id
+  and sj.productor_id=p.supplier_id(+)
+  and sf_sj_in.supplier_id=s.supplier_id(+)  
+  and sf_sj.unit_id=unit.unit_id(+) 
+		<include refid="BusiNumLim.BusiNumLimStr" />  
+	<isNotEqual prepend="and" compareValue="0" property="nd">
+			sf_sj_in.ND = #nd#
+   </isNotEqual>  
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="java.math.BigDecimal" >
+    delete from SF_SJ_IN
+    where IN_ID = #inId:DECIMAL#
+  </delete>
+  <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfSjIn" >
+    insert into SF_SJ_IN (IN_ID, SJ_ID, SHIJI_PIHAO, 
+      AMOUNT, PRICE, EXPIRY_DATE, 
+      STORE_CODE, IN_BILL_CODE, IN_DATE, 
+      INPUTOR, INVOICE_CODE, BUY_CODE, 
+      ND, CO_CODE, SUPPLIER_ID, 
+      UNIT_ID, TOTAL_NUM,remark)
+    values (#inId:DECIMAL#, #sj.sjId:DECIMAL#, #shijiPihao:VARCHAR#, 
+      #amount:DECIMAL#, #price:DECIMAL#, #expiryDate:DATE#, 
+      #storeCode:VARCHAR#, #inBillCode:VARCHAR#, #inDate:DATE#, 
+      #inputor:VARCHAR#, #invoiceCode:VARCHAR#, #buyCode:VARCHAR#, 
+      #nd:DECIMAL#, #coCode:VARCHAR#, #supplier.supplierId:DECIMAL#, 
+      #sj.unit.unitId:DECIMAL#, #totalNum:DECIMAL#,#remark#)
+  </insert> 
+  <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfSjIn" >
+    update SF_SJ_IN
+    set SJ_ID = #sj.sjId:DECIMAL#,
+      SHIJI_PIHAO = #shijiPihao:VARCHAR#,
+      AMOUNT = #amount:DECIMAL#,
+      PRICE = #price:DECIMAL#,
+      EXPIRY_DATE = #expiryDate:DATE#,
+      STORE_CODE = #storeCode:VARCHAR#,
+      IN_BILL_CODE = #inBillCode:VARCHAR#,
+      IN_DATE = #inDate:DATE#,
+      INPUTOR = #inputor:VARCHAR#,
+      INVOICE_CODE = #invoiceCode:VARCHAR#,
+      BUY_CODE = #buyCode:VARCHAR#,
+      ND = #nd:DECIMAL#,
+      CO_CODE = #coCode:VARCHAR#,
+      SUPPLIER_ID = #supplier.supplierId:DECIMAL#,
+      UNIT_ID = #sj.unit.unitId:DECIMAL#,
+      TOTAL_NUM = #totalNum:DECIMAL#,
+      remark=#remark#
+    where IN_ID = #inId:DECIMAL#
+  </update>
+  
+  <!-- 获取可用的试剂 -->
+  <select id="getCanOutSjLst" resultMap="BaseResultMap" parameterClass="elementCondition" > 
+  select sf_sj_in.in_id, 
+       sf_sj_in.shiji_pihao,
+       case when sjo.amount is null then sf_sj_in.amount 
+         else sf_sj_in.amount-sjo.amount end as amount,
+       sf_sj_in.price,
+       sf_sj_in.expiry_date,
+       sf_sj_in.store_code,
+       sf_sj_in.in_bill_code,
+       sf_sj_in.in_date,
+       sf_sj_in.inputor,
+       sf_sj_in.invoice_code,
+       sf_sj_in.buy_code,
+       sf_sj_in.nd,
+       sf_sj_in.co_code, 
+       sf_sj_in.total_num, 
+       sf_sj_in.remark,
+       sj.sj_Id,
+       sj.name,
+       unit.unit_id,
+       unit.unit_name,
+       sj.sj_group, 
+       p.name as productor_name,
+       p.supplier_id as productor_id,
+       s.name as supplier_name,
+       s.supplier_id as supplier_id       
+  from sf_sj sj,sf_sj_in ,sf_sj_supplier s,sf_sj_supplier p,v_sf_sj_out sjo,sf_sj_unit unit
+  where sj.sj_id=sf_sj_in.sj_id
+  and sj.status='enable'
+  and sj.productor_id=p.supplier_id(+)
+  and sf_sj_in.supplier_id=s.supplier_id(+)  
+  and sf_sj_in.in_id=sjo.in_id(+)   
+  and sf_sj.unit_id=unit.unit_id(+)  
+		<isNotNull prepend="AND" property="coCode"> 
+			sf_sj_in.co_code=#coCode#
+		</isNotNull>   
+		<isNotNull prepend="AND" property="sfId"> 
+			sf_sj_in.in_id=#sfId:DECIMAL#
+		</isNotNull> 
+  </select>
+</sqlMap>

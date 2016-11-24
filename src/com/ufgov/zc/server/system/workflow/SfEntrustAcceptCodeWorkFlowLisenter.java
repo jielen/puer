@@ -11,6 +11,7 @@ import com.kingdrive.workflow.listener.TaskAdapter;
 import com.ufgov.zc.common.sf.model.SfEntrust;
 import com.ufgov.zc.server.sf.dao.SfEntrustMapper;
 import com.ufgov.zc.server.system.SpringContext;
+import com.ufgov.zc.server.zc.ZcSUtil;
 import com.ufgov.zc.server.zc.dao.IZcEbBaseServiceDao;
 import com.ufgov.zc.server.zc.service.IZcEbBaseService;
 
@@ -27,11 +28,12 @@ public class SfEntrustAcceptCodeWorkFlowLisenter extends SfEntrustBasicWorkFlowL
     SfEntrust bill = (SfEntrust) zcEbBaseServiceDao.queryObject("com.ufgov.zc.server.sf.dao.SfEntrustMapper.selectByProcessinstid", new BigDecimal(processId.longValue()));
     if (bill.getAcceptCode() != null && bill.getAcceptCode().trim().length()>0) return;
 
-    IZcEbBaseService baseService = (IZcEbBaseService) SpringContext.getBean("zcEbBaseService");
-    String acceptCode = baseService.getAutoNumNo(bill, "SF_ENTRUST", "CODE");
-    bill.setAcceptCode(acceptCode);
+//    IZcEbBaseService baseService = (IZcEbBaseService) SpringContext.getBean("zcEbBaseService");
+//    String acceptCode = baseService.getAutoNumNo(bill, "SF_ENTRUST", "CODE");
+    ZcSUtil su=new ZcSUtil();
+    bill.setAcceptCode(su.getSfEntrustAcceptCode(bill, context));
 
     SfEntrustMapper sfEntrustMapper = (SfEntrustMapper) SpringContext.getBean("entrustMapper");
     sfEntrustMapper.updateByPrimaryKey(bill);
-  }
+  } 
 }

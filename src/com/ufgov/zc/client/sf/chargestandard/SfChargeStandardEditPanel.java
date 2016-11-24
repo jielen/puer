@@ -46,6 +46,7 @@ import com.ufgov.zc.client.component.zc.fieldeditor.AutoNumFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.DateFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.MoneyFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.TextFieldEditor;
+import com.ufgov.zc.client.sf.util.SfUtil;
 import com.ufgov.zc.client.zc.ButtonStatus;
 import com.ufgov.zc.client.zc.ZcUtil;
 import com.ufgov.zc.common.sf.model.SfChargeStandard;
@@ -199,7 +200,7 @@ public class SfChargeStandardEditPanel extends AbstractMainSubEditPanel {
   private void setDefaultValue(SfChargeStandard chargeStandard) {
     // TCJLODO Auto-generated method stub
     chargeStandard.setStatus("Y");
-    chargeStandard.setEnableDate(requestMeta.getSysDate());
+    chargeStandard.setEnableDate(SfUtil.getSysDate());
   }
 
   protected void updateFieldEditorsEditable() {

@@ -158,8 +158,8 @@ public void insertObjectListFN(String insertSqlId, List list,RequestMeta meta) {
 }
 
  
-public void delete(String sqlMapDeleteId, Object parameter,RequestMeta meta) {
-	zcEbBaseService.delete(sqlMapDeleteId, parameter);
+public void deleteFN(String sqlMapDeleteId, Object parameter,RequestMeta meta) {
+	zcEbBaseService.deleteFN(sqlMapDeleteId, parameter);
 }
 
  

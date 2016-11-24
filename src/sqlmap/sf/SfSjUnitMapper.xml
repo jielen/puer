@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.ufgov.zc.server.sf.dao.SfSjUnitMapper" >
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+  <resultMap id="BaseResultMap" class="com.ufgov.zc.common.sf.model.SfSjUnit" >
+    <result column="UNIT_ID" property="unitId" jdbcType="DECIMAL" />
+    <result column="UNIT_NAME" property="unitName" jdbcType="VARCHAR" />
+    <result column="CO_CODE" property="coCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UNIT_ID, UNIT_NAME, CO_CODE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from SF_SJ_UNIT
+    where UNIT_ID = #unitId:DECIMAL#
+  </select>
+  
+  <select id="selectMainDataLst" resultMap="BaseResultMap" parameterClass="elementCondition" > 
+  select 
+    <include refid="Base_Column_List" />
+    from SF_SJ_UNIT
+    where 1=1 
+   <isNotNull prepend="AND" property="coCode"> 
+   co_code=#coCode#
+   </isNotNull>
+   <select id="selectUsingById" resultMap="BaseResultMap" parameterClass="elementCondition" > 
+   		select 
+		<include refid="Base_Column_List" />
+　		from sf_sj_unit 
+		where unit_id=#sfId:DECIMAL#
+		and exists (select 1 from sf_sj sj where sj.Unit_ID=SF_SJ_UNIT.UNIT_ID)
+   </select> 
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="java.math.BigDecimal" >
+    delete from SF_SJ_UNIT
+    where UNIT_ID = #unitId:DECIMAL#
+  </delete>
+  <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfSjUnit" >
+    insert into SF_SJ_UNIT (UNIT_ID, UNIT_NAME, CO_CODE
+      )
+    values (#unitId:DECIMAL#, #unitName:VARCHAR#, #coCode:VARCHAR#
+      )
+  </insert> 
+  <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfSjUnit" >
+    update SF_SJ_UNIT
+    set UNIT_NAME = #unitName:VARCHAR#,
+      CO_CODE = #coCode:VARCHAR#
+    where UNIT_ID = #unitId:DECIMAL#
+  </update>
+</sqlMap>

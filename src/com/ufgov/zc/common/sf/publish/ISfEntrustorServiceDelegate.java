@@ -3,6 +3,7 @@ package com.ufgov.zc.common.sf.publish;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.ufgov.zc.common.sf.exception.SfBusinessException;
 import com.ufgov.zc.common.sf.model.SfEntrustor;
 import com.ufgov.zc.common.system.Publishable;
 import com.ufgov.zc.common.system.RequestMeta;
@@ -14,7 +15,7 @@ public interface ISfEntrustorServiceDelegate extends Publishable {
 
   SfEntrustor selectByPrimaryKey(BigDecimal id, RequestMeta requestMeta);
 
-  SfEntrustor saveFN(SfEntrustor inData, RequestMeta requestMeta);
+  SfEntrustor saveFN(SfEntrustor inData, RequestMeta requestMeta) throws SfBusinessException;
 
   boolean isUsing(BigDecimal id, RequestMeta requestMeta);
 

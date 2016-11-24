@@ -1,6 +1,7 @@
 package com.ufgov.zc.common.sf.model;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 import com.ufgov.zc.common.system.model.User;
 import com.ufgov.zc.common.zc.model.ZcBaseBill;
@@ -12,11 +13,14 @@ public class SfEntrustor extends ZcBaseBill{
   public static final String ENTRUSTOR_ID="SF_ENTRUSTOR_ID";
   public static final String CODE="SF_ENTRUSTOR_CODE";
   public static final String NAME="SF_ENTRUSTOR_NAME";
+  public static final String SHORT_NAME="SF_ENTRUSTOR_SHORT_NAME";
   public static final String ADDRESS="SF_ADDRESS";
   public static final String ZIP="SF_ZIP";
   public static final String LINK_MAN="SF_LINK_MAN";
   public static final String LINK_TEL="SF_LINK_TEL";
   public static final String ENTRUSTOR_TYPE="SF_ENTRUSTOR_TYPE";
+  public static final String PARENT_ID="SF_ENTRUSTOR_PARENT_ID";
+  
   
   
   public static final String TAB_ID_ENTRUSTOR="SF_ENTRUSTOR_TAB_ID";
@@ -67,6 +71,14 @@ public class SfEntrustor extends ZcBaseBill{
   private SfEntrustorUser wtfUser;
   
   private String entrustorType;
+  
+  private BigDecimal parentId;
+  private String parentName;
+  
+  private String inputor;
+  private Date inputDate;
+  
+  private String shortName;
   
   /**
    * 是否登陆系统
@@ -267,7 +279,47 @@ public class SfEntrustor extends ZcBaseBill{
 		this.wtfUser = wtfUser;
 	}
 
-	/**
+	public BigDecimal getParentId() {
+    return parentId;
+  }
+
+  public void setParentId(BigDecimal parentId) {
+    this.parentId = parentId;
+  }
+
+  public String getParentName() {
+    return parentName;
+  }
+
+  public void setParentName(String parentName) {
+    this.parentName = parentName;
+  }
+
+  public String getInputor() {
+    return inputor;
+  }
+
+  public void setInputor(String inputor) {
+    this.inputor = inputor;
+  }
+
+  public Date getInputDate() {
+    return inputDate;
+  }
+
+  public void setInputDate(Date inputDate) {
+    this.inputDate = inputDate;
+  }
+
+  public String getShortName() {
+    return shortName;
+  }
+
+  public void setShortName(String shortName) {
+    this.shortName = shortName;
+  }
+
+  /**
    * 
    */
   private static final long serialVersionUID = -1818757105251063158L;

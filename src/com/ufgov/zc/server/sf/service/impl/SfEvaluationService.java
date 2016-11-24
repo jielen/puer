@@ -79,7 +79,8 @@ public class SfEvaluationService implements ISfEvaluationService {
     // TCJLODO Auto-generated method stub
     if (inData.getEvaluationId() == null) {
 
-      BigDecimal id = new BigDecimal(ZcSUtil.getNextVal(SfEvaluation.SEQ_SF_EVALUATION_ID));
+      ZcSUtil su=new ZcSUtil();
+      BigDecimal id = new BigDecimal(su.getNextVal(SfEvaluation.SEQ_SF_EVALUATION_ID));
       inData.setEvaluationId(id);
 
       boolean isDraft = false;

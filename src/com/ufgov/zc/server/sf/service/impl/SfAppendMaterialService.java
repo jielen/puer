@@ -108,7 +108,8 @@ public class SfAppendMaterialService implements ISfAppendMaterialService {
 
     if (inData.getAppendMaterialId()==null ) {
 
-      BigDecimal id=new BigDecimal(ZcSUtil.getNextVal(SfAppendMaterial.SEQ_SF_APPEND_MATERIAL_ID));
+      ZcSUtil su=new ZcSUtil();
+      BigDecimal id=new BigDecimal(su.getNextVal(SfAppendMaterial.SEQ_SF_APPEND_MATERIAL_ID));
       inData.setAppendMaterialId(id);
 
       boolean isDraft = false;
@@ -142,12 +143,13 @@ public class SfAppendMaterialService implements ISfAppendMaterialService {
     if(inData.getDetailLst()!=null && inData.getDetailLst().size()>0){
       SfMaterials mm=(SfMaterials) inData.getDetailLst().get(0);
         materialsMapper.deleteByAppentMaterialsId(mm.getAppendMaterialId());
+        ZcSUtil su=new ZcSUtil();
         for(int i=0;i<inData.getDetailLst().size();i++){
           SfMaterials m=(SfMaterials) inData.getDetailLst().get(i);
           m.setAppendMaterialId(inData.getAppendMaterialId());
           m.setEntrustId(inData.getEntrustId()); 
           if (m.getMaterialId() == null) {
-            BigDecimal id = new BigDecimal(ZcSUtil.getNextVal(SfMaterials.SEQ_SF_MATERIALS_ID));
+            BigDecimal id = new BigDecimal(su.getNextVal(SfMaterials.SEQ_SF_MATERIALS_ID));
             m.setMaterialId(id);
           }
           materialsMapper.insert(m);
@@ -158,12 +160,13 @@ public class SfAppendMaterialService implements ISfAppendMaterialService {
     // TCJLODO Auto-generated method stub
     appendMaterialMapper.insert(inData);
     if(inData.getDetailLst()!=null){
+      ZcSUtil su=new ZcSUtil();
         for(int i=0;i<inData.getDetailLst().size();i++){
           SfMaterials m=(SfMaterials) inData.getDetailLst().get(i);
           m.setAppendMaterialId(inData.getAppendMaterialId());
           m.setEntrustId(inData.getEntrustId()); 
           if (m.getMaterialId() == null) {
-            BigDecimal id = new BigDecimal(ZcSUtil.getNextVal(SfMaterials.SEQ_SF_MATERIALS_ID));
+            BigDecimal id = new BigDecimal(su.getNextVal(SfMaterials.SEQ_SF_MATERIALS_ID));
             m.setMaterialId(id);
           }
           materialsMapper.insert(m);

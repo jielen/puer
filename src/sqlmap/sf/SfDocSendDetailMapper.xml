@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.ufgov.zc.server.sf.dao.SfDocSendDetailMapper" >
+  <resultMap id="BaseResultMap" class="com.ufgov.zc.common.sf.model.SfDocSendDetail" >
+    <result column="SEND_ID" property="sendId" jdbcType="DECIMAL" />
+    <result column="DOC_NAME" property="docAuditDetail.docName" jdbcType="VARCHAR" />
+    <result column="QUANTITY" property="docAuditDetail.quantity" jdbcType="VARCHAR" />
+    <result column="UNIT" property="unit" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    SEND_ID, DOC_NAME, QUANTITY, UNIT, REMARK
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from SF_DOC_SEND_DETAIL
+    where SEND_ID = #sendId:DECIMAL#
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="java.math.BigDecimal" >
+    delete from SF_DOC_SEND_DETAIL
+    where SEND_ID = #sendId:DECIMAL#
+  </delete>
+  <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfDocSendDetail" >
+    insert into SF_DOC_SEND_DETAIL (SEND_ID, DOC_NAME, QUANTITY, 
+      UNIT, REMARK)
+    values (#sendId:DECIMAL#, #docAuditDetail.docName:VARCHAR#, #docAuditDetail.quantity:VARCHAR#, 
+      #unit:VARCHAR#, #remark:VARCHAR#)
+  </insert> 
+  <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfDocSendDetail" >
+    update SF_DOC_SEND_DETAIL
+    set DOC_NAME = #docAuditDetail.docName:VARCHAR#,
+      QUANTITY = #docAuditDetail.quantity:VARCHAR#,
+      UNIT = #unit:VARCHAR#,
+      REMARK = #remark:VARCHAR#
+    where SEND_ID = #sendId:DECIMAL#
+  </update>
+</sqlMap>

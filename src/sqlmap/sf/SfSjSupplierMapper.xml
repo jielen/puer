@@ -17,10 +17,11 @@
     <result column="FAX" property="fax" jdbcType="VARCHAR" />
     <result column="STATUS" property="status" jdbcType="VARCHAR" />
     <result column="SUPPLIER_TYPE" property="supplierType" jdbcType="VARCHAR" />
+    <result column="CO_CODE" property="coCode" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" > 
     SUPPLIER_ID, NAME, PYM, ZIP, ADDRESS, URL, LINK_MAN, DUTY, EMAIL, TEL_WORK, TEL, 
-    FAX, STATUS, SUPPLIER_TYPE
+    FAX, STATUS, SUPPLIER_TYPE,CO_CODE
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="java.math.BigDecimal" > 
     select 
@@ -38,12 +39,19 @@
     	<isNotNull prepend="AND" property="sfId">
     		SUPPLIER_ID != #sfId:DECIMAL#
     	</isNotNull> 
+    	<isNotNull prepend="AND" property="coCode">
+    		co_code= #coCode#
+    	</isNotNull> 
   </select>
   <select id="selectMainDataLst" resultMap="BaseResultMap" parameterClass="elementCondition" > 
     select 
     <include refid="Base_Column_List" />
-    from SF_SJ_SUPPLIER 
-    where 1=1    
+    from SF_SJ_SUPPLIER
+    where 1=1  
+		<include refid="BusiNumLim.BusiNumLimStr" />   
+    	<isNotNull prepend="AND" property="coCode">
+    		co_code= #coCode#
+    	</isNotNull> 
    <isNotNull prepend="AND" property="status"> 
 			<isEqual property="status" compareValue="enable">
 				status ='enable'
@@ -78,12 +86,12 @@
       ZIP, ADDRESS, URL, 
       LINK_MAN, DUTY, EMAIL, 
       TEL_WORK, TEL, FAX, 
-      STATUS, SUPPLIER_TYPE)
+      STATUS, SUPPLIER_TYPE,CO_CODE)
     values (#supplierId:DECIMAL#, #name:VARCHAR#, #pym:VARCHAR#, 
       #zip:VARCHAR#, #address:VARCHAR#, #url:VARCHAR#, 
       #linkMan:VARCHAR#, #duty:VARCHAR#, #email:VARCHAR#, 
       #telWork:VARCHAR#, #tel:VARCHAR#, #fax:VARCHAR#, 
-      #status:VARCHAR#, #supplierType:VARCHAR#)
+      #status:VARCHAR#, #supplierType:VARCHAR#,#coCode#)
   </insert> 
   <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfSjSupplier" > 
     update SF_SJ_SUPPLIER
@@ -99,7 +107,8 @@
       TEL = #tel:VARCHAR#,
       FAX = #fax:VARCHAR#,
       STATUS = #status:VARCHAR#,
-      SUPPLIER_TYPE = #supplierType:VARCHAR#
+      SUPPLIER_TYPE = #supplierType:VARCHAR#,
+      CO_CODE=#coCode#
     where SUPPLIER_ID = #supplierId:DECIMAL#
   </update>
 </sqlMap>

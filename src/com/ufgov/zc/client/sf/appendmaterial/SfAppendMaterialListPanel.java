@@ -193,6 +193,10 @@ public class SfAppendMaterialListPanel  extends AbstractEditListBill implements 
   private AbstractSearchConditionArea createTopConditionArea() {
 
     Map defaultValueMap = new HashMap();
+    defaultValueMap.put("ND", ""+requestMeta.getSvNd());
+    if(entrust!=null){
+      defaultValueMap.put("ENTRUST_CODE", entrust);    
+    }
 
     topSearchConditionArea = new SaveableSearchConditionArea(SfAppendMaterial.SEARCH_ID, null, true, defaultValueMap, null);
 

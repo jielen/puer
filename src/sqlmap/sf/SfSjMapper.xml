@@ -8,7 +8,8 @@
     <result column="PYM" property="pym" jdbcType="VARCHAR" />
     <result column="TXM" property="txm" jdbcType="VARCHAR" />
     <result column="PACK_SPEC" property="packSpec" jdbcType="VARCHAR" />
-    <result column="UNIT" property="unit" jdbcType="VARCHAR" />
+    <result column="UNIT_ID" property="unit.unitId" jdbcType="DECIMAL" />
+    <result column="UNIT_NAME" property="unit.unitName" jdbcType="VARCHAR" />
     <result column="STORE_CONDITION" property="storeCondition" jdbcType="VARCHAR" />
     <result column="PIZHUN_DOC_CODE" property="pizhunDocCode" jdbcType="VARCHAR" />
     <result column="STORE_LIMIT_MIN" property="storeLimitMin" jdbcType="DECIMAL" />
@@ -21,10 +22,12 @@
     <result column="REGIST_CODE" property="registCode" jdbcType="VARCHAR" />
     <result column="PRODUCTOR_ID" property="productor.supplierId" jdbcType="DECIMAL" />
     <result column="PRODUCTOR_NAME" property="productor.name" jdbcType="VARCHAR" />
+    <result column="GROUP_ID" property="sjGroup.groupId" jdbcType="DECIMAL" />
+    <result column="GROUP_NAME" property="sjGroup.groupName" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" > 
-    SJ_ID, NAME, PYM, TXM, PACK_SPEC, UNIT, STORE_CONDITION, PIZHUN_DOC_CODE, STORE_LIMIT_MIN, 
-    STORE_LIMIT_MAX, STATUS, HAS_TIAOMA, STOP_REASON, REMARK, CO_CODE, PRODUCTOR_ID,REGIST_CODE
+    SJ_ID, NAME, PYM, TXM, PACK_SPEC, UNIT_ID, STORE_CONDITION, PIZHUN_DOC_CODE, STORE_LIMIT_MIN, 
+    STORE_LIMIT_MAX, STATUS, HAS_TIAOMA, STOP_REASON, REMARK, CO_CODE, PRODUCTOR_ID,REGIST_CODE,SJ_GROUP
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="java.math.BigDecimal" > 
     select  SF_SJ.sj_id,
@@ -32,7 +35,8 @@
        SF_SJ.pym,
        SF_SJ.txm,
        SF_SJ.pack_spec,
-       SF_SJ.unit,
+       unit.unit_id,
+       unit.unit_name,
        SF_SJ.store_condition,
        SF_SJ.pizhun_doc_code,
        SF_SJ.store_limit_min,
@@ -44,9 +48,13 @@
        SF_SJ.co_code,
        SF_SJ.productor_id,
        SF_SJ.regist_code,
-       SF_SJ_SUPPLIER.NAME AS PRODUCTOR_NAME
-  from sf_sj,SF_SJ_SUPPLIER  
+       SF_SJ_SUPPLIER.NAME AS PRODUCTOR_NAME,
+       SF_SJ_GROUP.GROUP_ID,
+       SF_SJ_GROUP.GROUP_NAME
+  from sf_sj,SF_SJ_SUPPLIER,SF_SJ_UNIT UNIT,SF_SJ_GROUP
   WHERE SF_SJ.PRODUCTOR_ID=SF_SJ_SUPPLIER.SUPPLIER_ID
+  AND SF_SJ.UNIT_ID=UNIT.UNIT_ID(+)
+  AND SF_SJ.GROUP_ID=SF_SJ_GROUP.GROUP_ID(+)
   AND  SF_SJ.SJ_ID = #sjId:DECIMAL#
   </select>
   <select id="selectMainDataLst" resultMap="BaseResultMap" parameterClass="elementCondition" > 
@@ -55,7 +63,8 @@
        SF_SJ.pym,
        SF_SJ.txm,
        SF_SJ.pack_spec,
-       SF_SJ.unit,
+       unit.unit_id,
+       unit.unit_name,
        SF_SJ.store_condition,
        SF_SJ.pizhun_doc_code,
        SF_SJ.store_limit_min,
@@ -67,9 +76,14 @@
        SF_SJ.co_code,
        SF_SJ.productor_id,
        SF_SJ.regist_code,
-       SF_SJ_SUPPLIER.NAME AS PRODUCTOR_NAME
-  from sf_sj,SF_SJ_SUPPLIER  
-  WHERE SF_SJ.PRODUCTOR_ID=SF_SJ_SUPPLIER.SUPPLIER_ID   
+       SF_SJ_SUPPLIER.NAME AS PRODUCTOR_NAME,
+       SF_SJ_GROUP.GROUP_ID,
+       SF_SJ_GROUP.GROUP_NAME
+  from sf_sj,SF_SJ_SUPPLIER,SF_SJ_UNIT UNIT   ,SF_SJ_GROUP
+  WHERE SF_SJ.PRODUCTOR_ID=SF_SJ_SUPPLIER.SUPPLIER_ID  
+  AND SF_SJ.UNIT_ID=UNIT.UNIT_ID(+)   
+  AND SF_SJ.GROUP_ID=SF_SJ_GROUP.GROUP_ID(+)
+		<include refid="BusiNumLim.BusiNumLimStr" /> 
    <isNotNull prepend="AND" property="status"> 
 			<isEqual property="status" compareValue="enable">
 				sf_sj.status ='enable'
@@ -80,6 +94,9 @@
 			<isEqual property="status" compareValue="all">
 				1=1
 			</isEqual>	 
+   </isNotNull>  
+   <isNotNull prepend="AND" property="coCode"> 
+   sf_sj.co_code=#coCode#
    </isNotNull>
   </select>
   <delete id="deleteByPrimaryKey" parameterClass="java.math.BigDecimal" > 
@@ -88,17 +105,17 @@
   </delete>
   <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfSj" > 
     insert into SF_SJ (SJ_ID, NAME, PYM, 
-      TXM, PACK_SPEC, UNIT, 
+      TXM, PACK_SPEC, UNIT_ID, 
       STORE_CONDITION, PIZHUN_DOC_CODE, STORE_LIMIT_MIN, 
       STORE_LIMIT_MAX, STATUS, HAS_TIAOMA, 
       STOP_REASON, REMARK, CO_CODE, 
-      PRODUCTOR_ID,REGIST_CODE)
+      PRODUCTOR_ID,REGIST_CODE,GROUP_ID)
     values (#sjId:DECIMAL#, #name:VARCHAR#, #pym:VARCHAR#, 
-      #txm:VARCHAR#, #packSpec:VARCHAR#, #unit:VARCHAR#, 
+      #txm:VARCHAR#, #packSpec:VARCHAR#, #unit.unitId:DECIMAL#, 
       #storeCondition:VARCHAR#, #pizhunDocCode:VARCHAR#, #storeLimitMin:DECIMAL#, 
       #storeLimitMax:DECIMAL#, #status:VARCHAR#, #hasTiaoma:VARCHAR#, 
       #stopReason:VARCHAR#, #remark:VARCHAR#, #coCode:VARCHAR#, 
-      #productor.supplierId:DECIMAL#,#registCode#)
+      #productor.supplierId:DECIMAL#,#registCode#,#sjGroup.groupId#)
   </insert> 
   <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfSj" > 
     update SF_SJ
@@ -106,7 +123,7 @@
       PYM = #pym:VARCHAR#,
       TXM = #txm:VARCHAR#,
       PACK_SPEC = #packSpec:VARCHAR#,
-      UNIT = #unit:VARCHAR#,
+      UNIT_ID = #unit.unitId:DECIMAL#,
       STORE_CONDITION = #storeCondition:VARCHAR#,
       PIZHUN_DOC_CODE = #pizhunDocCode:VARCHAR#,
       STORE_LIMIT_MIN = #storeLimitMin:DECIMAL#,
@@ -117,7 +134,8 @@
       REMARK = #remark:VARCHAR#,
       CO_CODE = #coCode:VARCHAR#,
       PRODUCTOR_ID = #productor.supplierId:DECIMAL#,
-      REGIST_CODE=#registCode#
+      REGIST_CODE=#registCode#,
+      GROUP_ID=#sjGroup.groupId#
     where SJ_ID = #sjId:DECIMAL#
   </update>
    
@@ -126,8 +144,9 @@
        SF_SJ.name,
        SF_SJ.pym,
        SF_SJ.txm,
-       SF_SJ.pack_spec,
-       SF_SJ.unit,
+       SF_SJ.pack_spec,,
+       unit.unit_id,
+       unit.unit_name,
        SF_SJ.store_condition,
        SF_SJ.pizhun_doc_code,
        SF_SJ.store_limit_min,
@@ -139,9 +158,13 @@
        SF_SJ.co_code,
        SF_SJ.productor_id,
        SF_SJ.regist_code,
-       SF_SJ_SUPPLIER.NAME AS PRODUCTOR_NAME
+       SF_SJ_SUPPLIER.NAME AS PRODUCTOR_NAME,SF_SJ_UNIT UNIT
+       SF_SJ_GROUP.GROUP_ID,
+       SF_SJ_GROUP.GROUP_NAME
   from sf_sj,SF_SJ_SUPPLIER  
-  WHERE SF_SJ.PRODUCTOR_ID=SF_SJ_SUPPLIER.SUPPLIER_ID
+  WHERE SF_SJ.PRODUCTOR_ID=SF_SJ_SUPPLIER.SUPPLIER_ID,SF_SJ_GROUP
+  AND SF_SJ.UNIT_ID=UNIT.UNIT_ID(+)  
+  AND  SF_SJ.GROUP_ID=SF_SJ_GROUP.GROUP_ID(+)
   AND  SF_SJ.SJ_ID = #sfId:DECIMAL#
     and  
 	exists (select 1 from sf_sj_in where sf_sj.SJ_ID=sf_sj_in.SJ_ID )

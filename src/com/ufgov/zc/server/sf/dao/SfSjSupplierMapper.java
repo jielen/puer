@@ -1,7 +1,10 @@
 package com.ufgov.zc.server.sf.dao;
 
 import com.ufgov.zc.common.sf.model.SfSjSupplier;
+import com.ufgov.zc.common.system.dto.ElementConditionDto;
+
 import java.math.BigDecimal;
+import java.util.List;
 
 public interface SfSjSupplierMapper {
     /**
@@ -51,4 +54,5 @@ public interface SfSjSupplierMapper {
      * @mbggenerated Tue Aug 09 23:01:07 CST 2016
      */
     int updateByPrimaryKey(SfSjSupplier record);
+    public List getMainLst(ElementConditionDto elementConditionDto) ;
 }

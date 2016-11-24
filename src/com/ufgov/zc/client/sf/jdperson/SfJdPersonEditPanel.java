@@ -75,6 +75,7 @@ import com.ufgov.zc.client.sf.util.SfUserSelectHandler;
 import com.ufgov.zc.client.util.SwingUtil;
 import com.ufgov.zc.client.zc.ButtonStatus;
 import com.ufgov.zc.client.zc.ZcUtil;
+import com.ufgov.zc.common.console.model.AsEmp;
 import com.ufgov.zc.common.sf.model.SfCertificate;
 import com.ufgov.zc.common.sf.model.SfEntrust;
 import com.ufgov.zc.common.sf.model.SfJdPerson;
@@ -223,6 +224,7 @@ public class SfJdPersonEditPanel  extends AbstractMainSubEditPanel {
     // TCJLODO Auto-generated method stub
     jdPerson.setStatus(SfJdPerson.STATUS_ENABLE);
     jdPerson.setNd(this.requestMeta.getSvNd());
+    jdPerson.setCoCode(requestMeta.getSvCoCode());
   }
 
   private void refreshSubData() {
@@ -837,9 +839,10 @@ public class SfJdPersonEditPanel  extends AbstractMainSubEditPanel {
         // TCJLODO Auto-generated method stub
         for (Object obj : selectedDatas) {
           SfJdPerson currentBill = (SfJdPerson) listCursor.getCurrentObject();
-          User user = (User) obj;
-          currentBill.setName(user.getUserName());
+          AsEmp user = (AsEmp) obj;
+          currentBill.setName(user.getEmpName());
           currentBill.setAccount(user.getUserId());
+          currentBill.setAsEmp(user);
           setEditingObject(currentBill);
         }
       }
@@ -848,6 +851,7 @@ public class SfJdPersonEditPanel  extends AbstractMainSubEditPanel {
         SfJdPerson currentBill = (SfJdPerson) listCursor.getCurrentObject();
         currentBill.setName(null);
         currentBill.setAccount(null);
+        currentBill.setAsEmp(new AsEmp());
         setEditingObject(currentBill);
       }
     };
@@ -862,6 +866,7 @@ public class SfJdPersonEditPanel  extends AbstractMainSubEditPanel {
     DateFieldEditor birthday = new DateFieldEditor(LangTransMeta.translate(SfJdPerson.COL_BIRTHDAY), "birthday");
     TextFieldEditor techTitle = new TextFieldEditor(LangTransMeta.translate(SfJdPerson.COL_TECH_TITLE), "techTitle");
     TextFieldEditor certificateNo = new TextFieldEditor(LangTransMeta.translate(SfJdPerson.COL_CERTIFICATE_NO), "certificateNo");
+    TextFieldEditor phone = new TextFieldEditor("移动电话", "asEmp.phone");
     TextAreaFieldEditor remark = new TextAreaFieldEditor(LangTransMeta.translate(SfJdPerson.COL_REMARK), "remark", 100, 2,5);
     AsValFieldEditor status = new AsValFieldEditor(LangTransMeta.translate(SfJdPerson.COL_STATUS), "status", SfJdPerson.SF_VS_JD_PERSON_STATUS);
 
@@ -870,7 +875,9 @@ public class SfJdPersonEditPanel  extends AbstractMainSubEditPanel {
     editorList.add(birthday);
     
     editorList.add(techTitle);    
-    editorList.add(certificateNo);   
+    editorList.add(certificateNo); 
+    editorList.add(phone);
+    
     editorList.add(status);
 
     editorList.add(remark);

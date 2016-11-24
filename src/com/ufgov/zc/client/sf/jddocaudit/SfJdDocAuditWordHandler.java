@@ -103,8 +103,8 @@ public class SfJdDocAuditWordHandler extends WordHandlerAdapter {
     for (int i = 0; i < jdDocAudit.getDetailLst().size(); i++) {
       SfJdDocAuditDetail d = (SfJdDocAuditDetail) jdDocAudit.getDetailLst().get(i);
       Fjrow row = new Fjrow();
-      row.setFjbh(Integer.parseInt(d.getDocType().getDocTypeCode()));
-      row.setFj(StringUtil.freeMarkFillWordChar(d.getDocType().getDocTypeName()));
+      row.setFjbh(i+1);
+      row.setFj(StringUtil.freeMarkFillWordChar(d.getDocName()));
       row.setQuantity(d.getQuantity()==null?"":d.getQuantity().intValue()+"");
       row.setFjg(StringUtil.FU_HAO_GOU);
       rtn.add(row);

@@ -220,20 +220,26 @@ public class SfAppendMaterialEditPanel extends AbstractMainSubEditPanel {
   private void refreshData() {
     // TCJLODO Auto-generated method stub
 
-    SfAppendMaterial material = (SfAppendMaterial) listCursor.getCurrentObject();
+    SfAppendMaterial bill = (SfAppendMaterial) listCursor.getCurrentObject();
 
-    if (material != null && material.getAppendMaterialId() != null) {//列表页面双击进入
-      this.pageStatus = ZcSettingConstants.PAGE_STATUS_BROWSE;
-      material = sfAppendMaterialServiceDelegate.selectByPrimaryKey(material.getAppendMaterialId(), this.requestMeta);
-      listCursor.setCurrentObject(material);
-      this.setEditingObject(material);
+    if (bill != null) {//列表页面双击进入
+      if (bill.getAppendMaterialId() != null) {//列表页面双击进入
+        this.pageStatus = ZcSettingConstants.PAGE_STATUS_BROWSE;
+        bill = sfAppendMaterialServiceDelegate.selectByPrimaryKey(bill.getAppendMaterialId(), this.requestMeta);
+        listCursor.setCurrentObject(bill);
+        this.setEditingObject(bill);
+      } else if (bill.getEntrustId() != null) {//图形界面进来的新增，已经确定了entrust
+        this.pageStatus = ZcSettingConstants.PAGE_STATUS_NEW;
+        setDefaultValue(bill);
+        this.setEditingObject(bill);
+      }
     } else {//新增按钮进入
       this.pageStatus = ZcSettingConstants.PAGE_STATUS_NEW;
-      material = new SfAppendMaterial();
-      setDefaultValue(material);
-      listCursor.getDataList().add(material);
-      listCursor.setCurrentObject(material);
-      this.setEditingObject(material);
+      bill = new SfAppendMaterial();
+      setDefaultValue(bill);
+      listCursor.getDataList().add(bill);
+      listCursor.setCurrentObject(bill);
+      this.setEditingObject(bill);
     }
     refreshSubData();
     setOldObject();
@@ -248,7 +254,7 @@ public class SfAppendMaterialEditPanel extends AbstractMainSubEditPanel {
     // TCJLODO Auto-generated method stub
     material.setStatus(ZcSettingConstants.WF_STATUS_DRAFT);
     material.setNd(this.requestMeta.getSvNd());
-    material.setInputDate(this.requestMeta.getSysDate());
+    material.setInputDate(SfUtil.getSysDate());
     material.setInputor(requestMeta.getSvUserID()); 
     material.setValidatIsPass("Y"); 
   }
@@ -1201,7 +1207,7 @@ public class SfAppendMaterialEditPanel extends AbstractMainSubEditPanel {
     try {
       qx.setComment("同意");
       qx.setAuditorId(WorkEnv.getInstance().getCurrUserId());
-      qx.setAcceptDate(requestMeta.getSysDate());
+      qx.setAcceptDate(SfUtil.getSysDate());
       qx.setAcceptor(requestMeta.getSvUserID()); 
       //      System.out.println("doSuggestPass 3++++++++++++++++++++++++++=" + qx.getAcceptDate());
       qx = sfAppendMaterialServiceDelegate.auditFN(qx, requestMeta);

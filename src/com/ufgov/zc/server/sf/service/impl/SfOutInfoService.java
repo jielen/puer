@@ -117,7 +117,8 @@ public IWorkflowDao getWorkflowDao() {
     // TCJLODO Auto-generated method stub
     if (inData.getOutInfoId()==null ) {
 
-      BigDecimal id=new BigDecimal(ZcSUtil.getNextVal(SfOutInfo.SEQ_SF_OUT_INFO_ID));
+      ZcSUtil su=new ZcSUtil();
+      BigDecimal id=new BigDecimal(su.getNextVal(SfOutInfo.SEQ_SF_OUT_INFO_ID));
       inData.setOutInfoId(id);  
 
       boolean isDraft = false;
@@ -151,12 +152,13 @@ public IWorkflowDao getWorkflowDao() {
     if(inData.getDetailLst()!=null && inData.getDetailLst().size()>0){
     	SfMaterials mm=(SfMaterials) inData.getDetailLst().get(0);
         materialsMapper.deleteByAppentMaterialsId(mm.getAppendMaterialId());
+        ZcSUtil su=new ZcSUtil();
         for(int i=0;i<inData.getDetailLst().size();i++){
           SfMaterials m=(SfMaterials) inData.getDetailLst().get(i);
           m.setAppendMaterialId(inData.getOutInfoId());
           m.setEntrustId(inData.getEntrustId()); 
           if (m.getMaterialId() == null) {
-            BigDecimal id = new BigDecimal(ZcSUtil.getNextVal(SfMaterials.SEQ_SF_MATERIALS_ID));
+            BigDecimal id = new BigDecimal(su.getNextVal(SfMaterials.SEQ_SF_MATERIALS_ID));
             m.setMaterialId(id);
           }
           materialsMapper.insert(m);
@@ -190,12 +192,13 @@ public IWorkflowDao getWorkflowDao() {
     // TCJLODO Auto-generated method stub
     outInfoMapper.insert(inData);
     if(inData.getDetailLst()!=null){
+      ZcSUtil su=new ZcSUtil();
         for(int i=0;i<inData.getDetailLst().size();i++){
           SfMaterials m=(SfMaterials) inData.getDetailLst().get(i);
           m.setAppendMaterialId(inData.getOutInfoId());
           m.setEntrustId(inData.getEntrustId()); 
           if (m.getMaterialId() == null) {
-            BigDecimal id = new BigDecimal(ZcSUtil.getNextVal(SfMaterials.SEQ_SF_MATERIALS_ID));
+            BigDecimal id = new BigDecimal(su.getNextVal(SfMaterials.SEQ_SF_MATERIALS_ID));
             m.setMaterialId(id);
           }
           materialsMapper.insert(m);

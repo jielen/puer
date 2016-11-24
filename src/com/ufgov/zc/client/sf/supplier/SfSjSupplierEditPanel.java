@@ -44,15 +44,19 @@ import com.ufgov.zc.client.component.ui.fieldeditor.AbstractFieldEditor;
 import com.ufgov.zc.client.component.zc.AbstractMainSubEditPanel;
 import com.ufgov.zc.client.component.zc.fieldeditor.AsValFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.AutoNumFieldEditor;
+import com.ufgov.zc.client.component.zc.fieldeditor.ForeignEntityDialog;
 import com.ufgov.zc.client.component.zc.fieldeditor.TextAreaFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.TextFieldEditor;
+import com.ufgov.zc.client.sf.entrustor.SfEntrustorEditPanel;
 import com.ufgov.zc.client.sf.util.SfUtil;
 import com.ufgov.zc.client.zc.ButtonStatus;
 import com.ufgov.zc.client.zc.ZcUtil;
 import com.ufgov.zc.common.sf.model.SfEntrust;
+import com.ufgov.zc.common.sf.model.SfEntrustor;
 import com.ufgov.zc.common.sf.model.SfJdResult;
 import com.ufgov.zc.common.sf.model.SfSjSupplier;
 import com.ufgov.zc.common.sf.model.SfSjSupplier;
+import com.ufgov.zc.common.sf.publish.ISfEntrustorServiceDelegate;
 import com.ufgov.zc.common.sf.publish.ISfJdDocTypeServiceDelegate;
 import com.ufgov.zc.common.system.RequestMeta;
 import com.ufgov.zc.common.system.constants.ZcSettingConstants;
@@ -75,6 +79,7 @@ public class SfSjSupplierEditPanel extends AbstractMainSubEditPanel {
   protected RequestMeta requestMeta = WorkEnv.getInstance().getRequestMeta();
 
 //  private static String listPanel.getcompoId() = "SF_JD_DOC_TYPE";
+   
 
   protected FuncButton saveButton = new SaveButton();
 
@@ -133,10 +138,14 @@ public class SfSjSupplierEditPanel extends AbstractMainSubEditPanel {
   protected IZcEbBaseServiceDelegate zcEbBaseServiceDelegate;
 
   private ISfJdDocTypeServiceDelegate sfJdDocTypeServiceDelegate;
+  
+//  private String billType=SfSjSupplier.VS_SF_SUPPLIER_TYPE_GYS;
+
+  private ForeignEntityDialog forenEntityDialog;
 
   public SfSjSupplierEditPanel(SfSjSupplierDialog parent, ListCursor listCursor, String tabStatus, SfSjSupplierListPanel listPanel) {
     // TCJLODO Auto-generated constructor stub
-    super(SfSjSupplierEditPanel.class, BillElementMeta.getBillElementMetaWithoutNd(listPanel.getcompoId()));
+    super(SfSjSupplier.class, BillElementMeta.getBillElementMetaWithoutNd(listPanel.getcompoId()));
 
     mainBillElementMeta = BillElementMeta.getBillElementMetaWithoutNd(listPanel.getcompoId());
     zcEbBaseServiceDelegate = (IZcEbBaseServiceDelegate) ServiceFactory.create(IZcEbBaseServiceDelegate.class, "zcEbBaseServiceDelegate"); 
@@ -153,12 +162,44 @@ public class SfSjSupplierEditPanel extends AbstractMainSubEditPanel {
     this.parent = parent;
 
     this.colCount = 2;
+     
 
     init();
 
-    requestMeta.setCompoId(getCompoId());
+    requestMeta.setCompoId(listPanel.getcompoId());
 
     refreshData();
+  }
+
+  public SfSjSupplierEditPanel(SfSjSupplierDialog parent, ListCursor listCursor, ForeignEntityDialog forenEntityDialog2,String compo) {
+    // TODO Auto-generated constructor stub
+    super(SfEntrustorEditPanel.class, BillElementMeta.getBillElementMetaWithoutNd(compo));
+
+    this.compoId=compo;
+
+    mainBillElementMeta = BillElementMeta.getBillElementMetaWithoutNd(compo);
+    zcEbBaseServiceDelegate = (IZcEbBaseServiceDelegate) ServiceFactory.create(IZcEbBaseServiceDelegate.class, "zcEbBaseServiceDelegate"); 
+
+    this.listCursor = listCursor;
+
+    this.parent = parent;
+
+    this.forenEntityDialog = forenEntityDialog2;
+
+    this.workPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), LangTransMeta.translate(compo),
+      TitledBorder.CENTER, TitledBorder.TOP, new Font("宋体", Font.BOLD, 15), Color.BLUE));
+
+    this.colCount = 2;
+
+    init();
+
+    requestMeta.setCompoId(compo);
+
+    refreshData();
+
+    setButtonStatus();
+
+    updateFieldEditorsEditable();
   }
 
   private void refreshData() {
@@ -201,7 +242,8 @@ public class SfSjSupplierEditPanel extends AbstractMainSubEditPanel {
   void setDefaultValue(SfSjSupplier bill) {
     // TCJLODO Auto-generated method stub \
 	  bill.setStatus(SfSjSupplier.VS_SF_SUPPLIER_STATUS_ENABLE);
-	  bill.setSupplierType(listPanel.getSupplierType());
+	  bill.setSupplierType(getSupplierType());
+	  bill.setCoCode(requestMeta.getSvCoCode());
   }
 
   protected void updateFieldEditorsEditable() {
@@ -353,7 +395,10 @@ public class SfSjSupplierEditPanel extends AbstractMainSubEditPanel {
 
   public String getCompoId() {
     // TCJLODO Auto-generated method stub
+    if(listPanel!=null)
     return listPanel.getcompoId();
+    
+    return compoId;
   }
 
   /* (non-Javadoc)
@@ -559,6 +604,8 @@ public class SfSjSupplierEditPanel extends AbstractMainSubEditPanel {
     boolean success = true;
 
     String errorInfo = "";
+    
+    SfSjSupplier inData = (SfSjSupplier) this.listCursor.getCurrentObject();
 
     try {
 
@@ -568,7 +615,6 @@ public class SfSjSupplierEditPanel extends AbstractMainSubEditPanel {
 		  JOptionPane.showMessageDialog(this, "名称重复，请确认名称！", "提示", JOptionPane.INFORMATION_MESSAGE);
 		  return false;
 	  }
-      SfSjSupplier inData = (SfSjSupplier) this.listCursor.getCurrentObject();
       if(inData.getSupplierId()==null){
     	  String id=ZcUtil.getNextVal(SfSjSupplier.SEQ_SF_SJ_SUPPLIER);
     	  inData.setSupplierId(new BigDecimal(id));
@@ -595,11 +641,12 @@ public class SfSjSupplierEditPanel extends AbstractMainSubEditPanel {
     if (success) {
 
       JOptionPane.showMessageDialog(this, "保存成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
-
-      refreshData();
-
-      this.listPanel.refreshCurrentTabData();
-
+      if (this.forenEntityDialog == null) {
+        this.listPanel.refreshCurrentTabData();
+        refreshData();
+      } else {
+        refreshParentForeignDialog(inData);
+      } 
     } else {
 
       JOptionPane.showMessageDialog(this, "保存失败 ！\n" + errorInfo, "错误", JOptionPane.ERROR_MESSAGE);
@@ -610,12 +657,20 @@ public class SfSjSupplierEditPanel extends AbstractMainSubEditPanel {
 
   }
 
+  void refreshParentForeignDialog(SfSjSupplier entrustor) {
+
+    this.forenEntityDialog.refresh(entrustor);
+    this.parent.dispose();
+
+  }
+
    private boolean sameName() {
 	      SfSjSupplier inData = (SfSjSupplier) this.listCursor.getCurrentObject();
 	   ElementConditionDto dto=new ElementConditionDto();
 	   dto.setDattr1(inData.getName());
-	   dto.setDattr2(listPanel.getSupplierType());
+	   dto.setDattr2(getSupplierType());
 	   dto.setSfId(inData.getSupplierId());
+	   dto.setCoCode(requestMeta.getSvCoCode());
 	   List  b=zcEbBaseServiceDelegate.queryDataForList("com.ufgov.zc.server.sf.dao.SfSjSupplierMapper.selectByName", dto, requestMeta);
 	   if(b!=null && b.size()>0){
 		   return true;
@@ -624,7 +679,14 @@ public class SfSjSupplierEditPanel extends AbstractMainSubEditPanel {
 }
 
 String getSupplierType() {
-	return listPanel.getSupplierType();
+  
+  if("SF_SJ_SUPPLIER".equals(getCompoId())){
+    return SfSjSupplier.VS_SF_SUPPLIER_TYPE_GYS;
+  }
+  if("SF_SJ_PRODUCTOR".equals(getCompoId())){
+    return SfSjSupplier.VS_SF_SUPPLIER_TYPE_SCS;
+  }
+  return "";
 }
 
 /**
@@ -678,7 +740,7 @@ String getSupplierType() {
 
         requestMeta.setFuncId(deleteButton.getFuncId());
 
-        zcEbBaseServiceDelegate.delete("com.ufgov.zc.server.sf.dao.SfSjSupplierMapper.deleteByPrimaryKey", bill.getSupplierId(), requestMeta); 
+        zcEbBaseServiceDelegate.deleteFN("com.ufgov.zc.server.sf.dao.SfSjSupplierMapper.deleteByPrimaryKey", bill.getSupplierId(), requestMeta); 
 
       } catch (Exception e) {
 

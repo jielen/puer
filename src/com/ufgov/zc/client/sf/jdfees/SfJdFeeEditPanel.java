@@ -60,9 +60,11 @@ import com.ufgov.zc.client.sf.charge.ChargeStandardHandler;
 import com.ufgov.zc.client.sf.charge.SfChargeEditPanel;
 import com.ufgov.zc.client.sf.entrust.SfEntrustHandler;
 import com.ufgov.zc.client.sf.util.SfUserSelectHandler;
+import com.ufgov.zc.client.sf.util.SfUtil;
 import com.ufgov.zc.client.util.SwingUtil;
 import com.ufgov.zc.client.zc.ButtonStatus;
 import com.ufgov.zc.client.zc.ZcUtil;
+import com.ufgov.zc.common.console.model.AsEmp;
 import com.ufgov.zc.common.sf.model.SfCharge;
 import com.ufgov.zc.common.sf.model.SfChargeDetail;
 import com.ufgov.zc.common.sf.model.SfChargeStandard;
@@ -397,9 +399,9 @@ public class SfJdFeeEditPanel extends AbstractMainSubEditPanel {
     // TCJLODO Auto-generated method stub
     Charge.setStatus(ZcSettingConstants.WF_STATUS_DRAFT);
     Charge.setNd(this.requestMeta.getSvNd());
-    Charge.setInputDate(this.requestMeta.getSysDate());
+    Charge.setInputDate(SfUtil.getSysDate());
     Charge.setInputor(requestMeta.getSvUserID());
-    Charge.setCashDate(this.requestMeta.getSysDate());
+    Charge.setCashDate(SfUtil.getSysDate());
     Charge.setCashier(this.requestMeta.getSvUserID());
   }
 
@@ -664,7 +666,7 @@ public class SfJdFeeEditPanel extends AbstractMainSubEditPanel {
       public void excute(List selectedDatas) {
         // TCJLODO Auto-generated method stub
         for (Object obj : selectedDatas) {
-          User user = (User) obj;
+          AsEmp user = (AsEmp) obj;
           currentBill.setCashier(user.getUserId());
           setEditingObject(currentBill);
         }

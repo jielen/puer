@@ -17,5 +17,7 @@ public interface IZcMobileMsgService {
   ZcMobileMsg selectByPrimaryKey(String qxCode, RequestMeta requestMeta);
 
   ZcMobileMsg callbackFN(ZcMobileMsg qx, RequestMeta requestMeta);
+  
+  void sendToBox(ZcMobileMsg qx, RequestMeta requestMeta);
 
 }

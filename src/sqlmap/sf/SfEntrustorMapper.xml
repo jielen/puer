@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE sqlMap   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <sqlMap namespace="com.ufgov.zc.server.sf.dao.SfEntrustorMapper">
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
   <resultMap id="BaseResultMap" class="com.ufgov.zc.common.sf.model.SfEntrustor">
     <!--
       WARNING - @mbggenerated
@@ -9,11 +10,15 @@
     -->
     <result column="ENTRUSTOR_ID" jdbcType="DECIMAL" property="entrustorId" /> 
     <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="SHORT_NAME" jdbcType="VARCHAR" property="shortName" />
     <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
     <result column="ZIP" jdbcType="VARCHAR" property="zip" />
     <result column="LINK_MAN" jdbcType="VARCHAR" property="linkMan" />
     <result column="LINK_TEL" jdbcType="VARCHAR" property="linkTel" />
     <result column="ENTRUSTOR_TYPE" jdbcType="VARCHAR" property="entrustorType" />
+    <result column="PARENT_ID" jdbcType="DECIMAL" property="parentId" /> 
+    <result column="INPUTOR" jdbcType="VARCHAR" property="inputor" />
+    <result column="INPUT_DATE" jdbcType="DATE" property="inputDate" />
   </resultMap>
   <resultMap id="userMap" class="com.ufgov.zc.common.sf.model.SfEntrustor"		extends="BaseResultMap">
   	
@@ -27,18 +32,22 @@
     <result column="USER_ID" jdbcType="VARCHAR" property="userId" /> 
   </resultMap>
   <sql id="Base_Column_List">
-    ENTRUSTOR_ID, NAME, ADDRESS, ZIP, LINK_MAN, LINK_TEL,ENTRUSTOR_TYPE
+    ENTRUSTOR_ID, NAME, ADDRESS, ZIP, LINK_MAN, LINK_TEL,ENTRUSTOR_TYPE,PARENT_ID,INPUTOR,INPUT_DATE,SHORT_NAME
   </sql>
   <select id="selectByPrimaryKey" parameterClass="java.math.BigDecimal" resultMap="userMap">
      
 SELECT E.ENTRUSTOR_ID,
        E.CODE,
        E.NAME,
+       E.SHORT_NAME,
        E.ADDRESS,
        E.ZIP,
        E.LINK_MAN,
        E.LINK_TEL,
        E.ENTRUSTOR_TYPE,
+       e.PARENT_ID,
+       e.INPUTOR,
+       e.INPUT_DATE,
        U.PASSWD,
        CASE WHEN M.EMP_CODE IS NULL THEN 'N'
          ELSE M.IS_LOGIN END AS IS_LOGIN 
@@ -52,11 +61,15 @@ SELECT E.ENTRUSTOR_ID,
 SELECT E.ENTRUSTOR_ID,
        E.CODE,
        E.NAME,
+       E.SHORT_NAME,
        E.ADDRESS,
        E.ZIP,
        E.LINK_MAN,
        E.LINK_TEL,
        E.ENTRUSTOR_TYPE,
+       e.PARENT_ID,
+       e.INPUTOR,
+       e.INPUT_DATE,
        U.PASSWD,
        CASE WHEN M.EMP_CODE IS NULL THEN 'N'
          ELSE M.IS_LOGIN END AS IS_LOGIN 
@@ -65,10 +78,23 @@ SELECT E.ENTRUSTOR_ID,
   AND E.CODE=M.EMP_CODE(+)
   and  e.CODE = #value#
   </select>
-  <select id="getEntrustorLst"  resultMap="BaseResultMap">
+  <select id="getEntrustorLst" parameterClass="elementCondition" resultMap="BaseResultMap">
   	select 
     <include refid="Base_Column_List" />
-     from SF_ENTRUSTOR order by entrustor_id desc
+     from SF_ENTRUSTOR 
+     where 1=1 
+		<isEqual property="dattr1" compareValue="getParent">  <!--获取上级sql  -->
+			<isNotNull prepend="AND" property="sfId">
+				ENTRUSTOR_ID!=#sfId#
+			</isNotNull>			 
+		</isEqual>		
+			<isNotNull prepend="AND" property="dattr2">
+				NAME=#dattr2#
+			</isNotNull>	
+			<isNotNull prepend="AND" property="dattr3">
+				SHORT_NAME=#dattr3#
+			</isNotNull>			 	 	
+     order by entrustor_id desc
   </select>
   <select id="selectByName" parameterClass="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -93,10 +119,10 @@ SELECT E.ENTRUSTOR_ID,
     -->
     insert into SF_ENTRUSTOR (ENTRUSTOR_ID, CODE, NAME, 
       ADDRESS, ZIP, LINK_MAN, 
-      LINK_TEL,ENTRUSTOR_TYPE)
+      LINK_TEL,ENTRUSTOR_TYPE,PARENT_ID,INPUTOR,INPUT_DATE,SHORT_NAME)
     values (#entrustorId:DECIMAL#, #code:VARCHAR#, #name:VARCHAR#, 
       #address:VARCHAR#, #zip:VARCHAR#, #linkMan:VARCHAR#, 
-      #linkTel:VARCHAR#,#entrustorType#)
+      #linkTel:VARCHAR#,#entrustorType#,#parentId:DECIMAL#,#inputor#,#inputDate:DATE#,#shortName#)
   </insert>
  
   <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfEntrustor">
@@ -112,7 +138,11 @@ SELECT E.ENTRUSTOR_ID,
       ZIP = #zip:VARCHAR#,
       LINK_MAN = #linkMan:VARCHAR#,
       LINK_TEL = #linkTel:VARCHAR#,
-      ENTRUSTOR_TYPE=#entrustorType#
+      ENTRUSTOR_TYPE=#entrustorType#,
+      PARENT_ID=#parentId:DECIMAL#,
+      INPUTOR=#inputor#,
+      INPUT_DATE=#inputDate:DATE#,
+      SHORT_NAME=#shortName#
     where ENTRUSTOR_ID = #entrustorId:DECIMAL#
   </update>
   <select id="isUsing"  parameterClass="java.math.BigDecimal"  resultClass="java.lang.Integer">

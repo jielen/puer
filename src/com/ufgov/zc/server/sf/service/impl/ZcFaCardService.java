@@ -154,7 +154,8 @@ public class ZcFaCardService implements IZcFaCardService {
 
     if ("".equals(ZcSUtil.safeString(card.getCardId())) || card.getCardId().equals("自动编号")) {
 
-      code = ZcSUtil.getSequenceNextVal("ZcEbUtil.getZcFaCardNextSeqVal");
+      ZcSUtil su=new ZcSUtil();
+      code = su.getSequenceNextVal("ZcEbUtil.getZcFaCardNextSeqVal");
       String coCode=requestMeta.getSvCoCode();
       ZcSUtil zu=new ZcSUtil();
       String id1=zu.createFormatString('0', code, 8, false);

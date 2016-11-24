@@ -245,8 +245,8 @@ public class SfEntrustManageEditPanel extends AbstractMainSubEditPanel {
   private void setDefaultValue(SfEntrustManage bill) {
     // TCJLODO Auto-generated method stub 
     bill.setNd(this.requestMeta.getSvNd());
-    bill.setInputDate(this.requestMeta.getSysDate());
-    bill.setManageTime(this.requestMeta.getSysDate());
+    bill.setInputDate(SfUtil.getSysDate());
+    bill.setManageTime(SfUtil.getSysDate());
     bill.setInputor(requestMeta.getSvUserID());
   }
 
@@ -395,13 +395,13 @@ public class SfEntrustManageEditPanel extends AbstractMainSubEditPanel {
 
   public boolean doSave() {
 
-    if (!isDataChanged()) {
+   /* if (!isDataChanged()) {
 
       JOptionPane.showMessageDialog(this, "数据没有发生改变，不用保存.", "提示", JOptionPane.INFORMATION_MESSAGE);
 
       return true;
 
-    }
+    }*/
 
     if (!checkBeforeSave()) {
 
@@ -491,6 +491,29 @@ public class SfEntrustManageEditPanel extends AbstractMainSubEditPanel {
       errorInfo.append("\n").append(mainValidateInfo.toString());
     }
 
+    if(SfEntrustManage.MANAGE_TYPE_DELAY.equals(bill.getManageType())){
+      if(bill.getNewEndDate()==null){
+        errorInfo.append("\n请指定调整后的日期.");
+      }
+      if(bill.getReason()==null || bill.getReason().trim().length()==0){
+        errorInfo.append("\n请说明延期原因.");
+      }
+    }
+    if(SfEntrustManage.MANAGE_TYPE_STOP.equals(bill.getManageType())){
+      if(bill.getReason()==null || bill.getReason().trim().length()==0){
+        errorInfo.append("\n请说明终止鉴定原因.");
+      }
+    }
+    if(SfEntrustManage.MANAGE_TYPE_PAUSE.equals(bill.getManageType())){
+      if(bill.getReason()==null || bill.getReason().trim().length()==0){
+        errorInfo.append("\n请说明暂停鉴定原因.");
+      }
+    }
+    if(SfEntrustManage.MANAGE_TYPE_ZHUANSONG.equals(bill.getManageType())){
+      if(bill.getReason()==null || bill.getReason().trim().length()==0){
+        errorInfo.append("\n请说明转送鉴定的原因.");
+      }
+    }
     if (errorInfo.length() != 0) {
       JOptionPane.showMessageDialog(this, errorInfo.toString(), "提示", JOptionPane.WARNING_MESSAGE);
       return false;
@@ -589,7 +612,7 @@ public class SfEntrustManageEditPanel extends AbstractMainSubEditPanel {
     DateFieldEditor newEndDate = new DateFieldEditor(LangTransMeta.translate(SfEntrustManage.COL_NEW_END_DATE), "newEndDate");
 
     editorList.add(entrust);
-    if (isNew()) {
+    if (isNew()||containManageType()) {
       editorList.add(manageType);
     } else {
       editorList.add(manageTypeTxt);
@@ -636,6 +659,16 @@ public class SfEntrustManageEditPanel extends AbstractMainSubEditPanel {
       }
     }
     return true;
+  }
+  private boolean containManageType(){
+
+    SfEntrustManage bill = (SfEntrustManage) listCursor.getCurrentObject();
+    if (bill != null) {
+      if (bill.getManageType() != null) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /* (non-Javadoc)

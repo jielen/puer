@@ -72,7 +72,8 @@ public class SfChargeService implements ISfChargeService {
     // TCJLODO Auto-generated method stub
     if (inData.getChargeId() == null) {
 
-      BigDecimal id = new BigDecimal(ZcSUtil.getNextVal(SfCharge.SEQ_SF_CHARGE_ID));
+      ZcSUtil su=new ZcSUtil();
+      BigDecimal id = new BigDecimal(su.getNextVal(SfCharge.SEQ_SF_CHARGE_ID));
       inData.setChargeId(id);
 
       boolean isDraft = false;

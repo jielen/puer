@@ -674,7 +674,7 @@ public class SfNoticeEditPanel extends AbstractMainSubEditPanel {
 
         requestMeta.setFuncId(deleteButton.getFuncId());
 
-        zcEbBaseServiceDelegate.delete("com.ufgov.zc.server.sf.dao.SfNoticeMapper.deleteByPrimaryKey", bill.getNoticeId(), requestMeta); 
+        zcEbBaseServiceDelegate.deleteFN("com.ufgov.zc.server.sf.dao.SfNoticeMapper.deleteByPrimaryKey", bill.getNoticeId(), requestMeta); 
 
       } catch (Exception e) {
 

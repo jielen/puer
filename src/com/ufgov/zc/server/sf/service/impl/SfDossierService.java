@@ -65,7 +65,8 @@ public class SfDossierService implements ISfDossierService {
     // TCJLODO Auto-generated method stub
     if (inData.getDossierId()==null ) {
 
-      BigDecimal id=new BigDecimal(ZcSUtil.getNextVal(SfDossier.SEQ_SF_DOSSIER_ID));
+      ZcSUtil su=new ZcSUtil();
+      BigDecimal id=new BigDecimal(su.getNextVal(SfDossier.SEQ_SF_DOSSIER_ID));
       inData.setDossierId(id);  
 
       boolean isDraft = false;

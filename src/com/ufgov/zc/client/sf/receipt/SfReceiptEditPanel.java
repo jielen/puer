@@ -69,6 +69,7 @@ import com.ufgov.zc.client.sf.dataflow.SfDataFlowDialog;
 import com.ufgov.zc.client.sf.dataflow.SfDataFlowUtil;
 import com.ufgov.zc.client.sf.entrust.SfEntrustHandler;
 import com.ufgov.zc.client.sf.util.SfBookmarkUtil;
+import com.ufgov.zc.client.sf.util.SfUtil;
 import com.ufgov.zc.client.zc.ButtonStatus;
 import com.ufgov.zc.client.zc.WordFileUtil;
 import com.ufgov.zc.client.zc.ZcUtil;
@@ -331,7 +332,7 @@ private AsValFieldEditor receiptType;
     // TCJLODO Auto-generated method stub
     bill.setStatus(ZcSettingConstants.WF_STATUS_DRAFT);
     bill.setNd(this.requestMeta.getSvNd());
-    bill.setInputDate(this.requestMeta.getSysDate());
+    bill.setInputDate(SfUtil.getSysDate());
     bill.setInputor(requestMeta.getSvUserID());
   }
 
@@ -1051,11 +1052,11 @@ protected void init() {
 	    
 		 bk=new SfBookmark();
 			bk.setName("INPUT_DATE");
-			bk.setValue(df.format(requestMeta.getSysDate()));
+			bk.setValue(df.format(SfUtil.getSysDate()));
 			bks.add(bk);
 			 bk=new SfBookmark();
 				bk.setName("INPUT_DATE2");
-				bk.setValue(df.format(requestMeta.getSysDate()));
+				bk.setValue(df.format(SfUtil.getSysDate()));
 				bks.add(bk);
 		
 		wordPane.replaceBookMarks(bks);

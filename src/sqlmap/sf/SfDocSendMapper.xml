@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.ufgov.zc.server.sf.dao.SfDocSendMapper" >
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+  <resultMap id="BaseResultMap" class="com.ufgov.zc.common.sf.model.SfDocSend" >
+    <result column="SEND_ID" property="sendId" jdbcType="DECIMAL" />
+    <result column="RECIEVOR" property="recievor" jdbcType="VARCHAR" />
+    <result column="RECIEVOR_TEL" property="recievorTel" jdbcType="VARCHAR" />
+    <result column="SEND_DATE" property="sendDate" jdbcType="DATE" />
+    <result column="SENDOR" property="sendor" jdbcType="VARCHAR" />
+    <result column="ND" property="nd" jdbcType="VARCHAR" />
+    <result column="CO_CODE" property="coCode" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="ENTRUST_ID" property="entrust.entrustId" jdbcType="DECIMAL" />
+    <result column="ENTRUST_CODE" property="entrust.code" jdbcType="VARCHAR" />
+    <result column="WTF_NAME" property="entrust.entrustor.name" jdbcType="VARCHAR" />
+    <result column="SEND_TYPE" property="sendType" jdbcType="VARCHAR" />
+    <result column="JD_DOC_AUDIT_ID" property="jdDocAuditId" jdbcType="DECIMAL" />
+    <result column="NAME" property="entrust.name" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    SEND_ID, RECIEVOR, RECIEVOR_TEL, SEND_DATE, SENDOR, ND, CO_CODE, REMARK, ENTRUST_ID, 
+    ENTRUST_CODE, SEND_TYPE, JD_DOC_AUDIT_ID,NAME,WTF_NAME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from SF_DOC_SEND
+    where SEND_ID = #sendId:DECIMAL#
+  </select>
+  <select id="selectMainDataLst" parameterClass="elementCondition" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SF_DOC_SEND
+    where 1=1  
+		<include refid="BusiNumLim.BusiNumLimStr" /> 
+		<!-- 列表界面上的搜索条件 -->
+		<isNotNull prepend="AND" property="dattr5"> 
+			ENTRUST_ID=#dattr5#
+		</isNotNull>    
+	<isNotEqual prepend="and" compareValue="0" property="nd">
+			SF_DOC_SEND.ND = #nd#
+   	</isNotEqual> 
+		<isNotNull prepend="AND" property="coCode"> 
+			co_code=#coCode#
+		</isNotNull>   
+		<isNotNull prepend="AND" property="sfId"> 
+			ENTRUST_ID=#sfId#
+		</isNotNull>   
+	</select>
+  <delete id="deleteByPrimaryKey" parameterClass="java.math.BigDecimal" >
+    delete from SF_DOC_SEND
+    where SEND_ID = #sendId:DECIMAL#
+  </delete>
+  <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfDocSend" >
+    insert into SF_DOC_SEND (SEND_ID, RECIEVOR, RECIEVOR_TEL, 
+      SEND_DATE, SENDOR, ND, 
+      CO_CODE, REMARK, ENTRUST_ID, 
+      ENTRUST_CODE, SEND_TYPE, JD_DOC_AUDIT_ID,NAME,WTF_NAME
+      )
+    values (#sendId:DECIMAL#, #recievor:VARCHAR#, #recievorTel:VARCHAR#, 
+      #sendDate:DATE#, #sendor:VARCHAR#, #nd:VARCHAR#, 
+      #coCode:VARCHAR#, #remark:VARCHAR#, #entrust.entrustId:DECIMAL#, 
+      #entrust.code:VARCHAR#, #sendType:VARCHAR#, #jdDocAuditId:DECIMAL#,#entrust.name#,#entrust.entrustor.name#
+      )
+  </insert> 
+  <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfDocSend" >
+    update SF_DOC_SEND
+    set RECIEVOR = #recievor:VARCHAR#,
+      RECIEVOR_TEL = #recievorTel:VARCHAR#,
+      SEND_DATE = #sendDate:DATE#,
+      SENDOR = #sendor:VARCHAR#,
+      ND = #nd:VARCHAR#,
+      CO_CODE = #coCode:VARCHAR#,
+      REMARK = #remark:VARCHAR#,
+      ENTRUST_ID = #entrust.entrustId:DECIMAL#,
+      ENTRUST_CODE = #entrust.code:VARCHAR#,
+      SEND_TYPE = #sendType:VARCHAR#,
+      JD_DOC_AUDIT_ID = #jdDocAuditId:DECIMAL#,
+      NAME=#entrust.name#,
+      WTF_NAME=#entrust.entrustor.name#
+    where SEND_ID = #sendId:DECIMAL#
+  </update>
+</sqlMap>

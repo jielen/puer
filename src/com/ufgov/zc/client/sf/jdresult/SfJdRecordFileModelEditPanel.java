@@ -53,6 +53,7 @@ import com.ufgov.zc.client.component.zc.fieldeditor.AutoNumFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.FileFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.TextAreaFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.TextFieldEditor;
+import com.ufgov.zc.client.sf.util.SfUtil;
 import com.ufgov.zc.client.util.SwingUtil;
 import com.ufgov.zc.client.zc.ButtonStatus;
 import com.ufgov.zc.client.zc.ZcUtil;
@@ -204,7 +205,7 @@ public class SfJdRecordFileModelEditPanel extends AbstractMainSubEditPanel {
 
 	  private void setDefaultValue(SfJdRecordFileModel model) {
 		  model.setCoCode(requestMeta.getSvCoCode());
-		  model.setInputDate(requestMeta.getSysDate());
+		  model.setInputDate(SfUtil.getSysDate());
 		  model.setInputor(requestMeta.getSvUserID());
 		  model.setFileType(SfJdRecordFileModel.SF_VS_JD_FILE_MODEL_TYPE_word);
 		  model.setDocType(SfJdRecordFileModel.SF_VS_JD_FILE_MODEL_DOC_TYPE_RECORD);
@@ -603,7 +604,7 @@ public class SfJdRecordFileModelEditPanel extends AbstractMainSubEditPanel {
 
 	      SfJdRecordFileModel inData = (SfJdRecordFileModel) this.listCursor.getCurrentObject();
 	      inData.setCoCode(requestMeta.getSvCoCode());
-	      inData.setInputDate(requestMeta.getSysDate());
+	      inData.setInputDate(SfUtil.getSysDate());
 	      inData.setInputor(requestMeta.getSvUserID()); 
 	      inData.setNd(requestMeta.getSvNd());
 		  
@@ -700,7 +701,7 @@ public class SfJdRecordFileModelEditPanel extends AbstractMainSubEditPanel {
 
 	        requestMeta.setFuncId(deleteButton.getFuncId());
 
-	        zcEbBaseServiceDelegate.delete("com.ufgov.zc.server.sf.dao.SfJdRecordFileModelMapper.deleteByPrimaryKey",model.getModelId(), requestMeta);
+	        zcEbBaseServiceDelegate.deleteFN("com.ufgov.zc.server.sf.dao.SfJdRecordFileModelMapper.deleteByPrimaryKey",model.getModelId(), requestMeta);
 
 	      } catch (Exception e) {
 

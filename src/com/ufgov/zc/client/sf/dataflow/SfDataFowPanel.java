@@ -369,10 +369,10 @@ public class SfDataFowPanel extends JPanel {
 
     fieldEditors.add(code);
     fieldEditors.add(name);
-    fieldEditors.add(isAccept);
+    fieldEditors.add(status);
 
     fieldEditors.add(entrustor);
-    fieldEditors.add(wtDate);
+    fieldEditors.add(acceptDate);
     fieldEditors.add(sjr);
 
     fieldEditors.add(majorCode);

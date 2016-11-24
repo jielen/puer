@@ -65,7 +65,8 @@ public class SfAgreementService implements ISfAgreementService {
     // TCJLODO Auto-generated method stub
     if (inData.getAgreementId()==null ) {
 
-      BigDecimal id=new BigDecimal(ZcSUtil.getNextVal(SfAgreement.SEQ_SF_AGREEMENT_ID));
+      ZcSUtil su=new ZcSUtil();
+      BigDecimal id=new BigDecimal(su.getNextVal(SfAgreement.SEQ_SF_AGREEMENT_ID));
       inData.setAgreementId(id);  
 
       boolean isDraft = false;

@@ -259,7 +259,7 @@ public class SfJdResultEditPanel extends AbstractMainSubEditPanel {
     // TCJLODO Auto-generated method stub
     bill.setStatus(ZcSettingConstants.WF_STATUS_DRAFT);
     bill.setNd(this.requestMeta.getSvNd());
-    bill.setInputDate(this.requestMeta.getSysDate());
+    bill.setInputDate(SfUtil.getSysDate());
     bill.setInputor(requestMeta.getSvUserID());
     bill.setResultType(SfJdReport.RESULT_TYPE_YJS);
     bill.setJdAddress(AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_JD_COMPANY_ADDRESS));

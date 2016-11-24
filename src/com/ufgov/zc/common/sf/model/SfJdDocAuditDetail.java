@@ -15,9 +15,12 @@ public class SfJdDocAuditDetail extends ZcBaseBill{
   public static final String COL_JD_DOC_AUDIT_ID="SF_JD_DOC_AUDIT_DETAIL_JD_DOC_AUDIT_ID"; // 鉴定文书审批单ID
   public static final String COL_REMARK="SF_JD_DOC_AUDIT_DETAIL_REMARK"; // 备注
   public static final String COL_QUANTITY="SF_JD_DOC_AUDIT_DETAIL_QUANTITY"; // 发文数量
+  public static final String COL_DOC_NAME="SF_JD_DOC_AUDIT_DETAIL_DOC_NAME"; // 名称
 
   
-  private SfJdDocType docType=new SfJdDocType();
+//  private SfJdDocType docType=new SfJdDocType();
+  
+  private String docName;
   
   private BigDecimal quantity;
   
@@ -63,7 +66,7 @@ public class SfJdDocAuditDetail extends ZcBaseBill{
 	 * @mbggenerated  Thu Jan 22 11:06:52 CST 2015
 	 */
 	public String getDocTypeCode() {
-		return docType.getDocTypeCode();
+		return docTypeCode;
 	}
 
 	/**
@@ -91,16 +94,7 @@ public class SfJdDocAuditDetail extends ZcBaseBill{
 	 */
 	public void setRemark(String remark) {
 		this.remark = remark;
-	}
-
-
-    public SfJdDocType getDocType() {
-      return docType;
-    }
-
-    public void setDocType(SfJdDocType docType) {
-      this.docType = docType;
-    }
+	}  
 
 	public BigDecimal getQuantity() {
 		return quantity;
@@ -109,4 +103,12 @@ public class SfJdDocAuditDetail extends ZcBaseBill{
 	public void setQuantity(BigDecimal quantity) {
 		this.quantity = quantity;
 	}
+
+  public String getDocName() {
+    return docName;
+  }
+
+  public void setDocName(String docName) {
+    this.docName = docName;
+  }
 }

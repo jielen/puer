@@ -122,9 +122,7 @@ public class SfEntrustListPanel extends AbstractEditListBill implements ParentWi
       @Override
       public List<SearchCondition> execute() throws Exception {
 
-        List<SearchCondition> needDisplaySearchConditonList = SearchConditionUtil.getNeedDisplaySearchConditonList(WorkEnv.getInstance()
-
-        .getCurrUserId(), SfEntrust.TAB_ID);
+        List<SearchCondition> needDisplaySearchConditonList = SearchConditionUtil.getNeedDisplaySearchConditonList(WorkEnv.getInstance().getCurrUserId(), SfEntrust.TAB_ID);
 
         return needDisplaySearchConditonList;
 

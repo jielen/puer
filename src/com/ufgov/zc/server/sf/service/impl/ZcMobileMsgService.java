@@ -33,11 +33,13 @@ public class ZcMobileMsgService implements IZcMobileMsgService {
       insertDetail(qx);
     }
     //往发送表中发送数据
-    sendToBox(qx, requestMeta);
+    if(ZcMobileMsg.ZC_VS_IS_SENDED_YES.equals(qx.getIsSended())){
+      sendToBox(qx, requestMeta);
+    }
     return selectByPrimaryKey(qx.getCode(), requestMeta);
   }
 
-  private void sendToBox(ZcMobileMsg qx, RequestMeta requestMeta) {
+  public void sendToBox(ZcMobileMsg qx, RequestMeta requestMeta) {
     //往发送表中发送数据
     SmsBoxsending sd = new SmsBoxsending();
     SimpleDateFormat sdf = new SimpleDateFormat(ZcSettingConstants.SIMPLE_DATE_FORMAT_FULL);
@@ -57,7 +59,8 @@ public class ZcMobileMsgService implements IZcMobileMsgService {
   }
 
   private String getCode() {
-    return ZcSUtil.getNextVal("SF_SEQ_MOBILE_MSG_CODE");
+    ZcSUtil su=new ZcSUtil();
+    return su.getNextVal("SF_SEQ_MOBILE_MSG_CODE");
   }
 
   private void deleteDetail(ZcMobileMsg qx) {

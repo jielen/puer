@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ufgov.zc.common.console.model.AsEmp;
 import com.ufgov.zc.common.sf.model.SfCertificate;
 import com.ufgov.zc.common.sf.model.SfJdPerson;
 import com.ufgov.zc.common.sf.model.SfJdPersonMajor;
@@ -55,6 +56,13 @@ public class SfJdPersonService implements ISfJdPersonService {
     rtn.setMajorLst(jdPersonMajorMapper.selectByPrimaryKey(id));
     List certLst=zcEbBaseService.queryDataForList("com.ufgov.zc.server.sf.dao.SfCertificateMapper.selectByOwner", id);
     rtn.setCertificatLst(certLst==null?new ArrayList():certLst);
+    if(rtn.getAccount()!=null){
+      rtn.getAsEmp().setUserId(rtn.getAccount());
+      AsEmp emp=(AsEmp) zcEbBaseService.queryObject("AsEmp.getAsEmp", rtn.getAsEmp());
+      if(emp!=null){
+        rtn.setAsEmp(emp);
+      }
+    }
     rtn.setDbDigest(rtn.digest());
     return rtn;
   }
@@ -64,13 +72,19 @@ public class SfJdPersonService implements ISfJdPersonService {
     // TCJLODO Auto-generated method stub
     if (inData.getJdPersonId()==null ) {
 
-      BigDecimal id=new BigDecimal(ZcSUtil.getNextVal(SfJdPerson.SEQ_SF_JD_PERSON_ID));
+      ZcSUtil su=new ZcSUtil();
+      BigDecimal id=new BigDecimal(su.getNextVal(SfJdPerson.SEQ_SF_JD_PERSON_ID));
       inData.setJdPersonId(id);  
   
       insert(inData,requestMeta);
    }else{
      update(inData,requestMeta);
    }
+    if(inData.getAccount()!=null && inData.getAsEmp().getEmpCode()!=null){
+      List l=new ArrayList();
+      l.add(inData.getAsEmp());
+      zcEbBaseService.updateObjectList("AsEmp.updateEmp", l);
+    }
    return inData;
   }
 
@@ -87,13 +101,14 @@ public class SfJdPersonService implements ISfJdPersonService {
       }
     }
     
-zcEbBaseService.delete("com.ufgov.zc.server.sf.dao.SfCertificateMapper.deleteByOwner", inData.getJdPersonId());
+zcEbBaseService.deleteFN("com.ufgov.zc.server.sf.dao.SfCertificateMapper.deleteByOwner", inData.getJdPersonId());
     if(inData.getCertificatLst()!=null){
+      ZcSUtil su=new ZcSUtil();
     	for(int i=0;i<inData.getCertificatLst().size();i++){
     		SfCertificate cer=(SfCertificate) inData.getCertificatLst().get(i);
     		cer.setZfOwnerId(inData.getJdPersonId());
     		if(cer.getCerId()==null){
-    			cer.setCerId(new BigDecimal(ZcSUtil.getNextVal(SfCertificate.SEQ_SF_CERTIFICATE)));
+    			cer.setCerId(new BigDecimal(su.getNextVal(SfCertificate.SEQ_SF_CERTIFICATE)));
     		}
     		zcEbBaseService.insertObject("com.ufgov.zc.server.sf.dao.SfCertificateMapper.insert", cer);
     	}
@@ -111,10 +126,11 @@ zcEbBaseService.delete("com.ufgov.zc.server.sf.dao.SfCertificateMapper.deleteByO
       }
     }
     if(inData.getCertificatLst()!=null){
+      ZcSUtil su=new ZcSUtil();
     	for(int i=0;i<inData.getCertificatLst().size();i++){
     		SfCertificate cer=(SfCertificate) inData.getCertificatLst().get(i);
     		cer.setZfOwnerId(inData.getJdPersonId());
-    		cer.setCerId(new BigDecimal(ZcSUtil.getNextVal(SfCertificate.SEQ_SF_CERTIFICATE)));
+    		cer.setCerId(new BigDecimal(su.getNextVal(SfCertificate.SEQ_SF_CERTIFICATE)));
     		zcEbBaseService.insertObject("com.ufgov.zc.server.sf.dao.SfCertificateMapper.insert", cer);
     	}
     }

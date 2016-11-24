@@ -83,7 +83,8 @@ public class SfMaterialsTransferService implements ISfMaterialsTransferService {
     // TCJLODO Auto-generated method stub
     if (inData.getTransferId()==null ) {
 
-      BigDecimal id=new BigDecimal(ZcSUtil.getNextVal(SfMaterialsTransfer.SEQ_SF_MATERIALS_TRANSFER_ID));
+      ZcSUtil su=new ZcSUtil();
+      BigDecimal id=new BigDecimal(su.getNextVal(SfMaterialsTransfer.SEQ_SF_MATERIALS_TRANSFER_ID));
       inData.setTransferId(id);  
 
       boolean isDraft = false;

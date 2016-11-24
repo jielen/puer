@@ -16,6 +16,8 @@
     <result column="PROJ_CODE" property="projCode" jdbcType="VARCHAR" />
     <result column="PROJ_NAME" property="projName" jdbcType="VARCHAR" />
 		<result column="ND" property="nd" />
+    <result column="CO_CODE" property="coCode" jdbcType="VARCHAR" />
+    <result column="BUSINESS_TYPE" property="businessType" jdbcType="VARCHAR" /> 
   </resultMap>
   <resultMap id="DetailResultMap" class="com.ufgov.zc.common.sf.model.ZcMobileMsgNumber" > 
     <result column="CODE" property="code" jdbcType="VARCHAR" />
@@ -48,7 +50,7 @@
     <result column="OUTTERUSER" jdbcType="VARCHAR" property="outteruser" />
   </resultMap>
   <sql id="Base_Column_List" > 
-    CODE, MOBILES, INPUTOR, INPUT_DATE, INPUTOR_NAME, SEND_TIME, IS_SENDED, CONTENT,ND,PROJ_CODE,PROJ_NAME
+    CODE, MOBILES, INPUTOR, INPUT_DATE, INPUTOR_NAME, SEND_TIME, IS_SENDED, CONTENT,ND,PROJ_CODE,PROJ_NAME,BUSINESS_TYPE ,CO_CODE
   </sql>
   <select id="getMainLst" resultMap="BaseResultMap" parameterClass="elementCondition" > 
     select 
@@ -98,10 +100,10 @@
     where CODE = #code:VARCHAR#
   </delete>
   <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.ZcMobileMsg" > 
-    insert into ZC_MOBILE_MSG (CODE, MOBILES, INPUTOR, INPUT_DATE, INPUTOR_NAME, SEND_TIME, IS_SENDED, CONTENT,ND,PROJ_CODE,PROJ_NAME)
+    insert into ZC_MOBILE_MSG (CODE, MOBILES, INPUTOR, INPUT_DATE, INPUTOR_NAME, SEND_TIME, IS_SENDED, CONTENT,ND,PROJ_CODE,PROJ_NAME,BUSINESS_TYPE ,CO_CODE)
     values (#code:VARCHAR#, #mobiles:VARCHAR#, #inputor:VARCHAR#, 
       #inputDate:DATE#, #inputorName:VARCHAR#, #sendTime:DATE#, 
-      #isSended:VARCHAR#, #content:VARCHAR#,#nd#,#projCode#,#projName#)
+      #isSended:VARCHAR#, #content:VARCHAR#,#nd#,#projCode#,#projName#,#businessType# ,#coCode#)
   </insert>
   <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.ZcMobileMsg" > 
     update ZC_MOBILE_MSG
@@ -114,7 +116,9 @@
       CONTENT = #content:VARCHAR#,
       ND=#nd#,
       PROJ_CODE=#projCode#,
-      PROJ_NAME=#projName#
+      PROJ_NAME=#projName#,
+      BUSINESS_TYPE=#businessType# ,
+      CO_CODE=#coCode#
     where CODE = #code:VARCHAR#
   </update>
   

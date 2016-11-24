@@ -80,6 +80,7 @@ import com.ufgov.zc.client.sf.component.JClosableTabbedPane;
 import com.ufgov.zc.client.sf.dataflow.SfDataFlowDialog;
 import com.ufgov.zc.client.sf.dataflow.SfDataFlowUtil;
 import com.ufgov.zc.client.sf.entrust.SfEntrustHandler;
+import com.ufgov.zc.client.sf.util.SfUtil;
 import com.ufgov.zc.client.util.SwingUtil;
 import com.ufgov.zc.client.util.freemark.IWordHandler;
 import com.ufgov.zc.client.zc.ButtonStatus;
@@ -262,11 +263,11 @@ public class SfOutInfoEditPanel extends AbstractMainSubEditPanel {
     // TCJLODO Auto-generated method stub
     outInfo.setStatus(ZcSettingConstants.WF_STATUS_DRAFT);
     outInfo.setNd(this.requestMeta.getSvNd());
-    outInfo.setInputDate(this.requestMeta.getSysDate());
+    outInfo.setInputDate(SfUtil.getSysDate());
     outInfo.setInputor(requestMeta.getSvUserID());
-    outInfo.setAcceptDate(this.requestMeta.getSysDate());
+    outInfo.setAcceptDate(SfUtil.getSysDate());
     outInfo.setAcceptor(requestMeta.getSvUserID());
-    outInfo.setValidatDate(this.requestMeta.getSysDate());
+    outInfo.setValidatDate(SfUtil.getSysDate());
     outInfo.setValidator(requestMeta.getSvUserID());
     outInfo.setValidatIsPass("Y");
     ElementConditionDto dto = new ElementConditionDto();

@@ -23,6 +23,8 @@ public class SfJdjg extends ZcBaseBill{
 	public static final String COL_ZIP="SF_JDJG_ZIP"; // 邮编
 	public static final String COL_EN_NAME="SF_JDJG_EN_NAME"; // 英文名称
   public static final String COL_SHORT_NAME="SF_JDJG_SHORT_NAME"; // 简称
+   
+  public static final String SF_VS_JDJG = "SF_VS_JDJG";
 
 
 	  private List certificatLst=new ArrayList();

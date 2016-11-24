@@ -3,11 +3,13 @@
  */
 package com.ufgov.zc.common.sf.exception;
 
+import com.ufgov.zc.common.system.exception.BaseException;
+
 /**
  * @author Administrator
  *
  */
-public class SfBusinessException extends Exception {
+public class SfBusinessException extends BaseException {
 
   /**
    * 

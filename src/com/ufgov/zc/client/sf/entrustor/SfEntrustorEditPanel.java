@@ -40,6 +40,7 @@ import com.ufgov.zc.client.component.button.SuggestAuditPassButton;
 import com.ufgov.zc.client.component.button.TraceButton;
 import com.ufgov.zc.client.component.button.UnauditButton;
 import com.ufgov.zc.client.component.button.UntreadButton;
+import com.ufgov.zc.client.component.sf.fieldeditor.SfEntrustorNewFieldEditor;
 import com.ufgov.zc.client.component.ui.fieldeditor.AbstractFieldEditor;
 import com.ufgov.zc.client.component.zc.AbstractMainSubEditPanel;
 import com.ufgov.zc.client.component.zc.fieldeditor.AsValFieldEditor;
@@ -50,6 +51,7 @@ import com.ufgov.zc.client.component.zc.fieldeditor.TextAreaFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.TextFieldEditor;
 import com.ufgov.zc.client.zc.ButtonStatus;
 import com.ufgov.zc.client.zc.ZcUtil;
+import com.ufgov.zc.common.sf.exception.SfBusinessException;
 import com.ufgov.zc.common.sf.model.SfEntrust;
 import com.ufgov.zc.common.sf.model.SfEntrustor;
 import com.ufgov.zc.common.sf.model.SfEntrustorUser;
@@ -132,6 +134,8 @@ public class SfEntrustorEditPanel extends AbstractMainSubEditPanel {
   private ISfEntrustorServiceDelegate sfEntrutstorServiceDelegate;
 
   private ForeignEntityDialog forenEntityDialog;
+  
+  private ElementConditionDto parentDto=new ElementConditionDto();
 
   public SfEntrustorEditPanel(SfEntrustorDialog parent, ListCursor listCursor, String tabStatus, SfEntrustorListPanel listPanel) {
     // TCJLODO Auto-generated constructor stub
@@ -204,6 +208,7 @@ public class SfEntrustorEditPanel extends AbstractMainSubEditPanel {
 
       entrustor = sfEntrutstorServiceDelegate.selectByPrimaryKey(entrustor.getEntrustorId(), this.requestMeta);
       listCursor.setCurrentObject(entrustor);
+      parentDto.setSfId(entrustor.getEntrustorId());
       this.setEditingObject(entrustor);
     } else {//新增按钮进入
 
@@ -593,9 +598,9 @@ public class SfEntrustorEditPanel extends AbstractMainSubEditPanel {
 
       listCursor.setCurrentObject(entrustor);
 
-    } catch (Exception e) {
+    } catch (SfBusinessException e) {
 
-      logger.error(e.getMessage(), e);
+      logger.error(e.getStackTraceMessage(), e);
 
       success = false;
 
@@ -822,6 +827,7 @@ private boolean haveSameName() {
 
     //    AutoNumFieldEditor code = new AutoNumFieldEditor(LangTransMeta.translate(SfEntrustor.CODE), "code");
     TextFieldEditor name = new TextFieldEditor(LangTransMeta.translate(SfEntrustor.NAME), "name");
+    TextFieldEditor shortName = new TextFieldEditor(LangTransMeta.translate(SfEntrustor.SHORT_NAME), "shortName");
     TextFieldEditor zip = new TextFieldEditor(LangTransMeta.translate(SfEntrustor.ZIP), "zip");
     TextFieldEditor linkMan = new TextFieldEditor(LangTransMeta.translate(SfEntrustor.LINK_MAN), "linkMan");
     TextFieldEditor linkTel = new TextFieldEditor(LangTransMeta.translate(SfEntrustor.LINK_TEL), "linkTel");
@@ -831,15 +837,39 @@ private boolean haveSameName() {
     PasswordFieldEditor passWd = new PasswordFieldEditor("登陆密码", "user.password");
     PasswordFieldEditor passWdConfirm = new PasswordFieldEditor("确认密码", "user.passwordConfrim"); 
     AsValFieldEditor isLogin = new AsValFieldEditor("是否登陆系统", "isLogin", SfElementConstants.VS_Y_N);
+    SfEntrustorHandler entrustorHandler = new SfEntrustorHandler() {
+      @Override
+      public void excute(List selectedDatas) {
+        // TCJLODO Auto-generated method stub
+        for (Object obj : selectedDatas) {
+          SfEntrustor currentBill = (SfEntrustor) listCursor.getCurrentObject();
+          SfEntrustor p=(SfEntrustor)obj;
+          currentBill.setParentId(p.getEntrustorId());
+          currentBill.setParentName(p.getName());
+          setEditingObject(currentBill);
+        }
+      }
+
+      public void afterClear() {
+        SfEntrustor currentBill = (SfEntrustor) listCursor.getCurrentObject();
+        currentBill.setParentId(null);
+        currentBill.setParentName(null);
+        setEditingObject(currentBill);
+      }
+    };
+    SfEntrustor currentBill = (SfEntrustor) listCursor.getCurrentObject(); 
+    parentDto.setDattr1("getParent");
+    SfEntrustorNewFieldEditor parent = new SfEntrustorNewFieldEditor(entrustorHandler.getSqlId(), 20, entrustorHandler, entrustorHandler.getColumNames(),"上级", "parentName");
 
     //    editorList.add(code);
     editorList.add(type);
     editorList.add(name);
+    editorList.add(shortName);
     editorList.add(linkMan);
     editorList.add(linkTel);
     editorList.add(address);
     editorList.add(zip);
-    editorList.add(new NewLineFieldEditor());
+    editorList.add(parent);
     editorList.add(isLogin);
     editorList.add(userId);
 //    editorList.add(new NewLineFieldEditor());

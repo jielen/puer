@@ -68,6 +68,7 @@ import com.ufgov.zc.client.sf.component.JClosableTabbedPane;
 import com.ufgov.zc.client.sf.dataflow.SfDataFlowDialog;
 import com.ufgov.zc.client.sf.dataflow.SfDataFlowUtil;
 import com.ufgov.zc.client.sf.entrust.SfEntrustHandler;
+import com.ufgov.zc.client.sf.util.SfUtil;
 import com.ufgov.zc.client.util.freemark.IWordHandler;
 import com.ufgov.zc.client.zc.ButtonStatus;
 import com.ufgov.zc.client.zc.WordFileUtil;
@@ -323,7 +324,7 @@ public class SfDossierEditPanel extends AbstractMainSubEditPanel {
     // TCJLODO Auto-generated method stub
     bill.setStatus(ZcSettingConstants.WF_STATUS_DRAFT);
     bill.setNd(this.requestMeta.getSvNd());
-    bill.setInputDate(this.requestMeta.getSysDate());
+    bill.setInputDate(SfUtil.getSysDate());
     bill.setInputor(requestMeta.getSvUserID());
   }
 

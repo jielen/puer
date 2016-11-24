@@ -48,11 +48,12 @@ public class SfAssistFileService implements ISfAssistFileService {
         asFileDao.deleteAsFileById(oldF.getFileId());
       }
     }
-    
+
+    ZcSUtil su=new ZcSUtil();
     for(int i=0;i<fileLst.size();i++){
       SfAssistFile af=(SfAssistFile)fileLst.get(i);
       if(af.getAssistFileId()==null){
-        BigDecimal id=new BigDecimal(ZcSUtil.getNextVal(SfAssistFile.SEQ_SF_ASSIST_FILE_ID));
+        BigDecimal id=new BigDecimal(su.getNextVal(SfAssistFile.SEQ_SF_ASSIST_FILE_ID));
         af.setAssistFileId(id);
         assistFileMapper.insert(af);
       }else{

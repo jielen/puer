@@ -64,6 +64,7 @@ public class SfJdResultService implements ISfJdResultService {
   public SfJdResult selectByPrimaryKey(BigDecimal id, RequestMeta requestMeta) {
     // TCJLODO Auto-generated method stub
     SfJdResult rtn = jdResultMapper.selectByPrimaryKey(id);
+    if(rtn==null)return null;
     SfEntrust entrust = sfEntrustService.selectByPrimaryKey(rtn.getEntrustId(), requestMeta);
     rtn.setEntrust(entrust == null ? new SfEntrust() : entrust);
     ElementConditionDto dto=new ElementConditionDto();
@@ -82,7 +83,8 @@ public class SfJdResultService implements ISfJdResultService {
     // TCJLODO Auto-generated method stub
     if (inData.getJdResultId() == null) {
 
-      BigDecimal id = new BigDecimal(ZcSUtil.getNextVal(SfJdResult.SEQ_SF_JD_RESULT_ID));
+      ZcSUtil su=new ZcSUtil();
+      BigDecimal id = new BigDecimal(su.getNextVal(SfJdResult.SEQ_SF_JD_RESULT_ID));
       inData.setJdResultId(id);
 
       boolean isDraft = false;
@@ -114,17 +116,18 @@ public class SfJdResultService implements ISfJdResultService {
   }
 
   private void _saveSubLst(SfJdResult inData, RequestMeta requestMeta) {
-	  zcEbBaseService.delete("com.ufgov.zc.server.sf.dao.SfJdResultFileMapper.deleteByResultId", inData.getJdResultId());
+	  zcEbBaseService.deleteFN("com.ufgov.zc.server.sf.dao.SfJdResultFileMapper.deleteByResultId", inData.getJdResultId());
 	_saveRecordFiles(inData,requestMeta);
 	_saveAttachedFiles(inData,requestMeta);
 }
 
 private void _saveAttachedFiles(SfJdResult inData, RequestMeta requestMeta) { 
 	  if(inData.getAttacheFileLst()==null||inData.getAttacheFileLst().size()==0)return;
+    ZcSUtil su=new ZcSUtil();
 	  for(int i=0;i<inData.getAttacheFileLst().size();i++){
 		  SfJdResultFile rf=(SfJdResultFile) inData.getAttacheFileLst().get(i);
 		  rf.setJdResultId(inData.getJdResultId());
-		  BigDecimal id = new BigDecimal(ZcSUtil.getNextVal(SfJdResultFile.SEQ_SF_JD_RESULT_FILE_ID));
+		  BigDecimal id = new BigDecimal(su.getNextVal(SfJdResultFile.SEQ_SF_JD_RESULT_FILE_ID));
 		  rf.setSfJdResultFileId(id);
 	  }
 	  zcEbBaseService.insertObjectList("com.ufgov.zc.server.sf.dao.SfJdResultFileMapper.insert", inData.getAttacheFileLst()); 
@@ -132,10 +135,11 @@ private void _saveAttachedFiles(SfJdResult inData, RequestMeta requestMeta) {
 
 private void _saveRecordFiles(SfJdResult inData, RequestMeta requestMeta) { 
 	  if(inData.getJdRecordFileLst()==null||inData.getJdRecordFileLst().size()==0)return;
+    ZcSUtil su=new ZcSUtil();
 	  for(int i=0;i<inData.getJdRecordFileLst().size();i++){
 		  SfJdResultFile rf=(SfJdResultFile) inData.getJdRecordFileLst().get(i);
 		  rf.setJdResultId(inData.getJdResultId());
-		  BigDecimal id = new BigDecimal(ZcSUtil.getNextVal(SfJdResultFile.SEQ_SF_JD_RESULT_FILE_ID));
+		  BigDecimal id = new BigDecimal(su.getNextVal(SfJdResultFile.SEQ_SF_JD_RESULT_FILE_ID));
 		  rf.setSfJdResultFileId(id);
 	  }
 	  zcEbBaseService.insertObjectList("com.ufgov.zc.server.sf.dao.SfJdResultFileMapper.insert", inData.getJdRecordFileLst()); 
@@ -145,7 +149,7 @@ public void deleteByPrimaryKeyFN(BigDecimal id, RequestMeta requestMeta) {
     // TCJLODO Auto-generated method stub
     jdResultMapper.deleteByPrimaryKey(id);
 
-    zcEbBaseService.delete("com.ufgov.zc.server.sf.dao.SfJdResultFileMapper.deleteByResultId", id);
+    zcEbBaseService.deleteFN("com.ufgov.zc.server.sf.dao.SfJdResultFileMapper.deleteByResultId", id);
   }
 
   public SfJdResult unAuditFN(SfJdResult qx, RequestMeta requestMeta) {
@@ -177,7 +181,7 @@ public void deleteByPrimaryKeyFN(BigDecimal id, RequestMeta requestMeta) {
 			  Iterator keys=mobiles.keySet().iterator();
 			  while(keys.hasNext()){
 				  String key=keys.next().toString(); 
-				  su.sendToBox(""+qx.getEntrustId().intValue(), "", msg, key, requestMeta.getSysDate(), requestMeta.getSysDate());
+				  su.sendToBox(""+qx.getEntrustId().intValue(), "", msg, key, ZcSUtil.getSysDate(), ZcSUtil.getSysDate());
 			  } 
 		  }
 	  }	  
@@ -209,7 +213,7 @@ public void deleteByPrimaryKeyFN(BigDecimal id, RequestMeta requestMeta) {
 			  Iterator keys=mobiles.keySet().iterator();
 			  while(keys.hasNext()){
 				  String key=keys.next().toString(); 
-				  su.sendToBox(""+qx.getEntrustId().intValue(), "", msg, key, requestMeta.getSysDate(), requestMeta.getSysDate());
+				  su.sendToBox(""+qx.getEntrustId().intValue(), "", msg, key, ZcSUtil.getSysDate(), ZcSUtil.getSysDate());
 			  } 
 		  }
 	  }

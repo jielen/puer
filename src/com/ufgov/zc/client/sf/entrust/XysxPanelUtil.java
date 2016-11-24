@@ -123,7 +123,7 @@ public class XysxPanelUtil {
     xysxComponents.put(new BigDecimal(valId), c);
     ++valId;
     x = x + w + reg;
-    str = "因鉴定需要可能损坏检材；";
+    str = "因鉴定需要可能损坏检材，电子数据可能损失，无法复原;";
     l = new JLabel();
     l.setText(str);
     w = fm.stringWidth(l.getText());

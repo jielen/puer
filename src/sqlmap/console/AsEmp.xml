@@ -27,6 +27,9 @@
 		<result property="coName" column="CO_NAME"></result>
 		<result property="transDate" column="TRANS_DATE"></result>
 		<result property="userBirthDate" column="USER_BIRTH"></result>
+		<result property="photo" column="PHOTO"></result>
+		<result property="photoBlobid" column="PHOTO_BLOBID"></result>
+		<result property="mobile" column="MOBILE"></result> 
 	</resultMap>
   <resultMap class="asEmp" id="asEmpResultAddColum" extends="asEmpResult">
 		<result property="isLogin" column="IS_LOGIN"></result>
@@ -69,6 +72,19 @@
 	        </isNotNull>
 	     </dynamic>
 	</select>
+  <select id="getAsEmpLst" resultMap="asEmpFullResult" parameterClass="elementCondition">
+	     select t.* from as_emp t
+	     where 1=1
+	     <isNotEmpty property="pmAdjustCodeList" prepend="and">
+            t.emp_code in
+            <iterate property="pmAdjustCodeList" conjunction="," open="(" close=")">
+                #pmAdjustCodeList[]#
+            </iterate>
+        </isNotEmpty> 
+        <isEqual property="dattr1" compareValue="havePhone" prepend="and">
+        	t.phone is not null
+        </isEqual>
+	</select>
 	<insert id="insertAsEmp" parameterClass="com.ufgov.zc.common.console.model.AsEmp">
    insert into AS_EMP (EMP_CODE, EMP_NAME, SEX,TITLE_TECH,PHONE,
     EMAIL,IDENTITY_CARD, RTXUIN,EMP_INDEX,
@@ -77,4 +93,27 @@
     #email:VARCHAR#,#identityCard:VARCHAR#,#rtXuin:VARCHAR#,#empIndex:VARCHAR#,
     #isLogin:CHAR#,#userId:VARCHAR#,#caSerial:VARCHAR#,#coName:VARCHAR#,#mobile:VARCHAR#)
   </insert>
+  
+  <update id="updateEmp" parameterClass="com.ufgov.zc.common.console.model.AsEmp" >    
+	update as_emp
+	   set emp_code      = #empCode:VARCHAR#,
+	       emp_name      = #empName:VARCHAR#,
+	       sex           = #sex:VARCHAR#,
+	       title_tech    = #titleTech:VARCHAR#,
+	       phone         = #phone:VARCHAR#,
+	       email         = #email:VARCHAR#,
+	       identity_card = #identityCard:VARCHAR#,
+	       rtxuin        = #rtXuin:VARCHAR#,
+	       emp_index     = #empIndex:VARCHAR#,
+	       is_login      = #isLogin:CHAR#,
+	       user_id       = #userId:VARCHAR#,
+	       photo         = #caSerial:VARCHAR#,
+	       photo_blobid  = #photoBlobid#,
+	       ca_serial     = #caSerial#,
+	       co_name       = #coName#,
+	       trans_date    = #transDate:DATE#,
+	       user_birth    = #userBirthDate:DATE#,
+	       mobile        = #mobile#
+	 where emp_code = #empCode:VARCHAR#
+  </update>
 </sqlMap>

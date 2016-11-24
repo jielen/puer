@@ -6,7 +6,6 @@ package com.ufgov.zc.client.sf.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ufgov.zc.client.common.AsOptionMeta;
 import com.ufgov.zc.client.common.ServiceFactory;
 import com.ufgov.zc.client.common.WorkEnv;
 import com.ufgov.zc.client.datacache.AsValDataCache;
@@ -22,7 +21,6 @@ import com.ufgov.zc.common.sf.model.SfMajor;
 import com.ufgov.zc.common.sf.model.SfMaterials;
 import com.ufgov.zc.common.system.RequestMeta;
 import com.ufgov.zc.common.system.constants.SfElementConstants;
-import com.ufgov.zc.common.system.dto.ElementConditionDto;
 import com.ufgov.zc.common.system.util.DateUtil;
 import com.ufgov.zc.common.zc.publish.IZcEbBaseServiceDelegate;
 
@@ -73,6 +71,7 @@ public class SfBookmarkUtil {
 		BKMK_NAME_ENTRUST_LST.add(SfEntrust.COL_STATUS);
 		BKMK_NAME_ENTRUST_LST.add(SfEntrust.COL_WT_DATE);
 		BKMK_NAME_ENTRUST_LST.add(SfEntrust.COL_WT_ID_PARENT);
+    BKMK_NAME_ENTRUST_LST.add(SfEntrust.COL_ACCEPT_CODE);
 		//--------------委托方------
 		BKMK_NAME_ENTRUSTOR_LST.add(SfEntrustor.ADDRESS);
 		BKMK_NAME_ENTRUSTOR_LST.add(SfEntrustor.CODE);
@@ -124,10 +123,15 @@ public class SfBookmarkUtil {
 		bk.setName(SfEntrust.COL_ACCEPTOR);
 		bk.setValue(bill.getAcceptor()==null?"":bill.getAcceptorName());
 		rtn.add(bk);
-		
+
+    bk=new SfBookmark();
+    bk.setName(SfEntrust.COL_ACCEPT_CODE);
+    bk.setValue(bill.getAcceptCode()==null?"":bill.getAcceptCode());
+    rtn.add(bk);
+    
 		bk=new SfBookmark();
 		bk.setName(SfEntrust.COL_ACCEPT_DATE);
-		bk.setValue(bill.getAcceptDate() == null ? "  年    月   日" : DateUtil.dateToDdString(bill.getAcceptDate()));
+		bk.setValue(bill.getAcceptDate() == null ? "  年    月   日" : DateUtil.dateToChinaString(bill.getAcceptDate()));
 		rtn.add(bk);
 		
 		bk=new SfBookmark();
@@ -137,7 +141,7 @@ public class SfBookmarkUtil {
 		
 		bk=new SfBookmark();
 		bk.setName(SfEntrust.COL_INPUT_DATE);
-		bk.setValue(bill.getInputDate() == null ? "  年    月   日" : DateUtil.dateToDdString(bill.getInputDate()));
+		bk.setValue(bill.getInputDate() == null ? "  年    月   日" : DateUtil.dateToChinaString(bill.getInputDate()));
 		rtn.add(bk);
 		
 		bk=new SfBookmark();
@@ -203,7 +207,16 @@ public class SfBookmarkUtil {
 		
 		bk=new SfBookmark();
 		bk.setName(SfEntrust.COL_SJR);
-		bk.setValue(bill.getSjr());
+		StringBuffer sb=new StringBuffer();
+		if(bill.getSjr()!=null &&bill.getSjr().trim().length()>0){
+		  sb.append(bill.getSjr());
+		  if(bill.getSjr2()!=null && bill.getSjr2().trim().length()>0){
+		    sb.append(" ").append(bill.getSjr2());
+		  }
+		}else if(bill.getSjr2()!=null && bill.getSjr2().trim().length()>0){
+		  sb.append(bill.getSjr2());
+		} 
+		bk.setValue(sb.toString());
 		rtn.add(bk);
 		
 		bk=new SfBookmark();
@@ -233,7 +246,7 @@ public class SfBookmarkUtil {
 		
 		bk=new SfBookmark();
 		bk.setName(SfEntrust.COL_WT_DATE);
-		bk.setValue(bill.getWtDate() == null ? "  年    月   日" : DateUtil.dateToDdString(bill.getWtDate()));
+		bk.setValue(bill.getWtDate() == null ? "  年    月   日" : DateUtil.dateToChinaString(bill.getWtDate()));
 		rtn.add(bk);
 
 		bk=new SfBookmark();
@@ -343,6 +356,11 @@ public class SfBookmarkUtil {
 		bk.setName(SfJdTarget.COL_ZIP);
 		bk.setValue(bill.getZip());
 		rtn.add(bk);
+
+    bk=new SfBookmark();
+    bk.setName(SfJdTarget.COL_COMPANY);
+    bk.setValue(bill.getCompany());
+    rtn.add(bk);
 		
 		return rtn;
 	}
@@ -381,14 +399,7 @@ public class SfBookmarkUtil {
 		rtn.add(bk);
 		*/
 
-		IZcEbBaseServiceDelegate zcEbBaseServiceDelegate = (IZcEbBaseServiceDelegate) ServiceFactory.create(IZcEbBaseServiceDelegate.class,"zcEbBaseServiceDelegate");
-		ElementConditionDto dto=new ElementConditionDto();
-		RequestMeta meta=WorkEnv.getInstance().getRequestMeta();
-		dto.setCoCode(meta.getSvCoCode());
-		SfJdjg jdjg=(SfJdjg) zcEbBaseServiceDelegate.queryObject("com.ufgov.zc.server.sf.dao.SfJdjgMapper.selectMainDataLst", dto, meta);
-		if(jdjg==null){
-			jdjg=new SfJdjg();
-		}
+		SfJdjg jdjg=getJdjg();
 		SfBookmark bk=new SfBookmark();
 		bk.setName("JGMC");
 		bk.setValue(jdjg.getName());
@@ -437,6 +448,25 @@ public class SfBookmarkUtil {
 		return rtn;
 	}
 
+  private SfJdjg getJdjg() {
+    /*IZcEbBaseServiceDelegate zcEbBaseServiceDelegate = (IZcEbBaseServiceDelegate) ServiceFactory.create(IZcEbBaseServiceDelegate.class,"zcEbBaseServiceDelegate");
+    ElementConditionDto dto=new ElementConditionDto();
+    RequestMeta meta=WorkEnv.getInstance().getRequestMeta();
+    dto.setCoCode(meta.getSvCoCode());
+    SfJdjg jdjg=(SfJdjg) zcEbBaseServiceDelegate.queryObject("com.ufgov.zc.server.sf.dao.SfJdjgMapper.selectMainDataLst", dto, meta);
+    if(jdjg==null){
+      jdjg=new SfJdjg();
+    }
+    return jdjg;*/
+   SfUtil su=new SfUtil();
+   SfJdjg jg=su.getJdjgInfo();
+   if(jg==null){
+     jg=new SfJdjg();
+   }
+   return jg;
+  }
+
+
   public static String getJdclString(List materials){
 
     StringBuffer sb = new StringBuffer();
@@ -483,12 +513,15 @@ public class SfBookmarkUtil {
 	  return getJdclString(entrust.getMaterials());
 	}
 	public List<SfBookmark> getJdRecordBookValueLst(SfJdResult bill){
+	  if(bill==null){
+	    bill=new SfJdResult();
+	  }
 		List<SfBookmark> rtn=new ArrayList<SfBookmark>();
 
 
 		SfBookmark bk=new SfBookmark();
 		bk.setName("JDRECORD_JD_DATE");
-		bk.setValue(bill.getJdDate() == null ? "  年    月   日" : DateUtil.dateToDdString(bill.getJdDate()));
+		bk.setValue(bill.getJdDate() == null ? "  年    月   日" : DateUtil.dateToChinaString(bill.getJdDate()));
 		rtn.add(bk);
 		
 		bk=new SfBookmark();
@@ -513,7 +546,7 @@ public class SfBookmarkUtil {
 		
 		bk=new SfBookmark();
 		bk.setName("JDRECORD_JD_ADDRESS");
-		bk.setValue(bill.getJdAddress());
+		bk.setValue(bill.getJdAddress()==null?getJdjg().getName():bill.getJdAddress());
 		rtn.add(bk);  
 		
 		bk=new SfBookmark();

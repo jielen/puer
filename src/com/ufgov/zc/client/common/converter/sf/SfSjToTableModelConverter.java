@@ -40,7 +40,7 @@ public class SfSjToTableModelConverter {
 
 	        rowData.add(standard.getName()); 
 	        rowData.add(standard.getPackSpec()); 
-	        rowData.add(AsValDataCache.getName(SfSj.VS_SF_SJ_UNIT,standard.getUnit())); 
+	        rowData.add(""); 
 	        rowData.add(standard.getProductor().getName()); 
 	        rowData.add(standard.getRegistCode()); 
 	        rowData.add(AsValDataCache.getName(SfSj.VS_SF_SJ_STORE_CONDITION,standard.getStoreCondition())); 

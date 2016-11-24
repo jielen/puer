@@ -87,6 +87,7 @@ import com.ufgov.zc.client.sf.dataflow.SfDataFlowUtil;
 import com.ufgov.zc.client.sf.entrust.SfEntrustHandler;
 import com.ufgov.zc.client.sf.util.SfBookmarkUtil;
 import com.ufgov.zc.client.sf.util.SfJdPersonSelectHandler;
+import com.ufgov.zc.client.sf.util.SfUtil;
 import com.ufgov.zc.client.util.SwingUtil;
 import com.ufgov.zc.client.zc.ButtonStatus;
 import com.ufgov.zc.client.zc.ExcelFileUtil;
@@ -551,7 +552,7 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 
 	    table.setDefaultEditor(String.class, new TextCellEditor());
  
-	    FileCellEditor fileEditor=new FileCellEditor("fileId",true,(BeanTableModel) table.getModel());
+	    FileCellEditor fileEditor=new FileCellEditor("fileId",false,(BeanTableModel) table.getModel());
 	    fileEditor.setDownloadFileEnable(true);
 	    SwingUtil.setTableCellEditor(table, SfJdResultFile.COL_FILE_NAME,fileEditor ); 
 	    
@@ -615,11 +616,17 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 
 	    bill.setStatus(ZcSettingConstants.WF_STATUS_DRAFT);
 	    bill.setNd(this.requestMeta.getSvNd());
-	    bill.setInputDate(this.requestMeta.getSysDate());
+	    bill.setInputDate(SfUtil.getSysDate());
 	    bill.setInputor(requestMeta.getSvUserID());
 	    bill.setCoCode(requestMeta.getSvCoCode());
 	    bill.setResultType(SfJdReport.RESULT_TYPE_YJS);
 	    bill.setJdAddress(requestMeta.getSvCoName());
+	    bill.setJdDate(ZcUtil.getServerSysDate(requestMeta));
+	    SfUtil su=new SfUtil();
+	    SfJdjg jg=su.getJdjgInfo(requestMeta.getSvCoCode());
+	    if(jg!=null){
+	      bill.setJdAddress(jg.getName());
+	    }
 	  }
 
 	  protected void updateFieldEditorsEditable() {
@@ -986,10 +993,10 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 	  }
 
 	  public boolean doSave() {
-	    if (!isDataChanged()) {
+	    /*if (!isDataChanged()) {
 	      JOptionPane.showMessageDialog(this, "数据没有发生改变，不用保存.", "提示", JOptionPane.INFORMATION_MESSAGE);
 	      return true;
-	    }
+	    }*/
 
 	    if (!checkBeforeSave()) {
 	      return false;

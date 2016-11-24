@@ -34,7 +34,8 @@ public class SfZongheZhibanService implements ISfZongheZhibanService {
   public SfZongheZhiban saveFN(SfZongheZhiban inData, RequestMeta requestMeta) {
     boolean isNew=false;
     if(inData.getZhibanId()==null){
-      BigDecimal id = new BigDecimal(ZcSUtil.getNextVal(SfZongheZhiban.SEQ_SF_ZONGHE_ZHIBAN_ID));
+      ZcSUtil su=new ZcSUtil();
+      BigDecimal id = new BigDecimal(su.getNextVal(SfZongheZhiban.SEQ_SF_ZONGHE_ZHIBAN_ID));
       inData.setZhibanId(id);
       inData.setStartTime(new Date());
       isNew=true;

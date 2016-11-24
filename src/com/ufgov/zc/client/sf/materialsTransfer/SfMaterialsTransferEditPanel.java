@@ -79,9 +79,11 @@ import com.ufgov.zc.client.sf.dataflow.SfDataFlowUtil;
 import com.ufgov.zc.client.sf.entrust.SfEntrustHandler;
 import com.ufgov.zc.client.sf.util.SfJdPersonSelectHandler;
 import com.ufgov.zc.client.sf.util.SfUserSelectHandler;
+import com.ufgov.zc.client.sf.util.SfUtil;
 import com.ufgov.zc.client.util.SwingUtil;
 import com.ufgov.zc.client.zc.ButtonStatus;
 import com.ufgov.zc.client.zc.ZcUtil;
+import com.ufgov.zc.common.console.model.AsEmp;
 import com.ufgov.zc.common.sf.model.SfEntrust;
 import com.ufgov.zc.common.sf.model.SfMaterials;
 import com.ufgov.zc.common.sf.model.SfMaterialsTransfer;
@@ -1135,9 +1137,9 @@ public class SfMaterialsTransferEditPanel  extends AbstractMainSubEditPanel {
         // TCJLODO Auto-generated method stub
         if(selectedDatas!=null && selectedDatas.size()>0){
           SfMaterialsTransfer cur=listCursor.getCurrentObject();
-          User user=(User) selectedDatas.get(0);
+          AsEmp user=(AsEmp) selectedDatas.get(0);
           cur.setJieShouRen(user.getUserId());
-          cur.setJieShouRenName(user.getUserName());
+          cur.setJieShouRenName(user.getEmpName());
           setEditingObject(cur);
         }
       }
@@ -1410,7 +1412,7 @@ public class SfMaterialsTransferEditPanel  extends AbstractMainSubEditPanel {
       SfMaterialsTransfer qx = (SfMaterialsTransfer) ObjectUtil.deepCopy(this.listCursor.getCurrentObject());
       qx.setAuditorId(WorkEnv.getInstance().getCurrUserId());
       qx.setComment("请接收.");
-      qx.setYiJiaoDate(this.requestMeta.getSysDate());
+      qx.setYiJiaoDate(SfUtil.getSysDate());
       qx.setYiJiaoRen(this.requestMeta.getSvUserID());
       afterSaveBill = sfMaterialsTransferServiceDelegate.newCommitFN(qx, requestMeta);
     } catch (Exception ex) {

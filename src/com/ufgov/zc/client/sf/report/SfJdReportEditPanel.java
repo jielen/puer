@@ -85,6 +85,7 @@ import com.ufgov.zc.client.sf.dataflow.SfDataFlowUtil;
 import com.ufgov.zc.client.sf.entrust.SfEntrustHandler;
 import com.ufgov.zc.client.sf.jdresult.RefrenceEntrustDialog;
 import com.ufgov.zc.client.sf.util.SfBookmarkUtil;
+import com.ufgov.zc.client.sf.util.SfUtil;
 import com.ufgov.zc.client.zc.ButtonStatus;
 import com.ufgov.zc.client.zc.WordFileUtil;
 import com.ufgov.zc.client.zc.ZcUtil;
@@ -101,6 +102,7 @@ import com.ufgov.zc.common.sf.model.SfJdReport;
 import com.ufgov.zc.common.sf.model.SfJdResult;
 import com.ufgov.zc.common.sf.model.SfJdResultFile;
 import com.ufgov.zc.common.sf.model.SfJdjg;
+import com.ufgov.zc.common.sf.model.SfReportCode;
 import com.ufgov.zc.common.sf.publish.ISfEntrustServiceDelegate;
 import com.ufgov.zc.common.sf.publish.ISfJdPersonServiceDelegate;
 import com.ufgov.zc.common.sf.publish.ISfJdReportServiceDelegate;
@@ -444,13 +446,29 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 		// TCJLODO Auto-generated method stub
 		bill.setStatus(ZcSettingConstants.WF_STATUS_DRAFT);
 		bill.setNd(this.requestMeta.getSvNd());
-		bill.setInputDate(this.requestMeta.getSysDate());
+		bill.setInputDate(SfUtil.getSysDate());
 		bill.setCoCode(requestMeta.getSvCoCode());
 		bill.setInputor(requestMeta.getSvUserID());
 		bill.setReportType(SfJdReport.RESULT_TYPE_YJS);
+		bill.setReportCode(getExistsNo(bill));
 	}
 
-	protected void updateFieldEditorsEditable() {
+	/**
+	 * 一个项目只和一个编号绑定，一次获取编号执行后就固定了
+	 * @param bill
+	 * @return
+	 */
+	private String getExistsNo(SfJdReport bill) {
+	  if(bill.getEntrust()!=null && bill.getEntrust().getEntrustId()!=null){
+	    SfReportCode sr=(SfReportCode) zcEbBaseServiceDelegate.queryObject("com.ufgov.zc.server.sf.dao.SfJdReportMapper.selectExistsReportCode", bill.getEntrust().getEntrustId(), requestMeta);
+	    if(sr!=null){
+	      return sr.getReportCode();
+	    }
+	  }
+	  return null;
+  }
+
+  protected void updateFieldEditorsEditable() {
 
 		for (AbstractFieldEditor editor : fieldEditors) {
 			if (pageStatus.equals(ZcSettingConstants.PAGE_STATUS_EDIT)
@@ -641,6 +659,8 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 
 		toolBar.setCompoId(getCompoId());
 
+    toolBar.add(addButton);
+    
 		toolBar.add(editButton);
 
 		toolBar.add(saveButton);
@@ -674,7 +694,13 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 		// toolBar.add(nextButton);
 
 		toolBar.add(exitButton);
-
+		
+		addButton.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        doAdd();
+      }
+    });
+		
 		getNoBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				getNo();
@@ -761,7 +787,12 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 		});
 	}
 
-	/**
+	protected void doAdd() {
+	  listCursor.setCurrentObject(null);
+	  refreshData();
+	}
+
+  /**
 	 * 获取编号
 	 */
 	protected void getNo() {
@@ -778,6 +809,11 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 	protected void setNo(String reportNo){
 		SfJdReport bill = (SfJdReport) this.listCursor.getCurrentObject();
 		bill.setReportCode(reportNo);
+		SfReportCode sr=new SfReportCode();
+		sr.setEntrustId(bill.getEntrust().getEntrustId());
+		sr.setReportCode(reportNo);
+		zcEbBaseServiceDelegate.insertFN("com.ufgov.zc.server.sf.dao.SfJdReportMapper.insertReportCode", sr, requestMeta);
+		getNoBtn.setVisible(false);
 		setEditingObject(bill);
 	}
 	/*
@@ -2163,6 +2199,10 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 			SfJdReport bill = (SfJdReport) listCursor.getCurrentObject();
 			bill.setEntrustId(entrust.getEntrustId());
 			bill.setName(entrust.getName() + "鉴定意见书");
+			bill.setReportCode(getExistsNo(bill));
+			if(bill.getReportCode()!=null){
+			  getNoBtn.setVisible(false);
+			}
 			setEditingObject(bill);
 			createWord(entrust);
 		}

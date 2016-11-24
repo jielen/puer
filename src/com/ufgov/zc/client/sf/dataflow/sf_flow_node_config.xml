@@ -64,5 +64,12 @@
 		icon="clock.bmp"
 		isMutliRecord="false"
 		nodeBusiness="com.ufgov.zc.client.sf.dataflow.nodebusiness.SfEntrustManageNodeBusiness"/>
+			
+	<node compoId="SF_DOC_SEND"
+		text="文书发放登记"
+		toolTip="文书发放登记" 
+		icon="wenju2.bmp"
+		isMutliRecord="false"
+		nodeBusiness="com.ufgov.zc.client.sf.dataflow.nodebusiness.SfDocSendNodeBusiness"/>
 		
 </network>

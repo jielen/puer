@@ -342,6 +342,16 @@
 			<isEqual property="status" compareValue="unaccept">
 				(SF_ENTRUST.IS_ACCEPT='N')
 			</isEqual>
+			<!-- 意见书已领 -->
+			<isEqual property="status" compareValue="docSended">
+				EXISTS (SELECT 1 FROM SF_DOC_SEND S 
+						WHERE S.ENTRUST_ID=SF_ENTRUST.ENTRUST_ID)
+			</isEqual>
+			<!-- 意见书待领 -->
+			<isEqual property="status" compareValue="docNoSend">
+				NOT EXISTS (SELECT 1 FROM SF_DOC_SEND S 
+						WHERE S.ENTRUST_ID=SF_ENTRUST.ENTRUST_ID)
+			</isEqual>
 			<isEqual property="status" compareValue="all">
 				1=1
 			</isEqual>
@@ -666,10 +676,9 @@
   <!-- 判断当前业务数据是否处在退回到综合科室值班人的任务里-->
   <select id="isZongHeShouliUntreat" parameterClass="elementCondition" resultClass="java.lang.Long">
   	select T.instance_id
-	  from V_SF_WF_CURRENT_TASK_UNTREAD T, SF_ENTRUST e
+	  from V_SF_WF_CURRENT_TASK_UNTREAD2 T, SF_ENTRUST e
 	 where T.executor = #executor#
 	   and t.instance_id = e.process_inst_id
-	   and e.process_inst_id = #processInstId:DECIMAL#
-	   AND SUBSTR(e.MAJOR_CODE, 0, 3) = T.MAJOR_CODE
+	   and e.process_inst_id = #processInstId:DECIMAL# 
   </select>
 </sqlMap>

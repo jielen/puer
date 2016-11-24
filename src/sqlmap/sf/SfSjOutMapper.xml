@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.ufgov.zc.server.sf.dao.SfSjOutMapper" >
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+  <resultMap id="BaseResultMap" class="com.ufgov.zc.common.sf.model.SfSjOut" >
+    <result column="OUT_ID" property="outId" jdbcType="DECIMAL" />
+    <result column="OUT_BILL_CODE" property="outBillCode" jdbcType="VARCHAR" />
+    <result column="CO_CODE" property="coCode" jdbcType="VARCHAR" />
+    <result column="ND" property="nd" jdbcType="DECIMAL" />
+    <result column="PROPOSER" property="proposer" jdbcType="VARCHAR" />
+    <result column="PROPOSER_DEPT" property="proposerDept" jdbcType="VARCHAR" />
+    <result column="PROCESS_INST_ID" property="processInstId" jdbcType="DECIMAL" />
+    <result column="INPUTOR" property="inputor" jdbcType="VARCHAR" />
+    <result column="INPUT_DATE" property="inputDate" jdbcType="DATE" />
+    <result column="OUT_DATE" property="outDate" jdbcType="DATE" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="AMOUNT" property="amount" jdbcType="DECIMAL" /> 
+    <result column="OUT_TYPE" property="outType" jdbcType="VARCHAR" />
+    <result column="LOSS_REASON" property="lossReason" jdbcType="VARCHAR" />
+    <result column="LOSS_TIME" property="lossTime" jdbcType="DATE" />
+    
+    <result column="IN_ID" property="sjin.inId" jdbcType="DECIMAL" /> 
+    <result column="SHIJI_PIHAO" property="sjin.shijiPihao" jdbcType="VARCHAR" />
+    
+    <result column="IN_AMOUNT" property="sjin.amount" jdbcType="DECIMAL" />
+    
+    <result column="PRICE" property="sjin.price" jdbcType="DECIMAL" />
+    <result column="EXPIRY_DATE" property="sjin.expiryDate" jdbcType="DATE" />
+    <result column="STORE_CODE" property="sjin.storeCode" jdbcType="VARCHAR" />
+    <result column="IN_BILL_CODE" property="sjin.inBillCode" jdbcType="VARCHAR" />
+    <result column="IN_DATE" property="sjin.inDate" jdbcType="DATE" />
+    <result column="INPUTOR" property="sjin.inputor" jdbcType="VARCHAR" />
+    <result column="INVOICE_CODE" property="sjin.invoiceCode" jdbcType="VARCHAR" />
+    <result column="BUY_CODE" property="sjin.buyCode" jdbcType="VARCHAR" />
+    <result column="TOTAL_NUM" property="sjin.totalNum" jdbcType="DECIMAL" />
+    
+    <result column="IN_REMARK" property="sjin.remark" jdbcType="VARCHAR" />
+    
+    <result column="SUPPLIER_ID" property="sjin.supplier.supplierId" jdbcType="DECIMAL" />
+    <result column="SUPPLIER_NAME" property="sjin.supplier.name" jdbcType="DECIMAL" />
+    
+    <result column="SJ_ID" property="sjin.sj.sjId" jdbcType="DECIMAL" />
+    <result column="NAME" property="sjin.sj.name" jdbcType="VARCHAR" />   
+    <result column="PRODUCTOR_ID" property="sjin.sj.productor.supplierId" jdbcType="DECIMAL" />
+    <result column="PRODUCTOR_NAME" property="sjin.sj.productor.name" jdbcType="VARCHAR" />
+    <result column="SJ_GROUP" property="sjin.sj.sjGroup" jdbcType="VARCHAR" />
+    <result column="UNIT_ID" property="sjin.sj.unit.unitId" jdbcType="VARCHAR" />
+    <result column="UNIT_NAME" property="sjin.sj.unit.unitName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    OUT_ID, OUT_BILL_CODE, CO_CODE, ND, PROPOSER, PROPOSER_DEPT, PROCESS_INST_ID, INPUTOR, 
+    INPUT_DATE, OUT_DATE, REMARK, STATUS, AMOUNT, IN_ID, OUT_TYPE, LOSS_REASON, LOSS_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="java.math.BigDecimal" >
+     select sf_sj_out.out_id,
+        sf_sj_out.out_bill_code,
+        sf_sj_out.co_code,
+        sf_sj_out.nd,
+        sf_sj_out.proposer,
+        sf_sj_out.proposer_dept,
+        sf_sj_out.process_inst_id,
+        sf_sj_out.inputor,
+        sf_sj_out.input_date,
+        sf_sj_out.out_date,
+        sf_sj_out.remark,
+        sf_sj_out.status,
+        sf_sj_out.amount,
+        sf_sj_out.out_type,
+        sf_sj_out.loss_reason,
+        sf_sj_out.loss_time,
+        
+        sj_in.in_id,
+        sj_in.shiji_pihao,
+        sj_in.amount AS IN_AMOUNT,
+        sj_in.price,
+        sj_in.expiry_date,
+        sj_in.store_code,
+        sj_in.in_bill_code,
+        sj_in.in_date,
+        sj_in.inputor,
+        sj_in.invoice_code,
+        sj_in.buy_code, 
+        sj_in.total_num, 
+        sj_in.remark AS IN_REMARK,
+         
+        sj.sj_Id,
+        sj.name,
+       unit.unit_id,
+       unit.unit_name,
+        sj.sj_group,
+        
+        p.name                    as productor_name,
+        p.supplier_id             as productor_id,
+        
+        s.name                    as supplier_name,
+        s.supplier_id             as supplier_id
+   from sf_sj_out,
+        sf_sj_in       sj_in,
+        sf_sj          sj,
+        sf_sj_supplier s,
+        sf_sj_supplier p,
+        sf_sj_unit unit
+  where sf_sj_out.in_id = sj_in.in_id
+    and sj_in.sj_id = sj.sj_id
+    and sj_in.supplier_id = s.supplier_id(+)
+    and sj.productor_id = p.supplier_id(+)
+  and sj.unit_id=unit.unit_id(+) 
+    AND  sf_sj_out.OUT_ID = #outId:DECIMAL#
+  </select>
+  
+  <select id="selectMainDataLst" resultMap="BaseResultMap" parameterClass="elementCondition" >    
+   
+ select sf_sj_out.out_id,
+        sf_sj_out.out_bill_code,
+        sf_sj_out.co_code,
+        sf_sj_out.nd,
+        sf_sj_out.proposer,
+        sf_sj_out.proposer_dept,
+        sf_sj_out.process_inst_id,
+        sf_sj_out.inputor,
+        sf_sj_out.input_date,
+        sf_sj_out.out_date,
+        sf_sj_out.remark,
+        sf_sj_out.status,
+        sf_sj_out.amount,
+        sf_sj_out.out_type,
+        sf_sj_out.loss_reason,
+        sf_sj_out.loss_time,
+        
+        sj_in.in_id,
+        sj_in.shiji_pihao,
+        sj_in.amount AS IN_AMOUNT,
+        sj_in.price,
+        sj_in.expiry_date,
+        sj_in.store_code,
+        sj_in.in_bill_code,
+        sj_in.in_date,
+        sj_in.inputor,
+        sj_in.invoice_code,
+        sj_in.buy_code, 
+        sj_in.total_num, 
+        sj_in.remark AS IN_REMARK,
+         
+        sj.sj_Id,
+        sj.name,
+       unit.unit_id,
+       unit.unit_name,
+        sj.sj_group,
+        
+        p.name                    as productor_name,
+        p.supplier_id             as productor_id,
+        
+        s.name                    as supplier_name,
+        s.supplier_id             as supplier_id
+   from sf_sj_out,
+        sf_sj_in       sj_in,
+        sf_sj          sj,
+        sf_sj_supplier s,
+        sf_sj_supplier p
+  where sf_sj_out.in_id = sj_in.in_id,sf_sj_unit unit
+    and sj_in.sj_id = sj.sj_id
+    and sj_in.supplier_id = s.supplier_id(+)
+    and sj.productor_id = p.supplier_id(+)
+  and sj.unit_id=unit.unit_id(+) 
+    
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="java.math.BigDecimal" >
+    delete from SF_SJ_OUT
+    where OUT_ID = #outId:DECIMAL#
+  </delete>
+  <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfSjOut" >
+    insert into SF_SJ_OUT (OUT_ID, OUT_BILL_CODE, CO_CODE, 
+      ND, PROPOSER, PROPOSER_DEPT, 
+      PROCESS_INST_ID, INPUTOR, INPUT_DATE, 
+      OUT_DATE, REMARK, STATUS, 
+      AMOUNT, IN_ID, OUT_TYPE, 
+      LOSS_REASON, LOSS_TIME)
+    values (#outId:DECIMAL#, #outBillCode:VARCHAR#, #coCode:VARCHAR#, 
+      #nd:DECIMAL#, #proposer:VARCHAR#, #proposerDept:VARCHAR#, 
+      #processInstId:DECIMAL#, #inputor:VARCHAR#, #inputDate:DATE#, 
+      #outDate:DATE#, #remark:VARCHAR#, #status:VARCHAR#, 
+      #amount:DECIMAL#, #sjin.inId:DECIMAL#, #outType:VARCHAR#, 
+      #lossReason:VARCHAR#, #lossTime:DATE#)
+  </insert> 
+  <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfSjOut" >
+    update SF_SJ_OUT
+    set OUT_BILL_CODE = #outBillCode:VARCHAR#,
+      CO_CODE = #coCode:VARCHAR#,
+      ND = #nd:DECIMAL#,
+      PROPOSER = #proposer:VARCHAR#,
+      PROPOSER_DEPT = #proposerDept:VARCHAR#,
+      PROCESS_INST_ID = #processInstId:DECIMAL#,
+      INPUTOR = #inputor:VARCHAR#,
+      INPUT_DATE = #inputDate:DATE#,
+      OUT_DATE = #outDate:DATE#,
+      REMARK = #remark:VARCHAR#,
+      STATUS = #status:VARCHAR#,
+      AMOUNT = #amount:DECIMAL#,
+      IN_ID = #sjin.inId:DECIMAL#,
+      OUT_TYPE = #outType:VARCHAR#,
+      LOSS_REASON = #lossReason:VARCHAR#,
+      LOSS_TIME = #lossTime:DATE#
+    where OUT_ID = #outId:DECIMAL#
+  </update>
+  
+  <select id="getOutedSj" resultClass="java.util.HashMap" parameterClass="elementCondition" >  
+  
+  	select * from v_sf_sj_out where in_id=#sfId:DECIMAL# 
+  </select>
+</sqlMap>

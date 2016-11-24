@@ -19,6 +19,8 @@ import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -37,6 +39,7 @@ import com.ufgov.zc.client.zc.ZcUtil;
 import com.ufgov.zc.common.commonbiz.fieldmap.FieldMapRegister;
 import com.ufgov.zc.common.commonbiz.model.BillElement;
 import com.ufgov.zc.common.sf.model.SfEntrust;
+import com.ufgov.zc.common.sf.model.SfJdjg;
 import com.ufgov.zc.common.sf.model.SfZongheZhiban;
 import com.ufgov.zc.common.sf.publish.ISfZongheZhibanServiceDelegate;
 import com.ufgov.zc.common.system.RequestMeta;
@@ -400,4 +403,28 @@ public class SfUtil {
     
     return true;
   }
+ public SfJdjg getJdjgInfo(String coCode) {
+    
+    ElementConditionDto dto=new ElementConditionDto();
+    dto.setCoCode(coCode);
+    RequestMeta meta=WorkEnv.getInstance().getRequestMeta();
+    SfJdjg jg=(SfJdjg) baseDataServiceDelegate.queryObject("com.ufgov.zc.server.sf.dao.SfJdjgMapper.selectMainDataLst", dto,meta);
+    
+    return jg;
+  }
+
+ public SfJdjg getJdjgInfo() {
+   RequestMeta meta=WorkEnv.getInstance().getRequestMeta();
+   return getJdjgInfo(meta.getSvCoCode()); 
+  }
+ 
+ public static boolean isMobile(String mobile) {
+   Pattern p = Pattern.compile("^((13[0-9])|(15[0-9])|(16[0-9])|(17[0-9])|(19[0-9])|(18[0,5-9]))\\d{8}$");  
+     
+   Matcher m = p.matcher(mobile);  
+     
+//   System.out.println(m.matches()+"---");  
+     
+   return m.matches();  
+ }
 }

@@ -18,6 +18,7 @@ import com.ufgov.zc.common.sf.model.SfAppendMaterial;
 import com.ufgov.zc.common.sf.model.SfEntrust;
 import com.ufgov.zc.common.system.RequestMeta;
 import com.ufgov.zc.common.system.constants.SfElementConstants;
+import com.ufgov.zc.common.system.constants.ZcSettingConstants;
 import com.ufgov.zc.common.system.dto.ElementConditionDto;
 import com.ufgov.zc.common.zc.publish.IZcEbBaseServiceDelegate;
 
@@ -35,7 +36,14 @@ public class SfAppendMaterialNodeBusiness  implements ISfFlowNodeBusiness {
       List<SfAppendMaterial> billLst = getDataLst(entrust.getEntrustId(), meta);
       if (billLst == null || billLst.size() == 0) {
         List<SfAppendMaterial> lst = new ArrayList<SfAppendMaterial>();
+        SfAppendMaterial material = new SfAppendMaterial();
+        material.setEntrustId(entrust.getEntrustId());
+        material.setEntrustCode(entrust.getCode());
+        material.setName(entrust.getName() + "补充检材");
+        material.setCoCode(entrust.getCoCode()); 
         ListCursor lstCursor = new ListCursor(lst, -1);
+        lstCursor.getDataList().add(material);
+        lstCursor.setCurrentObject(material);
         SfAppendMaterialEditPanel editPanel = new SfAppendMaterialEditPanel(flowPanel.getParentDlg(), lstCursor, null, null);
         flowPanel.addTab(editPanel, compoId);
       } else {

@@ -65,7 +65,8 @@ public class SfAppendMaterialNoticeService implements ISfAppendMaterialNoticeSer
     // TCJLODO Auto-generated method stub
     if (inData.getAppendMaterialNotceId()==null ) {
 
-      BigDecimal id=new BigDecimal(ZcSUtil.getNextVal(SfAppendMaterialNotice.SEQ_APPEND_MATERIAL_NOTICE_ID));
+      ZcSUtil su=new ZcSUtil();
+      BigDecimal id=new BigDecimal(su.getNextVal(SfAppendMaterialNotice.SEQ_APPEND_MATERIAL_NOTICE_ID));
       inData.setAppendMaterialNotceId(id);  
 
       boolean isDraft = false;

@@ -66,6 +66,7 @@ import com.ufgov.zc.client.sf.component.JClosableTabbedPane;
 import com.ufgov.zc.client.sf.dataflow.SfDataFlowDialog;
 import com.ufgov.zc.client.sf.dataflow.SfDataFlowUtil;
 import com.ufgov.zc.client.sf.entrust.SfEntrustHandler;
+import com.ufgov.zc.client.sf.util.SfUtil;
 import com.ufgov.zc.client.util.freemark.IWordHandler;
 import com.ufgov.zc.client.util.freemark.WordHandlerFactory;
 import com.ufgov.zc.client.zc.ButtonStatus;
@@ -315,7 +316,7 @@ public class SfAgreementEditPanel extends AbstractMainSubEditPanel {
 
     agreement.setStatus(ZcSettingConstants.WF_STATUS_DRAFT);
     agreement.setNd(this.requestMeta.getSvNd());
-    agreement.setInputDate(this.requestMeta.getSysDate());
+    agreement.setInputDate(SfUtil.getSysDate());
     agreement.setInputor(requestMeta.getSvUserID());
   }
 

@@ -195,12 +195,12 @@ public abstract class SfEntrustWordPrintBasicHandler  extends WordHandlerAdapter
 	}
 
 	protected void setSongJianRenInfo(Map<String, Object> dataMap,			SfEntrust entrust) {
-		    dataMap.put("SJR1", StringUtil.freeMarkFillWordChar(entrust.getSjr()));
+		    dataMap.put("SJR1", StringUtil.freeMarkFillWordChar(entrust.getSjr()==null?"无":entrust.getSjr()));
 		    dataMap.put("ZJMC1", StringUtil.freeMarkFillWordChar(entrust.getSjrZjType()==null?"无":AsValDataCache.getName(SfEntrust.SF_VS_ZHENGJIAN, entrust.getSjrZjType())));
-		    dataMap.put("ZJHM1", StringUtil.freeMarkFillWordChar(entrust.getSjrZjCode()));
-		    dataMap.put("SJR2", StringUtil.freeMarkFillWordChar(entrust.getSjr2())); 
+		    dataMap.put("ZJHM1", StringUtil.freeMarkFillWordChar(entrust.getSjrZjCode()==null?"无":entrust.getSjrZjCode()));
+		    dataMap.put("SJR2", StringUtil.freeMarkFillWordChar(entrust.getSjr2()==null?"无":entrust.getSjr2())); 
 		    dataMap.put("ZJMC2", StringUtil.freeMarkFillWordChar(entrust.getSjr2ZjType()==null?"无":AsValDataCache.getName(SfEntrust.SF_VS_ZHENGJIAN, entrust.getSjr2ZjType())));
-		    dataMap.put("ZJHM2", StringUtil.freeMarkFillWordChar(entrust.getSjr2ZjCode()));
+		    dataMap.put("ZJHM2", StringUtil.freeMarkFillWordChar(entrust.getSjr2ZjCode()==null?"无":entrust.getSjr2ZjCode()));
 		    String dh=StringUtil.freeMarkFillWordChar(entrust.getSjrTel()==null?"":entrust.getSjrTel().trim());
 		    if(dh.trim().length()>0 && entrust.getSjr2Tel()!=null && entrust.getSjr2Tel().trim().length()>0){
 		    	dh=dh+", "+StringUtil.freeMarkFillWordChar(entrust.getSjr2Tel());
@@ -212,7 +212,7 @@ public abstract class SfEntrustWordPrintBasicHandler  extends WordHandlerAdapter
 		    }
 		    dataMap.put("SJRDH", dh);
 		    dataMap.put("WTFCZ", StringUtil.freeMarkFillWordChar(entrust.getSjrFax()==null?"无":entrust.getSjrFax()));
-		    dataMap.put("WTFDZ", StringUtil.freeMarkFillWordChar(entrust.getSjrZip()==null?"无":entrust.getSjrZip()));//放到委托里获取了
+		    dataMap.put("WTFDZ", StringUtil.freeMarkFillWordChar(entrust.getSjrAddress()==null?"无":entrust.getSjrAddress()));//放到委托里获取了
 	}
 
 	protected void setShouLiInfo(Map<String, Object> dataMap, SfEntrust entrust) {

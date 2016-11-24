@@ -51,7 +51,7 @@ public interface IZcEbBaseServiceDelegate extends Publishable {
 
   public void insertObjectListFN(String insertSqlId, List list,RequestMeta meta);
   
-  public void delete(String sqlMapDeleteId, Object parameter,RequestMeta meta);
+  public void deleteFN(String sqlMapDeleteId, Object parameter,RequestMeta meta);
 
   /*
    * 工作流相关

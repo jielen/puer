@@ -43,7 +43,9 @@ public class SfJdReportService implements ISfJdReportService {
 	public SfJdReport selectByPrimaryKey(BigDecimal id, RequestMeta requestMeta) {
 		SfJdReport rtn= sfJdReportMapper.selectByPrimaryKey(id);
 		rtn.setEntrust(sfEntrustService.selectByPrimaryKey(rtn.getEntrustId(), requestMeta));
-		rtn.setResult(jdResultService.selectByPrimaryKey(rtn.getJdResultId(), requestMeta));
+		if(rtn.getJdResultId()!=null){
+		  rtn.setResult(jdResultService.selectByPrimaryKey(rtn.getJdResultId(), requestMeta));
+		}
 		rtn.digest();
 		return rtn;
 	}
@@ -51,7 +53,8 @@ public class SfJdReportService implements ISfJdReportService {
 	
 	public SfJdReport saveFN(SfJdReport record, RequestMeta requestMeta) {
 		if(record.getJdReporId()==null){
-		      BigDecimal id = new BigDecimal(ZcSUtil.getNextVal(SfJdReport.SEQ_SF_JD_REPORT_ID));
+	    ZcSUtil su=new ZcSUtil();
+		      BigDecimal id = new BigDecimal(su.getNextVal(SfJdReport.SEQ_SF_JD_REPORT_ID));
 		      record.setJdReporId(id);
 		      boolean isDraft = false;
 		      String userId = requestMeta.getSvUserID();
@@ -123,7 +126,7 @@ public class SfJdReportService implements ISfJdReportService {
 				  Iterator keys=mobiles.keySet().iterator();
 				  while(keys.hasNext()){
 					  String key=keys.next().toString(); 
-					  su.sendToBox(""+qx.getEntrustId().intValue(), "", msg, key, requestMeta.getSysDate(), requestMeta.getSysDate());
+					  su.sendToBox(""+qx.getEntrustId().intValue(), "", msg, key, ZcSUtil.getSysDate(), ZcSUtil.getSysDate());
 				  } 
 			  }
 		  }	  
@@ -166,7 +169,7 @@ public class SfJdReportService implements ISfJdReportService {
 				  Iterator keys=mobiles.keySet().iterator();
 				  while(keys.hasNext()){
 					  String key=keys.next().toString(); 
-					  su.sendToBox(""+qx.getEntrustId().intValue(), "", msg, key, requestMeta.getSysDate(), requestMeta.getSysDate());
+					  su.sendToBox(""+qx.getEntrustId().intValue(), "", msg, key, ZcSUtil.getSysDate(), ZcSUtil.getSysDate());
 				  } 
 			  }
 		  }

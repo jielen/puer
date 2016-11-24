@@ -51,7 +51,7 @@ public class SfMajorMapperImp extends SqlMapClientDaoSupport implements SfMajorM
   
   public int updateByPrimaryKey(SfMajor record) {
     // TCJLODO Auto-generated method stub
-    return 0;
+    return getSqlMapClientTemplate().update("com.ufgov.zc.server.sf.dao.SfMajorMapper.updateByPrimaryKey", record);
   }
 
 

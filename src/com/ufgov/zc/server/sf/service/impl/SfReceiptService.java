@@ -83,7 +83,8 @@ public class SfReceiptService implements ISfReceiptService {
     // TCJLODO Auto-generated method stub
     if (inData.getReceiptId()==null ) {
 
-      BigDecimal id=new BigDecimal(ZcSUtil.getNextVal(SfReceipt.SEQ_SF_RECEIPT_ID));
+      ZcSUtil su=new ZcSUtil();
+      BigDecimal id=new BigDecimal(su.getNextVal(SfReceipt.SEQ_SF_RECEIPT_ID));
       inData.setReceiptId(id);  
 
       boolean isDraft = false;
@@ -209,7 +210,7 @@ private void sendMsg(SfReceipt bill,RequestMeta requestMeta) {
 			  Iterator keys=mobiles.keySet().iterator();
 			  while(keys.hasNext()){
 				  String key=keys.next().toString(); 
-				  su.sendToBox(""+bill.getReceiptId().intValue(), "", msg, key, requestMeta.getSysDate(), requestMeta.getSysDate());				   
+				  su.sendToBox(""+bill.getReceiptId().intValue(), "", msg, key, ZcSUtil.getSysDate(), ZcSUtil.getSysDate());				   
 			  } 
 		  }
 	  }	  

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.ufgov.zc.common.console.model.AsEmp;
 import com.ufgov.zc.common.zc.model.ZcBaseBill;
 
 public class SfJdPerson extends ZcBaseBill{
@@ -43,6 +44,8 @@ public class SfJdPerson extends ZcBaseBill{
   
 
   public static final String SEQ_SF_JD_PERSON_ID="SEQ_SF_JD_PERSON_ID";
+  
+  private AsEmp asEmp=new AsEmp();
   
   private List majorLst=new ArrayList();
   
@@ -383,4 +386,12 @@ public class SfJdPerson extends ZcBaseBill{
 	public void setCertificatLst(List certificatLst) {
 		this.certificatLst = certificatLst;
 	}
+
+  public AsEmp getAsEmp() {
+    return asEmp;
+  }
+
+  public void setAsEmp(AsEmp asEmp) {
+    this.asEmp = asEmp;
+  }
 }

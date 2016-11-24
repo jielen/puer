@@ -4,36 +4,36 @@
 	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
   <resultMap id="BaseResultMap" class="com.ufgov.zc.common.sf.model.SfJdDocAuditDetail" > 
     <result column="JD_DOC_AUDIT_ID" property="jdDocAuditId" jdbcType="DECIMAL" />
-    <result column="DOC_TYPE_CODE" property="docType.docTypeCode" jdbcType="VARCHAR" />
-    <result column="DOC_TYPE_NAME" property="docType.docTypeName" jdbcType="VARCHAR" />
+    <result column="DOC_TYPE_CODE" property="docTypeCode" jdbcType="VARCHAR" /> 
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
     <result column="QUANTITY" property="quantity" jdbcType="DECIMAL" />
+    <result column="DOC_NAME" property="docName" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" > 
-    JD_DOC_AUDIT_ID, DOC_TYPE_CODE, REMARK,QUANTITY
+    JD_DOC_AUDIT_ID, DOC_TYPE_CODE, REMARK,QUANTITY,DOC_NAME
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="java.math.BigDecimal" > 
     select 
-    d.JD_DOC_AUDIT_ID, t.DOC_TYPE_CODE,t.DOC_TYPE_NAME, d.REMARK,D.QUANTITY
-    from SF_JD_DOC_AUDIT_DETAIL d,SF_JD_DOC_TYPE t
-    where JD_DOC_AUDIT_ID = #jdDocAuditId:DECIMAL#
-    AND D.DOC_TYPE_CODE=t.DOC_TYPE_CODE
+    <include refid="Base_Column_List" />
+    from SF_JD_DOC_AUDIT_DETAIL  
+    where JD_DOC_AUDIT_ID = #jdDocAuditId:DECIMAL# 
   </select>
   <delete id="deleteByPrimaryKey" parameterClass="java.math.BigDecimal" > 
     delete from SF_JD_DOC_AUDIT_DETAIL
     where JD_DOC_AUDIT_ID = #jdDocAuditId:DECIMAL#
   </delete>
   <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfJdDocAuditDetail" > 
-    insert into SF_JD_DOC_AUDIT_DETAIL (JD_DOC_AUDIT_ID, DOC_TYPE_CODE, REMARK,QUANTITY
+    insert into SF_JD_DOC_AUDIT_DETAIL (JD_DOC_AUDIT_ID, DOC_TYPE_CODE, REMARK,QUANTITY,DOC_NAME
       )
-    values (#jdDocAuditId:DECIMAL#, #docTypeCode:VARCHAR#, #remark:VARCHAR#,#quantity:DECIMAL#
+    values (#jdDocAuditId:DECIMAL#, #docTypeCode:VARCHAR#, #remark:VARCHAR#,#quantity:DECIMAL#,#docName#
       )
   </insert>
   <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfJdDocAuditDetail" > 
     update SF_JD_DOC_AUDIT_DETAIL
     set DOC_TYPE_CODE = #docTypeCode:VARCHAR#,
       REMARK = #remark:VARCHAR#,
-      QUANTITY=#quantity:DECIMAL#
+      QUANTITY=#quantity:DECIMAL#,
+      DOC_NAME=#docName#
     where JD_DOC_AUDIT_ID = #jdDocAuditId:DECIMAL#
   </update>
 </sqlMap>

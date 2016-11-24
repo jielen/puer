@@ -2,6 +2,7 @@
 <!DOCTYPE sqlMap   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <sqlMap namespace="com.ufgov.zc.server.sf.dao.SfJdPersonMapper" >
 	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+	<typeAlias alias="asEmp" type="com.ufgov.zc.common.console.model.AsEmp"/>
   <resultMap id="BaseResultMap" class="com.ufgov.zc.common.sf.model.SfJdPerson" >
     <result column="JD_PERSON_ID" property="jdPersonId" jdbcType="DECIMAL" />
     <result column="NAME" property="name" jdbcType="VARCHAR" />
@@ -13,6 +14,7 @@
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
     <result column="ACCOUNT" property="account" jdbcType="VARCHAR" />
     <result column="PASSWORD" property="password" jdbcType="VARCHAR" />
+    <result column="CO_CODE" property="coCode" jdbcType="VARCHAR" /> 
   </resultMap>
   
 	<resultMap id="userResult" class="com.ufgov.zc.common.system.model.User">
@@ -20,15 +22,35 @@
 		<result property="userName" column="USER_NAME" />	
 	</resultMap>
 	
+	<resultMap class="asEmp" id="asEmpResult">
+		<result property="empCode" column="EMP_CODE"></result>
+		<result property="empName" column="EMP_NAME"></result>
+		<result property="userId" column="USER_ID"></result>
+		<result property="sex" column="SEX"></result>
+		<result property="titleTech" column="TITLE_TECH"></result>
+		<result property="phone" column="PHONE"></result>
+		<result property="email" column="EMAIL"></result>
+		<result property="identityCard" column="IDENTITY_CARD"></result>
+		<result property="rtXuin" column="RTXUIN"></result>
+		<result property="empIndex" column="EMP_INDEX"></result>
+		<result property="isLogin" column="IS_LOGIN"></result>
+		<result property="caSerial" column="CA_SERIAL"></result>
+		<result property="coName" column="CO_NAME"></result>
+		<result property="transDate" column="TRANS_DATE"></result>
+		<result property="userBirthDate" column="USER_BIRTH"></result>
+		<result property="photo" column="PHOTO"></result>
+		<result property="photoBlobid" column="PHOTO_BLOBID"></result>
+		<result property="mobile" column="MOBILE"></result> 
+	</resultMap>
   <sql id="Base_Column_List" >
     JD_PERSON_ID, NAME, SEX, BIRTHDAY, TECH_TITLE, CERTIFICATE_NO, STATUS, REMARK, ACCOUNT, 
-    PASSWORD
+    PASSWORD,CO_CODE 
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="java.math.BigDecimal" >
     select 
     <include refid="Base_Column_List" />
-    from SF_JD_PERSON
-    where JD_PERSON_ID = #jdPersonId:DECIMAL#
+    from SF_JD_PERSON 
+    where JD_PERSON_ID = #jdPersonId:DECIMAL# 
   </select>
   <select id="selectByAccount" resultMap="BaseResultMap" parameterClass="java.lang.String" >
     select 
@@ -51,7 +73,7 @@
 		</isNotNull>  		
 		<isNotNull prepend="and" property="dattr2"> <!--资质菜单sql  -->	
 			<isEqual property="dattr2" compareValue="haveZizhi">	
-				CERTIFICATE_NO is not null
+				(CERTIFICATE_NO is not null and CO_CODE=#coCode#)
 			</isEqual> 
 		</isNotNull> 		
 		<isNotNull prepend="and" property="status">  					 		
@@ -70,12 +92,11 @@
   <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfJdPerson" >
     insert into SF_JD_PERSON (JD_PERSON_ID, NAME, SEX, 
       BIRTHDAY, TECH_TITLE, CERTIFICATE_NO, 
-      STATUS, REMARK, ACCOUNT, 
-      PASSWORD)
+      STATUS, REMARK, ACCOUNT, PASSWORD,CO_CODE)
     values (#jdPersonId:DECIMAL#, #name:VARCHAR#, #sex:VARCHAR#, 
       #birthday:DATE#, #techTitle:VARCHAR#, #certificateNo:VARCHAR#, 
       #status:VARCHAR#, #remark:VARCHAR#, #account:VARCHAR#, 
-      #password:VARCHAR#)
+      #password:VARCHAR#,#coCode#)
   </insert>
   <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfJdPerson" >
     update SF_JD_PERSON
@@ -87,7 +108,8 @@
       STATUS = #status:VARCHAR#,
       REMARK = #remark:VARCHAR#,
       ACCOUNT = #account:VARCHAR#,
-      PASSWORD = #password:VARCHAR#
+      PASSWORD = #password:VARCHAR#,
+      CO_CODE=#coCode#
     where JD_PERSON_ID = #jdPersonId:DECIMAL#
   </update>
   <!-- 检查同登录名的用户 -->
@@ -98,8 +120,8 @@
   </select>
   
 <!-- 获取鉴定负责人-->
-	<select id="getUser" resultMap="userResult" parameterClass="elementCondition">
-		select u.user_id,u.user_name from 
+	<select id="getUser" resultMap="asEmpResult" parameterClass="elementCondition">
+		select e.* from 
 		as_emp_position ep,as_emp e,as_user u
 		where 
 		  ep.emp_code=e.emp_code

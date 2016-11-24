@@ -51,7 +51,13 @@
 		</isNotNull>   
 	<isNotEqual prepend="and" compareValue="0" property="nd">
 			SF_JD_DOC_AUDIT.ND = #nd#
-   </isNotEqual>
+   </isNotEqual>   
+	<isNotNull prepend="and"   property="coCode">
+			SF_JD_DOC_AUDIT.co_code = #coCode#
+   </isNotNull>   
+	<isNotNull prepend="and"   property="sfId">
+			SF_JD_DOC_AUDIT.ENTRUST_ID = #sfId#
+   </isNotNull>
 		<isNotNull prepend="AND" property="status">
 			<isEqual property="status" compareValue="todo">
 				exists (select instance_id from V_WF_CURRENT_TASK_ZC_TODO where 
