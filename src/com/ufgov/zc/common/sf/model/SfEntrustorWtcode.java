@@ -57,7 +57,7 @@ public class SfEntrustorWtcode extends ZcBaseBill {
     public String getWeiTuoCode(String entrustorName) {
       StringBuffer sb=new StringBuffer();
       sb.append(entrustorName);
-      sb.append("[").append(nd).append("]第").append(numNo).append("号委托");
+      sb.append("委[").append(nd).append("]第").append(numNo).append("号");
       return sb.toString();
     }
 }

@@ -23,10 +23,12 @@
     <result column="SUPPLIER_NAME" property="supplier.name" jdbcType="DECIMAL" />
     
     <result column="SJ_ID" property="sj.sjId" jdbcType="DECIMAL" />
-    <result column="NAME" property="sj.name" jdbcType="VARCHAR" />   
+    <result column="NAME" property="sj.name" jdbcType="VARCHAR" />  
+    <result column="PACK_SPEC" property="sj.packSpec" jdbcType="VARCHAR" /> 
     <result column="PRODUCTOR_ID" property="sj.productor.supplierId" jdbcType="DECIMAL" />
     <result column="PRODUCTOR_NAME" property="sj.productor.name" jdbcType="VARCHAR" />
-    <result column="SJ_GROUP" property="sj.sjGroup" jdbcType="VARCHAR" />
+    <result column="GROUP_ID" property="sj.sjGroup.groupId" jdbcType="VARCHAR" />
+    <result column="GROUP_NAME" property="sj.sjGroup.groupName" jdbcType="VARCHAR" />
     <result column="UNIT_ID" property="sj.unit.unitId" jdbcType="VARCHAR" />
     <result column="UNIT_NAME" property="sj.unit.unitName" jdbcType="VARCHAR" />
   </resultMap>
@@ -52,20 +54,24 @@
        sf_sj_in.remark,
        sj.sj_Id,
        sj.name,
+       SJ.pack_spec,
        unit.unit_id,
        unit.unit_name,
-       sj.sj_group, 
+       SF_SJ_GROUP.GROUP_ID,
+       SF_SJ_GROUP.GROUP_NAME,
        p.name as productor_name,
        p.supplier_id as productor_id,
        s.name as supplier_name,
        s.supplier_id as supplier_id       
-  from sf_sj sj,sf_sj_in ,sf_sj_supplier s,sf_sj_supplier p,sf_sj_unit unit
+  from sf_sj sj,sf_sj_in ,sf_sj_supplier s,sf_sj_supplier p,sf_sj_unit unit,SF_SJ_GROUP 
   where sj.sj_id=sf_sj_in.sj_id
   and sj.productor_id=p.supplier_id(+)
   and sf_sj_in.supplier_id=s.supplier_id(+) 
-  and sf_sj.unit_id=unit.unit_id(+) 
+  and sj.unit_id=unit.unit_id(+) 
+  AND SJ.GROUP_ID=SF_SJ_GROUP.GROUP_ID(+)
   and sf_sj_in.IN_ID = #inId:DECIMAL#
-  </select>
+  </select> 
+  
   <select id="getMainLst" resultMap="BaseResultMap" parameterClass="elementCondition" >     
 select sf_sj_in.in_id, 
        sf_sj_in.shiji_pihao,
@@ -84,22 +90,31 @@ select sf_sj_in.in_id,
        sf_sj_in.remark,
        sj.sj_Id,
        sj.name,
+       SJ.pack_spec,
        unit.unit_id,
        unit.unit_name,
-       sj.sj_group, 
+       SF_SJ_GROUP.GROUP_ID,
+       SF_SJ_GROUP.GROUP_NAME,
        p.name as productor_name,
        p.supplier_id as productor_id,
        s.name as supplier_name,
        s.supplier_id as supplier_id       
-  from sf_sj sj,sf_sj_in ,sf_sj_supplier s,sf_sj_supplier p,sf_sj_unit unit
+  from sf_sj sj,sf_sj_in ,sf_sj_supplier s,sf_sj_supplier p,sf_sj_unit unit,SF_SJ_GROUP 
   where sj.sj_id=sf_sj_in.sj_id
   and sj.productor_id=p.supplier_id(+)
   and sf_sj_in.supplier_id=s.supplier_id(+)  
-  and sf_sj.unit_id=unit.unit_id(+) 
+  and sj.unit_id=unit.unit_id(+) 
+  AND SJ.GROUP_ID=SF_SJ_GROUP.GROUP_ID(+)
 		<include refid="BusiNumLim.BusiNumLimStr" />  
 	<isNotEqual prepend="and" compareValue="0" property="nd">
 			sf_sj_in.ND = #nd#
-   </isNotEqual>  
+   </isNotEqual> 
+  <isNotNull prepend="AND" property="dattr1"> <!-- 是否已经被是使用 -->
+  	<isEqual property="dattr1" compareValue="using">
+  	sf_sj_in.in_id=#inId:DECIMAL#
+  	and exists (select 1 from sf_sj_out where sf_sj_out.in_id=sf_sj_in.IN_ID)
+  	</isEqual>
+  </isNotNull>
   </select>
   <delete id="deleteByPrimaryKey" parameterClass="java.math.BigDecimal" >
     delete from SF_SJ_IN
@@ -161,20 +176,23 @@ select sf_sj_in.in_id,
        sf_sj_in.remark,
        sj.sj_Id,
        sj.name,
+       SJ.pack_spec,
        unit.unit_id,
        unit.unit_name,
-       sj.sj_group, 
+       SF_SJ_GROUP.GROUP_ID,
+       SF_SJ_GROUP.GROUP_NAME,
        p.name as productor_name,
        p.supplier_id as productor_id,
        s.name as supplier_name,
        s.supplier_id as supplier_id       
-  from sf_sj sj,sf_sj_in ,sf_sj_supplier s,sf_sj_supplier p,v_sf_sj_out sjo,sf_sj_unit unit
+  from sf_sj sj,sf_sj_in ,sf_sj_supplier s,sf_sj_supplier p,v_sf_sj_out sjo,sf_sj_unit unit,SF_SJ_GROUP 
   where sj.sj_id=sf_sj_in.sj_id
   and sj.status='enable'
   and sj.productor_id=p.supplier_id(+)
   and sf_sj_in.supplier_id=s.supplier_id(+)  
   and sf_sj_in.in_id=sjo.in_id(+)   
-  and sf_sj.unit_id=unit.unit_id(+)  
+  and sj.unit_id=unit.unit_id(+)  
+  AND SJ.GROUP_ID=SF_SJ_GROUP.GROUP_ID(+)
 		<isNotNull prepend="AND" property="coCode"> 
 			sf_sj_in.co_code=#coCode#
 		</isNotNull>   

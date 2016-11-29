@@ -20,6 +20,7 @@ public class SfEntrustor extends ZcBaseBill{
   public static final String LINK_TEL="SF_LINK_TEL";
   public static final String ENTRUSTOR_TYPE="SF_ENTRUSTOR_TYPE";
   public static final String PARENT_ID="SF_ENTRUSTOR_PARENT_ID";
+  public static final String DISTRICT_CODE="SF_ENTRUSTOR_DISTRICT_CODE";
   
   
   
@@ -63,14 +64,20 @@ public class SfEntrustor extends ZcBaseBill{
  */
   public static final String SF_VS_ENTRUSTOR_TYPE = "SF_VS_ENTRUSTOR_TYPE";
   
+
+  public static final String SF_VS_ENTRUSTOR_DISTRICT = "SF_VS_ENTRUSTOR_DISTRICT";
+  
   /**
    * 委托方登陆系统时的对应用户信息
    */
   private User user=new User();
+   
   
   private SfEntrustorUser wtfUser;
   
   private String entrustorType;
+  
+  private String districtCode;
   
   private BigDecimal parentId;
   private String parentName;
@@ -318,6 +325,16 @@ public class SfEntrustor extends ZcBaseBill{
   public void setShortName(String shortName) {
     this.shortName = shortName;
   }
+ 
+
+  public String getDistrictCode() {
+    return districtCode;
+  }
+
+  public void setDistrictCode(String districtCode) {
+    this.districtCode = districtCode;
+  }
+
 
   /**
    * 

@@ -24,7 +24,9 @@ public class SfEntrustorToTableModelConverter {
     Vector values = new Vector();
 
     names.add(LangTransMeta.translate(SfEntrustor.ENTRUSTOR_TYPE));
+//    names.add(LangTransMeta.translate(SfEntrustor.CODE));
     names.add(LangTransMeta.translate(SfEntrustor.NAME));
+    names.add(LangTransMeta.translate(SfEntrustor.SHORT_NAME));
     names.add(LangTransMeta.translate(SfEntrustor.LINK_MAN));
     names.add(LangTransMeta.translate(SfEntrustor.LINK_TEL));
     names.add(LangTransMeta.translate(SfEntrustor.ADDRESS));
@@ -37,7 +39,9 @@ public class SfEntrustorToTableModelConverter {
         SfEntrustor entrustor = (SfEntrustor) entrustorLst.get(i);
 
         rowData.add(AsValDataCache.getName(SfEntrustor.SF_VS_ENTRUSTOR_TYPE, entrustor.getEntrustorType()));
+//        rowData.add(entrustor.getCode());
         rowData.add(entrustor.getName());
+        rowData.add(entrustor.getShortName());
         rowData.add(entrustor.getLinkMan());
         rowData.add(entrustor.getLinkTel());
         rowData.add(entrustor.getAddress());

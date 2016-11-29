@@ -26,6 +26,7 @@ public class SfMaterials extends ZcBaseBill {
   public static final String COL_SAVE_ADDRESS="SF_MATERIALS_SAVE_ADDRESS"; // 存储位置
   public static final String COL_SAVE_CONDITON="SF_MATERIALS_SAVE_CONDITON"; // 存储条件
   public static final String COL_UNIT="SF_MATERIALS_UNIT"; // 单位
+  public static final String COL_TQ_INFO="SF_MATERIALS_TQ_INFO"; // 检材提取位置说明
 
   
 //  public static final String COL_ATTACH_FILE="SF_MATERIALS_ATTACH_FILE"; // 文件
@@ -77,6 +78,7 @@ public class SfMaterials extends ZcBaseBill {
   private String barCode;*/
   
 
+  private String tqInfo;
   private String attachFile;
   private String attachFileBlobid;
   private String jianHouChuliType;
@@ -297,7 +299,7 @@ public void setBianhao(String bianhao) {
 		  sb.append(": ");
 	  }
 	  if(getBianhao()!=null){
-		  sb.append(getBianhao()).append(" ");
+		  sb.append(getBianhao()).append("、");
 	  }
 	  if(getName()!=null){
 		  sb.append(getName()).append(" ");
@@ -384,6 +386,14 @@ public String getBarCode() {
 
 public void setBarCode(String barCode) {
 	this.barCode = barCode;
+}
+
+public String getTqInfo() {
+  return tqInfo;
+}
+
+public void setTqInfo(String tqInfo) {
+  this.tqInfo = tqInfo;
 }
  
 }

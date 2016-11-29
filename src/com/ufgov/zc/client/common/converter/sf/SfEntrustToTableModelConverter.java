@@ -171,7 +171,8 @@ public class SfEntrustToTableModelConverter {
     materialInfo.add(new ColumnBeanPropertyPair(SfMaterials.COL_QUANTITY3, "quantity3", LangTransMeta.translate(SfMaterials.COL_QUANTITY3)));
         materialInfo.add(new ColumnBeanPropertyPair(SfMaterials.COL_UNIT, "unit", LangTransMeta.translate(SfMaterials.COL_UNIT)));
     materialInfo.add(new ColumnBeanPropertyPair(SfMaterials.COL_DESCRIPTION, "description", LangTransMeta.translate(SfMaterials.COL_DESCRIPTION)));
-    materialInfo.add(new ColumnBeanPropertyPair(SfMaterials.COL_ATTACH_FILE, "attachFile", LangTransMeta.translate(SfMaterials.COL_ATTACH_FILE))); 
+    materialInfo.add(new ColumnBeanPropertyPair(SfMaterials.COL_ATTACH_FILE, "attachFile", LangTransMeta.translate(SfMaterials.COL_ATTACH_FILE)));
+    materialInfo.add(new ColumnBeanPropertyPair(SfMaterials.COL_TQ_INFO, "tqInfo", LangTransMeta.translate(SfMaterials.COL_TQ_INFO))); 
     materialInfo.add(new ColumnBeanPropertyPair(SfMaterials.COL_SAVE_CONDITON, "saveConditon", LangTransMeta.translate(SfMaterials.COL_SAVE_CONDITON))); 
     materialInfo.add(new ColumnBeanPropertyPair(SfMaterials.COL_SAVE_ADDRESS, "saveAddress", LangTransMeta.translate(SfMaterials.COL_SAVE_ADDRESS))); 
     materialInfo.add(new ColumnBeanPropertyPair(SfMaterials.COL_JIAN_HOU_STORE_TIME, "jianHouStoreTime", LangTransMeta.translate(SfMaterials.COL_JIAN_HOU_STORE_TIME))); 

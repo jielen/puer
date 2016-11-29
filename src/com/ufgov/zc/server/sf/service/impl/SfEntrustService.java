@@ -191,7 +191,7 @@ public SfEntrust saveFN(SfEntrust inData, RequestMeta requestMeta) {
       zcEbBaseService.updateObjectList("com.ufgov.zc.server.sf.dao.SfEntrustorWtcodeMapper.updateByPrimaryKey", l);
     }
     if(inData.getEntrustor().getShortName()!=null && inData.getEntrustor().getShortName().trim().length()>0){
-      return wtcode.getWeiTuoCode(inData.getEntrustor().getShortName());
+      return wtcode.getWeiTuoCode(inData.getEntrustor().getShortName().trim());
     }
     return wtcode.getWeiTuoCode(inData.getEntrustor().getName());
 }

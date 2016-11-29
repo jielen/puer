@@ -36,11 +36,12 @@ public class SfEntrustorDialog extends GkBaseDialog {
 
     this.setTitle(LangTransMeta.translate(listPanel.getcompoId()));
 
-    this.setSize(UIConstants.DIALOG_3_LEVEL_WIDTH, UIConstants.DIALOG_3_LEVEL_HEIGHT);
+    this.setSize(800,400);
+
+    this.validate();
 
     this.moveToScreenCenter();
 
-    this.pack();
 
     //editPanel.refreshData();s
 

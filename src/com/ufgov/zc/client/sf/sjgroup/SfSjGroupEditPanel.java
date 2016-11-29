@@ -180,7 +180,7 @@ public class SfSjGroupEditPanel extends AbstractMainSubEditPanel {
 
     this.listPanel = listPanel;
 
-    this.parent = parent;
+    this.parent = dialog;
 
     this.forenEntityDialog = forenEntityDialog;
 
@@ -725,7 +725,7 @@ public class SfSjGroupEditPanel extends AbstractMainSubEditPanel {
       try {
 
         requestMeta.setFuncId(deleteButton.getFuncId());
-        zcEbBaseServiceDelegate.deleteFN("", major.getGroupId(), requestMeta); 
+        zcEbBaseServiceDelegate.deleteFN("com.ufgov.zc.server.sf.dao.SfSjGroupMapper.deleteByPrimaryKey", major.getGroupId(), requestMeta); 
 
       } catch (Exception e) {
 
@@ -748,6 +748,7 @@ public class SfSjGroupEditPanel extends AbstractMainSubEditPanel {
         } else {
           refreshParentForeignDialog(null);
         }
+        parent.dispose();
 
       } else {
 

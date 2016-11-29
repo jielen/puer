@@ -503,13 +503,16 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
     SwingUtil.setTableCellEditor(table, SfMaterials.COL_MATERIAL_TYPE, new AsValComboBoxCellEditor(SfMaterials.SF_VS_MATERIAL_TYPE));
     SwingUtil.setTableCellRenderer(table, SfMaterials.COL_MATERIAL_TYPE, new AsValCellRenderer(SfMaterials.SF_VS_MATERIAL_TYPE));
 
-    FileCellEditor fileEditor = new FileCellEditor("attachFileBlobid", true, (BeanTableModel) table.getModel());
+    FileCellEditor fileEditor = new FileCellEditor("attachFileBlobid", false, (BeanTableModel) table.getModel());
     fileEditor.setDownloadFileEnable(true);
     SwingUtil.setTableCellEditor(table, SfMaterials.COL_ATTACH_FILE, fileEditor);
     SwingUtil.setTableCellEditor(table, SfMaterials.COL_JIAN_HOU_STORE_TIME, new MoneyCellEditor(false));
     SwingUtil.setTableCellRenderer(table, SfMaterials.COL_JIAN_HOU_STORE_TIME, new NumberCellRenderer());
     SwingUtil.setTableCellEditor(table, SfMaterials.COL_JIAN_HOU_CHULI_TYPE, new AsValComboBoxCellEditor(SfMaterials.SF_VS_MATERIAL_JIAN_HOU_CHULI_TYPE));
     SwingUtil.setTableCellRenderer(table, SfMaterials.COL_JIAN_HOU_CHULI_TYPE, new AsValCellRenderer(SfMaterials.SF_VS_MATERIAL_JIAN_HOU_CHULI_TYPE));
+    /*table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+    TableColumn c=table.getColumn(SfMaterials.COL_NAME);
+    c.setPreferredWidth(200);*/
   }
 
   protected void updateFieldEditorsEditable() {

@@ -144,7 +144,7 @@
        SF_SJ.name,
        SF_SJ.pym,
        SF_SJ.txm,
-       SF_SJ.pack_spec,,
+       SF_SJ.pack_spec,
        unit.unit_id,
        unit.unit_name,
        SF_SJ.store_condition,
@@ -158,15 +158,15 @@
        SF_SJ.co_code,
        SF_SJ.productor_id,
        SF_SJ.regist_code,
-       SF_SJ_SUPPLIER.NAME AS PRODUCTOR_NAME,SF_SJ_UNIT UNIT
+       SF_SJ_SUPPLIER.NAME AS PRODUCTOR_NAME,
        SF_SJ_GROUP.GROUP_ID,
        SF_SJ_GROUP.GROUP_NAME
-  from sf_sj,SF_SJ_SUPPLIER  
-  WHERE SF_SJ.PRODUCTOR_ID=SF_SJ_SUPPLIER.SUPPLIER_ID,SF_SJ_GROUP
-  AND SF_SJ.UNIT_ID=UNIT.UNIT_ID(+)  
-  AND  SF_SJ.GROUP_ID=SF_SJ_GROUP.GROUP_ID(+)
-  AND  SF_SJ.SJ_ID = #sfId:DECIMAL#
-    and  
+  from sf_sj,SF_SJ_SUPPLIER ,SF_SJ_UNIT UNIT,SF_SJ_GROUP
+  WHERE SF_SJ.PRODUCTOR_ID=SF_SJ_SUPPLIER.SUPPLIER_ID
+  AND SF_SJ.UNIT_ID=UNIT.UNIT_ID(+)
+  AND SF_SJ.GROUP_ID=SF_SJ_GROUP.GROUP_ID(+)
+  AND  SF_SJ.SJ_ID = #sfId:DECIMAL# 
+  and  
 	exists (select 1 from sf_sj_in where sf_sj.SJ_ID=sf_sj_in.SJ_ID )
 	 
   </select>

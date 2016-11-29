@@ -1,4 +1,4 @@
-package com.ufgov.zc.client.sf.sjgroup;
+package com.ufgov.zc.client.sf.sjunit;
 
 import java.awt.BorderLayout;
 import java.awt.Dialog;
@@ -9,35 +9,34 @@ import com.ufgov.zc.client.common.ListCursor;
 import com.ufgov.zc.client.common.UIConstants;
 import com.ufgov.zc.client.component.GkBaseDialog;
 import com.ufgov.zc.client.component.zc.fieldeditor.ForeignEntityDialog;
-import com.ufgov.zc.client.sf.entrustor.SfEntrustorEditPanel;
 
-public class SfSjGroupDialog extends GkBaseDialog {
+public class SfSjUnitDialog extends GkBaseDialog {
 
-  private SfSjGroupListPanel listPanel;
-  private SfSjGroupEditPanel editPanel;
-  private SfSjGroupDialog self=this;
+  private SfSjUnitListPanel listPanel;
+  private SfSjUnitEditPanel editPanel;
+  private SfSjUnitDialog self=this;
   private ForeignEntityDialog forenEntityDialog;
 
-  public SfSjGroupDialog(SfSjGroupListPanel listPanel, List beanList, int editingRow, String tabStatus) {
+  public SfSjUnitDialog(SfSjUnitListPanel listPanel, List beanList, int editingRow, String tabStatus) {
 
     super(listPanel.getParentWindow(), Dialog.ModalityType.APPLICATION_MODAL);
 
     this.listPanel = listPanel;
 
-    editPanel = new SfSjGroupEditPanel(this.self, new ListCursor(beanList, editingRow), tabStatus, listPanel);
+    editPanel = new SfSjUnitEditPanel(this.self, new ListCursor(beanList, editingRow), tabStatus, listPanel);
 
     setLayout(new BorderLayout());
 
     add(editPanel);
 
-    this.setTitle(LangTransMeta.translate("SF_SJ_GROUP"));
+    this.setTitle(LangTransMeta.translate("SF_SJ_UNIT"));
 
     this.setSize(400,150);
 
     this.moveToScreenCenter();
 
     this.validate();
-    
+
     //editPanel.refreshData();s
 
 //    this.setMaxSizeWindow();
@@ -48,16 +47,16 @@ public class SfSjGroupDialog extends GkBaseDialog {
   }
 
 
-  public SfSjGroupDialog(List beanList, int editingRow, ForeignEntityDialog openDialog) {
+  public SfSjUnitDialog(List beanList, int editingRow, ForeignEntityDialog openDialog) {
     super(openDialog, Dialog.ModalityType.APPLICATION_MODAL);
     this.forenEntityDialog = openDialog;
-    editPanel = new SfSjGroupEditPanel(this.self, new ListCursor(beanList, editingRow), this.forenEntityDialog);
+    editPanel = new SfSjUnitEditPanel(this.self, new ListCursor(beanList, editingRow), this.forenEntityDialog);
 
     setLayout(new BorderLayout());
 
     add(editPanel);
 
-    this.setTitle(LangTransMeta.translate("SF_SJ_GROUP"));
+    this.setTitle(LangTransMeta.translate("SF_SJ_UNIT"));
 
     this.setSize(400,150);
 
@@ -81,6 +80,5 @@ public class SfSjGroupDialog extends GkBaseDialog {
     this.editPanel.doExit();
 
   }
-
-
+ 
 }

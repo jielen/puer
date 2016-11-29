@@ -48,6 +48,8 @@ import com.ufgov.zc.client.component.button.SuggestAuditPassButton;
 import com.ufgov.zc.client.component.button.TraceButton;
 import com.ufgov.zc.client.component.button.UnauditButton;
 import com.ufgov.zc.client.component.button.UntreadButton;
+import com.ufgov.zc.client.component.sf.fieldeditor.SfSjProductorNewFieldEditor;
+import com.ufgov.zc.client.component.sf.fieldeditor.SfSjSupplierNewFieldEditor;
 import com.ufgov.zc.client.component.table.cellrenderer.DateCellRenderer;
 import com.ufgov.zc.client.component.table.codecellrenderer.AsValCellRenderer;
 import com.ufgov.zc.client.component.ui.fieldeditor.AbstractFieldEditor;
@@ -821,12 +823,12 @@ public class SfSjInEditPanel extends AbstractMainSubEditPanel {
         LangTransMeta.translate(SfSj.COL_NAME), "sj.name"); 
       
     TextFieldEditor packSpec = new TextFieldEditor(LangTransMeta.translate(SfSj.COL_PACK_SPEC), "sj.packSpec");
-    AsValFieldEditor unit = new AsValFieldEditor(LangTransMeta.translate(SfSj.COL_UNIT), "sj.unit", SfSj.VS_SF_SJ_UNIT);
-    AsValFieldEditor storeCondition = new AsValFieldEditor(LangTransMeta.translate(SfSj.COL_STORE_CONDITION), "sj.storeCondition", SfSj.VS_SF_SJ_STORE_CONDITION);
+    TextFieldEditor unit = new TextFieldEditor(LangTransMeta.translate(SfSj.COL_UNIT), "sj.unit.unitName");
+    TextFieldEditor storeCondition = new TextFieldEditor(LangTransMeta.translate(SfSj.COL_STORE_CONDITION), "sj.storeCondition");
 //    TextFieldEditor pizhunDocCode = new TextFieldEditor(LangTransMeta.translate(SfSj.COL_PIZHUN_DOC_CODE), "sj.pizhunDocCode"); 
     TextFieldEditor productor = new TextFieldEditor(LangTransMeta.translate(SfSj.COL_PRODUCTOR_ID), "sj.productor.name");  
-    
-    AsValFieldEditor sjGroup = new AsValFieldEditor(LangTransMeta.translate(SfSj.COL_SJ_GROUP), "sj.sjGroup", SfSj.SF_VS_SJ_GROUP); 
+     
+    TextFieldEditor sjGroup = new TextFieldEditor(LangTransMeta.translate(SfSj.COL_SJ_GROUP), "sj.sjGroup.groupName");  
     TextFieldEditor shijiPihao = new TextFieldEditor(LangTransMeta.translate(SfSjIn.COL_SHIJI_PIHAO), "shijiPihao");  
     MoneyFieldEditor price = new MoneyFieldEditor(LangTransMeta.translate(SfSjIn.COL_PRICE), "price"); 
     MoneyFieldEditor amount = new MoneyFieldEditor(LangTransMeta.translate(SfSjIn.COL_AMOUNT), "amount");
@@ -836,15 +838,16 @@ public class SfSjInEditPanel extends AbstractMainSubEditPanel {
     TextFieldEditor inputor = new TextFieldEditor(LangTransMeta.translate(SfSjIn.COL_INPUTOR), "inputorName");  
     TextFieldEditor buyCode = new TextFieldEditor(LangTransMeta.translate(SfSjIn.COL_BUY_CODE), "buyCode"); 
 
-    String expertSelectBillColumNames[] = { LangTransMeta.translate(SfSjSupplier.COL_NAME), LangTransMeta.translate(SfSjSupplier.COL_LINK_MAN), 
+    String supplierCols[] = { LangTransMeta.translate(SfSjSupplier.COL_NAME), LangTransMeta.translate(SfSjSupplier.COL_LINK_MAN), 
         LangTransMeta.translate(SfSjSupplier.COL_TEL), LangTransMeta.translate(SfSjSupplier.COL_ADDRESS) };
-    SupplierSelectBillHandler productorHandler = new SupplierSelectBillHandler(expertSelectBillColumNames);
+    SupplierSelectBillHandler supplierHandler = new SupplierSelectBillHandler(supplierCols);
     dto = new ElementConditionDto();
     dto.setStatus(SfSjSupplier.VS_SF_SUPPLIER_STATUS_ENABLE);
     dto.setDattr2(SfSjSupplier.VS_SF_SUPPLIER_TYPE_GYS);
     dto.setCoCode(requestMeta.getSvCoCode());
-    ForeignEntityFieldEditor supplier = new ForeignEntityFieldEditor("com.ufgov.zc.server.sf.dao.SfSjSupplierMapper.selectMainDataLst", dto, 20, productorHandler, expertSelectBillColumNames, 
-        LangTransMeta.translate(SfSjIn.COL_SUPPLIER_ID), "supplier.name");
+    
+    SfSjSupplierNewFieldEditor supplier = new SfSjSupplierNewFieldEditor("com.ufgov.zc.server.sf.dao.SfSjSupplierMapper.selectMainDataLst",dto, 20, supplierHandler, supplierCols,
+      LangTransMeta.translate(SfSjIn.COL_SUPPLIER_ID), "supplier.name");
     
     TextAreaFieldEditor remark = new TextAreaFieldEditor(LangTransMeta.translate(SfSjIn.COL_REMARK), "remark", 100, 3, 5);
     
@@ -899,6 +902,7 @@ public class SfSjInEditPanel extends AbstractMainSubEditPanel {
     public void afterClear() { 
       SfSjIn inData = (SfSjIn) listCursor.getCurrentObject();
       inData.setSupplier(new SfSjSupplier());
+      setEditingObject(inData);
     }
 
     public TableModel createTableModel(List showDatas) {

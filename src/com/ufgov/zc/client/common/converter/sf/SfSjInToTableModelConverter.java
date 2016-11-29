@@ -49,7 +49,7 @@ public class SfSjInToTableModelConverter {
         rowData.add(sj.getSj().getProductor().getName()); 
         rowData.add(sj.getSupplier().getName()); 
         rowData.add(sj.getAmount()); 
-        rowData.add("");  
+        rowData.add(sj.getSj().getUnit().getUnitName());  
         rowData.add(sj.getPrice());  
         rowData.add(sj.getTotalNum()); 
         rowData.add(sj.getSj().getSjGroup().getGroupName());  

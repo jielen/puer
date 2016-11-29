@@ -45,6 +45,7 @@ import com.ufgov.zc.client.component.button.UntreadButton;
 import com.ufgov.zc.client.component.sf.fieldeditor.SfEntrustorNewFieldEditor;
 import com.ufgov.zc.client.component.sf.fieldeditor.SfSjGroupNewFieldEditor;
 import com.ufgov.zc.client.component.sf.fieldeditor.SfSjProductorNewFieldEditor;
+import com.ufgov.zc.client.component.sf.fieldeditor.SfSjUnitNewFieldEditor;
 import com.ufgov.zc.client.component.ui.fieldeditor.AbstractFieldEditor;
 import com.ufgov.zc.client.component.zc.AbstractMainSubEditPanel;
 import com.ufgov.zc.client.component.zc.fieldeditor.AsValFieldEditor;
@@ -63,6 +64,7 @@ import com.ufgov.zc.common.sf.model.SfSjGroup;
 import com.ufgov.zc.common.sf.model.SfSjProductor;
 import com.ufgov.zc.common.sf.model.SfSjSupplier;
 import com.ufgov.zc.common.sf.model.SfSjSupplier;
+import com.ufgov.zc.common.sf.model.SfSjUnit;
 import com.ufgov.zc.common.sf.publish.ISfJdDocTypeServiceDelegate;
 import com.ufgov.zc.common.system.RequestMeta;
 import com.ufgov.zc.common.system.constants.SfElementConstants;
@@ -705,9 +707,8 @@ public class SfSjEditPanel extends AbstractMainSubEditPanel {
 
         JOptionPane.showMessageDialog(this, "删除成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
 
-        this.refreshData();
-
         this.listPanel.refreshCurrentTabData();
+        parent.dispose();
 
       } else {
 
@@ -757,6 +758,7 @@ public class SfSjEditPanel extends AbstractMainSubEditPanel {
     TextFieldEditor packSpec = new TextFieldEditor(LangTransMeta.translate(SfSj.COL_PACK_SPEC), "packSpec");
 //    AsValFieldEditor unit = new AsValFieldEditor(LangTransMeta.translate(SfSj.COL_UNIT), "unit", SfSj.VS_SF_SJ_UNIT);
 //    AsValFieldEditor storeCondition = new AsValFieldEditor(LangTransMeta.translate(SfSj.COL_STORE_CONDITION), "storeCondition", SfSj.VS_SF_SJ_STORE_CONDITION);
+    TextFieldEditor storeCondition = new TextFieldEditor(LangTransMeta.translate(SfSj.COL_STORE_CONDITION), "storeCondition");
     TextFieldEditor pizhunDocCode = new TextFieldEditor(LangTransMeta.translate(SfSj.COL_PIZHUN_DOC_CODE), "pizhunDocCode");
     MoneyFieldEditor storeLimitMin = new MoneyFieldEditor(LangTransMeta.translate(SfSj.COL_STORE_LIMIT_MIN), "storeLimitMin");
     MoneyFieldEditor storeLimitMax = new MoneyFieldEditor(LangTransMeta.translate(SfSj.COL_STORE_LIMIT_MAX), "storeLimitMax");
@@ -774,20 +776,26 @@ public class SfSjEditPanel extends AbstractMainSubEditPanel {
     dto.setDattr2(SfSjSupplier.VS_SF_SUPPLIER_TYPE_SCS);
 
     SfSjProductorNewFieldEditor productor = new SfSjProductorNewFieldEditor("com.ufgov.zc.server.sf.dao.SfSjSupplierMapper.selectMainDataLst",dto, 20, productorHandler, expertSelectBillColumNames,
-      LangTransMeta.translate(SfEntrust.COL_ENTRUSTOR_NAME), "productor.name");
+      LangTransMeta.translate(SfSj.COL_PRODUCTOR_ID), "productor.name");
 //    dto.setCoCode(requestMeta.getSvCoCode());
 //    ForeignEntityFieldEditor productor = new ForeignEntityFieldEditor("com.ufgov.zc.server.sf.dao.SfSjSupplierMapper.selectMainDataLst", dto, 20, productorHandler, expertSelectBillColumNames, 
 //    		LangTransMeta.translate(SfSj.COL_PRODUCTOR_ID), "productor.name");
     
 //    AsValFieldEditor sjGroup = new AsValFieldEditor(LangTransMeta.translate(SfSj.COL_SJ_GROUP), "sjGroup", SfSj.SF_VS_SJ_GROUP);
 
-    String groupCols[] = { LangTransMeta.translate(SfSjSupplier.COL_NAME), LangTransMeta.translate(SfSjSupplier.COL_LINK_MAN), 
-        LangTransMeta.translate(SfSjSupplier.COL_TEL), LangTransMeta.translate(SfSjSupplier.COL_ADDRESS) };
-    GroupSelectBillHandler groupHandler = new GroupSelectBillHandler(groupCols);
+    String groupCols[] = { LangTransMeta.translate(SfSjGroup.COL_GROUP_NAME) };
+    GroupSelectHandler groupHandler = new GroupSelectHandler(groupCols);
     dto = new ElementConditionDto();
     dto.setCoCode(requestMeta.getSvCoCode());
-    SfEntrustorNewFieldEditor group = new SfEntrustorNewFieldEditor("com.ufgov.zc.server.sf.dao.SfSjGroupMapper.selectMainDataLst", 20, groupHandler, groupCols,
-      LangTransMeta.translate(SfSjGroup.COL_GROUP_NAME), "sjGroup.name");
+    SfSjGroupNewFieldEditor group = new SfSjGroupNewFieldEditor("com.ufgov.zc.server.sf.dao.SfSjGroupMapper.selectMainDataLst", 20, groupHandler, groupCols,
+      LangTransMeta.translate(SfSjGroup.COL_GROUP_NAME), "sjGroup.groupName");
+    
+    String unitCols[] = { LangTransMeta.translate(SfSjUnit.COL_UNIT_NAME) };
+  UnitSelectHandler unitHandler = new UnitSelectHandler(unitCols);
+  dto = new ElementConditionDto();
+//  dto.setCoCode(requestMeta.getSvCoCode());
+  SfSjUnitNewFieldEditor unit = new SfSjUnitNewFieldEditor("com.ufgov.zc.server.sf.dao.SfSjUnitMapper.selectMainDataLst", 20, unitHandler, unitCols,
+    LangTransMeta.translate(SfSj.COL_UNIT), "unit.unitName");
 
     editorList.add(name);
     editorList.add(registCode);
@@ -802,9 +810,9 @@ public class SfSjEditPanel extends AbstractMainSubEditPanel {
     editorList.add(storeLimitMax);
     
     editorList.add(packSpec);
-//    editorList.add(unit);
+    editorList.add(unit);
     
-//    editorList.add(storeCondition);
+    editorList.add(storeCondition);
     editorList.add(status);
     
     
@@ -906,11 +914,11 @@ public class SfSjEditPanel extends AbstractMainSubEditPanel {
 
   }
 
-  private class GroupSelectBillHandler implements IForeignEntityHandler {
+  private class GroupSelectHandler implements IForeignEntityHandler {
 
     private final String columNames[];
 
-    public GroupSelectBillHandler(String columNames[]) {
+    public GroupSelectHandler(String columNames[]) {
       this.columNames = columNames;
     }
 
@@ -918,6 +926,7 @@ public class SfSjEditPanel extends AbstractMainSubEditPanel {
       for (Object object : selectedDatas) {
         SfSjGroup group = (SfSjGroup) object;
         setGroup(group);
+        
       }
     }
 
@@ -961,6 +970,63 @@ public class SfSjEditPanel extends AbstractMainSubEditPanel {
     }
 
   }
+
+  private class UnitSelectHandler implements IForeignEntityHandler {
+
+    private final String columNames[];
+
+    public UnitSelectHandler(String columNames[]) {
+      this.columNames = columNames;
+    }
+
+    public void excute(List selectedDatas) {
+      for (Object object : selectedDatas) {
+        SfSjUnit unit = (SfSjUnit) object;
+        setUnit(unit);
+        
+      }
+    }
+
+    public void afterClear() {
+      setUnit(null);
+    }
+
+    public TableModel createTableModel(List showDatas) {
+
+      Object data[][] = new Object[showDatas.size()][columNames.length];
+
+      for (int i = 0; i < showDatas.size(); i++) {
+
+        SfSjUnit rowData = (SfSjUnit) showDatas.get(i);
+
+        int col = 0;
+
+        data[i][col++] = rowData.getUnitName(); 
+
+      }
+
+      MyTableModel model = new MyTableModel(data, columNames) {
+
+        @Override
+        public boolean isCellEditable(int row, int colum) {
+
+          return false;
+
+        }
+
+      };
+
+      return model;
+
+    }
+
+    public boolean isMultipleSelect() {
+
+      return false;
+
+    }
+
+  }
 public void setProductor(SfSjSupplier productor) {
 	if(productor==null){
 		productor=new SfSjSupplier();
@@ -970,9 +1036,17 @@ public void setProductor(SfSjSupplier productor) {
 	 setEditingObject(inData);
 }
 
+public void setUnit(SfSjUnit unit) {
+
+  SfSj inData = (SfSj) this.listCursor.getCurrentObject();
+  inData.setUnit(unit==null?new SfSjUnit():unit);
+  setEditingObject(inData);
+}
+
 public void setGroup(SfSjGroup group) {
 
   SfSj inData = (SfSj) this.listCursor.getCurrentObject();
   inData.setSjGroup(group==null?new SfSjGroup():group);
+  setEditingObject(inData);
 }
 }

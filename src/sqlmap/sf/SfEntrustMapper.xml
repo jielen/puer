@@ -351,6 +351,7 @@
 			<isEqual property="status" compareValue="docNoSend">
 				NOT EXISTS (SELECT 1 FROM SF_DOC_SEND S 
 						WHERE S.ENTRUST_ID=SF_ENTRUST.ENTRUST_ID)
+						and exists (select 1 from sf_jd_report r where r.status='exec' and r.entrust_id=SF_ENTRUST.ENTRUST_ID)
 			</isEqual>
 			<isEqual property="status" compareValue="all">
 				1=1

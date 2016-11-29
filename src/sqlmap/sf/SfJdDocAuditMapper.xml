@@ -20,6 +20,19 @@
     <result column="REPORT_CODE" property="report.reportCode" jdbcType="VARCHAR" />
     <result column="CO_CODE" property="coCode" jdbcType="VARCHAR" />
   </resultMap>
+  
+  <resultMap id="wfHistoryResultMap" class="com.ufgov.zc.common.sf.model.WfActionHistory">
+    <result column="ACTION_HISTORY_ID" jdbcType="DECIMAL" property="actionHistoryId" />
+    <result column="INSTANCE_ID" jdbcType="DECIMAL" property="instanceId" />
+    <result column="NODE_ID" jdbcType="DECIMAL" property="nodeId" />
+    <result column="ACTION_NAME" jdbcType="VARCHAR" property="actionName" />
+    <result column="EXECUTOR" jdbcType="VARCHAR" property="executor" />
+    <result column="EXECUTE_TIME" jdbcType="VARCHAR" property="executeTime" />
+    <result column="DESCRIPTION" jdbcType="VARCHAR" property="description" />
+    <result column="OWNER" jdbcType="VARCHAR" property="owner" />
+    <result column="LIMIT_EXECUTE_TIME" jdbcType="VARCHAR" property="limitExecuteTime" />
+  </resultMap>
+  
   <sql id="Base_Column_List" > 
     JD_DOC_AUDIT_ID, INPUTOR, INPUT_DATE, DOC_QUATITY, REPORT_TYPE, REMARK, STATUS, PHOTOGRAPHER, 
     ENTRUST_ID, ND, PROCESS_INST_ID, NAME, ENTRUST_CODE,WTF,REPORT_CODE,CO_CODE
@@ -126,4 +139,15 @@
       CO_CODE=#coCode#
     where JD_DOC_AUDIT_ID = #jdDocAuditId:DECIMAL#
   </update>
+  
+  <sql id="Base_Column_List">
+    
+  </sql>
+  <select id="selectWfHistoryByInstanceId" parameterClass="java.math.BigDecimal" resultMap="wfHistoryResultMap">
+    select 
+      ACTION_HISTORY_ID, INSTANCE_ID, NODE_ID, ACTION_NAME, EXECUTOR, EXECUTE_TIME, DESCRIPTION, 
+      OWNER, LIMIT_EXECUTE_TIME
+    from WF_ACTION_HISTORY
+    where INSTANCE_ID = #instanceId:DECIMAL#
+  </select>
 </sqlMap>

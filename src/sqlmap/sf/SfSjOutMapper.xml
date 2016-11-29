@@ -41,10 +41,13 @@
     <result column="SUPPLIER_NAME" property="sjin.supplier.name" jdbcType="DECIMAL" />
     
     <result column="SJ_ID" property="sjin.sj.sjId" jdbcType="DECIMAL" />
-    <result column="NAME" property="sjin.sj.name" jdbcType="VARCHAR" />   
+    <result column="NAME" property="sjin.sj.name" jdbcType="VARCHAR" />  
+     
     <result column="PRODUCTOR_ID" property="sjin.sj.productor.supplierId" jdbcType="DECIMAL" />
-    <result column="PRODUCTOR_NAME" property="sjin.sj.productor.name" jdbcType="VARCHAR" />
-    <result column="SJ_GROUP" property="sjin.sj.sjGroup" jdbcType="VARCHAR" />
+    <result column="PRODUCTOR_NAME" property="sjin.sj.productor.name" jdbcType="VARCHAR" /> 
+    
+    <result column="GROUP_ID" property="sjin.sj.sjGroup.groupId" jdbcType="VARCHAR" />
+    <result column="GROUP_NAME" property="sjin.sj.sjGroup.groupName" jdbcType="VARCHAR" />
     <result column="UNIT_ID" property="sjin.sj.unit.unitId" jdbcType="VARCHAR" />
     <result column="UNIT_NAME" property="sjin.sj.unit.unitName" jdbcType="VARCHAR" />
   </resultMap>
@@ -86,9 +89,10 @@
          
         sj.sj_Id,
         sj.name,
-       unit.unit_id,
-       unit.unit_name,
-        sj.sj_group,
+        unit.unit_id,
+        unit.unit_name,
+        SF_SJ_GROUP.GROUP_ID,
+        SF_SJ_GROUP.GROUP_NAME,
         
         p.name                    as productor_name,
         p.supplier_id             as productor_id,
@@ -100,12 +104,14 @@
         sf_sj          sj,
         sf_sj_supplier s,
         sf_sj_supplier p,
-        sf_sj_unit unit
+        sf_sj_unit unit,
+        sf_sj_group 
   where sf_sj_out.in_id = sj_in.in_id
     and sj_in.sj_id = sj.sj_id
     and sj_in.supplier_id = s.supplier_id(+)
     and sj.productor_id = p.supplier_id(+)
-  and sj.unit_id=unit.unit_id(+) 
+  	and sj.unit_id=unit.unit_id(+) 
+  	AND SJ.GROUP_ID=SF_SJ_GROUP.GROUP_ID(+)
     AND  sf_sj_out.OUT_ID = #outId:DECIMAL#
   </select>
   
@@ -144,9 +150,10 @@
          
         sj.sj_Id,
         sj.name,
-       unit.unit_id,
-       unit.unit_name,
-        sj.sj_group,
+        unit.unit_id,
+        unit.unit_name,
+        SF_SJ_GROUP.GROUP_ID,
+        SF_SJ_GROUP.GROUP_NAME,
         
         p.name                    as productor_name,
         p.supplier_id             as productor_id,
@@ -157,13 +164,19 @@
         sf_sj_in       sj_in,
         sf_sj          sj,
         sf_sj_supplier s,
-        sf_sj_supplier p
-  where sf_sj_out.in_id = sj_in.in_id,sf_sj_unit unit
+        sf_sj_supplier p,
+        sf_sj_group,
+        sf_sj_unit unit 
+  where sf_sj_out.in_id = sj_in.in_id
     and sj_in.sj_id = sj.sj_id
     and sj_in.supplier_id = s.supplier_id(+)
     and sj.productor_id = p.supplier_id(+)
+  	AND SJ.GROUP_ID=SF_SJ_GROUP.GROUP_ID(+)
   and sj.unit_id=unit.unit_id(+) 
-    
+	<include refid="BusiNumLim.BusiNumLimStr" />  
+	<isNotEqual prepend="and" compareValue="0" property="nd">
+			sf_sj_out.ND = #nd#
+   </isNotEqual>      
   </select>
   <delete id="deleteByPrimaryKey" parameterClass="java.math.BigDecimal" >
     delete from SF_SJ_OUT
@@ -205,7 +218,6 @@
   </update>
   
   <select id="getOutedSj" resultClass="java.util.HashMap" parameterClass="elementCondition" >  
-  
   	select * from v_sf_sj_out where in_id=#sfId:DECIMAL# 
   </select>
 </sqlMap>

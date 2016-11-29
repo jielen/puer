@@ -734,11 +734,9 @@ public class SfSjOutEditPanel extends AbstractMainSubEditPanel {
 
         this.listCursor.removeCurrentObject();
 
-        JOptionPane.showMessageDialog(this, "删除成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
-
-        this.refreshData();
-
+        JOptionPane.showMessageDialog(this, "删除成功！", "提示", JOptionPane.INFORMATION_MESSAGE); 
         this.listPanel.refreshCurrentTabData();
+        parent.dispose();
 
       } else {
 
@@ -844,14 +842,14 @@ public class SfSjOutEditPanel extends AbstractMainSubEditPanel {
     ForeignEntityFieldEditor sj = new ForeignEntityFieldEditor("com.ufgov.zc.server.sf.dao.SfSjInMapper.getCanOutSjLst", dto, 20, sfSjHandler, sjCols, 
         LangTransMeta.translate(SfSj.COL_NAME), "sjin.sj.name"); 
     MoneyFieldEditor canUseAmount = new MoneyFieldEditor(false,"可用数量", "sjin.amount"); 
-    AsValFieldEditor unit = new AsValFieldEditor(LangTransMeta.translate(SfSj.COL_UNIT), "sjin.sj.unit", SfSj.VS_SF_SJ_UNIT);
+    TextFieldEditor unit = new TextFieldEditor(LangTransMeta.translate(SfSj.COL_UNIT), "sjin.sj.unit.unitName");
       
     TextFieldEditor packSpec = new TextFieldEditor(LangTransMeta.translate(SfSj.COL_PACK_SPEC), "sjin.sj.packSpec");
     AsValFieldEditor storeCondition = new AsValFieldEditor(LangTransMeta.translate(SfSj.COL_STORE_CONDITION), "sjin.sj.storeCondition", SfSj.VS_SF_SJ_STORE_CONDITION);
 //    TextFieldEditor pizhunDocCode = new TextFieldEditor(LangTransMeta.translate(SfSj.COL_PIZHUN_DOC_CODE), "sj.pizhunDocCode"); 
     TextFieldEditor productor = new TextFieldEditor(LangTransMeta.translate(SfSj.COL_PRODUCTOR_ID), "sjin.sj.productor.name");  
     
-    AsValFieldEditor sjGroup = new AsValFieldEditor(LangTransMeta.translate(SfSj.COL_SJ_GROUP), "sjin.sj.sjGroup", SfSj.SF_VS_SJ_GROUP); 
+    TextFieldEditor sjGroup = new TextFieldEditor(LangTransMeta.translate(SfSj.COL_SJ_GROUP), "sjin.sj.sjGroup.groupName"); 
     TextFieldEditor shijiPihao = new TextFieldEditor(LangTransMeta.translate(SfSjIn.COL_SHIJI_PIHAO), "sjin.shijiPihao");  
     MoneyFieldEditor price = new MoneyFieldEditor(LangTransMeta.translate(SfSjIn.COL_PRICE), "sjin.price"); 
     MoneyFieldEditor amount = new MoneyFieldEditor(LangTransMeta.translate(SfSjOut.COL_AMOUNT), "amount"); 
@@ -860,7 +858,7 @@ public class SfSjOutEditPanel extends AbstractMainSubEditPanel {
     DateFieldEditor inDate = new DateFieldEditor(LangTransMeta.translate(SfSjIn.COL_IN_DATE), "sjin.inDate");
     TextFieldEditor inputor = new TextFieldEditor(LangTransMeta.translate(SfSjOut.COL_INPUTOR), "inputorName"); 
     DateFieldEditor inputDate = new DateFieldEditor(LangTransMeta.translate(SfSjOut.COL_INPUT_DATE), "inputDate"); 
-    TextFieldEditor supplier = new TextFieldEditor(LangTransMeta.translate(SfSjIn.COL_SUPPLIER_ID), "sjin.supplier.name");    
+    TextFieldEditor supplier = new TextFieldEditor(LangTransMeta.translate(SfSjIn.COL_SUPPLIER_ID), "sjin.supplier.name");       
 
 
     SfJdPersonSelectHandler jdPersonHandler = new SfJdPersonSelectHandler() {

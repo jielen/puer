@@ -1,5 +1,8 @@
 package com.ufgov.zc.client.sf.jddocaudit;
 
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,10 +21,12 @@ import com.ufgov.zc.common.sf.model.SfJdDocAuditDetail;
 import com.ufgov.zc.common.sf.model.SfJdReport;
 import com.ufgov.zc.common.sf.model.SfJdResult;
 import com.ufgov.zc.common.sf.model.SfJdjg;
+import com.ufgov.zc.common.sf.model.WfActionHistory;
 import com.ufgov.zc.common.system.RequestMeta;
 import com.ufgov.zc.common.system.constants.SfElementConstants;
 import com.ufgov.zc.common.system.dto.ElementConditionDto;
 import com.ufgov.zc.common.system.util.DateUtil;
+import com.ufgov.zc.common.util.EmpMeta;
 import com.ufgov.zc.common.zc.publish.IZcEbBaseServiceDelegate;
 
 public class SfJdDocAuditWordHandler extends WordHandlerAdapter {
@@ -91,8 +96,122 @@ public class SfJdDocAuditWordHandler extends WordHandlerAdapter {
         dataMap.put("jdyjs", StringUtil.freeMarkFillWordChar("鉴定报告")); 
     }
 //    dataMap.put("remark", StringUtil.freeMarkFillWordChar(jdDocAudit.getRemark()));
+    
+    setAuditInfo(dataMap,jdDocAudit);
 
     return dataMap;
+  }
+
+  /**
+   * 获取审批意见
+   * @param dataMap
+   * @param jdDocAudit
+   */
+  private void setAuditInfo(Map<String, Object> dataMap, SfJdDocAudit jdDocAudit) {
+
+    IZcEbBaseServiceDelegate zcEbBaseServiceDelegate = (IZcEbBaseServiceDelegate) ServiceFactory.create(IZcEbBaseServiceDelegate.class,"zcEbBaseServiceDelegate");
+    List wfHistoryLst= zcEbBaseServiceDelegate.queryDataForList("com.ufgov.zc.server.sf.dao.SfJdDocAuditMapper.selectWfHistoryByInstanceId",new BigDecimal(jdDocAudit.getProcessInstId()), WorkEnv.getInstance().getRequestMeta());
+    if(wfHistoryLst==null)wfHistoryLst=new ArrayList();
+    _setJdfzrAudit(dataMap,wfHistoryLst);
+    _setSqqzrAudit(dataMap,wfHistoryLst);
+    _setLeaderAudit(dataMap,wfHistoryLst);
+  }
+
+  /**
+   * 设定领导审核意见
+   * @param dataMap
+   * @param wfHistoryLst
+   */
+  private void _setLeaderAudit(Map<String, Object> dataMap, List wfHistoryLst) {
+    //31218 是授权签字人审批节点ID
+    WfActionHistory hist=getNodeAuditMsg(wfHistoryLst,new BigDecimal(31218));
+    if(hist==null){
+      dataMap.put("ldYj", "");
+      dataMap.put("ld", "");
+      dataMap.put("ldDate", "年        月         日");
+    }else{
+      dataMap.put("ldYj", StringUtil.freeMarkFillWordChar(hist.getDescription()==null?"同意":hist.getDescription()));
+      dataMap.put("ld", StringUtil.freeMarkFillWordChar(hist.getOwner()==null?"":EmpMeta.getEmpName(hist.getOwner())));
+      dataMap.put("ldDate", getExcuteTime(hist.getExecuteTime()));
+    }    
+  }
+
+  /**
+   * 设定授权签字人审核意见
+   * @param dataMap
+   * @param wfHistoryLst
+   */
+  private void _setSqqzrAudit(Map<String, Object> dataMap, List wfHistoryLst) {
+    //31215 是授权签字人审批节点ID
+    WfActionHistory hist=getNodeAuditMsg(wfHistoryLst,new BigDecimal(31215));
+    if(hist==null){
+      dataMap.put("sqqzrYj", "");
+      dataMap.put("sqqzr", "");
+      dataMap.put("sqqzrDate", "年        月         日");
+    }else{
+      dataMap.put("sqqzrYj", StringUtil.freeMarkFillWordChar(hist.getDescription()==null?"同意":hist.getDescription()));
+      dataMap.put("sqqzr", StringUtil.freeMarkFillWordChar(hist.getOwner()==null?"":EmpMeta.getEmpName(hist.getOwner())));
+      dataMap.put("sqqzrDate", getExcuteTime(hist.getExecuteTime()));
+    }
+  }
+
+  /**
+   * 设定鉴定负责人审核意见
+   * @param dataMap
+   * @param wfHistoryLst
+   */
+  private void _setJdfzrAudit(Map<String, Object> dataMap, List wfHistoryLst) {
+    Long nodeId=31125098L;//开始节点的id
+    //如果是鉴定协助人发起的，则取鉴定负责人的节点 31357
+    BigDecimal jdfzrNodeId=new BigDecimal(31357);
+    for(int i=0;i<wfHistoryLst.size();i++){
+      WfActionHistory h=(WfActionHistory) wfHistoryLst.get(i);
+      if(h.getNodeId().compareTo(jdfzrNodeId)==0){
+        nodeId=31357L;
+        break;
+      }
+    }
+    WfActionHistory hist=getNodeAuditMsg(wfHistoryLst,new BigDecimal(nodeId));
+    if(hist==null){
+      dataMap.put("jdfzrYj", "");
+      dataMap.put("jdfzr", "");
+      dataMap.put("jdfzrDate", "年        月         日");
+    }else{
+      dataMap.put("jdfzrYj", StringUtil.freeMarkFillWordChar(hist.getDescription()==null?"同意":hist.getDescription()));
+      dataMap.put("jdfzr", StringUtil.freeMarkFillWordChar(hist.getOwner()==null?"":EmpMeta.getEmpName(hist.getOwner())));
+      dataMap.put("jdfzrDate", getExcuteTime(hist.getExecuteTime()));
+    }
+  }
+
+  private String getExcuteTime(String executeTime) {
+    if(executeTime==null)return "";
+    SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+    SimpleDateFormat viewFormat = new SimpleDateFormat("yyyy年MM月dd日");
+    String str="";
+    try {
+      str=viewFormat.format(format.parse(executeTime));
+    } catch (ParseException e) {
+      // TODO Auto-generated catch block
+//      e.printStackTrace();
+    }
+    return str;
+  }
+
+  private WfActionHistory getNodeAuditMsg(List wfHistoryLst, BigDecimal nodeId) {
+    WfActionHistory rtn=null;
+    for(int i=0;i<wfHistoryLst.size();i++){
+      WfActionHistory h=(WfActionHistory) wfHistoryLst.get(i);
+      if(h.getNodeId().compareTo(nodeId)==0){
+        if(rtn==null){
+          rtn=h;
+        }else{//获取较大的那个
+          if(rtn.getActionHistoryId().compareTo(h.getActionHistoryId())==-1){
+            rtn=h;
+          }
+        }
+      }
+    }
+    return rtn;
   }
 
   private List getFj(SfJdDocAudit jdDocAudit) {

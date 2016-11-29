@@ -38,6 +38,13 @@ public class SfSjInService implements ISfSjInService {
 
   
   public void deleteByPrimaryKeyFN(BigDecimal InId, RequestMeta requestMeta) throws SfBusinessException {
+    ElementConditionDto dto=new ElementConditionDto();
+    dto.setDattr1("using");
+    dto.setSfId(InId);
+    List lst=sfSjInMapper.getMainLst(dto);
+    if(lst!=null && lst.size()>0){
+      throw new SfBusinessException("已经被使用，不能删除");
+    }
     sfSjInMapper.deleteByPrimaryKey(InId);
   }
 

@@ -27,8 +27,11 @@ public class SfSjFM {
 	    fieldMap.put("STORE_LIMIT_MAX","storeLimitMax");
 	    fieldMap.put("STORE_LIMIT_MIN","storeLimitMin");
 	    fieldMap.put("TXM","txm");
-	    fieldMap.put("UNIT","unit");
+	    fieldMap.put("UNIT_ID","unit.unitId");
+      fieldMap.put("UNIT_NAME","unit.unitName");
 	    fieldMap.put("REGIST_CODE","registCode");
+      fieldMap.put("GROUP_ID","sjGroup.groupId");
+      fieldMap.put("GROUP_NAME","sjGroup.groupName");
 
 	  }
 }

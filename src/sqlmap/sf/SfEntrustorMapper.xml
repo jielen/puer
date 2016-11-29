@@ -19,6 +19,7 @@
     <result column="PARENT_ID" jdbcType="DECIMAL" property="parentId" /> 
     <result column="INPUTOR" jdbcType="VARCHAR" property="inputor" />
     <result column="INPUT_DATE" jdbcType="DATE" property="inputDate" />
+    <result column="DISTRICT_CODE" jdbcType="VARCHAR" property="districtCode" />
   </resultMap>
   <resultMap id="userMap" class="com.ufgov.zc.common.sf.model.SfEntrustor"		extends="BaseResultMap">
   	
@@ -31,9 +32,11 @@
     <result column="ENTRUSTOR_ID" jdbcType="DECIMAL" property="entrustorId" /> 
     <result column="USER_ID" jdbcType="VARCHAR" property="userId" /> 
   </resultMap>
+   
   <sql id="Base_Column_List">
-    ENTRUSTOR_ID, NAME, ADDRESS, ZIP, LINK_MAN, LINK_TEL,ENTRUSTOR_TYPE,PARENT_ID,INPUTOR,INPUT_DATE,SHORT_NAME
-  </sql>
+    ENTRUSTOR_ID, NAME, ADDRESS, ZIP, LINK_MAN, LINK_TEL,ENTRUSTOR_TYPE,PARENT_ID,INPUTOR,INPUT_DATE,SHORT_NAME,DISTRICT_CODE
+  </sql> 
+   
   <select id="selectByPrimaryKey" parameterClass="java.math.BigDecimal" resultMap="userMap">
      
 SELECT E.ENTRUSTOR_ID,
@@ -48,6 +51,7 @@ SELECT E.ENTRUSTOR_ID,
        e.PARENT_ID,
        e.INPUTOR,
        e.INPUT_DATE,
+       e.DISTRICT_CODE,
        U.PASSWD,
        CASE WHEN M.EMP_CODE IS NULL THEN 'N'
          ELSE M.IS_LOGIN END AS IS_LOGIN 
@@ -70,6 +74,7 @@ SELECT E.ENTRUSTOR_ID,
        e.PARENT_ID,
        e.INPUTOR,
        e.INPUT_DATE,
+       e.DISTRICT_CODE,
        U.PASSWD,
        CASE WHEN M.EMP_CODE IS NULL THEN 'N'
          ELSE M.IS_LOGIN END AS IS_LOGIN 
@@ -93,8 +98,14 @@ SELECT E.ENTRUSTOR_ID,
 			</isNotNull>	
 			<isNotNull prepend="AND" property="dattr3">
 				SHORT_NAME=#dattr3#
-			</isNotNull>			 	 	
-     order by entrustor_id desc
+			</isNotNull>
+		
+		<isNotNull prepend="AND" property="status">
+			<isNotEqual property="status" compareValue="all">
+				district_code=#status#
+			</isNotEqual>  
+		</isNotNull>			 	 	
+     order by entrustor_id
   </select>
   <select id="selectByName" parameterClass="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -119,10 +130,10 @@ SELECT E.ENTRUSTOR_ID,
     -->
     insert into SF_ENTRUSTOR (ENTRUSTOR_ID, CODE, NAME, 
       ADDRESS, ZIP, LINK_MAN, 
-      LINK_TEL,ENTRUSTOR_TYPE,PARENT_ID,INPUTOR,INPUT_DATE,SHORT_NAME)
+      LINK_TEL,ENTRUSTOR_TYPE,PARENT_ID,INPUTOR,INPUT_DATE,SHORT_NAME,DISTRICT_CODE)
     values (#entrustorId:DECIMAL#, #code:VARCHAR#, #name:VARCHAR#, 
       #address:VARCHAR#, #zip:VARCHAR#, #linkMan:VARCHAR#, 
-      #linkTel:VARCHAR#,#entrustorType#,#parentId:DECIMAL#,#inputor#,#inputDate:DATE#,#shortName#)
+      #linkTel:VARCHAR#,#entrustorType#,#parentId:DECIMAL#,#inputor#,#inputDate:DATE#,#shortName#,#districtCode#)
   </insert>
  
   <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfEntrustor">
@@ -142,7 +153,8 @@ SELECT E.ENTRUSTOR_ID,
       PARENT_ID=#parentId:DECIMAL#,
       INPUTOR=#inputor#,
       INPUT_DATE=#inputDate:DATE#,
-      SHORT_NAME=#shortName#
+      SHORT_NAME=#shortName#,
+       DISTRICT_CODE=#districtCode#
     where ENTRUSTOR_ID = #entrustorId:DECIMAL#
   </update>
   <select id="isUsing"  parameterClass="java.math.BigDecimal"  resultClass="java.lang.Integer">

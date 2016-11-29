@@ -30,6 +30,7 @@ public class SfMaterialsFM {
 	    fieldMap.put("SAVE_ADDRESS","saveAddress");
 	    fieldMap.put("SAVE_CONDITON","saveConditon");
 	    fieldMap.put("UNIT","unit");
+      fieldMap.put("TQ_INFO","tqInfo");
 
 	  }
 }

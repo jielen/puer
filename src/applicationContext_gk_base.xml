@@ -7,57 +7,40 @@
     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
-	<bean id="gkDataSource"
+	<!--  
+		<bean id="gkDataSource"
 		class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName">
-			<value>oracle.jdbc.driver.OracleDriver</value>
+		<value>oracle.jdbc.driver.OracleDriver</value>
 		</property>
 		<property name="url">
-		<value>jdbc:oracle:thin:@127.0.0.1:1521:orcl</value>
-				<!--  <value>jdbc:oracle:thin:@localhost:1521:orcl</value> -->
-		</property>     
+		<value>jdbc:oracle:thin:@devdb:1521:devora</value>
+		</property>
 		<property name="username">
-			<!--<value>zceb0507</value> -->
-			 <value>puer</value>
+		<value>sjwcz</value>
+		
 		</property>
 		<property name="password">
-			<value>1</value>
+		<value>1</value>
 		</property>
-	</bean>
-
-
-	<!--  
-		<alias name="myDataSource" alias="gkDataSource"/>
-		
-		<alias name="currentTransactionManager" alias="transactionManager"/>
-		
+		</bean>
 	-->
 
-	<bean id="oracleLobHandler"
-		class="org.springframework.jdbc.support.lob.OracleLobHandler"
-		lazy-init="true">
-		<property name="nativeJdbcExtractor" ref="nativeJdbcExtractor" />
-	</bean>
 
-	<bean id="nativeJdbcExtractor"
-		class="org.springframework.jdbc.support.nativejdbc.CommonsDbcpNativeJdbcExtractor"
-		lazy-init="true" />
+	<alias name="myDataSource" alias="gkDataSource" />
 
-	<bean id="sqlMapClient"
-		class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
-		<property name="configLocation"
-			value="classpath:SqlMapConfig.xml" />
-		<property name="dataSource" ref="gkDataSource" />
-		<property name="lobHandler" ref="oracleLobHandler" />
-	</bean>
+	<alias name="currentTransactionManager" alias="transactionManager" />
 
-	<bean id="transactionManager"
+	<!--  
+		
+		<bean id="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource">
-			<ref local="gkDataSource" />
+		<ref local="gkDataSource" />
 		</property>
-	</bean>
+		</bean>
+	-->
 
 	<aop:config>
 			<aop:pointcut id="gkServicePct"

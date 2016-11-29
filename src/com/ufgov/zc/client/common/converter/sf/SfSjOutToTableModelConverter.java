@@ -51,7 +51,7 @@ public class SfSjOutToTableModelConverter {
         rowData.add(sjOut.getSjin().getInDate() == null ? null : df.format(sjOut.getSjin().getInDate())); 
         rowData.add(sjOut.getSjin().getExpiryDate() == null ? null : df.format(sjOut.getSjin().getExpiryDate())); 
         rowData.add(sjOut.getAmount()); 
-        rowData.add("");  
+        rowData.add(sjOut.getSjin().getSj().getUnit().getUnitName());  
         rowData.add(sjOut.getProposer()==null?"":EmpMeta.getEmpName(sjOut.getProposer()));   
         rowData.add(sjOut.getOutDate() == null ? null : df.format(sjOut.getOutDate()));          
         values.add(rowData);

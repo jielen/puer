@@ -174,11 +174,13 @@ void addUser(SfEntrustor entrustor) {
     		userService.updateAsEmpLogin(inData.getUser().getUserId(), SfElementConstants.VAL_Y.equals(inData.getIsLogin()));
     	}
     }else{
-	    SfEntrustorUser wtfUser2=new SfEntrustorUser();
-	    wtfUser2.setUserId(inData.getUser().getUserId().trim());
-	    wtfUser2.setEntrustorId(inData.getEntrustorId());
-	    zcEbBaseService.insertObject("com.ufgov.zc.server.sf.dao.SfEntrustorMapper.insertWtfUser", wtfUser2);
-		addUser(inData);    	
+      if(inData.getUser()!=null && inData.getUser().getUserId()!=null){
+  	    SfEntrustorUser wtfUser2=new SfEntrustorUser();
+  	    wtfUser2.setUserId(inData.getUser().getUserId().trim());
+  	    wtfUser2.setEntrustorId(inData.getEntrustorId());
+  	    zcEbBaseService.insertObject("com.ufgov.zc.server.sf.dao.SfEntrustorMapper.insertWtfUser", wtfUser2);
+  	    addUser(inData);  
+      }
     } 
   }
 
