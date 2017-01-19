@@ -29,12 +29,11 @@ public class SfMajorDialog extends GkBaseDialog {
 
     this.setTitle(LangTransMeta.translate(listPanel.getcompoId()));
 
-    this.setSize(UIConstants.DIALOG_3_LEVEL_WIDTH, UIConstants.DIALOG_3_LEVEL_HEIGHT);
+    this.setSize(800, 600);
 
     this.moveToScreenCenter();
 
-    this.pack();
-
+      this.validate();
     //editPanel.refreshData();s
 
 //    this.setMaxSizeWindow();

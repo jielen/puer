@@ -24,7 +24,6 @@ import com.ufgov.zc.client.common.BillElementMeta;
 import com.ufgov.zc.client.common.LangTransMeta;
 import com.ufgov.zc.client.common.ListCursor;
 import com.ufgov.zc.client.common.ServiceFactory;
-import com.ufgov.zc.client.common.UIConstants;
 import com.ufgov.zc.client.common.WorkEnv;
 import com.ufgov.zc.client.common.converter.sf.SfMajorToTableModelConverter;
 import com.ufgov.zc.client.component.GkBaseDialog;
@@ -48,23 +47,19 @@ import com.ufgov.zc.client.component.button.SuggestAuditPassButton;
 import com.ufgov.zc.client.component.button.TraceButton;
 import com.ufgov.zc.client.component.button.UnauditButton;
 import com.ufgov.zc.client.component.button.UntreadButton;
-import com.ufgov.zc.client.component.table.BeanTableModel;
-import com.ufgov.zc.client.component.table.celleditor.TextCellEditor;
 import com.ufgov.zc.client.component.table.cellrenderer.DateCellRenderer;
 import com.ufgov.zc.client.component.table.codecellrenderer.AsValCellRenderer;
 import com.ufgov.zc.client.component.ui.fieldeditor.AbstractFieldEditor;
 import com.ufgov.zc.client.component.zc.AbstractMainSubEditPanel;
 import com.ufgov.zc.client.component.zc.fieldeditor.AutoNumFieldEditor;
-import com.ufgov.zc.client.component.zc.fieldeditor.ForeignEntityFieldCellEditor;
+import com.ufgov.zc.client.component.zc.fieldeditor.ForeignEntityFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.TextFieldEditor;
-import com.ufgov.zc.client.sf.jdperson.JdPersonMajorHandler;
+import com.ufgov.zc.client.sf.util.SfMajorSelectHandler;
 import com.ufgov.zc.client.util.SwingUtil;
 import com.ufgov.zc.client.zc.ButtonStatus;
 import com.ufgov.zc.client.zc.ZcUtil;
 import com.ufgov.zc.common.sf.model.SfJdPerson;
-import com.ufgov.zc.common.sf.model.SfJdPersonMajor;
 import com.ufgov.zc.common.sf.model.SfMajor;
-import com.ufgov.zc.common.sf.model.SfOutInfoValidateDetail;
 import com.ufgov.zc.common.sf.publish.ISfMajorServiceDelegate;
 import com.ufgov.zc.common.system.RequestMeta;
 import com.ufgov.zc.common.system.constants.SfElementConstants;
@@ -147,6 +142,8 @@ public class SfMajorEditPanel extends AbstractMainSubEditPanel {
 
   protected JTablePanel detailTablePanel = new JTablePanel();
   
+  ElementConditionDto majorParentDto=new ElementConditionDto();
+  
   public SfMajorEditPanel(SfMajorDialog parent, ListCursor listCursor, String tabStatus, SfMajorListPanel listPanel) {
     // TCJLODO Auto-generated constructor stub
     super(SfMajorEditPanel.class, BillElementMeta.getBillElementMetaWithoutNd(compoId));
@@ -166,7 +163,7 @@ public class SfMajorEditPanel extends AbstractMainSubEditPanel {
 
     this.parent = parent;
 
-    this.colCount = 3;
+    this.colCount = 2;
 
     init();
 
@@ -185,7 +182,8 @@ public class SfMajorEditPanel extends AbstractMainSubEditPanel {
       this.pageStatus = ZcSettingConstants.PAGE_STATUS_BROWSE;
 
       major = sfMajorServiceDelegate.selectByPrimaryKey(major.getMajorCode(), this.requestMeta);
-
+      
+            
       listCursor.setCurrentObject(major);
       this.setEditingObject(major);
     } else {//新增按钮进入
@@ -193,6 +191,8 @@ public class SfMajorEditPanel extends AbstractMainSubEditPanel {
       this.pageStatus = ZcSettingConstants.PAGE_STATUS_NEW;
 
       major = new SfMajor();
+      
+      major.setParent(new SfMajor());
 
       listCursor.getDataList().add(major);
 
@@ -232,14 +232,24 @@ public class SfMajorEditPanel extends AbstractMainSubEditPanel {
   protected void updateFieldEditorsEditable() {
 
       for (AbstractFieldEditor editor : fieldEditors) {
-        if (pageStatus.equals(ZcSettingConstants.PAGE_STATUS_EDIT) || pageStatus.equals(ZcSettingConstants.PAGE_STATUS_NEW)) {
-          editor.setEnabled(true);
-        } else {
+        if (pageStatus.equals(ZcSettingConstants.PAGE_STATUS_NEW)) {
+          if ("majorName".equals(editor.getFieldName())||"parent.majorCode".equals(editor.getFieldName())){
+            editor.setEnabled(true);
+          }else{
+            editor.setEnabled(false);
+          }
+        } else if(pageStatus.equals(ZcSettingConstants.PAGE_STATUS_EDIT)) {
+          if ("majorName".equals(editor.getFieldName())){
+            editor.setEnabled(true);
+          }else{
+            editor.setEnabled(false);
+          }
+        }else{
           editor.setEnabled(false);
         }
       }
     
-
+      
   }
 
  
@@ -713,7 +723,8 @@ public class SfMajorEditPanel extends AbstractMainSubEditPanel {
 
         JOptionPane.showMessageDialog(this, "删除成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
 
-        this.refreshData();
+//        this.refreshData();
+        parent.dispose();
 
         this.listPanel.refreshCurrentTabData();
 
@@ -765,8 +776,38 @@ public class SfMajorEditPanel extends AbstractMainSubEditPanel {
     AutoNumFieldEditor majorCode = new AutoNumFieldEditor(LangTransMeta.translate(SfMajor.COL_MAJOR_CODE), "majorCode");
     TextFieldEditor majorName = new TextFieldEditor(LangTransMeta.translate(SfMajor.COL_MAJOR_NAME), "majorName");
 
+    SfMajorSelectHandler jdFzrHandler = new SfMajorSelectHandler() {
+      @Override
+      public void excute(List selectedDatas) {
+        // TCJLODO Auto-generated method stub
+        if (selectedDatas != null && selectedDatas.size() > 0) {
+          SfMajor cur = listCursor.getCurrentObject();
+          SfMajor p = (SfMajor) selectedDatas.get(0);
+          cur.setParent(p);
+          setEditingObject(cur);
+        }
+      }
+
+      public void afterClear() {
+        SfMajor currentBill = (SfMajor) listCursor.getCurrentObject();
+        currentBill.setParent(null);
+        setEditingObject(currentBill);
+      }
+
+      public boolean beforeSelect(ElementConditionDto dto) {       
+        return true;
+      }
+    }; 
+    majorParentDto.setDattr1("getParentLst");
+    ForeignEntityFieldEditor parentMajor = new ForeignEntityFieldEditor(jdFzrHandler.getSqlId(), majorParentDto, 20, jdFzrHandler, jdFzrHandler.getColumNames(),
+      "上级代码", "parent.majorCode");
+    TextFieldEditor  parentMajorName = new TextFieldEditor("上级名称", "parent.majorName");
+
     editorList.add(majorCode);
     editorList.add(majorName);
+
+    editorList.add(parentMajor);
+    editorList.add(parentMajorName);
     
     return editorList;
 

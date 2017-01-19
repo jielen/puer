@@ -73,6 +73,14 @@
     <result column="URGENT_LEVEL" jdbcType="VARCHAR" property="urgentLevel" />
 	<result column="EXPECTED_TIME" jdbcType="DECIMAL" property="expectedTime" />
     <result column="COMPLETE_TIME" jdbcType="DATE" property="completeTime" />
+    
+    <!-- 文书号,来自SF_JD_REPORT -->
+    <result column="REPORT_CODE" jdbcType="VARCHAR" property="reportCode" /> 
+    
+    <!-- 文书领取情况,来自SF_DOC_SEND -->
+    <result column="RECIEVOR" jdbcType="VARCHAR" property="recievor" /> 
+    <result column="RECIEVOR_TEL" jdbcType="VARCHAR" property="recievorTel" /> 
+    <result column="SEND_DATE" jdbcType="DATE" property="sendDate" />
   </resultMap>
   
   <sql id="Base_Column_List">
@@ -146,11 +154,17 @@
        SF_JD_TARGET.ZIP             as JD_TARGET_ZIP,
        SF_JD_TARGET.COMPANY             as JD_TARGET_COMPANY,
        SF_ENTRUST.CO_CODE,
-       SF_ENTRUST.JD_ASSISTOR
-  from SF_ENTRUST, SF_ENTRUSTOR, SF_JD_TARGET
+       SF_ENTRUST.JD_ASSISTOR,
+      V_SF_JD_REPORT.REPORT_CODE,
+      V_SF_DOC_SEND.Recievor,
+      V_SF_DOC_SEND.Recievor_Tel,
+      V_SF_DOC_SEND.Send_Date
+  from SF_ENTRUST, SF_ENTRUSTOR, SF_JD_TARGET,V_SF_JD_REPORT,V_SF_DOC_SEND
  WHERE SF_ENTRUST.ENTRUSTOR_ID = SF_ENTRUSTOR.ENTRUSTOR_ID
    AND SF_ENTRUST.ENTRUST_ID = SF_JD_TARGET.ENTRUST_ID(+)
    AND SF_ENTRUST.ENTRUST_ID = #entrustId:DECIMAL#
+   and SF_ENTRUST.ENTRUST_ID = V_SF_JD_REPORT.ENTRUST_ID(+)
+   and SF_ENTRUST.ENTRUST_ID = V_SF_DOC_SEND.ENTRUST_ID(+)
   </select>
   <select id="selectEntrustLst" parameterClass="elementCondition" resultMap="BaseResultMap">
    select SF_ENTRUST.ENTRUST_ID,
@@ -215,10 +229,16 @@
        SF_JD_TARGET.ZIP             as JD_TARGET_ZIP,
        SF_JD_TARGET.COMPANY             as JD_TARGET_COMPANY,
        SF_ENTRUST.CO_CODE,
-       SF_ENTRUST.JD_ASSISTOR
-  from SF_ENTRUST, SF_ENTRUSTOR, SF_JD_TARGET
+       SF_ENTRUST.JD_ASSISTOR,
+      V_SF_JD_REPORT.REPORT_CODE,
+      V_SF_DOC_SEND.Recievor,
+      V_SF_DOC_SEND.Recievor_Tel,
+      V_SF_DOC_SEND.Send_Date
+  from SF_ENTRUST, SF_ENTRUSTOR, SF_JD_TARGET,V_SF_JD_REPORT,V_SF_DOC_SEND
  WHERE SF_ENTRUST.ENTRUSTOR_ID = SF_ENTRUSTOR.ENTRUSTOR_ID
    AND SF_ENTRUST.ENTRUST_ID = SF_JD_TARGET.ENTRUST_ID(+)
+   and SF_ENTRUST.ENTRUST_ID = V_SF_JD_REPORT.ENTRUST_ID(+)
+   and SF_ENTRUST.ENTRUST_ID = V_SF_DOC_SEND.ENTRUST_ID(+)
  <include refid="BusiNumLim.BusiNumLimStr" />
    <isNotNull prepend="AND" property="dattr1">  <!--不同外部部件选择委托的sql  -->	 		
 		<isEqual property="dattr1" compareValue="SF_RECEIPT">  <!--回执部件选择委托sql  -->		
@@ -279,6 +299,31 @@
 			SF_ENTRUST.ND = #nd#
    </isNotEqual>
 		<isNotNull prepend="AND" property="status">
+			<isEqual property="status" compareValue="wtfTodo">
+				(	exists (select T.instance_id from V_SF_WF_CURRENT_TASK_TODO T where 
+					T.executor=#executor# and instance_id = SF_ENTRUST.process_inst_id
+					AND SUBSTR(SF_ENTRUST.MAJOR_CODE, 0, 3)=T.MAJOR_CODE)
+					or 				
+					exists (select instance_id from V_WF_CURRENT_TASK_ZC_TODO where 
+					executor=#executor# and instance_id = SF_ENTRUST.process_inst_id)
+					or
+					exists (select t.instance_id from v_sf_wf_current_task_todo2 t
+					   where t.executor=#executor# and t.instance_id=sf_entrust.process_inst_id
+					   and t.ND=sf_entrust.nd
+					   and t.CO_CODE=sf_entrust.co_code)
+					   <!-- 退回待处理的也放在这里 -->
+					or  exists (select instance_id from V_SF_WF_CURRENT_TASK_UNTREAD T where
+					T.executor=#executor# and instance_id = SF_ENTRUST.process_inst_id
+					AND SUBSTR(SF_ENTRUST.MAJOR_CODE, 0, 3)=T.MAJOR_CODE)
+					or
+					exists(select instance_id from V_SF_WF_CURRENT_TASK_UNTREAD2 T where
+					T.executor=#executor# and instance_id = SF_ENTRUST.process_inst_id
+					AND T.ND=SF_ENTRUST.ND AND T.CO_CODE=SF_ENTRUST.CO_CODE)
+					or				
+					exists (select instance_id from V_WF_CURRENT_TASK_ZC_UNTREAD where
+					executor=#executor# and instance_id = SF_ENTRUST.process_inst_id)	
+				)
+			</isEqual>
 			<isEqual property="status" compareValue="todo">
 				(	exists (select T.instance_id from V_SF_WF_CURRENT_TASK_TODO T where 
 					T.executor=#executor# and instance_id = SF_ENTRUST.process_inst_id
@@ -291,6 +336,18 @@
 					   where t.executor=#executor# and t.instance_id=sf_entrust.process_inst_id
 					   and t.ND=sf_entrust.nd
 					   and t.CO_CODE=sf_entrust.co_code)
+					   <!-- 退回待处理的也放在这里 -->
+					or  exists (select instance_id from V_SF_WF_CURRENT_TASK_UNTREAD T where
+					T.executor=#executor# and instance_id = SF_ENTRUST.process_inst_id
+					AND SUBSTR(SF_ENTRUST.MAJOR_CODE, 0, 3)=T.MAJOR_CODE)
+					or
+					exists(select instance_id from V_SF_WF_CURRENT_TASK_UNTREAD2 T where
+					T.executor=#executor# and instance_id = SF_ENTRUST.process_inst_id
+					AND T.ND=SF_ENTRUST.ND AND T.CO_CODE=SF_ENTRUST.CO_CODE)
+					or				
+					exists (select instance_id from V_WF_CURRENT_TASK_ZC_UNTREAD where
+					executor=#executor# and instance_id = SF_ENTRUST.process_inst_id)					
+					   <!-- 文书审批单的数据也放在这里  待实现-->
 				)
 			</isEqual>
 			<isEqual property="status" compareValue="untread">
@@ -319,6 +376,9 @@
 				or
 				SF_ENTRUST.process_inst_id = -1 )
 				and SF_ENTRUST.STATUS ='0'
+			</isEqual>
+			<isEqual property="status" compareValue="other">
+				(SF_ENTRUST.STATUS in ('pause','stop','expire','exec') or SF_ENTRUST.IS_ACCEPT='N')
 			</isEqual>
 			<isEqual property="status" compareValue="exec">
 				(SF_ENTRUST.STATUS='exec')
@@ -523,11 +583,17 @@
        SF_JD_TARGET.ZIP             as JD_TARGET_ZIP, 
        SF_JD_TARGET.COMPANY             as JD_TARGET_COMPANY, 
        SF_ENTRUST.CO_CODE,
-       SF_ENTRUST.JD_ASSISTOR
-  from SF_ENTRUST, SF_ENTRUSTOR, SF_JD_TARGET
+       SF_ENTRUST.JD_ASSISTOR,
+       V_SF_JD_REPORT.REPORT_CODE,
+      V_SF_DOC_SEND.Recievor,
+      V_SF_DOC_SEND.Recievor_Tel,
+      V_SF_DOC_SEND.Send_Date
+  from SF_ENTRUST, SF_ENTRUSTOR, SF_JD_TARGET,V_SF_JD_REPORT,V_SF_DOC_SEND
  WHERE SF_ENTRUST.ENTRUSTOR_ID = SF_ENTRUSTOR.ENTRUSTOR_ID
    AND SF_ENTRUST.ENTRUST_ID = SF_JD_TARGET.ENTRUST_ID(+)
    AND SF_ENTRUST.PROCESS_INST_ID = #processInstId:DECIMAL#
+   and SF_ENTRUST.ENTRUST_ID = V_SF_JD_REPORT.ENTRUST_ID(+)
+   and SF_ENTRUST.ENTRUST_ID = V_SF_DOC_SEND.ENTRUST_ID(+)
   </select>
   
   <!-- 根据委托方登陆账号，获取送检人信息，用于发短信 -->
@@ -576,7 +642,7 @@
          WHERE N.INSTANCE_ID = E.PROCESS_INST_ID
            AND N.EXECUTOR = L.ZONGHE_ZHIBAN
            AND L.USER_ID= #executor#
-           AND L.ND=E.ND
+           <!-- AND L.ND=E.ND -->
            AND L.CO_CODE=E.CO_CODE
            AND E.PROCESS_INST_ID = #processInstId:DECIMAL#)
     OR (WF_NODE_ID IN
@@ -587,7 +653,7 @@
           WHERE N.INSTANCE_ID = E.PROCESS_INST_ID
             AND N.EXECUTOR = L.ZONGHE_ZHIBAN
             AND L.USER_ID = #executor#
-           AND L.ND=E.ND
+          <!--  AND L.ND=E.ND -->
            AND L.CO_CODE=E.CO_CODE
             AND E.PROCESS_INST_ID = #processInstId:DECIMAL#) AND
        FUNC_ID = 'fcallback')
@@ -682,4 +748,9 @@
 	   and t.instance_id = e.process_inst_id
 	   and e.process_inst_id = #processInstId:DECIMAL# 
   </select>
+  <update id="updateStatusByProcessId" parameterClass="com.ufgov.zc.common.sf.model.SfEntrust" >
+    update SF_ENTRUST
+    set status = #status:VARCHAR#
+    where PROCESS_INST_ID=#processInstId:DECIMAL#
+  </update>
 </sqlMap>

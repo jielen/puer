@@ -63,6 +63,10 @@ public class SfEntrust extends ZcBaseBill {
    */
   public static final String STATUS_UNACCEPT ="unaccept";
   /**
+   * 审核退回
+   */
+  public static final String STATUS_UNTREAT ="untreat";
+  /**
    * 转送其他鉴定中心
    */
   public static final String STATUS_ZHUANSONG ="zhuansong";
@@ -219,8 +223,16 @@ public class SfEntrust extends ZcBaseBill {
 	public static final String BKMK_SF_ENTRUST_JD_FHR_ZSBH = "SF_ENTRUST_JD_FHR_ZSBH";// 鉴定复核人证书编号
 	public static final String BKMK_SF_ENTRUST_JD_FZR_ZSBH = "SF_ENTRUST_JD_FZR_ZSBH";// 鉴定负责人证书编号
 	
- 
-	private String acceptCode;
+//鉴定文书号
+  private String reportCode;
+  //文书领取人
+  private String recievor;
+  //文书领取人电话
+  private String recievorTel;
+  //文书领取时间
+  private Date sendDate;
+
+  private String acceptCode;
 	
 	private String anjianCode;
 	
@@ -1518,4 +1530,37 @@ public class SfEntrust extends ZcBaseBill {
 	public void setAnjianCode(String anjianCode) {
 		this.anjianCode = anjianCode;
 	}
+
+  
+  public String getReportCode() {
+    return reportCode;
+  }
+
+  public void setReportCode(String reportCode) {
+    this.reportCode = reportCode;
+  }
+
+  public String getRecievor() {
+    return recievor;
+  }
+
+  public void setRecievor(String recievor) {
+    this.recievor = recievor;
+  }
+
+  public String getRecievorTel() {
+    return recievorTel;
+  }
+
+  public void setRecievorTel(String recievorTel) {
+    this.recievorTel = recievorTel;
+  }
+
+  public Date getSendDate() {
+    return sendDate;
+  }
+
+  public void setSendDate(Date sendDate) {
+    this.sendDate = sendDate;
+  }
 }

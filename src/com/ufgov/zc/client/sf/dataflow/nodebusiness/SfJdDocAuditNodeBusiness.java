@@ -16,6 +16,7 @@ import com.ufgov.zc.client.sf.jddocaudit.SfJdDocAuditListPanel;
 import com.ufgov.zc.client.sf.util.SfUtil;
 import com.ufgov.zc.common.sf.model.SfEntrust;
 import com.ufgov.zc.common.sf.model.SfJdDocAudit;
+import com.ufgov.zc.common.sf.model.SfJdReport;
 import com.ufgov.zc.common.sf.model.SfJdResult;
 import com.ufgov.zc.common.sf.model.SfMaterials;
 import com.ufgov.zc.common.sf.model.SfMaterialsTransferDetail;
@@ -29,7 +30,7 @@ public class SfJdDocAuditNodeBusiness implements ISfFlowNodeBusiness {
   IZcEbBaseServiceDelegate zcEbBaseServiceDelegate = (IZcEbBaseServiceDelegate) ServiceFactory.create(IZcEbBaseServiceDelegate.class,
     "zcEbBaseServiceDelegate");
 
-  String compoId = "SF_MATERIALS_TRANSFER";
+  String compoId = "SF_JD_DOC_AUDIT";
 
   @Override
   public void excute(SfDataFowPanel flowPanel, SfFlowNode node, SfEntrust entrust, RequestMeta meta) {
@@ -105,7 +106,7 @@ public class SfJdDocAuditNodeBusiness implements ISfFlowNodeBusiness {
   @Override
   public boolean isEnable(SfEntrust entrust, RequestMeta meta) {
     // TCJLODO Auto-generated method stub
-    if (!isEnougthCondition(entrust)) {
+    if (!isEnougthCondition(entrust,meta)) {
       return false;
     }
     List evalst = getDataLst(entrust.getEntrustId(), meta);
@@ -126,9 +127,17 @@ public class SfJdDocAuditNodeBusiness implements ISfFlowNodeBusiness {
    * @param entrust
    * @return
    */
-  private boolean isEnougthCondition(SfEntrust entrust) {
+  private boolean isEnougthCondition(SfEntrust entrust,RequestMeta meta) {
     // TCJLODO Auto-generated method stub
-    if (SfElementConstants.VAL_Y.equals(entrust.getIsAccept())) {
+    /*if (SfElementConstants.VAL_Y.equals(entrust.getIsAccept())) {
+      return true;
+    }*/
+    //做了鉴定文书了，才可以出鉴定文书审批单
+
+    IZcEbBaseServiceDelegate zcEbBaseServiceDelegate = (IZcEbBaseServiceDelegate) ServiceFactory.create(IZcEbBaseServiceDelegate.class,
+      "zcEbBaseServiceDelegate"); 
+    List<SfJdReport> billLst = zcEbBaseServiceDelegate.queryDataForList("com.ufgov.zc.server.sf.dao.SfJdReportMapper.selectByEntrustId", entrust.getEntrustId(), meta);
+    if(billLst!=null && billLst.size()>0){
       return true;
     }
     return false;

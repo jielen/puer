@@ -13,7 +13,9 @@ import com.ufgov.zc.client.component.table.BeanTableModel;
 import com.ufgov.zc.client.component.table.ColumnBeanPropertyPair;
 import com.ufgov.zc.client.datacache.AsValDataCache;
 import com.ufgov.zc.common.commonbiz.model.BaseElement;
+import com.ufgov.zc.common.sf.model.SfDocSend;
 import com.ufgov.zc.common.sf.model.SfEntrust;
+import com.ufgov.zc.common.sf.model.SfJdReport;
 import com.ufgov.zc.common.sf.model.SfJdResultFile;
 import com.ufgov.zc.common.sf.model.SfMajor;
 import com.ufgov.zc.common.sf.model.SfMaterials;
@@ -39,9 +41,13 @@ public class SfEntrustToTableModelConverter {
     names.add(LangTransMeta.translate(SfEntrust.COL_ENTRUSTOR_NAME));
     names.add(LangTransMeta.translate(SfEntrust.COL_SJR));
     names.add(LangTransMeta.translate(SfEntrust.COL_SJR_TEL));
-    names.add(LangTransMeta.translate(SfEntrust.COL_IS_ACCEPT));
+//    names.add(LangTransMeta.translate(SfEntrust.COL_IS_ACCEPT));
     names.add(LangTransMeta.translate(SfEntrust.COL_ACCEPT_DATE));
     names.add(LangTransMeta.translate(SfEntrust.COL_ACCEPT_CODE));
+    names.add(LangTransMeta.translate(SfJdReport.COL_REPORT_CODE));
+    names.add(LangTransMeta.translate(SfDocSend.COL_RECIEVOR));
+    names.add(LangTransMeta.translate(SfDocSend.COL_RECIEVOR_TEL));
+    names.add(LangTransMeta.translate(SfDocSend.COL_SEND_DATE));
     if (entrustLst != null && entrustLst.size() > 0) {
 
       SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -55,9 +61,13 @@ public class SfEntrustToTableModelConverter {
         rowData.add(entrust.getEntrustor().getName());
         rowData.add(entrust.getSjr());
         rowData.add(entrust.getSjrTel());
-        rowData.add(AsValDataCache.getName(SfElementConstants.VS_Y_N, entrust.getIsAccept()));
+//        rowData.add(AsValDataCache.getName(SfElementConstants.VS_Y_N, entrust.getIsAccept()));
         rowData.add(entrust.getAcceptDate() == null ? null : df.format(entrust.getAcceptDate()));
         rowData.add(entrust.getAcceptCode());
+        rowData.add(entrust.getReportCode());
+        rowData.add(entrust.getRecievor());
+        rowData.add(entrust.getRecievorTel());
+        rowData.add(entrust.getSendDate() == null ? null : df.format(entrust.getSendDate()));
         values.add(rowData);
 
       }

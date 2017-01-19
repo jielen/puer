@@ -9,7 +9,8 @@
 	
 	<bean id="majorService" class="com.ufgov.zc.server.sf.service.impl.SfMajorService"		scope="singleton">
 		<property name="majorMapper" ref="majorMapper" />
-		<property name="jdPersonMapper" ref="jdPersonMapper" />	
+		<property name="jdPersonMapper" ref="jdPersonMapper" />		
+		<property name="zcEbBaseService" ref="zcEbBaseService" />
 	</bean>		
 	<bean id="majorMapper" class="com.ufgov.zc.server.sf.dao.ibatis.SfMajorMapperImp"		scope="singleton">
 		<property name="sqlMapClient" ref="sqlMapClient" />

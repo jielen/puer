@@ -86,6 +86,7 @@ import com.ufgov.zc.client.sf.entrust.SfEntrustHandler;
 import com.ufgov.zc.client.sf.jdresult.RefrenceEntrustDialog;
 import com.ufgov.zc.client.sf.util.SfBookmarkUtil;
 import com.ufgov.zc.client.sf.util.SfUtil;
+import com.ufgov.zc.client.util.NumUtil;
 import com.ufgov.zc.client.zc.ButtonStatus;
 import com.ufgov.zc.client.zc.WordFileUtil;
 import com.ufgov.zc.client.zc.ZcUtil;
@@ -797,13 +798,25 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 	 */
 	protected void getNo() {
 		SfJdReport bill = (SfJdReport) this.listCursor.getCurrentObject();
-		codeDialog = new SfReportCodeDialog2(parent,this);
+		
+		/**
+		 * 不同者专业，不同的文书号，这个不用了
+		 */
+	/*	codeDialog = new SfReportCodeDialog2(parent,this);
 		codeDialog.setSize(UIConstants.DIALOG_3_LEVEL_WIDTH,UIConstants.DIALOG_3_LEVEL_HEIGHT);
 		codeDialog.pack();
 		codeDialog.moveToScreenCenter();
-		codeDialog.setVisible(true);
-//		codeDialog.dispose();
+		codeDialog.setVisible(true);*/
+		 
+		//改为统一编号,因为要支持多个鉴定中心，不同的编号，所以将部件加上了鉴定机构编号，这样后台的编号规则也加这个，
+		String reportCode=NumUtil.getNum(compoId+"_"+bill.getCoCode(), "REPORT_CODE", bill, requestMeta);
+		
+		 setNo(reportCode);
 
+    JOptionPane.showMessageDialog(this, "取得编号:" + reportCode, "文书编号", JOptionPane.INFORMATION_MESSAGE);
+    
+    getNoBtn.setVisible(false);
+    
 	}
 
 	protected void setNo(String reportNo){

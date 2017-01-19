@@ -8,24 +8,39 @@
   <resultMap id="BaseResultMap" class="major" >
     <result column="MAJOR_CODE" property="majorCode" jdbcType="VARCHAR" />
     <result column="MAJOR_NAME" property="majorName" jdbcType="VARCHAR" />
-    <result column="PARENT_CODE" property="parentCode" jdbcType="VARCHAR" />
+    <result column="PARENT_CODE" property="parent.majorCode" jdbcType="VARCHAR" />
+    <result column="PARENT_NAME" property="parent.majorName" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     MAJOR_CODE, MAJOR_NAME, PARENT_CODE
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="java.lang.String" >
     select 
-    <include refid="Base_Column_List" />
-    from SF_MAJOR
-    where MAJOR_CODE = #majorCode#
+    m.MAJOR_CODE, m.MAJOR_NAME, P.MAJOR_CODE as PARENT_CODE, P.MAJOR_NAME as PARENT_NAME
+    from SF_MAJOR m,sf_major p
+    where m.MAJOR_CODE = #majorCode#
+    and m.PARENT_CODE=p.MAJOR_CODE(+)
   </select>
   <select id="getMajorLst" resultMap="BaseResultMap" parameterClass="elementCondition" >    
     select 
-    <include refid="Base_Column_List" />
-    from SF_MAJOR
-    where 1=1
-    order by major_code
-    
+    m.MAJOR_CODE, m.MAJOR_NAME, P.MAJOR_CODE as PARENT_CODE, P.MAJOR_NAME as PARENT_NAME
+    from SF_MAJOR m,sf_major p
+    where  m.PARENT_CODE=p.MAJOR_CODE(+) 
+		<isNotNull prepend="AND" property="dattr1"><!-- 选择父类 --> 
+		  m.parent_code is null
+		</isNotNull>
+    order by major_code    
+  </select>
+  <select id="getMaxCode" resultClass="java.util.HashMap" parameterClass="elementCondition" >    
+    SELECT MAX(TO_NUMBER(M.MAJOR_CODE))+1 as MAXCODE FROM SF_MAJOR M WHERE 1=1
+		<isNotNull prepend="AND" property="dattr1">
+			<isEqual property="dattr1" compareValue="parentLst"><!-- 获取第一级别的最大值 -->
+				M.PARENT_CODE is null
+			</isEqual>
+			<isEqual property="dattr1" compareValue="detailtLst"><!-- 获取第末级级别的最大值 -->
+				M.PARENT_CODE =#dattr2#
+			</isEqual>
+		</isNotNull>   
   </select>
   
   <delete id="deleteByPrimaryKey" parameterClass="java.lang.String" >
@@ -34,12 +49,12 @@
   </delete>
   <insert id="insert" parameterClass="major" >
     insert into SF_MAJOR (MAJOR_CODE, MAJOR_NAME, PARENT_CODE      )
-    values (#majorCode#, #majorName#, #parentCode#      )
+    values (#majorCode#, #majorName#, #parent.majorCode#      )
   </insert>
   <update id="updateByPrimaryKey" parameterClass="major" >
     update SF_MAJOR
     set MAJOR_NAME = #majorName#,
-      PARENT_CODE = #parentCode#
+      PARENT_CODE = #parent.majorCode#
     where MAJOR_CODE = #majorCode#
   </update>
   <select id="isUsing"  parameterClass="java.lang.String" resultClass="java.lang.Integer">

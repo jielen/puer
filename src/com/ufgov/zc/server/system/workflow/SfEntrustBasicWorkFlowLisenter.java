@@ -1,7 +1,9 @@
 package com.ufgov.zc.server.system.workflow;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.kingdrive.workflow.context.WorkflowContext;
 import com.kingdrive.workflow.exception.WorkflowException;
@@ -47,6 +49,18 @@ public class SfEntrustBasicWorkFlowLisenter extends TaskAdapter {
 
   private String getManageTypeTxt(SfEntrust entrust) {
     return ZcSUtil.getAsValName(SfEntrust.SF_VS_ENTRUST_STATUS, entrust.getStatus()); 
+  }
+
+  public void afterUntread(WorkflowContext context)   throws WorkflowException
+  { 
+    IZcEbBaseServiceDao zcEbBaseServiceDao = (IZcEbBaseServiceDao) SpringContext.getBean("zcEbBaseServiceDao");
+    SfEntrust bill=new SfEntrust();
+    bill.setStatus(SfEntrust.STATUS_UNTREAT);
+    bill.setProcessInstId(context.getInstanceId());
+    List l=new ArrayList();
+    l.add(bill);
+    zcEbBaseServiceDao.updateObjectList("com.ufgov.zc.server.sf.dao.SfEntrustMapper.updateStatusByProcessId", l);
+    
   }
 }
 

@@ -18,6 +18,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
@@ -60,6 +61,7 @@ import com.ufgov.zc.client.component.JTablePanel;
 import com.ufgov.zc.client.component.button.AddButton;
 import com.ufgov.zc.client.component.button.CallbackButton;
 import com.ufgov.zc.client.component.button.ConfirmButton;
+import com.ufgov.zc.client.component.button.CopyButton;
 import com.ufgov.zc.client.component.button.DeleteButton;
 import com.ufgov.zc.client.component.button.EditButton;
 import com.ufgov.zc.client.component.button.ExitButton;
@@ -71,6 +73,7 @@ import com.ufgov.zc.client.component.button.PrintButton;
 import com.ufgov.zc.client.component.button.SaveButton;
 import com.ufgov.zc.client.component.button.SendButton;
 import com.ufgov.zc.client.component.button.SendGkButton;
+import com.ufgov.zc.client.component.button.SubCopyButton;
 import com.ufgov.zc.client.component.button.SubaddButton;
 import com.ufgov.zc.client.component.button.SubdelButton;
 import com.ufgov.zc.client.component.button.SubinsertButton;
@@ -1695,7 +1698,10 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
         // TCJLODO Auto-generated method stub
         for (Object obj : selectedDatas) {
           SfEntrust currentBill = (SfEntrust) listCursor.getCurrentObject();
-          currentBill.setEntrustor((SfEntrustor) obj);
+          SfEntrustor t=(SfEntrustor) obj;
+          currentBill.setEntrustor(t);
+          currentBill.setSjrZip(t.getZip());
+          currentBill.setSjrAddress(t.getAddress());
           setEditingObject(currentBill);
         }
       }
@@ -1703,6 +1709,8 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
       public void afterClear() {
         SfEntrust currentBill = (SfEntrust) listCursor.getCurrentObject();
         currentBill.setEntrustor(new SfEntrustor());
+        currentBill.setSjrZip(null);
+        currentBill.setSjrAddress(null);
         setEditingObject(currentBill);
       }
     };
@@ -2457,12 +2465,17 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
     JButton insertBtn2 = new SubinsertButton(false);
 
     JButton delBtn2 = new SubdelButton(false);
+    
+    JButton copyBtn=new SubCopyButton(false);
 
     materialBtnBar.add(addBtn2);
 
     materialBtnBar.add(insertBtn2);
 
     materialBtnBar.add(delBtn2);
+
+    materialBtnBar.add(copyBtn);
+    
 
     materialsTablePanel.add(materialBtnBar, BorderLayout.SOUTH);
 
@@ -2489,8 +2502,85 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
         deleteSub(materialsTablePanel);
       }
     });
+    copyBtn.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        copySub(materialsTablePanel);
+      }
+    });
     return materialsTablePanel;
     //    return null;
+  }
+
+  protected void copySub(JTablePanel tablePanel) {
+    JPageableFixedTable table = tablePanel.getTable();
+
+    Integer[] checkedRows;
+
+    // 是否显示行选择框
+
+    if (tablePanel.getTable().isShowCheckedColumn()) {
+
+      checkedRows = table.getCheckedRows();
+
+    } else {
+
+      int[] selectedRows = table.getSelectedRows();
+      int selectrow=table.getSelectedRow();
+
+      checkedRows = new Integer[selectedRows.length];
+
+      for (int i = 0; i < checkedRows.length; i++) {
+
+        checkedRows[i] = selectedRows[i];
+
+      }
+
+    }
+
+    if (checkedRows.length == 0) {
+
+      JOptionPane.showMessageDialog(this, "请勾选一条期望复制的数据！", "提示",JOptionPane.INFORMATION_MESSAGE);
+
+    }else if (checkedRows.length >1) {
+
+        JOptionPane.showMessageDialog(this, "请勾选一条期望复制的数据,不能选择多条！", "提示",JOptionPane.INFORMATION_MESSAGE);
+
+      }  else {
+
+      if (table.isEditing()) {
+
+        table.getCellEditor().stopCellEditing();
+
+      }
+
+      BeanTableModel tableModel = (BeanTableModel) table.getModel();
+
+      int[] selRows = new int[checkedRows.length];
+
+      for (int i = 0; i < selRows.length; i++) {
+
+        selRows[i] = table.convertRowIndexToModel(checkedRows[i]);
+
+      }
+
+      Arrays.sort(selRows);
+
+      for (int i = selRows.length - 1; i >= 0; i--) {
+//        SfEntrust qx = (SfEntrust) ObjectUtil.deepCopy(this.listCursor.getCurrentObject());
+        SfMaterials item = (SfMaterials) tableModel.getBean(selRows[i]);
+        SfMaterials copyItem =(SfMaterials)ObjectUtil.deepCopy(item);
+        copyItem.setTempId("" + System.currentTimeMillis());
+        copyItem.setAttachFile(null);
+        copyItem.setAttachFileBlobid(null);
+        copyItem.setMaterialId(null);
+        tableModel.insertRow(tableModel.getRowCount(), copyItem); 
+
+      }
+      table.setCheckedRows(checkedRows, false);
+    }
+
+    fitColumnWidth(tablePanel.getTable()); 
+ 
   }
 
   protected void setMaterialDefaultValue(SfMaterials item) {

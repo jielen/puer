@@ -350,30 +350,33 @@ public SfEntrust saveFN(SfEntrust inData, RequestMeta requestMeta) {
      
     
 //    wfEngineAdapter.untread(qx.getComment(), qx, requestMeta);
+     ZcSUtil su=new ZcSUtil();
+     SfJdjg jg=su.getJdjgInfo(qx.getCoCode());
+     String jgName="鉴定中心",jgName2="";
+     if(jg!=null){
+       jgName=jg.getName();
+     }
+     jgName2="【"+jgName+"】:";
+     
     if(context!=null && context.getNextNode()!=null && context.getNextNode().getNodeId().longValue()==31039013L){//31039013L是委托书流程的第一个节点 
-      _sendUntreadMsgToSjr(qx,requestMeta,ISfEntrustService.WF_OPERATION_UNTREAD);      
+      _sendUntreadMsgToSjr(qx,requestMeta,ISfEntrustService.WF_OPERATION_UNTREAD,jgName,jgName2);      
     }
-    _sendUntreadMsgToPreUser(qx,requestMeta,context);
+    _sendUntreadMsgToPreUser(qx,requestMeta,context,jgName,jgName2);
     return qx;
   }
 
-  private void _sendUntreadMsgToSjr(SfEntrust qx, RequestMeta requestMeta, String wfOperation) {
-    ZcSUtil su=new ZcSUtil();
-    SfJdjg jg=su.getJdjgInfo(qx.getCoCode());
-    String jgName="鉴定机构";
-    if(jg!=null && jg.getName()!=null){
-      jgName=jg.getName();
-    }
+  private void _sendUntreadMsgToSjr(SfEntrust qx, RequestMeta requestMeta, String wfOperation, String jgName, String jgName2) {
+    
     StringBuffer msg=new StringBuffer();
     if(ISfEntrustService.WF_OPERATION_UNTREAD.equals(wfOperation)){
-      msg.append("您提交的").append(qx.getCode()).append(",").append(qx.getComment()).append(" 被").append(jgName).append("退回，").append(",请登录司法鉴定管理系统进行查看和处理。"); 
+      msg.append(jgName2).append("您提交的").append(qx.getCode()).append(",").append(qx.getComment()).append(" 被").append(jgName).append("退回，").append(",请登录司法鉴定管理系统进行查看和处理。"); 
     }
-
+    ZcSUtil su=new ZcSUtil();
     su.sendMsgToSjr(qx, msg.toString());
     
   }
 
-  private void _sendUntreadMsgToPreUser(SfEntrust bill, RequestMeta requestMeta,WorkflowContext context) {
+  private void _sendUntreadMsgToPreUser(SfEntrust bill, RequestMeta requestMeta,WorkflowContext context, String jgName, String jgName2) {
 /*   
 	  ElementConditionDto dto=new ElementConditionDto();
 	  dto.setDattr1("SF_ENTRUST");
@@ -402,6 +405,7 @@ public SfEntrust saveFN(SfEntrust inData, RequestMeta requestMeta) {
 */
     if(context.getNextExecutor()==null || context.getNextExecutor().size()==0)return;
     StringBuffer msg=new StringBuffer();
+    msg.append(jgName2);
     msg.append(bill.getCode()).append("被退回了,");
     if(context.getComment()!=null && context.getComment().trim().length()>0){
       msg.append(context.getComment()).append(",");
@@ -414,7 +418,7 @@ public SfEntrust saveFN(SfEntrust inData, RequestMeta requestMeta) {
       if(tu.getUserId().equals(SfElementConstants.KESHI_SHOULI)){//科室受理
         users.addAll(su.getKeshiShouLiUser(bill,requestMeta));
       }else if(tu.getUserId().equals(SfElementConstants.ZONGHE_SHOULI)){//综合值班受理
-        List zongheZhibanLst=su.getZonheShouLiUser(bill,requestMeta);
+        List zongheZhibanLst=su.getZonheShouLiUser(bill.getNd().intValue(),bill.getCoCode());
         if(zongheZhibanLst==null || zongheZhibanLst.size()==0){
           //目前没有人值班，需要将消息预存，等有人值班时，再进行发送
 //          _saveToTemp(msg,bill,SfElementConstants.ZONGHE_SHOULI,requestMeta);//先不这么处理
@@ -437,20 +441,28 @@ public SfEntrust saveFN(SfEntrust inData, RequestMeta requestMeta) {
     su.sendMsgToAsEmp(userLst,msg.toString());
 } 
 
-  private void sendMsgAudit(SfEntrust qx, RequestMeta requestMeta,String oldStatus, List nextUsers) {
+  private void sendMsgAudit(SfEntrust bill, RequestMeta requestMeta,String oldStatus, List nextUsers) {
 
+    ZcSUtil su=new ZcSUtil();
+    SfJdjg jg=su.getJdjgInfo(bill.getCoCode());
+    String jgName="鉴定中心",jgName2="";
+    if(jg!=null){
+      jgName=jg.getName();
+    }
+    jgName2="【"+jgName+"】:";
     //给送检人发送信息
-    _sendAuditMsgToSjr(qx, requestMeta, oldStatus);
+    _sendAuditMsgToSjr(bill, requestMeta, oldStatus,jgName,jgName2);
 
     //给待办人发短信 
-    _sendAuditMsgToNextUser(qx, requestMeta, nextUsers);
-	  
+    _sendAuditMsgToNextUser(bill, requestMeta, nextUsers,jgName,jgName2);
 	    
 }
 
-  private void _sendAuditMsgToNextUser(SfEntrust bill, RequestMeta requestMeta, List nextUsers) {
+  private void _sendAuditMsgToNextUser(SfEntrust bill, RequestMeta requestMeta, List nextUsers,String jgName,String jgName2) {
     if(nextUsers==null || nextUsers.size()==0)return;
-    String msg=bill.getCode()+"等待您审批,案事件:"+bill.getName()+",请登录鉴定管理系统进行审批。";
+    StringBuffer sb=new StringBuffer();
+    sb.append(jgName2).append(bill.getCode()).append("等待您审批,案事件:").append(bill.getName()==null?"":bill.getName()).append(",请登录鉴定管理系统进行审批。");
+    String msg=sb.toString();
     List users=new ArrayList();
     ZcSUtil su=new ZcSUtil();
     for(int i=0;i<nextUsers.size();i++){
@@ -465,7 +477,7 @@ public SfEntrust saveFN(SfEntrust inData, RequestMeta requestMeta) {
         }else{
           users.addAll(zongheZhibanLst);
         }        
-      }else{
+      }else{ 
         users.add(tu.getUserId());
       }
     }
@@ -499,26 +511,27 @@ public SfEntrust saveFN(SfEntrust inData, RequestMeta requestMeta) {
     }
   }
 
-  private void _sendAuditMsgToSjr(SfEntrust bill, RequestMeta requestMeta, String oldStatus) {
+  private void _sendAuditMsgToSjr(SfEntrust bill, RequestMeta requestMeta, String oldStatus,String jgName,String jgName2) {
     ZcSUtil su=new ZcSUtil();
     //给委托方发短信
-    SfJdjg jg=su.getJdjgInfo(bill.getCoCode());
-    String jgName="鉴定中心";
-    if(jg!=null){
-      jgName=jg.getName();
-    }
     StringBuffer sb=new StringBuffer();
     //1、委托初审通过，等待接收检材，
-    if(bill.getStatus().equals(SfEntrust.STATUS_JIE_SHOU_JIANCAI) && (SfEntrust.STATUS_HE_ZHUN.equals(oldStatus) || SfEntrust.STATUS_QUE_REN.equals(oldStatus))){      
+    if(bill.getStatus().equals(SfEntrust.STATUS_JIE_SHOU_JIANCAI) && (SfEntrust.STATUS_HE_ZHUN.equals(oldStatus) || SfEntrust.STATUS_QUE_REN.equals(oldStatus))){   
+      sb.append(jgName2);   
       sb.append(su.getSjrInfo(bill,requestMeta));
       sb.append("已经通过委托确认，请登录司法鉴定管理系统,打开委托界面，打印委托书，携带相关检材样本，到").append(jgName).append("提交检材物品。");
      }else if(bill.getStatus().equals(SfEntrust.STATUS_DOING)){//开始鉴定了，发送消息给送检人
+       sb.append(jgName2);
        sb.append(su.getSjrInfo(bill,requestMeta));
        int days=7;
        if(bill.getExpectedTime()!=null){
          days=bill.getExpectedTime().intValue();
        }
        sb.append("已经被").append(jgName).append("受理，预计用时").append(days).append("天完成鉴定工作，请保持通讯设备畅通，及时关注鉴定进展情况，谢谢。");  
+     }else if(bill.getIsAccept()!=null && bill.getIsAccept().equals("N")){
+       sb.append(jgName2);
+       sb.append(su.getSjrInfo(bill,requestMeta));
+       sb.append("每天被鉴定中心受理，具体情况请联系鉴定中心，谢谢关注。");
      }
     if(sb.length()>0){
       su.sendMsgToSjr(bill,sb.toString()); 
@@ -649,8 +662,7 @@ public SfEntrust acceptFN(SfEntrust inData, RequestMeta requestMeta) throws Exce
 public SfEntrust unAcceptFN(SfEntrust inData, RequestMeta requestMeta) throws Exception {
 	inData.setIsAccept("N");
 	inData.setAcceptDate(ZcSUtil.getSysDate());
-	inData.setAcceptor(requestMeta.getSvUserID());
-	auditFN(inData,requestMeta);
+	inData.setAcceptor(requestMeta.getSvUserID()); 
 	
 	return auditFN(inData,requestMeta);
 }

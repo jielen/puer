@@ -10,6 +10,7 @@ import com.ufgov.zc.common.sf.model.SfEntrust;
 import com.ufgov.zc.common.sf.model.SfJdDocAudit;
 import com.ufgov.zc.common.sf.model.SfJdDocAuditDetail;
 import com.ufgov.zc.common.sf.model.SfJdReport;
+import com.ufgov.zc.common.sf.model.SfJdjg;
 import com.ufgov.zc.common.sf.model.SfMaterialsTransferDetail;
 import com.ufgov.zc.common.system.RequestMeta;
 import com.ufgov.zc.common.system.dto.ElementConditionDto;
@@ -164,9 +165,20 @@ public class SfJdDocAuditService implements ISfJdDocAuditService {
 	  dto.setDattr2(""+qx.getProcessInstId());
 	  List userLst=zcEbBaseService.queryDataForList("ZcEbUtil.selectUntreadUser", dto);
 	  if(userLst!=null ){
-		  String mobile="";
-		  String msg=qx.getEntrust().getCode()+"鉴定文书审批单被退回了,请登录鉴定管理系统进行查看处理。";
-		  ZcSUtil su=new ZcSUtil();
+
+      ZcSUtil su=new ZcSUtil();
+      SfJdjg jg=su.getJdjgInfo(qx.getCoCode());
+      String jgName="鉴定中心",jgName2="";
+      if(jg!=null){
+        jgName=jg.getName();
+      }
+      jgName2="【"+jgName+"】:";
+      
+     String mobile="";
+     StringBuffer sb=new StringBuffer(); 
+     sb.append(jgName2).append(qx.getEntrust().getCode()).append("鉴定文书审批单被退回了,请登录鉴定管理系统进行查看处理。");
+		  String msg=sb.toString();
+		  
 		  for(int i=0;i<userLst.size();i++){
 			  HashMap row=(HashMap) userLst.get(i);
 			  String user=(String) row.get("EXECUTOR");
@@ -189,10 +201,20 @@ public class SfJdDocAuditService implements ISfJdDocAuditService {
 	  List userLst=zcEbBaseService.queryDataForList("ZcEbUtil.selectToDoUser", dto);
 	   
 	  if(userLst!=null ){
+
+	     ZcSUtil su=new ZcSUtil();
+	     SfJdjg jg=su.getJdjgInfo(qx.getCoCode());
+	     String jgName="鉴定中心",jgName2="";
+	     if(jg!=null){
+	       jgName=jg.getName();
+	     }
+	     jgName2="【"+jgName+"】:";
+	     
 		  String mobile="";
-		  String msg=qx.getEntrust().getCode()+"鉴定文书审批单等待您审批,案事件:"+qx.getName()+",请登录鉴定管理系统进行审批。";
-		  
-		  ZcSUtil su=new ZcSUtil();
+		  StringBuffer sb=new StringBuffer();
+		  sb.append(jgName2).append(qx.getEntrust().getCode()).append("鉴定文书审批单等待您审批,案事件:").append(qx.getName()).append(",请登录鉴定管理系统进行审批。");
+		  String msg=sb.toString();
+		   
 		  for(int i=0;i<userLst.size();i++){
 			  HashMap row=(HashMap) userLst.get(i);
 			  String user=(String) row.get("EXECUTOR");

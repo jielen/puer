@@ -22,6 +22,7 @@ import com.ufgov.zc.client.sf.util.SfUtil;
 import com.ufgov.zc.common.sf.model.SfEntrust;
 import com.ufgov.zc.common.sf.model.SfJdReport;
 import com.ufgov.zc.common.sf.model.SfJdReport;
+import com.ufgov.zc.common.sf.model.SfJdResult;
 import com.ufgov.zc.common.system.RequestMeta;
 import com.ufgov.zc.common.system.constants.SfElementConstants;
 import com.ufgov.zc.common.system.dto.ElementConditionDto;
@@ -88,7 +89,7 @@ public class SfJdReportNodeBusiness implements ISfFlowNodeBusiness {
 	  @Override
 	  public boolean isEnable(SfEntrust entrust, RequestMeta meta) {
 	    // TCJLODO Auto-generated method stub
-	    if (!isEnougthCondition(entrust)) {
+	    if (!isEnougthCondition(entrust,meta)) {
 	      return false;
 	    }
 	    List evalst = getDataLst(entrust.getEntrustId(), meta);
@@ -109,9 +110,16 @@ public class SfJdReportNodeBusiness implements ISfFlowNodeBusiness {
 	   * @param entrust
 	   * @return
 	   */
-	  private boolean isEnougthCondition(SfEntrust entrust) {
+	  private boolean isEnougthCondition(SfEntrust entrust,RequestMeta meta) {
 	    // TCJLODO Auto-generated method stub
-	    if (SfElementConstants.VAL_Y.equals(entrust.getIsAccept())) {
+	   /* if (SfElementConstants.VAL_Y.equals(entrust.getIsAccept())) {
+	      return true;
+	    }*/
+	    //有了鉴定记录，就可以做鉴定文书
+      IZcEbBaseServiceDelegate zcEbBaseServiceDelegate = (IZcEbBaseServiceDelegate) ServiceFactory.create(IZcEbBaseServiceDelegate.class,
+        "zcEbBaseServiceDelegate"); 
+      List<SfJdResult> billLst = zcEbBaseServiceDelegate.queryDataForList("com.ufgov.zc.server.sf.dao.SfJdResultMapper.selectByEntrustId", entrust.getEntrustId(), meta);
+	    if(billLst!=null && billLst.size()>0){
 	      return true;
 	    }
 	    return false;

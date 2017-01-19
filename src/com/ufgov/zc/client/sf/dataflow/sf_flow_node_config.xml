@@ -6,13 +6,6 @@
 		icon="cart.bmp"
 		isMutliRecord="false"
 		nodeBusiness="com.ufgov.zc.client.sf.dataflow.nodebusiness.SfEntrustNodeBusiness"/> 
-		
-	<node compoId="SF_RECEIPT"
-		text="回执管理"
-		toolTip="回执管理" 
-		icon="note.bmp"
-		isMutliRecord="true"
-		nodeBusiness="com.ufgov.zc.client.sf.dataflow.nodebusiness.SfReceiptNodeBusiness"/>	 
 				 
 	<node compoId="SF_JD_RESULT"
 		text="鉴定记录"
@@ -34,7 +27,14 @@
 		toolTip="鉴定文书审批单" 
 		icon="pingshen.bmp"
 		isMutliRecord="false"
-		nodeBusiness="com.ufgov.zc.client.sf.dataflow.nodebusiness.SfJdDocAuditNodeBusiness"/>
+		nodeBusiness="com.ufgov.zc.client.sf.dataflow.nodebusiness.SfJdDocAuditNodeBusiness"/>	
+			
+	<node compoId="SF_DOC_SEND"
+		text="文书发放登记"
+		toolTip="文书发放登记" 
+		icon="wenju2.bmp"
+		isMutliRecord="false"
+		nodeBusiness="com.ufgov.zc.client.sf.dataflow.nodebusiness.SfDocSendNodeBusiness"/>
 	
 		
 	<node compoId="SF_APPEND_MATERIAL"
@@ -50,6 +50,13 @@
 		icon="liantong.bmp"
 		isMutliRecord="true"
 		nodeBusiness="com.ufgov.zc.client.sf.dataflow.nodebusiness.SfMaterialsTransferNodeBusiness"/> 
+		
+	<node compoId="SF_RECEIPT"
+		text="回执管理"
+		toolTip="回执管理" 
+		icon="note.bmp"
+		isMutliRecord="true"
+		nodeBusiness="com.ufgov.zc.client.sf.dataflow.nodebusiness.SfReceiptNodeBusiness"/>	 
  		
 	<node compoId="SF_MOBILE_MSG"
 		text="短信管理"
@@ -64,12 +71,6 @@
 		icon="clock.bmp"
 		isMutliRecord="false"
 		nodeBusiness="com.ufgov.zc.client.sf.dataflow.nodebusiness.SfEntrustManageNodeBusiness"/>
-			
-	<node compoId="SF_DOC_SEND"
-		text="文书发放登记"
-		toolTip="文书发放登记" 
-		icon="wenju2.bmp"
-		isMutliRecord="false"
-		nodeBusiness="com.ufgov.zc.client.sf.dataflow.nodebusiness.SfDocSendNodeBusiness"/>
+	
 		
 </network>
