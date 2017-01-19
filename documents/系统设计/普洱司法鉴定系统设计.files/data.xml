@@ -1,0 +1,2953 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VisioDocument>
+	<DocumentProperties>
+		<Title></Title>
+		<HyperlinkBase href=""></HyperlinkBase>
+	</DocumentProperties>
+	<Pages>
+		<Page ID="0" Name="部署图" NameU="Page-1">
+			<Layer IX="0">
+				<Name>连接线</Name>
+				<NameUniv>Connector</NameUniv>
+				<Visible>1</Visible>
+			</Layer>
+			<Shapes>
+				<Shape ID="34" UniqueID="{16775484-D5DB-4ED5-BB71-91213BCB0CEC}" Name="圆角矩形" NameU="Rounded rectangle" Master="11">
+					<XForm>
+						<PinX Unit="MM">6.594488188976378</PinX>
+						<PinY Unit="MM">5.984251968503937</PinY>
+					</XForm>
+				</Shape>
+				<Shape ID="1" UniqueID="{19D8330C-46D5-4BB3-8057-87EC277CB2BE}" Name="服务器" NameU="Server" Master="2">
+					<Text>应用服务器</Text>
+					<XForm>
+						<PinX Unit="MM">4.370078740157480</PinX>
+						<PinY Unit="MM">6.299212598425196</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember></LayerMember>
+					</LayerMem>
+					<Prop ID="10" Name="Department" NameU="Department">
+						<Value></Value>
+						<Label>部门</Label>
+					</Prop>
+					<Prop ID="5" Name="AssetNumber" NameU="AssetNumber">
+						<Value></Value>
+						<Label>资产号</Label>
+					</Prop>
+					<Prop ID="6" Name="SerialNumber" NameU="SerialNumber">
+						<Value></Value>
+						<Label>序列号</Label>
+					</Prop>
+					<Prop ID="7" Name="Location" NameU="Location">
+						<Value></Value>
+						<Label>位置</Label>
+					</Prop>
+					<Prop ID="8" Name="Building" NameU="Building">
+						<Value></Value>
+						<Label>建筑物</Label>
+					</Prop>
+					<Prop ID="9" Name="Room" NameU="Room">
+						<Value></Value>
+						<Label>房间</Label>
+					</Prop>
+					<Prop ID="1" Name="Manufacturer" NameU="Manufacturer">
+						<Value></Value>
+						<Label>制造商</Label>
+					</Prop>
+					<Prop ID="2" Name="ProductNumber" NameU="ProductNumber">
+						<Value></Value>
+						<Label>产品编号</Label>
+					</Prop>
+					<Prop ID="3" Name="PartNumber" NameU="PartNumber">
+						<Value></Value>
+						<Label>部件号</Label>
+					</Prop>
+					<Prop ID="4" Name="ProductDescription" NameU="ProductDescription">
+						<Value></Value>
+						<Label>产品说明</Label>
+					</Prop>
+					<Prop ID="11" Name="NetworkName" NameU="NetworkName">
+						<Value></Value>
+						<Label>网络名称</Label>
+					</Prop>
+					<Prop ID="12" Name="IPAddress" NameU="IPAddress">
+						<Value></Value>
+						<Label>IP 地址</Label>
+					</Prop>
+					<Prop ID="13" Name="SubnetMask" NameU="SubnetMask">
+						<Value></Value>
+						<Label>子网掩码</Label>
+					</Prop>
+					<Prop ID="14" Name="AdminInterface" NameU="AdminInterface">
+						<Value></Value>
+						<Label>管理接口</Label>
+					</Prop>
+					<Prop ID="15" Name="NumberofPorts" NameU="NumberofPorts">
+						<Value></Value>
+						<Label>端口数目</Label>
+					</Prop>
+					<Prop ID="16" Name="CommunityString" NameU="CommunityString">
+						<Value></Value>
+						<Label>团体字符串</Label>
+					</Prop>
+					<Prop ID="17" Name="NetworkDescription" NameU="NetworkDescription">
+						<Value></Value>
+						<Label>网络说明</Label>
+					</Prop>
+					<Prop ID="24" Name="MACAddress" NameU="MACAddress">
+						<Value></Value>
+						<Label>MAC 地址</Label>
+					</Prop>
+					<Prop ID="18" Name="CPU" NameU="CPU">
+						<Value></Value>
+						<Label>CPU</Label>
+					</Prop>
+					<Prop ID="19" Name="Memory" NameU="Memory">
+						<Value></Value>
+						<Label>内存</Label>
+					</Prop>
+					<Prop ID="20" Name="OperatingSystem" NameU="OperatingSystem">
+						<Value></Value>
+						<Label>操作系统</Label>
+					</Prop>
+					<Prop ID="25" Name="HardDriveSize" NameU="HardDriveSize">
+						<Value></Value>
+						<Label>硬盘容量</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="16" UniqueID="{3AD8F6A1-1B85-469A-BF2C-53F1357B7A2E}" Name="服务器.16" NameU="Server.16" Master="2">
+					<Text>数据库服务器</Text>
+					<XForm>
+						<PinX Unit="MM">6.535433070866142</PinX>
+						<PinY Unit="MM">6.299212598425196</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember></LayerMember>
+					</LayerMem>
+					<Prop ID="10" Name="Department" NameU="Department">
+						<Value></Value>
+						<Label>部门</Label>
+					</Prop>
+					<Prop ID="5" Name="AssetNumber" NameU="AssetNumber">
+						<Value></Value>
+						<Label>资产号</Label>
+					</Prop>
+					<Prop ID="6" Name="SerialNumber" NameU="SerialNumber">
+						<Value></Value>
+						<Label>序列号</Label>
+					</Prop>
+					<Prop ID="7" Name="Location" NameU="Location">
+						<Value></Value>
+						<Label>位置</Label>
+					</Prop>
+					<Prop ID="8" Name="Building" NameU="Building">
+						<Value></Value>
+						<Label>建筑物</Label>
+					</Prop>
+					<Prop ID="9" Name="Room" NameU="Room">
+						<Value></Value>
+						<Label>房间</Label>
+					</Prop>
+					<Prop ID="1" Name="Manufacturer" NameU="Manufacturer">
+						<Value></Value>
+						<Label>制造商</Label>
+					</Prop>
+					<Prop ID="2" Name="ProductNumber" NameU="ProductNumber">
+						<Value></Value>
+						<Label>产品编号</Label>
+					</Prop>
+					<Prop ID="3" Name="PartNumber" NameU="PartNumber">
+						<Value></Value>
+						<Label>部件号</Label>
+					</Prop>
+					<Prop ID="4" Name="ProductDescription" NameU="ProductDescription">
+						<Value></Value>
+						<Label>产品说明</Label>
+					</Prop>
+					<Prop ID="11" Name="NetworkName" NameU="NetworkName">
+						<Value></Value>
+						<Label>网络名称</Label>
+					</Prop>
+					<Prop ID="12" Name="IPAddress" NameU="IPAddress">
+						<Value></Value>
+						<Label>IP 地址</Label>
+					</Prop>
+					<Prop ID="13" Name="SubnetMask" NameU="SubnetMask">
+						<Value></Value>
+						<Label>子网掩码</Label>
+					</Prop>
+					<Prop ID="14" Name="AdminInterface" NameU="AdminInterface">
+						<Value></Value>
+						<Label>管理接口</Label>
+					</Prop>
+					<Prop ID="15" Name="NumberofPorts" NameU="NumberofPorts">
+						<Value></Value>
+						<Label>端口数目</Label>
+					</Prop>
+					<Prop ID="16" Name="CommunityString" NameU="CommunityString">
+						<Value></Value>
+						<Label>团体字符串</Label>
+					</Prop>
+					<Prop ID="17" Name="NetworkDescription" NameU="NetworkDescription">
+						<Value></Value>
+						<Label>网络说明</Label>
+					</Prop>
+					<Prop ID="24" Name="MACAddress" NameU="MACAddress">
+						<Value></Value>
+						<Label>MAC 地址</Label>
+					</Prop>
+					<Prop ID="18" Name="CPU" NameU="CPU">
+						<Value></Value>
+						<Label>CPU</Label>
+					</Prop>
+					<Prop ID="19" Name="Memory" NameU="Memory">
+						<Value></Value>
+						<Label>内存</Label>
+					</Prop>
+					<Prop ID="20" Name="OperatingSystem" NameU="OperatingSystem">
+						<Value></Value>
+						<Label>操作系统</Label>
+					</Prop>
+					<Prop ID="25" Name="HardDriveSize" NameU="HardDriveSize">
+						<Value></Value>
+						<Label>硬盘容量</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="45" UniqueID="{C3CEE0FE-A3EE-4194-9582-5B5105C3375D}" Name="防火墙" NameU="Firewall" Master="5">
+					<Text>防火墙</Text>
+					<XForm>
+						<PinX Unit="MM">5.314960629921259</PinX>
+						<PinY Unit="MM">4.429133858267717</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember></LayerMember>
+					</LayerMem>
+					<Prop ID="8" Name="AssetNumber" NameU="AssetNumber">
+						<Value></Value>
+						<Label>资产号</Label>
+					</Prop>
+					<Prop ID="9" Name="SerialNumber" NameU="SerialNumber">
+						<Value></Value>
+						<Label>序列号</Label>
+					</Prop>
+					<Prop ID="10" Name="Location" NameU="Location">
+						<Value></Value>
+						<Label>位置</Label>
+					</Prop>
+					<Prop ID="11" Name="Building" NameU="Building">
+						<Value></Value>
+						<Label>建筑物</Label>
+					</Prop>
+					<Prop ID="12" Name="Room" NameU="Room">
+						<Value></Value>
+						<Label>房间</Label>
+					</Prop>
+					<Prop ID="4" Name="Manufacturer" NameU="Manufacturer">
+						<Value></Value>
+						<Label>制造商</Label>
+					</Prop>
+					<Prop ID="5" Name="ProductNumber" NameU="ProductNumber">
+						<Value></Value>
+						<Label>产品编号</Label>
+					</Prop>
+					<Prop ID="6" Name="PartNumber" NameU="PartNumber">
+						<Value></Value>
+						<Label>部件号</Label>
+					</Prop>
+					<Prop ID="7" Name="ProductDescription" NameU="ProductDescription">
+						<Value></Value>
+						<Label>产品说明</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="52" UniqueID="{F00F04E7-3253-4D95-99E4-27D383F58E9C}" Name="用户" NameU="User" Master="6">
+					<Text>鉴定中心用户</Text>
+					<XForm>
+						<PinX Unit="MM">2.421259842519685</PinX>
+						<PinY Unit="MM">1.377952755905512</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember></LayerMember>
+					</LayerMem>
+					<Prop ID="1" Name="Name" NameU="Name">
+						<Value></Value>
+						<Label>名称</Label>
+					</Prop>
+					<Prop ID="2" Name="Location" NameU="Location">
+						<Value></Value>
+						<Label>位置</Label>
+					</Prop>
+					<Prop ID="3" Name="Building" NameU="Building">
+						<Value></Value>
+						<Label>建筑物</Label>
+					</Prop>
+					<Prop ID="4" Name="Room" NameU="Room">
+						<Value></Value>
+						<Label>房间</Label>
+					</Prop>
+					<Prop ID="5" Name="Department" NameU="Department">
+						<Value></Value>
+						<Label>部门</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="138" UniqueID="{F199D3A1-B0B8-43FF-91F9-7AC71CF96B03}" Name="动态连接线" NameU="Dynamic connector" Master="8">
+					<XForm>
+						<PinX Unit="MM">4.832266983736560</PinX>
+						<PinY Unit="MM">5.135603404925751</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="139" UniqueID="{DC514A0E-7D57-4F10-BF3A-EFAEE2F05E51}" Name="动态连接线.139" NameU="Dynamic connector.139" Master="8">
+					<XForm>
+						<PinX Unit="MM">5.629921259842519</PinX>
+						<PinY Unit="MM">6.299212598425196</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="60" UniqueID="{BF9DB1FE-32EA-4091-86C4-7C9B1E92EC1B}" Name="PC" NameU="PC" Master="7">
+					<Text>客户端</Text>
+					<XForm>
+						<PinX Unit="MM">2.421259842519684</PinX>
+						<PinY Unit="MM">2.854330708661417</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember></LayerMember>
+					</LayerMem>
+					<Prop ID="10" Name="Department" NameU="Department">
+						<Value></Value>
+						<Label>部门</Label>
+					</Prop>
+					<Prop ID="5" Name="AssetNumber" NameU="AssetNumber">
+						<Value></Value>
+						<Label>资产号</Label>
+					</Prop>
+					<Prop ID="6" Name="SerialNumber" NameU="SerialNumber">
+						<Value></Value>
+						<Label>序列号</Label>
+					</Prop>
+					<Prop ID="7" Name="Location" NameU="Location">
+						<Value></Value>
+						<Label>位置</Label>
+					</Prop>
+					<Prop ID="8" Name="Building" NameU="Building">
+						<Value></Value>
+						<Label>建筑物</Label>
+					</Prop>
+					<Prop ID="9" Name="Room" NameU="Room">
+						<Value></Value>
+						<Label>房间</Label>
+					</Prop>
+					<Prop ID="1" Name="Manufacturer" NameU="Manufacturer">
+						<Value></Value>
+						<Label>制造商</Label>
+					</Prop>
+					<Prop ID="2" Name="ProductNumber" NameU="ProductNumber">
+						<Value></Value>
+						<Label>产品编号</Label>
+					</Prop>
+					<Prop ID="3" Name="PartNumber" NameU="PartNumber">
+						<Value></Value>
+						<Label>部件号</Label>
+					</Prop>
+					<Prop ID="4" Name="ProductDescription" NameU="ProductDescription">
+						<Value></Value>
+						<Label>产品说明</Label>
+					</Prop>
+					<Prop ID="11" Name="NetworkName" NameU="NetworkName">
+						<Value></Value>
+						<Label>网络名称</Label>
+					</Prop>
+					<Prop ID="12" Name="IPAddress" NameU="IPAddress">
+						<Value></Value>
+						<Label>IP 地址</Label>
+					</Prop>
+					<Prop ID="13" Name="SubnetMask" NameU="SubnetMask">
+						<Value></Value>
+						<Label>子网掩码</Label>
+					</Prop>
+					<Prop ID="14" Name="AdminInterface" NameU="AdminInterface">
+						<Value></Value>
+						<Label>管理接口</Label>
+					</Prop>
+					<Prop ID="15" Name="NumberofPorts" NameU="NumberofPorts">
+						<Value></Value>
+						<Label>端口数目</Label>
+					</Prop>
+					<Prop ID="16" Name="CommunityString" NameU="CommunityString">
+						<Value></Value>
+						<Label>团体字符串</Label>
+					</Prop>
+					<Prop ID="17" Name="NetworkDescription" NameU="NetworkDescription">
+						<Value></Value>
+						<Label>网络说明</Label>
+					</Prop>
+					<Prop ID="25" Name="MACAddress" NameU="MACAddress">
+						<Value></Value>
+						<Label>MAC 地址</Label>
+					</Prop>
+					<Prop ID="18" Name="CPU" NameU="CPU">
+						<Value></Value>
+						<Label>CPU</Label>
+					</Prop>
+					<Prop ID="19" Name="Memory" NameU="Memory">
+						<Value></Value>
+						<Label>内存</Label>
+					</Prop>
+					<Prop ID="20" Name="OperatingSystem" NameU="OperatingSystem">
+						<Value></Value>
+						<Label>操作系统</Label>
+					</Prop>
+					<Prop ID="26" Name="HardDriveSize" NameU="HardDriveSize">
+						<Value></Value>
+						<Label>硬盘容量</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="86" UniqueID="{C0CAA336-CDF2-4078-92C2-141A98E00BCC}" Name="动态连接线.86" NameU="Dynamic connector.86" Master="8">
+					<XForm>
+						<PinX Unit="MM">3.725547490157480</PinX>
+						<PinY Unit="MM">3.749357466570863</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="87" UniqueID="{80D4DFD0-3A0D-4CC0-BD91-D9BB887B0459}" Name="PC.87" NameU="PC.87" Master="7">
+					<Text>客户端</Text>
+					<XForm>
+						<PinX Unit="MM">5.118110236220471</PinX>
+						<PinY Unit="MM">2.854330708661417</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember></LayerMember>
+					</LayerMem>
+					<Prop ID="10" Name="Department" NameU="Department">
+						<Value></Value>
+						<Label>部门</Label>
+					</Prop>
+					<Prop ID="5" Name="AssetNumber" NameU="AssetNumber">
+						<Value></Value>
+						<Label>资产号</Label>
+					</Prop>
+					<Prop ID="6" Name="SerialNumber" NameU="SerialNumber">
+						<Value></Value>
+						<Label>序列号</Label>
+					</Prop>
+					<Prop ID="7" Name="Location" NameU="Location">
+						<Value></Value>
+						<Label>位置</Label>
+					</Prop>
+					<Prop ID="8" Name="Building" NameU="Building">
+						<Value></Value>
+						<Label>建筑物</Label>
+					</Prop>
+					<Prop ID="9" Name="Room" NameU="Room">
+						<Value></Value>
+						<Label>房间</Label>
+					</Prop>
+					<Prop ID="1" Name="Manufacturer" NameU="Manufacturer">
+						<Value></Value>
+						<Label>制造商</Label>
+					</Prop>
+					<Prop ID="2" Name="ProductNumber" NameU="ProductNumber">
+						<Value></Value>
+						<Label>产品编号</Label>
+					</Prop>
+					<Prop ID="3" Name="PartNumber" NameU="PartNumber">
+						<Value></Value>
+						<Label>部件号</Label>
+					</Prop>
+					<Prop ID="4" Name="ProductDescription" NameU="ProductDescription">
+						<Value></Value>
+						<Label>产品说明</Label>
+					</Prop>
+					<Prop ID="11" Name="NetworkName" NameU="NetworkName">
+						<Value></Value>
+						<Label>网络名称</Label>
+					</Prop>
+					<Prop ID="12" Name="IPAddress" NameU="IPAddress">
+						<Value></Value>
+						<Label>IP 地址</Label>
+					</Prop>
+					<Prop ID="13" Name="SubnetMask" NameU="SubnetMask">
+						<Value></Value>
+						<Label>子网掩码</Label>
+					</Prop>
+					<Prop ID="14" Name="AdminInterface" NameU="AdminInterface">
+						<Value></Value>
+						<Label>管理接口</Label>
+					</Prop>
+					<Prop ID="15" Name="NumberofPorts" NameU="NumberofPorts">
+						<Value></Value>
+						<Label>端口数目</Label>
+					</Prop>
+					<Prop ID="16" Name="CommunityString" NameU="CommunityString">
+						<Value></Value>
+						<Label>团体字符串</Label>
+					</Prop>
+					<Prop ID="17" Name="NetworkDescription" NameU="NetworkDescription">
+						<Value></Value>
+						<Label>网络说明</Label>
+					</Prop>
+					<Prop ID="25" Name="MACAddress" NameU="MACAddress">
+						<Value></Value>
+						<Label>MAC 地址</Label>
+					</Prop>
+					<Prop ID="18" Name="CPU" NameU="CPU">
+						<Value></Value>
+						<Label>CPU</Label>
+					</Prop>
+					<Prop ID="19" Name="Memory" NameU="Memory">
+						<Value></Value>
+						<Label>内存</Label>
+					</Prop>
+					<Prop ID="20" Name="OperatingSystem" NameU="OperatingSystem">
+						<Value></Value>
+						<Label>操作系统</Label>
+					</Prop>
+					<Prop ID="26" Name="HardDriveSize" NameU="HardDriveSize">
+						<Value></Value>
+						<Label>硬盘容量</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="113" UniqueID="{FBDB5059-7D42-44D7-BA38-ABFD657A96EC}" Name="动态连接线.113" NameU="Dynamic connector.113" Master="8">
+					<XForm>
+						<PinX Unit="MM">5.184701033464567</PinX>
+						<PinY Unit="MM">3.703409565308215</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="114" UniqueID="{C88872F7-24B5-4617-A895-D74B61A974F6}" Name="PC.114" NameU="PC.114" Master="7">
+					<Text>客户端</Text>
+					<XForm>
+						<PinX Unit="MM">7.775590551181102</PinX>
+						<PinY Unit="MM">2.854330708661417</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember></LayerMember>
+					</LayerMem>
+					<Prop ID="10" Name="Department" NameU="Department">
+						<Value></Value>
+						<Label>部门</Label>
+					</Prop>
+					<Prop ID="5" Name="AssetNumber" NameU="AssetNumber">
+						<Value></Value>
+						<Label>资产号</Label>
+					</Prop>
+					<Prop ID="6" Name="SerialNumber" NameU="SerialNumber">
+						<Value></Value>
+						<Label>序列号</Label>
+					</Prop>
+					<Prop ID="7" Name="Location" NameU="Location">
+						<Value></Value>
+						<Label>位置</Label>
+					</Prop>
+					<Prop ID="8" Name="Building" NameU="Building">
+						<Value></Value>
+						<Label>建筑物</Label>
+					</Prop>
+					<Prop ID="9" Name="Room" NameU="Room">
+						<Value></Value>
+						<Label>房间</Label>
+					</Prop>
+					<Prop ID="1" Name="Manufacturer" NameU="Manufacturer">
+						<Value></Value>
+						<Label>制造商</Label>
+					</Prop>
+					<Prop ID="2" Name="ProductNumber" NameU="ProductNumber">
+						<Value></Value>
+						<Label>产品编号</Label>
+					</Prop>
+					<Prop ID="3" Name="PartNumber" NameU="PartNumber">
+						<Value></Value>
+						<Label>部件号</Label>
+					</Prop>
+					<Prop ID="4" Name="ProductDescription" NameU="ProductDescription">
+						<Value></Value>
+						<Label>产品说明</Label>
+					</Prop>
+					<Prop ID="11" Name="NetworkName" NameU="NetworkName">
+						<Value></Value>
+						<Label>网络名称</Label>
+					</Prop>
+					<Prop ID="12" Name="IPAddress" NameU="IPAddress">
+						<Value></Value>
+						<Label>IP 地址</Label>
+					</Prop>
+					<Prop ID="13" Name="SubnetMask" NameU="SubnetMask">
+						<Value></Value>
+						<Label>子网掩码</Label>
+					</Prop>
+					<Prop ID="14" Name="AdminInterface" NameU="AdminInterface">
+						<Value></Value>
+						<Label>管理接口</Label>
+					</Prop>
+					<Prop ID="15" Name="NumberofPorts" NameU="NumberofPorts">
+						<Value></Value>
+						<Label>端口数目</Label>
+					</Prop>
+					<Prop ID="16" Name="CommunityString" NameU="CommunityString">
+						<Value></Value>
+						<Label>团体字符串</Label>
+					</Prop>
+					<Prop ID="17" Name="NetworkDescription" NameU="NetworkDescription">
+						<Value></Value>
+						<Label>网络说明</Label>
+					</Prop>
+					<Prop ID="25" Name="MACAddress" NameU="MACAddress">
+						<Value></Value>
+						<Label>MAC 地址</Label>
+					</Prop>
+					<Prop ID="18" Name="CPU" NameU="CPU">
+						<Value></Value>
+						<Label>CPU</Label>
+					</Prop>
+					<Prop ID="19" Name="Memory" NameU="Memory">
+						<Value></Value>
+						<Label>内存</Label>
+					</Prop>
+					<Prop ID="20" Name="OperatingSystem" NameU="OperatingSystem">
+						<Value></Value>
+						<Label>操作系统</Label>
+					</Prop>
+					<Prop ID="26" Name="HardDriveSize" NameU="HardDriveSize">
+						<Value></Value>
+						<Label>硬盘容量</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="142" UniqueID="{F99A8C38-7042-4309-97CF-9A867111A722}" Name="动态连接线.142" NameU="Dynamic connector.142" Master="8">
+					<XForm>
+						<PinX Unit="MM">6.692913385826773</PinX>
+						<PinY Unit="MM">3.872388962633855</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="143" UniqueID="{0BFFDD33-B9AF-40DD-BD36-2E92AB15375B}" Name="用户.143" NameU="User.143" Master="6">
+					<Text>鉴定中心用户</Text>
+					<XForm>
+						<PinX Unit="MM">5.216535433070865</PinX>
+						<PinY Unit="MM">1.377952755905512</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember></LayerMember>
+					</LayerMem>
+					<Prop ID="1" Name="Name" NameU="Name">
+						<Value></Value>
+						<Label>名称</Label>
+					</Prop>
+					<Prop ID="2" Name="Location" NameU="Location">
+						<Value></Value>
+						<Label>位置</Label>
+					</Prop>
+					<Prop ID="3" Name="Building" NameU="Building">
+						<Value></Value>
+						<Label>建筑物</Label>
+					</Prop>
+					<Prop ID="4" Name="Room" NameU="Room">
+						<Value></Value>
+						<Label>房间</Label>
+					</Prop>
+					<Prop ID="5" Name="Department" NameU="Department">
+						<Value></Value>
+						<Label>部门</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="151" UniqueID="{809B32D4-77DF-43D0-A9D8-E211D0BCC07C}" Name="用户.151" NameU="User.151" Master="6">
+					<Text>委托方用户</Text>
+					<XForm>
+						<PinX Unit="MM">7.775590551181104</PinX>
+						<PinY Unit="MM">1.377952755905512</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember></LayerMember>
+					</LayerMem>
+					<Prop ID="1" Name="Name" NameU="Name">
+						<Value></Value>
+						<Label>名称</Label>
+					</Prop>
+					<Prop ID="2" Name="Location" NameU="Location">
+						<Value></Value>
+						<Label>位置</Label>
+					</Prop>
+					<Prop ID="3" Name="Building" NameU="Building">
+						<Value></Value>
+						<Label>建筑物</Label>
+					</Prop>
+					<Prop ID="4" Name="Room" NameU="Room">
+						<Value></Value>
+						<Label>房间</Label>
+					</Prop>
+					<Prop ID="5" Name="Department" NameU="Department">
+						<Value></Value>
+						<Label>部门</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="159" UniqueID="{085775A6-3DA4-486F-9429-B8C2AE378CAF}" Name="服务器.159" NameU="Server.159" Master="2">
+					<Text>短信服务器</Text>
+					<XForm>
+						<PinX Unit="MM">8.622047244094487</PinX>
+						<PinY Unit="MM">6.299212598425196</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember></LayerMember>
+					</LayerMem>
+					<Prop ID="10" Name="Department" NameU="Department">
+						<Value></Value>
+						<Label>部门</Label>
+					</Prop>
+					<Prop ID="5" Name="AssetNumber" NameU="AssetNumber">
+						<Value></Value>
+						<Label>资产号</Label>
+					</Prop>
+					<Prop ID="6" Name="SerialNumber" NameU="SerialNumber">
+						<Value></Value>
+						<Label>序列号</Label>
+					</Prop>
+					<Prop ID="7" Name="Location" NameU="Location">
+						<Value></Value>
+						<Label>位置</Label>
+					</Prop>
+					<Prop ID="8" Name="Building" NameU="Building">
+						<Value></Value>
+						<Label>建筑物</Label>
+					</Prop>
+					<Prop ID="9" Name="Room" NameU="Room">
+						<Value></Value>
+						<Label>房间</Label>
+					</Prop>
+					<Prop ID="1" Name="Manufacturer" NameU="Manufacturer">
+						<Value></Value>
+						<Label>制造商</Label>
+					</Prop>
+					<Prop ID="2" Name="ProductNumber" NameU="ProductNumber">
+						<Value></Value>
+						<Label>产品编号</Label>
+					</Prop>
+					<Prop ID="3" Name="PartNumber" NameU="PartNumber">
+						<Value></Value>
+						<Label>部件号</Label>
+					</Prop>
+					<Prop ID="4" Name="ProductDescription" NameU="ProductDescription">
+						<Value></Value>
+						<Label>产品说明</Label>
+					</Prop>
+					<Prop ID="11" Name="NetworkName" NameU="NetworkName">
+						<Value></Value>
+						<Label>网络名称</Label>
+					</Prop>
+					<Prop ID="12" Name="IPAddress" NameU="IPAddress">
+						<Value></Value>
+						<Label>IP 地址</Label>
+					</Prop>
+					<Prop ID="13" Name="SubnetMask" NameU="SubnetMask">
+						<Value></Value>
+						<Label>子网掩码</Label>
+					</Prop>
+					<Prop ID="14" Name="AdminInterface" NameU="AdminInterface">
+						<Value></Value>
+						<Label>管理接口</Label>
+					</Prop>
+					<Prop ID="15" Name="NumberofPorts" NameU="NumberofPorts">
+						<Value></Value>
+						<Label>端口数目</Label>
+					</Prop>
+					<Prop ID="16" Name="CommunityString" NameU="CommunityString">
+						<Value></Value>
+						<Label>团体字符串</Label>
+					</Prop>
+					<Prop ID="17" Name="NetworkDescription" NameU="NetworkDescription">
+						<Value></Value>
+						<Label>网络说明</Label>
+					</Prop>
+					<Prop ID="24" Name="MACAddress" NameU="MACAddress">
+						<Value></Value>
+						<Label>MAC 地址</Label>
+					</Prop>
+					<Prop ID="18" Name="CPU" NameU="CPU">
+						<Value></Value>
+						<Label>CPU</Label>
+					</Prop>
+					<Prop ID="19" Name="Memory" NameU="Memory">
+						<Value></Value>
+						<Label>内存</Label>
+					</Prop>
+					<Prop ID="20" Name="OperatingSystem" NameU="OperatingSystem">
+						<Value></Value>
+						<Label>操作系统</Label>
+					</Prop>
+					<Prop ID="25" Name="HardDriveSize" NameU="HardDriveSize">
+						<Value></Value>
+						<Label>硬盘容量</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="174" UniqueID="{FECB8FD1-2B64-408B-8C3A-6347E05F9C99}" Name="动态连接线.10" NameU="Dynamic connector.10" Master="10">
+					<XForm>
+						<PinX Unit="MM">7.578740157480315</PinX>
+						<PinY Unit="MM">6.299212598425196</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="31" UniqueID="{991D704E-0436-438C-8D6D-E33DFBE5A3FA}" Name="动态连接线.31" NameU="Dynamic connector.31" Master="8">
+					<XForm>
+						<PinX Unit="MM">2.421259842519684</PinX>
+						<PinY Unit="MM">2.116141732283464</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="32" UniqueID="{5F19FB45-4011-4DE5-A546-72F1697433B0}" Name="动态连接线.32" NameU="Dynamic connector.32" Master="8">
+					<XForm>
+						<PinX Unit="MM">5.322648756099833</PinX>
+						<PinY Unit="MM">2.093069176601722</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="33" UniqueID="{07686531-D06A-47ED-B382-23988677EBB2}" Name="动态连接线.33" NameU="Dynamic connector.33" Master="8">
+					<Text>
+					</Text>
+					<XForm>
+						<PinX Unit="MM">7.775590551181103</PinX>
+						<PinY Unit="MM">2.116141732283464</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="35" UniqueID="{CB4CD0F0-A562-4EEE-9370-4B147389BFB2}" Name="矩形" NameU="Rectangle" Master="12">
+					<Text>普洱公安司法鉴定管理系统部署图</Text>
+					<XForm>
+						<PinX Unit="MM">9.842519685039369</PinX>
+						<PinY Unit="MM">1.377952755905512</PinY>
+					</XForm>
+				</Shape>
+			</Shapes>
+		</Page>
+		<Page ID="4" Name="短信提醒" NameU="短信提醒">
+			<Layer IX="0">
+				<Name>连接线</Name>
+				<NameUniv>Connector</NameUniv>
+				<Visible>1</Visible>
+			</Layer>
+			<Shapes>
+				<Shape ID="1" UniqueID="{C3F672EC-C626-4ADD-BF9A-D0EF81175CF5}" Name="服务器" NameU="Server" Master="2">
+					<Text>司法鉴定应用服务</Text>
+					<XForm>
+						<PinX Unit="MM">1.771653543307087</PinX>
+						<PinY Unit="MM">5.019685039370078</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember></LayerMember>
+					</LayerMem>
+					<Prop ID="10" Name="Department" NameU="Department">
+						<Value></Value>
+						<Label>部门</Label>
+					</Prop>
+					<Prop ID="5" Name="AssetNumber" NameU="AssetNumber">
+						<Value></Value>
+						<Label>资产号</Label>
+					</Prop>
+					<Prop ID="6" Name="SerialNumber" NameU="SerialNumber">
+						<Value></Value>
+						<Label>序列号</Label>
+					</Prop>
+					<Prop ID="7" Name="Location" NameU="Location">
+						<Value></Value>
+						<Label>位置</Label>
+					</Prop>
+					<Prop ID="8" Name="Building" NameU="Building">
+						<Value></Value>
+						<Label>建筑物</Label>
+					</Prop>
+					<Prop ID="9" Name="Room" NameU="Room">
+						<Value></Value>
+						<Label>房间</Label>
+					</Prop>
+					<Prop ID="1" Name="Manufacturer" NameU="Manufacturer">
+						<Value></Value>
+						<Label>制造商</Label>
+					</Prop>
+					<Prop ID="2" Name="ProductNumber" NameU="ProductNumber">
+						<Value></Value>
+						<Label>产品编号</Label>
+					</Prop>
+					<Prop ID="3" Name="PartNumber" NameU="PartNumber">
+						<Value></Value>
+						<Label>部件号</Label>
+					</Prop>
+					<Prop ID="4" Name="ProductDescription" NameU="ProductDescription">
+						<Value></Value>
+						<Label>产品说明</Label>
+					</Prop>
+					<Prop ID="11" Name="NetworkName" NameU="NetworkName">
+						<Value></Value>
+						<Label>网络名称</Label>
+					</Prop>
+					<Prop ID="12" Name="IPAddress" NameU="IPAddress">
+						<Value></Value>
+						<Label>IP 地址</Label>
+					</Prop>
+					<Prop ID="13" Name="SubnetMask" NameU="SubnetMask">
+						<Value></Value>
+						<Label>子网掩码</Label>
+					</Prop>
+					<Prop ID="14" Name="AdminInterface" NameU="AdminInterface">
+						<Value></Value>
+						<Label>管理接口</Label>
+					</Prop>
+					<Prop ID="15" Name="NumberofPorts" NameU="NumberofPorts">
+						<Value></Value>
+						<Label>端口数目</Label>
+					</Prop>
+					<Prop ID="16" Name="CommunityString" NameU="CommunityString">
+						<Value></Value>
+						<Label>团体字符串</Label>
+					</Prop>
+					<Prop ID="17" Name="NetworkDescription" NameU="NetworkDescription">
+						<Value></Value>
+						<Label>网络说明</Label>
+					</Prop>
+					<Prop ID="24" Name="MACAddress" NameU="MACAddress">
+						<Value></Value>
+						<Label>MAC 地址</Label>
+					</Prop>
+					<Prop ID="18" Name="CPU" NameU="CPU">
+						<Value></Value>
+						<Label>CPU</Label>
+					</Prop>
+					<Prop ID="19" Name="Memory" NameU="Memory">
+						<Value></Value>
+						<Label>内存</Label>
+					</Prop>
+					<Prop ID="20" Name="OperatingSystem" NameU="OperatingSystem">
+						<Value></Value>
+						<Label>操作系统</Label>
+					</Prop>
+					<Prop ID="25" Name="HardDriveSize" NameU="HardDriveSize">
+						<Value></Value>
+						<Label>硬盘容量</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="16" UniqueID="{1AFE76E2-56C7-49E3-976F-A54790EA57EE}" Name="以太网" NameU="Ethernet" Master="13">
+					<Text>
+					</Text>
+					<XForm>
+						<PinX Unit="MM">3.208661417322837</PinX>
+						<PinY Unit="MM">5.019685039370078</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember></LayerMember>
+					</LayerMem>
+					<Prop ID="10" Name="Department" NameU="Department">
+						<Value></Value>
+						<Label>部门</Label>
+					</Prop>
+					<Prop ID="5" Name="AssetNumber" NameU="AssetNumber">
+						<Value></Value>
+						<Label>资产号</Label>
+					</Prop>
+					<Prop ID="6" Name="SerialNumber" NameU="SerialNumber">
+						<Value></Value>
+						<Label>序列号</Label>
+					</Prop>
+					<Prop ID="7" Name="Location" NameU="Location">
+						<Value></Value>
+						<Label>位置</Label>
+					</Prop>
+					<Prop ID="8" Name="Building" NameU="Building">
+						<Value></Value>
+						<Label>建筑物</Label>
+					</Prop>
+					<Prop ID="9" Name="Room" NameU="Room">
+						<Value></Value>
+						<Label>房间</Label>
+					</Prop>
+					<Prop ID="1" Name="Manufacturer" NameU="Manufacturer">
+						<Value></Value>
+						<Label>制造商</Label>
+					</Prop>
+					<Prop ID="2" Name="ProductNumber" NameU="ProductNumber">
+						<Value></Value>
+						<Label>产品编号</Label>
+					</Prop>
+					<Prop ID="3" Name="PartNumber" NameU="PartNumber">
+						<Value></Value>
+						<Label>部件号</Label>
+					</Prop>
+					<Prop ID="4" Name="ProductDescription" NameU="ProductDescription">
+						<Value></Value>
+						<Label>产品说明</Label>
+					</Prop>
+					<Prop ID="13" Name="NetworkName" NameU="NetworkName">
+						<Value></Value>
+						<Label>网络名称</Label>
+					</Prop>
+					<Prop ID="14" Name="IPAddress" NameU="IPAddress">
+						<Value></Value>
+						<Label>IP 地址</Label>
+					</Prop>
+					<Prop ID="15" Name="SubnetMask" NameU="SubnetMask">
+						<Value></Value>
+						<Label>子网掩码</Label>
+					</Prop>
+					<Prop ID="16" Name="AdminInterface" NameU="AdminInterface">
+						<Value></Value>
+						<Label>管理接口</Label>
+					</Prop>
+					<Prop ID="17" Name="NumberofPorts" NameU="NumberofPorts">
+						<Value></Value>
+						<Label>端口数目</Label>
+					</Prop>
+					<Prop ID="18" Name="MACAddress" NameU="MACAddress">
+						<Value></Value>
+						<Label>MAC 地址</Label>
+					</Prop>
+					<Prop ID="19" Name="CommunityString" NameU="CommunityString">
+						<Value></Value>
+						<Label>团体字符串</Label>
+					</Prop>
+					<Prop ID="20" Name="NetworkDescription" NameU="NetworkDescription">
+						<Value></Value>
+						<Label>网络说明</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="21" UniqueID="{A4ED5F77-EE70-494A-9318-D0533A1B1871}" Name="动态连接线" NameU="Dynamic connector" Master="8">
+					<XForm>
+						<PinX Unit="MM">2.304379921259844</PinX>
+						<PinY Unit="MM">5.019685039370079</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="22" UniqueID="{05C73A78-B484-4DD3-B54A-5DE93DDB3383}" Name="环形网络" NameU="Ring network" Master="14">
+					<Text>短信服务器</Text>
+					<XForm>
+						<PinX Unit="MM">4.685039370078742</PinX>
+						<PinY Unit="MM">5.039370078740157</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember></LayerMember>
+					</LayerMem>
+					<Prop ID="10" Name="Department" NameU="Department">
+						<Value></Value>
+						<Label>部门</Label>
+					</Prop>
+					<Prop ID="5" Name="AssetNumber" NameU="AssetNumber">
+						<Value></Value>
+						<Label>资产号</Label>
+					</Prop>
+					<Prop ID="6" Name="SerialNumber" NameU="SerialNumber">
+						<Value></Value>
+						<Label>序列号</Label>
+					</Prop>
+					<Prop ID="7" Name="Location" NameU="Location">
+						<Value></Value>
+						<Label>位置</Label>
+					</Prop>
+					<Prop ID="8" Name="Building" NameU="Building">
+						<Value></Value>
+						<Label>建筑物</Label>
+					</Prop>
+					<Prop ID="9" Name="Room" NameU="Room">
+						<Value></Value>
+						<Label>房间</Label>
+					</Prop>
+					<Prop ID="1" Name="Manufacturer" NameU="Manufacturer">
+						<Value></Value>
+						<Label>制造商</Label>
+					</Prop>
+					<Prop ID="2" Name="ProductNumber" NameU="ProductNumber">
+						<Value></Value>
+						<Label>产品编号</Label>
+					</Prop>
+					<Prop ID="3" Name="PartNumber" NameU="PartNumber">
+						<Value></Value>
+						<Label>部件号</Label>
+					</Prop>
+					<Prop ID="4" Name="ProductDescription" NameU="ProductDescription">
+						<Value></Value>
+						<Label>产品说明</Label>
+					</Prop>
+					<Prop ID="13" Name="NetworkName" NameU="NetworkName">
+						<Value></Value>
+						<Label>网络名称</Label>
+					</Prop>
+					<Prop ID="14" Name="IPAddress" NameU="IPAddress">
+						<Value></Value>
+						<Label>IP 地址</Label>
+					</Prop>
+					<Prop ID="15" Name="SubnetMask" NameU="SubnetMask">
+						<Value></Value>
+						<Label>子网掩码</Label>
+					</Prop>
+					<Prop ID="16" Name="AdminInterface" NameU="AdminInterface">
+						<Value></Value>
+						<Label>管理接口</Label>
+					</Prop>
+					<Prop ID="17" Name="NumberofPorts" NameU="NumberofPorts">
+						<Value></Value>
+						<Label>端口数目</Label>
+					</Prop>
+					<Prop ID="18" Name="MACAddress" NameU="MACAddress">
+						<Value></Value>
+						<Label>MAC 地址</Label>
+					</Prop>
+					<Prop ID="19" Name="CommunityString" NameU="CommunityString">
+						<Value></Value>
+						<Label>团体字符串</Label>
+					</Prop>
+					<Prop ID="20" Name="NetworkDescription" NameU="NetworkDescription">
+						<Value></Value>
+						<Label>网络说明</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="28" UniqueID="{D6D6BC2B-9F17-4931-82A1-34486BB7E1B9}" Name="动态连接线.28" NameU="Dynamic connector.28" Master="8">
+					<XForm>
+						<PinX Unit="MM">4.069881889763782</PinX>
+						<PinY Unit="MM">5.019685039370078</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="29" UniqueID="{4DB821A7-6B93-4896-96E5-58C61CB6826E}" Name="通信链路" NameU="Comm-link" Master="15">
+					<XForm>
+						<PinX Unit="MM">9.645669291338582</PinX>
+						<PinY Unit="MM">5.442913385826770</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember></LayerMember>
+					</LayerMem>
+					<Prop ID="1" Name="Manufacturer" NameU="Manufacturer">
+						<Value></Value>
+						<Label>制造商</Label>
+					</Prop>
+					<Prop ID="2" Name="ProductNumber" NameU="ProductNumber">
+						<Value></Value>
+						<Label>产品编号</Label>
+					</Prop>
+					<Prop ID="3" Name="PartNumber" NameU="PartNumber">
+						<Value></Value>
+						<Label>部件号</Label>
+					</Prop>
+					<Prop ID="4" Name="ProductDescription" NameU="ProductDescription">
+						<Value></Value>
+						<Label>产品说明</Label>
+					</Prop>
+					<Prop ID="5" Name="AssetNumber" NameU="AssetNumber">
+						<Value></Value>
+						<Label>资产号</Label>
+					</Prop>
+					<Prop ID="6" Name="SerialNumber" NameU="SerialNumber">
+						<Value></Value>
+						<Label>序列号</Label>
+					</Prop>
+					<Prop ID="7" Name="Location" NameU="Location">
+						<Value></Value>
+						<Label>位置</Label>
+					</Prop>
+					<Prop ID="8" Name="Building" NameU="Building">
+						<Value></Value>
+						<Label>建筑物</Label>
+					</Prop>
+					<Prop ID="9" Name="Room" NameU="Room">
+						<Value></Value>
+						<Label>房间</Label>
+					</Prop>
+					<Prop ID="10" Name="Department" NameU="Department">
+						<Value></Value>
+						<Label>部门</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="30" UniqueID="{09C1D21F-B323-48D0-BCC9-75CE4151C9D0}" Name="智能手机" NameU="Smart phone" Master="16">
+					<XForm>
+						<PinX Unit="MM">10.669291338582672</PinX>
+						<PinY Unit="MM">5.501968503937007</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember></LayerMember>
+					</LayerMem>
+					<Prop ID="7" Name="AssetNumber" NameU="AssetNumber">
+						<Value></Value>
+						<Label>资产号</Label>
+					</Prop>
+					<Prop ID="8" Name="SerialNumber" NameU="SerialNumber">
+						<Value></Value>
+						<Label>序列号</Label>
+					</Prop>
+					<Prop ID="9" Name="Location" NameU="Location">
+						<Value></Value>
+						<Label>位置</Label>
+					</Prop>
+					<Prop ID="10" Name="Building" NameU="Building">
+						<Value></Value>
+						<Label>建筑物</Label>
+					</Prop>
+					<Prop ID="11" Name="Room" NameU="Room">
+						<Value></Value>
+						<Label>房间</Label>
+					</Prop>
+					<Prop ID="3" Name="Manufacturer" NameU="Manufacturer">
+						<Value></Value>
+						<Label>制造商</Label>
+					</Prop>
+					<Prop ID="4" Name="ProductNumber" NameU="ProductNumber">
+						<Value></Value>
+						<Label>产品编号</Label>
+					</Prop>
+					<Prop ID="5" Name="PartNumber" NameU="PartNumber">
+						<Value></Value>
+						<Label>部件号</Label>
+					</Prop>
+					<Prop ID="6" Name="ProductDescription" NameU="ProductDescription">
+						<Value></Value>
+						<Label>产品说明</Label>
+					</Prop>
+					<Prop ID="12" Name="NetworkName" NameU="NetworkName">
+						<Value></Value>
+						<Label>网络名称</Label>
+					</Prop>
+					<Prop ID="13" Name="IPAddress" NameU="IPAddress">
+						<Value></Value>
+						<Label>IP 地址</Label>
+					</Prop>
+					<Prop ID="14" Name="SubnetMask" NameU="SubnetMask">
+						<Value></Value>
+						<Label>子网掩码</Label>
+					</Prop>
+					<Prop ID="15" Name="AdminInterface" NameU="AdminInterface">
+						<Value></Value>
+						<Label>管理接口</Label>
+					</Prop>
+					<Prop ID="16" Name="NumberofPorts" NameU="NumberofPorts">
+						<Value></Value>
+						<Label>端口数目</Label>
+					</Prop>
+					<Prop ID="17" Name="MACAddress" NameU="MACAddress">
+						<Value></Value>
+						<Label>MAC 地址</Label>
+					</Prop>
+					<Prop ID="18" Name="CommunityString" NameU="CommunityString">
+						<Value></Value>
+						<Label>团体字符串</Label>
+					</Prop>
+					<Prop ID="19" Name="NetworkDescription" NameU="NetworkDescription">
+						<Value></Value>
+						<Label>网络说明</Label>
+					</Prop>
+					<Prop ID="20" Name="HardDriveSize" NameU="HardDriveSize">
+						<Value></Value>
+						<Label>硬盘容量</Label>
+					</Prop>
+					<Prop ID="21" Name="CPU" NameU="CPU">
+						<Value></Value>
+						<Label>CPU</Label>
+					</Prop>
+					<Prop ID="22" Name="Memory" NameU="Memory">
+						<Value></Value>
+						<Label>内存</Label>
+					</Prop>
+					<Prop ID="23" Name="OperatingSystem" NameU="OperatingSystem">
+						<Value></Value>
+						<Label>操作系统</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="52" UniqueID="{5C1377E7-D227-4542-B897-1112E57872D5}" Name="通信链路.52" NameU="Comm-link.52" Master="15">
+					<XForm>
+						<PinX Unit="MM">9.665354330708659</PinX>
+						<PinY Unit="MM">4.360236220472440</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember></LayerMember>
+					</LayerMem>
+					<Prop ID="1" Name="Manufacturer" NameU="Manufacturer">
+						<Value></Value>
+						<Label>制造商</Label>
+					</Prop>
+					<Prop ID="2" Name="ProductNumber" NameU="ProductNumber">
+						<Value></Value>
+						<Label>产品编号</Label>
+					</Prop>
+					<Prop ID="3" Name="PartNumber" NameU="PartNumber">
+						<Value></Value>
+						<Label>部件号</Label>
+					</Prop>
+					<Prop ID="4" Name="ProductDescription" NameU="ProductDescription">
+						<Value></Value>
+						<Label>产品说明</Label>
+					</Prop>
+					<Prop ID="5" Name="AssetNumber" NameU="AssetNumber">
+						<Value></Value>
+						<Label>资产号</Label>
+					</Prop>
+					<Prop ID="6" Name="SerialNumber" NameU="SerialNumber">
+						<Value></Value>
+						<Label>序列号</Label>
+					</Prop>
+					<Prop ID="7" Name="Location" NameU="Location">
+						<Value></Value>
+						<Label>位置</Label>
+					</Prop>
+					<Prop ID="8" Name="Building" NameU="Building">
+						<Value></Value>
+						<Label>建筑物</Label>
+					</Prop>
+					<Prop ID="9" Name="Room" NameU="Room">
+						<Value></Value>
+						<Label>房间</Label>
+					</Prop>
+					<Prop ID="10" Name="Department" NameU="Department">
+						<Value></Value>
+						<Label>部门</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="53" UniqueID="{9B104376-F06A-4650-B1A3-FD308C90EF03}" Name="智能手机.53" NameU="Smart phone.53" Master="16">
+					<XForm>
+						<PinX Unit="MM">10.669291338582674</PinX>
+						<PinY Unit="MM">4.340551181102361</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember></LayerMember>
+					</LayerMem>
+					<Prop ID="7" Name="AssetNumber" NameU="AssetNumber">
+						<Value></Value>
+						<Label>资产号</Label>
+					</Prop>
+					<Prop ID="8" Name="SerialNumber" NameU="SerialNumber">
+						<Value></Value>
+						<Label>序列号</Label>
+					</Prop>
+					<Prop ID="9" Name="Location" NameU="Location">
+						<Value></Value>
+						<Label>位置</Label>
+					</Prop>
+					<Prop ID="10" Name="Building" NameU="Building">
+						<Value></Value>
+						<Label>建筑物</Label>
+					</Prop>
+					<Prop ID="11" Name="Room" NameU="Room">
+						<Value></Value>
+						<Label>房间</Label>
+					</Prop>
+					<Prop ID="3" Name="Manufacturer" NameU="Manufacturer">
+						<Value></Value>
+						<Label>制造商</Label>
+					</Prop>
+					<Prop ID="4" Name="ProductNumber" NameU="ProductNumber">
+						<Value></Value>
+						<Label>产品编号</Label>
+					</Prop>
+					<Prop ID="5" Name="PartNumber" NameU="PartNumber">
+						<Value></Value>
+						<Label>部件号</Label>
+					</Prop>
+					<Prop ID="6" Name="ProductDescription" NameU="ProductDescription">
+						<Value></Value>
+						<Label>产品说明</Label>
+					</Prop>
+					<Prop ID="12" Name="NetworkName" NameU="NetworkName">
+						<Value></Value>
+						<Label>网络名称</Label>
+					</Prop>
+					<Prop ID="13" Name="IPAddress" NameU="IPAddress">
+						<Value></Value>
+						<Label>IP 地址</Label>
+					</Prop>
+					<Prop ID="14" Name="SubnetMask" NameU="SubnetMask">
+						<Value></Value>
+						<Label>子网掩码</Label>
+					</Prop>
+					<Prop ID="15" Name="AdminInterface" NameU="AdminInterface">
+						<Value></Value>
+						<Label>管理接口</Label>
+					</Prop>
+					<Prop ID="16" Name="NumberofPorts" NameU="NumberofPorts">
+						<Value></Value>
+						<Label>端口数目</Label>
+					</Prop>
+					<Prop ID="17" Name="MACAddress" NameU="MACAddress">
+						<Value></Value>
+						<Label>MAC 地址</Label>
+					</Prop>
+					<Prop ID="18" Name="CommunityString" NameU="CommunityString">
+						<Value></Value>
+						<Label>团体字符串</Label>
+					</Prop>
+					<Prop ID="19" Name="NetworkDescription" NameU="NetworkDescription">
+						<Value></Value>
+						<Label>网络说明</Label>
+					</Prop>
+					<Prop ID="20" Name="HardDriveSize" NameU="HardDriveSize">
+						<Value></Value>
+						<Label>硬盘容量</Label>
+					</Prop>
+					<Prop ID="21" Name="CPU" NameU="CPU">
+						<Value></Value>
+						<Label>CPU</Label>
+					</Prop>
+					<Prop ID="22" Name="Memory" NameU="Memory">
+						<Value></Value>
+						<Label>内存</Label>
+					</Prop>
+					<Prop ID="23" Name="OperatingSystem" NameU="OperatingSystem">
+						<Value></Value>
+						<Label>操作系统</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="75" UniqueID="{213BE2B2-71D0-4F3F-A3E8-F01FBCB2DDCA}" Name="大型机" NameU="Mainframe" Master="17">
+					<Text>数据服务</Text>
+					<XForm>
+						<PinX Unit="MM">3.208661417322837</PinX>
+						<PinY Unit="MM">6.028543307086625</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember></LayerMember>
+					</LayerMem>
+					<Prop ID="8" Name="AssetNumber" NameU="AssetNumber">
+						<Value></Value>
+						<Label>资产号</Label>
+					</Prop>
+					<Prop ID="9" Name="SerialNumber" NameU="SerialNumber">
+						<Value></Value>
+						<Label>序列号</Label>
+					</Prop>
+					<Prop ID="10" Name="Location" NameU="Location">
+						<Value></Value>
+						<Label>位置</Label>
+					</Prop>
+					<Prop ID="11" Name="Building" NameU="Building">
+						<Value></Value>
+						<Label>建筑物</Label>
+					</Prop>
+					<Prop ID="12" Name="Room" NameU="Room">
+						<Value></Value>
+						<Label>房间</Label>
+					</Prop>
+					<Prop ID="4" Name="Manufacturer" NameU="Manufacturer">
+						<Value></Value>
+						<Label>制造商</Label>
+					</Prop>
+					<Prop ID="5" Name="ProductNumber" NameU="ProductNumber">
+						<Value></Value>
+						<Label>产品编号</Label>
+					</Prop>
+					<Prop ID="6" Name="PartNumber" NameU="PartNumber">
+						<Value></Value>
+						<Label>部件号</Label>
+					</Prop>
+					<Prop ID="7" Name="ProductDescription" NameU="ProductDescription">
+						<Value></Value>
+						<Label>产品说明</Label>
+					</Prop>
+					<Prop ID="13" Name="NetworkName" NameU="NetworkName">
+						<Value></Value>
+						<Label>网络名称</Label>
+					</Prop>
+					<Prop ID="14" Name="IPAddress" NameU="IPAddress">
+						<Value></Value>
+						<Label>IP 地址</Label>
+					</Prop>
+					<Prop ID="15" Name="SubnetMask" NameU="SubnetMask">
+						<Value></Value>
+						<Label>子网掩码</Label>
+					</Prop>
+					<Prop ID="16" Name="AdminInterface" NameU="AdminInterface">
+						<Value></Value>
+						<Label>管理接口</Label>
+					</Prop>
+					<Prop ID="17" Name="NumberofPorts" NameU="NumberofPorts">
+						<Value></Value>
+						<Label>端口数目</Label>
+					</Prop>
+					<Prop ID="18" Name="MACAddress" NameU="MACAddress">
+						<Value></Value>
+						<Label>MAC 地址</Label>
+					</Prop>
+					<Prop ID="19" Name="CommunityString" NameU="CommunityString">
+						<Value></Value>
+						<Label>团体字符串</Label>
+					</Prop>
+					<Prop ID="20" Name="NetworkDescription" NameU="NetworkDescription">
+						<Value></Value>
+						<Label>网络说明</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="89" UniqueID="{086B30C8-6B9C-4F18-956F-A010EC9F60DC}" Name="动态连接线.89" NameU="Dynamic connector.89" Master="8">
+					<XForm>
+						<PinX Unit="MM">3.208661417322837</PinX>
+						<PinY Unit="MM">5.429513626534918</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="90" UniqueID="{601D8AE2-3429-4558-8988-A6A8DFDB7030}" Name="防火墙" NameU="Firewall" Master="5">
+					<Text>防火墙</Text>
+					<XForm>
+						<PinX Unit="MM">6.062992125984254</PinX>
+						<PinY Unit="MM">5.039370078740157</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember></LayerMember>
+					</LayerMem>
+					<Prop ID="8" Name="AssetNumber" NameU="AssetNumber">
+						<Value></Value>
+						<Label>资产号</Label>
+					</Prop>
+					<Prop ID="9" Name="SerialNumber" NameU="SerialNumber">
+						<Value></Value>
+						<Label>序列号</Label>
+					</Prop>
+					<Prop ID="10" Name="Location" NameU="Location">
+						<Value></Value>
+						<Label>位置</Label>
+					</Prop>
+					<Prop ID="11" Name="Building" NameU="Building">
+						<Value></Value>
+						<Label>建筑物</Label>
+					</Prop>
+					<Prop ID="12" Name="Room" NameU="Room">
+						<Value></Value>
+						<Label>房间</Label>
+					</Prop>
+					<Prop ID="4" Name="Manufacturer" NameU="Manufacturer">
+						<Value></Value>
+						<Label>制造商</Label>
+					</Prop>
+					<Prop ID="5" Name="ProductNumber" NameU="ProductNumber">
+						<Value></Value>
+						<Label>产品编号</Label>
+					</Prop>
+					<Prop ID="6" Name="PartNumber" NameU="PartNumber">
+						<Value></Value>
+						<Label>部件号</Label>
+					</Prop>
+					<Prop ID="7" Name="ProductDescription" NameU="ProductDescription">
+						<Value></Value>
+						<Label>产品说明</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="98" UniqueID="{214CB131-F5B8-464C-A8B0-B9C467EFCE3B}" Name="云朵" NameU="Cloud" Master="18">
+					<Text>GPRS网络</Text>
+					<XForm>
+						<PinX Unit="MM">7.829724409448819</PinX>
+						<PinY Unit="MM">5.039370078740157</PinY>
+					</XForm>
+				</Shape>
+				<Shape ID="97" UniqueID="{E7784353-77B6-43EA-8E49-CF2FEEA74FD7}" Name="动态连接线.97" NameU="Dynamic connector.97" Master="8">
+					<XForm>
+						<PinX Unit="MM">5.374015748031498</PinX>
+						<PinY Unit="MM">5.039370078740157</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="99" UniqueID="{64522993-1992-4A3C-BA52-B74CFCEA7CC2}" Name="动态连接线.99" NameU="Dynamic connector.99" Master="8">
+					<XForm>
+						<PinX Unit="MM">6.491141732283465</PinX>
+						<PinY Unit="MM">5.039370078740157</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="100" UniqueID="{8B3BCC21-B2D7-4DEB-80AC-F7149E6AEC4B}" Name="无线电发射塔" NameU="Radio tower" Master="19">
+					<XForm>
+						<PinX Unit="MM">7.829724409448819</PinX>
+						<PinY Unit="MM">3.601659167604050</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember></LayerMember>
+					</LayerMem>
+				</Shape>
+			</Shapes>
+		</Page>
+		<Page ID="5" Name="鉴定总体业务流程" NameU="鉴定总体业务流程">
+			<Layer IX="0">
+				<Name>连接线</Name>
+				<NameUniv>Connector</NameUniv>
+				<Visible>1</Visible>
+			</Layer>
+			<Layer IX="1">
+				<Name>流程图</Name>
+				<NameUniv>Flowchart</NameUniv>
+				<Visible>1</Visible>
+			</Layer>
+			<Shapes>
+				<Shape ID="4" UniqueID="{68BCFA12-A808-41D6-8748-6268A1DEE04F}" Name="CFF 容器" NameU="CFF Container" Master="25">
+					<Text>司法鉴定总体流程图</Text>
+					<XForm>
+						<PinX Unit="MM">4.499999999999991</PinX>
+						<PinY Unit="MM">4.266732283464142</PinY>
+					</XForm>
+				</Shape>
+				<Shape ID="7" UniqueID="{1BF4BF5B-9F94-498E-9E18-4BF642938D67}" Name="泳道列表" NameU="Swimlane List" Master="26">
+					<XForm>
+						<PinX Unit="MM">1.153543307086615</PinX>
+						<PinY Unit="MM">7.488188976378225</PinY>
+					</XForm>
+				</Shape>
+				<Shape ID="1" UniqueID="{DA7AB355-6A0D-46D1-AC67-EF76D668FF41}" Name="泳道 (垂直)" NameU="Swimlane (vertical)" Master="24">
+					<Text>中心领导</Text>
+					<XForm>
+						<PinX Unit="MM">7.157480314960633</PinX>
+						<PinY Unit="MM">4.069881889763286</PinY>
+					</XForm>
+				</Shape>
+				<Shape ID="12" UniqueID="{4DFB9240-A0E4-48E9-BC0B-D5C49C17E472}" Name="泳道 (垂直).12" NameU="Swimlane (vertical).12" Master="24">
+					<Text>业务科室</Text>
+					<XForm>
+						<PinX Unit="MM">5.385826771653546</PinX>
+						<PinY Unit="MM">4.069881889763151</PinY>
+					</XForm>
+				</Shape>
+				<Shape ID="15" UniqueID="{5B40DF04-AF70-4E8D-B91D-41DB37D56A27}" Name="泳道 (垂直).15" NameU="Swimlane (vertical).15" Master="24">
+					<Text>综合受理</Text>
+					<XForm>
+						<PinX Unit="MM">3.614173228346460</PinX>
+						<PinY Unit="MM">4.069881889763151</PinY>
+					</XForm>
+				</Shape>
+				<Shape ID="18" UniqueID="{156F684D-63BB-435D-B78E-0AD5103CED7E}" Name="泳道 (垂直).18" NameU="Swimlane (vertical).18" Master="24">
+					<Text>委托方</Text>
+					<XForm>
+						<PinX Unit="MM">1.940944881889766</PinX>
+						<PinY Unit="MM">4.069881889763151</PinY>
+					</XForm>
+				</Shape>
+				<Shape ID="8" UniqueID="{3E3DBAA7-BE50-428A-9462-14753059E813}" Name="阶段列表" NameU="Phase List" Master="27">
+					<XForm>
+						<PinX Unit="MM">0.956692913385805</PinX>
+						<PinY Unit="MM">7.094488188976651</PinY>
+					</XForm>
+				</Shape>
+				<Shape ID="9" UniqueID="{751D5378-3F66-451F-B3B2-F1D25D3CDB36}" Name="分隔符(垂直)" NameU="Separator (vertical)" Master="28">
+					<Text>阶段</Text>
+					<XForm>
+						<PinX Unit="MM">4.499999999999991</PinX>
+						<PinY Unit="MM">3.873031496062364</PinY>
+					</XForm>
+				</Shape>
+				<Shape ID="21" UniqueID="{99C7DFFB-155B-44DB-B2D6-989E9ED5BCE1}" Name="请求" NameU="Request" Master="20">
+					<Text>初审</Text>
+					<XForm>
+						<PinX Unit="MM">3.368110236220476</PinX>
+						<PinY Unit="MM">6.454724409448820</PinY>
+					</XForm>
+					<Prop ID="1" Name="Function" NameU="Function">
+						<Value Unit="STR">综合受理</Value>
+						<Label></Label>
+					</Prop>
+				</Shape>
+				<Shape ID="67" UniqueID="{9C175B24-87CB-45D1-BC0C-98E16BC79036}" Name="任务" NameU="Task" Master="21">
+					<Text>填报委托信息</Text>
+					<XForm>
+						<PinX Unit="MM">1.793307086614175</PinX>
+						<PinY Unit="MM">6.454724409448821</PinY>
+					</XForm>
+					<Prop ID="1" Name="Function" NameU="Function">
+						<Value Unit="STR">委托方</Value>
+						<Label></Label>
+					</Prop>
+				</Shape>
+				<Shape ID="107" UniqueID="{2E80E6D5-241D-4C63-B2E0-C76C06A9A431}" Name="动态连接线" NameU="Dynamic connector" Master="8">
+					<XForm>
+						<PinX Unit="MM">2.636216381184389</PinX>
+						<PinY Unit="MM">6.454724409448820</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="111" UniqueID="{04B592E3-CEF7-4E95-87DE-E4D78E95ED64}" Name="提交" NameU="Submit" Master="29">
+					<Text>签署确认书</Text>
+					<XForm>
+						<PinX Unit="MM">3.368110236220475</PinX>
+						<PinY Unit="MM">4.879921259842520</PinY>
+					</XForm>
+					<Prop ID="1" Name="Function" NameU="Function">
+						<Value Unit="STR">综合受理</Value>
+						<Label></Label>
+					</Prop>
+				</Shape>
+				<Shape ID="145" UniqueID="{7AA03C4A-A561-4A64-91BC-F246A4F1B863}" Name="文档" NameU="Document" Master="30">
+					<Text>打印委托书</Text>
+					<XForm>
+						<PinX Unit="MM">1.940944881889764</PinX>
+						<PinY Unit="MM">5.372047244094491</PinY>
+					</XForm>
+					<Prop ID="1" Name="Function" NameU="Function">
+						<Value Unit="STR">委托方</Value>
+						<Label></Label>
+					</Prop>
+				</Shape>
+				<Shape ID="158" UniqueID="{B7BF92DC-47BD-4F4D-B257-87FE629A0624}" Name="动态连接线.158" NameU="Dynamic connector.158" Master="8">
+					<XForm>
+						<PinX Unit="MM">3.680244699393046</PinX>
+						<PinY Unit="MM">5.801462584849924</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="160" UniqueID="{2427978B-842D-4615-ADD5-EBCB742A0858}" Name="核准" NameU="Approve" Master="31">
+					<Text>科室初审</Text>
+					<XForm>
+						<PinX Unit="MM">5.248031496062994</PinX>
+						<PinY Unit="MM">6.444881889763782</PinY>
+					</XForm>
+					<Prop ID="1" Name="Function" NameU="Function">
+						<Value Unit="STR">业务科室</Value>
+						<Label></Label>
+					</Prop>
+				</Shape>
+				<Shape ID="185" UniqueID="{03DF27D2-3F93-46CF-8F44-C5E4F882F5D2}" Name="动态连接线.185" NameU="Dynamic connector.185" Master="8">
+					<XForm>
+						<PinX Unit="MM">4.348096452738789</PinX>
+						<PinY Unit="MM">6.454724409448820</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="109" UniqueID="{F51A37C3-7342-4D2A-8839-AA745F23DFD6}" Name="供应商" NameU="Vendor" Master="32">
+					<Text>核对检材样本</Text>
+					<XForm>
+						<PinX Unit="MM">5.228346456692916</PinX>
+						<PinY Unit="MM">4.889763779527560</PinY>
+					</XForm>
+					<Prop ID="1" Name="Function" NameU="Function">
+						<Value Unit="STR">业务科室</Value>
+						<Label></Label>
+					</Prop>
+				</Shape>
+				<Shape ID="108" UniqueID="{C8BD070E-F2AF-42A2-B61A-9D9FC1B9439E}" Name="动态连接线.108" NameU="Dynamic connector.108" Master="8">
+					<XForm>
+						<PinX Unit="MM">2.740284069471786</PinX>
+						<PinY Unit="MM">5.082185775717374</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="239" UniqueID="{3E680BB4-5AE0-4AFB-A614-8D163303D124}" Name="会议" NameU="Meeting" Master="33">
+					<Text>分派任务</Text>
+					<XForm>
+						<PinX Unit="MM">5.188976377952760</PinX>
+						<PinY Unit="MM">3.797244094488190</PinY>
+					</XForm>
+					<Prop ID="1" Name="Function" NameU="Function">
+						<Value Unit="STR">业务科室</Value>
+						<Label></Label>
+					</Prop>
+				</Shape>
+				<Shape ID="281" UniqueID="{69EDE90F-A8CB-4BE7-8071-D576CA48AB42}" Name="动态连接线.281" NameU="Dynamic connector.281" Master="8">
+					<XForm>
+						<PinX Unit="MM">4.166081009861150</PinX>
+						<PinY Unit="MM">4.217021042022082</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="282" UniqueID="{75A91CF9-5995-4452-954F-12A92941CA5A}" Name="研究" NameU="Research" Master="34">
+					<Text>检验鉴定</Text>
+					<XForm>
+						<PinX Unit="MM">5.238188976377956</PinX>
+						<PinY Unit="MM">2.694881889763778</PinY>
+					</XForm>
+					<Prop ID="1" Name="Function" NameU="Function">
+						<Value Unit="STR">业务科室</Value>
+						<Label></Label>
+					</Prop>
+				</Shape>
+				<Shape ID="333" UniqueID="{93DD2276-C367-4C45-8689-B1CE5716B5B6}" Name="核准.333" NameU="Approve.333" Master="31">
+					<Text>鉴定意见书审批</Text>
+					<XForm>
+						<PinX Unit="MM">6.960629921259847</PinX>
+						<PinY Unit="MM">2.645669291338580</PinY>
+					</XForm>
+					<Prop ID="1" Name="Function" NameU="Function">
+						<Value Unit="STR">中心领导</Value>
+						<Label></Label>
+					</Prop>
+				</Shape>
+				<Shape ID="358" UniqueID="{7BAA7493-0705-4B5D-9D59-774C9ED9DF14}" Name="分析" NameU="Analyze" Master="36">
+					<Text>文书签发</Text>
+					<XForm>
+						<PinX Unit="MM">3.614173228346459</PinX>
+						<PinY Unit="MM">1.779527559055119</PinY>
+					</XForm>
+					<Prop ID="1" Name="Function" NameU="Function">
+						<Value Unit="STR">综合受理</Value>
+						<Label></Label>
+					</Prop>
+				</Shape>
+				<Shape ID="379" UniqueID="{A17AD245-148C-47BB-A066-EBFC8928A58C}" Name="动态连接线.379" NameU="Dynamic connector.379" Master="8">
+					<XForm>
+						<PinX Unit="MM">5.454248941930239</PinX>
+						<PinY Unit="MM">2.088785824155202</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="380" UniqueID="{F379FFBA-DFD0-41D7-8D66-495DBC297442}" Name="动态连接线.380" NameU="Dynamic connector.380" Master="8">
+					<XForm>
+						<PinX Unit="MM">6.166604679384598</PinX>
+						<PinY Unit="MM">2.694881889763778</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="381" UniqueID="{8728695A-14EC-4B1E-9934-E488D5587D44}" Name="动态连接线.381" NameU="Dynamic connector.381" Master="8">
+					<XForm>
+						<PinX Unit="MM">5.188976377952761</PinX>
+						<PinY Unit="MM">3.184621260815634</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="382" UniqueID="{6B20C79C-0BCD-4CC1-AF18-DB7ADEEDD8D0}" Name="文档集" NameU="Document collection" Master="37">
+					<Text>接收鉴定意见书</Text>
+					<XForm>
+						<PinX Unit="MM">1.842519685039372</PinX>
+						<PinY Unit="MM">1.681102362204726</PinY>
+					</XForm>
+					<Prop ID="1" Name="Function" NameU="Function">
+						<Value Unit="STR">委托方</Value>
+						<Label></Label>
+					</Prop>
+				</Shape>
+				<Shape ID="390" UniqueID="{8D3A7DAC-0202-41B8-8134-E04ADD2AAC71}" Name="动态连接线.390" NameU="Dynamic connector.390" Master="8">
+					<XForm>
+						<PinX Unit="MM">2.734812872596002</PinX>
+						<PinY Unit="MM">1.681102362204726</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="238" UniqueID="{B664350C-F1AB-4D38-818B-1A874728CFA4}" Name="动态连接线.238" NameU="Dynamic connector.238" Master="8">
+					<XForm>
+						<PinX Unit="MM">4.354865193635727</PinX>
+						<PinY Unit="MM">4.889763779527560</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+				</Shape>
+			</Shapes>
+		</Page>
+		<Page ID="6" Name="委托书科室内部流程" NameU="委托书科室内部流程"></Page>
+		<Page ID="7" Name="委托鉴定全流程" NameU="委托详细流程">
+			<Layer IX="0">
+				<Name>流程图</Name>
+				<NameUniv>Flowchart</NameUniv>
+				<Visible>1</Visible>
+			</Layer>
+			<Layer IX="1">
+				<Name>连接线</Name>
+				<NameUniv>Connector</NameUniv>
+				<Visible>1</Visible>
+			</Layer>
+			<Shapes>
+				<Shape ID="1" UniqueID="{5DB36784-56BD-4C4E-9CCD-67657100D0DA}" Name="流程" NameU="Process" Master="38">
+					<Text>委托方
+填报委托信息</Text>
+					<XForm>
+						<PinX Unit="MM">1.251968503937009</PinX>
+						<PinY Unit="MM">7.094488188976378</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+					<Prop ID="1" Name="Cost" NameU="Cost">
+						<Value></Value>
+						<Label>成本</Label>
+					</Prop>
+					<Prop ID="2" Name="ProcessNumber" NameU="ProcessNumber">
+						<Value></Value>
+						<Label>进程编号</Label>
+					</Prop>
+					<Prop ID="3" Name="Owner" NameU="Owner">
+						<Value></Value>
+						<Label>所有者</Label>
+					</Prop>
+					<Prop ID="4" Name="Function" NameU="Function">
+						<Value></Value>
+						<Label>函数</Label>
+					</Prop>
+					<Prop ID="5" Name="StartDate" NameU="StartDate">
+						<Value></Value>
+						<Label>开始日期</Label>
+					</Prop>
+					<Prop ID="6" Name="EndDate" NameU="EndDate">
+						<Value></Value>
+						<Label>结束日期</Label>
+					</Prop>
+					<Prop ID="7" Name="Status" NameU="Status">
+						<Value></Value>
+						<Label>状态</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="2" UniqueID="{1A521C85-4931-4301-BF7F-A36CA9F210CB}" Name="流程.2" NameU="Process.2" Master="38">
+					<Text>综合初审</Text>
+					<XForm>
+						<PinX Unit="MM">2.531496062992128</PinX>
+						<PinY Unit="MM">7.094488188976378</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+					<Prop ID="1" Name="Cost" NameU="Cost">
+						<Value></Value>
+						<Label>成本</Label>
+					</Prop>
+					<Prop ID="2" Name="ProcessNumber" NameU="ProcessNumber">
+						<Value></Value>
+						<Label>进程编号</Label>
+					</Prop>
+					<Prop ID="3" Name="Owner" NameU="Owner">
+						<Value></Value>
+						<Label>所有者</Label>
+					</Prop>
+					<Prop ID="4" Name="Function" NameU="Function">
+						<Value></Value>
+						<Label>函数</Label>
+					</Prop>
+					<Prop ID="5" Name="StartDate" NameU="StartDate">
+						<Value></Value>
+						<Label>开始日期</Label>
+					</Prop>
+					<Prop ID="6" Name="EndDate" NameU="EndDate">
+						<Value></Value>
+						<Label>结束日期</Label>
+					</Prop>
+					<Prop ID="7" Name="Status" NameU="Status">
+						<Value></Value>
+						<Label>状态</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="3" UniqueID="{46E53BEE-855C-4B34-BFEE-8AD20C1F69D0}" Name="动态连接线" NameU="Dynamic connector" Master="8">
+					<XForm>
+						<PinX Unit="MM">1.891732283464569</PinX>
+						<PinY Unit="MM">7.094488188976378</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>1</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="4" UniqueID="{8D7D66B1-54B5-41CE-96BC-BE7864C9FDFF}" Name="判定" NameU="Decision" Master="23">
+					<XForm>
+						<PinX Unit="MM">2.531496062992128</PinX>
+						<PinY Unit="MM">6.208661417322833</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+					<Prop ID="1" Name="Cost" NameU="Cost">
+						<Value></Value>
+						<Label>成本</Label>
+					</Prop>
+					<Prop ID="2" Name="ProcessNumber" NameU="ProcessNumber">
+						<Value></Value>
+						<Label>进程编号</Label>
+					</Prop>
+					<Prop ID="3" Name="Owner" NameU="Owner">
+						<Value></Value>
+						<Label>所有者</Label>
+					</Prop>
+					<Prop ID="4" Name="Function" NameU="Function">
+						<Value></Value>
+						<Label>函数</Label>
+					</Prop>
+					<Prop ID="5" Name="StartDate" NameU="StartDate">
+						<Value></Value>
+						<Label>开始日期</Label>
+					</Prop>
+					<Prop ID="6" Name="EndDate" NameU="EndDate">
+						<Value></Value>
+						<Label>结束日期</Label>
+					</Prop>
+					<Prop ID="7" Name="Status" NameU="Status">
+						<Value></Value>
+						<Label>状态</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="5" UniqueID="{99F5F8AB-BEF1-47E9-9B9F-F6B34044EB65}" Name="动态连接线.5" NameU="Dynamic connector.5" Master="8">
+					<XForm>
+						<PinX Unit="MM">2.531496062992128</PinX>
+						<PinY Unit="MM">6.651574803149606</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>1</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="6" UniqueID="{E508184D-C512-42E2-A09A-E02A53DF592F}" Name="流程.6" NameU="Process.6" Master="38">
+					<Text>科室初审</Text>
+					<XForm>
+						<PinX Unit="MM">4.401574803149607</PinX>
+						<PinY Unit="MM">6.208661417322833</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+					<Prop ID="1" Name="Cost" NameU="Cost">
+						<Value></Value>
+						<Label>成本</Label>
+					</Prop>
+					<Prop ID="2" Name="ProcessNumber" NameU="ProcessNumber">
+						<Value></Value>
+						<Label>进程编号</Label>
+					</Prop>
+					<Prop ID="3" Name="Owner" NameU="Owner">
+						<Value></Value>
+						<Label>所有者</Label>
+					</Prop>
+					<Prop ID="4" Name="Function" NameU="Function">
+						<Value></Value>
+						<Label>函数</Label>
+					</Prop>
+					<Prop ID="5" Name="StartDate" NameU="StartDate">
+						<Value></Value>
+						<Label>开始日期</Label>
+					</Prop>
+					<Prop ID="6" Name="EndDate" NameU="EndDate">
+						<Value></Value>
+						<Label>结束日期</Label>
+					</Prop>
+					<Prop ID="7" Name="Status" NameU="Status">
+						<Value></Value>
+						<Label>状态</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="7" UniqueID="{56E81EBF-2737-49BC-BA30-586DA8787FC9}" Name="动态连接线.7" NameU="Dynamic connector.7" Master="8">
+					<Text>科室协助</Text>
+					<XForm>
+						<PinX Unit="MM">3.466535433070868</PinX>
+						<PinY Unit="MM">6.208661417322833</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>1</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="8" UniqueID="{BC29177F-5D61-4459-BE92-E9834350A27D}" Name="判定.8" NameU="Decision.8" Master="23">
+					<XForm>
+						<PinX Unit="MM">5.681102362204724</PinX>
+						<PinY Unit="MM">6.208661417322833</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+					<Prop ID="1" Name="Cost" NameU="Cost">
+						<Value></Value>
+						<Label>成本</Label>
+					</Prop>
+					<Prop ID="2" Name="ProcessNumber" NameU="ProcessNumber">
+						<Value></Value>
+						<Label>进程编号</Label>
+					</Prop>
+					<Prop ID="3" Name="Owner" NameU="Owner">
+						<Value></Value>
+						<Label>所有者</Label>
+					</Prop>
+					<Prop ID="4" Name="Function" NameU="Function">
+						<Value></Value>
+						<Label>函数</Label>
+					</Prop>
+					<Prop ID="5" Name="StartDate" NameU="StartDate">
+						<Value></Value>
+						<Label>开始日期</Label>
+					</Prop>
+					<Prop ID="6" Name="EndDate" NameU="EndDate">
+						<Value></Value>
+						<Label>结束日期</Label>
+					</Prop>
+					<Prop ID="7" Name="Status" NameU="Status">
+						<Value></Value>
+						<Label>状态</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="9" UniqueID="{D92E05DE-D25A-4502-A457-E83A12B734AD}" Name="动态连接线.9" NameU="Dynamic connector.9" Master="8">
+					<XForm>
+						<PinX Unit="MM">5.041338582677165</PinX>
+						<PinY Unit="MM">6.208661417322833</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>1</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="10" UniqueID="{2B805088-9CB1-4B29-8CE2-C9B185E517B9}" Name="流程.10" NameU="Process.10" Master="38">
+					<Text>委托方
+打印委托书</Text>
+					<XForm>
+						<PinX Unit="MM">5.681102362204724</PinX>
+						<PinY Unit="MM">5.125984251968504</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+					<Prop ID="1" Name="Cost" NameU="Cost">
+						<Value></Value>
+						<Label>成本</Label>
+					</Prop>
+					<Prop ID="2" Name="ProcessNumber" NameU="ProcessNumber">
+						<Value></Value>
+						<Label>进程编号</Label>
+					</Prop>
+					<Prop ID="3" Name="Owner" NameU="Owner">
+						<Value></Value>
+						<Label>所有者</Label>
+					</Prop>
+					<Prop ID="4" Name="Function" NameU="Function">
+						<Value></Value>
+						<Label>函数</Label>
+					</Prop>
+					<Prop ID="5" Name="StartDate" NameU="StartDate">
+						<Value></Value>
+						<Label>开始日期</Label>
+					</Prop>
+					<Prop ID="6" Name="EndDate" NameU="EndDate">
+						<Value></Value>
+						<Label>结束日期</Label>
+					</Prop>
+					<Prop ID="7" Name="Status" NameU="Status">
+						<Value></Value>
+						<Label>状态</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="11" UniqueID="{4531C4DD-CBE2-4901-9A52-1FFDE6E25C69}" Name="动态连接线.11" NameU="Dynamic connector.11" Master="8">
+					<Text>合格</Text>
+					<XForm>
+						<PinX Unit="MM">5.681102362204724</PinX>
+						<PinY Unit="MM">5.667322834645669</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>1</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="12" UniqueID="{AA20D37E-1FE6-4F51-932F-384450B3A372}" Name="动态连接线.12" NameU="Dynamic connector.12" Master="8">
+					<Text>合格</Text>
+					<XForm>
+						<PinX Unit="MM">3.860236220472442</PinX>
+						<PinY Unit="MM">5.519685039370078</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>1</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="13" UniqueID="{F9BF0D6A-BFC7-495E-8A0B-3DCE067DA7F7}" Name="动态连接线.13" NameU="Dynamic connector.13" Master="8">
+					<Text>不合格</Text>
+					<XForm>
+						<PinX Unit="MM">1.645669291338584</PinX>
+						<PinY Unit="MM">6.503937007874015</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>1</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="14" UniqueID="{FCA8C387-9F99-490B-8A3A-9BAC24487617}" Name="动态连接线.14" NameU="Dynamic connector.14" Master="8">
+					<Text>不合格</Text>
+					<XForm>
+						<PinX Unit="MM">3.466535433070867</PinX>
+						<PinY Unit="MM">6.946850393700786</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>1</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="15" UniqueID="{52867C41-1845-4776-8530-DE18F90F13C9}" Name="流程.15" NameU="Process.15" Master="38">
+					<Text>综合接收</Text>
+					<XForm>
+						<PinX Unit="MM">7.127952755905513</PinX>
+						<PinY Unit="MM">5.125984251968504</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+					<Prop ID="1" Name="Cost" NameU="Cost">
+						<Value></Value>
+						<Label>成本</Label>
+					</Prop>
+					<Prop ID="2" Name="ProcessNumber" NameU="ProcessNumber">
+						<Value></Value>
+						<Label>进程编号</Label>
+					</Prop>
+					<Prop ID="3" Name="Owner" NameU="Owner">
+						<Value></Value>
+						<Label>所有者</Label>
+					</Prop>
+					<Prop ID="4" Name="Function" NameU="Function">
+						<Value></Value>
+						<Label>函数</Label>
+					</Prop>
+					<Prop ID="5" Name="StartDate" NameU="StartDate">
+						<Value></Value>
+						<Label>开始日期</Label>
+					</Prop>
+					<Prop ID="6" Name="EndDate" NameU="EndDate">
+						<Value></Value>
+						<Label>结束日期</Label>
+					</Prop>
+					<Prop ID="7" Name="Status" NameU="Status">
+						<Value></Value>
+						<Label>状态</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="16" UniqueID="{B1D6BFA7-C2AB-4F5A-B30F-0B48943C5FC7}" Name="动态连接线.16" NameU="Dynamic connector.16" Master="8">
+					<Text>委托方
+到中心提交检材和委托书</Text>
+					<XForm>
+						<PinX Unit="MM">6.404527559055119</PinX>
+						<PinY Unit="MM">4.830708661417322</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>1</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="17" UniqueID="{A1F84CFA-D75E-4DD9-A074-AC3FAFB0269C}" Name="判定.17" NameU="Decision.17" Master="23">
+					<XForm>
+						<PinX Unit="MM">8.407480314960628</PinX>
+						<PinY Unit="MM">5.125984251968504</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+					<Prop ID="1" Name="Cost" NameU="Cost">
+						<Value></Value>
+						<Label>成本</Label>
+					</Prop>
+					<Prop ID="2" Name="ProcessNumber" NameU="ProcessNumber">
+						<Value></Value>
+						<Label>进程编号</Label>
+					</Prop>
+					<Prop ID="3" Name="Owner" NameU="Owner">
+						<Value></Value>
+						<Label>所有者</Label>
+					</Prop>
+					<Prop ID="4" Name="Function" NameU="Function">
+						<Value></Value>
+						<Label>函数</Label>
+					</Prop>
+					<Prop ID="5" Name="StartDate" NameU="StartDate">
+						<Value></Value>
+						<Label>开始日期</Label>
+					</Prop>
+					<Prop ID="6" Name="EndDate" NameU="EndDate">
+						<Value></Value>
+						<Label>结束日期</Label>
+					</Prop>
+					<Prop ID="7" Name="Status" NameU="Status">
+						<Value></Value>
+						<Label>状态</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="18" UniqueID="{150228C0-764A-420B-BCAC-5AA8CB0595DC}" Name="动态连接线.18" NameU="Dynamic connector.18" Master="8">
+					<XForm>
+						<PinX Unit="MM">7.767716535433070</PinX>
+						<PinY Unit="MM">5.125984251968504</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>1</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="19" UniqueID="{B376F15D-6A25-40F7-9A05-197495B1BFC0}" Name="流程.19" NameU="Process.19" Master="38">
+					<Text>科室确认检材</Text>
+					<XForm>
+						<PinX Unit="MM">8.407480314960628</PinX>
+						<PinY Unit="MM">6.208661417322833</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+					<Prop ID="1" Name="Cost" NameU="Cost">
+						<Value></Value>
+						<Label>成本</Label>
+					</Prop>
+					<Prop ID="2" Name="ProcessNumber" NameU="ProcessNumber">
+						<Value></Value>
+						<Label>进程编号</Label>
+					</Prop>
+					<Prop ID="3" Name="Owner" NameU="Owner">
+						<Value></Value>
+						<Label>所有者</Label>
+					</Prop>
+					<Prop ID="4" Name="Function" NameU="Function">
+						<Value></Value>
+						<Label>函数</Label>
+					</Prop>
+					<Prop ID="5" Name="StartDate" NameU="StartDate">
+						<Value></Value>
+						<Label>开始日期</Label>
+					</Prop>
+					<Prop ID="6" Name="EndDate" NameU="EndDate">
+						<Value></Value>
+						<Label>结束日期</Label>
+					</Prop>
+					<Prop ID="7" Name="Status" NameU="Status">
+						<Value></Value>
+						<Label>状态</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="20" UniqueID="{949770C4-EBD5-4890-8EEC-C66F9BF01D9A}" Name="动态连接线.20" NameU="Dynamic connector.20" Master="8">
+					<Text>科室人在中心</Text>
+					<XForm>
+						<PinX Unit="MM">8.407480314960628</PinX>
+						<PinY Unit="MM">5.667322834645669</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>1</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="21" UniqueID="{7DF43EE2-B652-4BBE-97F8-59AA01F4164C}" Name="流程.21" NameU="Process.21" Master="38">
+					<Text>综合代收检材
+并通知科室</Text>
+					<XForm>
+						<PinX Unit="MM">8.407480314960628</PinX>
+						<PinY Unit="MM">4.240157480314959</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+					<Prop ID="1" Name="Cost" NameU="Cost">
+						<Value></Value>
+						<Label>成本</Label>
+					</Prop>
+					<Prop ID="2" Name="ProcessNumber" NameU="ProcessNumber">
+						<Value></Value>
+						<Label>进程编号</Label>
+					</Prop>
+					<Prop ID="3" Name="Owner" NameU="Owner">
+						<Value></Value>
+						<Label>所有者</Label>
+					</Prop>
+					<Prop ID="4" Name="Function" NameU="Function">
+						<Value></Value>
+						<Label>函数</Label>
+					</Prop>
+					<Prop ID="5" Name="StartDate" NameU="StartDate">
+						<Value></Value>
+						<Label>开始日期</Label>
+					</Prop>
+					<Prop ID="6" Name="EndDate" NameU="EndDate">
+						<Value></Value>
+						<Label>结束日期</Label>
+					</Prop>
+					<Prop ID="7" Name="Status" NameU="Status">
+						<Value></Value>
+						<Label>状态</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="22" UniqueID="{565FD20C-1F19-4BCB-8BA8-D2B3495EFD3C}" Name="动态连接线.22" NameU="Dynamic connector.22" Master="8">
+					<Text>科室人不在中心</Text>
+					<XForm>
+						<PinX Unit="MM">8.407480314960628</PinX>
+						<PinY Unit="MM">4.683070866141732</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>1</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="23" UniqueID="{BA98A077-0E46-4BD4-B29D-CA021CBDB045}" Name="流程.23" NameU="Process.23" Master="38">
+					<Text>综合与委托方
+签订委托确认书</Text>
+					<XForm>
+						<PinX Unit="MM">9.962598425196850</PinX>
+						<PinY Unit="MM">5.125984251968504</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+					<Prop ID="1" Name="Cost" NameU="Cost">
+						<Value></Value>
+						<Label>成本</Label>
+					</Prop>
+					<Prop ID="2" Name="ProcessNumber" NameU="ProcessNumber">
+						<Value></Value>
+						<Label>进程编号</Label>
+					</Prop>
+					<Prop ID="3" Name="Owner" NameU="Owner">
+						<Value></Value>
+						<Label>所有者</Label>
+					</Prop>
+					<Prop ID="4" Name="Function" NameU="Function">
+						<Value></Value>
+						<Label>函数</Label>
+					</Prop>
+					<Prop ID="5" Name="StartDate" NameU="StartDate">
+						<Value></Value>
+						<Label>开始日期</Label>
+					</Prop>
+					<Prop ID="6" Name="EndDate" NameU="EndDate">
+						<Value></Value>
+						<Label>结束日期</Label>
+					</Prop>
+					<Prop ID="7" Name="Status" NameU="Status">
+						<Value></Value>
+						<Label>状态</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="24" UniqueID="{DC478878-1EB6-485C-9A95-02DAAF324AF9}" Name="动态连接线.24" NameU="Dynamic connector.24" Master="8">
+					<XForm>
+						<PinX Unit="MM">9.431102362204724</PinX>
+						<PinY Unit="MM">5.814960629921259</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>1</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="25" UniqueID="{530C4ABE-04F7-47C6-8D38-9945A8F04E9D}" Name="动态连接线.25" NameU="Dynamic connector.25" Master="8">
+					<XForm>
+						<PinX Unit="MM">9.431102362204722</PinX>
+						<PinY Unit="MM">4.535433070866141</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>1</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="26" UniqueID="{9FD23DA7-70B0-41C0-BAA8-723866474425}" Name="流程.26" NameU="Process.26" Master="38">
+					<Text>科室分配任务</Text>
+					<XForm>
+						<PinX Unit="MM">1.251968503937009</PinX>
+						<PinY Unit="MM">3.157480314960630</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+					<Prop ID="1" Name="Cost" NameU="Cost">
+						<Value></Value>
+						<Label>成本</Label>
+					</Prop>
+					<Prop ID="2" Name="ProcessNumber" NameU="ProcessNumber">
+						<Value></Value>
+						<Label>进程编号</Label>
+					</Prop>
+					<Prop ID="3" Name="Owner" NameU="Owner">
+						<Value></Value>
+						<Label>所有者</Label>
+					</Prop>
+					<Prop ID="4" Name="Function" NameU="Function">
+						<Value></Value>
+						<Label>函数</Label>
+					</Prop>
+					<Prop ID="5" Name="StartDate" NameU="StartDate">
+						<Value></Value>
+						<Label>开始日期</Label>
+					</Prop>
+					<Prop ID="6" Name="EndDate" NameU="EndDate">
+						<Value></Value>
+						<Label>结束日期</Label>
+					</Prop>
+					<Prop ID="7" Name="Status" NameU="Status">
+						<Value></Value>
+						<Label>状态</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="27" UniqueID="{11AD19BD-1EFE-412E-98A3-CACE29F5F92F}" Name="流程.27" NameU="Process.27" Master="38">
+					<Text>鉴定负责人
+接收任务
+指定鉴定协助人</Text>
+					<XForm>
+						<PinX Unit="MM">2.925196850393702</PinX>
+						<PinY Unit="MM">3.157480314960630</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+					<Prop ID="1" Name="Cost" NameU="Cost">
+						<Value></Value>
+						<Label>成本</Label>
+					</Prop>
+					<Prop ID="2" Name="ProcessNumber" NameU="ProcessNumber">
+						<Value></Value>
+						<Label>进程编号</Label>
+					</Prop>
+					<Prop ID="3" Name="Owner" NameU="Owner">
+						<Value></Value>
+						<Label>所有者</Label>
+					</Prop>
+					<Prop ID="4" Name="Function" NameU="Function">
+						<Value></Value>
+						<Label>函数</Label>
+					</Prop>
+					<Prop ID="5" Name="StartDate" NameU="StartDate">
+						<Value></Value>
+						<Label>开始日期</Label>
+					</Prop>
+					<Prop ID="6" Name="EndDate" NameU="EndDate">
+						<Value></Value>
+						<Label>结束日期</Label>
+					</Prop>
+					<Prop ID="7" Name="Status" NameU="Status">
+						<Value></Value>
+						<Label>状态</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="28" UniqueID="{D838D873-55A5-4C51-938B-E97655EE7FA0}" Name="动态连接线.28" NameU="Dynamic connector.28" Master="8">
+					<XForm>
+						<PinX Unit="MM">2.088582677165356</PinX>
+						<PinY Unit="MM">3.157480314960630</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>1</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="29" UniqueID="{7F7F8C5E-8E4C-42B1-9631-FE75DC110DD0}" Name="动态连接线.29" NameU="Dynamic connector.29" Master="8">
+					<XForm>
+						<PinX Unit="MM">5.853346456692914</PinX>
+						<PinY Unit="MM">4.289370078740157</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>1</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="30" UniqueID="{A7AEAB46-D2E2-431B-B481-3A414088FB64}" Name="流程.30" NameU="Process.30" Master="38">
+					<Text>进入鉴定流程</Text>
+					<XForm>
+						<PinX Unit="MM">4.204724409448820</PinX>
+						<PinY Unit="MM">3.157480314960630</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+					<Prop ID="1" Name="Cost" NameU="Cost">
+						<Value></Value>
+						<Label>成本</Label>
+					</Prop>
+					<Prop ID="2" Name="ProcessNumber" NameU="ProcessNumber">
+						<Value></Value>
+						<Label>进程编号</Label>
+					</Prop>
+					<Prop ID="3" Name="Owner" NameU="Owner">
+						<Value></Value>
+						<Label>所有者</Label>
+					</Prop>
+					<Prop ID="4" Name="Function" NameU="Function">
+						<Value></Value>
+						<Label>函数</Label>
+					</Prop>
+					<Prop ID="5" Name="StartDate" NameU="StartDate">
+						<Value></Value>
+						<Label>开始日期</Label>
+					</Prop>
+					<Prop ID="6" Name="EndDate" NameU="EndDate">
+						<Value></Value>
+						<Label>结束日期</Label>
+					</Prop>
+					<Prop ID="7" Name="Status" NameU="Status">
+						<Value></Value>
+						<Label>状态</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="31" UniqueID="{1D29D5B3-2B37-48BF-AFAB-B19AD3993631}" Name="动态连接线.31" NameU="Dynamic connector.31" Master="8">
+					<XForm>
+						<PinX Unit="MM">3.564960629921261</PinX>
+						<PinY Unit="MM">3.157480314960630</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>1</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="32" UniqueID="{E0A741B4-0642-4512-8C30-3E97B1EBA9EE}" Name="流程.32" NameU="Process.32" Master="38">
+					<Text>鉴定负责人
+提交鉴定意见书</Text>
+					<XForm>
+						<PinX Unit="MM">5.484251968503939</PinX>
+						<PinY Unit="MM">3.157480314960630</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+					<Prop ID="1" Name="Cost" NameU="Cost">
+						<Value></Value>
+						<Label>成本</Label>
+					</Prop>
+					<Prop ID="2" Name="ProcessNumber" NameU="ProcessNumber">
+						<Value></Value>
+						<Label>进程编号</Label>
+					</Prop>
+					<Prop ID="3" Name="Owner" NameU="Owner">
+						<Value></Value>
+						<Label>所有者</Label>
+					</Prop>
+					<Prop ID="4" Name="Function" NameU="Function">
+						<Value></Value>
+						<Label>函数</Label>
+					</Prop>
+					<Prop ID="5" Name="StartDate" NameU="StartDate">
+						<Value></Value>
+						<Label>开始日期</Label>
+					</Prop>
+					<Prop ID="6" Name="EndDate" NameU="EndDate">
+						<Value></Value>
+						<Label>结束日期</Label>
+					</Prop>
+					<Prop ID="7" Name="Status" NameU="Status">
+						<Value></Value>
+						<Label>状态</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="33" UniqueID="{C294239C-1971-418F-9E76-1F11499A8F94}" Name="动态连接线.33" NameU="Dynamic connector.33" Master="8">
+					<XForm>
+						<PinX Unit="MM">4.844488188976380</PinX>
+						<PinY Unit="MM">3.157480314960630</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>1</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="34" UniqueID="{642A545B-59E2-4E40-A6FA-E66B5F7934C7}" Name="流程.34" NameU="Process.34" Master="38">
+					<Text>鉴定复核人复核</Text>
+					<XForm>
+						<PinX Unit="MM">6.763779527559057</PinX>
+						<PinY Unit="MM">3.157480314960630</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+					<Prop ID="1" Name="Cost" NameU="Cost">
+						<Value></Value>
+						<Label>成本</Label>
+					</Prop>
+					<Prop ID="2" Name="ProcessNumber" NameU="ProcessNumber">
+						<Value></Value>
+						<Label>进程编号</Label>
+					</Prop>
+					<Prop ID="3" Name="Owner" NameU="Owner">
+						<Value></Value>
+						<Label>所有者</Label>
+					</Prop>
+					<Prop ID="4" Name="Function" NameU="Function">
+						<Value></Value>
+						<Label>函数</Label>
+					</Prop>
+					<Prop ID="5" Name="StartDate" NameU="StartDate">
+						<Value></Value>
+						<Label>开始日期</Label>
+					</Prop>
+					<Prop ID="6" Name="EndDate" NameU="EndDate">
+						<Value></Value>
+						<Label>结束日期</Label>
+					</Prop>
+					<Prop ID="7" Name="Status" NameU="Status">
+						<Value></Value>
+						<Label>状态</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="35" UniqueID="{902ACFCA-548A-4B1D-A169-5B85E0894F7E}" Name="动态连接线.35" NameU="Dynamic connector.35" Master="8">
+					<XForm>
+						<PinX Unit="MM">6.124015748031498</PinX>
+						<PinY Unit="MM">3.157480314960630</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>1</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="36" UniqueID="{16174529-6CE1-423C-9556-BFB737AFCD9C}" Name="流程.36" NameU="Process.36" Master="38">
+					<Text>鉴定人
+发起鉴定文书审批表</Text>
+					<XForm>
+						<PinX Unit="MM">8.043307086614176</PinX>
+						<PinY Unit="MM">3.157480314960630</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+					<Prop ID="1" Name="Cost" NameU="Cost">
+						<Value></Value>
+						<Label>成本</Label>
+					</Prop>
+					<Prop ID="2" Name="ProcessNumber" NameU="ProcessNumber">
+						<Value></Value>
+						<Label>进程编号</Label>
+					</Prop>
+					<Prop ID="3" Name="Owner" NameU="Owner">
+						<Value></Value>
+						<Label>所有者</Label>
+					</Prop>
+					<Prop ID="4" Name="Function" NameU="Function">
+						<Value></Value>
+						<Label>函数</Label>
+					</Prop>
+					<Prop ID="5" Name="StartDate" NameU="StartDate">
+						<Value></Value>
+						<Label>开始日期</Label>
+					</Prop>
+					<Prop ID="6" Name="EndDate" NameU="EndDate">
+						<Value></Value>
+						<Label>结束日期</Label>
+					</Prop>
+					<Prop ID="7" Name="Status" NameU="Status">
+						<Value></Value>
+						<Label>状态</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="37" UniqueID="{98EAF7B2-A987-48DA-8552-1A2EFFB19B6B}" Name="动态连接线.37" NameU="Dynamic connector.37" Master="8">
+					<XForm>
+						<PinX Unit="MM">7.403543307086617</PinX>
+						<PinY Unit="MM">3.157480314960630</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>1</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="38" UniqueID="{01D0866D-552A-468D-932E-2FE2059A45C5}" Name="流程.38" NameU="Process.38" Master="38">
+					<Text>鉴定复核人
+复核</Text>
+					<XForm>
+						<PinX Unit="MM">9.322834645669294</PinX>
+						<PinY Unit="MM">3.157480314960630</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+					<Prop ID="1" Name="Cost" NameU="Cost">
+						<Value></Value>
+						<Label>成本</Label>
+					</Prop>
+					<Prop ID="2" Name="ProcessNumber" NameU="ProcessNumber">
+						<Value></Value>
+						<Label>进程编号</Label>
+					</Prop>
+					<Prop ID="3" Name="Owner" NameU="Owner">
+						<Value></Value>
+						<Label>所有者</Label>
+					</Prop>
+					<Prop ID="4" Name="Function" NameU="Function">
+						<Value></Value>
+						<Label>函数</Label>
+					</Prop>
+					<Prop ID="5" Name="StartDate" NameU="StartDate">
+						<Value></Value>
+						<Label>开始日期</Label>
+					</Prop>
+					<Prop ID="6" Name="EndDate" NameU="EndDate">
+						<Value></Value>
+						<Label>结束日期</Label>
+					</Prop>
+					<Prop ID="7" Name="Status" NameU="Status">
+						<Value></Value>
+						<Label>状态</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="39" UniqueID="{AFA41157-0653-45E7-9A0D-513B77FDA526}" Name="动态连接线.39" NameU="Dynamic connector.39" Master="8">
+					<XForm>
+						<PinX Unit="MM">8.683070866141735</PinX>
+						<PinY Unit="MM">3.157480314960630</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>1</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="40" UniqueID="{4C9DFE92-1BF4-413B-A8B9-45E2145BD628}" Name="流程.40" NameU="Process.40" Master="38">
+					<Text>中心领导审批</Text>
+					<XForm>
+						<PinX Unit="MM">10.602362204724413</PinX>
+						<PinY Unit="MM">3.157480314960630</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+					<Prop ID="1" Name="Cost" NameU="Cost">
+						<Value></Value>
+						<Label>成本</Label>
+					</Prop>
+					<Prop ID="2" Name="ProcessNumber" NameU="ProcessNumber">
+						<Value></Value>
+						<Label>进程编号</Label>
+					</Prop>
+					<Prop ID="3" Name="Owner" NameU="Owner">
+						<Value></Value>
+						<Label>所有者</Label>
+					</Prop>
+					<Prop ID="4" Name="Function" NameU="Function">
+						<Value></Value>
+						<Label>函数</Label>
+					</Prop>
+					<Prop ID="5" Name="StartDate" NameU="StartDate">
+						<Value></Value>
+						<Label>开始日期</Label>
+					</Prop>
+					<Prop ID="6" Name="EndDate" NameU="EndDate">
+						<Value></Value>
+						<Label>结束日期</Label>
+					</Prop>
+					<Prop ID="7" Name="Status" NameU="Status">
+						<Value></Value>
+						<Label>状态</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="41" UniqueID="{05A4515B-D131-463D-BF58-7641FF426D09}" Name="动态连接线.41" NameU="Dynamic connector.41" Master="8">
+					<XForm>
+						<PinX Unit="MM">9.962598425196854</PinX>
+						<PinY Unit="MM">3.157480314960630</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>1</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="42" UniqueID="{731E6A39-EAF5-4490-9E81-B4AB199651A2}" Name="流程.42" NameU="Process.42" Master="38">
+					<Text>综合
+打印鉴定文书</Text>
+					<XForm>
+						<PinX Unit="MM">1.251968503937009</PinX>
+						<PinY Unit="MM">1.779527559055120</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+					<Prop ID="1" Name="Cost" NameU="Cost">
+						<Value></Value>
+						<Label>成本</Label>
+					</Prop>
+					<Prop ID="2" Name="ProcessNumber" NameU="ProcessNumber">
+						<Value></Value>
+						<Label>进程编号</Label>
+					</Prop>
+					<Prop ID="3" Name="Owner" NameU="Owner">
+						<Value></Value>
+						<Label>所有者</Label>
+					</Prop>
+					<Prop ID="4" Name="Function" NameU="Function">
+						<Value></Value>
+						<Label>函数</Label>
+					</Prop>
+					<Prop ID="5" Name="StartDate" NameU="StartDate">
+						<Value></Value>
+						<Label>开始日期</Label>
+					</Prop>
+					<Prop ID="6" Name="EndDate" NameU="EndDate">
+						<Value></Value>
+						<Label>结束日期</Label>
+					</Prop>
+					<Prop ID="7" Name="Status" NameU="Status">
+						<Value></Value>
+						<Label>状态</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="43" UniqueID="{F47F17F6-0C55-42E7-8B2B-B0A0480C2D44}" Name="动态连接线.43" NameU="Dynamic connector.43" Master="8">
+					<XForm>
+						<PinX Unit="MM">5.927165354330711</PinX>
+						<PinY Unit="MM">2.468503937007875</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>1</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="44" UniqueID="{958D0C39-7B43-4186-B8F5-BB4CF9BBFA2D}" Name="流程.44" NameU="Process.44" Master="38">
+					<Text>鉴定人、复核人签字
+移交检材给综合</Text>
+					<XForm>
+						<PinX Unit="MM">2.728346456692915</PinX>
+						<PinY Unit="MM">1.779527559055120</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+					<Prop ID="1" Name="Cost" NameU="Cost">
+						<Value></Value>
+						<Label>成本</Label>
+					</Prop>
+					<Prop ID="2" Name="ProcessNumber" NameU="ProcessNumber">
+						<Value></Value>
+						<Label>进程编号</Label>
+					</Prop>
+					<Prop ID="3" Name="Owner" NameU="Owner">
+						<Value></Value>
+						<Label>所有者</Label>
+					</Prop>
+					<Prop ID="4" Name="Function" NameU="Function">
+						<Value></Value>
+						<Label>函数</Label>
+					</Prop>
+					<Prop ID="5" Name="StartDate" NameU="StartDate">
+						<Value></Value>
+						<Label>开始日期</Label>
+					</Prop>
+					<Prop ID="6" Name="EndDate" NameU="EndDate">
+						<Value></Value>
+						<Label>结束日期</Label>
+					</Prop>
+					<Prop ID="7" Name="Status" NameU="Status">
+						<Value></Value>
+						<Label>状态</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="45" UniqueID="{9DC7DCFE-F11F-47F6-B7FA-A9F0E304813E}" Name="动态连接线.45" NameU="Dynamic connector.45" Master="8">
+					<XForm>
+						<PinX Unit="MM">1.990157480314962</PinX>
+						<PinY Unit="MM">1.779527559055120</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>1</LayerMember>
+					</LayerMem>
+				</Shape>
+				<Shape ID="46" UniqueID="{38C4FFD3-CE31-43F5-86D4-BF7E3733F331}" Name="流程.46" NameU="Process.46" Master="38">
+					<Text>综合
+移交文书和检材
+给委托方</Text>
+					<XForm>
+						<PinX Unit="MM">4.204724409448820</PinX>
+						<PinY Unit="MM">1.779527559055118</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>0</LayerMember>
+					</LayerMem>
+					<Prop ID="1" Name="Cost" NameU="Cost">
+						<Value></Value>
+						<Label>成本</Label>
+					</Prop>
+					<Prop ID="2" Name="ProcessNumber" NameU="ProcessNumber">
+						<Value></Value>
+						<Label>进程编号</Label>
+					</Prop>
+					<Prop ID="3" Name="Owner" NameU="Owner">
+						<Value></Value>
+						<Label>所有者</Label>
+					</Prop>
+					<Prop ID="4" Name="Function" NameU="Function">
+						<Value></Value>
+						<Label>函数</Label>
+					</Prop>
+					<Prop ID="5" Name="StartDate" NameU="StartDate">
+						<Value></Value>
+						<Label>开始日期</Label>
+					</Prop>
+					<Prop ID="6" Name="EndDate" NameU="EndDate">
+						<Value></Value>
+						<Label>结束日期</Label>
+					</Prop>
+					<Prop ID="7" Name="Status" NameU="Status">
+						<Value></Value>
+						<Label>状态</Label>
+					</Prop>
+				</Shape>
+				<Shape ID="47" UniqueID="{E9F6A787-4513-40AB-860C-4D1FF4D9F89B}" Name="动态连接线.47" NameU="Dynamic connector.47" Master="8">
+					<XForm>
+						<PinX Unit="MM">3.466535433070868</PinX>
+						<PinY Unit="MM">1.779527559055120</PinY>
+					</XForm>
+					<LayerMem>
+						<LayerMember>1</LayerMember>
+					</LayerMem>
+				</Shape>
+			</Shapes>
+		</Page>
+	</Pages>
+</VisioDocument>

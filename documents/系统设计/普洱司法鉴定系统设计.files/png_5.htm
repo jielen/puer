@@ -1,0 +1,181 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<link rel="stylesheet" type="text/css" href="visio.css"/>
+<title>
+普洱司法鉴定系统设计
+</title>
+<script type="text/javascript" language="javascript">
+function UpdateTooltip(){};
+function OnShapeClick(){};
+</script>
+
+<script src="png_1.js" type="text/javascript" language="javascript"></script>
+<script type="text/javascript" language="javascript">
+	if( (parent.isSVG) || 
+		(parent.isVML && parent.vmlSupported) || 
+		(parent.isXAML && parent.isUpLevel)) 
+	{
+		location.replace(parent.g_FileList[parent.g_CurPageIndex].PriImage);
+	}
+</script>
+
+
+<script type="text/javascript" language="javascript">
+var pageID = 7;
+var isUpLevel = parent.isUpLevel;
+var OnShapeClick = null;
+if (!parent.isMac)
+{
+	OnShapeClick = parent.OnShapeClick;
+}
+
+var OnShapeKey = parent.OnShapeKey;
+var UpdateTooltip = parent.UpdateTooltip;
+var clickMenu = parent.clickMenu;
+var toggleMenuDiv = parent.toggleMenuDiv;
+var toggleMenuLink = parent.toggleMenuLink;
+var GoToPage = parent.GoToPage;
+
+
+if (parent.isUpLevel)
+{
+
+	if (parent.g_FirstPageToLoad != null && parent.g_FirstPageToLoad.length > 0)
+	{
+		if (parent.g_FileList[parent.g_CurPageIndex].PageID != pageID)
+		{
+			var fileEntry = parent.g_FileList[parent.g_CurPageIndex];
+			var fileToLoad = fileToLoad = fileEntry.PriImage;
+			if (fileEntry.SecImage.length > 0)
+			{
+				fileToLoad = fileEntry.SecImage;
+			}
+
+			location.replace(fileToLoad);
+		}
+
+		parent.g_FirstPageToLoad = null;
+	}
+
+
+	var viewMgr = new parent.CViewMgr();
+	parent.viewMgr = viewMgr;
+
+	viewMgr.SupportsDetails = true;
+	viewMgr.SupportsSearch = true;
+
+	viewMgr.put_Location = ViewMgrSetRasterLocation;
+	viewMgr.visBBoxLeft = 0.758176;
+	viewMgr.visBBoxRight = 11.096155;
+	viewMgr.visBBoxBottom = 1.482585;
+	viewMgr.visBBoxTop = 7.620732;
+	viewMgr.highlightDiv = null;
+}
+
+function load ()
+{
+	if(isUpLevel)
+	{
+		arrowdiv.innerHTML = '<img id="arrowgif" alt="显示所选形状的位置" src="arrow.png"/>';
+
+		var pageIndex = parent.PageIndexFromID (pageID);
+		parent.CurPageUpdate (pageIndex);
+	}
+}
+
+function unload()
+{
+	if(isUpLevel)
+	{
+		viewMgr = null;
+		parent.viewMgr = null;
+	}
+}
+
+window.onload = load;
+window.onunload = unload;
+document.onclick = clickMenu;
+
+</script>
+<style type="text/css"> 
+body {
+	background:url(foo) fixed;
+	padding: 10px;
+}
+div.banner {
+	position: fixed;
+	_position: absolute;
+	top: 0;
+	left: 0;
+	_top: expression(eval(document.body.scrollTop));
+	_left: expression(eval(document.body.scrollLeft));
+	width: 100%;
+	_width: expression(eval(document.body.clientWidth));
+	margin: 0;
+	padding: 3px;
+	padding-left: 6px;
+	background:lime;
+	background-color: #FFFFC6;
+	font: 11px tahoma,arial,serif;
+	border-bottom: 2px ridge #FFFFC6;
+}
+</style>
+</head>
+
+<body class="pageView" bgcolor="#FFFFFF" style="margin: 0px">
+
+<script type="text/javascript" language="javascript">
+// Displays the banner prompt to install Silverlight
+if (parent.slSupported && !parent.slInstalled)
+{
+	var slBanner = document.createElement("div");
+	slBanner.className = "banner";
+	slBanner.innerHTML = '若要启用全部功能(例如扫视和缩放)，<a href="http://www.microsoft.com/silverlight/resources/install.aspx" target="parent">单击此处</a> 需要安装 Silverlight 插件。';
+
+	document.body.appendChild(slBanner);
+	document.body.style.paddingTop = "2.5em";
+}
+</script>
+
+
+<div id="arrowdiv" style="position:absolute;top:0;left:0;visibility:hidden;z-index:5">
+</div>
+
+<div id="menu1" onclick="clickMenu()" class="hlMenu">
+</div>
+<DIV id="RasterDiv" style="margin:10px">
+
+<center>
+  <IMG id="ConvertedImage" SRC="png_5.png" ALT="委托鉴定全流程" name=RasterImage BORDER="0" USEMAP="#visImageMap">
+</center>
+
+<MAP NAME="visImageMap">
+  <AREA shape="POLYGON" tabindex="1" ALT="综合 移交文书和检材 给委托方" origTitle="综合 移交文书和检材 给委托方" TITLE="综合 移交文书和检材 给委托方"  target="_top" COORDS="284,589,378,589,378,533,284,533,284,589" onmouseover="UpdateTooltip(this,7,46,event)" onfocus="UpdateTooltip(this,7,46,event)" onclick="return OnShapeClick(7,46,event);" onkeyup="OnShapeKey(7,46,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="鉴定人、复核人签字 移交检材给综合" origTitle="鉴定人、复核人签字 移交检材给综合" TITLE="鉴定人、复核人签字 移交检材给综合"  target="_top" COORDS="142,589,237,589,237,533,142,533,142,589" onmouseover="UpdateTooltip(this,7,44,event)" onfocus="UpdateTooltip(this,7,44,event)" onclick="return OnShapeClick(7,44,event);" onkeyup="OnShapeKey(7,44,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="综合 打印鉴定文书" origTitle="综合 打印鉴定文书" TITLE="综合 打印鉴定文书"  target="_top" COORDS="0,589,95,589,95,533,0,533,0,589" onmouseover="UpdateTooltip(this,7,42,event)" onfocus="UpdateTooltip(this,7,42,event)" onclick="return OnShapeClick(7,42,event);" onkeyup="OnShapeKey(7,42,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="中心领导审批" origTitle="中心领导审批" TITLE="中心领导审批"  target="_top" COORDS="898,457,993,457,993,400,898,400,898,457" onmouseover="UpdateTooltip(this,7,40,event)" onfocus="UpdateTooltip(this,7,40,event)" onclick="return OnShapeClick(7,40,event);" onkeyup="OnShapeKey(7,40,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="鉴定复核人 复核" origTitle="鉴定复核人 复核" TITLE="鉴定复核人 复核"  target="_top" COORDS="775,457,870,457,870,400,775,400,775,457" onmouseover="UpdateTooltip(this,7,38,event)" onfocus="UpdateTooltip(this,7,38,event)" onclick="return OnShapeClick(7,38,event);" onkeyup="OnShapeKey(7,38,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="鉴定人 发起鉴定文书审批表" origTitle="鉴定人 发起鉴定文书审批表" TITLE="鉴定人 发起鉴定文书审批表"  target="_top" COORDS="652,457,747,457,747,400,652,400,652,457" onmouseover="UpdateTooltip(this,7,36,event)" onfocus="UpdateTooltip(this,7,36,event)" onclick="return OnShapeClick(7,36,event);" onkeyup="OnShapeKey(7,36,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="鉴定复核人复核" origTitle="鉴定复核人复核" TITLE="鉴定复核人复核"  target="_top" COORDS="530,457,624,457,624,400,530,400,530,457" onmouseover="UpdateTooltip(this,7,34,event)" onfocus="UpdateTooltip(this,7,34,event)" onclick="return OnShapeClick(7,34,event);" onkeyup="OnShapeKey(7,34,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="鉴定负责人 提交鉴定意见书" origTitle="鉴定负责人 提交鉴定意见书" TITLE="鉴定负责人 提交鉴定意见书"  target="_top" COORDS="407,457,501,457,501,400,407,400,407,457" onmouseover="UpdateTooltip(this,7,32,event)" onfocus="UpdateTooltip(this,7,32,event)" onclick="return OnShapeClick(7,32,event);" onkeyup="OnShapeKey(7,32,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="进入鉴定流程" origTitle="进入鉴定流程" TITLE="进入鉴定流程"  target="_top" COORDS="284,457,378,457,378,400,284,400,284,457" onmouseover="UpdateTooltip(this,7,30,event)" onfocus="UpdateTooltip(this,7,30,event)" onclick="return OnShapeClick(7,30,event);" onkeyup="OnShapeKey(7,30,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="鉴定负责人 接收任务 指定鉴定协助人" origTitle="鉴定负责人 接收任务 指定鉴定协助人" TITLE="鉴定负责人 接收任务 指定鉴定协助人"  target="_top" COORDS="161,457,255,457,255,400,161,400,161,457" onmouseover="UpdateTooltip(this,7,27,event)" onfocus="UpdateTooltip(this,7,27,event)" onclick="return OnShapeClick(7,27,event);" onkeyup="OnShapeKey(7,27,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="科室分配任务" origTitle="科室分配任务" TITLE="科室分配任务"  target="_top" COORDS="0,457,95,457,95,400,0,400,0,457" onmouseover="UpdateTooltip(this,7,26,event)" onfocus="UpdateTooltip(this,7,26,event)" onclick="return OnShapeClick(7,26,event);" onkeyup="OnShapeKey(7,26,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="综合与委托方 签订委托确认书" origTitle="综合与委托方 签订委托确认书" TITLE="综合与委托方 签订委托确认书"  target="_top" COORDS="837,268,931,268,931,211,837,211,837,268" onmouseover="UpdateTooltip(this,7,23,event)" onfocus="UpdateTooltip(this,7,23,event)" onclick="return OnShapeClick(7,23,event);" onkeyup="OnShapeKey(7,23,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="综合代收检材 并通知科室" origTitle="综合代收检材 并通知科室" TITLE="综合代收检材 并通知科室"  target="_top" COORDS="687,353,782,353,782,296,687,296,687,353" onmouseover="UpdateTooltip(this,7,21,event)" onfocus="UpdateTooltip(this,7,21,event)" onclick="return OnShapeClick(7,21,event);" onkeyup="OnShapeKey(7,21,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="科室确认检材" origTitle="科室确认检材" TITLE="科室确认检材"  target="_top" COORDS="687,164,782,164,782,107,687,107,687,164" onmouseover="UpdateTooltip(this,7,19,event)" onfocus="UpdateTooltip(this,7,19,event)" onclick="return OnShapeClick(7,19,event);" onkeyup="OnShapeKey(7,19,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="" origTitle="" TITLE=""  target="_top" COORDS="687,240,735,268,782,240,735,211,687,240" onmouseover="UpdateTooltip(this,7,17,event)" onfocus="UpdateTooltip(this,7,17,event)" onclick="return OnShapeClick(7,17,event);" onkeyup="OnShapeKey(7,17,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="综合接收" origTitle="综合接收" TITLE="综合接收"  target="_top" COORDS="565,268,659,268,659,211,565,211,565,268" onmouseover="UpdateTooltip(this,7,15,event)" onfocus="UpdateTooltip(this,7,15,event)" onclick="return OnShapeClick(7,15,event);" onkeyup="OnShapeKey(7,15,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="委托方 打印委托书" origTitle="委托方 打印委托书" TITLE="委托方 打印委托书"  target="_top" COORDS="426,268,520,268,520,211,426,211,426,268" onmouseover="UpdateTooltip(this,7,10,event)" onfocus="UpdateTooltip(this,7,10,event)" onclick="return OnShapeClick(7,10,event);" onkeyup="OnShapeKey(7,10,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="" origTitle="" TITLE=""  target="_top" COORDS="426,136,473,164,520,136,473,107,426,136" onmouseover="UpdateTooltip(this,7,8,event)" onfocus="UpdateTooltip(this,7,8,event)" onclick="return OnShapeClick(7,8,event);" onkeyup="OnShapeKey(7,8,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="科室初审" origTitle="科室初审" TITLE="科室初审"  target="_top" COORDS="303,164,397,164,397,107,303,107,303,164" onmouseover="UpdateTooltip(this,7,6,event)" onfocus="UpdateTooltip(this,7,6,event)" onclick="return OnShapeClick(7,6,event);" onkeyup="OnShapeKey(7,6,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="" origTitle="" TITLE=""  target="_top" COORDS="123,136,170,164,218,136,170,107,123,136" onmouseover="UpdateTooltip(this,7,4,event)" onfocus="UpdateTooltip(this,7,4,event)" onclick="return OnShapeClick(7,4,event);" onkeyup="OnShapeKey(7,4,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="综合初审" origTitle="综合初审" TITLE="综合初审"  target="_top" COORDS="123,79,218,79,218,22,123,22,123,79" onmouseover="UpdateTooltip(this,7,2,event)" onfocus="UpdateTooltip(this,7,2,event)" onclick="return OnShapeClick(7,2,event);" onkeyup="OnShapeKey(7,2,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="委托方 填报委托信息" origTitle="委托方 填报委托信息" TITLE="委托方 填报委托信息"  target="_top" COORDS="0,79,95,79,95,22,0,22,0,79" onmouseover="UpdateTooltip(this,7,1,event)" onfocus="UpdateTooltip(this,7,1,event)" onclick="return OnShapeClick(7,1,event);" onkeyup="OnShapeKey(7,1,event);">
+</MAP>
+
+
+</DIV>
+</body>
+</html>
