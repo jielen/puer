@@ -50,7 +50,7 @@ public class GeneralFunc {
 	  public static void main(String[] args) {
 	    String name = "abcdefg";
 	    String s1 = GeneralFunc.encodePwd(name);
-	    String s2 = GeneralFunc.recodePwd("]K6prpqpsQV");
+	    String s2 = GeneralFunc.recodePwd("NZ.?ut");
 	    System.out.println(name);
 	    System.out.println(s1);
 	    System.out.println(s2);

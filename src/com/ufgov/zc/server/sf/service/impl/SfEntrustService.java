@@ -369,7 +369,7 @@ public SfEntrust saveFN(SfEntrust inData, RequestMeta requestMeta) {
     
     StringBuffer msg=new StringBuffer();
     if(ISfEntrustService.WF_OPERATION_UNTREAD.equals(wfOperation)){
-      msg.append(jgName2).append("您提交的").append(qx.getCode()).append(",").append(qx.getComment()).append(" 被").append(jgName).append("退回，").append(",请登录司法鉴定管理系统进行查看和处理。"); 
+      msg.append(jgName2).append("您提交的").append(qx.getCode()).append(",").append(qx.getComment()).append(" 被").append(jgName).append("退回").append(",请登录司法鉴定管理系统进行查看和处理。"); 
     }
     ZcSUtil su=new ZcSUtil();
     su.sendMsgToSjr(qx, msg.toString());

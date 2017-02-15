@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,10 +19,12 @@ import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
+import javax.swing.filechooser.FileSystemView;
 import javax.swing.table.TableModel;
 
 import org.apache.log4j.Logger;
@@ -56,6 +59,7 @@ import com.ufgov.zc.client.util.ListUtil;
 import com.ufgov.zc.client.zc.ZcUtil;
 import com.ufgov.zc.common.commonbiz.model.SearchCondition;
 import com.ufgov.zc.common.commonbiz.publish.IBaseDataServiceDelegate;
+import com.ufgov.zc.common.console.model.AsEmp;
 import com.ufgov.zc.common.sf.model.SfEntrust;
 import com.ufgov.zc.common.sf.model.SfZongheZhiban;
 import com.ufgov.zc.common.sf.publish.ISfEntrustServiceDelegate;
@@ -65,6 +69,7 @@ import com.ufgov.zc.common.system.constants.WFConstants;
 import com.ufgov.zc.common.system.dto.ElementConditionDto;
 import com.ufgov.zc.common.system.dto.PrintObject;
 import com.ufgov.zc.common.system.util.ObjectUtil;
+import com.ufgov.zc.common.util.EmpMeta;
 import com.ufgov.zc.common.zc.publish.IZcEbBaseServiceDelegate;
 
 /**
@@ -99,6 +104,8 @@ public class SfEntrustListPanel extends AbstractEditListBill implements ParentWi
   protected IZcEbBaseServiceDelegate zcEbBaseServiceDelegate;
   
   protected ISfZongheZhibanServiceDelegate sfZongheZhibanServiceDelegate;
+  
+  private  JLabel infoJLabel=new JLabel();
 
   public Window getParentWindow() {
 
@@ -282,6 +289,7 @@ public class SfEntrustListPanel extends AbstractEditListBill implements ParentWi
           //        SwingUtil.setTableCellRenderer(topDataDisplay.getActiveTableDisplay().getTable(), SfEntrust.COL_MAJOR_NAME, new AsValCellRenderer(SfMajor.SF_VS_MAJOR));
           //        setButtonsVisiable();
           setButtonStatus();
+          deleteGarbidge();
         }
 
       });
@@ -530,6 +538,8 @@ public class SfEntrustListPanel extends AbstractEditListBill implements ParentWi
     //    toolBar.add(deleteButton);
 
     toolBar.add(helpButton);
+    setInfoLabel(); 
+    toolBar.add(infoJLabel);
 
     //    toolBar.add(sendButton);//送审
 
@@ -609,24 +619,88 @@ public class SfEntrustListPanel extends AbstractEditListBill implements ParentWi
 
   }
 
+  private void setInfoLabel() {
+    List<SfZongheZhiban> zbLst=getZiBanInfo();
+    setInfoLabel(zbLst);
+  }
+
+  private void setInfoLabel(List<SfZongheZhiban> zbLst) {
+    if(zbLst==null || zbLst.size()==0){
+      infoJLabel.setText("当前无值班人信息.");
+      return;
+    }
+    ElementConditionDto dto=new ElementConditionDto();
+    for(int i=0;i<zbLst.size();i++){
+      SfZongheZhiban zb=zbLst.get(i);
+      dto.getPmAdjustCodeList().add(zb.getUserId());
+    }
+    if(dto.getPmAdjustCodeList().size()==0){
+      infoJLabel.setText("当前无值班人信息.");
+      return;
+    } 
+    List<AsEmp> empLst= zcEbBaseServiceDelegate.queryDataForList("AsEmp.getAsEmpLst", dto, requestMeta);
+
+    if(empLst==null || empLst.size()==0 ){
+      infoJLabel.setText("当前无值班人信息.");
+      return;
+    }
+    StringBuffer sb=new StringBuffer(),userNames=new StringBuffer(),phones=new StringBuffer();
+    for(int i=0;i<empLst.size();i++){
+      AsEmp emp=empLst.get(i);
+      if(userNames.length()>0){
+        userNames.append(" ");
+      }
+      userNames.append(emp.getEmpName());
+      if(phones.length()>0){
+        phones.append(" ");
+      }
+      phones.append(emp.getPhone()==null?"":emp.getPhone());
+    }
+    if(userNames.length()==0){
+      infoJLabel.setText("当前无值班人信息.");
+      return;      
+    }
+    if(phones.length()==0){
+      phones.append("暂无");
+    }
+    sb.append("【鉴定中心值班人】 ").append(userNames).append("  【电话】 ").append(phones);
+    infoJLabel.setText(sb.toString());
+  }
+
+  private List<SfZongheZhiban> getZiBanInfo() {
+
+    ElementConditionDto dto=new ElementConditionDto();
+    dto.setNd(requestMeta.getSvNd());
+    if(SfUtil.isWtf()){
+      dto.setCoCode("000");
+    }else{
+      dto.setCoCode(requestMeta.getSvCoCode());
+    }
+    List<SfZongheZhiban> zbLst=zcEbBaseServiceDelegate.queryDataForList("com.ufgov.zc.server.sf.dao.SfZongheZhibanMapper.selectCurrentZhiban", dto, requestMeta);
+     
+    return zbLst;
+  }
+
   /**
    * 综合受理是每天有人值班，进行办理相关的业务
    */
   protected void doZhiban() {
+    List<SfZongheZhiban> zbLst=getZiBanInfo();
     
-    
-    ElementConditionDto dto=new ElementConditionDto();
-    dto.setNd(requestMeta.getSvNd());
-    dto.setCoCode(requestMeta.getSvCoCode());
-    SfZongheZhiban zb=sfZongheZhibanServiceDelegate.getCurrent(dto, requestMeta);
-    if(zb!=null && zb.getUserId().equals(requestMeta.getSvUserID())){ 
-        JOptionPane.showMessageDialog(this, "您当前已经在值班了！", "提示", JOptionPane.INFORMATION_MESSAGE);
-        return; 
+    if(zbLst!=null && zbLst.size()>0){
+      
+      for(int i=0;i<zbLst.size();i++){
+        SfZongheZhiban zb=zbLst.get(i);
+        if(zb.getUserId().equals(requestMeta.getSvUserID())){
+          JOptionPane.showMessageDialog(this, "您当前已经在值班了！", "提示", JOptionPane.INFORMATION_MESSAGE);
+          return;           
+        }
+      }
     }
 
     int num = JOptionPane.showConfirmDialog(this, "您确定要值班吗", "确认", 0);
     if (num == JOptionPane.YES_OPTION) {
-      zb=new SfZongheZhiban();
+      SfZongheZhiban zb=new SfZongheZhiban();
       zb.setNd(requestMeta.getSvNd());
       zb.setCoCode(requestMeta.getSvCoCode());
       zb.setUserId(requestMeta.getSvUserID());
@@ -636,6 +710,7 @@ public class SfEntrustListPanel extends AbstractEditListBill implements ParentWi
       refreshCurrentTabData();
       zhibanBtn.setText("值班中");//值班
       zhibanBtn.setToolTipText("值班中"); 
+      setInfoLabel();
     }
     
     
@@ -855,4 +930,31 @@ public class SfEntrustListPanel extends AbstractEditListBill implements ParentWi
     return compoId;
   }
 
+  //删除桌面上因word原因导致产生的日志文件，文件名称类似hs_err_pid10204.log
+  void deleteGarbidge(){
+    FileSystemView fsv = FileSystemView.getFileSystemView();
+    File desktop=fsv.getHomeDirectory();    //这便是读取桌面路径的方法了
+    System.out.println(desktop.getPath()); 
+    boolean find=false;
+          File fa[] = desktop.listFiles();
+          for (int i = 0; i < fa.length; i++) {
+             File fs = fa[i];
+              if (!fs.isDirectory()) { 
+               if(fs.getName().startsWith("hs_err_") && fs.getName().endsWith("log")){
+                 System.out.println(fs.getName());
+                 find=true;
+                 try {
+                   fs.delete();
+                   
+                } catch (Exception e) {
+                  // TODO: handle exception
+                  logger.error(e.getMessage(), e);
+                }
+               }
+             }
+          }
+          if(find){
+           // desktop.notifyAll();
+          }
+  } 
 }

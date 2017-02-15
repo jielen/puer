@@ -38,7 +38,13 @@ public class SfJdDocAuditFinishWorkFlowLisenter extends SfJdDocAuditWorkFlowBasi
     String jgName="鉴定中心";
     if(jg!=null){
       jgName=jg.getName();
+      sb.append("【").append(jgName).append("】:");
     }
+    if(entrust.getEntrustor()!=null && entrust.getEntrustor().getName()!=null){
+      sb.append(entrust.getEntrustor().getName()).append(",");
+    }
+    sb.append("您好,");
+    sb.append(entrust.getCode()).append("【").append(entrust.getName()).append("】");
     sb.append(",已经完成鉴定，请携带《鉴定事项确认书》,在工作日时间到").append(jgName).append("领取鉴定意见书和相关材检材检样，谢谢。");
     su.sendMsgToSjr(entrust, sb.toString()); 
   }

@@ -1,48 +1,19 @@
 package com.ufgov.zc.client.common;
 
 import java.applet.Applet;
-import java.awt.Dimension;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.awt.Insets;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.KeyStroke;
-
 import com.ufgov.zc.common.commonbiz.model.Company;
-import com.ufgov.zc.common.commonbiz.model.Position;
-import com.ufgov.zc.common.console.model.AsEmp;
 import com.ufgov.zc.common.console.model.AsRole;
-import com.ufgov.zc.common.console.publish.IConsoleServiceDelegate;
 import com.ufgov.zc.common.system.RequestMeta;
-import com.ufgov.zc.common.system.dto.ElementConditionDto;
 import com.ufgov.zc.common.system.model.User;
-import com.ufgov.zc.common.util.EmpMeta;
-import com.ufgov.zc.common.zc.publish.IZcEbBaseServiceDelegate;
 
 public class WorkEnv {
 
@@ -52,19 +23,15 @@ public class WorkEnv {
 
   private java.util.Date transDate;
 
-  private java.util.Date sysDate = new Date();
+  private java.util.Date sysDate;
 
   private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
   private String webRoot = "";
 
-  private String webIp = "";
-
-  private String serviceRoot = "";
-
   private String root = "";
 
-  private String orgName;
+  private String serviceRoot = "";
 
   private String publish = "/publish";
 
@@ -72,11 +39,15 @@ public class WorkEnv {
 
   private String clientIP;
 
+  private String webIp;
+
   private User currUser;
 
   private Company currCompany;
 
   private String orgCode;
+
+  private String orgName;
 
   private String orgPoCode;
 
@@ -92,43 +63,17 @@ public class WorkEnv {
 
   private String empName;
 
-  private HashMap urlMap;
-
   private String roleId;
 
-  public String getRoot() {
-    return root;
-  }
+  private String roleCode;
 
-  public void setRoot(String root) {
-    this.root = root;
-  }
-
-  public String getOrgName() {
-    return orgName;
-  }
-
-  public void setOrgName(String orgName) {
-    this.orgName = orgName;
-  }
-
-  public String getRoleId() {
-    return roleId;
-  }
-
-  public void setRoleId(String roleId) {
-    this.roleId = roleId;
-  }
+  private HashMap urlMap;
 
   private Map attributes = new HashMap();
 
+  private List roles = new ArrayList();
+
   private static WorkEnv workEvn = new WorkEnv();
-
-  private WorkEnv self = this;
-
-  private List<AsRole> roles = new ArrayList<AsRole>();
-
-  private List empLst = new ArrayList();
 
   public RequestMeta getRequestMeta() {
 
@@ -142,38 +87,35 @@ public class WorkEnv {
       requestMeta.setSvCoName(this.currCompany.getName());
     }
     requestMeta.setSvOrgCode(this.orgCode);
+    requestMeta.setSvOrgName(this.orgName);
     requestMeta.setSvOrgPoCode(this.orgPoCode);
+    //      System.out.println("workEnv.getRequestMeta " + orgPoCode);
     requestMeta.setSvPoCode(this.poCode);
     requestMeta.setExpertCode(this.expertCode);
     requestMeta.setExpertName(this.expertName);
-    requestMeta.setEmpCode(empCode);
-    requestMeta.setEmpName(empName);
+    requestMeta.setEmpCode(this.empCode);
+    requestMeta.setEmpName(this.empName);
 
     if (this.currUser != null) {
       requestMeta.setSvUserID(this.currUser.getUserId());
       requestMeta.setSvUserName(this.currUser.getUserName());
     }
     requestMeta.setAccountId(accountId);
-    requestMeta.setTransDate(Calendar.getInstance().getTime());
-    requestMeta.setSysDate(Calendar.getInstance().getTime());
+    requestMeta.setTransDate(transDate);
+    requestMeta.setSysDate(sysDate);
     requestMeta.setSvCoTypeCode(this.getCurrCoTypeCode());
-
     requestMeta.setUrlMap(urlMap);
-
-    requestMeta.setRoles(roles);
+    //		requestMeta.setSvRoleId(roleId);
+    requestMeta.setRoles(this.roles);
 
     return requestMeta;
   }
 
   private WorkEnv() {
-    this.currUser = new User();
 
   }
 
   public static WorkEnv getInstance() {
-    if (workEvn.getCurrUser().getUserId() == null) {
-      loginWin();
-    }
     return workEvn;
   }
 
@@ -205,12 +147,12 @@ public class WorkEnv {
     }
   }
 
-  public String getWebIp() {
-    return webIp;
+  public String getRoot() {
+    return root;
   }
 
-  public void setWebIp(String webIp) {
-    this.webIp = webIp;
+  public void setRoot(String root) {
+    this.root = root;
   }
 
   public User getCurrUser() {
@@ -279,7 +221,7 @@ public class WorkEnv {
     try {
       this.transDate = this.dateFormat.parse(transDateString);
     } catch (ParseException e) {
-      throw new RuntimeException(e.getMessage(), e);
+      throw new RuntimeException("会话停顿时间超限，当前操作失败。请重新登录！", new Exception("会话停顿时间超限，当前操作失败。请重新登录！"));
     }
   }
 
@@ -432,231 +374,39 @@ public class WorkEnv {
     this.urlMap = urlMap;
   }
 
-  private static void initSa() {
-    workEvn.currUser.setUserId("sa");
-    workEvn.currUser.setUserName("aa");
-    workEvn.currCompany = new Company();
-    workEvn.currCompany.setCoTypeCode("01");
-    workEvn.currCompany.setCode("000");
-    // this.currCompany.setName("100name");
-    workEvn.orgCode = "002";
-    workEvn.poCode = "P_WTSL";
-    workEvn.orgPoCode = "003007";
-    workEvn.token = "" + System.currentTimeMillis();
-
-    workEvn.setTransDate("2017-10-22");
-    workEvn.setEmpCode("EM-00000286");
-    workEvn.setEmpName("冯希杰");
-    workEvn.setSysDate(new java.util.Date());
-    AsRole role = new AsRole();
-    role.setRoleId("ysdwjb");
-    workEvn.getRoles().add(role);
-    workEvn.setWebRoot("http://127.0.0.1:7001/GB/");
-    workEvn.setWebIp("http://127.0.0.1:7001");
-    workEvn.setEmpLst(initEmpLst());
-
-    EmpMeta.setEmpLst(workEvn.getEmpLst());
+  public String getRoleId() {
+    return roleId;
   }
 
-  private static List initEmpLst() {
-    // TCJLODO Auto-generated method stub
-
-    IZcEbBaseServiceDelegate baseDataServiceDelegate = (IZcEbBaseServiceDelegate) ServiceFactory.create(IZcEbBaseServiceDelegate.class,
-      "zcEbBaseServiceDelegate");
-
-    RequestMeta requestMeta = new RequestMeta();
-    requestMeta.setToken("ss");
-    requestMeta.setSvUserID("sss");
-    List emps = baseDataServiceDelegate.queryDataForList("AsEmp.getAsEmp", null, requestMeta);
-    return emps;
+  public void setRoleId(String roleId) {
+    this.roleId = roleId;
   }
 
-  public static String getUserName(String userId) {
-    RequestMeta requestMeta = new RequestMeta();
-    requestMeta.setToken("ss");
-    requestMeta.setSvUserID("sss");
-
-    IZcEbBaseServiceDelegate baseDataServiceDelegate = (IZcEbBaseServiceDelegate) ServiceFactory.create(IZcEbBaseServiceDelegate.class,
-      "zcEbBaseServiceDelegate");
-    Map parameter2 = new HashMap();
-    parameter2.put("userId", userId);
-    List userlist = baseDataServiceDelegate.queryDataForList("User.getUserByIdByMap", parameter2, requestMeta);
-    if (userlist == null || userlist.size() == 0) {
-      // JOptionPane.showMessageDialog(dialog, "【" + userId +
-      // "】没有对应的as_user记录，用户名错误！", " 提示",
-      // JOptionPane.INFORMATION_MESSAGE);
-      return null;
-    }
-    com.ufgov.zc.common.system.model.User user = (User) userlist.get(0);
-    return user.getUserName();
+  public String getRoleCode() {
+    return roleCode;
   }
 
-  public static void loginWin() {
-    if ("sss1".equals(workEvn.getToken())) {
-      return;
-    }
-    final JDialog dialog = new JDialog();
-    dialog.setTitle("UFGOV-WorkEnv bate2.1 ");
-    JPanel panel = new JPanel();
-    final DefaultComboBoxModel model = new DefaultComboBoxModel(new String[] { "sa", "chenh", "shif", "zhangsj", "yanh", "lij" });
-    final JLabel userNameLabel = new JLabel();
-    userNameLabel.setText("系统管理员");
-    final JComboBox field = new JComboBox(model);
-    field.setPreferredSize(new Dimension(120, 25));
-    field.setEditable(true);
-    field.getEditor().selectAll();
-
-    final JButton button = new JButton("login");
-
-    panel.add(userNameLabel);
-    panel.add(field);
-    panel.add(button);
-    dialog.add(panel);
-    dialog.setSize(UIConstants.DIALOG_4_LEVEL_WIDTH, UIConstants.DIALOG_4_LEVEL_HEIGHT);
-    dialog.setModal(true);
-    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    Dimension frameSize = dialog.getSize();
-
-    GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-    GraphicsDevice gs = ge.getDefaultScreenDevice();
-    GraphicsConfiguration gc = gs.getDefaultConfiguration();
-    Insets insets = Toolkit.getDefaultToolkit().getScreenInsets(gc);
-
-    if (frameSize.height > screenSize.height) {
-      frameSize.height = screenSize.height;
-    }
-    if (frameSize.width > screenSize.width) {
-      frameSize.width = screenSize.width;
-    }
-    dialog.setLocation((screenSize.width - frameSize.width) / 2, (screenSize.height - insets.bottom - frameSize.height) / 2);
-    button.registerKeyboardAction(button.getActionForKeyStroke(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0, true)),
-      KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, true), JComponent.WHEN_FOCUSED);
-
-    field.addItemListener(new ItemListener() {
-      @Override
-      public void itemStateChanged(ItemEvent e) {
-        // TCJLODO Auto-generated method stub
-        if (e.getStateChange() == ItemEvent.SELECTED) {
-          JComboBox jcb = (JComboBox) e.getSource();
-          String userId = (String) (jcb.getSelectedItem());
-          String userName = getUserName(userId);
-          userNameLabel.setText(userName == null ? "" : userName);
-        }
-      }
-
-    });
-
-    field.getEditor().getEditorComponent().addKeyListener(new KeyListener() {
-      public void keyPressed(KeyEvent keyEvent) {
-        if (keyEvent.getKeyCode() == KeyEvent.VK_ENTER) {
-          button.doClick();
-        }
-      }
-
-      @Override
-      public void keyReleased(KeyEvent e) {
-        // TCJLODO Auto-generated method stub
-        String userId = (String) (field.getEditor().getItem());
-        String userName = getUserName(userId);
-        userNameLabel.setText(userName == null ? "" : userName);
-      }
-
-      @Override
-      public void keyTyped(KeyEvent e) {
-        // TCJLODO Auto-generated method stub
-
-      }
-    });
-
-    button.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent arg0) {
-        RequestMeta requestMeta = new RequestMeta();
-        requestMeta.setToken("ss");
-        requestMeta.setSvUserID("sss");
-
-        String userId = field.getEditor().getItem().toString();
-
-        if ("sa".equals(userId)) {
-          initSa();
-          dialog.dispose();
-          return;
-        }
-        IZcEbBaseServiceDelegate baseDataServiceDelegate = (IZcEbBaseServiceDelegate) ServiceFactory.create(IZcEbBaseServiceDelegate.class,
-          "zcEbBaseServiceDelegate");
-        Map parameter2 = new HashMap();
-        parameter2.put("userId", userId);
-        List userlist = baseDataServiceDelegate.queryDataForList("User.getUserByIdByMap", parameter2, requestMeta);
-        if (userlist == null || userlist.size() == 0) {
-          JOptionPane.showMessageDialog(dialog, "【" + userId + "】没有对应的as_user记录，用户名错误！", " 提示", JOptionPane.INFORMATION_MESSAGE);
-          return;
-        }
-        com.ufgov.zc.common.system.model.User user = (User) userlist.get(0);
-
-        ElementConditionDto dto = new ElementConditionDto();
-        dto.setExtField1(userId);
-        List empList = baseDataServiceDelegate.getForeignEntitySelectedData("AsEmp.getProviderInfoByUserId", dto, requestMeta);
-        if (empList == null || empList.size() == 0) {
-          JOptionPane.showMessageDialog(dialog, "【" + userId + "】没有找到对应的as_emp记录！", " 提示", JOptionPane.INFORMATION_MESSAGE);
-          return;
-        }
-        AsEmp asEmp = (AsEmp) empList.get(0);
-
-        Map parameter = new HashMap();
-        parameter.put("EMP_CODE", asEmp.getEmpCode());
-        parameter.put("ND", "2017");
-        List list = baseDataServiceDelegate.queryDataForList("User.getAsEmpPosiByEmpCode", parameter, requestMeta);
-
-        if (list == null || list.size() == 0) {
-          JOptionPane.showMessageDialog(dialog, "【" + asEmp.getEmpCode() + "】as_emp_position对应的记录！", " 提示", JOptionPane.INFORMATION_MESSAGE);
-          return;
-        } else {
-
-          Position po = (Position) list.get(0);
-
-          Map paramete3 = new HashMap();
-          paramete3.put("CO_CODE", po.getCoCode());
-          paramete3.put("ORG_CODE", po.getOrgCode());
-          paramete3.put("POSI_CODE", po.getPosiCode());
-          paramete3.put("ND", "2017");
-
-          List orglist = baseDataServiceDelegate.queryDataForList("WfCommonDraft.getOrgPosiId", paramete3, requestMeta);
-          if (orglist == null || orglist.size() == 0) {
-            JOptionPane.showMessageDialog(dialog, "【" + paramete3 + "】as_org_position 没有对应数据！", " 提示", JOptionPane.INFORMATION_MESSAGE);
-            return;
-          }
-          String org_posi_id = (String) orglist.get(0);
-
-          workEvn.getCurrUser().setUserId(po.getEmpCode());
-          workEvn.currUser.setUserName(user.getUserName());
-          workEvn.currCompany = new Company();
-          workEvn.currCompany.setCoTypeCode("01");
-          workEvn.currCompany.setCode(po.getCoCode());
-          workEvn.orgCode = po.getOrgCode();
-          workEvn.poCode = po.getPosiCode();
-          workEvn.orgPoCode = org_posi_id;
-          workEvn.setToken("" + System.currentTimeMillis());
-          workEvn.setTransDate("2017-06-01");
-          workEvn.setEmpCode(po.getEmpCode());
-          workEvn.setEmpName(user.getUserName());
-          workEvn.setWebRoot("http://127.0.0.1:7001/GB/");
-          workEvn.setWebIp("http://127.0.0.1:7001");
-          IConsoleServiceDelegate consoleServiceDelegate = (IConsoleServiceDelegate) ServiceFactory.create(IConsoleServiceDelegate.class,
-            "consoleServiceDelegate");
-          List<AsRole> roles = consoleServiceDelegate.getAsRoleByPosi(po.getPosiCode(), requestMeta);
-
-          workEvn.setRoles(roles);
-          workEvn.setEmpLst(initEmpLst());
-          EmpMeta.setEmpLst(workEvn.getEmpLst());
-
-          dialog.dispose();
-        }
-
-      }
-    });
-    dialog.setVisible(true);
+  public void setRoleCode(String roleCode) {
+    this.roleCode = roleCode;
   }
 
-  public List<AsRole> getRoles() {
+  public String getOrgName() {
+    return orgName;
+  }
+
+  public void setOrgName(String orgName) {
+    this.orgName = orgName;
+  }
+
+  public String getWebIp() {
+    return webIp;
+  }
+
+  public void setWebIp(String webIp) {
+    this.webIp = webIp;
+  }
+
+  public List getRoles() {
     return roles;
   }
 
@@ -668,28 +418,10 @@ public class WorkEnv {
     if (this.roles != null) {
       for (int i = 0; i < roles.size(); i++) {
         AsRole role = (AsRole) roles.get(i);
-        if (role.getRoleId() != null && role.getRoleId().equals(roleCode)) {
-          return true;
-        }
+        if (role.getRoleId() != null && role.getRoleId().equals(roleCode)) { return true; }
       }
     }
     return false;
-  }
-
-  // public String getRoleCode() {
-  // return roleCode;
-  // }
-  //
-  // public void setRoleCode(String roleCode) {
-  // this.roleCode = roleCode;
-  // }
-
-  public List getEmpLst() {
-    return empLst;
-  }
-
-  public void setEmpLst(List empLst) {
-    this.empLst = empLst;
   }
 
 }
