@@ -728,7 +728,7 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 
 		exitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				doExit();
+				doExit(false);
 			}
 		});
 
@@ -999,7 +999,7 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 				JOptionPane.showMessageDialog(this, "删除成功！", "提示",
 						JOptionPane.INFORMATION_MESSAGE);
 				refreshListPanel();
-				doExit();
+				doExit(true);
 			} else {
 				JOptionPane.showMessageDialog(this, "删除失败 ！\n" + errorInfo,
 						"错误", JOptionPane.ERROR_MESSAGE);
@@ -2179,10 +2179,10 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 		return this.tabPane;
 	}
 
-	public void doExit() {
+	public void doExit(boolean isDelete) {
 		// TCJLODO Auto-generated method stub
 
-		if (isDataChanged()) {
+		if (!isDelete&&isDataChanged()) {
 
 			int num = JOptionPane.showConfirmDialog(this, "当前页面数据已修改，是否要保存",
 					"保存确认", 0);

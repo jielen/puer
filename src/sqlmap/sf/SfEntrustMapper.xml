@@ -378,7 +378,7 @@
 				and SF_ENTRUST.STATUS ='0'
 			</isEqual>
 			<isEqual property="status" compareValue="other">
-				(SF_ENTRUST.STATUS in ('pause','stop','expire','exec') or SF_ENTRUST.IS_ACCEPT='N')
+				(SF_ENTRUST.STATUS in ('pause','stop','expire','exec','zhuansong') or SF_ENTRUST.IS_ACCEPT='N')
 			</isEqual>
 			<isEqual property="status" compareValue="exec">
 				(SF_ENTRUST.STATUS='exec')

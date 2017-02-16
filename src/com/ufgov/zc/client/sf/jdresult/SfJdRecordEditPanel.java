@@ -895,7 +895,7 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 
 	    exitButton.addActionListener(new ActionListener() {
 	      public void actionPerformed(ActionEvent e) {
-	        doExit();
+	        doExit(false);
 	      }
 	    });
 
@@ -1027,7 +1027,7 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 	      JOptionPane.showMessageDialog(this, "保存成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
 	      refreshListPanel();
 	      refreshMainData();
-	      updateBtnFields();
+//	      updateBtnFields();
 	      updateDataFlowDialog();
 	    } else {
 	      JOptionPane.showMessageDialog(this, "保存失败 ！\n" + errorInfo, "错误", JOptionPane.ERROR_MESSAGE);
@@ -1146,7 +1146,7 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 	        this.listCursor.removeCurrentObject();
 	        JOptionPane.showMessageDialog(this, "删除成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
 	        refreshListPanel();
-	        doExit();
+	        doExit(true);
 	      } else {
 	        JOptionPane.showMessageDialog(this, "删除失败 ！\n" + errorInfo, "错误", JOptionPane.ERROR_MESSAGE);
 	      }
@@ -2196,10 +2196,10 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 //		  return recordFileTabPan;
 	  }
 
-	  public void doExit() {
+	  public void doExit(boolean isDelete) {
 	    // TCJLODO Auto-generated method stub
 
-	    if (isDataChanged()) {
+	    if (!isDelete&&isDataChanged()) {
 
 	      int num = JOptionPane.showConfirmDialog(this, "当前页面数据已修改，是否要保存", "保存确认", 0);
 

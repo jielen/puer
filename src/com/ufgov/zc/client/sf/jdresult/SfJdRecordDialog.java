@@ -73,7 +73,7 @@ public class SfJdRecordDialog extends GkBaseDialog {
 	  @Override
 	  public void closeDialog() {
 
-	    this.editPanel.doExit();
+	    this.editPanel.doExit(false);
 
 	  }
 
