@@ -27,6 +27,8 @@ public class SfMaterials extends ZcBaseBill {
   public static final String COL_SAVE_CONDITON="SF_MATERIALS_SAVE_CONDITON"; // 存储条件
   public static final String COL_UNIT="SF_MATERIALS_UNIT"; // 单位
   public static final String COL_TQ_INFO="SF_MATERIALS_TQ_INFO"; // 检材提取位置说明
+  public static final String COL_TIQU_FILE="SF_MATERIALS_TIQU_FILE"; // 提取文件
+  public static final String COL_TIQU_FILE_BLOBID="SF_MATERIALS_TIQU_FILE_BLOBID"; // 提取文件ID
 
   
 //  public static final String COL_ATTACH_FILE="SF_MATERIALS_ATTACH_FILE"; // 文件
@@ -88,6 +90,10 @@ public class SfMaterials extends ZcBaseBill {
   private String saveAddress;
   private String barCode;
   
+  private String tiquFile;
+  private String tiquFileBlobid;
+  
+
 
 private BigDecimal appendMaterialId;
   
@@ -316,6 +322,40 @@ public void setBianhao(String bianhao) {
 	  return sb.toString();
   }
 
+  /**
+   * 返回 编号、名称、数据、单位，数量和名称间没有空格
+   * @return
+   */
+  public String toStringSimple(){
+    StringBuffer sb=new StringBuffer();
+/*    if("1".equals(materialType)){
+      sb.append("检材");
+    }else if("2".equals(materialType)){
+      sb.append("样本");
+    }
+    if(sb.length()>0){
+      sb.append(": ");
+    }*/
+    if(getBianhao()!=null){
+      sb.append(getBianhao()).append("、");
+    }
+    if(getDescription()!=null){
+      sb.append(getDescription());
+    }
+    if(getName()!=null){
+      sb.append(getName());
+    }
+    if(getQuantity3()!=null){
+      sb.append(getQuantity3()).append("");
+    }
+    if(getUnit()!=null){
+      sb.append(getUnit()).append(" ");
+    }
+    /*if(getDescription()!=null){
+      sb.append(getDescription()).append(" ");
+    }*/
+    return sb.toString();
+  }
 public BigDecimal getAppendMaterialId() {
 	return appendMaterialId;
 }
@@ -395,5 +435,20 @@ public String getTqInfo() {
 public void setTqInfo(String tqInfo) {
   this.tqInfo = tqInfo;
 }
- 
+
+public String getTiquFile() {
+    return tiquFile;
+  }
+
+  public void setTiquFile(String tiquFile) {
+    this.tiquFile = tiquFile;
+  }
+
+  public String getTiquFileBlobid() {
+    return tiquFileBlobid;
+  }
+
+  public void setTiquFileBlobid(String tiquFileBlobid) {
+    this.tiquFileBlobid = tiquFileBlobid;
+  }
 }

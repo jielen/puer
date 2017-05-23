@@ -427,4 +427,23 @@ public class SfUtil {
      
    return m.matches();  
  }
+ /**
+  * 将单名的姓名中间加入两个空格，如张三 变成 张  三
+  * @param name
+  * @return
+  */
+ public static String getPersonName(String name){
+   if(name==null)return null;
+   if(name.length()>2 || name.length()<2)return name; 
+    
+    String str1="",str2="";
+    str1=name.substring(0, 1);
+    str2=name.substring(1, 2);
+
+   return str1+"  "+str2; 
+ }
+ public static void main(String[] args) {
+   
+   SfUtil.getPersonName("张三");
+ }
 }

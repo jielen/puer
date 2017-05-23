@@ -17,7 +17,9 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +40,8 @@ import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
 
 import org.apache.log4j.Logger;
+ 
+
 
 import com.ufgov.smartclient.common.UIUtilities;
 import com.ufgov.zc.client.common.BillElementMeta;
@@ -1878,9 +1882,11 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 		ElementConditionDto dto=new ElementConditionDto();
 		dto.setDattr1(SfJdRecordFileModel.SF_VS_JD_FILE_MODEL_DOC_TYPE_RECORD);
 		List modelLst=zcEbBaseServiceDelegate.queryDataForList("com.ufgov.zc.server.sf.dao.SfJdRecordFileModelMapper.getModelFileMenuItem", dto, requestMeta);
+		Hashtable<String, JMenu> menuGroups=new Hashtable<String, JMenu>();
 		for(int i=0;i<modelLst.size();i++){
 			Map m=(Map) modelLst.get(i);
 			String name=(String) m.get("MENUITEMNAME"); 
+			String groupName=(String)m.get("MAJOR_NAME");
 			SfJdRecordFileModel md=new SfJdRecordFileModel();
 			md.setFileId((String) m.get("FILE_ID"));
 			md.setFileType((String) m.get("FILE_TYPE"));
@@ -1898,8 +1904,23 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 					insertFileModel(item.getText());
 				}
 			}); 
-			  menuInsertModel.add(item); 
+			  if(groupName==null || groupName.length()==0){
+			    menuInsertModel.add(item); 
+			  }else{
+			    if(menuGroups.containsKey(groupName)){
+			      menuGroups.get(groupName).add(item);
+			    }else{
+			      JMenu child=new JMenu(groupName);
+			      child.add(item);
+			      menuGroups.put(groupName, child);
+			    }
+			  }
 		}
+		Enumeration childs=menuGroups.elements();
+		while(childs.hasMoreElements()){
+		  menuInsertModel.add((JMenuItem) childs.nextElement());
+		}
+		
 	}
 
 	protected void insertFileModel(String menuText) {

@@ -11,6 +11,8 @@ import org.apache.commons.beanutils.BeanUtils;
 
 import com.kingdrive.workflow.context.WorkflowContext;
 import com.kingdrive.workflow.model.TaskUser;
+import com.kingdrive.workflow.model.runtime.ActionHistoryModel;
+import com.kingdrive.workflow.model.runtime.CurrentTaskModel;
 import com.ufgov.zc.common.sf.exception.SfBusinessException;
 import com.ufgov.zc.common.sf.model.SfChargeDetail;
 import com.ufgov.zc.common.sf.model.SfEntrust;
@@ -433,6 +435,9 @@ public SfEntrust saveFN(SfEntrust inData, RequestMeta requestMeta) {
     //获取用户名称和和电话号码
     ElementConditionDto dto=new ElementConditionDto();
     dto.getPmAdjustCodeList().clear();
+    if(users.size()==0){
+      users.add("kongyonghu");//这里加上这个空用户，是为了防止这个列表为空时，后台会忽略这个条件，将全部用户搜出来
+    }
     dto.getPmAdjustCodeList().addAll(users);
     dto.setDattr1("havePhone");
     List userLst=zcEbBaseService.queryDataForList("AsEmp.getAsEmpLst", dto);
@@ -485,6 +490,9 @@ public SfEntrust saveFN(SfEntrust inData, RequestMeta requestMeta) {
     //获取用户名称和和电话号码
     ElementConditionDto dto=new ElementConditionDto();
     dto.getPmAdjustCodeList().clear();
+    if(users.size()==0){
+      users.add("kongyonghu");//这里加上这个空用户，是为了防止这个列表为空时，后台会忽略这个条件，将全部用户搜出来
+    }
     dto.getPmAdjustCodeList().addAll(users);
     dto.setDattr1("havePhone");
     List userLst=zcEbBaseService.queryDataForList("AsEmp.getAsEmpLst", dto);
@@ -563,10 +571,12 @@ public SfEntrust auditFN(SfEntrust qx, RequestMeta requestMeta) throws Exception
       RequestMeta newMeta=(RequestMeta) BeanUtils.cloneBean(requestMeta);
       newMeta.setSvUserID(SfElementConstants.KESHI_SHOULI); 
       context=wfEngineAdapter.commit(qx.getComment(), qx, newMeta);
+      _saveSfWfHistory(context.getHistoryModel(),requestMeta);
     }else if(instanceId3!=null || instanceId4!=null){
       RequestMeta newMeta=(RequestMeta) BeanUtils.cloneBean(requestMeta);
       newMeta.setSvUserID(SfElementConstants.ZONGHE_SHOULI); 
       context=wfEngineAdapter.commit(qx.getComment(), qx, newMeta);
+      _saveSfWfHistory(context.getHistoryModel(),requestMeta);
     }else{    
       context=wfEngineAdapter.commit(qx.getComment(), qx, requestMeta);
     }
@@ -577,6 +587,17 @@ public SfEntrust auditFN(SfEntrust qx, RequestMeta requestMeta) throws Exception
      return rtn;
   }
 
+/**
+ * 以综合受理、科室受理角色操作时，记录对应的实际操作人
+ * @param currentTaskModel
+ * @param requestMeta
+ */
+private void _saveSfWfHistory(ActionHistoryModel history, RequestMeta requestMeta) {
+  if(history==null)return;
+  history.setExecutor(requestMeta.getSvUserID()); 
+  history.setOwner(requestMeta.getSvUserID());
+  zcEbBaseService.insertObject("com.ufgov.zc.server.sf.dao.SfEntrustMapper.insert_sf_ActionHistory", history);
+}
 
 public SfEntrust newCommitFN(SfEntrust bill, RequestMeta requestMeta) {
     // TCJLODO Auto-generated method stub

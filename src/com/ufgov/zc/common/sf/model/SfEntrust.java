@@ -218,10 +218,15 @@ public class SfEntrust extends ZcBaseBill {
 	public static final String COL_ANJIAN_CODE="SF_ENTRUST_ANJIAN_CODE"; // 案件编号
   public static final String COL_CO_CODE="SF_ENTRUST_CO_CODE"; // 鉴定中心
 
-	public static final String BKMK_MATERIALS = "BKMK_MATERIALS";// 检材样板
-	
+	public static final String BKMK_MATERIALS = "BKMK_MATERIALS";// 检材样本
+
+  public static final String BKMK_MATERIALS_SIMPLE = "BKMK_MATERIALS_SIMPLE";// 检材样本简版
+  
 	public static final String BKMK_SF_ENTRUST_JD_FHR_ZSBH = "SF_ENTRUST_JD_FHR_ZSBH";// 鉴定复核人证书编号
 	public static final String BKMK_SF_ENTRUST_JD_FZR_ZSBH = "SF_ENTRUST_JD_FZR_ZSBH";// 鉴定负责人证书编号
+	
+  public static final String BKMK_SF_ENTRUST_JD_FHR_ZC = "SF_ENTRUST_JD_FHR_ZC";// 鉴定复核人职称
+  public static final String BKMK_SF_ENTRUST_JD_FZR_ZC = "SF_ENTRUST_JD_FZR_ZC";// 鉴定负责人职称
 	
 //鉴定文书号
   private String reportCode;

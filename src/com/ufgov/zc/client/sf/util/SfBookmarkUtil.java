@@ -133,6 +133,16 @@ public class SfBookmarkUtil {
 		bk.setName(SfEntrust.COL_ACCEPT_DATE);
 		bk.setValue(bill.getAcceptDate() == null ? "  年    月   日" : DateUtil.dateToChinaString(bill.getAcceptDate()));
 		rtn.add(bk);
+    
+    bk=new SfBookmark();
+    bk.setName(SfEntrust.COL_ACCEPT_DATE+"2");
+    bk.setValue(bill.getAcceptDate() == null ? "  年    月   日" : DateUtil.dateToChinaString(bill.getAcceptDate()));
+    rtn.add(bk);
+    
+    bk=new SfBookmark();
+    bk.setName(SfEntrust.COL_ACCEPT_DATE+"3");
+    bk.setValue(bill.getAcceptDate() == null ? "  年    月   日" : DateUtil.dateToChinaString(bill.getAcceptDate()));
+    rtn.add(bk);
 		
 		bk=new SfBookmark();
 		bk.setName(SfEntrust.COL_INPUTOR);
@@ -166,14 +176,29 @@ public class SfBookmarkUtil {
 		
 		bk=new SfBookmark();
 		bk.setName(SfEntrust.COL_JD_FZR);
-		bk.setValue(bill.getJdFzrName());
+		bk.setValue(SfUtil.getPersonName(bill.getJdFzrName()));
 		rtn.add(bk);
+		
+    bk=new SfBookmark();
+    bk.setName(SfEntrust.COL_JD_FZR+"2");
+    bk.setValue(SfUtil.getPersonName(bill.getJdFzrName()));
+    rtn.add(bk);
 		
 		bk=new SfBookmark();
 		bk.setName(SfEntrust.COL_JD_FHR);
-		bk.setValue(bill.getJdFhrName());
+		bk.setValue(SfUtil.getPersonName(bill.getJdFhrName()));
 		rtn.add(bk);
-		
+
+    bk=new SfBookmark();
+    bk.setName(SfEntrust.COL_JD_FHR+"2");
+    bk.setValue(SfUtil.getPersonName(bill.getJdFhrName()));
+    rtn.add(bk);
+    
+    bk=new SfBookmark();
+    bk.setName(SfEntrust.COL_ANJIAN_CODE);
+    bk.setValue(bill.getAnjianCode());
+    rtn.add(bk);
+    
 		bk=new SfBookmark();
 		bk.setName(SfEntrust.COL_JD_HISTORY);
 		bk.setValue(bill.getJdHistory());
@@ -253,7 +278,13 @@ public class SfBookmarkUtil {
 		bk.setName(SfEntrust.BKMK_MATERIALS);
 		bk.setValue(getJdclString(bill));
 		rtn.add(bk);
-		
+
+
+    bk=new SfBookmark();
+    bk.setName(SfEntrust.BKMK_MATERIALS_SIMPLE);
+    bk.setValue(getJdclSimpleString(bill));
+    rtn.add(bk);
+    
 		SfJdPerson fzr=getJdPerson(bill.getJdFzr());
 		String zfbh="";
 		if(fzr!=null && fzr.getCertificateNo()!=null){
@@ -263,6 +294,15 @@ public class SfBookmarkUtil {
 		bk.setName(SfEntrust.BKMK_SF_ENTRUST_JD_FZR_ZSBH);
 		bk.setValue(zfbh);
 		rtn.add(bk);
+
+    String zc="";
+    if(fzr!=null && fzr.getTechTitle()!=null){
+      zc=fzr.getTechTitle();
+    }
+    bk=new SfBookmark();
+    bk.setName(SfEntrust.BKMK_SF_ENTRUST_JD_FZR_ZC);
+    bk.setValue(zc);
+    rtn.add(bk);
 		
 		SfJdPerson fhr=getJdPerson(bill.getJdFhr());
 		zfbh="";
@@ -273,6 +313,15 @@ public class SfBookmarkUtil {
 		bk.setName(SfEntrust.BKMK_SF_ENTRUST_JD_FHR_ZSBH);
 		bk.setValue(zfbh);
 		rtn.add(bk);
+		
+		zc="";
+    if(fhr!=null && fhr.getTechTitle()!=null){
+      zc=fhr.getTechTitle();
+    }   
+    bk=new SfBookmark();
+    bk.setName(SfEntrust.BKMK_SF_ENTRUST_JD_FHR_ZC);
+    bk.setValue(zc);
+    rtn.add(bk);
 		
 		
 		return rtn;
@@ -409,7 +458,18 @@ public class SfBookmarkUtil {
 		bk.setName("JGMC2");
 		bk.setValue(jdjg.getName());
 		rtn.add(bk);
-		
+    
+    bk=new SfBookmark();
+    bk.setName("JGMC3");
+    bk.setValue(jdjg.getName());
+    rtn.add(bk);
+    
+    bk=new SfBookmark();
+    bk.setName("JGMC4");
+    bk.setValue(jdjg.getName());
+    rtn.add(bk);
+    
+    
 		bk=new SfBookmark();
 		bk.setName("JGMC_ENG");
 		bk.setValue(jdjg.getEnName());
@@ -424,7 +484,12 @@ public class SfBookmarkUtil {
 		bk.setName("JGDH");
 		bk.setValue(jdjg.getTel());
 		rtn.add(bk);
-		
+
+    bk=new SfBookmark();
+    bk.setName("JGDH2");
+    bk.setValue(jdjg.getTel());
+    rtn.add(bk);
+    
 		bk=new SfBookmark();
 		bk.setName("JG_LINK_MAN");
 		bk.setValue(jdjg.getLinkMan());
@@ -434,11 +499,21 @@ public class SfBookmarkUtil {
 		bk.setName("JGDZ");
 		bk.setValue(jdjg.getAddress());
 		rtn.add(bk);
+
+    bk=new SfBookmark();
+    bk.setName("JGDZ2");
+    bk.setValue(jdjg.getAddress());
+    rtn.add(bk);
 		
 		bk=new SfBookmark();
 		bk.setName("JGYB");
 		bk.setValue(jdjg.getZip());
 		rtn.add(bk);
+
+    bk=new SfBookmark();
+    bk.setName("JGYB2");
+    bk.setValue(jdjg.getZip());
+    rtn.add(bk);
 		
 		bk=new SfBookmark();
 		bk.setName("JG_FAX");
@@ -497,21 +572,75 @@ public class SfBookmarkUtil {
         }
      
       }
-       if(sb.length()>0){
-       sb.append("\n");
-     }
+      
+      if(sb.length()>0){
+        sb.append("\n");
+       }
      sb.append(jcSb.toString());
-     if(sb.length()>0){
-       sb.append("\n");
-     }
+     
+     if(ybSb.length()>0){
+       if(sb.length()>0){
+         sb.append("\n");
+       }
        sb.append(ybSb.toString()); 
-       
+     }       
        return sb.toString();
   }
+
+  public static String getJdclSimpleString(List materials){
+
+    StringBuffer sb = new StringBuffer();
+    if(materials==null){
+      return null;
+    } 
+      StringBuffer jcSb=new StringBuffer();
+      StringBuffer ybSb=new StringBuffer(); 
+      for (int i = 0; i < materials.size(); i++) {
+        //先分出检材和样本，如果没有，就混在一起
+        SfMaterials material = (SfMaterials) materials.get(i);
+        
+        if(material.getMaterialType()!=null && material.getMaterialType().equalsIgnoreCase("1")){//检材
+          if(jcSb.length()>0){
+            jcSb.append("\n");
+          }
+          jcSb.append(material.toStringSimple());         
+        }else if(material.getMaterialType()!=null && material.getMaterialType().equalsIgnoreCase("2")){//样本
+          if(ybSb.length()>0){
+            ybSb.append("\n");
+          }
+          ybSb.append(material.toStringSimple());
+        }else{
+         if(sb.length()>0){
+           sb.append("\n");
+         }
+         sb.append(material.toStringSimple());
+        }
+     
+      }
+      
+      if(sb.length()>0){
+        sb.append("\n");
+       }
+     sb.append(jcSb.toString());
+     
+     if(ybSb.length()>0){
+       if(sb.length()>0){
+         sb.append("\n");
+       }
+       sb.append(ybSb.toString()); 
+     }       
+       return sb.toString();
+  }
+  
 	public static String getJdclString(SfEntrust entrust){
 	  if(entrust==null )return null; 
 	  return getJdclString(entrust.getMaterials());
 	}
+
+  public static String getJdclSimpleString(SfEntrust entrust){
+    if(entrust==null )return null; 
+    return getJdclSimpleString(entrust.getMaterials());
+  }
 	public List<SfBookmark> getJdRecordBookValueLst(SfJdResult bill){
 	  if(bill==null){
 	    bill=new SfJdResult();
@@ -543,7 +672,12 @@ public class SfBookmarkUtil {
 		bk.setName("JDRECORD_ZC_PERSONS");
 		bk.setValue(bill.getZcPersons());
 		rtn.add(bk); 
-		
+
+    bk=new SfBookmark();
+    bk.setName("JDRECORD_JDR");
+    bk.setValue(bill.getJdrName()==null?"":bill.getJdrName());
+    rtn.add(bk);
+    
 		bk=new SfBookmark();
 		bk.setName("JDRECORD_JD_ADDRESS");
 		bk.setValue(bill.getJdAddress()==null?getJdjg().getName():bill.getJdAddress());
@@ -566,13 +700,54 @@ public class SfBookmarkUtil {
 		rtn.add(bk);
 		
 		bk=new SfBookmark();
+    bk.setName("JDREPORT_REPORT_CODE2");//JDREPORT_REPORT_CODE
+    bk.setValue(bill.getReportCode());
+    rtn.add(bk);
+    
+    bk=new SfBookmark();
+    bk.setName("JDREPORT_REPORT_CODE3");//JDREPORT_REPORT_CODE
+    bk.setValue(bill.getReportCode());
+    rtn.add(bk);
+		
+		bk=new SfBookmark();
 		bk.setName("JDREPORT_NAME");
 		bk.setValue(bill.getName());
 		rtn.add(bk);
-		 //
+
+    bk=new SfBookmark();
+    bk.setName("JDREPORT_INPUT_DATE");
+    if(bill.getInputDate()==null){
+      bk.setValue(DateUtil.dateToChinaString(SfUtil.getSysDate()));
+    }else {
+      bk.setValue(DateUtil.dateToChinaString(bill.getInputDate()));
+    } 
+    rtn.add(bk);
 		
 		return rtn;
 	} 
+
+	/**
+	 * 获取授权签字人的职称和名称
+	 * @param account
+	 * @return
+	 */
+  public List<SfBookmark> getSqQzrBookValueLst(String account){
+    List<SfBookmark> rtn=new ArrayList<SfBookmark>();
+    SfJdPerson person=getJdPerson(account);
+    if(person==null)return rtn;
+
+    SfBookmark bk=new SfBookmark();
+    bk.setName("JDREPORT_SQ_QZR");//JDREPORT_SQ_QZR 授权签字人
+    bk.setValue(person.getName()==null?"":SfUtil.getPersonName(person.getName()));
+    rtn.add(bk);
+    
+    bk=new SfBookmark();
+    bk.setName("JDREPORT_SQ_QZR_ZW");//JDREPORT_SQ_QZR_ZW 授权签字人职位
+    bk.setValue(person.getTechTitle()==null?"":person.getTechTitle());
+    rtn.add(bk);
+    
+    return rtn;
+  }
 	
 	SfJdPerson getJdPerson(String account){
 

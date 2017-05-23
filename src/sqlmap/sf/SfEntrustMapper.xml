@@ -83,6 +83,18 @@
     <result column="SEND_DATE" jdbcType="DATE" property="sendDate" />
   </resultMap>
   
+	<resultMap class="com.kingdrive.workflow.model.runtime.ActionHistoryModel" id="actionhistorymap">
+		<result property="actionHistoryId" 		column="ACTION_HISTORY_ID" />	
+		<result property="instanceId" 			column="INSTANCE_ID" />
+		<result property="nodeId" 				column="NODE_ID" />
+		<result property="actionName" 			column="ACTION_NAME" />
+		<result property="executor" 			column="EXECUTOR" />
+		<result property="executeTime" 			column="EXECUTE_TIME" />
+		<result property="description" 			column="DESCRIPTION" />
+		<result property="owner" 				column="OWNER" />
+		<result property="limitExecuteTime" 	column="LIMIT_EXECUTE_TIME" />
+	</resultMap>
+  
   <sql id="Base_Column_List">
     ENTRUST_ID, CODE, NAME, STATUS, ENTRUSTOR_ID, WT_DATE, SJR, SJR_TEL, SJR_ZJ_TYPE, 
     SJR_ZJ_CODE, MAJOR_CODE, JD_ORG, JD_FZR, JD_HISTORY, JD_REQUIRE, JD_COMPANY, REMARK, 
@@ -322,6 +334,9 @@
 					or				
 					exists (select instance_id from V_WF_CURRENT_TASK_ZC_UNTREAD where
 					executor=#executor# and instance_id = SF_ENTRUST.process_inst_id)	
+					<!-- 准备提交检材，打印委托书 -->
+					or 
+					SF_ENTRUST.status='4'
 				)
 			</isEqual>
 			<isEqual property="status" compareValue="todo">
@@ -393,7 +408,7 @@
 				(SF_ENTRUST.STATUS='complete')
 			</isEqual>
 			<isEqual property="status" compareValue="doing">
-				(SF_ENTRUST.STATUS='doing' or SF_ENTRUST.STATUS='zhuansong' or SF_ENTRUST.STATUS='delay')
+				(SF_ENTRUST.STATUS='doing' or SF_ENTRUST.STATUS='delay')
 			</isEqual>
 			<isEqual property="status" compareValue="expire">
 			<!-- 待实现 -->
@@ -411,7 +426,7 @@
 			<isEqual property="status" compareValue="docNoSend">
 				NOT EXISTS (SELECT 1 FROM SF_DOC_SEND S 
 						WHERE S.ENTRUST_ID=SF_ENTRUST.ENTRUST_ID)
-						and exists (select 1 from sf_jd_report r where r.status='exec' and r.entrust_id=SF_ENTRUST.ENTRUST_ID)
+			    and exists (select 1 from sf_jd_doc_audit r where r.status='exec' and r.entrust_id=SF_ENTRUST.ENTRUST_ID)
 			</isEqual>
 			<isEqual property="status" compareValue="all">
 				1=1
@@ -753,4 +768,27 @@
     set status = #status:VARCHAR#
     where PROCESS_INST_ID=#processInstId:DECIMAL#
   </update>
+  
+	<insert id="insert_sf_ActionHistory" parameterClass="com.kingdrive.workflow.model.runtime.ActionHistoryModel">
+		INSERT INTO SF_WF_HISTORY
+		  (ACTION_HISTORY_ID,
+		   INSTANCE_ID,
+		   NODE_ID,
+		   ACTION_NAME,
+		   EXECUTOR,
+		   EXECUTE_TIME,
+		   DESCRIPTION,
+		   OWNER,
+		   LIMIT_EXECUTE_TIME)
+		VALUES
+		  (#actionHistoryId#,
+		   #instanceId#,
+		   #nodeId#,
+		   #actionName:VARCHAR#,
+		   #executor#,
+		   #executeTime#,
+		   #description:VARCHAR#,
+		   #owner#,
+		   #limitExecuteTime:VARCHAR#)
+	</insert>
 </sqlMap>

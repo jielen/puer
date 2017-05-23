@@ -71,13 +71,18 @@ public class SfJdDocAuditWordHandler extends WordHandlerAdapter {
 
     dataMap.put("wtbh", StringUtil.freeMarkFillWordChar(entrust.getCode()));
     
+    dataMap.put("slbh", StringUtil.freeMarkFillWordChar(entrust.getAcceptCode()));
+    
     dataMap.put("acceptCode", StringUtil.freeMarkFillWordChar(entrust.getAcceptCode()));
 
     dataMap.put("wsbh", StringUtil.freeMarkFillWordChar(report.getReportCode()));
 
-//    dataMap.put("wtf", StringUtil.freeMarkFillWordChar(entrust.getEntrustor().getName()));
+    dataMap.put("wtdw", StringUtil.freeMarkFillWordChar(entrust.getEntrustor().getName()));
 
     dataMap.put("name", StringUtil.freeMarkFillWordChar(entrust.getName()));
+ //获取鉴定科室，原来从asOrg中获取，现在看来，不同专业获取对应科室比较合适
+    dataMap.put("ywks", getYwks(entrust));
+    
     //  dataMap.put("lxr", StringUtil.freeMarkFillWordChar(entrust.getEntrustor().getLinkMan()));
     //  dataMap.put("lxdz", StringUtil.freeMarkFillWordChar(entrust.getEntrustor().getAddress()));
     //  dataMap.put("lxdh", StringUtil.freeMarkFillWordChar(entrust.getEntrustor().getLinkTel()));
@@ -100,6 +105,27 @@ public class SfJdDocAuditWordHandler extends WordHandlerAdapter {
     setAuditInfo(dataMap,jdDocAudit);
 
     return dataMap;
+  }
+
+  private Object getYwks(SfEntrust entrust) {
+    if(entrust.getMajor()!=null && entrust.getMajor().getMajorCode()!=null){
+      if(entrust.getMajor().getMajorCode().startsWith("001")){
+        return "法医室";
+      }else if(entrust.getMajor().getMajorCode().startsWith("002")){
+        return "痕迹室";
+      }else if(entrust.getMajor().getMajorCode().startsWith("003")){
+        return "理化室";
+      }else if(entrust.getMajor().getMajorCode().startsWith("004")){
+        return "文件鉴定室";
+      }else if(entrust.getMajor().getMajorCode().startsWith("005")){
+        return "声像室";
+      }else if(entrust.getMajor().getMajorCode().startsWith("006")){
+        return "电子证据室";
+      }else{
+        return "";
+      }  
+    }
+    return "";
   }
 
   /**

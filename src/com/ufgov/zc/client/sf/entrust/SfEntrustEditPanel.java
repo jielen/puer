@@ -234,7 +234,7 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
 
   private BillElementMeta mainBillElementMeta = BillElementMeta.getBillElementMetaWithoutNd(compoId);
 
-  protected JTablePanel materialsTablePanel = new JTablePanel();
+  protected JTablePanel materialsTablePanel = new JTablePanel("materialsTablePanel", AsOptionMeta.getOptVal(ZcSettingConstants.SF_OPTON_MATERIALS_HELP_MSG));;
 
   protected JTablePanel jdChargeTablePanel = new JTablePanel();
 
@@ -509,6 +509,11 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
     FileCellEditor fileEditor = new FileCellEditor("attachFileBlobid", false, (BeanTableModel) table.getModel());
     fileEditor.setDownloadFileEnable(true);
     SwingUtil.setTableCellEditor(table, SfMaterials.COL_ATTACH_FILE, fileEditor);
+    
+    fileEditor = new FileCellEditor("tiquFileBlobid", false, (BeanTableModel) table.getModel());
+    fileEditor.setDownloadFileEnable(true);
+    SwingUtil.setTableCellEditor(table, SfMaterials.COL_TIQU_FILE, fileEditor);
+    
     SwingUtil.setTableCellEditor(table, SfMaterials.COL_JIAN_HOU_STORE_TIME, new MoneyCellEditor(false));
     SwingUtil.setTableCellRenderer(table, SfMaterials.COL_JIAN_HOU_STORE_TIME, new NumberCellRenderer());
     SwingUtil.setTableCellEditor(table, SfMaterials.COL_JIAN_HOU_CHULI_TYPE, new AsValComboBoxCellEditor(SfMaterials.SF_VS_MATERIAL_JIAN_HOU_CHULI_TYPE));
@@ -613,6 +618,10 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
         ||entrust.getStatus().equalsIgnoreCase("delay")
         ){
         printWtButton.setVisible(true); 
+      }else{
+        printWtButton.setVisible(false);
+        printConfirmButton.setVisible(false);
+        printXyButton.setVisible(false);
       }
       delayBtn.setVisible(false);
       pauseBtn.setVisible(false);        
@@ -649,6 +658,10 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
           printConfirmButton.setVisible(true);
           printXyButton.setVisible(true);
         } 
+      }else{
+        printWtButton.setVisible(false);
+        printConfirmButton.setVisible(false);
+        printXyButton.setVisible(false);        
       }
      //受理之后才处理这些按钮操作，受理前不能操作
       delayBtn.setVisible(false);
@@ -1126,7 +1139,7 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
 
       public void actionPerformed(ActionEvent e) {
 
-        doExit();
+        doExit(true);
 
       }
 
@@ -1561,11 +1574,31 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
     if(entrust.getSjr2Tel()!=null && !SfUtil.isMobile(entrust.getSjr2Tel()) &&!errorTel ){
       errorInfo.append("\n").append("送检人电话请留手机号,方便接收鉴定相关短信信息");
     }
+    String materialErrorInfoString=checkMaterial();
+    if(materialErrorInfoString!=null){
+      errorInfo.append(materialErrorInfoString);      
+    }
     if (errorInfo.length() != 0) {
       JOptionPane.showMessageDialog(this, errorInfo.toString(), "提示", JOptionPane.WARNING_MESSAGE);
       return false;
     }
     return true;
+  }
+
+  private String checkMaterial() {
+    SfEntrust entrust = (SfEntrust) this.listCursor.getCurrentObject();
+    //为了衔接目前已经送的数据，没有提取文书，所以加了这个，后续都有了后就要屏蔽这个
+    if(entrust.getProcessInstId()!=null && entrust.getProcessInstId().longValue()>0)return null;
+    
+    if(entrust.getMaterials()!=null && entrust.getMaterials().size()>0){
+      for(int i=0;i<entrust.getMaterials().size();i++){
+        SfMaterials m=(SfMaterials) entrust.getMaterials().get(i);
+        if(m.getAttachFile()==null || m.getTiquFile()==null){
+          return "每条检材的\""+LangTransMeta.translate(SfMaterials.COL_ATTACH_FILE)+"\"和\""+LangTransMeta.translate(SfMaterials.COL_TIQU_FILE)+"\"都必须上传，请查看\"送检材料\"页签下面的填报说明.";
+        }
+      }
+    }
+    return null;
   }
 
   protected void doDelete() {
@@ -1604,7 +1637,7 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
 
         JOptionPane.showMessageDialog(this, "删除成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
         refreshListPanel();
-        doExit();
+        doExit(false);
       } else {
 
         JOptionPane.showMessageDialog(this, "删除失败 ！\n" + errorInfo, "错误", JOptionPane.ERROR_MESSAGE);
@@ -2572,6 +2605,8 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
         copyItem.setTempId("" + System.currentTimeMillis());
         copyItem.setAttachFile(null);
         copyItem.setAttachFileBlobid(null);
+        copyItem.setTiquFile(null);
+        copyItem.setTiquFileBlobid(null);
         copyItem.setMaterialId(null);
         tableModel.insertRow(tableModel.getRowCount(), copyItem); 
 
@@ -2601,10 +2636,10 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
 
   }
 
-  public void doExit() {
+  public void doExit(boolean isCheckSave) {
     // TCJLODO Auto-generated method stub
 
-    if (isDataChanged()) {
+    if (isDataChanged() && isCheckSave) {
 
       int num = JOptionPane.showConfirmDialog(this, "当前页面数据已修改，是否要保存", "保存确认", 0);
 
@@ -2642,7 +2677,11 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
        JOptionPane.showMessageDialog(this, "请指定鉴定负责人.", "提示", JOptionPane.INFORMATION_MESSAGE);
        return;
      }*/
+    if (!checkBeforeSave()) {
 
+      return ;
+
+      }
     SfEntrust afterSaveBill = null;
 
     /* if (this.isDataChanged()) {
@@ -2684,6 +2723,12 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
     //    System.out.println("doSuggestPass 1++++++++++++++++++++++++++=" + bill.getAcceptDate());
     XysxPanelUtil.getValue(bill, xysxComponents);
 
+    if (!checkBeforeSave()) {
+
+      return ;
+
+      }
+    
 //    if (!checkBeforeSave()) { return; }
     SfEntrust qx = (SfEntrust) ObjectUtil.deepCopy(this.listCursor.getCurrentObject());
     //    System.out.println("doSuggestPass 2++++++++++++++++++++++++++=" + qx.getAcceptDate());

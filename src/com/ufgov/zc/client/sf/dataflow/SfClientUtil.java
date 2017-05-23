@@ -50,6 +50,8 @@ public class SfClientUtil {
 	  public static final String MENU_WTF="委托方";  
 	  public static final String MENU_SJR="送检人"; 
 	  public static final String MENU_JD_TARGET="鉴定对象"; 
+
+    public static final String MENU_JD_SQ_QZR="授权签字人"; 
 	  
 	  public static final String MENU_WTF_NAME=LangTransMeta.translate(SfEntrustor.NAME); 
 	  public static final String MENU_WTF_ADDRESS="委托方"+LangTransMeta.translate(SfEntrustor.ADDRESS); 

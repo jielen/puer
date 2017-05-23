@@ -9,6 +9,7 @@ import java.util.List;
 import com.ufgov.zc.common.sf.model.SfEntrust;
 import com.ufgov.zc.common.sf.model.SfJdResult;
 import com.ufgov.zc.common.sf.model.SfJdResultFile;
+import com.ufgov.zc.common.sf.model.SfJdjg;
 import com.ufgov.zc.common.system.RequestMeta;
 import com.ufgov.zc.common.system.dto.ElementConditionDto;
 import com.ufgov.zc.common.system.model.AsWfDraft;
@@ -203,9 +204,18 @@ public void deleteByPrimaryKeyFN(BigDecimal id, RequestMeta requestMeta) {
 	   
 	  if(userLst!=null ){
 		  String mobile="";
-		  String msg=qx.getEntrust().getCode()+"鉴定记录等待您审批,案事件:"+qx.getName()+",请登录鉴定管理系统进行审批。";
-		  
-		  ZcSUtil su=new ZcSUtil();
+
+	    ZcSUtil su=new ZcSUtil();
+	    SfJdjg jg=su.getJdjgInfo(qx.getCoCode());
+	    String jgName="鉴定中心",jgName2="";
+	    if(jg!=null){
+	      jgName=jg.getName();
+	    }
+	    jgName2="【"+jgName+"】:";
+	    
+		  StringBuffer msg=new StringBuffer();
+		  msg.append(jgName2).append(qx.getEntrust().getCode()).append("鉴定记录等待您审批,案事件:").append(qx.getName()).append(",请登录鉴定管理系统进行审批。");
+		   
 		  for(int i=0;i<userLst.size();i++){
 			  HashMap row=(HashMap) userLst.get(i);
 			  String user=(String) row.get("EXECUTOR");
@@ -213,7 +223,7 @@ public void deleteByPrimaryKeyFN(BigDecimal id, RequestMeta requestMeta) {
 			  Iterator keys=mobiles.keySet().iterator();
 			  while(keys.hasNext()){
 				  String key=keys.next().toString(); 
-				  su.sendToBox(""+qx.getEntrustId().intValue(), "", msg, key, ZcSUtil.getSysDate(), ZcSUtil.getSysDate());
+				  su.sendToBox(""+qx.getEntrustId().intValue(), "", msg.toString(), key, ZcSUtil.getSysDate(), ZcSUtil.getSysDate());
 			  } 
 		  }
 	  }

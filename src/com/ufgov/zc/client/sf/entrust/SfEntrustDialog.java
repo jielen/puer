@@ -66,7 +66,7 @@ public class SfEntrustDialog extends GkBaseDialog {
   @Override
   public void closeDialog() {
 
-    this.editPanel.doExit();
+    this.editPanel.doExit(true);
 
   }
 

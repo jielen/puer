@@ -212,7 +212,13 @@ public class SfJdDocAuditService implements ISfJdDocAuditService {
 	     
 		  String mobile="";
 		  StringBuffer sb=new StringBuffer();
-		  sb.append(jgName2).append(qx.getEntrust().getCode()).append("鉴定文书审批单等待您审批,案事件:").append(qx.getName()).append(",请登录鉴定管理系统进行审批。");
+		  sb.append(jgName2).append("您有鉴定文书审批单需要审批,委托编号:");
+		  sb.append(qx.getEntrust().getCode());
+		  if(qx.getReport()!=null && qx.getReport().getReportCode()!=null){
+	      sb.append(",发文编号:").append(qx.getReport().getReportCode());
+	    }
+	    sb.append(",请登录鉴定管理系统进行审批"); 
+	    
 		  String msg=sb.toString();
 		   
 		  for(int i=0;i<userLst.size();i++){

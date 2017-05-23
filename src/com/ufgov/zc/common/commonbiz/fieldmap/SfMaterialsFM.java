@@ -31,6 +31,8 @@ public class SfMaterialsFM {
 	    fieldMap.put("SAVE_CONDITON","saveConditon");
 	    fieldMap.put("UNIT","unit");
       fieldMap.put("TQ_INFO","tqInfo");
+      fieldMap.put("TIQU_FILE","tiquFile");
+      fieldMap.put("TIQU_FILE_BLOBID","tiquFileBlobid");
 
 	  }
 }

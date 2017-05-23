@@ -91,7 +91,7 @@
   
   <select id="getModelFileMenuItem" resultClass="java.util.HashMap" parameterClass="elementCondition" >     
     SELECT 
-    F.NAME AS MENUITEMNAME,
+    F.NAME AS MENUITEMNAME,'' as MAJOR_NAME,
     F.MODEL_ID,F.FILE_NAME,F.FILE_ID,F.NAME,F.FILE_TYPE,'0' as MAJOR_CODE,
     F.MODEL_ID
     FROM SF_JD_RECORD_FILE_MODEL F 
@@ -104,7 +104,7 @@
     union all 
 
     SELECT 
-    M.MAJOR_NAME||'-->'||F.NAME AS MENUITEMNAME,
+    F.NAME AS MENUITEMNAME,M.MAJOR_NAME,
     F.MODEL_ID,F.FILE_NAME,F.FILE_ID,F.NAME,F.FILE_TYPE,F.MAJOR_CODE,
     F.MODEL_ID
     FROM SF_JD_RECORD_FILE_MODEL F,SF_MAJOR M 

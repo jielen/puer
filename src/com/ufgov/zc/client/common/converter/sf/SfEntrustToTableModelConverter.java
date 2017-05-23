@@ -38,6 +38,7 @@ public class SfEntrustToTableModelConverter {
     names.add(LangTransMeta.translate(SfEntrust.COL_STATUS));
     names.add(LangTransMeta.translate(SfEntrust.COL_NAME));
     names.add(LangTransMeta.translate(SfEntrust.COL_MAJOR_NAME));
+    names.add(LangTransMeta.translate(SfEntrust.COL_JD_FZR));
     names.add(LangTransMeta.translate(SfEntrust.COL_ENTRUSTOR_NAME));
     names.add(LangTransMeta.translate(SfEntrust.COL_SJR));
     names.add(LangTransMeta.translate(SfEntrust.COL_SJR_TEL));
@@ -58,6 +59,7 @@ public class SfEntrustToTableModelConverter {
         rowData.add(AsValDataCache.getName(SfEntrust.SF_VS_ENTRUST_STATUS, entrust.getStatus()));
         rowData.add(entrust.getName());
         rowData.add(AsValDataCache.getName(SfMajor.SF_VS_MAJOR, entrust.getMajorCode()));
+        rowData.add(entrust.getJdFzrName());
         rowData.add(entrust.getEntrustor().getName());
         rowData.add(entrust.getSjr());
         rowData.add(entrust.getSjrTel());
@@ -158,6 +160,26 @@ public class SfEntrustToTableModelConverter {
 
             putEditedData(dataBeanList.get(rowIndex));
 
+          } else  if (SfMaterials.COL_TIQU_FILE.equals(this.getColumnIdentifier(columnIndex))) {
+
+            if (aValue == null) {
+
+              this.getBean(rowIndex).setTiquFile(null);
+
+              this.getBean(rowIndex).setTiquFileBlobid(null);
+
+            } else {
+
+              this.getBean(rowIndex).setTiquFile(((AsFile) aValue).getFileName());
+
+              this.getBean(rowIndex).setTiquFileBlobid(((AsFile) aValue).getFileId());
+
+            }
+
+            fireTableCellUpdated(rowIndex, columnIndex);
+
+            putEditedData(dataBeanList.get(rowIndex));
+
           } else {
           super.setValueAt(aValue, rowIndex, columnIndex);
         }
@@ -182,6 +204,7 @@ public class SfEntrustToTableModelConverter {
         materialInfo.add(new ColumnBeanPropertyPair(SfMaterials.COL_UNIT, "unit", LangTransMeta.translate(SfMaterials.COL_UNIT)));
     materialInfo.add(new ColumnBeanPropertyPair(SfMaterials.COL_DESCRIPTION, "description", LangTransMeta.translate(SfMaterials.COL_DESCRIPTION)));
     materialInfo.add(new ColumnBeanPropertyPair(SfMaterials.COL_ATTACH_FILE, "attachFile", LangTransMeta.translate(SfMaterials.COL_ATTACH_FILE)));
+    materialInfo.add(new ColumnBeanPropertyPair(SfMaterials.COL_TIQU_FILE, "tiquFile", LangTransMeta.translate(SfMaterials.COL_TIQU_FILE)));
     materialInfo.add(new ColumnBeanPropertyPair(SfMaterials.COL_TQ_INFO, "tqInfo", LangTransMeta.translate(SfMaterials.COL_TQ_INFO))); 
     materialInfo.add(new ColumnBeanPropertyPair(SfMaterials.COL_SAVE_CONDITON, "saveConditon", LangTransMeta.translate(SfMaterials.COL_SAVE_CONDITON))); 
     materialInfo.add(new ColumnBeanPropertyPair(SfMaterials.COL_SAVE_ADDRESS, "saveAddress", LangTransMeta.translate(SfMaterials.COL_SAVE_ADDRESS))); 

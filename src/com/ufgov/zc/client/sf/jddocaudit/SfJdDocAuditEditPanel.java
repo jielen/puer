@@ -227,9 +227,9 @@ public class SfJdDocAuditEditPanel extends AbstractMainSubEditPanel {
 
     refreshData();
 
-    setButtonStatus();
+   /* setButtonStatus();
 
-    updateFieldEditorsEditable();
+    updateFieldEditorsEditable();*/
   }
 
   private void refreshData() {
@@ -441,6 +441,11 @@ public class SfJdDocAuditEditPanel extends AbstractMainSubEditPanel {
   protected void setButtonStatus() {
     SfJdDocAudit bill = (SfJdDocAudit) listCursor.getCurrentObject();
     setButtonStatus(bill, requestMeta, this.listCursor);
+    
+    //单独设置打印按钮，因为打印被设置到工作流里了，只有审批过的人 才有打印按钮，现在改为终审后可以显示的模式
+    if(bill.getStatus().equals("exec")){
+      printButton.setVisible(true);
+    }
 
   }
 

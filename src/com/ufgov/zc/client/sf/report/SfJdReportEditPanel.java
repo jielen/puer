@@ -223,6 +223,8 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 	JMenu menuInsertSjr = new JMenu(SfClientUtil.MENU_SJR);
 
 	JMenu menuInsertJdTarget = new JMenu(SfClientUtil.MENU_JD_TARGET);
+	
+  JMenu menuInsertSqQzr = new JMenu(SfClientUtil.MENU_JD_SQ_QZR);
 
 	  JMenu menuInsertJdjg=new JMenu(SfClientUtil.MENU_JDJG);
 	  
@@ -245,6 +247,9 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 	private Hashtable<String, SfCertificate> jdjgCerts=new Hashtable<String, SfCertificate>();
 	
 	private Hashtable<String, SfCertificate> jdPersonCerts=new Hashtable<String, SfCertificate>();
+
+  private Hashtable<String, SfJdPerson> jdPersons=new Hashtable<String, SfJdPerson>();
+	
 
 	private JDialog progressDialog;
 	private JProgressBar openWordProgressBar = null;
@@ -1651,6 +1656,9 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 		  
 		  menuInsertContent.addSeparator();
 			menuInsertContent.add(mItemJdReportNo);
+			
+      menuInsertContent.addSeparator();
+      menuInsertContent.add(initSqQzrMenu());
 //		  menuInsertContent.add(menuInsertJdReport);
 
 		initModelMenu();
@@ -1675,7 +1683,12 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 		
 	}
 
-	private void initCertificateMenu() {
+	private JMenuItem initSqQzrMenu() {
+	  
+    return menuInsertSqQzr;
+  }
+
+  private void initCertificateMenu() {
 		//get jdjg certificates
 		_initCertificateJdjgMenu();
 		
@@ -1686,18 +1699,23 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 		menuCertificateFile.add(menuCertificateFileJdPerson);
 	}
 
+  private List getJdPersonLst(){
+
+    ElementConditionDto dto=new ElementConditionDto();
+    dto.setCoCode(requestMeta.getSvCoCode());
+    dto.setDattr2("haveZizhi");
+    List personLst=sfJdPersonServiceDelegate.getMainDataLst(dto, requestMeta);
+    return personLst;
+  }
 	private void _initCertificateJdPersonMenu() {
-		ElementConditionDto dto=new ElementConditionDto();
-		dto.setCoCode(requestMeta.getSvCoCode());
-		dto.setDattr2("haveZizhi");
-		List personLst=sfJdPersonServiceDelegate.getMainDataLst(dto, requestMeta);
+	  List personLst=getJdPersonLst();
 		if(personLst!=null && personLst.size()>0){
 			List idLst=new ArrayList();
 			for(int i=0;i<personLst.size();i++){
 				SfJdPerson jg=(SfJdPerson) personLst.get(i);
 				idLst.add(jg.getJdPersonId());
 			}
-			dto=new ElementConditionDto();
+			ElementConditionDto dto=new ElementConditionDto();
 			dto.setDattr1(SfCertificate.VS_SF_CERTIFICATE_TYPE_zizhi);
 			dto.setPmAdjustCodeList(idLst);
 			List certs=zcEbBaseServiceDelegate.queryDataForList("com.ufgov.zc.server.sf.dao.SfCertificateMapper.selectByOwner2", dto, requestMeta); 			
@@ -1709,6 +1727,10 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 						if(cer.getZfOwnerId().equals(person.getJdPersonId())){
 							 String name=person.getName(); 
 							final String name2=getRightName(name,jdPersonCerts); 
+							
+							/**
+							 * 鉴定人员资质证书
+							 */
 							JMenuItem mitem = new JMenuItem(name2);
 							mitem.addActionListener(new ActionListener() {
 								@Override
@@ -1717,8 +1739,21 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 								}
 							});
 							menuCertificateFileJdPerson.add(mitem);
-							jdPersonCerts.put(name2, cer);
+              jdPersonCerts.put(name2, cer);
 							
+              /**
+               * 授权签字人
+               */
+              
+							 mitem = new JMenuItem(name2+" "+(person.getTechTitle()==null?"":person.getTechTitle()));
+	              mitem.addActionListener(new ActionListener() {
+	                @Override
+	                public void actionPerformed(ActionEvent e) {
+	                  fillSqqzr(name2);
+	                }
+	              });
+	              menuInsertSqQzr.add(mitem);	              
+	              jdPersons.put(name2, person);
 						}
 						
 					}
@@ -2123,6 +2158,30 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 
 	}
 
+/**
+ * 在鉴定报告末尾，填充授权签字人的职称和名称
+ * 需要在对应位置设置书签
+ * @param menuFillCur
+ */
+  protected void fillSqqzr(String userName) {
+    SfJdPerson person=jdPersons.get(userName);
+    if(person==null)return ;
+
+    List<SfBookmark> bks=new ArrayList<SfBookmark>();
+    
+    SfBookmark bk=new SfBookmark();
+    bk.setName("JDREPORT_SQ_QZR");//JDREPORT_SQ_QZR 授权签字人
+    bk.setValue(person.getName()==null?"":person.getName());
+    bks.add(bk);
+    
+    bk=new SfBookmark();
+    bk.setName("JDREPORT_SQ_QZR_ZW");//JDREPORT_SQ_QZR_ZW 授权签字人职位
+    bk.setValue(person.getTechTitle()==null?"":person.getTechTitle());
+    bks.add(bk);
+    
+    wordPane.replaceBookMarks(bks);
+
+  }
 	protected void insertContent(String menuTitle) {
 		SfJdReport bill = (SfJdReport) this.listCursor.getCurrentObject();
 		if (bill == null || bill.getEntrustCode() == null) {
