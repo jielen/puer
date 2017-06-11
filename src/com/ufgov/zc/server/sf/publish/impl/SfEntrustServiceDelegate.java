@@ -76,5 +76,9 @@ public SfEntrust acceptFN(SfEntrust inData, RequestMeta requestMeta) throws Exce
 public SfEntrust unAcceptFN(SfEntrust inData, RequestMeta requestMeta) throws Exception {
 	return this.sfEntrustService.unAcceptFN(inData, requestMeta);
 }
+ 
+public SfEntrust selectByBarCode(String barCode, RequestMeta requestMeta) {
+  return sfEntrustService.selectByBarCode(barCode, requestMeta);
+}
 
 }

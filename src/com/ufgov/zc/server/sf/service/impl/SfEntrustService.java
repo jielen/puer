@@ -18,6 +18,7 @@ import com.ufgov.zc.common.sf.model.SfChargeDetail;
 import com.ufgov.zc.common.sf.model.SfEntrust;
 import com.ufgov.zc.common.sf.model.SfEntrustor;
 import com.ufgov.zc.common.sf.model.SfEntrustorWtcode;
+import com.ufgov.zc.common.sf.model.SfJdDocAudit;
 import com.ufgov.zc.common.sf.model.SfJdjg;
 import com.ufgov.zc.common.sf.model.SfMaterials;
 import com.ufgov.zc.common.sf.model.SfXysx;
@@ -27,13 +28,16 @@ import com.ufgov.zc.common.system.constants.SfElementConstants;
 import com.ufgov.zc.common.system.constants.ZcSettingConstants;
 import com.ufgov.zc.common.system.dto.ElementConditionDto;
 import com.ufgov.zc.common.system.model.AsWfDraft;
+import com.ufgov.zc.common.system.util.ObjectUtil;
 import com.ufgov.zc.server.sf.dao.SfChargeDetailMapper;
 import com.ufgov.zc.server.sf.dao.SfEntrustMapper;
+import com.ufgov.zc.server.sf.dao.SfJdDocAuditMapper;
 import com.ufgov.zc.server.sf.dao.SfMaterialsMapper;
 import com.ufgov.zc.server.sf.dao.SfXysxMapper;
 import com.ufgov.zc.server.sf.dao.SfXysxTypeMapper;
 import com.ufgov.zc.server.sf.service.ISfEntrustService;
 import com.ufgov.zc.server.sf.service.ISfEntrustorService;
+import com.ufgov.zc.server.sf.service.ISfJdDocAuditService;
 import com.ufgov.zc.server.sf.service.ISfJdTargetService;
 import com.ufgov.zc.server.sf.service.IZcMobileMsgService;
 import com.ufgov.zc.server.system.dao.IWorkflowDao;
@@ -66,7 +70,9 @@ public class SfEntrustService implements ISfEntrustService {
   
   private ISfJdTargetService jdTargetService;  
   
-  private IZcMobileMsgService zcMobileMsgService;
+  private IZcMobileMsgService zcMobileMsgService; 
+  
+  private SfJdDocAuditMapper jdDocAuditMapper;
 
   public SfXysxTypeMapper getXysxTypeMapper() {
     return xysxTypeMapper;
@@ -86,7 +92,66 @@ public class SfEntrustService implements ISfEntrustService {
 
   public List getEntrustLst(ElementConditionDto elementConditionDto, RequestMeta requestMeta) {
     // TCJLODO Auto-generated method stub
-    return entrustMapper.getEntrustLst(elementConditionDto);
+    
+    //在待处理页签底下，囊括如果存在当前登录人的鉴定文书审批待办单信息，则将其对于的委托数据合并到当前页签下，并将状态改为鉴定文书审批
+    if(elementConditionDto.getStatus()!=null && elementConditionDto.getStatus().equals("todo")){
+     List entrustWithJddocAuditing=getEntrustsWithJdDocAuditing(elementConditionDto,requestMeta);
+     List curLst=entrustMapper.getEntrustLst(elementConditionDto);
+     if(entrustWithJddocAuditing!=null){
+       if(curLst!=null){
+         entrustWithJddocAuditing.addAll(curLst);
+       }
+       return entrustWithJddocAuditing; 
+     }
+     return curLst;
+    }else{
+      return entrustMapper.getEntrustLst(elementConditionDto);
+    }
+  }
+
+  /**
+   * 获取当前登录人的鉴定文书审批单信息，并转化为对于的entrust
+   * 
+   * @param elementConditionDto
+   * @param requestMeta
+   * @return
+   */
+  private List getEntrustsWithJdDocAuditing(ElementConditionDto elementConditionDto, RequestMeta requestMeta) {
+    ElementConditionDto dto=(ElementConditionDto) ObjectUtil.deepCopy(elementConditionDto);
+    dto.setCompoId("SF_JD_DOC_AUDIT");
+    dto.setWfcompoId(dto.getCompoId());
+    dto.setStatus("todo");
+    List docLst=jdDocAuditMapper.getMainDataLst(dto);
+    dto.setStatus("untread");
+    List docLst2=jdDocAuditMapper.getMainDataLst(dto);
+    List entustIdLst=new ArrayList();
+    if(docLst!=null){
+      for(int i=0;i<docLst.size();i++){
+        SfJdDocAudit doc=(SfJdDocAudit) docLst.get(i);
+        entustIdLst.add(doc.getEntrust().getEntrustId());
+      }
+    }
+    if(docLst2!=null){
+      for(int i=0;i<docLst2.size();i++){
+        SfJdDocAudit doc=(SfJdDocAudit) docLst2.get(i);
+        entustIdLst.add(doc.getEntrust().getEntrustId());
+      }
+    }
+    if(!entustIdLst.isEmpty()){
+      dto=(ElementConditionDto) ObjectUtil.deepCopy(elementConditionDto);
+      dto.setStatus("getEntustWithJdDocAudting");
+      dto.setPmAdjustCodeList(entustIdLst);
+      List entrustList=entrustMapper.getEntrustLst(dto);
+      //将entrust的status转化为docAudit 鉴定文书审批
+      if(entrustList!=null){
+        for(int i=0;i<entrustList.size();i++){
+          SfEntrust entrust=(SfEntrust) entrustList.get(i);
+          entrust.setStatus(SfEntrust.STATUS_DOC_AUDITING);
+        }
+      }
+      return entrustList;
+    }
+    return null;
   }
 
   public SfEntrust selectByPrimaryKey(BigDecimal id, RequestMeta requestMeta) {
@@ -138,6 +203,7 @@ public SfEntrust saveFN(SfEntrust inData, RequestMeta requestMeta) {
       ZcSUtil su=new ZcSUtil();
       BigDecimal id = new BigDecimal(su.getNextVal(SfEntrust.SEQ_SF_ENTRUST_ID));
       inData.setEntrustId(id);
+      inData.setBarCode("WT"+id.toString());
 
       boolean isDraft = false;
       String userId = requestMeta.getSvUserID();
@@ -241,6 +307,7 @@ public SfEntrust saveFN(SfEntrust inData, RequestMeta requestMeta) {
     ZcSUtil su=new ZcSUtil();
     BigDecimal id = new BigDecimal(su.getNextVal(SfMaterials.SEQ_SF_MATERIALS_ID));
     m.setMaterialId(id);
+    m.setBarCode("JC"+id.toString());
   }
 
   private void insert(SfEntrust inData, RequestMeta requestMeta) {
@@ -536,10 +603,21 @@ public SfEntrust saveFN(SfEntrust inData, RequestMeta requestMeta) {
          days=bill.getExpectedTime().intValue();
        }
        sb.append("已经被").append(jgName).append("受理，预计用时").append(days).append("天完成鉴定工作，请保持通讯设备畅通，及时关注鉴定进展情况，谢谢。");  
+     }else if(bill.getStatus().equals(SfEntrust.STATUS_TH_WTF) 
+       && (
+         SfEntrust.STATUS_HE_ZHUN.equals(oldStatus) || 
+         SfEntrust.STATUS_QUE_REN.equals(oldStatus) || 
+         SfEntrust.STATUS_JIE_SHOU_JIANCAI.equals(oldStatus) || 
+         SfEntrust.STATUS_KE_SHI_SHOULI.equals(oldStatus)
+         )
+        ){
+       sb.append(jgName2);
+       sb.append(su.getSjrInfo(bill,requestMeta));
+       sb.append("被鉴定中心退回，").append(bill.getComment()).append(",请登录司法鉴定管理系统查看退回情况，如有疑问请联系鉴定中心，谢谢关注。");
      }else if(bill.getIsAccept()!=null && bill.getIsAccept().equals("N")){
        sb.append(jgName2);
        sb.append(su.getSjrInfo(bill,requestMeta));
-       sb.append("每天被鉴定中心受理，具体情况请联系鉴定中心，谢谢关注。");
+       sb.append("没有被鉴定中心受理，具体情况请联系鉴定中心，谢谢关注。");
      }
     if(sb.length()>0){
       su.sendMsgToSjr(bill,sb.toString()); 
@@ -718,5 +796,33 @@ public IZcMobileMsgService getZcMobileMsgService() {
 
 public void setZcMobileMsgService(IZcMobileMsgService zcMobileMsgService) {
   this.zcMobileMsgService = zcMobileMsgService;
+}
+  
+
+public SfJdDocAuditMapper getJdDocAuditMapper() {
+  return jdDocAuditMapper;
+}
+
+public void setJdDocAuditMapper(SfJdDocAuditMapper jdDocAuditMapper) {
+  this.jdDocAuditMapper = jdDocAuditMapper;
+}
+
+/**
+ * 检材条码和委托条码都进行检索
+ */
+public SfEntrust selectByBarCode(String barCode, RequestMeta requestMeta) {
+  //委托条码
+  SfEntrust entrust=(SfEntrust) zcEbBaseService.queryObject("com.ufgov.zc.server.sf.dao.SfEntrustMapper.selectByBarCode", barCode);
+  if(entrust!=null){
+//    return selectByPrimaryKey(entrust.getEntrustId(), requestMeta);
+    return entrust;
+  }
+  //检材条码检索
+  entrust=(SfEntrust) zcEbBaseService.queryObject("com.ufgov.zc.server.sf.dao.SfEntrustMapper.selectByMaterialBarCode", barCode);
+  if(entrust!=null){
+//    return selectByPrimaryKey(entrust.getEntrustId(), requestMeta);
+    return entrust;
+  }
+  return null;
 }
 }

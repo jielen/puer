@@ -310,6 +310,7 @@
      <sqlMap resource="sqlmap/sf/SfSjInMapper.xml"/>     
      <sqlMap resource="sqlmap/sf/SfSjOutMapper.xml"/>      
      <sqlMap resource="sqlmap/sf/SfSjGroupMapper.xml"/>       
-     <sqlMap resource="sqlmap/sf/SfSjUnitMapper.xml"/>        
+     <sqlMap resource="sqlmap/sf/SfSjUnitMapper.xml"/>         
+     <sqlMap resource="sqlmap/sf/SfPrintClientMapper.xml"/>        
 	
 </sqlMapConfig>

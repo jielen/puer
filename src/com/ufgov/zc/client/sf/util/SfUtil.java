@@ -4,6 +4,7 @@
 package com.ufgov.zc.client.sf.util;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GraphicsConfiguration;
@@ -14,6 +15,9 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.math.BigDecimal;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
@@ -32,6 +36,7 @@ import com.ufgov.zc.client.common.AsOptionMeta;
 import com.ufgov.zc.client.common.BillElementMeta;
 import com.ufgov.zc.client.common.ServiceFactory;
 import com.ufgov.zc.client.common.WorkEnv;
+import com.ufgov.zc.client.component.button.FuncButton;
 import com.ufgov.zc.client.component.ui.fieldeditor.AbstractFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.NewLineFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.TextAreaFieldEditor;
@@ -39,6 +44,8 @@ import com.ufgov.zc.client.zc.ZcUtil;
 import com.ufgov.zc.common.commonbiz.fieldmap.FieldMapRegister;
 import com.ufgov.zc.common.commonbiz.model.BillElement;
 import com.ufgov.zc.common.sf.model.SfEntrust;
+import com.ufgov.zc.common.sf.model.SfJdDocAudit;
+import com.ufgov.zc.common.sf.model.SfJdResult;
 import com.ufgov.zc.common.sf.model.SfJdjg;
 import com.ufgov.zc.common.sf.model.SfZongheZhiban;
 import com.ufgov.zc.common.sf.publish.ISfZongheZhibanServiceDelegate;
@@ -54,6 +61,9 @@ import com.ufgov.zc.common.zc.publish.IZcEbBaseServiceDelegate;
  *
  */
 public class SfUtil {
+  
+
+  private String mac="";
 
   static IZcEbBaseServiceDelegate baseDataServiceDelegate = (IZcEbBaseServiceDelegate) ServiceFactory.create(IZcEbBaseServiceDelegate.class,
     "zcEbBaseServiceDelegate");
@@ -446,4 +456,84 @@ public class SfUtil {
    
    SfUtil.getPersonName("张三");
  }
+
+ /**
+  * 文书审批单终审后，锁定修改，审批等操作
+  * @param btns 需要锁定的按钮
+  * @param entrust
+  */
+public void lockBillWithDocAudit(Component[] btns, SfEntrust entrust) {
+  if(btns==null || entrust==null)return;
+  SfJdDocAudit audit=getJdDocAudit(entrust.getEntrustId());
+  if(audit==null)return;
+  if(audit.getStatus().equals("exec")){
+    for(int i=0;i<btns.length;i++){
+      if(btns[i] instanceof FuncButton){
+        FuncButton button=(FuncButton)btns[i];
+        //fdelete,fcallback,fedit,fmanualcommit,fnew,fnewcommit,fsave,funaudit,funtread都设置为不可见
+        if("fdelete".equals(button.getFuncId())
+          ||"fcallback".equals(button.getFuncId())
+          ||"fedit".equals(button.getFuncId())
+          ||"fmanualcommit".equals(button.getFuncId())
+          ||"fnew".equals(button.getFuncId())
+          ||"fnewcommit".equals(button.getFuncId())
+          ||"fsave".equals(button.getFuncId())
+          ||"funaudit".equals(button.getFuncId())
+          ||"funtread".equals(button.getFuncId())){
+          button.setVisible(false);
+        }
+      }
+    }
+  }
+}
+
+private SfJdDocAudit getJdDocAudit(BigDecimal entrustId) {
+ List docsList= baseDataServiceDelegate.queryDataForList("com.ufgov.zc.server.sf.dao.SfJdDocAuditMapper.selectByEntrustId", entrustId, WorkEnv.getInstance().getRequestMeta());
+ if(docsList!=null && docsList.size()>0){
+   return (SfJdDocAudit) docsList.get(0);
+ }
+  return null;
+}
+
+public String getMac() {
+  if(mac==null || mac.length()==0){
+    try {
+      InetAddress ia = InetAddress.getLocalHost();
+      mac=getMACAddress(ia);
+    } catch (UnknownHostException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (Exception e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+  }
+  return mac;
+}
+
+//获取MAC地址的方法
+private  String getMACAddress(InetAddress ia) throws Exception {
+  //获得网络接口对象（即网卡），并得到mac地址，mac地址存在于一个byte数组中。
+  byte[] mac = NetworkInterface.getByInetAddress(ia).getHardwareAddress();
+
+  //下面代码是把mac地址拼装成String
+  StringBuffer sb = new StringBuffer();
+
+  for (int i = 0; i < mac.length; i++) {
+    if (i != 0) {
+      sb.append("-");
+    }
+    //mac[i] & 0xFF 是为了把byte转化为正整数
+    String s = Integer.toHexString(mac[i] & 0xFF);
+    sb.append(s.length() == 1 ? 0 + s : s);
+  }
+
+  //把字符串所有小写字母改为大写成为正规的mac地址并返回
+  return sb.toString().toUpperCase();
+}
+
+public void setMac(String mac) {
+  this.mac = mac;
+}
+
 }

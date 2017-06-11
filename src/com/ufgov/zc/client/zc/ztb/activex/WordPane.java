@@ -370,23 +370,17 @@ public class WordPane extends JPanel {
 		display.syncExec(new Runnable() {
 			public void run() {
 				OleAutomation activeDocument = getWordActiveDocument();
-				OleAutomation bookMarksAutomation = getSubOleAutomation(
-						activeDocument, "Bookmarks");
-				Variant pVarResult = getSubOleResult(bookMarksAutomation,
-						"Count");
+				OleAutomation bookMarksAutomation = getSubOleAutomation(activeDocument, "Bookmarks");
+				Variant pVarResult = getSubOleResult(bookMarksAutomation,"Count");
 				for (int i = 0, j = names.length; i < j; i++) {
 					Variant[] params = new Variant[1];
 					params[0] = new Variant(names[i]);
-					pVarResult = getFunctionResult(bookMarksAutomation,
-							"Exists", params);
+					pVarResult = getFunctionResult(bookMarksAutomation,"Exists", params);
 					if (pVarResult.getBoolean()) {
-						pVarResult = getFunctionResult(bookMarksAutomation,
-								"Item", params);
-						OleAutomation itemOleAutomation = pVarResult
-								.getAutomation();
+						pVarResult = getFunctionResult(bookMarksAutomation,"Item", params);
+						OleAutomation itemOleAutomation = pVarResult.getAutomation();
 						pVarResult = getSubOleResult(itemOleAutomation, "Range");
-						OleAutomation rangOleAutomation = pVarResult
-								.getAutomation();
+						OleAutomation rangOleAutomation = pVarResult.getAutomation();
 						setSubOleResult(rangOleAutomation, "Text", values[i]);
 					}
 				}
@@ -652,8 +646,7 @@ public class WordPane extends JPanel {
 		display.syncExec(new Runnable() {
 			public void run() {
 				OleAutomation document = getWordApplication();
-				OleAutomation selection = getSubOleAutomation(document,
-						"Selection");
+				OleAutomation selection = getSubOleAutomation(document,"Selection");
 				Variant[] params = new Variant[1];
 				params[0] = new Variant(text);
 				getFunctionResult(selection, "TypeText", params);
@@ -841,16 +834,14 @@ public class WordPane extends JPanel {
 	 */
 	public void openAndReadOnly(String openFileName, final String password) {
 		open(openFileName);
-		addPropertyChangeListener(EVENT_NAME_OPEN_CALLBACK,
-				new PropertyChangeListener() {
+		addPropertyChangeListener(EVENT_NAME_OPEN_CALLBACK,new PropertyChangeListener() {
 					public void propertyChange(PropertyChangeEvent evt) {
 						// 打开文件完成之后的回调函数
 						boolean isSuccess = (Boolean) evt.getNewValue();
 						if (isSuccess) {
 							protectDocReadOnly(password);
 						}
-						removePropertyChangeListener(EVENT_NAME_OPEN_CALLBACK,
-								this);
+						removePropertyChangeListener(EVENT_NAME_OPEN_CALLBACK,this);
 					}
 				});
 	}
@@ -896,25 +887,20 @@ public class WordPane extends JPanel {
 					// 获得上面定义的"每个人"用户的所有可编辑区域
 					params = new Variant[1];
 					params[0] = new Variant(-1);
-					getFunctionResult(activeDocument,
-							"SelectAllEditableRanges", params);
+					getFunctionResult(activeDocument,"SelectAllEditableRanges", params);
 					// 获得Editors对象
-					Variant pVarEditors = getSubOleResult(selectOleAutomation,
-							"Editors");
+					Variant pVarEditors = getSubOleResult(selectOleAutomation,"Editors");
 					OleAutomation editorsOleAutomation = pVarEditors
 							.getAutomation();
 					params = new Variant[1];
 					params[0] = new Variant(1);
-					Variant pVarResult = getFunctionResult(
-							editorsOleAutomation, "Item", params);
-					OleAutomation itemOleAutomation = pVarResult
-							.getAutomation();
+					Variant pVarResult = getFunctionResult(editorsOleAutomation, "Item", params);
+					OleAutomation itemOleAutomation = pVarResult.getAutomation();
 					getFunctionResult(itemOleAutomation, "DeleteAll");
 					// 重新对文档进行加密
 					protectDoc(password);
 					// 全选文档后光标会停留在文档末尾,下面的过程移动光标到文档的开始处
-					boolean moveFlag = moveCursorLeft(selectOleAutomation,
-							docLength);
+					boolean moveFlag = moveCursorLeft(selectOleAutomation,docLength);
 					result.put("result", moveFlag);
 				}
 			});
@@ -936,11 +922,9 @@ public class WordPane extends JPanel {
 			display.syncExec(new Runnable() {
 				public void run() {
 					OleAutomation document = getWordApplication();
-					OleAutomation selectOleAutomation = getSubOleAutomation(
-							document, "Selection");
+					OleAutomation selectOleAutomation = getSubOleAutomation(document, "Selection");
 					// 记录文档结束位置
-					Variant pVarEnd = getSubOleResult(selectOleAutomation,
-							"End");
+					Variant pVarEnd = getSubOleResult(selectOleAutomation,"End");
 					result.put("result", pVarEnd);
 				}
 			});
@@ -1005,13 +989,10 @@ public class WordPane extends JPanel {
 			display.syncExec(new Runnable() {
 				public void run() {
 					OleAutomation document = getWordApplication();
-					OleAutomation selectOleAutomation = getSubOleAutomation(
-							document, "Selection");
+					OleAutomation selectOleAutomation = getSubOleAutomation(document, "Selection");
 					// 定位当前选中的区域
-					Variant pVarResult = getSubOleResult(selectOleAutomation,
-							"Range");
-					OleAutomation rangOleAutomation = pVarResult
-							.getAutomation();
+					Variant pVarResult = getSubOleResult(selectOleAutomation,"Range");
+					OleAutomation rangOleAutomation = pVarResult.getAutomation();
 					int i = 0;
 					Variant[] params = new Variant[25];
 					// .LineNumbering.Active = False
@@ -1098,8 +1079,7 @@ public class WordPane extends JPanel {
 			display.syncExec(new Runnable() {
 				public void run() {
 					OleAutomation document = getWordApplication();
-					OleAutomation selectOleAutomation = getSubOleAutomation(
-							document, "Selection");
+					OleAutomation selectOleAutomation = getSubOleAutomation(document, "Selection");
 					// 选择所有文档内容，类似于CTR+A
 					getFunctionResult(selectOleAutomation, "WholeStory");
 				}
@@ -1129,10 +1109,8 @@ public class WordPane extends JPanel {
 					Variant[] params = new Variant[2];
 					params[0] = new Variant(intStart);
 					params[1] = new Variant(intEnd);
-					Variant pVarRange = getFunctionResult(activeDocument,
-							"Range", params);
-					OleAutomation rangeOleAutomation = pVarRange
-							.getAutomation();
+					Variant pVarRange = getFunctionResult(activeDocument,"Range", params);
+					OleAutomation rangeOleAutomation = pVarRange.getAutomation();
 					result.put("result", rangeOleAutomation);
 				}
 			});
@@ -1231,13 +1209,11 @@ public class WordPane extends JPanel {
 			public void run() {
 				// 获得书签
 				OleAutomation activeDocument = getWordActiveDocument();
-				OleAutomation bookMarksAutomation = getSubOleAutomation(
-						activeDocument, "Bookmarks");
+				OleAutomation bookMarksAutomation = getSubOleAutomation(activeDocument, "Bookmarks");
 				Variant[] param = new Variant[1];
 				param[0] = new Variant(bookMarkName);
 				// 判断书签是否存在
-				Variant pVarResult = getFunctionResult(bookMarksAutomation,
-						"Exists", param);
+				Variant pVarResult = getFunctionResult(bookMarksAutomation,"Exists", param);
 				// 如果存在,选择此item
 				isHas = pVarResult.getBoolean();
 				isEnd = true;

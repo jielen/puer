@@ -75,6 +75,16 @@ public class SfEntrust extends ZcBaseBill {
    */
   public static final String STATUS_BACK ="back";
   
+  /**
+   * 鉴定委托信息需要修改，退回委托方
+   */
+  public static final String STATUS_TH_WTF ="jdzx_th";
+  
+  /**
+   * 鉴定文书审批中
+   */
+  public static final String STATUS_DOC_AUDITING ="docAudit";
+  
   
 
 	public static final String SEQ_SF_ENTRUST_ID = "SEQ_SF_ENTRUST_ID";
@@ -217,6 +227,15 @@ public class SfEntrust extends ZcBaseBill {
 	public static final String COL_ACCEPT_CODE="SF_ENTRUST_ACCEPT_CODE"; // 受理编号
 	public static final String COL_ANJIAN_CODE="SF_ENTRUST_ANJIAN_CODE"; // 案件编号
   public static final String COL_CO_CODE="SF_ENTRUST_CO_CODE"; // 鉴定中心
+  
+  public static final String COL_HISTORY_ATTACH_FILE="SF_ENTRUST_HISTORY_ATTACH_FILE"; // 上次鉴定报告
+  public static final String COL_HISTORY_ATTACH_FILE_BLOBID="SF_ENTRUST_HISTORY_ATTACH_FILE_BLOBID"; // 上次鉴定报告ID
+  public static final String COL_HISTORY_JGMC="SF_ENTRUST_HISTORY_JGMC"; // 上次鉴定机构
+  public static final String COL_HISTORY_FZR="SF_ENTRUST_HISTORY_FZR"; // 上次鉴定负责人
+  public static final String COL_HISTORY_JD_DATE="SF_ENTRUST_HISTORY_JD_DATE"; // 上次鉴定时间
+  public static final String COL_IS_TH_WTF="SF_ENTRUST_IS_TH_WTF"; // 是否退回委托方修改
+  
+
 
 	public static final String BKMK_MATERIALS = "BKMK_MATERIALS";// 检材样本
 
@@ -269,6 +288,14 @@ public class SfEntrust extends ZcBaseBill {
 	
 	private String barCode;
 
+  private String historyAttachFile;
+  private String historyAttachFileBlobid;
+  private String historyJgmc;
+  private String historyFzr;
+  private Date historyJdDate; 
+
+  private String isThWtf; 
+  
 	/**
 	 * 状态变更记录 SfEntrustManage
 	 */
@@ -312,16 +339,16 @@ public class SfEntrust extends ZcBaseBill {
 	/**
 	 * 历史鉴定负责人
 	 */
-	private String lsJdFzr;
+//	private String lsJdFzr;
 
-	private String lsJdFzrName;
+//	private String lsJdFzrName;
 
 	/**
 	 * 历史鉴定复核人
 	 */
-	private String lsJdFhr;
+//	private String lsJdFhr;
 
-	private String lsJdFhrName;
+//	private String lsJdFhrName;
 
 	private String jdDocSendType;
 
@@ -331,45 +358,45 @@ public class SfEntrust extends ZcBaseBill {
 
 	private List jdChargeDetaillst = new ArrayList();
 
-	public String getLsJdFzrName() {
-		if (getOldEntrust() != null)
-			return getOldEntrust().getJdFzrName();
-		return lsJdFzrName;
-	}
+//	public String getLsJdFzrName() {
+//		if (getOldEntrust() != null)
+//			return getOldEntrust().getJdFzrName();
+//		return lsJdFzrName;
+//	}
 
-	public void setLsJdFzrName(String lsJdFzrName) {
-		this.lsJdFzrName = lsJdFzrName;
-	}
+//	public void setLsJdFzrName(String lsJdFzrName) {
+//		this.lsJdFzrName = lsJdFzrName;
+//	}
 
-	public String getLsJdFhrName() {
-		if (getOldEntrust() != null)
-			return getOldEntrust().getJdFhrName();
-		return lsJdFhrName;
-	}
+//	public String getLsJdFhrName() {
+//		if (getOldEntrust() != null)
+//			return getOldEntrust().getJdFhrName();
+//		return lsJdFhrName;
+//	}
 
-	public void setLsJdFhrName(String lsJdFhrName) {
-		this.lsJdFhrName = lsJdFhrName;
-	}
+//	public void setLsJdFhrName(String lsJdFhrName) {
+//		this.lsJdFhrName = lsJdFhrName;
+//	}
 
-	public String getLsJdFzr() {
-		if (getOldEntrust() != null)
-			return getOldEntrust().getJdFzr();
-		return lsJdFzr;
-	}
-
-	public void setLsJdFzr(String lsJdFzr) {
-		this.lsJdFzr = lsJdFzr;
-	}
-
-	public String getLsJdFhr() {
-		if (getOldEntrust() != null)
-			return getOldEntrust().getJdFhr();
-		return lsJdFhr;
-	}
-
-	public void setLsJdFhr(String lsJdFhr) {
-		this.lsJdFhr = lsJdFhr;
-	}
+//	public String getLsJdFzr() {
+//		if (getOldEntrust() != null)
+//			return getOldEntrust().getJdFzr();
+//		return lsJdFzr;
+//	}
+//
+//	public void setLsJdFzr(String lsJdFzr) {
+//		this.lsJdFzr = lsJdFzr;
+//	}
+//
+//	public String getLsJdFhr() {
+//		if (getOldEntrust() != null)
+//			return getOldEntrust().getJdFhr();
+//		return lsJdFhr;
+//	}
+//
+//	public void setLsJdFhr(String lsJdFhr) {
+//		this.lsJdFhr = lsJdFhr;
+//	}
 
 	public String getJdDocSendType() {
 		return jdDocSendType;
@@ -1567,5 +1594,53 @@ public class SfEntrust extends ZcBaseBill {
 
   public void setSendDate(Date sendDate) {
     this.sendDate = sendDate;
+  }
+
+  public String getHistoryAttachFile() {
+    return historyAttachFile;
+  }
+
+  public void setHistoryAttachFile(String historyAttachFile) {
+    this.historyAttachFile = historyAttachFile;
+  }
+
+  public String getHistoryAttachFileBlobid() {
+    return historyAttachFileBlobid;
+  }
+
+  public void setHistoryAttachFileBlobid(String historyAttachFileBlobid) {
+    this.historyAttachFileBlobid = historyAttachFileBlobid;
+  }
+
+  public String getHistoryJgmc() {
+    return historyJgmc;
+  }
+
+  public void setHistoryJgmc(String historyJgmc) {
+    this.historyJgmc = historyJgmc;
+  }
+
+  public String getHistoryFzr() {
+    return historyFzr;
+  }
+
+  public void setHistoryFzr(String historyFzr) {
+    this.historyFzr = historyFzr;
+  }
+
+  public Date getHistoryJdDate() {
+    return historyJdDate;
+  }
+
+  public void setHistoryJdDate(Date historyJdDate) {
+    this.historyJdDate = historyJdDate;
+  }
+
+  public String getIsThWtf() {
+    return isThWtf;
+  }
+
+  public void setIsThWtf(String isThWtf) {
+    this.isThWtf = isThWtf;
   }
 }

@@ -15,8 +15,10 @@ import com.ufgov.zc.client.sf.dossier.SfDossierEditPanel;
 import com.ufgov.zc.client.sf.dossier.SfDossierListPanel;
 import com.ufgov.zc.client.sf.dossier.SfDossierUtil;
 import com.ufgov.zc.client.sf.util.SfUtil;
+import com.ufgov.zc.common.sf.model.SfDocSend;
 import com.ufgov.zc.common.sf.model.SfDossier;
 import com.ufgov.zc.common.sf.model.SfEntrust;
+import com.ufgov.zc.common.sf.model.SfJdResult;
 import com.ufgov.zc.common.system.RequestMeta;
 import com.ufgov.zc.common.system.constants.SfElementConstants;
 import com.ufgov.zc.common.system.dto.ElementConditionDto;
@@ -81,7 +83,7 @@ public class SfDossierNodeBusiness implements ISfFlowNodeBusiness {
   @Override
   public boolean isEnable(SfEntrust entrust, RequestMeta meta) {
     // TCJLODO Auto-generated method stub
-    if (!isEnougthCondition(entrust)) {
+    if (!isEnougthCondition(entrust,meta)) {
       return false;
     }
     List evalst = getDataLst(entrust.getEntrustId(), meta);
@@ -99,12 +101,28 @@ public class SfDossierNodeBusiness implements ISfFlowNodeBusiness {
 
   /**
    * 检查其业务前提条件是否满足
+   * 这几种情况下可以归档
+   * 1、鉴定完成，审批文书已经领走
+   * 2、鉴定被终止、转送
    * @param entrust
    * @return
    */
-  private boolean isEnougthCondition(SfEntrust entrust) {
+  private boolean isEnougthCondition(SfEntrust entrust,RequestMeta meta) {
     // TCJLODO Auto-generated method stub
-    if (SfElementConstants.VAL_Y.equals(entrust.getIsAccept())) {
+    
+    
+ /*   if (SfElementConstants.VAL_Y.equals(entrust.getIsAccept())) {
+      return true;
+    }*/
+    //2、鉴定被终止、转送
+    if(entrust.getStatus().equals(SfEntrust.STATUS_STOP) || entrust.getStatus().equals(SfEntrust.STATUS_ZHUANSONG)){
+      return true;
+    }
+    
+    IZcEbBaseServiceDelegate zcEbBaseServiceDelegate = (IZcEbBaseServiceDelegate) ServiceFactory.create(IZcEbBaseServiceDelegate.class,"zcEbBaseServiceDelegate"); 
+    //1、鉴定完成，审批文书已经领走
+    List<SfDocSend> billLst = zcEbBaseServiceDelegate.queryDataForList("com.ufgov.zc.server.sf.dao.SfDocSendMapper.selectByEntrustId", entrust.getEntrustId(), meta);
+    if(billLst!=null && billLst.size()>0){
       return true;
     }
     return false;

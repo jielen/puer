@@ -35,5 +35,7 @@ public interface ISfEntrustService {
   
   public void update(SfEntrust inData, RequestMeta requestMeta);
 
+  SfEntrust selectByBarCode(String barCode, RequestMeta requestMeta);
+
   
 }

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.ufgov.zc.server.sf.dao.SfPrintClientMapper">
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+  <resultMap id="BaseResultMap" class="com.ufgov.zc.common.sf.model.SfPrintClient">
+    <result column="PRINT_ID" jdbcType="DECIMAL" property="printId" />
+    <result column="MAC" jdbcType="VARCHAR" property="mac" />
+    <result column="PRINT_NAME" jdbcType="VARCHAR" property="printName" />
+    <result column="IP" jdbcType="VARCHAR" property="ip" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PRINT_ID, MAC, PRINT_NAME, IP
+  </sql>
+  <select id="selectByPrimaryKey" parameterClass="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SF_PRINT_CLIENT
+    where PRINT_ID = #printId:DECIMAL#
+  </select>
+  <select id="selectMainDataLst" parameterClass="elementCondition" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SF_PRINT_CLIENT
+    where 1=1
+		<isNotNull prepend="AND" property="dattr1"> 
+			MAC=#dattr1#
+		</isNotNull> 
+		<isNotNull prepend="AND" property="dattr2"> 
+			IP=#dattr2#
+		</isNotNull> 
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="java.math.BigDecimal">
+    delete from SF_PRINT_CLIENT
+    where PRINT_ID = #printId:DECIMAL#
+  </delete>
+  <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfPrintClient">
+    insert into SF_PRINT_CLIENT (PRINT_ID, MAC, PRINT_NAME, 
+      IP)
+    values (#printId:DECIMAL#, #mac:VARCHAR#, #printName:VARCHAR#, 
+      #ip:VARCHAR#)
+  </insert> 
+  <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfPrintClient">
+    update SF_PRINT_CLIENT
+    set MAC = #mac:VARCHAR#,
+      PRINT_NAME = #printName:VARCHAR#,
+      IP = #ip:VARCHAR#
+    where PRINT_ID = #printId:DECIMAL#
+  </update>
+</sqlMap>

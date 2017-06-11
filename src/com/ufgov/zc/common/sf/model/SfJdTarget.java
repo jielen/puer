@@ -19,6 +19,8 @@ public class SfJdTarget extends ZcBaseBill{
   public static final String COL_ADDRESS="SF_JD_TARGET_ADDRESS";
   public static final String COL_ZIP="SF_JD_TARGET_ZIP";
   public static final String COL_COMPANY="SF_JD_TARGET_COMPANY";
+  
+  public static final String BKMK_ALL_INFO="SF_JD_TARGET_ALL_INFO";//全部信息
 //  public static final String COL_JD_TARGET_ID="SF_JD_TARGET_ID";
   
   private BigDecimal entrustId;
@@ -229,7 +231,7 @@ public class SfJdTarget extends ZcBaseBill{
 
   public void setCompany(String company) {
     this.company = company;
-  }
+  } 
 
   /**
    * 

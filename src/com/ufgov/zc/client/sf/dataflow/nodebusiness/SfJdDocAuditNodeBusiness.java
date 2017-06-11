@@ -91,8 +91,17 @@ public class SfJdDocAuditNodeBusiness implements ISfFlowNodeBusiness {
         }
       }
       flowPanel.setSelectedTab(compoId);
+      //加载委托、鉴定记录、鉴定报告三个页签，方便审批
+      lazyInitOthers(entrust,meta);
     }
   }
+
+  /**
+   * 加载委托、鉴定记录、鉴定报告三个页签，方便审批
+   * @param entrust
+   * @param meta
+   */
+  private void lazyInitOthers(SfEntrust entrust, RequestMeta meta) {}
 
   private List<SfJdDocAudit> getDataLst(BigDecimal entrustId, RequestMeta meta) {
     // TCJLODO Auto-generated method stub

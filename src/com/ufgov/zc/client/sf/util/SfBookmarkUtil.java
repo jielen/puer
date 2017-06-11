@@ -90,6 +90,7 @@ public class SfBookmarkUtil {
 		BKMK_NAME_JDTARGET_LST.add(SfJdTarget.COL_PHONE);
 		BKMK_NAME_JDTARGET_LST.add(SfJdTarget.COL_SEX);
 		BKMK_NAME_JDTARGET_LST.add(SfJdTarget.COL_ZIP);
+    BKMK_NAME_JDTARGET_LST.add(SfJdTarget.COL_ZIP);
 	}
 	
 	public List<SfBookmark> getEntrustBookValueLst(SfEntrust bill){
@@ -410,7 +411,38 @@ public class SfBookmarkUtil {
     bk.setName(SfJdTarget.COL_COMPANY);
     bk.setValue(bill.getCompany());
     rtn.add(bk);
-		
+
+    bk=new SfBookmark();
+    bk.setName(SfJdTarget.BKMK_ALL_INFO); 
+    StringBuffer sb=new StringBuffer();
+    
+    if(bill.getName()!=null){
+      sb.append(bill.getName()).append(",");
+    }
+    if(bill.getSex()!=null){
+      sb.append(AsValDataCache.getName(SfElementConstants.VS_SEX, bill.getSex())).append(",");
+    }
+    if(bill.getAge()!=null){
+      sb.append(bill.getAge()).append("岁,");
+    }
+    if(bill.getIdName()!=null && bill.getIdCode()!=null){
+      sb.append(bill.getIdName()).append("号:").append(bill.getIdCode()).append(",");
+    }
+    if(bill.getPhone()!=null && bill.getPhone().trim().length()>0){
+      sb.append("联系电话:").append(bill.getPhone()).append(",");
+    }
+    if(bill.getAddress()!=null && bill.getAddress().trim().length()>0){
+      sb.append("住址:").append(bill.getAddress()).append(",");
+    }
+    if(bill.getCompany()!=null && bill.getCompany().trim().length()>0){
+      sb.append("工作单位:").append(bill.getCompany()).append(",");
+    }
+    if(sb.length()>0 && sb.charAt(sb.length()-1)==','){
+      sb=new StringBuffer(sb.subSequence(0, sb.length()-1));
+    }
+    bk.setValue(sb.toString());
+    rtn.add(bk);
+    
 		return rtn;
 	}
 

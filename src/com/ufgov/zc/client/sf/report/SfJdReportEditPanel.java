@@ -569,6 +569,10 @@ public class SfJdReportEditPanel extends AbstractMainSubEditPanel {
 		if(bill.getReportCode()!=null){
 		  getNoBtn.setVisible(false);
 		}
+
+    //文书审批单终审后，锁定修改等操作
+    SfUtil su=new SfUtil();
+    su.lockBillWithDocAudit(toolBar.getComponents(),bill.getEntrust());
 	}
 
 	public void setButtonStatusWithoutWf() {

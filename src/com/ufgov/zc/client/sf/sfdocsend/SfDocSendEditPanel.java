@@ -63,8 +63,11 @@ import com.ufgov.zc.client.component.zc.fieldeditor.ForeignEntityFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.NewLineFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.TextAreaFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.TextFieldEditor;
+import com.ufgov.zc.client.sf.component.JClosableTabbedPane;
 import com.ufgov.zc.client.sf.dataflow.SfDataFlowDialog;
+import com.ufgov.zc.client.sf.dataflow.SfDataFlowUtil;
 import com.ufgov.zc.client.sf.entrust.SfJdDocAuditHandler;
+import com.ufgov.zc.client.sf.jdresult.SfJdResultDialog;
 import com.ufgov.zc.client.sf.util.SfUtil;
 import com.ufgov.zc.client.util.SwingUtil;
 import com.ufgov.zc.client.zc.ButtonStatus;
@@ -76,6 +79,7 @@ import com.ufgov.zc.common.sf.model.SfDocSendMaterial;
 import com.ufgov.zc.common.sf.model.SfEntrust;
 import com.ufgov.zc.common.sf.model.SfJdDocAudit;
 import com.ufgov.zc.common.sf.model.SfJdDocAuditDetail;
+import com.ufgov.zc.common.sf.model.SfJdResult;
 import com.ufgov.zc.common.sf.model.SfMaterials;
 import com.ufgov.zc.common.sf.model.SfMaterialsTransferDetail;
 import com.ufgov.zc.common.sf.publish.ISfDocSendServiceDelegate;
@@ -704,6 +708,7 @@ public class SfDocSendEditPanel  extends AbstractMainSubEditPanel {
 
       refreshListPanel();
       refreshData();
+      updateDataFlowDialog();
 
     } else {
 
@@ -715,6 +720,23 @@ public class SfDocSendEditPanel  extends AbstractMainSubEditPanel {
 
   }
 
+  /**
+   * 更新数据流界面
+   */
+  private void updateDataFlowDialog() {
+    // TCJLODO Auto-generated method stub
+    SfDocSend bill = (SfDocSend) this.listCursor.getCurrentObject();
+    if (listPanel != null && listPanel.getParent() instanceof JClosableTabbedPane) {
+      return;
+    }
+    if (parent instanceof SfJdResultDialog) {//新增的，创建数据流界面
+      SfDataFlowDialog d = new SfDataFlowDialog(compoId, SfDataFlowUtil.getEntrust(bill.getEntrustId()), listPanel);
+      parent.dispose();
+    } else {
+      SfDataFlowDialog d = (SfDataFlowDialog) parent;
+      d.refresh(bill.getEntrustId());
+    }
+  }
   private void refreshListPanel() {
     if (listPanel != null) {
       listPanel.refreshCurrentTabData();

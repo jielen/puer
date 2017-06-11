@@ -3,12 +3,18 @@
  */
 package com.ufgov.zc.client.sf.entrust;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -21,8 +27,11 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileSystemView;
 import javax.swing.table.TableModel;
@@ -40,6 +49,7 @@ import com.ufgov.zc.client.common.ServiceFactory;
 import com.ufgov.zc.client.common.WorkEnv;
 import com.ufgov.zc.client.common.converter.sf.SfEntrustToTableModelConverter;
 import com.ufgov.zc.client.component.JFuncToolBar;
+import com.ufgov.zc.client.component.SimpleRowFilter;
 import com.ufgov.zc.client.component.button.zc.CommonButton;
 import com.ufgov.zc.client.component.ui.AbstractDataDisplay;
 import com.ufgov.zc.client.component.ui.AbstractEditListBill;
@@ -155,10 +165,13 @@ public class SfEntrustListPanel extends AbstractEditListBill implements ParentWi
 
   private AbstractDataDisplay createDataDisplay(List<TableDisplay> showingDisplays) {
 
-    return new DataDisplay(SearchConditionUtil.getAllTableDisplay(SfEntrust.TAB_ID), showingDisplays,
+    AbstractDataDisplay dataDisplay= new DataDisplay(SearchConditionUtil.getAllTableDisplay(SfEntrust.TAB_ID), showingDisplays,createTopConditionArea(), true);//true:显示收索条件区 false：不显示收索条件区
 
-    createTopConditionArea(), true);//true:显示收索条件区 false：不显示收索条件区
-
+    //增加条码扫描搜索框
+    if(SfUtil.isJdjg()){
+      addBarCodeScan(dataDisplay);
+    }
+    return dataDisplay;
   }
 
   private AbstractSearchConditionArea topSearchConditionArea;
@@ -187,11 +200,8 @@ public class SfEntrustListPanel extends AbstractEditListBill implements ParentWi
     boolean showConditionArea) {
 
       super(displays, showingDisplays, conditionArea, showConditionArea, SfEntrust.TAB_ID);
-
-      setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), LangTransMeta.translate(compoId), TitledBorder.CENTER,
-        TitledBorder.TOP, new Font("宋体",
-
-        Font.BOLD, 15), Color.BLUE));
+      
+      setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), LangTransMeta.translate(compoId), TitledBorder.CENTER,TitledBorder.TOP, new Font("宋体",Font.BOLD, 15), Color.BLUE));
 
     }
 
@@ -342,6 +352,63 @@ public class SfEntrustListPanel extends AbstractEditListBill implements ParentWi
 
     });
 
+  }
+
+  public void addBarCodeScan(AbstractDataDisplay dataDisplay) {
+    final JTextField tiaomaScanTextField = new JTextField(30); 
+    JPanel tiaomaScanPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 1, 1));
+    tiaomaScanPanel.setBorder(new EmptyBorder(5, 5, 3, 0));
+    tiaomaScanPanel.add(new JLabel("<html><font color=\"blue\"><strong>扫描条码：</strong></font></html>"));
+    tiaomaScanTextField.setPreferredSize(new Dimension(80, 25));
+
+    tiaomaScanTextField.addKeyListener(new KeyAdapter() {
+      @Override
+      public void keyReleased(KeyEvent e) 
+      {if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+        tiaomaScanTextField.setSelectionStart(0);
+        scanTiaoMa(tiaomaScanTextField.getText()); 
+      }
+         
+      }
+    });
+    
+    tiaomaScanPanel.add(tiaomaScanTextField);
+    Component search=dataDisplay.getComponent(0);
+    Component tab=dataDisplay.getComponent(1);
+    dataDisplay.removeAll();
+    dataDisplay.setLayout(new BorderLayout());
+    JPanel p=new JPanel();
+    p.setLayout(new BorderLayout());
+    p.add(search, BorderLayout.CENTER);
+    p.add(tiaomaScanPanel,BorderLayout.SOUTH);
+    dataDisplay.add(p,BorderLayout.NORTH);
+    dataDisplay.add(tab, BorderLayout.CENTER);
+//System.out.println(dataDisplay.getComponentCount());
+    
+  }
+
+  protected void scanTiaoMa(String barcode) {
+//    System.out.println(barcode);
+    
+    if(barcode==null || barcode.trim().length()==0){
+      return;
+    }
+    SfEntrust entrust=sfEntrustServiceDelegate.selectByBarCode(barcode.trim().toUpperCase(), requestMeta);
+    if(entrust==null){
+      return;
+    }
+    if(SfUtil.isWtf()){
+      //委托方不能查看非自己的委托
+      if(!requestMeta.getSvUserID().equals(entrust.getEntrustor().getCode())){
+        return;
+      }
+    }
+    if(SfUtil.isJdjg()){
+      if(!requestMeta.getSvCoCode().equals(entrust.getCoCode())){
+        return;
+      }
+    }
+    new SfDataFlowDialog(compoId, entrust, self);
   }
 
   public void setButtonsVisiable() {

@@ -2,10 +2,10 @@ package com.ufgov.zc.client.sf.entrust;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.DefaultKeyboardFocusManager;
 import java.awt.Desktop;
 import java.awt.Dialog.ModalityType;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -60,8 +60,6 @@ import com.ufgov.zc.client.component.JFuncToolBar;
 import com.ufgov.zc.client.component.JTablePanel;
 import com.ufgov.zc.client.component.button.AddButton;
 import com.ufgov.zc.client.component.button.CallbackButton;
-import com.ufgov.zc.client.component.button.ConfirmButton;
-import com.ufgov.zc.client.component.button.CopyButton;
 import com.ufgov.zc.client.component.button.DeleteButton;
 import com.ufgov.zc.client.component.button.EditButton;
 import com.ufgov.zc.client.component.button.ExitButton;
@@ -82,9 +80,7 @@ import com.ufgov.zc.client.component.button.TraceButton;
 import com.ufgov.zc.client.component.button.UnauditButton;
 import com.ufgov.zc.client.component.button.UntreadButton;
 import com.ufgov.zc.client.component.button.zc.CommonButton;
-import com.ufgov.zc.client.component.element.UserTreeSelectDialog;
 import com.ufgov.zc.client.component.sf.fieldeditor.SfEntrustorNewFieldEditor;
-import com.ufgov.zc.client.component.sf.fieldeditor.SfJdTargetNewFieldEditor;
 import com.ufgov.zc.client.component.table.BeanTableModel;
 import com.ufgov.zc.client.component.table.celleditor.MoneyCellEditor;
 import com.ufgov.zc.client.component.table.celleditor.TextCellEditor;
@@ -97,6 +93,7 @@ import com.ufgov.zc.client.component.zc.AbstractMainSubEditPanel;
 import com.ufgov.zc.client.component.zc.fieldeditor.AsValFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.AutoNumFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.DateFieldEditor;
+import com.ufgov.zc.client.component.zc.fieldeditor.FileFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.ForeignEntityFieldCellEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.ForeignEntityFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.IntFieldEditor;
@@ -110,6 +107,8 @@ import com.ufgov.zc.client.sf.dataflow.SfDataFlowDialog;
 import com.ufgov.zc.client.sf.entrustmanage.SfEntrustManageDialog;
 import com.ufgov.zc.client.sf.entrustor.SfEntrustorHandler;
 import com.ufgov.zc.client.sf.jdtarget.SfJdTargethandler;
+import com.ufgov.zc.client.sf.print.SfBarPrintUtil;
+import com.ufgov.zc.client.sf.print.ZebraPrinter;
 import com.ufgov.zc.client.sf.util.SfJdPersonSelectHandler;
 import com.ufgov.zc.client.sf.util.SfUtil;
 import com.ufgov.zc.client.util.SwingUtil;
@@ -120,6 +119,7 @@ import com.ufgov.zc.client.zc.ZcUtil;
 import com.ufgov.zc.common.commonbiz.model.BaseElement;
 import com.ufgov.zc.common.commonbiz.model.BillElement;
 import com.ufgov.zc.common.commonbiz.model.WfAware;
+import com.ufgov.zc.common.sf.exception.SfBusinessException;
 import com.ufgov.zc.common.sf.model.SfChargeDetail;
 import com.ufgov.zc.common.sf.model.SfChargeStandard;
 import com.ufgov.zc.common.sf.model.SfEntrust;
@@ -127,11 +127,11 @@ import com.ufgov.zc.common.sf.model.SfEntrustManage;
 import com.ufgov.zc.common.sf.model.SfEntrustor;
 import com.ufgov.zc.common.sf.model.SfJdPerson;
 import com.ufgov.zc.common.sf.model.SfJdResult;
-import com.ufgov.zc.common.sf.model.SfJdResultFile;
 import com.ufgov.zc.common.sf.model.SfJdTarget;
 import com.ufgov.zc.common.sf.model.SfJdjg;
 import com.ufgov.zc.common.sf.model.SfMajor;
 import com.ufgov.zc.common.sf.model.SfMaterials;
+import com.ufgov.zc.common.sf.model.SfPrintClient;
 import com.ufgov.zc.common.sf.publish.ISfEntrustServiceDelegate;
 import com.ufgov.zc.common.system.RequestMeta;
 import com.ufgov.zc.common.system.constants.SfElementConstants;
@@ -186,11 +186,14 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
 
   public FuncButton printMastTmButton = new CommonButton("fprintMastTm", "print.gif");
 
-  public FuncButton printDetailTmConfirmButton = new CommonButton("fprintDetailTm", "print.gif");
+  public FuncButton printDetailTmButton = new CommonButton("fprintDetailTm", "print.gif");
 
   public FuncButton acceptBtn = new CommonButton("faccepted", "audit.jpg");
 
   public FuncButton unAccetpBtn = new CommonButton("fback", "untread.jpg");
+  
+  public FuncButton thWtfBtn = new CommonButton("fbackWtf", "untread.jpg");
+
 
   //送科室确认委托信息
   public FuncButton songkeshiBtn = new CommonButton("fsongkeshi", "audit.jpg");
@@ -220,6 +223,11 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
   public FuncButton startBtn = new CommonButton("fstart", "audit.jpg");
   public FuncButton zhuansongBtn = new CommonButton("fzhuansong", "audit.jpg");
 
+  /**
+   * 设置系统条码打印机
+   */
+  public FuncButton barPrintSetBtn = new CommonButton("fbarPrintSet", "setting.gif");
+  
   protected ListCursor<SfEntrust> listCursor;
 
   private SfEntrust oldentrust;
@@ -269,6 +277,9 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
   private Hashtable<BigDecimal, JComponent> xysxComponents = new Hashtable<BigDecimal, JComponent>();// 协议事项部件
 
   final ElementConditionDto majorPersonDto = new ElementConditionDto();
+  
+  private SfPrintClient barPrint=null;
+   
 
   public SfEntrustEditPanel(GkBaseDialog parent, ListCursor listCursor, String tabStatus, SfEntrustListPanel listPanel) {
     // TCJLODO Auto-generated constructor stub
@@ -505,11 +516,11 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
     SwingUtil.setTableCellRenderer(table, SfMaterials.COL_QUANTITY, new NumberCellRenderer());
     SwingUtil.setTableCellEditor(table, SfMaterials.COL_MATERIAL_TYPE, new AsValComboBoxCellEditor(SfMaterials.SF_VS_MATERIAL_TYPE));
     SwingUtil.setTableCellRenderer(table, SfMaterials.COL_MATERIAL_TYPE, new AsValCellRenderer(SfMaterials.SF_VS_MATERIAL_TYPE));
-
+ 
     FileCellEditor fileEditor = new FileCellEditor("attachFileBlobid", false, (BeanTableModel) table.getModel());
     fileEditor.setDownloadFileEnable(true);
     SwingUtil.setTableCellEditor(table, SfMaterials.COL_ATTACH_FILE, fileEditor);
-    
+     
     fileEditor = new FileCellEditor("tiquFileBlobid", false, (BeanTableModel) table.getModel());
     fileEditor.setDownloadFileEnable(true);
     SwingUtil.setTableCellEditor(table, SfMaterials.COL_TIQU_FILE, fileEditor);
@@ -648,20 +659,34 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
         }else{
           printConfirmButton.setVisible(true);
           printXyButton.setVisible(true);
+          if(entrust.getAcceptCode()!=null && entrust.getAcceptCode().length()>0){
+            barPrintSetBtn.setVisible(true);
+            printMastTmButton.setVisible(true);
+            printDetailTmButton.setVisible(true);
+          }
         }
       }else if(entrust.getStatus().equalsIgnoreCase("4")){
         printWtButton.setVisible(true);
         if(entrust.getAcceptCode() ==null){
           printConfirmButton.setVisible(false);
           printXyButton.setVisible(false);
+          printMastTmButton.setVisible(false);
+          barPrintSetBtn.setVisible(false);
+          printDetailTmButton.setVisible(false);       
         }else{
           printConfirmButton.setVisible(true);
-          printXyButton.setVisible(true);
+          printXyButton.setVisible(true); 
+            barPrintSetBtn.setVisible(true);
+            printMastTmButton.setVisible(true);
+            printDetailTmButton.setVisible(true); 
         } 
       }else{
         printWtButton.setVisible(false);
         printConfirmButton.setVisible(false);
-        printXyButton.setVisible(false);        
+        printXyButton.setVisible(false); 
+        printMastTmButton.setVisible(false);
+        barPrintSetBtn.setVisible(false);
+        printDetailTmButton.setVisible(false);       
       }
      //受理之后才处理这些按钮操作，受理前不能操作
       delayBtn.setVisible(false);
@@ -787,6 +812,12 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
       btnStatusList.add(bs);
 
       bs = new ButtonStatus();
+      bs.setButton(this.thWtfBtn);
+      bs.addPageStatus(ZcSettingConstants.PAGE_STATUS_BROWSE);
+      bs.addBillStatus(ZcSettingConstants.BILL_STATUS_ALL);
+      btnStatusList.add(bs);
+
+      bs = new ButtonStatus();
 
       bs.setButton(this.sendButton);
 
@@ -878,7 +909,7 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
 
       bs = new ButtonStatus();
 
-      bs.setButton(this.printDetailTmConfirmButton);
+      bs.setButton(this.printDetailTmButton);
 
       bs.addPageStatus(ZcSettingConstants.PAGE_STATUS_BROWSE);
 
@@ -900,6 +931,12 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
       bs.setButton(this.importButton);
       bs.addPageStatus(ZcSettingConstants.PAGE_STATUS_EDIT);
       bs.addPageStatus(ZcSettingConstants.PAGE_STATUS_NEW);
+      btnStatusList.add(bs);
+
+      bs = new ButtonStatus();
+      bs.setButton(this.barPrintSetBtn);
+
+      bs.addPageStatus(ZcSettingConstants.PAGE_STATUS_BROWSE); 
       btnStatusList.add(bs);
 
     }
@@ -966,6 +1003,8 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
 
     toolBar.add(unAccetpBtn);
 
+    toolBar.add(thWtfBtn);
+    
     //    toolBar.add(importButton);
 
     toolBar.add(printWtButton);
@@ -980,13 +1019,17 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
     printXyButton.setText("委托确认书(协议)");
     printXyButton.setToolTipText("委托确认书(协议)");
 
-/*    toolBar.add(printMastTmButton);
+    toolBar.add(printMastTmButton);
     printMastTmButton.setText("打印总条码");
-    printMastTmButton.setToolTipText("打印总条码");*/
+    printMastTmButton.setToolTipText("打印总条码");
 
-    /* toolBar.add(printDetailTmConfirmButton);
-     printDetailTmConfirmButton.setText("打印检材条码");
-     printDetailTmConfirmButton.setToolTipText("打印检材条码");*/
+     toolBar.add(printDetailTmButton);
+     printDetailTmButton.setText("打印检材条码");
+     printDetailTmButton.setToolTipText("打印检材条码");
+
+    toolBar.add(barPrintSetBtn);
+    barPrintSetBtn.setText("设定条码打印机");
+    barPrintSetBtn.setToolTipText("设定条码打印机");
 
     /* toolBar.add(getAcceptCodeBtn);
      getAcceptCodeBtn.setText("获取受理编号");
@@ -1020,7 +1063,45 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
     
     toolBar.add(exitButton);
     toolBar.add(exitButton);
+    
+    printMastTmButton.addActionListener(new ActionListener() {
 
+      public void actionPerformed(ActionEvent e) {
+
+        doPrintMastTm();
+
+      }
+
+    }); 
+    printDetailTmButton.addActionListener(new ActionListener() {
+
+      public void actionPerformed(ActionEvent e) {
+
+        doPrintDetailTm();
+
+      }
+
+    });
+    barPrintSetBtn.addActionListener(new ActionListener() {
+
+      public void actionPerformed(ActionEvent e) {
+
+        doBarPrintSet();
+
+      }
+
+    });
+
+    thWtfBtn.addActionListener(new ActionListener() {
+
+      public void actionPerformed(ActionEvent e) {
+
+        doThWtf();
+
+      }
+
+    });
+    
     zhuansongBtn.addActionListener(new ActionListener() {
 
       public void actionPerformed(ActionEvent e) {
@@ -1226,6 +1307,135 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
         doTrace();
       }
     });
+  }
+
+  /**
+   * 打印检材明细条码
+   */
+  protected void doPrintDetailTm() {
+    JPageableFixedTable table = materialsTablePanel.getTable();
+    if(table.getRowCount()==0){
+      return;
+    }
+    if(getBarPrint()==null){
+      doBarPrintSet(SfPrintClient.TM_BTN_JC);
+      return;
+    }
+    try {
+      Integer[] checkedRows;
+      // 是否显示行选择框
+      if (materialsTablePanel.getTable().isShowCheckedColumn()) {
+        checkedRows = table.getCheckedRows();
+      } else {
+        int[] selectedRows = table.getSelectedRows();
+        checkedRows = new Integer[selectedRows.length];
+        for (int i = 0; i < checkedRows.length; i++) {
+          checkedRows[i] = selectedRows[i];
+        }
+      }
+      List beanList=new ArrayList();
+      if (checkedRows==null || checkedRows.length == 0) {
+//        JOptionPane.showMessageDialog(this, "没有选择数据！", "提示",JOptionPane.INFORMATION_MESSAGE); 
+        int num = JOptionPane.showConfirmDialog(this, "是否打印全部检材的条码？如果只打印指定检材的条码，请先勾选对应的检材 。", "打印检材条码", 0);
+        if (num == JOptionPane.YES_OPTION) {
+          if (table.isEditing()) {
+            table.getCellEditor().stopCellEditing();
+          }
+          BeanTableModel tableModel = (BeanTableModel) table.getModel();
+          beanList=tableModel.getDataBeanList();
+        }else{
+          return;
+        }
+      } else {
+        if (table.isEditing()) {
+          table.getCellEditor().stopCellEditing();
+        }
+        BeanTableModel tableModel = (BeanTableModel) table.getModel();
+        int[] selRows = new int[checkedRows.length];
+        for (int i = 0; i < selRows.length; i++) {
+          selRows[i] = table.convertRowIndexToModel(checkedRows[i]);
+        }
+        Arrays.sort(selRows);
+        for (int i = selRows.length - 1; i >= 0; i--) {
+          beanList.add(tableModel.getBean(selRows[i]));          
+        }
+      }
+
+      if(beanList.size()==0){
+        return;
+      }
+      ZebraPrinter bPrinter=new ZebraPrinter(getBarPrint().getPrintName());
+      SfEntrust bill = this.listCursor.getCurrentObject();         
+      for (int i = 0; i <beanList.size(); i++) {
+        bPrinter.resetZpl();
+        SfMaterials mt=(SfMaterials) beanList.get(i);
+        bPrinter.setText(bill.getAcceptCode()==null?"":bill.getAcceptCode(), 5, 50, 20, 40, 15, 1, 1, 20); 
+        bPrinter.setText(mt.getBianhao()==null?"检材":"检材:"+mt.getBianhao(), 5, 100, 20, 40, 15, 1, 1, 20); 
+        String bar2Paper = "^FO20,160^BY2,1.0,60^BCN,,Y,N,N^FD${data}^FS";//条码样式模板
+        bPrinter.setBarcode(mt.getBarCode(),bar2Paper);
+        String zpl = bPrinter.getZpl();
+//          System.out.println(zpl);
+        bPrinter.print(zpl);//打印
+      }
+    } catch (SfBusinessException e) {
+      e.printStackTrace();
+      JOptionPane.showMessageDialog(this, "打印条码错误:"+e.getMessage(), "提示", JOptionPane.ERROR_MESSAGE);
+      // TODO: handle exception
+    } 
+  }
+
+  /**
+   * 打印委托条码
+   */
+  protected void doPrintMastTm() {
+    if(getBarPrint()==null){
+      doBarPrintSet(SfPrintClient.TM_BTN_WT);
+      return;
+    }
+    try {
+      SfEntrust bill = this.listCursor.getCurrentObject(); 
+      ZebraPrinter bPrinter=new ZebraPrinter(getBarPrint().getPrintName());
+      bPrinter.setText(bill.getAcceptCode()==null?"":bill.getAcceptCode(), 5, 80, 20, 40, 15, 1, 1, 20); 
+      String bar2Paper = "^FO20,160^BY2,1.0,60^BCN,,Y,N,N^FD${data}^FS";//条码样式模板
+      bPrinter.setBarcode(bill.getBarCode(),bar2Paper);
+      String zpl = bPrinter.getZpl();
+      System.out.println(zpl);
+      bPrinter.print(zpl);//打印
+      
+    } catch (SfBusinessException e) {
+      e.printStackTrace();
+      JOptionPane.showMessageDialog(this, "打印条码错误:"+e.getMessage(), "提示", JOptionPane.ERROR_MESSAGE);
+      // TODO: handle exception
+    } 
+  }
+
+  protected void doBarPrintSet() {
+
+   doBarPrintSet(null);
+    
+  }
+
+  /**
+   * 选择条码打印机
+   * @param tmBtn 对话框由哪个按钮打开的
+   */
+  protected void doBarPrintSet(String tmBtn) {
+    
+    SfPrintSelectDialog printSelectDialog = new SfPrintSelectDialog(parent,this,requestMeta,tmBtn);
+    if(!printSelectDialog.isHavingPrints()){
+      return;
+    }
+      printSelectDialog.setSize(UIConstants.DIALOG_3_LEVEL_WIDTH,UIConstants.DIALOG_3_LEVEL_HEIGHT);
+      printSelectDialog.pack();
+      printSelectDialog.moveToScreenCenter();
+      printSelectDialog.setVisible(true); 
+    
+  }
+  protected void doThWtf() {
+
+    SfEntrust bill = this.listCursor.getCurrentObject();
+    bill.setIsThWtf("Y");
+    doSuggestPass("退回委托方,原因如下：");
   }
 
   protected void doZhuansong() {
@@ -1573,6 +1783,14 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
     }
     if(entrust.getSjr2Tel()!=null && !SfUtil.isMobile(entrust.getSjr2Tel()) &&!errorTel ){
       errorInfo.append("\n").append("送检人电话请留手机号,方便接收鉴定相关短信信息");
+    }
+    if(entrust.getIsCxjd()!=null && entrust.getIsCxjd().equalsIgnoreCase("y")){
+      if(entrust.getJdHistory()==null){
+        errorInfo.append("\n").append(LangTransMeta.translate(SfEntrust.COL_JD_HISTORY)).append("不能为空");
+      }
+      if(entrust.getHistoryAttachFile()==null){
+        errorInfo.append("\n").append(LangTransMeta.translate(SfEntrust.COL_HISTORY_ATTACH_FILE)).append("不能为空");
+      }
     }
     String materialErrorInfoString=checkMaterial();
     if(materialErrorInfoString!=null){
@@ -1942,10 +2160,16 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
         return true;
       }
     };
-    ForeignEntityFieldEditor parentEntrust = new ForeignEntityFieldEditor(cxjdHandler.getSqlId(), parentEntrustDto, 20, cxjdHandler, cxjdHandler.getColumNames(),
+   /* ForeignEntityFieldEditor parentEntrust = new ForeignEntityFieldEditor(cxjdHandler.getSqlId(), parentEntrustDto, 20, cxjdHandler, cxjdHandler.getColumNames(),
       LangTransMeta.translate(SfEntrust.COL_WT_ID_PARENT), "wtCodeParent");
-    TextFieldEditor lsJdFzr = new TextFieldEditor("上次鉴定负责人", "lsJdFzrName");
-    TextFieldEditor lsJdFhr = new TextFieldEditor("上次鉴定复核人", "lsJdFhrName");
+    TextFieldEditor lsJdFzr = new TextFieldEditor("鉴定负责人", "lsJdFzrName");
+    TextFieldEditor lsJdjg = new TextFieldEditor("鉴定机构", "lsJdjg");
+    TextFieldEditor lsJdFhr = new TextFieldEditor("上次鉴定复核人", "lsJdFhrName");*/
+    TextFieldEditor historyJgmc = new TextFieldEditor(LangTransMeta.translate(SfEntrust.COL_HISTORY_JGMC), "historyJgmc");
+    TextFieldEditor historyFzr = new TextFieldEditor(LangTransMeta.translate(SfEntrust.COL_HISTORY_FZR), "historyFzr");
+    DateFieldEditor historyJdDate = new DateFieldEditor(LangTransMeta.translate(SfEntrust.COL_HISTORY_JD_DATE), "historyJdDate");
+    FileFieldEditor historyAttachFile = new FileFieldEditor(LangTransMeta.translate(SfEntrust.COL_HISTORY_ATTACH_FILE), "historyAttachFile", "historyAttachFileBlobid");
+    
 
     TextAreaFieldEditor brief = new TextAreaFieldEditor(LangTransMeta.translate(SfEntrust.COL_BRIEF), "brief", -1, 9, 5);
     TextFieldEditor inputor = new TextFieldEditor(LangTransMeta.translate(SfEntrust.COL_INPUTOR), "inputorName");
@@ -2040,6 +2264,7 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
       headFieldEditors.add(barCode);
     }
 
+    headFieldEditors.add(isCxjd);
     headFieldEditors.add(inputor);
     headFieldEditors.add(inputDate);
     
@@ -2065,11 +2290,16 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
     //    footFieldEditors.add(inputor);
     //    footFieldEditors.add(inputDate);
 
-    historyFieldEditors.add(isCxjd);
-    historyFieldEditors.add(parentEntrust);
-    historyFieldEditors.add(lsJdFzr);
-    historyFieldEditors.add(lsJdFhr);
+//    historyFieldEditors.add(isCxjd);
+//    historyFieldEditors.add(parentEntrust);
+//    historyFieldEditors.add(lsJdjg);
+//    historyFieldEditors.add(lsJdFzr);
+//    historyFieldEditors.add(lsJdFhr);
+    historyFieldEditors.add(historyJgmc);
+    historyFieldEditors.add(historyFzr);
+    historyFieldEditors.add(historyJdDate);
     historyFieldEditors.add(jdHistory);
+    historyFieldEditors.add(historyAttachFile);
 
     xysxFieldEditors.add(jdDocSendType);
     xysxFieldEditors.add(jdDocSendTypeFz);
@@ -2914,7 +3144,6 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
 
         enableFuncs = getZhibanEnableFunc(baseBill, requestMeta);
       }
-      
 
       ZcUtil.setWfNodeEnableFunc(toolBar, enableFuncs, processInstId, requestMeta);
 
@@ -2998,5 +3227,17 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
   }
   public GkBaseDialog getOwner(){
     return parent;
+  }
+
+  public SfPrintClient getBarPrint() {
+    if(barPrint==null){
+      SfBarPrintUtil bpu=new SfBarPrintUtil();
+      barPrint=bpu.getCurrentPrintService();
+    }
+    return barPrint;
+  }
+
+  public void setBarPrint(SfPrintClient barPrint) {
+    this.barPrint = barPrint;
   }
 }

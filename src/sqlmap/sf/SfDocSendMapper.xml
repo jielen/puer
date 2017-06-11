@@ -28,6 +28,12 @@
     from SF_DOC_SEND
     where SEND_ID = #sendId:DECIMAL#
   </select>
+  <select id="selectByEntrustId" resultMap="BaseResultMap" parameterClass="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from SF_DOC_SEND
+    where ENTRUST_ID = #entrustId:DECIMAL#
+  </select>
   <select id="selectMainDataLst" parameterClass="elementCondition" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

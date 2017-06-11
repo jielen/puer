@@ -43,6 +43,7 @@ import org.apache.log4j.Logger;
  
 
 
+
 import com.ufgov.smartclient.common.UIUtilities;
 import com.ufgov.zc.client.common.BillElementMeta;
 import com.ufgov.zc.client.common.LangTransMeta;
@@ -101,6 +102,7 @@ import com.ufgov.zc.client.zc.ztb.activex.ExcelPane;
 import com.ufgov.zc.client.zc.ztb.activex.WordPane;
 import com.ufgov.zc.common.sf.model.SfBookmark;
 import com.ufgov.zc.common.sf.model.SfEntrust;
+import com.ufgov.zc.common.sf.model.SfJdDocAudit;
 import com.ufgov.zc.common.sf.model.SfJdPerson;
 import com.ufgov.zc.common.sf.model.SfJdRecordFileModel;
 import com.ufgov.zc.common.sf.model.SfJdReport;
@@ -708,9 +710,14 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 	  protected void setButtonStatus() {
 	    SfJdResult bill = (SfJdResult) listCursor.getCurrentObject();
 	    setButtonStatus(bill, requestMeta, this.listCursor);
+	    //文书审批单终审后，锁定修改等操作
+	    SfUtil su=new SfUtil();
+	    su.lockBillWithDocAudit(toolBar.getComponents(),bill.getEntrust());
 	  }
 
-	  public void setButtonStatusWithoutWf() {
+	 
+
+    public void setButtonStatusWithoutWf() {
 	    super.setButtonStatusWithoutWf();
 	    if (this.btnStatusList.size() == 0) {
 	      ButtonStatus bs = new ButtonStatus();

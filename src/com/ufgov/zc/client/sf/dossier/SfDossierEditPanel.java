@@ -967,7 +967,7 @@ public class SfDossierEditPanel extends AbstractMainSubEditPanel {
       SfDossier bill = (SfDossier) listCursor.getCurrentObject();
       bill.setEntrustCode(entrust.getCode());
       bill.setEntrustId(entrust.getEntrustId());
-      bill.setName(entrust.getCode() + "卷宗目录");
+      bill.setName(entrust.getAcceptCode() + "检验鉴定档案");
       setEditingObject(bill);
       createWord(entrust);
     }
@@ -984,11 +984,13 @@ public class SfDossierEditPanel extends AbstractMainSubEditPanel {
       userData.put("entrust", bill.getEntrust());
 
       IWordHandler handler = null;
-      if (bill.getDossierType().equals(SfDossier.DOSSIER_TYPE_FA_YI)) {
+     /* if (bill.getDossierType().equals(SfDossier.DOSSIER_TYPE_FA_YI)) {
         handler = new SfDossierFaYiWordHandler();
       } else if (bill.getDossierType().equals(SfDossier.DOSSIER_TYPE_WU_ZHENG)) {
         handler = new SfDossierWuZhengWordHandler();
-      }
+      }*/
+      //不分法医还是物证这些了，使用一个模板
+      handler = new SfDossierWordHandler();
       if (handler == null) {
         JOptionPane.showMessageDialog(this.parent, "没有找到模版，请手工编制", "提示", JOptionPane.WARNING_MESSAGE);
         return;

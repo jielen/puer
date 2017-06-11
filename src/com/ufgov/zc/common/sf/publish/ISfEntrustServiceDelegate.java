@@ -12,6 +12,8 @@ public interface ISfEntrustServiceDelegate {
   List getEntrustLst(ElementConditionDto elementConditionDto, RequestMeta requestMeta);
 
   SfEntrust selectByPrimaryKey(BigDecimal id, RequestMeta requestMeta);
+  
+  SfEntrust selectByBarCode(String barCode, RequestMeta requestMeta);
 
   SfEntrust saveFN(SfEntrust inData, RequestMeta requestMeta);
 

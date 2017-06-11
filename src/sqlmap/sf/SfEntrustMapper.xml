@@ -22,11 +22,9 @@
     <result column="JD_FZR" jdbcType="VARCHAR" property="jdFzr" />
     <result column="JD_FHR" jdbcType="VARCHAR" property="jdFhr" />
     <result column="JD_ASSISTOR" jdbcType="VARCHAR" property="jdAssistor" />
-    <result column="JD_HISTORY" jdbcType="CLOB" property="jdHistory"  typeHandler="org.springframework.orm.ibatis.support.ClobStringTypeHandler"/>
     <result column="JD_REQUIRE" jdbcType="CLOB" property="jdRequire"  typeHandler="org.springframework.orm.ibatis.support.ClobStringTypeHandler"/>
     <result column="JD_COMPANY" jdbcType="VARCHAR" property="jdCompany" />
     <result column="REMARK" jdbcType="VARCHAR" property="remark" />
-    <result column="IS_CXJD" jdbcType="VARCHAR" property="isCxjd" />
     <result column="WT_ID_PARENT" jdbcType="DECIMAL" property="wtIdParent" />
     <result column="BRIEF" jdbcType="CLOB" property="brief" typeHandler="org.springframework.orm.ibatis.support.ClobStringTypeHandler"/>
     <result column="INPUTOR" jdbcType="VARCHAR" property="inputor" />
@@ -72,7 +70,17 @@
     <result column="BAR_CODE" jdbcType="VARCHAR" property="barCode" />    
     <result column="URGENT_LEVEL" jdbcType="VARCHAR" property="urgentLevel" />
 	<result column="EXPECTED_TIME" jdbcType="DECIMAL" property="expectedTime" />
-    <result column="COMPLETE_TIME" jdbcType="DATE" property="completeTime" />
+    <result column="COMPLETE_TIME" jdbcType="DATE" property="completeTime" /> 
+    <result column="IS_TH_WTF" jdbcType="VARCHAR" property="isThWtf" />   
+    
+    <!-- 历史鉴定属性-->
+    <result column="IS_CXJD" jdbcType="VARCHAR" property="isCxjd" />
+    <result column="JD_HISTORY" jdbcType="CLOB" property="jdHistory"  typeHandler="org.springframework.orm.ibatis.support.ClobStringTypeHandler"/>
+    <result column="HISTORY_ATTACH_FILE" jdbcType="VARCHAR" property="historyAttachFile" />
+	<result column="HISTORY_ATTACH_FILE_BLOBID" jdbcType="VARCHAR" property="historyAttachFileBlobid" />
+    <result column="HISTORY_JD_DATE" jdbcType="DATE" property="historyJdDate" />  
+    <result column="HISTORY_JGMC" jdbcType="VARCHAR" property="historyJgmc" />  
+    <result column="HISTORY_FZR" jdbcType="VARCHAR" property="historyFzr" />   
     
     <!-- 文书号,来自SF_JD_REPORT -->
     <result column="REPORT_CODE" jdbcType="VARCHAR" property="reportCode" /> 
@@ -97,11 +105,12 @@
   
   <sql id="Base_Column_List">
     ENTRUST_ID, CODE, NAME, STATUS, ENTRUSTOR_ID, WT_DATE, SJR, SJR_TEL, SJR_ZJ_TYPE, 
-    SJR_ZJ_CODE, MAJOR_CODE, JD_ORG, JD_FZR, JD_HISTORY, JD_REQUIRE, JD_COMPANY, REMARK, 
+    SJR_ZJ_CODE, MAJOR_CODE, JD_ORG, JD_FZR, JD_HISTORY,HISTORY_ATTACH_FILE,HISTORY_ATTACH_FILE_BLOBID,
+    HISTORY_JGMC,HISTORY_FZR,HISTORY_JD_DATE, JD_REQUIRE, JD_COMPANY, REMARK, 
     IS_CXJD, WT_ID_PARENT, BRIEF, INPUTOR, INPUT_DATE, ACCEPTOR, ACCEPT_DATE, IS_ACCEPT, 
     NOT_ACCEPT_REASON, ND, JD_TARGET_ID,PROCESS_INST_ID,JD_FHR,SJR_ADDRESS,JD_DOC_SEND_TYPE,
     JD_DOC_SEND_TYPE_FZ,JD_CHARGE,CO_CODE,JD_ASSISTOR,,BAR_CODE,URGENT_LEVEL,EXPECTED_TIME,COMPLETE_TIME,
-    SJR2, SJR2_TEL, SJR2_ZJ_TYPE, SJR2_ZJ_CODE,SJR_ZIP,ACCEPT_CODE,SJR_FAX,ANJIAN_CODE
+    SJR2, SJR2_TEL, SJR2_ZJ_TYPE, SJR2_ZJ_CODE,SJR_ZIP,ACCEPT_CODE,SJR_FAX,ANJIAN_CODE,IS_TH_WTF
   </sql>
   <select id="selectByPrimaryKey" parameterClass="java.math.BigDecimal" resultMap="BaseResultMap">
    select SF_ENTRUST.ENTRUST_ID,
@@ -126,6 +135,11 @@
        SF_ENTRUST.JD_FZR,
        SF_ENTRUST.JD_FHR,
        SF_ENTRUST.JD_HISTORY,
+       SF_ENTRUST.HISTORY_ATTACH_FILE,
+       SF_ENTRUST.HISTORY_ATTACH_FILE_BLOBID,
+       SF_ENTRUST.HISTORY_JGMC,
+       SF_ENTRUST.HISTORY_FZR,
+       SF_ENTRUST.HISTORY_JD_DATE,
        SF_ENTRUST.JD_REQUIRE,
        SF_ENTRUST.JD_COMPANY,
        SF_ENTRUST.REMARK,
@@ -148,6 +162,7 @@
        SF_ENTRUST.URGENT_LEVEL,
        SF_ENTRUST.EXPECTED_TIME,
        SF_ENTRUST.COMPLETE_TIME,
+       SF_ENTRUST.IS_TH_WTF,
        SF_ENTRUSTOR.ENTRUSTOR_ID,
        SF_ENTRUSTOR.CODE            AS ENTRUSTOR_CODE,
        SF_ENTRUSTOR.NAME            AS ENTRUSTOR_NAME,
@@ -178,6 +193,168 @@
    and SF_ENTRUST.ENTRUST_ID = V_SF_JD_REPORT.ENTRUST_ID(+)
    and SF_ENTRUST.ENTRUST_ID = V_SF_DOC_SEND.ENTRUST_ID(+)
   </select>
+  <select id="selectByBarCode" parameterClass="java.lang.String" resultMap="BaseResultMap">
+   select SF_ENTRUST.ENTRUST_ID,
+       SF_ENTRUST.ACCEPT_CODE,
+       SF_ENTRUST.CODE,
+       SF_ENTRUST.NAME,
+       SF_ENTRUST.SJR_FAX,
+       SF_ENTRUST.ANJIAN_CODE,
+       SF_ENTRUST.STATUS,
+       SF_ENTRUST.WT_DATE,
+       SF_ENTRUST.SJR,
+       SF_ENTRUST.SJR_TEL,
+       SF_ENTRUST.SJR_ZJ_TYPE,
+       SF_ENTRUST.SJR_ZJ_CODE,
+       SF_ENTRUST.SJR_ADDRESS,
+       SF_ENTRUST.SJR_ZIP,
+       SF_ENTRUST.SJR2,
+       SF_ENTRUST.SJR2_TEL,
+       SF_ENTRUST.SJR2_ZJ_TYPE,
+       SF_ENTRUST.SJR2_ZJ_CODE,
+       SF_ENTRUST.JD_ORG,
+       SF_ENTRUST.JD_FZR,
+       SF_ENTRUST.JD_FHR,
+       SF_ENTRUST.JD_HISTORY,
+       SF_ENTRUST.HISTORY_ATTACH_FILE,
+       SF_ENTRUST.HISTORY_ATTACH_FILE_BLOBID,
+       SF_ENTRUST.HISTORY_JGMC,
+       SF_ENTRUST.HISTORY_FZR,
+       SF_ENTRUST.HISTORY_JD_DATE,
+       SF_ENTRUST.JD_REQUIRE,
+       SF_ENTRUST.JD_COMPANY,
+       SF_ENTRUST.REMARK,
+       SF_ENTRUST.IS_CXJD,
+       SF_ENTRUST.WT_ID_PARENT,
+       SF_ENTRUST.BRIEF,
+       SF_ENTRUST.INPUTOR,
+       SF_ENTRUST.INPUT_DATE,
+       SF_ENTRUST.ACCEPTOR,
+       SF_ENTRUST.ACCEPT_DATE,
+       SF_ENTRUST.IS_ACCEPT,
+       SF_ENTRUST.NOT_ACCEPT_REASON,
+       SF_ENTRUST.ND,
+       SF_ENTRUST.PROCESS_INST_ID,
+       SF_ENTRUST.MAJOR_CODE,
+       SF_ENTRUST.JD_DOC_SEND_TYPE,
+       SF_ENTRUST.JD_DOC_SEND_TYPE_FZ,
+       SF_ENTRUST.JD_CHARGE,
+       SF_ENTRUST.BAR_CODE,
+       SF_ENTRUST.URGENT_LEVEL,
+       SF_ENTRUST.EXPECTED_TIME,
+       SF_ENTRUST.COMPLETE_TIME,
+       SF_ENTRUST.IS_TH_WTF,
+       SF_ENTRUSTOR.ENTRUSTOR_ID,
+       SF_ENTRUSTOR.CODE            AS ENTRUSTOR_CODE,
+       SF_ENTRUSTOR.NAME            AS ENTRUSTOR_NAME,
+       SF_ENTRUSTOR.ADDRESS         AS ENTRUSTOR_ADDRESS,
+       SF_ENTRUSTOR.ZIP             AS ENTRUSTOR_ZIP,
+       SF_ENTRUSTOR.LINK_MAN        AS ENTRUSTOR_LINK_MAN,
+       SF_ENTRUSTOR.LINK_TEL        AS ENTRUSTOR_LINK_TEL,
+       SF_JD_TARGET.ENTRUST_ID            as JD_TARGET_ENTRUST_ID,       
+       SF_JD_TARGET.NAME            as JD_TARGET_NAME,
+       SF_JD_TARGET.SEX             as JD_TARGET_SEX,
+       SF_JD_TARGET.AGE             as JD_TARGET_AGE,
+       SF_JD_TARGET.ID_NAME         as JD_TARGET_ID_NAME,
+       SF_JD_TARGET.ID_CODE         as JD_TARGET_ID_CODE,
+       SF_JD_TARGET.PHONE           as JD_TARGET_PHONE,
+       SF_JD_TARGET.ADDRESS         as JD_TARGET_ADDRESS,
+       SF_JD_TARGET.ZIP             as JD_TARGET_ZIP,
+       SF_JD_TARGET.COMPANY             as JD_TARGET_COMPANY,
+       SF_ENTRUST.CO_CODE,
+       SF_ENTRUST.JD_ASSISTOR,
+      V_SF_JD_REPORT.REPORT_CODE,
+      V_SF_DOC_SEND.Recievor,
+      V_SF_DOC_SEND.Recievor_Tel,
+      V_SF_DOC_SEND.Send_Date
+  from SF_ENTRUST, SF_ENTRUSTOR, SF_JD_TARGET,V_SF_JD_REPORT,V_SF_DOC_SEND
+ WHERE SF_ENTRUST.ENTRUSTOR_ID = SF_ENTRUSTOR.ENTRUSTOR_ID
+   AND SF_ENTRUST.ENTRUST_ID = SF_JD_TARGET.ENTRUST_ID(+)
+   AND SF_ENTRUST.BAR_CODE = #value#
+   and SF_ENTRUST.ENTRUST_ID = V_SF_JD_REPORT.ENTRUST_ID(+)
+   and SF_ENTRUST.ENTRUST_ID = V_SF_DOC_SEND.ENTRUST_ID(+)
+  </select>
+  <select id="selectByMaterialBarCode" parameterClass="java.lang.String" resultMap="BaseResultMap">
+   select SF_ENTRUST.ENTRUST_ID,
+       SF_ENTRUST.ACCEPT_CODE,
+       SF_ENTRUST.CODE,
+       SF_ENTRUST.NAME,
+       SF_ENTRUST.SJR_FAX,
+       SF_ENTRUST.ANJIAN_CODE,
+       SF_ENTRUST.STATUS,
+       SF_ENTRUST.WT_DATE,
+       SF_ENTRUST.SJR,
+       SF_ENTRUST.SJR_TEL,
+       SF_ENTRUST.SJR_ZJ_TYPE,
+       SF_ENTRUST.SJR_ZJ_CODE,
+       SF_ENTRUST.SJR_ADDRESS,
+       SF_ENTRUST.SJR_ZIP,
+       SF_ENTRUST.SJR2,
+       SF_ENTRUST.SJR2_TEL,
+       SF_ENTRUST.SJR2_ZJ_TYPE,
+       SF_ENTRUST.SJR2_ZJ_CODE,
+       SF_ENTRUST.JD_ORG,
+       SF_ENTRUST.JD_FZR,
+       SF_ENTRUST.JD_FHR,
+       SF_ENTRUST.JD_HISTORY,
+       SF_ENTRUST.HISTORY_ATTACH_FILE,
+       SF_ENTRUST.HISTORY_ATTACH_FILE_BLOBID,
+       SF_ENTRUST.HISTORY_JGMC,
+       SF_ENTRUST.HISTORY_FZR,
+       SF_ENTRUST.HISTORY_JD_DATE,
+       SF_ENTRUST.JD_REQUIRE,
+       SF_ENTRUST.JD_COMPANY,
+       SF_ENTRUST.REMARK,
+       SF_ENTRUST.IS_CXJD,
+       SF_ENTRUST.WT_ID_PARENT,
+       SF_ENTRUST.BRIEF,
+       SF_ENTRUST.INPUTOR,
+       SF_ENTRUST.INPUT_DATE,
+       SF_ENTRUST.ACCEPTOR,
+       SF_ENTRUST.ACCEPT_DATE,
+       SF_ENTRUST.IS_ACCEPT,
+       SF_ENTRUST.NOT_ACCEPT_REASON,
+       SF_ENTRUST.ND,
+       SF_ENTRUST.PROCESS_INST_ID,
+       SF_ENTRUST.MAJOR_CODE,
+       SF_ENTRUST.JD_DOC_SEND_TYPE,
+       SF_ENTRUST.JD_DOC_SEND_TYPE_FZ,
+       SF_ENTRUST.JD_CHARGE,
+       SF_ENTRUST.BAR_CODE,
+       SF_ENTRUST.URGENT_LEVEL,
+       SF_ENTRUST.EXPECTED_TIME,
+       SF_ENTRUST.COMPLETE_TIME,
+       SF_ENTRUST.IS_TH_WTF,
+       SF_ENTRUSTOR.ENTRUSTOR_ID,
+       SF_ENTRUSTOR.CODE            AS ENTRUSTOR_CODE,
+       SF_ENTRUSTOR.NAME            AS ENTRUSTOR_NAME,
+       SF_ENTRUSTOR.ADDRESS         AS ENTRUSTOR_ADDRESS,
+       SF_ENTRUSTOR.ZIP             AS ENTRUSTOR_ZIP,
+       SF_ENTRUSTOR.LINK_MAN        AS ENTRUSTOR_LINK_MAN,
+       SF_ENTRUSTOR.LINK_TEL        AS ENTRUSTOR_LINK_TEL,
+       SF_JD_TARGET.ENTRUST_ID            as JD_TARGET_ENTRUST_ID,       
+       SF_JD_TARGET.NAME            as JD_TARGET_NAME,
+       SF_JD_TARGET.SEX             as JD_TARGET_SEX,
+       SF_JD_TARGET.AGE             as JD_TARGET_AGE,
+       SF_JD_TARGET.ID_NAME         as JD_TARGET_ID_NAME,
+       SF_JD_TARGET.ID_CODE         as JD_TARGET_ID_CODE,
+       SF_JD_TARGET.PHONE           as JD_TARGET_PHONE,
+       SF_JD_TARGET.ADDRESS         as JD_TARGET_ADDRESS,
+       SF_JD_TARGET.ZIP             as JD_TARGET_ZIP,
+       SF_JD_TARGET.COMPANY             as JD_TARGET_COMPANY,
+       SF_ENTRUST.CO_CODE,
+       SF_ENTRUST.JD_ASSISTOR,
+      V_SF_JD_REPORT.REPORT_CODE,
+      V_SF_DOC_SEND.Recievor,
+      V_SF_DOC_SEND.Recievor_Tel,
+      V_SF_DOC_SEND.Send_Date
+  from SF_ENTRUST, SF_ENTRUSTOR, SF_JD_TARGET,V_SF_JD_REPORT,V_SF_DOC_SEND
+ WHERE SF_ENTRUST.ENTRUSTOR_ID = SF_ENTRUSTOR.ENTRUSTOR_ID
+   AND SF_ENTRUST.ENTRUST_ID = SF_JD_TARGET.ENTRUST_ID(+)
+   AND exists (select 1 from sf_materials where sf_materials.entrust_id=sf_entrust.entrust_id and sf_materials.bar_code=#value#)
+   and SF_ENTRUST.ENTRUST_ID = V_SF_JD_REPORT.ENTRUST_ID(+)
+   and SF_ENTRUST.ENTRUST_ID = V_SF_DOC_SEND.ENTRUST_ID(+)
+  </select>
   <select id="selectEntrustLst" parameterClass="elementCondition" resultMap="BaseResultMap">
    select SF_ENTRUST.ENTRUST_ID,
    	   SF_ENTRUST.ACCEPT_CODE,
@@ -201,6 +378,11 @@
        SF_ENTRUST.JD_FZR,
        SF_ENTRUST.JD_FHR,
        SF_ENTRUST.JD_HISTORY,
+       SF_ENTRUST.HISTORY_ATTACH_FILE,
+       SF_ENTRUST.HISTORY_ATTACH_FILE_BLOBID,
+       SF_ENTRUST.HISTORY_JGMC,
+       SF_ENTRUST.HISTORY_FZR,
+       SF_ENTRUST.HISTORY_JD_DATE,
        SF_ENTRUST.JD_REQUIRE,
        SF_ENTRUST.JD_COMPANY,
        SF_ENTRUST.REMARK,
@@ -223,6 +405,7 @@
        SF_ENTRUST.URGENT_LEVEL,
        SF_ENTRUST.EXPECTED_TIME,
        SF_ENTRUST.COMPLETE_TIME,
+       SF_ENTRUST.IS_TH_WTF,
        SF_ENTRUSTOR.ENTRUSTOR_ID,
        SF_ENTRUSTOR.CODE            AS ENTRUSTOR_CODE,
        SF_ENTRUSTOR.NAME            AS ENTRUSTOR_NAME,
@@ -417,6 +600,22 @@
 			<isEqual property="status" compareValue="unaccept">
 				(SF_ENTRUST.IS_ACCEPT='N')
 			</isEqual>
+			<!-- 待归档-->
+			<isEqual property="status" compareValue="waitingGuiDang">
+				not EXISTS (SELECT 1 FROM sf_dossier S 
+						WHERE S.ENTRUST_ID=SF_ENTRUST.ENTRUST_ID)
+				and (
+				      EXISTS (SELECT 1 FROM SF_DOC_SEND S 
+						WHERE S.ENTRUST_ID=SF_ENTRUST.ENTRUST_ID)
+					  or 
+					  SF_ENTRUST.status in ('stop','zhuansong')
+				    )
+			</isEqual>
+			<!-- 已经归档-->
+			<isEqual property="status" compareValue="havingGuiDang">
+				EXISTS (SELECT 1 FROM sf_dossier S 
+						WHERE S.ENTRUST_ID=SF_ENTRUST.ENTRUST_ID)
+			</isEqual>
 			<!-- 意见书已领 -->
 			<isEqual property="status" compareValue="docSended">
 				EXISTS (SELECT 1 FROM SF_DOC_SEND S 
@@ -427,6 +626,15 @@
 				NOT EXISTS (SELECT 1 FROM SF_DOC_SEND S 
 						WHERE S.ENTRUST_ID=SF_ENTRUST.ENTRUST_ID)
 			    and exists (select 1 from sf_jd_doc_audit r where r.status='exec' and r.entrust_id=SF_ENTRUST.ENTRUST_ID)
+			</isEqual>
+			<!-- 在待处理页签底下，囊括如果存在当前登录人的鉴定文书审批待办单信息，则将其对于的委托数据合并到当前页签下，并将状态改为鉴定文书审批 见SfEntrustService。getEntrustsWithJdDocAuditing  -->
+			<isEqual property="status" compareValue="getEntustWithJdDocAudting">
+				  <isNotEmpty property="pmAdjustCodeList" >
+			            SF_ENTRUST.ENTRUST_ID in
+			            <iterate property="pmAdjustCodeList" conjunction="," open="(" close=")">
+			                #pmAdjustCodeList[]:DECIMAL#
+			            </iterate>
+			      </isNotEmpty> 
 			</isEqual>
 			<isEqual property="status" compareValue="all">
 				1=1
@@ -444,26 +652,36 @@
       SJR, SJR_TEL, SJR_ZJ_TYPE, 
       SJR_ZJ_CODE,SJR2, SJR2_TEL, SJR2_ZJ_TYPE, 
       SJR2_ZJ_CODE,MAJOR_CODE, JD_ORG, 
-      JD_FZR, JD_HISTORY, JD_REQUIRE, 
+      JD_FZR, JD_HISTORY, 
+       HISTORY_ATTACH_FILE,
+       HISTORY_ATTACH_FILE_BLOBID,
+       HISTORY_JGMC,
+       HISTORY_FZR,
+       HISTORY_JD_DATE,      
+      JD_REQUIRE, 
       JD_COMPANY, REMARK, IS_CXJD, 
       WT_ID_PARENT, BRIEF, INPUTOR, 
       INPUT_DATE, ACCEPTOR, ACCEPT_DATE, 
       IS_ACCEPT, NOT_ACCEPT_REASON, ND, 
       PROCESS_INST_ID,JD_FHR,
       SJR_ADDRESS,JD_DOC_SEND_TYPE,JD_DOC_SEND_TYPE_FZ,JD_CHARGE,CO_CODE,
-      JD_ASSISTOR,BAR_CODE,URGENT_LEVEL,EXPECTED_TIME,COMPLETE_TIME,SJR_ZIP,ACCEPT_CODE,SJR_FAX,ANJIAN_CODE)
+      JD_ASSISTOR,BAR_CODE,URGENT_LEVEL,EXPECTED_TIME,COMPLETE_TIME,
+      SJR_ZIP,ACCEPT_CODE,SJR_FAX,ANJIAN_CODE,IS_TH_WTF)
     values (#entrustId:DECIMAL#, #code:VARCHAR#, #name:VARCHAR#, 
       #status:VARCHAR#, #entrustorId:DECIMAL#, #wtDate:DATE#, 
       #sjr:VARCHAR#, #sjrTel:VARCHAR#, #sjrZjType:VARCHAR#, 
       #sjrZjCode:VARCHAR#,#sjr2:VARCHAR#, #sjr2Tel:VARCHAR#, #sjr2ZjType:VARCHAR#, 
       #sjr2ZjCode:VARCHAR#, #majorCode:VARCHAR#, #jdOrg:VARCHAR#, 
-      #jdFzr:VARCHAR#, #jdHistory,handler=org.springframework.orm.ibatis.support.ClobStringTypeHandler#, #jdRequire,handler=org.springframework.orm.ibatis.support.ClobStringTypeHandler#, 
+      #jdFzr:VARCHAR#, #jdHistory,handler=org.springframework.orm.ibatis.support.ClobStringTypeHandler#, 
+      #historyAttachFile:VARCHAR#,#historyAttachFileBlobid:VARCHAR#,#historyJgmc:VARCHAR#,#historyFzr:VARCHAR#,#historyJdDate:DATE#,
+      #jdRequire,handler=org.springframework.orm.ibatis.support.ClobStringTypeHandler#, 
       #jdCompany:VARCHAR#, #remark,handler=org.springframework.orm.ibatis.support.ClobStringTypeHandler#, #isCxjd:VARCHAR#, 
       #wtIdParent:DECIMAL#, #brief,handler=org.springframework.orm.ibatis.support.ClobStringTypeHandler#, #inputor:VARCHAR#, 
       #inputDate:DATE#, #acceptor:VARCHAR#, #acceptDate:DATE#, 
       #isAccept:VARCHAR#, #notAcceptReason,handler=org.springframework.orm.ibatis.support.ClobStringTypeHandler#, #nd:DECIMAL#, 
       #processInstId:DECIMAL#,#jdFhr:VARCHAR#,#sjrAddress:VARCHAR#,#jdDocSendType:VARCHAR#,#jdDocSendTypeFz:VARCHAR#,#jdCharge:DECIMAL#,
-      #coCode#,#jdAssistor#, #barCode#, #urgentLevel#, #expectedTime:DECIMAL#, #completeTime:DATE#,#sjrZip#,#acceptCode#,#sjrFax#,#anjianCode#)
+      #coCode#,#jdAssistor#, #barCode#, #urgentLevel#, #expectedTime:DECIMAL#, 
+      #completeTime:DATE#,#sjrZip#,#acceptCode#,#sjrFax#,#anjianCode#,#isThWtf#)
   </insert>
   <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfEntrust">
     update SF_ENTRUST
@@ -485,6 +703,11 @@
       JD_ORG = #jdOrg:VARCHAR#,
       JD_FZR = #jdFzr:VARCHAR#,
       JD_HISTORY = #jdHistory,handler=org.springframework.orm.ibatis.support.ClobStringTypeHandler#,
+       HISTORY_ATTACH_FILE=#historyAttachFile:VARCHAR#,
+       HISTORY_ATTACH_FILE_BLOBID=#historyAttachFileBlobid:VARCHAR#,
+       HISTORY_JGMC=#historyJgmc:VARCHAR#,
+       HISTORY_FZR=#historyFzr:VARCHAR#,
+       HISTORY_JD_DATE=#historyJdDate:DATE#,     
       JD_REQUIRE = #jdRequire,handler=org.springframework.orm.ibatis.support.ClobStringTypeHandler#,
       JD_COMPANY = #jdCompany:VARCHAR#,
       REMARK = #remark,handler=org.springframework.orm.ibatis.support.ClobStringTypeHandler#,
@@ -512,7 +735,8 @@
       SJR_ZIP=#sjrZip#,
       ACCEPT_CODE=#acceptCode#,
       SJR_FAX=#sjrFax#,
-      ANJIAN_CODE=#anjianCode#
+      ANJIAN_CODE=#anjianCode#,
+      IS_TH_WTF=#isThWtf#
     where ENTRUST_ID = #entrustId:DECIMAL#
   </update>
   
@@ -558,6 +782,11 @@
        SF_ENTRUST.JD_FZR,
        SF_ENTRUST.JD_FHR,
        SF_ENTRUST.JD_HISTORY,
+       SF_ENTRUST.HISTORY_ATTACH_FILE,
+       SF_ENTRUST.HISTORY_ATTACH_FILE_BLOBID,
+       SF_ENTRUST.HISTORY_JGMC,
+       SF_ENTRUST.HISTORY_FZR,
+       SF_ENTRUST.HISTORY_JD_DATE,       
        SF_ENTRUST.JD_REQUIRE,
        SF_ENTRUST.JD_COMPANY,
        SF_ENTRUST.REMARK,
@@ -580,6 +809,7 @@
        SF_ENTRUST.URGENT_LEVEL,
        SF_ENTRUST.EXPECTED_TIME,
        SF_ENTRUST.COMPLETE_TIME,
+       SF_ENTRUST.IS_TH_WTF,
        SF_ENTRUSTOR.ENTRUSTOR_ID,
        SF_ENTRUSTOR.CODE            AS ENTRUSTOR_CODE,
        SF_ENTRUSTOR.NAME            AS ENTRUSTOR_NAME,
@@ -731,7 +961,7 @@
   </select>
   <!-- 判断当前业务数据是否处在业务科室受理人的待办任务里-->
   <select id="isKeshiShouliToDo" parameterClass="elementCondition" resultClass="java.lang.Long">
-  	select T.instance_id
+  	select distinct T.instance_id
 	  from V_SF_WF_CURRENT_TASK_TODO T, SF_ENTRUST e
 	 where T.executor = #executor#
 	   and t.instance_id = e.process_inst_id
@@ -740,7 +970,7 @@
   </select>
   <!-- 判断当前业务数据是否处在退回到业务科室受理人的任务里-->
   <select id="isKeshiShouliUntreat" parameterClass="elementCondition" resultClass="java.lang.Long">
-  	select T.instance_id
+  	select distinct T.instance_id
 	  from V_SF_WF_CURRENT_TASK_UNTREAD T, SF_ENTRUST e
 	 where T.executor = #executor#
 	   and t.instance_id = e.process_inst_id
@@ -749,7 +979,7 @@
   </select>
   <!-- 判断当前业务数据是否处在综合科室值班人的待办任务里-->
   <select id="isZongHeShouliToDo" parameterClass="elementCondition" resultClass="java.lang.Long">
-  	select T.instance_id
+  	select distinct T.instance_id
     from V_SF_WF_CURRENT_TASK_TODO2 T, SF_ENTRUST e
    where T.executor = #executor#
      and t.instance_id = e.process_inst_id
@@ -757,7 +987,7 @@
   </select>
   <!-- 判断当前业务数据是否处在退回到综合科室值班人的任务里-->
   <select id="isZongHeShouliUntreat" parameterClass="elementCondition" resultClass="java.lang.Long">
-  	select T.instance_id
+  	select distinct T.instance_id
 	  from V_SF_WF_CURRENT_TASK_UNTREAD2 T, SF_ENTRUST e
 	 where T.executor = #executor#
 	   and t.instance_id = e.process_inst_id
