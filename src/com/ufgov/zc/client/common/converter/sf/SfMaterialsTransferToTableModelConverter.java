@@ -170,7 +170,8 @@ static {
   materialInfo.add(new ColumnBeanPropertyPair(SfMaterialsTransferDetail.COL_PROCESSING_MAN, "processingMan", LangTransMeta.translate(SfMaterialsTransferDetail.COL_PROCESSING_MAN)));
   materialInfo.add(new ColumnBeanPropertyPair(SfMaterialsTransferDetail.COL_PROCESSING_DATE, "processingDate", LangTransMeta.translate(SfMaterialsTransferDetail.COL_PROCESSING_DATE)));
   materialInfo.add(new ColumnBeanPropertyPair(SfMaterialsTransferDetail.COL_REMARK, "remark", LangTransMeta.translate(SfMaterialsTransferDetail.COL_REMARK)));
- 
+  
+  materialInfo.add(new ColumnBeanPropertyPair(SfMaterials.COL_SL_CODE, "material.slCode", LangTransMeta.translate(SfMaterials.COL_SL_CODE)));
   
 }
 public static List<ColumnBeanPropertyPair> getMaterialInfo(){

@@ -45,7 +45,8 @@
 		<property name="entrustorService" ref="entrustorService" />	
 		<property name="jdTargetService" ref="jdTargetService" />	
 		<property name="zcMobileMsgService" ref="zcMobileMsgService"></property>
-		<property name="jdDocAuditMapper" ref="jdDocAuditMapper" />		
+		<property name="jdDocAuditMapper" ref="jdDocAuditMapper" />				
+		<property name="sfDocSendMapper" ref="sfDocSendMapper" />	 	
 		
 	</bean>		
 	<bean id="entrustMapper" class="com.ufgov.zc.server.sf.dao.ibatis.SfEntrustMapperImp"		scope="singleton">

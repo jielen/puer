@@ -153,7 +153,10 @@ public class SfDocSendNodeBusiness  implements ISfFlowNodeBusiness {
       "zcEbBaseServiceDelegate"); 
     List<SfJdDocAudit> billLst = zcEbBaseServiceDelegate.queryDataForList("com.ufgov.zc.server.sf.dao.SfJdDocAuditMapper.selectByEntrustId", entrust.getEntrustId(), meta);
     if(billLst!=null && billLst.size()>0){
-      return true;
+      SfJdDocAudit docAudit=billLst.get(0);
+      if(docAudit.getStatus().equals("exec")){
+        return true;
+      }
     }
     return false;
   }

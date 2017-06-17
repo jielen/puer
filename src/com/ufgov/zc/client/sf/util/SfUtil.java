@@ -465,7 +465,12 @@ public class SfUtil {
 public void lockBillWithDocAudit(Component[] btns, SfEntrust entrust) {
   if(btns==null || entrust==null)return;
   SfJdDocAudit audit=getJdDocAudit(entrust.getEntrustId());
-  if(audit==null)return;
+  if(audit==null){
+    setPrintBtn(false, btns);
+    return;
+  }
+  
+  
   if(audit.getStatus().equals("exec")){
     for(int i=0;i<btns.length;i++){
       if(btns[i] instanceof FuncButton){
@@ -481,7 +486,22 @@ public void lockBillWithDocAudit(Component[] btns, SfEntrust entrust) {
           ||"funaudit".equals(button.getFuncId())
           ||"funtread".equals(button.getFuncId())){
           button.setVisible(false);
+        }else if("fprint".equals(button.getFuncId())){
+          button.setVisible(true);
         }
+      }
+    }
+  }else{
+    setPrintBtn(false, btns);
+  }
+}
+private void setPrintBtn(boolean enable,Component[] btns){
+  //只有审批后才可以打印
+  for(int i=0;i<btns.length;i++){
+    if(btns[i] instanceof FuncButton){
+      FuncButton button=(FuncButton)btns[i];
+      if("fprint".equals(button.getFuncId())){
+        button.setVisible(enable);
       }
     }
   }

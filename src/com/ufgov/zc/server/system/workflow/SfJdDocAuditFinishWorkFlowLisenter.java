@@ -27,13 +27,14 @@ public class SfJdDocAuditFinishWorkFlowLisenter extends SfJdDocAuditWorkFlowBasi
 
     SfEntrust entrust = (SfEntrust) zcEbBaseServiceDao.queryObject("com.ufgov.zc.server.sf.dao.SfEntrustMapper.selectByPrimaryKey",evalution.getEntrust().getEntrustId()); 
     
-    entrust.setStatus(SfEntrust.STATUS_COMPLETE); 
+    //这个改到鉴定文书已经移交到综合室值班人时再改变这个状态  -- 20170615 cjl
+  /* entrust.setStatus(SfEntrust.STATUS_COMPLETE); 
     List l=new ArrayList();
     l.add(entrust);
-    zcEbBaseServiceDao.updateObjectList("com.ufgov.zc.server.sf.dao.SfEntrustMapper.updateByPrimaryKey", l);
+    zcEbBaseServiceDao.updateObjectList("com.ufgov.zc.server.sf.dao.SfEntrustMapper.updateByPrimaryKey", l);*/
     
     //发送短信给委托方
-    _sendMsgToWtf(entrust); 
+//    _sendMsgToWtf(entrust);  这个改到鉴定文书已经移交到综合室值班人时再发送  -- 20170615 cjl
     //发送短信给起草人
     _sendMsgToQcr(evalution,entrust,zcEbBaseServiceDao); 
   }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.ufgov.zc.common.util.EmpMeta;
 import com.ufgov.zc.common.zc.model.ZcBaseBill;
 
 public class SfDocSend extends ZcBaseBill {
@@ -26,6 +27,14 @@ public class SfDocSend extends ZcBaseBill {
    */
   public static final String SEARCH_ID = "SfDocSend_search";
 
+  public static final String SF_VS_DOC_SEND_STATUS = "SF_VS_DOC_SEND_STATUS";
+
+  public static final String SF_DOC_SEND_STATUS_draft = "0";//草稿
+  public static final String SF_DOC_SEND_STATUS_waiting_jieshou = "5";//综合接收
+  public static final String SF_DOC_SEND_STATUS_waiting_send = "10";//待发放
+  public static final String SF_DOC_SEND_STATUS_sended = "exec";//已发放
+  
+
   public static final String COL_CO_CODE="SF_DOC_SEND_CO_CODE"; // 鉴定机构
   public static final String COL_ENTRUST_CODE="SF_DOC_SEND_ENTRUST_CODE"; // 委托编号
   public static final String COL_ENTRUST_ID="SF_DOC_SEND_ENTRUST_ID"; // 委托ID
@@ -40,6 +49,16 @@ public class SfDocSend extends ZcBaseBill {
   public static final String COL_SEND_TYPE="SF_DOC_SEND_SEND_TYPE"; // 领取方式
   public static final String COL_NAME="SF_DOC_SEND_NAME"; // 名称
   public static final String COL_WTF="SF_DOC_SEND_WTF_NAME"; // 委托方
+  public static final String COL_STATUS="SF_DOC_SEND_STATUS"; // 状态
+  public static final String COL_PROCESS_INST_ID="SF_DOC_SEND_PROCESS_INST_ID"; // 工作流实例号
+  public static final String COL_TI_JIAO_REN="SF_DOC_SEND_TI_JIAO_REN"; // 移交人
+  public static final String COL_TI_JIAO_DATE="SF_DOC_SEND_TI_JIAO_DATE"; // 移交时间
+  public static final String COL_JIE_SHOU_REN="SF_ENTRUST_JIE_SHOU_REN"; // 接收人
+  public static final String COL_JIE_SHOU_DATE="SF_ENTRUST_JIE_SHOU_DATE"; // 接收时间
+  public static final String COL_TI_JIAO_REMARK="SF_ENTRUST_TI_JIAO_REMARK"; // 移交说明
+  public static final String COL_JIE_SHOU_REMARK="SF_ENTRUST_JIE_SHOU_REMARK"; // 接收备注
+
+
   
   public static final String VS_SF_DOC_SEND_SEND_TYPE="VS_SF_DOC_SEND_SEND_TYPE";
 
@@ -59,6 +78,7 @@ public class SfDocSend extends ZcBaseBill {
     private Date sendDate;
 
     private String sendor; 
+    private String sendorName; 
 
     private String remark;
 
@@ -69,6 +89,73 @@ public class SfDocSend extends ZcBaseBill {
     private String sendType;
 
     private BigDecimal jdDocAuditId;
+    
+    private String tiJiaoRen;
+    private String tiJiaoRenName;
+    private Date tiJiaoDate;
+    private String jieShouRen;
+    private String jieShouRenName;
+    private Date jieShouDate;
+    private String tiJiaoRemark; 
+    private String jieShouRemark;
+    private String status;
+    
+    public String getTiJiaoRen() {
+      return tiJiaoRen;
+    }
+
+    public void setTiJiaoRen(String tiJiaoRen) {
+      this.tiJiaoRen = tiJiaoRen;
+    }
+
+    public String getTiJiaoRenName() { 
+      return EmpMeta.getEmpName(tiJiaoRen);
+    }
+
+    public void setTiJiaoRenName(String tiJiaoRenName) {
+      this.tiJiaoRenName = tiJiaoRenName;
+    }
+
+    public Date getTiJiaoDate() {
+      return tiJiaoDate;
+    }
+
+    public void setTiJiaoDate(Date tiJiaoDate) {
+      this.tiJiaoDate = tiJiaoDate;
+    }
+
+    public String getJieShouRen() {
+      return jieShouRen;
+    }
+
+    public void setJieShouRen(String jieShouRen) {
+      this.jieShouRen = jieShouRen;
+    }
+
+    public String getJieShouRenName() {
+      return EmpMeta.getEmpName(jieShouRen); 
+    }
+
+    public void setJieShouRenName(String jieShouRenName) {
+      this.jieShouRenName = jieShouRenName;
+    }
+
+    public Date getJieShouDate() {
+      return jieShouDate;
+    }
+
+    public void setJieShouDate(Date jieShouDate) {
+      this.jieShouDate = jieShouDate;
+    }
+
+    public String getTiJiaoRemark() {
+      return tiJiaoRemark;
+    }
+
+    public void setTiJiaoRemark(String tiJiaoRemark) {
+      this.tiJiaoRemark = tiJiaoRemark;
+    }
+
 
     public BigDecimal getSendId() {
         return sendId;
@@ -190,5 +277,29 @@ public class SfDocSend extends ZcBaseBill {
 
     public void setWtfName(String wtfName) {
       this.wtfName = wtfName;
+    }
+
+    public String getJieShouRemark() {
+      return jieShouRemark;
+    }
+
+    public void setJieShouRemark(String jieShouRemark) {
+      this.jieShouRemark = jieShouRemark;
+    }
+
+    public String getStatus() {
+      return status;
+    }
+
+    public void setStatus(String status) {
+      this.status = status;
+    }
+
+    public String getSendorName() {        
+        return EmpMeta.getEmpName(sendor);
+    }
+
+    public void setSendorName(String sendorName) {
+      this.sendorName = sendorName;
     }
 }

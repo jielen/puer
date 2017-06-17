@@ -445,6 +445,8 @@ public class SfJdDocAuditEditPanel extends AbstractMainSubEditPanel {
     //单独设置打印按钮，因为打印被设置到工作流里了，只有审批过的人 才有打印按钮，现在改为终审后可以显示的模式
     if(bill.getStatus().equals("exec")){
       printButton.setVisible(true);
+    }else{
+      printButton.setVisible(false);
     }
 
   }

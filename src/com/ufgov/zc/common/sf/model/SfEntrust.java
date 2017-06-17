@@ -85,6 +85,17 @@ public class SfEntrust extends ZcBaseBill {
    */
   public static final String STATUS_DOC_AUDITING ="docAudit";
   
+  /**
+   * 鉴定文书交接
+   */
+  public static final String STATUS_DOC_JIAOJIE ="docJiaoJie";
+  
+  
+  /**
+   * 鉴定文书打印
+   */
+  public static final String STATUS_REPORT_PRINTING ="reportPrinting";
+  
   
 
 	public static final String SEQ_SF_ENTRUST_ID = "SEQ_SF_ENTRUST_ID";

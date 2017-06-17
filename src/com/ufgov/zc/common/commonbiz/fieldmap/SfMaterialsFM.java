@@ -33,6 +33,7 @@ public class SfMaterialsFM {
       fieldMap.put("TQ_INFO","tqInfo");
       fieldMap.put("TIQU_FILE","tiquFile");
       fieldMap.put("TIQU_FILE_BLOBID","tiquFileBlobid");
+      fieldMap.put("SL_CODE","slCode");
 
 	  }
 }

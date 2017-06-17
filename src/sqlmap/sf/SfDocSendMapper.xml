@@ -16,17 +16,31 @@
     <result column="WTF_NAME" property="entrust.entrustor.name" jdbcType="VARCHAR" />
     <result column="SEND_TYPE" property="sendType" jdbcType="VARCHAR" />
     <result column="JD_DOC_AUDIT_ID" property="jdDocAuditId" jdbcType="DECIMAL" />
-    <result column="NAME" property="entrust.name" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="PROCESS_INST_ID" property="processInstId" jdbcType="DECIMAL" />
+    <result column="TI_JIAO_REN" property="tiJiaoRen" jdbcType="VARCHAR" />
+    <result column="TI_JIAO_DATE" property="tiJiaoDate" jdbcType="DATE" />
+    <result column="JIE_SHOU_REN" property="jieShouRen" jdbcType="VARCHAR" />
+    <result column="JIE_SHOU_DATE" property="jieShouDate" jdbcType="DATE" />
+    <result column="TI_JIAO_REMARK" property="tiJiaoRemark" jdbcType="VARCHAR" />
+    <result column="JIE_SHOU_REMARK" property="jieShouRemark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     SEND_ID, RECIEVOR, RECIEVOR_TEL, SEND_DATE, SENDOR, ND, CO_CODE, REMARK, ENTRUST_ID, 
-    ENTRUST_CODE, SEND_TYPE, JD_DOC_AUDIT_ID,NAME,WTF_NAME
+    ENTRUST_CODE, SEND_TYPE, JD_DOC_AUDIT_ID,NAME,WTF_NAME,STATUS,PROCESS_INST_ID,TI_JIAO_REN,TI_JIAO_DATE,
+    JIE_SHOU_REN,JIE_SHOU_DATE,TI_JIAO_REMARK,JIE_SHOU_REMARK
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="java.math.BigDecimal" >
     select 
     <include refid="Base_Column_List" />
     from SF_DOC_SEND
     where SEND_ID = #sendId:DECIMAL#
+  </select>
+  <select id="selectByProcessinstid" resultMap="BaseResultMap" parameterClass="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from SF_DOC_SEND
+    where PROCESS_INST_ID = #id:DECIMAL#
   </select>
   <select id="selectByEntrustId" resultMap="BaseResultMap" parameterClass="java.math.BigDecimal" >
     select 
@@ -53,6 +67,48 @@
 		<isNotNull prepend="AND" property="sfId"> 
 			ENTRUST_ID=#sfId#
 		</isNotNull>   
+		<isNotNull prepend="AND" property="status">
+			<isEqual property="status" compareValue="todo">
+				(	exists (select instance_id from V_WF_CURRENT_TASK_ZC_TODO where 
+					executor=#executor# and instance_id = SF_DOC_SEND.process_inst_id)
+					or
+					exists (select t.instance_id from v_sf_wf_current_task_todo2 t
+					   where t.executor=#executor# and t.instance_id=SF_DOC_SEND.process_inst_id
+					   and t.ND=SF_DOC_SEND.nd
+					   and t.CO_CODE=SF_DOC_SEND.co_code)
+				 )
+			</isEqual>
+			<isEqual property="status" compareValue="untread">
+				(  	exists(select instance_id from V_SF_WF_CURRENT_TASK_UNTREAD2 T where
+					T.executor=#executor# and instance_id = SF_DOC_SEND.process_inst_id
+					AND T.ND=SF_DOC_SEND.ND AND T.CO_CODE=SF_DOC_SEND.CO_CODE)
+					or				
+					exists (select instance_id from V_WF_CURRENT_TASK_ZC_UNTREAD where
+					executor=#executor# and instance_id = SF_DOC_SEND.process_inst_id)
+				)
+			</isEqual>
+			<isEqual property="status" compareValue="done">
+				exists (select instance_id from V_WF_ACTION_HISTORY_GK53 where 
+				executor =#executor# and instance_id = SF_DOC_SEND.process_inst_id)
+				and SF_DOC_SEND.STATUS!= 'cancel' and SF_DOC_SEND.STATUS != 'exec'
+			</isEqual>
+			<isEqual property="status" compareValue="draft">
+				( exists (select WF_DRAFT_NAME from as_wf_draft where
+				user_id=#executor# and
+				compo_id=#wfcompoId# and
+				WF_DRAFT_ID=SF_DOC_SEND.process_inst_id)
+				or
+				SF_DOC_SEND.process_inst_id = -1 )
+				and SF_DOC_SEND.STATUS ='0'
+			</isEqual>
+			<isEqual property="status" compareValue="exec">
+				(SF_DOC_SEND.STATUS='exec')
+			</isEqual>
+			<isEqual property="status" compareValue="all">
+				1=1
+			</isEqual>
+		</isNotNull>
+   order by SEND_ID desc
 	</select>
   <delete id="deleteByPrimaryKey" parameterClass="java.math.BigDecimal" >
     delete from SF_DOC_SEND
@@ -62,12 +118,16 @@
     insert into SF_DOC_SEND (SEND_ID, RECIEVOR, RECIEVOR_TEL, 
       SEND_DATE, SENDOR, ND, 
       CO_CODE, REMARK, ENTRUST_ID, 
-      ENTRUST_CODE, SEND_TYPE, JD_DOC_AUDIT_ID,NAME,WTF_NAME
+      ENTRUST_CODE, SEND_TYPE, JD_DOC_AUDIT_ID,NAME,WTF_NAME,
+      STATUS,PROCESS_INST_ID,TI_JIAO_REN,TI_JIAO_DATE,
+    JIE_SHOU_REN,JIE_SHOU_DATE,TI_JIAO_REMARK,JIE_SHOU_REMARK
       )
     values (#sendId:DECIMAL#, #recievor:VARCHAR#, #recievorTel:VARCHAR#, 
       #sendDate:DATE#, #sendor:VARCHAR#, #nd:VARCHAR#, 
       #coCode:VARCHAR#, #remark:VARCHAR#, #entrust.entrustId:DECIMAL#, 
-      #entrust.code:VARCHAR#, #sendType:VARCHAR#, #jdDocAuditId:DECIMAL#,#entrust.name#,#entrust.entrustor.name#
+      #entrust.code:VARCHAR#, #sendType:VARCHAR#, #jdDocAuditId:DECIMAL#,#entrust.name#,#entrust.entrustor.name#,
+      #status#,#processInstId:DECIMAL#,#tiJiaoRen#,#tiJiaoDate:DATE#,
+      #jieShouRen#,#jieShouDate:DATE#,#tiJiaoRemark#,#jieShouRemark# 
       )
   </insert> 
   <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfDocSend" >
@@ -84,7 +144,81 @@
       SEND_TYPE = #sendType:VARCHAR#,
       JD_DOC_AUDIT_ID = #jdDocAuditId:DECIMAL#,
       NAME=#entrust.name#,
-      WTF_NAME=#entrust.entrustor.name#
+      WTF_NAME=#entrust.entrustor.name#,
+      STATUS=#status#,
+      PROCESS_INST_ID=#processInstId:DECIMAL#,
+      TI_JIAO_REN=#tiJiaoRen#,
+      TI_JIAO_DATE=#tiJiaoDate:DATE#,
+    JIE_SHOU_REN=#jieShouRen#,
+    JIE_SHOU_DATE=#jieShouDate:DATE#,
+    TI_JIAO_REMARK=#tiJiaoRemark#,
+    JIE_SHOU_REMARK=#jieShouRemark#
     where SEND_ID = #sendId:DECIMAL#
   </update>
+  
+  <!-- 判断当前业务数据是否处在综合科室值班人的待办任务里-->
+  <select id="isZongHeShouliToDo" parameterClass="elementCondition" resultClass="java.lang.Long">
+  	select distinct T.instance_id
+    from V_SF_WF_CURRENT_TASK_TODO2 T, SF_DOC_SEND e
+   where T.executor = #executor#
+     and t.instance_id = e.process_inst_id
+     and e.process_inst_id = #processInstId:DECIMAL#
+  </select>
+  <!-- 判断当前业务数据是否处在退回到综合科室值班人的任务里-->
+  <select id="isZongHeShouliUntreat" parameterClass="elementCondition" resultClass="java.lang.Long">
+  	select distinct T.instance_id
+	  from V_SF_WF_CURRENT_TASK_UNTREAD2 T, SF_DOC_SEND e
+	 where T.executor = #executor#
+	   and t.instance_id = e.process_inst_id
+	   and e.process_inst_id = #processInstId:DECIMAL# 
+  </select>
+  
+  <!-- 获取综合值班人的工作流可用于按钮-->
+  <select id="getZongheShouliEnableFunc" parameterClass="elementCondition" resultClass="java.lang.String">
+	select FUNC_ID
+  from AS_WF_FUNC_ACTIVITY
+ where WF_NODE_ID IN
+       (SELECT N.NODE_ID
+          FROM v_sf_zonghe_zhiban_node        N,
+               V_SF_ZONGHE_ZHIBAN_PERSON_LINK L,
+               SF_DOC_SEND                    E
+         WHERE N.INSTANCE_ID = E.PROCESS_INST_ID
+           AND N.EXECUTOR = L.ZONGHE_ZHIBAN
+           AND L.USER_ID= #executor#
+           <!-- AND L.ND=E.ND -->
+           AND L.CO_CODE=E.CO_CODE
+           AND E.PROCESS_INST_ID = #processInstId:DECIMAL#)
+    OR (WF_NODE_ID IN
+       (SELECT N.NODE_ID
+           FROM v_sf_zonghe_zhiban_node2       N,
+                V_SF_ZONGHE_ZHIBAN_PERSON_LINK L,
+                SF_DOC_SEND                    E
+          WHERE N.INSTANCE_ID = E.PROCESS_INST_ID
+            AND N.EXECUTOR = L.ZONGHE_ZHIBAN
+            AND L.USER_ID = #executor#
+          <!--  AND L.ND=E.ND -->
+           AND L.CO_CODE=E.CO_CODE
+            AND E.PROCESS_INST_ID = #processInstId:DECIMAL#) AND
+       FUNC_ID = 'fcallback')
+   and WF_TEMPLATE_ID =
+       (select DEFAULT_WF_TEMPLATE from AS_COMPO where COMPO_ID = #compoId#)
+  </select>
+  
+  <!-- 获取值班的综合受理人的工作流可编辑字段-->
+  <select id="getZongheShouliEnableField" parameterClass="elementCondition" resultClass="java.util.HashMap">
+  	SELECT data_item, read_write
+    FROM as_wf_activity_field t
+   WHERE t.wf_node_id = (SELECT distinct K.node_id
+                           FROM wf_current_task K,V_SF_ZONGHE_ZHIBAN_PERSON_LINK L,SF_DOC_SEND E
+                          WHERE K.instance_id = #processInstId:DECIMAL#
+                            and K.executor = 'ZONGHE_SHOULI'
+                            AND K.EXECUTOR=L.ZONGHE_ZHIBAN
+                            AND L.USER_ID=#executor#
+                            AND L.ND=E.ND
+                            AND L.CO_CODE=E.CO_CODE
+                            )
+     and t.wf_template_id =
+         (select default_wf_template from as_compo where compo_id = #compoId#)
+     and read_write = '2'
+  </select>
 </sqlMap>

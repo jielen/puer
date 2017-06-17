@@ -35,27 +35,27 @@ public class SfDocSendServiceDelegate implements ISfDocSendServiceDelegate {
 
   
   public SfDocSend unAuditFN(SfDocSend qx, RequestMeta requestMeta) {
-    return null;
+    return sfDocSendService.unAuditFN(qx, requestMeta);
   }
 
   
   public SfDocSend untreadFN(SfDocSend qx, RequestMeta requestMeta) {
-    return null;
+    return sfDocSendService.untreadFN(qx, requestMeta);
   }
 
   
   public SfDocSend auditFN(SfDocSend qx, RequestMeta requestMeta) throws Exception {
-    return null;
+    return sfDocSendService.auditFN(qx, requestMeta);
   }
 
   
   public SfDocSend newCommitFN(SfDocSend qx, RequestMeta requestMeta) {
-    return null;
+    return sfDocSendService.newCommitFN(qx, requestMeta);
   }
 
   
   public SfDocSend callbackFN(SfDocSend qx, RequestMeta requestMeta) {
-    return null;
+    return sfDocSendService.callbackFN(qx, requestMeta);
   }
 
 

@@ -196,7 +196,8 @@ public class SfEntrustToTableModelConverter {
   static {
 
 	materialInfo.add(new ColumnBeanPropertyPair(SfMaterials.COL_MATERIAL_TYPE, "materialType", LangTransMeta.translate(SfMaterials.COL_MATERIAL_TYPE)));
-    materialInfo.add(new ColumnBeanPropertyPair(SfMaterials.COL_BIANHAO, "bianhao", LangTransMeta.translate(SfMaterials.COL_BIANHAO)));
+    materialInfo.add(new ColumnBeanPropertyPair(SfMaterials.COL_BIANHAO, "bianhao", LangTransMeta.translate(SfMaterials.COL_BIANHAO))); 
+    materialInfo.add(new ColumnBeanPropertyPair(SfMaterials.COL_SL_CODE, "slCode", LangTransMeta.translate(SfMaterials.COL_SL_CODE)));
     materialInfo.add(new ColumnBeanPropertyPair(SfMaterials.COL_NAME, "name", LangTransMeta.translate(SfMaterials.COL_NAME)));
 //    materialInfo.add(new ColumnBeanPropertyPair(SfMaterials.COL_QUANTITY, "quantity", LangTransMeta.translate(SfMaterials.COL_QUANTITY)));
 //    materialInfo.add(new ColumnBeanPropertyPair(SfMaterials.COL_QUANTITY2, "quantity2", LangTransMeta.translate(SfMaterials.COL_QUANTITY2)));
@@ -210,7 +211,7 @@ public class SfEntrustToTableModelConverter {
     materialInfo.add(new ColumnBeanPropertyPair(SfMaterials.COL_SAVE_ADDRESS, "saveAddress", LangTransMeta.translate(SfMaterials.COL_SAVE_ADDRESS))); 
     materialInfo.add(new ColumnBeanPropertyPair(SfMaterials.COL_JIAN_HOU_STORE_TIME, "jianHouStoreTime", LangTransMeta.translate(SfMaterials.COL_JIAN_HOU_STORE_TIME))); 
     materialInfo.add(new ColumnBeanPropertyPair(SfMaterials.COL_JIAN_HOU_CHULI_TYPE, "jianHouChuliType", LangTransMeta.translate(SfMaterials.COL_JIAN_HOU_CHULI_TYPE))); 
-    materialInfo.add(new ColumnBeanPropertyPair(SfMaterials.COL_REMARK, "remark", LangTransMeta.translate(SfMaterials.COL_REMARK))); 
+    materialInfo.add(new ColumnBeanPropertyPair(SfMaterials.COL_REMARK, "remark", LangTransMeta.translate(SfMaterials.COL_REMARK)));
   }
 
   public static List<ColumnBeanPropertyPair> getMaterialInfo() {

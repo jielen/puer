@@ -35,6 +35,10 @@ public class SfDocSendToTableModelConverter {
     names.add(LangTransMeta.translate(SfDocSend.COL_ENTRUST_CODE));
     names.add(LangTransMeta.translate(SfDocSend.COL_NAME));
     names.add(LangTransMeta.translate(SfDocSend.COL_WTF));
+    names.add(LangTransMeta.translate(SfDocSend.COL_TI_JIAO_REN));
+    names.add(LangTransMeta.translate(SfDocSend.COL_TI_JIAO_DATE));
+    names.add(LangTransMeta.translate(SfDocSend.COL_JIE_SHOU_REN));
+    names.add(LangTransMeta.translate(SfDocSend.COL_JIE_SHOU_DATE));
     names.add(LangTransMeta.translate(SfDocSend.COL_RECIEVOR));
     names.add(LangTransMeta.translate(SfDocSend.COL_RECIEVOR_TEL));
     names.add(LangTransMeta.translate(SfDocSend.COL_SEND_DATE));
@@ -49,10 +53,14 @@ public class SfDocSendToTableModelConverter {
         rowData.add(jdPerson.getEntrust().getCode());
         rowData.add(jdPerson.getEntrust().getName());
         rowData.add(jdPerson.getEntrust().getEntrustor().getName());
+        rowData.add(jdPerson.getTiJiaoRenName());
+        rowData.add(jdPerson.getTiJiaoDate()==null?null:df.format(jdPerson.getTiJiaoDate()));
+        rowData.add(jdPerson.getJieShouRenName());
+        rowData.add(jdPerson.getJieShouDate()==null?null:df.format(jdPerson.getJieShouDate()));
         rowData.add(jdPerson.getRecievor());
         rowData.add(jdPerson.getRecievorTel()); 
         rowData.add(jdPerson.getSendDate()==null?null:df.format(jdPerson.getSendDate()));
-        rowData.add(jdPerson.getSendor()); 
+        rowData.add(jdPerson.getSendorName()); 
         values.add(rowData);
       }
     }

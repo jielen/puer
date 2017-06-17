@@ -30,8 +30,8 @@
 		nodeBusiness="com.ufgov.zc.client.sf.dataflow.nodebusiness.SfJdDocAuditNodeBusiness"/>	
 			
 	<node compoId="SF_DOC_SEND"
-		text="文书发放登记"
-		toolTip="文书发放登记" 
+		text="文书移交与发放"
+		toolTip="文书移交与发放" 
 		icon="wenju2.bmp"
 		isMutliRecord="false"
 		nodeBusiness="com.ufgov.zc.client.sf.dataflow.nodebusiness.SfDocSendNodeBusiness"/>

@@ -545,7 +545,7 @@
 					or				
 					exists (select instance_id from V_WF_CURRENT_TASK_ZC_UNTREAD where
 					executor=#executor# and instance_id = SF_ENTRUST.process_inst_id)					
-					   <!-- 文书审批单的数据也放在这里  待实现-->
+					    
 				)
 			</isEqual>
 			<isEqual property="status" compareValue="untread">
@@ -606,7 +606,8 @@
 						WHERE S.ENTRUST_ID=SF_ENTRUST.ENTRUST_ID)
 				and (
 				      EXISTS (SELECT 1 FROM SF_DOC_SEND S 
-						WHERE S.ENTRUST_ID=SF_ENTRUST.ENTRUST_ID)
+						WHERE S.ENTRUST_ID=SF_ENTRUST.ENTRUST_ID
+						and  s.status='exec')
 					  or 
 					  SF_ENTRUST.status in ('stop','zhuansong')
 				    )
@@ -619,13 +620,15 @@
 			<!-- 意见书已领 -->
 			<isEqual property="status" compareValue="docSended">
 				EXISTS (SELECT 1 FROM SF_DOC_SEND S 
-						WHERE S.ENTRUST_ID=SF_ENTRUST.ENTRUST_ID)
+						WHERE S.ENTRUST_ID=SF_ENTRUST.ENTRUST_ID
+						and  s.status='exec')
 			</isEqual>
 			<!-- 意见书待领 -->
 			<isEqual property="status" compareValue="docNoSend">
-				NOT EXISTS (SELECT 1 FROM SF_DOC_SEND S 
-						WHERE S.ENTRUST_ID=SF_ENTRUST.ENTRUST_ID)
-			    and exists (select 1 from sf_jd_doc_audit r where r.status='exec' and r.entrust_id=SF_ENTRUST.ENTRUST_ID)
+				EXISTS (SELECT 1 FROM SF_DOC_SEND S 
+						WHERE S.ENTRUST_ID=SF_ENTRUST.ENTRUST_ID
+						and s.status='10'
+						) 
 			</isEqual>
 			<!-- 在待处理页签底下，囊括如果存在当前登录人的鉴定文书审批待办单信息，则将其对于的委托数据合并到当前页签下，并将状态改为鉴定文书审批 见SfEntrustService。getEntrustsWithJdDocAuditing  -->
 			<isEqual property="status" compareValue="getEntustWithJdDocAudting">
@@ -635,6 +638,21 @@
 			                #pmAdjustCodeList[]:DECIMAL#
 			            </iterate>
 			      </isNotEmpty> 
+			</isEqual>
+			<!-- 在待处理页签底下，囊括如果存在当前登录人的鉴定文书交接审批单待办信息，则将其对于的委托数据合并到当前页签下，并将状态改为鉴定文书见SfEntrustService。getEntrustsReportDoc  -->
+			<isEqual property="status" compareValue="getEntrustsReportDoc">
+				  <isNotEmpty property="pmAdjustCodeList" >
+			            SF_ENTRUST.ENTRUST_ID in
+			            <iterate property="pmAdjustCodeList" conjunction="," open="(" close=")">
+			                #pmAdjustCodeList[]:DECIMAL#
+			            </iterate>
+			      </isNotEmpty> 
+			</isEqual>
+			<!-- 获取当前登录人制作的，已经审批结束的文书审批单，但还没有打印整理，进入文书移交的，便于提醒起草人及时打印，签字、移交给综合受理人 -->
+			<isEqual property="status" compareValue="reportPrinting">
+				NOT EXISTS (SELECT 1 FROM SF_DOC_SEND S 
+						WHERE S.ENTRUST_ID=SF_ENTRUST.ENTRUST_ID)
+			    and exists (select 1 from sf_jd_doc_audit r where r.status='exec' and r.entrust_id=SF_ENTRUST.ENTRUST_ID)
 			</isEqual>
 			<isEqual property="status" compareValue="all">
 				1=1

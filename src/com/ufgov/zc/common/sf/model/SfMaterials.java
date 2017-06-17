@@ -29,6 +29,7 @@ public class SfMaterials extends ZcBaseBill {
   public static final String COL_TQ_INFO="SF_MATERIALS_TQ_INFO"; // 检材提取位置说明
   public static final String COL_TIQU_FILE="SF_MATERIALS_TIQU_FILE"; // 提取文件
   public static final String COL_TIQU_FILE_BLOBID="SF_MATERIALS_TIQU_FILE_BLOBID"; // 提取文件ID
+  public static final String COL_SL_CODE="SF_MATERIALS_SL_CODE"; // 受理编号
 
   
 //  public static final String COL_ATTACH_FILE="SF_MATERIALS_ATTACH_FILE"; // 文件
@@ -92,6 +93,8 @@ public class SfMaterials extends ZcBaseBill {
   
   private String tiquFile;
   private String tiquFileBlobid;
+  
+  private String slCode;//受理检材编号 四位年号－受理顺序号－细分检材顺序号
   
 
 
@@ -450,5 +453,13 @@ public String getTiquFile() {
 
   public void setTiquFileBlobid(String tiquFileBlobid) {
     this.tiquFileBlobid = tiquFileBlobid;
+  }
+
+  public String getSlCode() {
+    return slCode;
+  }
+
+  public void setSlCode(String slCode) {
+    this.slCode = slCode;
   }
 }

@@ -101,6 +101,7 @@ import com.ufgov.zc.client.component.zc.fieldeditor.MoneyFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.NewLineFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.TextAreaFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.TextFieldEditor;
+import com.ufgov.zc.client.datacache.AsValDataCache;
 import com.ufgov.zc.client.sf.charge.ChargeStandardHandler;
 import com.ufgov.zc.client.sf.component.JClosableTabbedPane;
 import com.ufgov.zc.client.sf.dataflow.SfDataFlowDialog;
@@ -362,7 +363,8 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
     if (SfUtil.isWtf()) {
       JPageableFixedTable ta = materialsTablePanel.getTable();
       hideCol(ta, SfMaterials.COL_SAVE_ADDRESS);
-    }
+      hideCol(materialsTablePanel.getTable(), SfMaterials.COL_SL_CODE);
+    } 
   }
 
   private void setDefaultValue(SfEntrust entrust) {
@@ -1370,7 +1372,15 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
         bPrinter.resetZpl();
         SfMaterials mt=(SfMaterials) beanList.get(i);
         bPrinter.setText(bill.getAcceptCode()==null?"":bill.getAcceptCode(), 5, 50, 20, 40, 15, 1, 1, 20); 
-        bPrinter.setText(mt.getBianhao()==null?"检材":"检材:"+mt.getBianhao(), 5, 100, 20, 40, 15, 1, 1, 20); 
+        String tName=AsValDataCache.getName(SfMaterials.SF_VS_MATERIAL_TYPE, mt.getMaterialType());
+        if(mt.getSlCode()!=null){
+          tName+=": "+mt.getSlCode().trim();
+        }else if(mt.getBianhao()!=null){
+          tName+=": "+mt.getBianhao().trim();
+        }else{
+          tName+=": ";
+        } 
+        bPrinter.setText(tName, 5, 100, 20, 40, 15, 1, 1, 20); 
         String bar2Paper = "^FO20,160^BY2,1.0,60^BCN,,Y,N,N^FD${data}^FS";//条码样式模板
         bPrinter.setBarcode(mt.getBarCode(),bar2Paper);
         String zpl = bPrinter.getZpl();
@@ -3240,4 +3250,5 @@ public class SfEntrustEditPanel extends AbstractMainSubEditPanel {
   public void setBarPrint(SfPrintClient barPrint) {
     this.barPrint = barPrint;
   }
+ 
 }

@@ -26,11 +26,12 @@
     <result column="TQ_INFO" jdbcType="VARCHAR" property="tqInfo" />
     <result column="TIQU_FILE" jdbcType="VARCHAR" property="tiquFile" />
     <result column="TIQU_FILE_BLOBID" jdbcType="VARCHAR" property="tiquFileBlobid" />
+    <result column="SL_CODE" jdbcType="VARCHAR" property="slCode" />
   </resultMap>
   <sql id="Base_Column_List">
     MATERIAL_ID, NAME, QUANTITY, UNIT, DESCRIPTION, ENTRUST_ID,QUANTITY2,QUANTITY3,MATERIAL_TYPE,BIANHAO,APPEND_MATERIAL_ID, 
     ATTACH_FILE, ATTACH_FILE_BLOBID, JIAN_HOU_CHULI_TYPE, 
-    SAVE_CONDITON, REMARK, JIAN_HOU_STORE_TIME, SAVE_ADDRESS, BAR_CODE,TQ_INFO,TIQU_FILE,TIQU_FILE_BLOBID
+    SAVE_CONDITON, REMARK, JIAN_HOU_STORE_TIME, SAVE_ADDRESS, BAR_CODE,TQ_INFO,TIQU_FILE,TIQU_FILE_BLOBID,SL_CODE
   </sql>
   <select id="selectByPrimaryKey" parameterClass="java.math.BigDecimal" resultMap="BaseResultMap">
     select 
@@ -67,14 +68,14 @@
     insert into SF_MATERIALS (MATERIAL_ID, NAME, QUANTITY, 
       UNIT, DESCRIPTION, ENTRUST_ID,QUANTITY2,QUANTITY3,MATERIAL_TYPE,BIANHAO,APPEND_MATERIAL_ID, 
     ATTACH_FILE, ATTACH_FILE_BLOBID, JIAN_HOU_CHULI_TYPE, 
-    SAVE_CONDITON, REMARK, JIAN_HOU_STORE_TIME, SAVE_ADDRESS, BAR_CODE,TQ_INFO,TIQU_FILE,TIQU_FILE_BLOBID
+    SAVE_CONDITON, REMARK, JIAN_HOU_STORE_TIME, SAVE_ADDRESS, BAR_CODE,TQ_INFO,TIQU_FILE,TIQU_FILE_BLOBID,SL_CODE
       )
     values (#materialId:DECIMAL#, #name:VARCHAR#, #quantity:DECIMAL#, 
       #unit:VARCHAR#, #description:VARCHAR#, #entrustId:DECIMAL#, #quantity2:DECIMAL#,#quantity3#,#materialType#,#bianhao#,
       #appendMaterialId:DECIMAL#, #attachFile:VARCHAR#, #attachFileBlobid:VARCHAR#,
       #jianHouChuliType:VARCHAR#, #saveConditon:VARCHAR#, 
       #remark:VARCHAR#, #jianHouStoreTime:DECIMAL#, #saveAddress:VARCHAR#, 
-      #barCode:VARCHAR#,#tqInfo#,#tiquFile#,#tiquFileBlobid#
+      #barCode:VARCHAR#,#tqInfo#,#tiquFile#,#tiquFileBlobid#,#slCode#
       )
   </insert>
   <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfMaterials">
@@ -99,7 +100,8 @@
       BAR_CODE = #barCode:VARCHAR#,
       TQ_INFO=#tqInfo#,
       TIQU_FILE=#tiquFile#,
-      TIQU_FILE_BLOBID=#tiquFileBlobid#
+      TIQU_FILE_BLOBID=#tiquFileBlobid#,
+      SL_CODE=#slCode#
     where MATERIAL_ID = #materialId:DECIMAL#
   </update>
 </sqlMap>

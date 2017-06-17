@@ -710,9 +710,9 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 	  protected void setButtonStatus() {
 	    SfJdResult bill = (SfJdResult) listCursor.getCurrentObject();
 	    setButtonStatus(bill, requestMeta, this.listCursor);
-	    //文书审批单终审后，锁定修改等操作
+	    //文书审批单终审后，锁定修改等操作,审批单没有终审时，不能打印
 	    SfUtil su=new SfUtil();
-	    su.lockBillWithDocAudit(toolBar.getComponents(),bill.getEntrust());
+	    su.lockBillWithDocAudit(toolBar.getComponents(),bill.getEntrust()); 
 	  }
 
 	 
