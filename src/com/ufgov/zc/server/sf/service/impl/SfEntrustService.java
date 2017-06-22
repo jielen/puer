@@ -516,7 +516,7 @@ public SfEntrust saveFN(SfEntrust inData, RequestMeta requestMeta) {
     if(context!=null && context.getNextNode()!=null && context.getNextNode().getNodeId().longValue()==31039013L){//31039013L是委托书流程的第一个节点 
       _sendUntreadMsgToSjr(qx,requestMeta,ISfEntrustService.WF_OPERATION_UNTREAD,jgName,jgName2);      
     }
-    _sendUntreadMsgToPreUser(qx,requestMeta,context,jgName,jgName2);
+//    _sendUntreadMsgToPreUser(qx,requestMeta,context,jgName,jgName2);
     return qx;
   }
 

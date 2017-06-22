@@ -56,6 +56,7 @@ import com.ufgov.zc.client.component.button.SuggestAuditPassButton;
 import com.ufgov.zc.client.component.button.TraceButton;
 import com.ufgov.zc.client.component.button.UnauditButton;
 import com.ufgov.zc.client.component.button.UntreadButton;
+import com.ufgov.zc.client.component.button.zc.CommonButton;
 import com.ufgov.zc.client.component.table.celleditor.DateCellEditor;
 import com.ufgov.zc.client.component.table.celleditor.MoneyCellEditor;
 import com.ufgov.zc.client.component.table.celleditor.TextCellEditor;
@@ -152,6 +153,8 @@ public class SfDocSendEditPanel  extends AbstractMainSubEditPanel {
 
   // 工作流退回
   protected FuncButton unTreadButton = new UntreadButton();
+  
+  public FuncButton yijiaoBtn = new CommonButton("fhandover", "send.jpg");
 
   protected ListCursor<SfDocSend> listCursor;
 
@@ -421,6 +424,21 @@ public class SfDocSendEditPanel  extends AbstractMainSubEditPanel {
       bs.addBillStatus(ZcSettingConstants.BILL_STATUS_ALL);
 
       btnStatusList.add(bs);
+      
+
+
+      bs = new ButtonStatus();
+
+      bs.setButton(this.yijiaoBtn);
+
+      bs.addPageStatus(ZcSettingConstants.PAGE_STATUS_BROWSE);
+
+      bs.addPageStatus(ZcSettingConstants.PAGE_STATUS_EDIT);
+
+      bs.addBillStatus(ZcSettingConstants.BILL_STATUS_ALL);
+
+      btnStatusList.add(bs);
+      
 
       bs = new ButtonStatus();
 
@@ -522,7 +540,12 @@ public class SfDocSendEditPanel  extends AbstractMainSubEditPanel {
 
     toolBar.add(saveButton);
 
-        toolBar.add(sendButton);
+//        toolBar.add(sendButton);
+        
+
+    yijiaoBtn.setText("移交");//综合确认
+    yijiaoBtn.setToolTipText("移交鉴定文书");
+        toolBar.add(yijiaoBtn);
 
     //    toolBar.add(saveAndSendButton);
 
@@ -633,7 +656,7 @@ public class SfDocSendEditPanel  extends AbstractMainSubEditPanel {
     });
 
 
-    sendButton.addActionListener(new ActionListener() {
+    yijiaoBtn.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
 //        doSend();
         doNewCommit();
@@ -818,7 +841,7 @@ public class SfDocSendEditPanel  extends AbstractMainSubEditPanel {
 
     if (success) {
       this.listCursor.setCurrentObject(afterSaveBill);
-      JOptionPane.showMessageDialog(this, "送审成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
+      JOptionPane.showMessageDialog(this, "移交信息已发出，请携相关文书去综合室进行交接办理！", "提示", JOptionPane.INFORMATION_MESSAGE);
       refreshListPanel();
       refreshData();
       updateDataFlowDialog();
@@ -1145,7 +1168,7 @@ public class SfDocSendEditPanel  extends AbstractMainSubEditPanel {
     AsValFieldEditor sendType = new AsValFieldEditor(LangTransMeta.translate(SfDocSend.COL_SEND_TYPE), "sendType", SfDocSend.VS_SF_DOC_SEND_SEND_TYPE);
     AsValFieldEditor staus = new AsValFieldEditor(LangTransMeta.translate(SfDocSend.COL_STATUS), "status", SfDocSend.SF_VS_DOC_SEND_STATUS);
     DateFieldEditor sendDate = new DateFieldEditor(LangTransMeta.translate(SfDocSend.COL_SEND_DATE), "sendDate");
-    TextFieldEditor sendor = new TextFieldEditor(LangTransMeta.translate(SfDocSend.COL_SENDOR), "sendor");
+    TextFieldEditor sendor = new TextFieldEditor(LangTransMeta.translate(SfDocSend.COL_SENDOR), "sendorName");
     TextFieldEditor name = new TextFieldEditor(LangTransMeta.translate(SfDocSend.COL_NAME), "entrust.name");
     TextFieldEditor wtf = new TextFieldEditor(LangTransMeta.translate(SfDocSend.COL_WTF), "entrust.entrustor.name");
     TextFieldEditor recievor = new TextFieldEditor(LangTransMeta.translate(SfDocSend.COL_RECIEVOR), "recievor");

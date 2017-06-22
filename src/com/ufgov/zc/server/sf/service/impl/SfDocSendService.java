@@ -208,7 +208,7 @@ public class SfDocSendService implements ISfDocSendService {
   
   public SfDocSend untreadFN(SfDocSend qx, RequestMeta requestMeta) {
     // TCJLODO Auto-generated method stub
-    wfEngineAdapter.untread(qx.getComment(), qx, requestMeta); 
+//    wfEngineAdapter.untread(qx.getComment(), qx, requestMeta); 
     
     ElementConditionDto dto=new ElementConditionDto();
     dto.setExecutor(requestMeta.getSvUserID());
