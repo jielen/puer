@@ -322,6 +322,9 @@ public void setBianhao(String bianhao) {
 	  if(getDescription()!=null){
 		  sb.append(getDescription()).append(" ");
 	  }
+	  if(getSlCode()!=null){
+	    sb.append("受理物证编号为：").append(getSlCode());
+	  }
 	  return sb.toString();
   }
 

@@ -1411,8 +1411,8 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 	    p.setLayout(new BorderLayout());
 	    p.add(fieldEditorPanel, BorderLayout.NORTH);
 	    p.add(createSubBillPanel(), BorderLayout.CENTER);
-	    mainTab.add("基本信息", p);
-	    mainTab.add("检验记录", recordFileTabPan);
+      mainTab.add("基本信息", p);
+      mainTab.add("检验记录", recordFileTabPan);
 	    workPanel.add(mainTab, BorderLayout.CENTER);
 	    this.add(workPanel, BorderLayout.CENTER);
 	    

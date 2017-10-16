@@ -839,7 +839,7 @@ public SfEntrust newCommitFN(SfEntrust bill, RequestMeta requestMeta) {
     for(int i=0;i<lst.size();i++){
       SfMaterials m=(SfMaterials) lst.get(i);
       if(m.getSlCode()!=null && m.getSlCode().trim().length()>0)continue;
-      String s=zs.genJcSlCode(bill.getAcceptCode(), bill.getNd().intValue());      
+      String s=zs.genJcSlCode(bill.getAcceptCode(), bill.getNd().intValue(),m.getMaterialType());      
       int k=i+1;
       m.setSlCode(s+"-"+zs.setZero(""+k, 2));
 //      materialsMapper.insert(m);
