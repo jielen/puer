@@ -35,8 +35,9 @@ public class SfJdDocAuditFinishWorkFlowLisenter extends SfJdDocAuditWorkFlowBasi
     
     //发送短信给委托方
 //    _sendMsgToWtf(entrust);  这个改到鉴定文书已经移交到综合室值班人时再发送  -- 20170615 cjl
-    //发送短信给起草人
-    _sendMsgToQcr(evalution,entrust,zcEbBaseServiceDao); 
+    //发送短信给起草人   
+    //不发短信了--20171206 cjl
+    //_sendMsgToQcr(evalution,entrust,zcEbBaseServiceDao); 
   }
 
   /**

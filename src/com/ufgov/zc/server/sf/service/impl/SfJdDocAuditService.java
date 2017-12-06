@@ -160,6 +160,8 @@ public class SfJdDocAuditService implements ISfJdDocAuditService {
   }
 
   private void sendMsgUntread(SfJdDocAudit qx, RequestMeta requestMeta) {
+    //不再发短信  20171206 cjl
+    /*
 	  ElementConditionDto dto=new ElementConditionDto();
 	  dto.setDattr1("SF_JD_DOC_AUDIT");
 	  dto.setDattr2(""+qx.getProcessInstId());
@@ -189,13 +191,13 @@ public class SfJdDocAuditService implements ISfJdDocAuditService {
 				  su.sendToBox(""+qx.getEntrustId().intValue(), "", msg, key, ZcSUtil.getSysDate(), ZcSUtil.getSysDate());
 			  } 
 		  }
-	  }	  
+	  }*/	  
 }
 
 
   private void sendMsgAudit(SfJdDocAudit qx, RequestMeta requestMeta) {
-
-	  ElementConditionDto dto=new ElementConditionDto();
+//停止发信息 20171206 cjl
+	/*  ElementConditionDto dto=new ElementConditionDto();
 	  dto.setDattr1("SF_JD_DOC_AUDIT");
 	  dto.setDattr2(""+qx.getProcessInstId());
 	  List userLst=zcEbBaseService.queryDataForList("ZcEbUtil.selectToDoUser", dto);
@@ -231,7 +233,7 @@ public class SfJdDocAuditService implements ISfJdDocAuditService {
 				  su.sendToBox(""+qx.getEntrustId().intValue(), "", msg, key, ZcSUtil.getSysDate(), ZcSUtil.getSysDate());
 			  } 
 		  }
-	  }
+	  }*/
 }
 
   

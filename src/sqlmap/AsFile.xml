@@ -50,6 +50,11 @@
 		FILE_ID = #value:VARCHAR#
 	</select>
 	
+	<select id="getAsFileFromHistoryById" resultMap="asFileResult"		parameterClass="string">
+		select FILE_ID, FULL_NAME, SUFFIX_NAME,FILE_CONTENT,FILE_PATH from v_sf_as_file where
+		FILE_ID = #value:VARCHAR#
+	</select>
+	
 	<select id="getLargeAsFileById" resultMap="largeAsFileResult"
 		parameterClass="string">
 		select FILE_ID, FULL_NAME, SUFFIX_NAME,FILE_CONTENT from AS_FILE where
