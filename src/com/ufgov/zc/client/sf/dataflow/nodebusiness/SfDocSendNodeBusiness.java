@@ -50,7 +50,7 @@ public class SfDocSendNodeBusiness  implements ISfFlowNodeBusiness {
         SfDocSend currentBill = new SfDocSend();
         currentBill.setEntrust(entrust); 
         ElementConditionDto dto=new ElementConditionDto();
-        dto.setNd(meta.getSvNd());
+//        dto.setNd(meta.getSvNd());  跨年的数据会取不到，所以去掉
         dto.setCoCode(meta.getSvCoCode());
         dto.setSfId(entrust.getEntrustId());
         List jdLst=zcEbBaseServiceDelegate.queryDataForList("com.ufgov.zc.server.sf.dao.SfJdDocAuditMapper.selectMainDataLst", dto, meta);
