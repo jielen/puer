@@ -1,0 +1,366 @@
+﻿@charset "utf-8";
+/* CSS Document */
+body{text-align:center; margin: 0;	padding: 0; background-color: #fff;
+scrollbar-track-color:#dadada;
+    scrollbar-face-color:#e0e0e0;
+    scrollbar-shadow-color:#ffffff;
+    scrollbar-3dlight-color:#dadada;
+    scrollbar-arrow-color:#000;
+    scrollbar-highlight-color:#fff;
+	scrollbar-adrkshadow-color:#ffffff;}
+img{border:0;}
+a{text-decoration:none;}
+ul{list-style-type:none;}
+font{font-family: "Times New Roman", Times, serif;font-size: 12px;color: #000;} 
+
+#container{width:1000px;height:100%; margin-left:auto; margin-right:auto; }
+
+/*------------------------------------------------Header头部--------------------*/
+
+#topPan{width:1000px;height:97px;background:url(../image/logo.jpg) no-repeat;margin-left:auto; margin-right:auto; }
+/*---------------------TopMenu头部菜单--------------------*/
+#menu_tab{width:90%;clear:both;padding:0px 0 0 0;float: left;  }
+ul.menu {list-style-type:none; float: right;  padding:8px 0 0 0px;}
+
+
+/*------Nav Panel主导航菜单--------------------*/
+#navPan{width:1000px;height:29px;clear:both;background:url(../image/navBg.jpg) repeat ; margin-left:auto;margin-right:auto;}
+#navPan ul{float:right; width:800px; margin:0 0 0 0px;padding:0 0 0 0px; height:29px; color:#fff;}
+#navPan ul li{float:left;  height:29px;}
+#navPan ul span{float:left;  height:9px; padding:6 0 0 0px;}
+#navPan ul li a{font:12px/29px Arial, Helvetica, sans-serif;  height:29px; display:block; color:#004576;background:url(../image/nav_bg.gif) repeat-x 0 0 ; text-decoration:none; text-align:center; }
+#navPan ul li a:hover{color:#f4f9fd;background:url(../image/main_right.jpg)}
+#navPan ul li a.main{background:url(../image/main_right.jpg) no-repeat 0 0; width:110px; color:#fff;}
+#navPan ul li a.main:hover{background:url(../image/navHover.jpg) no-repeat 0 0; width:110px; color:#f8931f;}
+#navPan ul li a.hover{background:url(../image/navHover.jpg) no-repeat 0 0; width:110px; color:#f8931f;}
+#loginPan{width:870px;height:42px;clear:both;background:url(../image/loginBg.jpg) repeat ; margin-left:auto;margin-right:auto; }
+
+/*--right PANEL 右边主要内容--*/
+#mainPan1{width:1000px;background-color:FFFFFF;}
+#mainPan{width:845px;float:right;background-color:dfdfdd;}
+#left{float:left;width: 223px;margin:0px 0 0 0px;; padding: 0; }
+
+#right{float:right;width:622px;background-color:e2e0e1;}
+#fontTitle{float:right;margin: 0px 0 0 10; width:20px;font-size:13px; font:bold; font-family:Arial, Helvetica, sans-serif;color:#fff;}
+
+/*------Tab航菜单--------------------*/
+.TabBlue{
+	font-size:12px;
+	height:24px;
+	text-align:center;	
+	padding:5px 0px 0px px;
+	font-family:"Times New Roman", Times, serif;
+	font-weight:bold;
+ color:#fff;
+	width:85px;
+	background:url(../image/tabBg01.jpg) no-repeat ; 
+}
+.TabBlueClicked{
+	font-size:12px;
+	height:24px;
+	text-align:center;	
+	padding:5px 0px 0px px;
+	color:#2870c6;
+	width:85px;
+	background:url(../image/tabBg02.jpg) no-repeat ; 
+}
+.TabBlueClicked2{
+	font-size:12px;
+	height:24px;
+	text-align:center;	
+	padding:5px 0px 0px px;
+	color:#2870c6;
+	width:85px;
+	background:url(../image/tabBg03.jpg) no-repeat ; 
+	}
+.TabBlue2{
+	font-size:12px;
+	height:24px;
+	text-align:center;	
+	padding:5px 0px 0px px;
+	font-family:"Times New Roman", Times, serif;
+	font-weight:bold;
+ color:#fff;
+	width:112px;
+	background:url(../image/TabBlue2.jpg) no-repeat ; 
+}
+.TabBlue2Clicked{
+	font-size:12px;
+	height:24px;
+	text-align:center;	
+	padding:5px 0px 0px px;
+	color:#2870c6;
+	width:112px;
+	background:url(../image/TabBlue2Clicked.jpg) no-repeat ; 
+}
+
+/*--文字样式--*/
+.font01 {
+	font-family: "Times New Roman", Times, serif;
+	font-size: 12px;
+	color: #000;
+	text-decoration: none;
+	line-height: 22px;
+	} 
+ .font01:hover {
+	color: #ff981f;
+	text-decoration: none;
+}
+  .font01:active   {
+        COLOR:#0ea7ff;   
+	TEXT-DECORATION: none}   
+ 
+  .font01:visited  {
+	TEXT-DECORATION: none}  
+.titleArticle{
+	font-size:14px;
+	font-family:"Times New Roman", Times, serif;
+	color:#f66800;
+	font-weight:bold;
+	text-decoration: none;
+}
+.title{
+	font-size:12px;
+	font-family:"Times New Roman", Times, serif;
+	color:#fff;
+	text-decoration: none;
+}  
+.titleOran{
+	font-size:12px;
+	font-family:"Times New Roman", Times, serif;
+	color:#f66800;
+	text-decoration: none;
+} 
+.titleSec{
+	padding:10px 0px 0px 6px;
+	font-size:13px;
+	font-weight:bold;
+	font-family:"Microsoft YaHei" ! important;
+		color:#000;
+	text-decoration: none;
+}  
+ 
+
+.title_white{
+	padding:0px 0px 0px 10px;
+	font-size:12px;
+	font-family:"Times New Roman", Times, serif;
+	color:#fff;
+	font-style: normal;
+	font-weight: bold;
+}
+.title_blue{
+  text-align:center;
+	font-size:12px;
+	font-family:"Times New Roman", Times, serif;
+	color:#2870c6;
+	font-style: normal;
+	font-weight: bold;
+}
+.font_blue{
+  text-align:right;
+	font-size:12px;
+	font-family:"Times New Roman", Times, serif;
+	color:#2870c6;
+	font-style: normal;
+}
+.fontLeft{
+	font-size:12px;
+	font-family:"Times New Roman", Times, serif;
+	color:#fff;
+}
+.titleBLue{
+	font-family: "Times New Roman", Times, serif;
+	font-size: 14px;
+	color: #2870c6;
+	text-decoration: none;
+	line-height: 22px;
+	font-weight: bold;
+	} 
+	
+.tableGray{
+	border: 1px solid #d8d8d8;
+	background:#f5f5f5;
+
+}
+.tableGray th{
+    font-family: "Times New Roman", Times, serif;
+	padding: 0 0 0 10;
+	text-align:left;
+	font-size: 14px;
+	color: 2870c6;
+	background:url(../image/rightTitle.jpg) repeat;
+	
+
+}
+
+.tableBlue{
+	border: 0px 1px 1px 1px solid #d6e7f7;
+	background:#f9fcfe;
+
+}
+
+.tableBlue2{
+	border: 0px 1px 1px 1px solid #9bc3ed;
+	background:#f9fcfe;
+
+}
+.tab01{
+	height:23px;
+	background:url(../image/titleBgChange.gif) repeat;
+    border-top: 1px;
+	border-right-style: 1px;
+	border-bottom-style: 0px;
+	border-left-style: 1px;
+	border-top-color: #000000;
+	border-right-color: #000000;
+	border-left-color: #000000;
+
+}
+.tab02{
+	border: 0px 1px 1px 1px solid #d6e7f7;
+	background:url(../image/titleBgNormal.gif) repeat;
+
+}
+/*---FOOTER PANEL 底部--*/
+#footer{width:1000px;height:60px; margin:0 auto;
+background:#ececec;margin:0 0 0px 0; margin-left:auto;margin-right:auto; }
+
+.textboxlogin { 
+	margin: 0; 
+	width: 80px;
+	border: 1px solid #b3b3b3; 
+	background: #FFF;
+	color: #000; 
+}
+input { 
+	margin: 0; 
+	border: 1px solid #b3b3b3; 
+	background: #FFF;
+	color: #000; 
+}
+.select1 { 
+	margin: 0; 
+	border: 1px solid #b3b3b3; 
+	background: #FFF;
+	color: #000; 
+}
+.textboxSearch { 
+	margin: 0; 
+	width: 200px;
+	border: 1px solid #b3b3b3; 
+	background: #FFF;
+	color: #000; 
+}
+.btn {
+	BORDER-RIGHT: #94beec 1px solid; 
+	PADDING-RIGHT: 2px; 
+	BORDER-TOP: #94beec 1px solid; 
+	PADDING-LEFT: 2px; 
+	FONT-SIZE: 12px; 
+	FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=#ffffff, EndColorStr=#c6dfff); 
+	BORDER-LEFT: #94beec 1px solid; CURSOR: hand; COLOR: black; 
+	PADDING-TOP: 3px; 
+	BORDER-BOTTOM: #bbd9fa 1px solid
+}
+   .btn_hover{
+	BORDER-RIGHT: #bbd9fa 1px solid; 
+	PADDING-RIGHT: 2px; 
+	BORDER-TOP: #bbd9fa 1px solid; 
+	PADDING-LEFT: 2px; 
+	FONT-SIZE: 12px; 
+	FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=#eaf7ff, EndColorStr=#ffffff); 
+	BORDER-LEFT: #bbd9fa 1px solid; CURSOR: hand; COLOR: black; 
+	PADDING-TOP:3px; 
+	BORDER-BOTTOM: #bbd9fa 1px solid
+    }
+	 .btn_active{
+	BORDER-RIGHT: #ffd34e 1px solid; 
+	PADDING-RIGHT: 2px; 
+	BORDER-TOP: #ffd34e 1px solid; 
+	PADDING-LEFT: 2px; 
+	FONT-SIZE: 12px; 
+	FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=#ffffff, EndColorStr=#ffd34e); 
+	BORDER-LEFT: #ffd34e 1px solid; CURSOR: hand; COLOR: black; 
+	PA 0px; MARGIN: 0px; PADDING-TOP: 0px; BORDER-RIGHT-WIDTH: 0px
+}
+.inavegate{
+	text-align:left;
+	width:1000px;
+	margin:0 auto;
+	background-color:#ccc;
+}
+.imakelistTable{
+	margin:0 auto;
+	width:960px;
+	padding-top:30px;
+	padding-bottom:20px;
+	}
+.ipaginframe{
+	margin:0 auto;
+	width:960px;
+	padding-bottom:30px;
+	}
+.ipaginframe .ipagination{
+	width:410px;
+	margin-left:558px;
+	}
+#makeListTable {
+	width:97%;
+	}
+#makeListTable tr,td,th{
+	height:15px;
+    line-height: 24px;
+    padding:none;
+    margin-top:0;
+	margin-bottom:0;
+	}
+#makeListTable tr td{
+	text-align:center;
+	}
+
+#makeListTable tr td.itemleft{
+	text-align:left;
+	padding-left:10px;
+}
+
+#makeListTable tr.green{
+	background-color:#f3f3f3;
+	}
+#makeListTable tr.black{
+	background-color:#f9f2d4;
+	}
+#makeListTable tr.itemhead{
+	background-color:#dce8f6;
+}
+#show{
+	font-size: 14px;
+    line-height: 18px;
+    margin: 0 auto;
+    padding-bottom: 30px;
+    padding-top: 30px;
+    text-align: left;
+    width: 960px;
+	}
+#show p{
+	padding-top:10px;
+}
+
+#show-table {
+    border: 1px solid #DDDDDD;
+    border-collapse: collapse;
+    margin-top: 20px;
+    width: 950px;
+}
+
+#show-table th {
+    background-color: #F4F4F4;
+    border: 1px solid #DDDDDD;
+    font-weight: bold;
+    font-size:14px;
+    text-align: center;
+}
+#show-table td {
+    border: 1px solid #DDDDDD;
+    height: 32px;
+}

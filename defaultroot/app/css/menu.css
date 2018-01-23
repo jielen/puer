@@ -1,0 +1,75 @@
+.menu {
+	FONT-SIZE: 14px; BACKGROUND: url(../img/menu_bj.jpg) repeat-x; MARGIN: 0px auto; OVERFLOW: hidden; WIDTH: 980px; HEIGHT: 37px
+}
+.menu_Time {
+	FONT-SIZE: 12px; BACKGROUND: url(../img/menu_Time.jpg) repeat-x; FLOAT: left; WIDTH: 186px; HEIGHT: 37px
+}
+.menu_Time1 {
+	MARGIN-TOP: 7px; FONT-SIZE: 12px; FLOAT: left
+}
+.menu_Time1 UL {
+	LIST-STYLE-TYPE: none
+}
+.menu_Time1 LI {
+	MARGIN-TOP: 7px; FLOAT: left; MARGIN-LEFT: 10px; LIST-STYLE-TYPE: none
+}
+.menu_Time2 UL {
+	LIST-STYLE-TYPE: none
+}
+.menu_Time2 LI {
+	MARGIN-TOP: 5px; PADDING-LEFT: 26px; BACKGROUND: url(../img/Time_tu.gif) no-repeat; FLOAT: left; MARGIN-LEFT: 0px; LINE-HEIGHT: 24px; LIST-STYLE-TYPE: none
+}
+.menu_1 {
+	FONT-SIZE: 14px; FLOAT: left; WIDTH: 773px; COLOR: #fff; HEIGHT: 37px
+}
+.menu_Under {
+	FONT-SIZE: 14px; FLOAT: right; WIDTH: 773px; COLOR: #fff; HEIGHT: 37px
+}
+.menu_Under1 {
+	MARGIN-TOP: 3px; FONT-SIZE: 14px; BACKGROUND: url(../img/menu2.jpg) repeat-x; FLOAT: left; MARGIN-LEFT: 3px; WIDTH: 151px; COLOR: #fff; HEIGHT: 27px
+}
+.menu_Under2 {
+	FONT-SIZE: 14px; FLOAT: left; OVERFLOW: hidden; WIDTH: 65%; COLOR: #fff; HEIGHT: 27px
+}
+.submit1 {
+	BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BACKGROUND: url(../img/spacer_02.gif) no-repeat; BORDER-BOTTOM-WIDTH: 0px; WIDTH: 49px; TEXT-INDENT: 999px; HEIGHT: 19px; BORDER-RIGHT-WIDTH: 0px
+}
+.fieldset1 INPUT {
+	WIDTH: 10em
+}
+.menu_Under2 UL {
+	PADDING-RIGHT: 0px; DISPLAY: block; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px; LIST-STYLE-TYPE: none
+}
+.menu_Under2 LI {
+	FLOAT: left; WIDTH: 20%; LINE-HEIGHT: 37px; LIST-STYLE-TYPE: none
+}
+.menu_Under2 A {
+	DISPLAY: block; TEXT-ALIGN: center
+}
+.menu_Under2 A:link {
+	FONT-WEIGHT: bold; COLOR: #fff206; TEXT-DECORATION: none
+}
+.menu_Under2 A:visited {
+	FONT-WEIGHT: bold; COLOR: #fff206
+}
+.menu_Under2 A:hover {
+	FONT-WEIGHT: bold; COLOR: #fff206; TEXT-DECORATION: none
+}
+.menu_1 UL {
+	PADDING-RIGHT: 0px; DISPLAY: block; PADDING-LEFT: 20px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px; LIST-STYLE-TYPE: none
+}
+.menu_1 LI {
+	FLOAT: left; WIDTH: 10%; LINE-HEIGHT: 37px; LIST-STYLE-TYPE: none
+}
+.menu_1 A {
+	DISPLAY: block; HEIGHT: 37px; TEXT-ALIGN: center
+}
+.menu_1 A:link {
+	COLOR: #fff; HEIGHT: 37px; TEXT-DECORATION: none
+}
+.menu_1 A:visited {
+	COLOR: #fff; HEIGHT: 37px
+}
+.menu_1 A:hover {
+	FONT-WEIGHT: bold; BACKGROUND: url(../img/menu1.jpg); COLOR: #fff; HEIGHT: 37px; TEXT-DECORATION: none
+}

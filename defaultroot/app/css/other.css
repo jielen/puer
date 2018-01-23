@@ -1,0 +1,21 @@
+.tabTagRecRR {
+	PADDING-LEFT: 26px; FONT-SIZE: 12px; BACKGROUND: url(../img/red_red.jpg); FLOAT: left; WIDTH: 6px; LINE-HEIGHT: 28px; HEIGHT: 28px; TEXT-ALIGN: left
+}
+.tabTagRecRB {
+	PADDING-LEFT: 26px; FONT-SIZE: 12px; BACKGROUND: url(../img/red_blank.jpg); FLOAT: left; WIDTH: 6px; LINE-HEIGHT: 28px; HEIGHT: 28px; TEXT-ALIGN: left
+}
+.tabTagRecBR {
+	PADDING-LEFT: 26px; FONT-SIZE: 12px; BACKGROUND: url(../img/blank_red.jpg); FLOAT: left; WIDTH: 6px; LINE-HEIGHT: 28px; HEIGHT: 28px; TEXT-ALIGN: left
+}
+.tabTagBarR {
+	PADDING-LEFT: 0px; FONT-SIZE: 12px; FLOAT: left; LINE-HEIGHT: 28px; HEIGHT: 28px; TEXT-ALIGN: left
+}
+.tabTagBarB {
+	PADDING-LEFT: 0px; FONT-SIZE: 12px; FLOAT: left; LINE-HEIGHT: 28px; HEIGHT: 28px; BACKGROUND-COLOR: #ffffff; TEXT-ALIGN: left
+}
+.tabTagSpanR {
+	FONT-WEIGHT: normal; CURSOR: hand
+}
+.tabTagSpanB {
+	FONT-WEIGHT: bold; CURSOR: hand
+}

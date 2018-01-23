@@ -1,0 +1,99 @@
+BODY {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-WEIGHT: normal; FONT-SIZE: 12px; PADDING-BOTTOM: 0px; MARGIN: 0px auto; PADDING-TOP: 0px; FONT-STYLE: normal; FONT-FAMILY: '宋体',Arial, Helvetica, sans-serif
+}
+FORM {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-WEIGHT: normal; FONT-SIZE: 12px; PADDING-BOTTOM: 0px; MARGIN: 0px auto; PADDING-TOP: 0px; FONT-STYLE: normal; FONT-FAMILY: '宋体',Arial, Helvetica, sans-serif
+}
+LEGEND {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-WEIGHT: normal; FONT-SIZE: 12px; PADDING-BOTTOM: 0px; MARGIN: 0px auto; PADDING-TOP: 0px; FONT-STYLE: normal; FONT-FAMILY: '宋体',Arial, Helvetica, sans-serif
+}
+FIELDSET {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-WEIGHT: normal; FONT-SIZE: 12px; PADDING-BOTTOM: 0px; MARGIN: 0px auto; PADDING-TOP: 0px; FONT-STYLE: normal; FONT-FAMILY: '宋体',Arial, Helvetica, sans-serif
+}
+INPUT {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-WEIGHT: normal; FONT-SIZE: 12px; PADDING-BOTTOM: 0px; MARGIN: 0px auto; PADDING-TOP: 0px; FONT-STYLE: normal; FONT-FAMILY: '宋体',Arial, Helvetica, sans-serif
+}
+BUTTON {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-WEIGHT: normal; FONT-SIZE: 12px; PADDING-BOTTOM: 0px; MARGIN: 0px auto; PADDING-TOP: 0px; FONT-STYLE: normal; FONT-FAMILY: '宋体',Arial, Helvetica, sans-serif
+}
+SELECT {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-WEIGHT: normal; FONT-SIZE: 12px; PADDING-BOTTOM: 0px; MARGIN: 0px auto; PADDING-TOP: 0px; FONT-STYLE: normal; FONT-FAMILY: '宋体',Arial, Helvetica, sans-serif
+}
+TEXTAREA {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-WEIGHT: normal; FONT-SIZE: 12px; PADDING-BOTTOM: 0px; MARGIN: 0px auto; PADDING-TOP: 0px; FONT-STYLE: normal; FONT-FAMILY: '宋体',Arial, Helvetica, sans-serif
+}
+.searchbox {
+	BACKGROUND: url(../img/spacer_bj.gif); MARGIN: 0px auto; WIDTH: 980px; HEIGHT: 34px
+}
+.search1 {
+	PADDING-LEFT: 80px! important; BACKGROUND: url(../img/spacer_01.gif) no-repeat 10% 35%; FLOAT: left; WIDTH: 450px; HEIGHT: 30px; TEXT-ALIGN: left
+}
+.search1 INPUT {
+	MARGIN-TOP: 8px
+}
+.search_fwxx {
+	FLOAT: left; WIDTH: 350px
+}
+.search_fw SPAN {
+	FONT-WEIGHT: 800; COLOR: blue
+}
+.search_fwxx LI {
+	FLOAT: right; WIDTH: 350px; PADDING-TOP: 8px; LIST-STYLE-TYPE: none; HEIGHT: 20px! important; TEXT-ALIGN: center
+}
+.search1 IMG {
+	PADDING-LEFT: 10px; PADDING-TOP: 3px
+}
+.search_fw {
+	FLOAT: left; WIDTH: 400px
+}
+#spacer_zj {
+	BORDER-RIGHT: #a7d1e7 1px solid; BORDER-TOP: #a7d1e7 1px solid; MARGIN-TOP: 3px; BACKGROUND: url(../img/spacer_zj01.gif); BORDER-LEFT: #a7d1e7 1px solid; WIDTH: 673px; BORDER-BOTTOM: #a7d1e7 1px solid; HEIGHT: 30px
+}
+#spacer_zj1 {
+	PADDING-LEFT: 80px; FLOAT: left; WIDTH: 50px; HEIGHT: 30px
+}
+#spacer_zj2 {
+	FLOAT: left; WIDTH: 500px; TEXT-ALIGN: left
+}
+#spacer_zj3 {
+	MARGIN-TOP: 0px; FLOAT: left; WIDTH: 160px
+}
+#PopPage {
+	MARGIN-TOP: 18px; PADDING-LEFT: 130px; FONT-SIZE: 12px; FLOAT: left; WIDTH: 550px! important
+}
+#PopPage FORM {
+	FONT-SIZE: 12px; VERTICAL-ALIGN: middle; LINE-HEIGHT: 23px
+}
+#PopPage INPUT {
+	WIDTH: 118px
+}
+#PopPage P {
+	FLOAT: right; MARGIN: 0px auto; WIDTH: 550px! important; PADDING-TOP: 3px; HEIGHT: 0px
+}
+#PopPage H6 {
+	PADDING-RIGHT: 5px; FLOAT: right; MARGIN: 0px auto; PADDING-TOP: 3px
+}
+.Notice_gg {
+	MARGIN-TOP: 0px; BACKGROUND: url(../img/gg_s1.jpg) repeat-x; FLOAT: left; WIDTH: 773px; HEIGHT: 152px; TEXT-ALIGN: left
+}
+.gg TD {
+	FONT-SIZE: 12px; TEXT-ALIGN: center
+}
+.gga TD {
+	FONT-SIZE: 12px; LINE-HEIGHT: 30px; TEXT-ALIGN: left
+}
+.Submit1 {
+	FONT-SIZE: 12px
+}
+.Notice_gg TABLE {
+	MARGIN-TOP: 30px; MARGIN-LEFT: 130px
+}
+.Notice_gg1 {
+	MARGIN-TOP: 0px; FLOAT: left; WIDTH: 100%; HEIGHT: 25px
+}
+.Notice_gg1 FORM {
+	BORDER-RIGHT: #dc97b4 1px solid; BORDER-TOP: #dc97b4 1px solid; BACKGROUND: #fff2f4; BORDER-LEFT: #dc97b4 1px solid; BORDER-BOTTOM: #dc97b4 1px solid
+}
+.Notice_gg01 TD {
+	FONT-SIZE: 12px; HEIGHT: 25px; TEXT-ALIGN: center
+}

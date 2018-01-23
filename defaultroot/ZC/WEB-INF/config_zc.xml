@@ -1,0 +1,333 @@
+<config>
+
+    <function componame="all" name="validate" action="singleLevelValidate"/>
+
+    <function componame="ZC_COMMON" name="executeSQL" action="proxyAction"/>
+
+    <function componame="ZC_P_BI_DETAIL" name="savelist" action="schemeService"/>
+
+    <function componame="ZC_V_BI_DETAIL" name="manage" action="biManagerService"/>
+
+    <function componame="ZC_V_PERIODICAL_ITEMS" name="makecode" action="planService"/>
+
+    <function componame="ZC_V_MAKE_YEAREND" name="yearend" action="planService"/>
+
+    <function componame="ZC_P_MAKE_ADD_BI" name="superadd" action="proxyAction"/>
+
+    <function componame="ZC_P_MAKE_ADD_BI" name="carryforward" action="proxyAction"/>
+    
+    <function componame="ZC_P_MAKE_ADD_BI" name="autoCarryforward" action="autoCarryforwardAction"/>
+
+    <function componame="ZC_V_BI_DETAIL" name="createNewProject" action="proxyAction"/>
+
+    <function componame="ZC_V_BI_DETAIL" name="createNewpkProject" action="proxyAction"/>
+
+    <function componame="ZC_V_BI_DETAIL" name="createNewxyProject" action="proxyAction"/>
+    
+    <function componame="ZC_XYCG_HT" name="cancelbHt" action="proxyAction"/>
+
+    <function componame="ZC_PKG_PROJECT" name="pkgedit" action="pkgService"/>
+
+    <function componame="ZC_P_PLAN" name="partialReturn" action="localBIService"/>
+
+    <function name="getlistpage" componame="ZC_Z_PRO_BAL">
+        <view URLPattern="/jsp/ZC/pm/ZC_Z_PRO_BAL_List.jsp"/>
+    </function>
+    <function name="geteditpage" componame="ZC_Z_PRO_BAL">
+        <view URLPattern="/jsp/ZC/pm/ZC_Z_PRO_BAL_Edit.jsp"/> 
+        <!-- <view URLPattern="/jsp/ZC/pm/ZC_Z_PRO_BAL_TIDY_Edit.jsp"/> -->
+    </function>
+
+    <function name="getlistpage" componame="ZC_Z_P_PRO_BAL">
+        <view URLPattern="/jsp/ZC/pm/ZC_Z_P_PRO_BAL_List.jsp"/>
+    </function>
+    <function name="geteditpage" componame="ZC_Z_P_PRO_BAL">
+        <view URLPattern="/jsp/ZC/pm/ZC_Z_P_PRO_BAL_Edit.jsp"/>
+        <!-- <view URLPattern="/jsp/ZC/pm/ZC_Z_P_PRO_BAL_TIDY_Edit.jsp"/> -->
+    </function>
+
+    <function name="getlistpage" componame="ZC_XMCG_BCHT">
+        <view URLPattern="/jsp/ZC/pm/ZC_XMCG_BCHT_List.jsp"/>
+    </function>
+    <function name="geteditpage" componame="ZC_XMCG_BCHT">
+        <view URLPattern="/jsp/ZC/pm/ZC_XMCG_BCHT_Edit.jsp"/>
+    </function>
+
+    <function name="getlistpage" componame="ZC_DIYU_CTG">
+        <view URLPattern="/jsp/ZC/basedata/ZC_DIYU_CTG_List.jsp"/>
+    </function>
+    <function name="geteditpage" componame="ZC_DIYU_CTG">
+        <view URLPattern="/jsp/ZC/basedata/ZC_DIYU_CTG_Edit.jsp"/>
+    </function>
+
+    <function name="getlistpage" componame="ZC_Y_PRO_BAL">
+        <view URLPattern="/jsp/ZC/pm/ZC_Y_PRO_BAL_List.jsp"/>
+    </function>
+    <function name="geteditpage" componame="ZC_Y_PRO_BAL">
+        <view URLPattern="/jsp/ZC/pm/ZC_Y_PRO_BAL_Edit.jsp"/>
+        <!-- <view URLPattern="/jsp/ZC/pm/ZC_Y_M_PRO_BAL_Edit.jsp"/> -->
+    </function>
+
+    <function name="getlistpage" componame="ZC_XYCG_HT">
+        <view URLPattern="/jsp/ZC/pm/ZC_XYCG_HT_List.jsp"/>
+    </function>
+    <function name="geteditpage" componame="ZC_XYCG_HT">
+        <view URLPattern="/jsp/ZC/pm/ZC_XYCG_HT_Edit.jsp"/>
+    </function>
+
+    <function name="getlistpage" componame="ZC_XMCG_HT">
+        <view URLPattern="/jsp/ZC/pm/ZC_XMCG_HT_List.jsp"/>
+    </function>
+    <function name="geteditpage" componame="ZC_XMCG_HT">
+        <view URLPattern="/jsp/ZC/pm/ZC_XMCG_HT_Edit.jsp"/>
+    </function>
+    <function name="getlistpage" componame="ZC_T_ZYYS_JG">
+        <view URLPattern="/jsp/ZC/basedata/ZC_T_ZYYS_JG_List.jsp"/>
+    </function>
+    <function name="geteditpage" componame="ZC_T_ZYYS_JG">
+        <view URLPattern="/jsp/ZC/basedata/ZC_T_ZYYS_JG_Edit.jsp"/>
+    </function>
+
+    <function name="getlistpage" componame="ZC_B_CATALOGUE">
+        <view URLPattern="/jsp/ZC/basedata/ZC_B_CATALOGUE_List.jsp"/>
+    </function>
+    <function name="geteditpage" componame="ZC_B_CATALOGUE">
+        <view URLPattern="/jsp/ZC/basedata/ZC_B_CATALOGUE_Edit.jsp"/>
+    </function>
+
+    <function name="getlistpage" componame="ZC_B_SUPPLIER">
+        <view URLPattern="/jsp/ZC/basedata/ZC_B_SUPPLIER_List.jsp"/>
+    </function>
+    <function name="geteditpage" componame="ZC_B_SUPPLIER">
+        <view URLPattern="/jsp/ZC/basedata/ZC_B_SUPPLIER_Edit.jsp"/>
+    </function>
+
+    <function name="getlistpage" componame="ZC_V_B_MERCHANDISE">
+        <view URLPattern="/jsp/ZC/basedata/ZC_B_MERCHANDISE_List.jsp"/>
+    </function>
+    <function name="geteditpage" componame="ZC_B_MERCHANDISE">
+        <view URLPattern="/jsp/ZC/basedata/ZC_B_MERCHANDISE_Edit.jsp"/>
+    </function>
+
+	 <function name="getlistpage" componame="ZC_MER_SUP">
+        <view URLPattern="/jsp/ZC/basedata/ZC_B_MERCHANDISE_SUP_List.jsp"/>
+    </function>
+    <function name="geteditpage" componame="ZC_MER_SUP">
+        <view URLPattern="/jsp/ZC/basedata/ZC_B_MERCHANDISE_SUP_Edit.jsp"/>
+    </function>
+   
+
+    <function name="getlistpage" componame="ZC_B_BRAND">
+        <view URLPattern="/jsp/ZC/basedata/ZC_B_BRAND_List.jsp"/>
+    </function>
+    <function name="geteditpage" componame="ZC_B_BRAND">
+        <view URLPattern="/jsp/ZC/basedata/ZC_B_BRAND_Edit.jsp"/>
+    </function>
+
+    <function name="getlistpage" componame="ZC_B_BRAND_SUPPLIER">
+        <view URLPattern="/jsp/ZC/basedata/ZC_B_BRAND_SUPPLIER_List.jsp"/>
+    </function>
+    <function name="geteditpage" componame="ZC_B_BRAND_SUPPLIER">
+        <view URLPattern="/jsp/ZC/basedata/ZC_B_BRAND_SUPPLIER_Edit.jsp"/>
+    </function>
+
+    <function name="getlistpage" componame="ZC_V_BI_DETAIL">
+        <view URLPattern="/jsp/ZC/basedata/ZC_V_BI_DETAIL_List.jsp"/>
+    </function>
+    <function name="geteditpage" componame="ZC_V_BI_DETAIL">
+        <view URLPattern="/jsp/ZC/basedata/ZC_V_BI_DETAIL_Edit.jsp"/>
+    </function>
+
+    <function name="getlistpage" componame="ZC_B_AGENCY">
+        <view URLPattern="/jsp/ZC/basedata/ZC_B_AGENCY_List.jsp"/>
+    </function>
+    <function name="geteditpage" componame="ZC_B_AGENCY">
+        <view URLPattern="/jsp/ZC/basedata/ZC_B_AGENCY_Edit.jsp"/>
+    </function>
+
+    <function name="getlistpage" componame="ZC_B_AGENCY_APTD">
+        <view URLPattern="/jsp/ZC/basedata/ZC_B_AGENCY_APTD_List.jsp"/>
+    </function>
+    <function name="geteditpage" componame="ZC_B_AGENCY_APTD">
+        <view URLPattern="/jsp/ZC/basedata/ZC_B_AGENCY_APTD_Edit.jsp"/>
+    </function>
+
+    <function name="getlistpage" componame="ZC_B_EXPERT">
+        <view URLPattern="/jsp/ZC/basedata/ZC_B_EXPERT_List.jsp"/>
+    </function>
+    <function name="geteditpage" componame="ZC_B_EXPERT">
+        <view URLPattern="/jsp/ZC/basedata/ZC_B_EXPERT_Edit.jsp"/>
+    </function>
+
+    <function name="getlistpage" componame="ZC_ZB_PINP">
+        <view URLPattern="/jsp/ZC/basedata/ZC_ZB_PINP_List.jsp"/>
+    </function>
+    <function name="geteditpage" componame="ZC_ZB_PINP">
+        <view URLPattern="/jsp/ZC/basedata/ZC_ZB_PINP_Edit.jsp"/>
+    </function>
+
+    <function name="getlistpage" componame="ZC_XYGH_ZBJG">
+        <view URLPattern="/jsp/ZC/basedata/ZC_XYGH_ZBJG_List.jsp"/>
+    </function>
+    <function name="geteditpage" componame="ZC_XYGH_ZBJG">
+        <view URLPattern="/jsp/ZC/basedata/ZC_XYGH_ZBJG_Edit.jsp"/>
+    </function>
+
+    <function name="getlistpage" componame="ZC_P_REQUEST">
+        <view URLPattern="/jsp/ZC/pm/ZC_P_REQUEST_List.jsp"/>
+    </function>
+    <function name="geteditpage" componame="ZC_P_REQUEST">
+        <view URLPattern="/jsp/ZC/pm/ZC_P_REQUEST_Edit.jsp"/>
+    </function>
+
+    <function name="getlistpage" componame="ZC_P_PLAN">
+        <view URLPattern="/jsp/ZC/pm/ZC_P_PLAN_List.jsp"/>
+    </function>
+    <function name="geteditpage" componame="ZC_P_PLAN">
+        <view URLPattern="/jsp/ZC/pm/ZC_P_PLAN_Edit.jsp"/>
+    </function>
+
+    <function name="getlistpage" componame="ZC_P_CONTRACT">
+        <view URLPattern="/jsp/ZC/pm/ZC_P_CONTRACT_List.jsp"/>
+    </function>
+    <function name="geteditpage" componame="ZC_P_CONTRACT">
+        <view URLPattern="/jsp/ZC/pm/ZC_P_CONTRACT_Edit.jsp"/>
+    </function>
+
+    <function name="getlistpage" componame="ZC_P_BALANCE">
+        <view URLPattern="/jsp/ZC/pm/ZC_P_BALANCE_List.jsp"/>
+    </function>
+    <function name="geteditpage" componame="ZC_P_BALANCE">
+        <view URLPattern="/jsp/ZC/pm/ZC_P_BALANCE_Edit.jsp"/>
+    </function>
+
+    <function name="getlistpage" componame="ZC_P_PRO_PLAN">
+        <view URLPattern="/jsp/ZC/pm/ZC_P_PRO_PLAN_List.jsp"/>
+    </function>
+    <function name="geteditpage" componame="ZC_P_PRO_PLAN">
+        <view URLPattern="/jsp/ZC/pm/ZC_P_PRO_PLAN_Edit.jsp"/>
+    </function>
+
+    <function name="getlistpage" componame="ZC_P_PRO_MAKE">
+        <view URLPattern="/jsp/ZC/pm/ZC_P_PRO_MAKE_List.jsp"/>
+    </function>
+    <function name="geteditpage" componame="ZC_P_PRO_MAKE">
+        <view URLPattern="/jsp/ZC/pm/ZC_P_PRO_MAKE_Edit.jsp"/>
+    </function>
+
+    <function name="getlistpage" componame="ZC_P_FEEDBACK">
+        <view URLPattern="/jsp/ZC/pm/ZC_P_FEEDBACK_List.jsp"/>
+    </function>
+    <function name="geteditpage" componame="ZC_P_FEEDBACK">
+        <view URLPattern="/jsp/ZC/pm/ZC_P_FEEDBACK_Edit.jsp"/>
+    </function>
+
+    <function name="getlistpage" componame="ZC_PKG_PROJECT">
+        <view URLPattern="/jsp/ZC/pm/ZC_PKG_PROJECT_List.jsp"/>
+    </function>
+    <function name="geteditpage" componame="ZC_PKG_PROJECT">
+        <view URLPattern="/jsp/ZC/pm/ZC_PKG_PROJECT_Edit.jsp"/>
+    </function>
+
+    <function name="getlistpage" componame="ZC_V_PRO_MITEM">
+        <view URLPattern="/jsp/ZC/pm/ZC_V_PRO_MITEM_List.jsp"/>
+    </function>
+
+    <function name="getlistpage" componame="ZC_P_BIDSUPPLIER">
+        <view URLPattern="/jsp/ZC/pm/ZC_P_BIDSUPPLIER_List.jsp"/>
+    </function>
+    <function name="geteditpage" componame="ZC_P_BIDSUPPLIER">
+        <view URLPattern="/jsp/ZC/pm/ZC_P_BIDSUPPLIER_Edit.jsp"/>
+    </function>
+
+    <function name="getlistpage" componame="ZC_P_PRO_BAL">
+        <view URLPattern="/jsp/ZC/pm/ZC_P_PRO_BAL_List.jsp"/>
+    </function>
+    <function name="geteditpage" componame="ZC_P_PRO_BAL">
+        <view URLPattern="/jsp/ZC/pm/ZC_P_PRO_BAL_Edit.jsp"/>
+    </function>
+
+    <function name="getlistpage" componame="ZC_T_CHG_TYPE">
+        <view URLPattern="/jsp/ZC/pm/ZC_T_CHG_TYPE_List.jsp"/>
+    </function>
+    <function name="geteditpage" componame="ZC_T_CHG_TYPE">
+        <view URLPattern="/jsp/ZC/pm/ZC_T_CHG_TYPE_Edit.jsp"/>
+    </function>
+
+    <function name="getlistpage" componame="ZC_T_PRO_BAL">
+        <view URLPattern="/jsp/ZC/pm/ZC_T_PRO_BAL_List.jsp"/>
+    </function>
+    <function name="geteditpage" componame="ZC_T_PRO_BAL">
+        <view URLPattern="/jsp/ZC/pm/ZC_T_PRO_BAL_Edit.jsp"/>
+    </function>
+
+    <function name="getlistpage" componame="ZC_V_MAKE_YEAREND">
+        <view URLPattern="/jsp/ZC/pm/ZC_V_MAKE_YEAREND_List.jsp"/>
+    </function>
+
+    <function name="getlistpage" componame="ZC_P_MAKE_ADD_BI">
+        <view URLPattern="/jsp/ZC/pm/ZC_P_MAKE_ADD_BI_List.jsp"/>
+    </function>
+
+    <function name="geteditpage" componame="ZC_P_MAKE_ADD_BI">
+        <view URLPattern="/jsp/ZC/pm/ZC_P_MAKE_ADD_BI_Edit.jsp"/>
+    </function>
+
+    <function name="getlistpage" componame="ZC_P_MAKE_CARRYFORWARD">
+        <view URLPattern="/jsp/ZC/pm/ZC_P_MAKE_CARRYFORWARD_List.jsp"/>
+    </function>
+
+    <function name="geteditpage" componame="ZC_P_MAKE_CARRYFORWARD">
+        <view URLPattern="/jsp/ZC/pm/ZC_P_MAKE_CARRYFORWARD_Edit.jsp"/>
+    </function>
+
+    <function name="geteditpage" componame="ZC_OPTION">
+        <view URLPattern="/jsp/ZC/ZC_OPTION_Edit.jsp"/>
+    </function>
+
+    <function name="geteditpage" componame="ZC_P_AMSTATUS">
+        <view URLPattern="/jsp/ZC/pm/ZC_P_AMSTATUS.jsp"/>
+    </function>
+
+    <function name="getlistpage" componame="ZC_V_BI_DETAIL">
+        <view URLPattern="/jsp/ZC/basedata/ZC_V_BI_DETAIL_List.jsp"/>
+    </function>
+    <function name="geteditpage" componame="ZC_V_BI_DETAIL">
+        <view URLPattern="/jsp/ZC/basedata/ZC_V_BI_DETAIL_Edit.jsp"/>
+    </function>
+
+    <function name="getlistpage" componame="ZC_V_PERIODICAL_ITEMS">
+        <view URLPattern="/jsp/ZC/pm/ZC_V_PERIODICAL_ITEMS_List.jsp"/>
+    </function>
+
+    <function name="getlistpage" componame="ZC_P_BI_DETAIL">
+        <view URLPattern="/jsp/ZC/basedata/ZC_P_BI_DETAIL_List.jsp"/>
+    </function>
+    <function name="geteditpage" componame="ZC_P_BI_DETAIL">
+        <view URLPattern="/jsp/ZC/basedata/ZC_P_BI_DETAIL_Edit.jsp"/>
+    </function>
+
+    <function name="getlistpage" componame="ZC_C_BI_DETAIL">
+        <view URLPattern="/jsp/ZC/pm/ZC_C_BI_DETAIL_List.jsp"/>
+    </function>
+    <function name="geteditpage" componame="ZC_C_BI_DETAIL">
+        <view URLPattern="/jsp/ZC/pm/ZC_C_BI_DETAIL_Edit.jsp"/>
+    </function>
+
+    <function name="getlistpage" componame="ZC_P_CHARGEOFF">
+        <view URLPattern="/jsp/ZC/pm/ZC_P_CHARGEOFF_List.jsp"/>
+    </function>
+    <function name="geteditpage" componame="ZC_P_CHARGEOFF">
+        <view URLPattern="/jsp/ZC/pm/ZC_P_CHARGEOFF_Edit.jsp"/>
+    </function>
+    <function name="geteditpage" componame="ZC_V_PRO_MAKE">
+        <view URLPattern="/jsp/ZC/pm/ZC_V_PRO_MAKE_Edit.jsp"/>
+    </function>
+    <function name="geteditpage" componame="ZC_V_CONTRACT">
+        <view URLPattern="/jsp/ZC/pm/ZC_V_CONTRACT_Edit.jsp"/>
+    </function>
+
+    <function name="getlistpage" componame="ZC_V_PD_PROJECT">
+        <view URLPattern="/jsp/ZC/pm/ZC_V_PD_PROJECT_List.jsp"/>
+    </function>
+</config>

@@ -1,0 +1,653 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			/WEB-INF/applicationContext.xml
+			/WEB-INF/applicationContext_zc.xml
+			/WEB-INF/applicationContext_zc_delegate.xml
+			/WEB-INF/applicationContext_gk.xml
+			/WEB-INF/applicationContext_gk_base.xml
+			/WEB-INF/applicationContext_gk_delegate.xml
+			/WEB-INF/applicationContext_wfengine.xml
+			/WEB-INF/applicationContext_gk_secure.xml
+		</param-value>
+	</context-param>
+
+	<filter>
+		<filter-name>requestWrappingFilter</filter-name>
+		<filter-class>
+			com.anyi.gp.interceptor.RequestWrappingFilter
+		</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>requestWrappingFilter</filter-name>
+		<url-pattern>*.action</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>requestWrappingFilter</filter-name>
+		<url-pattern>/jsp/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>requestWrappingFilter</filter-name>
+		<url-pattern>/app/page/merchandise/*</url-pattern>
+	</filter-mapping>
+
+
+
+	<listener>
+		<listener-class>
+			com.ufgov.zc.server.system.SpringContextLoaderListener
+		</listener-class>
+	</listener>
+	<listener>
+		<listener-class>
+			com.anyi.gp.context.ConfigLoaderListener
+		</listener-class>
+	</listener>
+	<listener>
+		<listener-class>
+			com.anyi.gp.domain.ApplusSessionListener
+		</listener-class>
+	</listener>
+
+
+	<servlet>
+		<servlet-name>webwork</servlet-name>
+		<servlet-class>
+			com.opensymphony.webwork.dispatcher.ServletDispatcher
+		</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>publish</servlet-name>
+		<servlet-class>com.ufgov.zc.server.system.HessianServicePublisher</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>baseDataServiceDelegate</servlet-name>
+		<servlet-class>
+			com.caucho.hessian.server.HessianServlet
+		</servlet-class>
+		<init-param>
+			<param-name>home-class</param-name>
+			<param-value>
+				com.ufgov.zc.server.commonbiz.publish.impl.exporter.BaseDataServiceExporter
+			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>home-api</param-name>
+			<param-value>
+				com.ufgov.zc.common.commonbiz.publish.IBaseDataServiceDelegate
+			</param-value>
+		</init-param>
+	</servlet>
+
+	<servlet>
+		<servlet-name>biTrackServiceDelegate</servlet-name>
+		<servlet-class>
+			com.caucho.hessian.server.HessianServlet
+		</servlet-class>
+		<init-param>
+			<param-name>home-class</param-name>
+			<param-value>
+				com.ufgov.zc.server.bi.publish.impl.exporter.BiTrackServiceExporter
+			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>home-api</param-name>
+			<param-value>
+				com.ufgov.zc.common.bi.publish.IBiTrackServiceDelegate
+			</param-value>
+		</init-param>
+	</servlet>
+	<servlet>
+		<servlet-name>biAdjustTrackServiceDelegate</servlet-name>
+		<servlet-class>
+			com.caucho.hessian.server.HessianServlet
+		</servlet-class>
+		<init-param>
+			<param-name>home-class</param-name>
+			<param-value>
+				com.ufgov.zc.server.bi.publish.impl.exporter.BiAdjustTrackServiceExporter
+			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>home-api</param-name>
+			<param-value>
+				com.ufgov.zc.common.bi.publish.IBiAdjustTrackServiceDelegate
+			</param-value>
+		</init-param>
+	</servlet>
+
+	<servlet>
+		<servlet-name>dpDetailServiceDelegate</servlet-name>
+		<servlet-class>
+			com.caucho.hessian.server.HessianServlet
+		</servlet-class>
+		<init-param>
+			<param-name>home-class</param-name>
+			<param-value>
+				com.ufgov.zc.server.dp.publish.impl.exporter.DpDetailServiceExporter
+			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>home-api</param-name>
+			<param-value>
+				com.ufgov.zc.common.dp.publish.IDpDetailServiceDelegate
+			</param-value>
+		</init-param>
+	</servlet>
+
+	<servlet>
+		<servlet-name>cpApplyServiceDelegate</servlet-name>
+		<servlet-class>
+			com.caucho.hessian.server.HessianServlet
+		</servlet-class>
+		<init-param>
+			<param-name>home-class</param-name>
+			<param-value>
+				com.ufgov.zc.server.cp.publish.impl.exporter.CpApplyServiceExporter
+			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>home-api</param-name>
+			<param-value>
+				com.ufgov.zc.common.cp.publish.ICpApplyServiceDelegate
+			</param-value>
+		</init-param>
+	</servlet>
+
+	<servlet>
+		<servlet-name>cpVoucherServiceDelegate</servlet-name>
+		<servlet-class>
+			com.caucho.hessian.server.HessianServlet
+		</servlet-class>
+		<init-param>
+			<param-name>home-class</param-name>
+			<param-value>
+				com.ufgov.zc.server.cp.publish.impl.exporter.CpVoucherServiceExporter
+			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>home-api</param-name>
+			<param-value>
+				com.ufgov.zc.common.cp.publish.ICpVoucherServiceDelegate
+			</param-value>
+		</init-param>
+	</servlet>
+
+	<servlet>
+		<servlet-name>amApplyServiceDelegate</servlet-name>
+		<servlet-class>
+			com.caucho.hessian.server.HessianServlet
+		</servlet-class>
+		<init-param>
+			<param-name>home-class</param-name>
+			<param-value>
+				com.ufgov.zc.server.am.publish.impl.exporter.AmApplyServiceExporter
+			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>home-api</param-name>
+			<param-value>
+				com.ufgov.zc.common.am.publish.IAmApplyServiceDelegate
+			</param-value>
+		</init-param>
+	</servlet>
+
+	<servlet>
+		<servlet-name>amVoucherServiceDelegate</servlet-name>
+		<servlet-class>
+			com.caucho.hessian.server.HessianServlet
+		</servlet-class>
+		<init-param>
+			<param-name>home-class</param-name>
+			<param-value>
+				com.ufgov.zc.server.am.publish.impl.exporter.AmVoucherServiceExporter
+			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>home-api</param-name>
+			<param-value>
+				com.ufgov.zc.common.am.publish.IAmVoucherServiceDelegate
+			</param-value>
+		</init-param>
+	</servlet>
+
+	<servlet>
+		<servlet-name>cpPayServiceDelegate</servlet-name>
+		<servlet-class>
+			com.caucho.hessian.server.HessianServlet
+		</servlet-class>
+		<init-param>
+			<param-name>home-class</param-name>
+			<param-value>
+				com.ufgov.zc.server.cp.publish.impl.exporter.CpPayServiceExporter
+			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>home-api</param-name>
+			<param-value>
+				com.ufgov.zc.common.cp.publish.ICpPayServiceDelegate
+			</param-value>
+		</init-param>
+	</servlet>
+
+	<servlet>
+		<servlet-name>biBalanceServiceDelegate</servlet-name>
+		<servlet-class>
+			com.caucho.hessian.server.HessianServlet
+		</servlet-class>
+		<init-param>
+			<param-name>home-class</param-name>
+			<param-value>
+				com.ufgov.zc.server.commonbiz.publish.impl.exporter.BiBalanceServiceExporter
+			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>home-api</param-name>
+			<param-value>
+				com.ufgov.zc.common.commonbiz.publish.IBiBalanceServiceDelegate
+			</param-value>
+		</init-param>
+	</servlet>
+
+	<servlet>
+		<servlet-name>dpBalanceServiceDelegate</servlet-name>
+		<servlet-class>
+			com.caucho.hessian.server.HessianServlet
+		</servlet-class>
+		<init-param>
+			<param-name>home-class</param-name>
+			<param-value>
+				com.ufgov.zc.server.commonbiz.publish.impl.exporter.DpBalanceServiceExporter
+			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>home-api</param-name>
+			<param-value>
+				com.ufgov.zc.common.commonbiz.publish.IDpBalanceServiceDelegate
+			</param-value>
+		</init-param>
+	</servlet>
+
+	<servlet>
+		<servlet-name>consoleServiceDelegate</servlet-name>
+		<servlet-class>
+			com.caucho.hessian.server.HessianServlet
+		</servlet-class>
+		<init-param>
+			<param-name>home-class</param-name>
+			<param-value>
+				com.ufgov.zc.server.console.publish.impl.exporter.ConsoleServiceExporter
+			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>home-api</param-name>
+			<param-value>
+				com.ufgov.zc.common.console.publish.IConsoleServiceDelegate
+			</param-value>
+		</init-param>
+	</servlet>
+
+	<servlet>
+		<servlet-name>cpAtzdForDpServiceDelegate</servlet-name>
+		<servlet-class>
+			com.caucho.hessian.server.HessianServlet
+		</servlet-class>
+		<init-param>
+			<param-name>home-class</param-name>
+			<param-value>
+				com.ufgov.zc.server.cp.publish.impl.exporter.CpAtzdForDpServiceExporter
+			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>home-api</param-name>
+			<param-value>
+				com.ufgov.zc.common.cp.publish.ICpAtzdForDpServiceDelegate
+			</param-value>
+		</init-param>
+	</servlet>
+
+	<servlet>
+		<servlet-name>cpCheckBillServiceDelegate</servlet-name>
+		<servlet-class>
+			com.caucho.hessian.server.HessianServlet
+		</servlet-class>
+		<init-param>
+			<param-name>home-class</param-name>
+			<param-value>
+				com.ufgov.zc.server.cp.publish.impl.exporter.CpCheckBillServiceExporter
+			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>home-api</param-name>
+			<param-value>
+				com.ufgov.zc.common.cp.publish.ICpCheckBillServiceDelegate
+			</param-value>
+		</init-param>
+	</servlet>
+
+	<servlet>
+		<servlet-name>reportQueryServiceDelegate</servlet-name>
+		<servlet-class>
+			com.caucho.hessian.server.HessianServlet
+		</servlet-class>
+		<init-param>
+			<param-name>home-class</param-name>
+			<param-value>
+				com.ufgov.zc.server.console.publish.impl.exporter.ReportQueryServiceExporter
+			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>home-api</param-name>
+			<param-value>
+				com.ufgov.zc.common.cp.publish.IReportQueryServiceDelegate
+			</param-value>
+		</init-param>
+	</servlet>
+
+	<servlet>
+		<servlet-name>biIncomeServiceDelegate</servlet-name>
+		<servlet-class>
+			com.caucho.hessian.server.HessianServlet
+		</servlet-class>
+		<init-param>
+			<param-name>home-class</param-name>
+			<param-value>
+				com.ufgov.zc.server.bi.publish.impl.exporter.BiIncomeServiceExporter
+			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>home-api</param-name>
+			<param-value>
+				com.ufgov.zc.common.bi.publish.IBiIncomeServiceDelegate
+			</param-value>
+		</init-param>
+	</servlet>
+
+	<servlet>
+		<servlet-name>biXServiceDelegate</servlet-name>
+		<servlet-class>
+			com.caucho.hessian.server.HessianServlet
+		</servlet-class>
+		<init-param>
+			<param-name>home-class</param-name>
+			<param-value>
+				com.ufgov.zc.server.bi.publish.impl.exporter.BiXServiceExporter
+			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>home-api</param-name>
+			<param-value>
+				com.ufgov.zc.common.bi.publish.IBiXServiceDelegate
+			</param-value>
+		</init-param>
+	</servlet>
+
+	<servlet>
+		<servlet-name>biCdTrackServiceDelegate</servlet-name>
+		<servlet-class>
+			com.caucho.hessian.server.HessianServlet
+		</servlet-class>
+		<init-param>
+			<param-name>home-class</param-name>
+			<param-value>
+				com.ufgov.zc.server.bi.publish.impl.exporter.BiCdTrackServiceExporter
+			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>home-api</param-name>
+			<param-value>
+				com.ufgov.zc.common.bi.publish.IBiCdTrackServiceDelegate
+			</param-value>
+		</init-param>
+	</servlet>
+
+	<servlet>
+		<servlet-name>jjPlanServiceDelegate</servlet-name>
+		<servlet-class>
+			com.caucho.hessian.server.HessianServlet
+		</servlet-class>
+		<init-param>
+			<param-name>home-class</param-name>
+			<param-value>
+				com.ufgov.zc.server.jj.publish.impl.exporter.JjPlanServiceExporter
+			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>home-api</param-name>
+			<param-value>
+				com.ufgov.zc.common.jj.publish.IJjPlanServiceDelegate
+			</param-value>
+		</init-param>
+	</servlet>
+
+	<servlet>
+		<servlet-name>gwkServiceDelegate</servlet-name>
+		<servlet-class>
+			com.caucho.hessian.server.HessianServlet
+		</servlet-class>
+		<init-param>
+			<param-name>home-class</param-name>
+			<param-value>
+				com.ufgov.zc.server.gwk.publish.impl.exporter.GwkServiceExporter
+			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>home-api</param-name>
+			<param-value>
+				com.ufgov.zc.common.gwk.publish.IGwkServiceDelegate
+			</param-value>
+		</init-param>
+	</servlet>
+
+  <!-- Standard Action Servlet Configuration (with debugging) -->
+  <servlet>
+    <servlet-name>action</servlet-name>
+    <servlet-class>org.apache.struts.action.ActionServlet</servlet-class>
+    <init-param>
+      <param-name>config</param-name>
+      <param-value>/WEB-INF/struts-config.xml</param-value>
+    </init-param>
+    <init-param>
+      <param-name>debug</param-name>
+      <param-value>2</param-value>
+    </init-param>
+    <init-param>
+      <param-name>detail</param-name>
+      <param-value>2</param-value>
+    </init-param>
+    <load-on-startup>2</load-on-startup>
+  </servlet>
+  <servlet>
+    <servlet-name>communication</servlet-name>
+    <servlet-class>com.ufgov.zc.server.zc.fileResumeBroken.communication.CommunicationImpl</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>sendFile</servlet-name>
+    <servlet-class>com.ufgov.zc.server.zc.fileResumeBroken.communication.SendFileImpl</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>sendFile</servlet-name>
+    <url-pattern>/sendFile</url-pattern>
+  </servlet-mapping>
+ <!-- <servlet>
+
+              <servlet-name>dataUpLoadServiceDelegate</servlet-name>
+
+              <servlet-class>com.caucho.hessian.server.HessianServlet</servlet-class>
+
+              <init-param>
+                     <param-name>home-class</param-name>
+                     <param-value>com.ufgov.zc.common.zc.publish.IDataUpLoadServiceDelegate</param-value>
+              </init-param>
+              
+              <init-param>
+					<param-name>home-api</param-name>
+					<param-value>com.ufgov.zc.server.zc.publish.impl.DataUpLoadServiceDelegate</param-value>
+		      </init-param>
+
+       </servlet>
+
+ 
+
+       <servlet-mapping>
+
+              <servlet-name>dataUpLoadServiceDelegate</servlet-name>
+
+              <url-pattern>/dataUpLoadServiceDelegate</url-pattern>
+
+       </servlet-mapping> -->
+
+  <!-- Standard Action Servlet Mapping -->
+  <servlet-mapping>
+    <servlet-name>communication</servlet-name>
+    <url-pattern>/communication</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>action</servlet-name>
+    <url-pattern>*.do</url-pattern>
+  </servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>publish</servlet-name>
+		<url-pattern>/publish/*</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>baseDataServiceDelegate</servlet-name>
+		<url-pattern>/baseDataServiceDelegate</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>biAdjustTrackServiceDelegate</servlet-name>
+		<url-pattern>/biAdjustTrackServiceDelegate</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>cpApplyServiceDelegate</servlet-name>
+		<url-pattern>/cpApplyServiceDelegate</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>cpVoucherServiceDelegate</servlet-name>
+		<url-pattern>/cpVoucherServiceDelegate</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>cpPayServiceDelegate</servlet-name>
+		<url-pattern>/cpPayServiceDelegate</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>amApplyServiceDelegate</servlet-name>
+		<url-pattern>/amApplyServiceDelegate</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>amVoucherServiceDelegate</servlet-name>
+		<url-pattern>/amVoucherServiceDelegate</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>dpDetailServiceDelegate</servlet-name>
+		<url-pattern>/dpDetailServiceDelegate</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>biBalanceServiceDelegate</servlet-name>
+		<url-pattern>/biBalanceServiceDelegate</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>biTrackServiceDelegate</servlet-name>
+		<url-pattern>/biTrackServiceDelegate</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>dpBalanceServiceDelegate</servlet-name>
+		<url-pattern>/dpBalanceServiceDelegate</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>consoleServiceDelegate</servlet-name>
+		<url-pattern>/consoleServiceDelegate</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>cpAtzdForDpServiceDelegate</servlet-name>
+		<url-pattern>/cpAtzdForDpServiceDelegate</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>cpCheckBillServiceDelegate</servlet-name>
+		<url-pattern>/cpCheckBillServiceDelegate</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>reportQueryServiceDelegate</servlet-name>
+		<url-pattern>/reportQueryServiceDelegate</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>biIncomeServiceDelegate</servlet-name>
+		<url-pattern>/biIncomeServiceDelegate</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>biXServiceDelegate</servlet-name>
+		<url-pattern>/biXServiceDelegate</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>biCdTrackServiceDelegate</servlet-name>
+		<url-pattern>/biCdTrackServiceDelegate</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>jjPlanServiceDelegate</servlet-name>
+		<url-pattern>/jjPlanServiceDelegate</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>gwkServiceDelegate</servlet-name>
+		<url-pattern>/gwkServiceDelegate</url-pattern>
+	</servlet-mapping>
+
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
+
+  <!-- Struts Tag Library Descriptors -->
+  <taglib>
+    <taglib-uri>/tags/struts-bean</taglib-uri>
+    <taglib-location>/WEB-INF/tld/struts-bean.tld</taglib-location>
+  </taglib>
+  <taglib>
+    <taglib-uri>/tags/struts-html</taglib-uri>
+    <taglib-location>/WEB-INF/tld/struts-html.tld</taglib-location>
+  </taglib>
+  <taglib>
+    <taglib-uri>/tags/struts-logic</taglib-uri>
+    <taglib-location>/WEB-INF/tld/struts-logic.tld</taglib-location>
+  </taglib>
+  <taglib>
+    <taglib-uri>/tags/struts-nested</taglib-uri>
+    <taglib-location>/WEB-INF/tld/struts-nested.tld</taglib-location>
+  </taglib>
+  <taglib>
+    <taglib-uri>/tags/struts-tiles</taglib-uri>
+    <taglib-location>/WEB-INF/tld/struts-tiles.tld</taglib-location>
+  </taglib>
+
+	<resource-ref>
+		<res-ref-name>webglDS</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+		<res-sharing-scope>Shareable</res-sharing-scope>
+	</resource-ref>
+</web-app>

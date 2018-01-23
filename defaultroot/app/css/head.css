@@ -1,0 +1,60 @@
+A:link {
+	COLOR: #000000; TEXT-DECORATION: none
+}
+A:visited {
+	COLOR: #000000; TEXT-DECORATION: none
+}
+A:hover {
+	COLOR: #d13f3f; TEXT-DECORATION: underline
+}
+A:active {
+	COLOR: #d13f3f; TEXT-DECORATION: underline
+}
+header LI {
+	FLOAT: right; WIDTH: 80%; LIST-STYLE-TYPE: none; HEIGHT: 28px
+}
+#Skin {
+	MARGIN-TOP: 4px; DISPLAY: block; FLOAT: left; MARGIN-LEFT: 0px! important; OVERFLOW: hidden; WIDTH: 140px; HEIGHT: 11px
+}
+#Skin LI {
+	FLOAT: left; WIDTH: 14px; CURSOR: pointer; HEIGHT: 11px; TEXT-ALIGN: left
+}
+#s0 {
+	BACKGROUND: url(../img/skinback.gif) no-repeat left top
+}
+#s1 {
+	BACKGROUND: url(../img/skinback.gif) no-repeat left -11px
+}
+#s2 {
+	BACKGROUND: url(../img/skinback.gif) no-repeat left -22px
+}
+#s3 {
+	BACKGROUND: url(../img/skinback.gif) no-repeat left -33px
+}
+#s4 {
+	BACKGROUND: url(../img/skinback.gif) no-repeat left -44px
+}
+#s5 {
+	BACKGROUND: url(../img/skinback.gif) no-repeat left -55px
+}
+#s6 {
+	BACKGROUND: url(../img/skinback.gif) no-repeat left -66px
+}
+#s7 {
+	BACKGROUND: url(../img/skinback.gif) no-repeat left -77px
+}
+#s8 {
+	BACKGROUND: url(../img/skinback.gif) no-repeat left -88px
+}
+#s9 {
+	BACKGROUND: url(../img/skinback.gif) no-repeat left -99px
+}
+#Skin UL {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px; LIST-STYLE-TYPE: none
+}
+#header P {
+	MARGIN-TOP: 4px; FLOAT: left; WIDTH: 300px
+}
+#logo {
+	MARGIN: 0px auto; WIDTH: 980px; HEIGHT: 167px
+}

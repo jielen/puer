@@ -1,0 +1,29 @@
+
+.show-table {
+    border: 1px solid #B6D1F3;
+    border-collapse: collapse;
+    width: 740px;
+}
+.show-table th {
+    background-color: #F4F4F4;
+    border: 1px solid #B6D1F3;
+    font-weight: bold;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+}
+.show-table td {
+    border: 1px solid #B6D1F3;
+    height: 32px;
+    line-height: 32px;
+    padding-left: 20px;
+}
+label.error{
+	color:red;
+}
+
+input.zcMerMPrice{
+	border:none;
+ font-size: 20px;
+ width:100px;
+}

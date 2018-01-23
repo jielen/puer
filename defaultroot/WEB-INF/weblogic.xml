@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE weblogic-web-app PUBLIC "-//BEA Systems, Inc.//DTD Web Application 8.1//EN" "http://www.bea.com/servers/wls810/dtd/weblogic810-web-jar.dtd">
+<weblogic-web-app>
+<reference-descriptor>
+  <resource-description>
+    <res-ref-name>webglDS</res-ref-name>
+    <jndi-name>webglDS</jndi-name>
+  </resource-description>
+</reference-descriptor>
+<session-descriptor>
+<!-- 
+<session-param>
+<param-name>CookiePath</param-name>
+<param-value>/applus</param-value>
+</session-param>
+ -->
+<session-param>
+<param-name>URLRewritingEnabled</param-name>
+<param-value>true</param-value>
+</session-param>
+<session-param>
+<param-name>CookieComment</param-name>
+<param-value>WebLogic Server Session Tracking Cookie</param-value>
+</session-param>
+<session-param>
+<param-name>PersistentStoreType</param-name>
+<param-value>replicated_if_clustered</param-value>
+</session-param>
+<session-param>
+<param-name>TimeoutSecs</param-name>
+<param-value>-2</param-value>
+</session-param>
+<session-param>
+<param-name>InvalidationIntervalSecs</param-name>
+<param-value>60</param-value>
+</session-param>
+<session-param>
+<param-name>CookieMaxAgeSecs</param-name>
+<param-value>-1</param-value>
+</session-param>
+<session-param>
+<param-name>IDLength</param-name>
+<param-value>52</param-value>
+</session-param>
+<session-param>
+<param-name>TrackingEnabled</param-name>
+<param-value>true</param-value>
+</session-param>
+<session-param>
+<param-name>CookiesEnabled</param-name>
+<param-value>true</param-value>
+</session-param>
+<session-param>
+<param-name>CookieName</param-name>
+<param-value>GMAP-JSESSIONID</param-value>
+</session-param>
+<session-param>
+<param-name>PersistentStoreTable</param-name>
+<param-value>wl_servlet_sessions</param-value>
+</session-param>
+</session-descriptor>
+<jsp-descriptor>
+<jsp-param>
+<param-name>keepgenerated</param-name>
+<param-value>true</param-value>
+</jsp-param>
+<jsp-param>
+<param-name>compileFlags</param-name>
+<param-value>-g</param-value>
+</jsp-param>
+</jsp-descriptor>
+<charset-params> 
+<input-charset>
+<resource-path>/*</resource-path>
+<java-charset-name>GBK</java-charset-name>
+</input-charset>
+</charset-params>
+</weblogic-web-app>

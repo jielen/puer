@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+
+    <form-beans>
+		<form-bean name="SupplierFormBean"	type="com.ufgov.zc.server.zc.web.form.SupplierFormBean" />
+		<form-bean name="menugoodsForm" type="com.ufgov.zc.server.zc.web.form.MenugoodsForm" />
+		<form-bean name="spForm" type="com.ufgov.zc.server.zc.web.form.SpForm" />
+	    <form-bean name="expertForm" type="com.ufgov.zc.server.zc.web.form.ExpertActionForm"></form-bean>
+	   <form-bean name="SupplierFormBean"	type="com.ufgov.zc.server.zc.web.form.SupplierFormBean" />
+	   <form-bean name="menugoodsForm" type="com.ufgov.zc.server.zc.web.form.MenugoodsForm" />
+	   <form-bean name="spForm" type="com.ufgov.zc.server.zc.web.form.SpForm" />
+	   <form-bean name="expertForm" type="com.ufgov.zc.server.zc.web.form.ExpertActionForm" />
+	   <form-bean name="evalResultPrintForm" type="com.ufgov.zc.server.zc.web.form.EvalResultPrintForm" />
+	   <form-bean name="agencyFormBean" type="com.ufgov.zc.server.zc.web.form.AgencyFormBean" />  
+	   <form-bean name="zcProMakePrintForm" type="com.ufgov.zc.server.zc.web.form.ZcProMakePrintForm" />
+	   <form-bean name="providerBjPrintForm" type="com.ufgov.zc.server.zc.web.form.ProviderBjPrintForm" />  
+	   <form-bean name="evalReportPrintForm" type="com.ufgov.zc.server.zc.web.form.EvalReportPrintForm" />  
+	   <form-bean name="MerchandiseForm" type="com.ufgov.zc.server.zc.web.form.MerchandiseForm"></form-bean>
+	   <form-bean name="xunJiaHuiZongTablePrintForm" type="com.ufgov.zc.server.zc.web.form.XunJiaHuiZongTablePrintForm" />  
+	   <form-bean name="zcEbYanShouBillPrintForm" type="com.ufgov.zc.server.zc.web.form.ZcEbYanShouBillPrintForm" />  
+	   <form-bean name="zcXyghZbjgActionForm" type="com.ufgov.zc.server.zc.web.form.ZcXyghZbjgActionForm" />  
+	   <form-bean name="zcEbEntrustPrintForm" type="com.ufgov.zc.server.zc.web.form.ZcEbEntrustPrintForm" />
+
+    </form-beans>
+
+    <global-exceptions>
+    </global-exceptions>
+
+    <global-forwards>
+    </global-forwards>
+
+    <action-mappings>
+		<action path="/app/page/supplier/regSupplier" parameter="gotoReq" name="SupplierFormBean" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.supplier.SupplierAction" input="" validate="false">
+			<forward name="success"	path="/app/page/supplier/regsupplier.jsp"/>
+			<forward name="failure"	path="/app/page/supplier/preRegSupplier.do"/>
+		</action>
+		<action path="/app/page/supplier/saveRegSupplier" parameter="regSupplier" name="SupplierFormBean" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.supplier.SupplierAction" validate="false">
+			<forward name="success"	path="/app/page/supplier/regsuccess.jsp"/>
+			<forward name="failure"	path="/app/page/supplier/preRegSupplier.do"/>
+		</action>
+		<action path="/app/page/supplier/indexListSupplier" parameter="indexListSupplier" name="SupplierFormBean" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.supplier.SupplierAction" input="" validate="false">
+			<forward name="success"	path="/app/page/supplier/supplierShow.jsp"/>
+		</action>
+		<action path="/app/page/supplier/indexListMake"  name="" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.make.MakeAction"  validate="false">		
+		</action>
+		<action path="/app/page/make/indexMakeShow"  name="" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.make.MakeShowAction"  validate="false">
+				<forward name="success"	path="/app/page/make/makeShow.jsp"/>
+		</action>
+		<action path="/app/page/supplier/indexListMakeMore"  name="SupplierFormBean" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.make.MakeMoreAction"  validate="false">
+				<forward name="success"	path="/app/page/make/makeList.jsp"/>
+		</action>
+		<action path="/app/page/supplier/supplierDetails" parameter="supplierDetails" name="SupplierFormBean" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.supplier.SupplierAction" input="" validate="false">
+			<forward name="success"	path="/app/page/supplier/supplierShowDetail.jsp"/>
+		</action>	
+		<action path="/app/page/supplier/supplierList" name="SupplierFormBean" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.supplier.SupplierSearchAction" validate="false">
+			<forward name="success" path="/app/page/supplier/supplierList.jsp" />
+		</action>	
+		<action path="/app/page/supplier/preRegSupplier"	parameter="preRegSupplier" name="SupplierFormBean" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.supplier.SupplierAction" validate="false">
+			<forward name="success"	path="/app/page/supplier/regsupplier.jsp"/>
+		</action>
+		<action path="/app/page/menugoods/listGoodsAndBrandsInMenu" name="menugoodsForm" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.menugoods.MenugoodsAction" validate="false">
+			<forward name="success" path="/app/page/menugoods/listGoodsAndBrandsInMenu.jsp" />
+		</action>
+		<action path="/app/page/menugoods/spSearch" name="spForm" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.menugoods.SpAction" validate="false">
+			<forward name="success" path="/app/page/menugoods/spSearch.jsp" />
+		</action>	
+		<action path="/app/page/menugoods/spMercdList" name="spForm" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.menugoods.SpMerchandiseListAction" validate="false">
+			<forward name="success" path="/app/page/menugoods/spMercdsList.jsp" />
+		</action>	
+		<action path="/app/page/menugoods/spMercdAdd" name="spForm" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.menugoods.SpMerAddAction" validate="false">
+			<forward name="success" path="/app/page/menugoods/spMercdsAddList.jsp" />
+		</action>
+		<action path="/app/page/menugoods/spMercdEdit" name="MerchandiseForm" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.menugoods.SpMerEditAction" validate="false">
+			<forward name="success" path="/app/page/menugoods/spMercdsEdit.jsp" />
+		</action>
+		<action path="/app/page/menugoods/spMercdAddSave" name="MerchandiseForm" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.menugoods.SpMerAddSaveAction" validate="false">
+			<forward name="success" path="/app/page/menugoods/spMercdList.do" />
+		</action>	
+		<action path="/app/page/menugoods/spMercdEditSave" name="MerchandiseForm" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.menugoods.SpMerEditSaveAction" validate="false">
+			<forward name="success" path="/app/page/menugoods/spMercdList.do" />
+		</action>
+		<action path="/app/page/menugoods/spDetails" name="spForm" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.menugoods.SpDetailsAction" validate="false">
+			<forward name="success" path="/app/page/menugoods/spDetails.jsp" />
+		</action>
+		<action path="/app/page/menugoods/spDetailInfo" name="spForm" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.menugoods.SpDetailInfoAction" validate="false">
+			<forward name="success" path="/app/page/menugoods/spDetailInfo.jsp" />
+		</action>
+		<!-- 商品成交信息 -->
+		<action path="/app/page/menugoods/spDetailChengjiao" name="spForm" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.menugoods.SpDetailChengjiaoAction" validate="false">
+			<forward name="success" path="/app/page/menugoods/spDetailChengjiao.jsp" />
+		</action>
+		<!-- 商品详细信息 -->
+		<action path="/app/page/menugoods/spDetailInfoForCata" name="spForm" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.menugoods.SpDetailInfoForCataAction" validate="false">
+			<forward name="success" path="/app/page/menugoods/spDetailInfoForCata.jsp" />
+		</action>
+		<action path="/app/page/menugoods/spDetailSup" name="spForm" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.menugoods.SpDetailSupAction" validate="false">
+			<forward name="success" path="/app/page/menugoods/spDetailSup.jsp" />
+		</action>
+		<action path="/app/imageShow" scope="request" 
+		    type="com.ufgov.zc.server.zc.web.action.ImageShowAction" validate="false"/>
+	    <action path="/app/page/expert/regexpert" name="expertForm" scope="request" type="com.ufgov.zc.server.zc.web.action.BeanAction" parameter="gotoReq" >
+            <forward name="success" path="/app/page/expert/regexpert.jsp"></forward>
+        </action>
+        <action path="/app/page/expert/regexpertSave" name="expertForm" scope="request" type="com.ufgov.zc.server.zc.web.action.BeanAction" parameter="save" >
+            <forward name="saveSuc" path="/app/page/expert/regsuccess.jsp"></forward>
+        </action>
+        <action path="/app/page/expert/regexpertQuery" name="expertForm" scope="request" type="com.ufgov.zc.server.zc.web.action.BeanAction" parameter="query" >
+            <forward name="querySuc" path="/app/page/expert/newWindow.jsp"></forward>
+        </action>        
+		<action path="/app/page/agency/indexListAgency" parameter="indexListAgency" name="agencyFormBean" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.agency.AgencyAction" input="" validate="false">
+			<forward name="success"	path="/app/page/agency/agencyShow.jsp"/>
+		</action>  
+		<action path="/app/page/agency/agencyDetails" parameter="agencyDetails" name="agencyFormBean" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.agency.AgencyAction" input="" validate="false">
+			<forward name="success"	path="/app/page/agency/agencyShowDetail.jsp"/>
+		</action>
+		<action path="/app/page/agency/agencyList" name="agencyFormBean" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.agency.AgencySearchAction" validate="false">
+			<forward name="success" path="/app/page/agency/agencyList.jsp" />
+		</action>		      
+		<action path="/app/page/eval/toEvalExpertResultPrint" parameter="toEvalExpertResultPrint" name="evalResultPrintForm" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.BeanAction" validate="false">
+			<forward name="success"	path="/app/page/eval/evalExpertResultPrint.jsp"/>
+		</action>
+		<action path="/app/page/eval/toEvalExpertResultDetailPrint" parameter="toEvalExpertResultDetailPrint" name="evalResultPrintForm" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.BeanAction" validate="false">
+			<forward name="success"	path="/app/page/eval/evalExpertResultDetailPrint.jsp"/>
+		</action>
+		<action path="/app/page/bj/toProviderBjPrint" parameter="toProviderBjPrint" name="providerBjPrintForm" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.BeanAction" validate="false">
+			<forward name="success"	path="/app/page/bj/providerBjPrint.jsp"/>
+		</action>
+		<action path="/app/page/bj/toProviderYlbPrint" parameter="toProviderYlbPrint" name="providerBjPrintForm" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.BeanAction" validate="false">
+			<forward name="success"	path="/app/page/bj/providerYlbPrint.jsp"/>
+		</action>
+		<action path="/app/page/eval/toEvalReportPrint" parameter="toEvalReportPrint" name="evalReportPrintForm" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.BeanAction" validate="false">
+			<forward name="success"	path="/app/page/eval/evalReportPrint.jsp"/>			
+		</action>
+		<action path="/app/page/eval/toEvalExpertComplResultDetailPrint" parameter="toEvalExpertComplResultDetailPrint" name="evalResultPrintForm" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.BeanAction" validate="false">
+			<forward name="success"	path="/app/page/eval/evalExpertComplResultDetailPrint.jsp"/>
+		</action>
+		<action path="/app/page/eval/toEvalExpertComplResultPrint" parameter="toEvalExpertComplResultPrint" name="evalResultPrintForm" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.BeanAction" validate="false">
+			<forward name="success"	path="/app/page/eval/evalExpertComplResultPrint.jsp"/>
+		</action>	
+		<action path="/app/page/xunjia_print/toXunJiaTotalPrint" parameter="toXunJiaTotalPrint" name="xunJiaHuiZongTablePrintForm" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.BeanAction" validate="false">
+			<forward name="success"	path="/app/page/xunjia_print/total.jsp"/>
+		</action>
+		<action path="/app/page/yanshouBill/toYanShouBillPrint" parameter="toYanShouBillPrint" name="zcEbYanShouBillPrintForm" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.BeanAction" validate="false">
+			<forward name="success"	path="/app/page/yanshouBill/yanShouBillPrint.jsp"/>
+		</action>	
+		<action path="/app/page/xjprint/toXunJiaTotalPrint" parameter="indexListAgency" name="agencyFormBean" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.xjprint.XjPrintAction" input="" validate="false">
+			<forward name="success"	path="/app/page/xunjia_print/total.jsp"/>
+		</action>		
+		<action path="/app/page/xjprint/toXunJiaDetailPrint" parameter="indexListAgency" name="agencyFormBean" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.xjprint.XjPrintAction" input="" validate="false">
+			<forward name="success"	path="/app/page/xunjia_print/mx.jsp"/>
+		</action>
+        <action path="/app/page/xjprint/toXunJiaReportPrint" parameter="indexListAgency" name="agencyFormBean" scope="request"
+                type="com.ufgov.zc.server.zc.web.action.xjprint.XjPrintAction" input="" validate="false">
+            <forward name="success"	path="/app/page/xunjia_print/xunjiaReportXML.jsp"/>
+        </action>
+        <action path="/app/page/xjprint/toCompletionPrint" parameter="indexListAgency" name="agencyFormBean" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.xjprint.ZcEbProCompletionPrintAction" input="" validate="false">
+			<forward name="success"	path="/app/page/zcebprojcompletion/completion.jsp"/>
+		</action>	
+		<action path="/app/page/print/toZcProMakeDetailPrint" parameter="toZcProMakeDetailPrint" name="zcProMakePrintForm" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.BeanAction" validate="false">
+			<forward name="success"	path="/app/page/print/zcPProMakeDetailPrint.jsp"/>
+		</action>	
+		
+		<!-- 供应商签到表 -->
+		<action path="/app/page/supplier/toSupplierCheckIn" scope="request" type="com.ufgov.zc.server.zc.web.action.supplier.SupplierCheckInAction" validate="false">
+		   <forward name="success" path="/app/page/supplier/supplierCheckIn.jsp"></forward>
+		</action>
+		
+		<!-- 代理结构注册 -->
+		<action path="/app/page/agency/toAgencyRegPage" parameter="toAgencyRegPage" name="agencyFormBean" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.agency.AgencyAction" input="" validate="false">
+			<forward name="regRulePage"	path="/app/page/agency/agencyRegRule.jsp"/>
+		</action>	
+		<action path="/app/page/agency/regAgency" parameter="regAgency" name="agencyFormBean" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.agency.AgencyAction" input="" validate="false">
+			<forward name="regPage"	path="/app/page/agency/regAgency.html"/>
+		</action>		
+	
+	<!-- 商品维护查询品目  -->
+		<action path="/app/page/merchandise/SearchMerCatalogue" scope="request" name="spForm" 
+			type="com.ufgov.zc.server.zc.web.action.merchandise.SearchMerCatalogueAction" validate="false">
+			<forward name="success"	path="/app/page/merchandise/addMerchandise.jsp"/>
+		</action>
+		<!-- CA验证 -->
+		<action path="/app/page/supplier/CheckSupplierCA" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.supplier.CheckSupplierCAAction" validate="false">
+			<forward name="success"	path="/app/buildSession.action"/>
+		</action>
+		<!-- 商品维护查询品牌  -->
+		<action path="/app/page/merchandise/SearchMerPinPai" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.merchandise.SearchMerPinPaiAction" validate="false">
+		</action>
+		
+		<!-- 供应该商读取CA KEY  -->
+		<!--  
+		<action path="/app/page/supplier/CheckSupplierCA" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.supplier.CheckSupplierCAAction" validate="false">
+		</action>
+        -->
+		<!-- 商品维护 -->
+		<action path="/app/page/merchandise/MerchandiseList" scope="request" name="spForm" 
+			type="com.ufgov.zc.server.zc.web.action.merchandise.MerchandiseListAction" validate="false">
+			<forward name="success"	path="/app/page/merchandise/merchandiseList.jsp"/>
+		</action>
+		
+		<!-- 总代商品维护 -->
+		<action path="/app/page/merchandise/MerchandiseListForAgent" scope="request" name="spForm" 
+			type="com.ufgov.zc.server.zc.web.action.merchandise.MerchandiseListForAgentAction" validate="false">
+			<forward name="success"	path="/app/page/merchandise/merchandiseListForAgent.jsp"/>
+		</action>
+		
+		<!-- 总代查询审核未通过的商品列表 -->
+		<action path="/app/page/merchandise/MerchandiseUnAuditList" scope="request" name="spForm" 
+			type="com.ufgov.zc.server.zc.web.action.merchandise.MerchandiseUnAuditListAction" validate="false">
+			<forward name="success"	path="/app/page/merchandise/merchandiseUnAuditList.jsp"/>
+		</action>
+		
+		<action path="/app/page/merchandise/SelectMerchandise" scope="request" name="spForm" 
+			type="com.ufgov.zc.server.zc.web.action.merchandise.SelectMerchandiseAction" validate="false">
+			<forward name="success"	path="/app/page/merchandise/showMerchandise.jsp"/>
+			<forward name="success1" path="/app/page/merchandise/browseMerchandise.jsp"/>
+			<forward name="success2" path="/app/page/merchandise/showMerchandiseUnAudit.jsp"/>
+		</action>
+		<!-- 新增商品信息 -->
+		<action path="/app/page/merchandise/AddMerchandise" scope="request" name="MerchandiseForm" 
+			type="com.ufgov.zc.server.zc.web.action.merchandise.AddMerchandiseAction" validate="false">
+			<forward name="success"	path="/app/page/merchandise/SearchMerCatalogue.do"/>
+		</action>
+		<!-- 供应商总代维护商品信息，编辑 -->
+		<action path="/app/page/merchandise/SelectMerchandiseForAgent" scope="request" name="spForm" 
+			type="com.ufgov.zc.server.zc.web.action.merchandise.SelectMerchandiseForAgentAction" validate="false">
+			<forward name="success"	path="/app/page/merchandise/showMerchandiseForAgent.jsp"/>
+		</action>
+		
+		<action path="/app/page/merchandise/SearchCatalogueProp" scope="request" name="spForm" 
+			type="com.ufgov.zc.server.zc.web.action.merchandise.SearchCataloguePropAction" validate="false">
+			<forward name="success"	path="/app/page/merchandise/addMerchandise.jsp"/>
+		</action>
+
+		<action path="/app/page/merchandise/SearchMerChandiseByProperty" scope="request" name="spForm" 
+			type="com.ufgov.zc.server.zc.web.action.merchandise.SearchMerChandiseByPropertyAction" validate="false">
+			<forward name="success"	path="/app/page/merchandise/merchandiseList.jsp"/>
+			<forward name="success1" path="/app/page/merchandise/merchandiseUnAuditList.jsp"/>
+		</action>
+		<!-- 总代商品维护 -->
+		<action path="/app/page/merchandise/SearchMerChandiseByPropertyForAgent" scope="request" name="spForm" 
+			type="com.ufgov.zc.server.zc.web.action.merchandise.SearchMerChandiseByPropertyForAgentAction" validate="false">
+			<forward name="success"	path="/app/page/merchandise/merchandiseListForAgent.jsp"/>
+		</action>
+		
+		<action path="/app/page/merchandise/DeleteMerchandise" scope="request" name="MerchandiseForm" 
+			type="com.ufgov.zc.server.zc.web.action.merchandise.DeleteMerchandiseAction" validate="false">
+			<forward name="success1"	path="/app/page/merchandise/MerchandiseList.do"/>
+		</action>
+		
+		<action path="/app/page/merchandise/UpdateMerchandise" scope="request" name="MerchandiseForm" 
+			type="com.ufgov.zc.server.zc.web.action.merchandise.UpdateMerchandiseAction" validate="false">
+			<forward name="success"	path="/app/page/merchandise/SearchMerCatalogue.do"/>
+			<forward name="success1" path="/app/page/merchandise/MerchandiseUnAuditList.do"/>
+		</action>
+		<!-- 供应商总代保存 编辑信息 -->
+		<action path="/app/page/merchandise/UpdateMerchandiseForAgent" scope="request" name="MerchandiseForm" 
+			type="com.ufgov.zc.server.zc.web.action.merchandise.UpdateMerchandiseForAgentAction" validate="false">
+			<forward name="success"	path="/app/page/merchandise/MerchandiseListForAgent.do"/>
+		</action>
+		
+		<action path="/app/page/merchandise/DeletePicture" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.merchandise.DeletePictureAction" validate="false">
+		</action>
+		
+		<action path="/app/page/merchandise/PictureDisplay" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.merchandise.PictureDisplayAction" validate="false">
+		</action>
+		
+		<!-- 协议供货招标项目列表 -->
+		<action path="/app/page/merchandise/XyghZbjgList" scope="request" name="spForm" 
+			type="com.ufgov.zc.server.zc.web.action.merchandise.XyghZbjgListAction" validate="false">
+			<forward name="success"	path="/app/page/merchandise/xyghZbjgList.jsp"/>
+		</action>
+		<!-- 保存协议供货招标项目 -->
+		<action path="/app/page/merchandise/SaveXyghZbjg" scope="request" name="zcXyghZbjgActionForm" 
+			type="com.ufgov.zc.server.zc.web.action.merchandise.SaveXyghZbjgAction" validate="false">
+			<forward name="success"	path="/app/page/merchandise/XyghZbjgList.do"/>
+		</action>
+		<!-- 删除协议供货招标项目 -->
+		<action path="/app/page/merchandise/DeleteXyghZbjg" scope="request" name="zcXyghZbjgActionForm" 
+			type="com.ufgov.zc.server.zc.web.action.merchandise.DeleteXyghZbjgAction" validate="false">
+			<forward name="success"	path="/app/page/merchandise/XyghZbjgList.do"/>
+		</action>
+		<!-- 编辑协议供货招标项目 -->
+		<action path="/app/page/merchandise/EditXyghzbjg" scope="request" name="spForm" 
+			type="com.ufgov.zc.server.zc.web.action.merchandise.EditXyghZbjgAction" validate="false">
+			<forward name="success"	path="/app/page/merchandise/showXyghZbjg.jsp"/>
+		</action>
+		
+	    <action path="/app/message/NoticeMessageAction"  scope="request"
+			type="com.ufgov.zc.server.zc.web.action.message.NoticeMessageAction" validate="false">
+		</action>	
+		<action path="/app/page/xjprint/toZcEbProArguePrint"  scope="request"
+			type="com.ufgov.zc.server.zc.web.action.xjprint.ZcEbProArguePrintAction" input="" validate="false">
+			<forward name="success"	path="/app/page/proj_argue_print/print_page.jsp"/>
+		</action>		
+		<!-- 采购任务执行单打印预览 -->
+		<action path="/app/page/print/toZcEbEntrustDetailPrint" parameter="toZcEbEntrustDetailPrint" name="zcEbEntrustPrintForm" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.BeanAction" validate="false">
+			<forward name="success"	path="/app/page/print/zcEbEntrustDetailPrint.jsp"/>
+		</action>
+		<action path="/app/page/print/projHandOverPrint" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.project.ZcEbProjHandOverPrintAction" validate="false">
+			<forward name="success"	path="/app/page/print/zcEbProjPrint.jsp"/>
+		</action>	
+		<action path="/app/page/print/singleTypeReportPrint" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.evalreport.SingleTypeEvalReportAction" validate="false">
+			<forward name="success"	path="/app/page/eval/singleExport.jsp"/>
+		</action>	
+		<action path="/app/page/print/talksTypeEvalReportAction" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.evalreport.TalksTypeEvalReportAction" validate="false">
+			<forward name="success"	path="/app/page/eval/talkingExport.jsp"/>
+		</action>
+		<action path="/app/page/print/publicBidTypeEvalReportAction" scope="request"
+			type="com.ufgov.zc.server.zc.web.action.evalreport.PublicBidTypeEvalReportAction" validate="false">
+			<forward name="success"	path="/app/page/eval/publicBidExport.jsp"/>
+		</action>
+    </action-mappings>
+    <message-resources parameter="MessageResources" />
+
+    <plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+         <set-property property="pathnames" value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml"/>
+    </plug-in>
+
+</struts-config>
+

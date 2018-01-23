@@ -1,0 +1,279 @@
+BODY {
+	MARGIN: 0px; SCROLLBAR-HIGHLIGHT-COLOR: #f2f2f2; COLOR: #000000; SCROLLBAR-3DLIGHT-COLOR: #ffffff; SCROLLBAR-ARROW-COLOR: #ffffff; SCROLLBAR-TRACK-COLOR: #f6f6f6; SCROLLBAR-DARKSHADOW-COLOR: #ffffff; SCROLLBAR-BASE-COLOR: #e1e1e1; BACKGROUND-COLOR: #ffffff
+}
+.sys_frame_style {
+	BACKGROUND-COLOR: #e1e1e1
+}
+.sys_frame_bottomline {
+	BORDER-BOTTOM: #666666 1px solid
+}
+.sys_frame_controlbar_top {
+	BACKGROUND-IMAGE: url(/cssframework/skin/default/images/sys_frame_controlbar_bg.png); BORDER-BOTTOM: #666666 1px solid; HEIGHT: 21px
+}
+.sys_frame_controlbar {
+	BORDER-TOP: #666666 1px solid; BACKGROUND-IMAGE: url(/cssframework/skin/default/images/sys_frame_controlbar_bg.png); BORDER-BOTTOM: #666666 1px solid; HEIGHT: 22px
+}
+.sys_frame_controlbar_left_bg {
+	BACKGROUND-IMAGE: url(/cssframework/skin/default/images/sys_frame_controlbar_bg2.png)
+}
+.sys_farme_controlbar_left {
+	BACKGROUND-IMAGE: url(/cssframework/skin/default/images/sys_frame_controlbar_left.png); WIDTH: 10px; CURSOR: hand; HEIGHT: 50px
+}
+.sys_farme_controlbar_right {
+	DISPLAY: none; BACKGROUND-IMAGE: url(/cssframework/skin/default/images/sys_frame_controlbar_right.png); WIDTH: 10px; CURSOR: hand; HEIGHT: 50px
+}
+.sys_frame_sizecontrol {
+	FONT-SIZE: 1px; CURSOR: n-resize; LINE-HEIGHT: 1px; HEIGHT: 1px; BACKGROUND-COLOR: #666666
+}
+.sys_farmecontrolbar_close {
+	BACKGROUND-IMAGE: url(/cssframework/skin/default/images/sys_frame_controlbar_close.png); CURSOR: hand; HEIGHT: 20px
+}
+.sys_farmecontrolbar_open {
+	DISPLAY: none; BACKGROUND-IMAGE: url(/cssframework/skin/default/images/sys_frame_controlbar_close.png); CURSOR: hand; HEIGHT: 20px
+}
+.sys_farmecontrolbar_max {
+	BACKGROUND-IMAGE: url(/cssframework/skin/default/images/sys_frame_controlbar_max.png); CURSOR: hand; HEIGHT: 20px
+}
+.sys_farmecontrolbar_min {
+	DISPLAY: none; BACKGROUND-IMAGE: url(/cssframework/skin/default/images/sys_frame_controlbar_max.png); CURSOR: hand; HEIGHT: 20px
+}
+.sys_farme_controlbar_left_open {
+	BACKGROUND-IMAGE: url(/cssframework/skin/default/images/sys_frame_controlbar_open.png); CURSOR: hand; HEIGHT: 20px
+}
+.sys_farme_controlbar_left_close {
+	DISPLAY: none; BACKGROUND-IMAGE: url(/cssframework/skin/default/images/sys_frame_controlbar_close.png); CURSOR: hand; HEIGHT: 20px
+}
+.sys_frame_top_bg {
+	BACKGROUND-IMAGE: url(/cssframework/skin/default/images/sys_top_bg.png); BORDER-BOTTOM: #666666 1px solid; HEIGHT: 29px
+}
+.sys_frame_top_title {
+	BACKGROUND-IMAGE: url(/cssframework/skin/default/images/sys_top_title.jpg); WIDTH: 1024px; HEIGHT: 49px
+}
+#tab {
+	MARGIN: 3px 0px 0px
+}
+.tabLeft {
+	BORDER-RIGHT: #c2c2c2 1px solid; BORDER-TOP: #c2c2c2 1px solid; BORDER-LEFT: #c2c2c2 1px solid; BORDER-BOTTOM: #c2c2c2 1px solid; TEXT-ALIGN: center
+}
+.tabFocus {
+	BORDER-RIGHT: #c2c2c2 1px solid; BORDER-TOP: #c2c2c2 1px solid; BORDER-LEFT: #c2c2c2 1px solid; BORDER-BOTTOM: #c2c2c2 1px solid; TEXT-ALIGN: center
+}
+.tabNormal {
+	BORDER-RIGHT: #c2c2c2 1px solid; BORDER-TOP: #c2c2c2 1px solid; BORDER-LEFT: #c2c2c2 1px solid; BORDER-BOTTOM: #c2c2c2 1px solid; TEXT-ALIGN: center
+}
+.tabRight {
+	BORDER-RIGHT: #c2c2c2 1px solid; BORDER-TOP: #c2c2c2 1px solid; BORDER-LEFT: #c2c2c2 1px solid; BORDER-BOTTOM: #c2c2c2 1px solid; TEXT-ALIGN: center
+}
+.tabLeft {
+	BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 1px; WIDTH: 4px; BORDER-RIGHT-WIDTH: 0px
+}
+.tabFocus {
+	BORDER-TOP: #ff9c00 3px solid; FONT-WEIGHT: bold; BORDER-LEFT-WIDTH: 1px; BACKGROUND: #cccccc; FILTER: progid:DXImageTransform.Microsoft.Gradient(startColorStr='#D2E3F8', endColorStr='#FFFFFF'); BORDER-BOTTOM-WIDTH: 0px; WHITE-SPACE: nowrap; BORDER-RIGHT-WIDTH: 0px
+}
+.tabNormal {
+	BORDER-TOP-WIDTH: 1px; BORDER-LEFT-WIDTH: 1px; FILTER: progid:DXImageTransform.Microsoft.Gradient(startColorStr='#ebebdc', endColorStr='#ffffff'); BORDER-BOTTOM-WIDTH: 1px; CURSOR: hand; COLOR: #000000; BORDER-RIGHT-WIDTH: 0px
+}
+.tabRight {
+	BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-RIGHT-WIDTH: 0px
+}
+BODY {
+	FONT-SIZE: 12px
+}
+P {
+	FONT-SIZE: 12px
+}
+FONT {
+	FONT-SIZE: 12px
+}
+TD {
+	FONT-SIZE: 12px
+}
+DIV {
+	FONT-SIZE: 12px
+}
+SPAN {
+	FONT-SIZE: 12px
+}
+INPUT {
+	FONT-SIZE: 12px
+}
+TEXTAREA {
+	FONT-SIZE: 12px
+}
+SELECT {
+	FONT-SIZE: 12px
+}
+LI {
+	FONT-SIZE: 12px
+}
+IFRAME {
+	
+}
+A:link {
+	COLOR: #000000; TEXT-DECORATION: none
+}
+A:visited {
+	COLOR: #000000; TEXT-DECORATION: none
+}
+A:hover {
+	COLOR: #4f6b72; TEXT-DECORATION: none
+}
+.infopage {
+	PADDING-RIGHT: 5px; PADDING-LEFT: 5px; PADDING-BOTTOM: 5px; PADDING-TOP: 5px
+}
+.itable {
+	BORDER-RIGHT: #c1dad7 1px solid; BORDER-TOP: #c1dad7 1px solid; MARGIN-TOP: 3px; BORDER-LEFT: #c1dad7 1px solid; BORDER-BOTTOM: #c1dad7 1px solid; BORDER-COLLAPSE: collapse
+}
+.itda {
+	CLEAR: left; BORDER-RIGHT: #c1dad7 1px solid; BORDER-TOP: #c1dad7 1px solid; PADDING-LEFT: 10px; FLOAT: right; VERTICAL-ALIGN: middle; BORDER-LEFT: #c1dad7 1px solid; BORDER-BOTTOM: #c1dad7 1px solid; HEIGHT: 20px; BACKGROUND-COLOR: #f1f7fb
+}
+.itdb {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 5px; PADDING-BOTTOM: 0px; BORDER-TOP-STYLE: none; PADDING-TOP: 3px; BORDER-BOTTOM: #c1dad7 1px solid; BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none; HEIGHT: 26px; BACKGROUND-COLOR: #ffffff
+}
+.itdb INPUT {
+	BORDER-RIGHT: #c1dad7 1px solid; BORDER-TOP: #c1dad7 1px solid; BORDER-LEFT: #c1dad7 1px solid; BORDER-BOTTOM: #c1dad7 1px solid
+}
+.itdbn {
+	BORDER-RIGHT: #c1dad7 1px solid; BORDER-TOP: #c1dad7 1px solid; BORDER-LEFT: #c1dad7 1px solid; BORDER-BOTTOM: #c1dad7 1px solid; BACKGROUND-COLOR: #ffffff
+}
+.itdbn INPUT {
+	
+}
+.itdb TEXTAREA {
+	BORDER-RIGHT: #c1dad7 1px solid; BORDER-TOP: #c1dad7 1px solid; BORDER-LEFT: #c1dad7 1px solid; BORDER-BOTTOM: #c1dad7 1px solid
+}
+.listpage {
+	PADDING-RIGHT: 5px; PADDING-LEFT: 5px; PADDING-BOTTOM: 5px; PADDING-TOP: 5px
+}
+.ltable {
+	MARGIN-TOP: 3px; BORDER-COLLAPSE: collapse
+}
+.ltdt {
+	BORDER-RIGHT: #c1dad7 1px solid; BORDER-TOP: #c1dad7 1px solid; FONT-WEIGHT: bold; FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=#94c6da, EndColorStr=#FFFFFF); VERTICAL-ALIGN: middle; BORDER-LEFT: #c1dad7 1px solid; LINE-HEIGHT: 16px; BORDER-BOTTOM: #c1dad7 1px solid; HEIGHT: 25px; BACKGROUND-COLOR: #f0f7fb; TEXT-ALIGN: center
+}
+.ltdt-sort-1 {
+	BORDER-RIGHT: #c1dad7 1px solid; BORDER-TOP: #c1dad7 1px solid; FONT-WEIGHT: bold; BACKGROUND: url(/cssframework/skin/default/images/ct_19tu.gif) #f0f7fb no-repeat 97% 40%; VERTICAL-ALIGN: middle; BORDER-LEFT: #c1dad7 1px solid; LINE-HEIGHT: 16px; BORDER-BOTTOM: #c1dad7 1px solid; HEIGHT: 25px; TEXT-ALIGN: center
+}
+.ltdt-sort1 {
+	BORDER-RIGHT: #c1dad7 1px solid; BORDER-TOP: #c1dad7 1px solid; FONT-WEIGHT: bold; BACKGROUND: url(/cssframework/skin/default/images/ct_0tu.gif) #f0f7fb no-repeat 97% 30%; VERTICAL-ALIGN: middle; BORDER-LEFT: #c1dad7 1px solid; LINE-HEIGHT: 16px; BORDER-BOTTOM: #c1dad7 1px solid; HEIGHT: 25px; TEXT-ALIGN: center
+}
+.ltda LABEL {
+	FONT-WEIGHT: normal
+}
+.ltda TD {
+	BORDER-RIGHT: #c1dad7 1px solid; BORDER-TOP: #c1dad7 1px solid; FONT-WEIGHT: normal; VERTICAL-ALIGN: middle; BORDER-LEFT: #c1dad7 1px solid; LINE-HEIGHT: 16px; BORDER-BOTTOM: #c1dad7 1px solid; HEIGHT: 25px; BACKGROUND-COLOR: #ffffff
+}
+.ltda TR {
+	BORDER-RIGHT: #c1dad7 1px solid; BORDER-TOP: #c1dad7 1px solid; FONT-WEIGHT: normal; VERTICAL-ALIGN: middle; BORDER-LEFT: #c1dad7 1px solid; LINE-HEIGHT: 16px; BORDER-BOTTOM: #c1dad7 1px solid; HEIGHT: 25px; BACKGROUND-COLOR: #ffffff
+}
+.ltda1 TD {
+	BORDER-RIGHT: #c1dad7 1px solid; BORDER-TOP: #c1dad7 1px solid; FONT-WEIGHT: normal; VERTICAL-ALIGN: middle; BORDER-LEFT: #c1dad7 1px solid; LINE-HEIGHT: 16px; BORDER-BOTTOM: #c1dad7 1px solid; HEIGHT: 25px; BACKGROUND-COLOR: #f6de80
+}
+.ltda1 TR {
+	BORDER-RIGHT: #c1dad7 1px solid; BORDER-TOP: #c1dad7 1px solid; FONT-WEIGHT: normal; VERTICAL-ALIGN: middle; BORDER-LEFT: #c1dad7 1px solid; LINE-HEIGHT: 16px; BORDER-BOTTOM: #c1dad7 1px solid; HEIGHT: 25px; BACKGROUND-COLOR: #f6de80
+}
+.ltdp {
+	PADDING-RIGHT: 4px; PADDING-LEFT: 4px; PADDING-BOTTOM: 4px; PADDING-TOP: 4px
+}
+.ltdb TD {
+	BORDER-RIGHT: #c1dad7 1px solid; BORDER-TOP: #c1dad7 1px solid; FONT-WEIGHT: normal; VERTICAL-ALIGN: middle; BORDER-LEFT: #c1dad7 1px solid; LINE-HEIGHT: 16px; BORDER-BOTTOM: #c1dad7 1px solid; HEIGHT: 25px; BACKGROUND-COLOR: #f5fafa; TEXT-ALIGN: left
+}
+.ltba INPUT {
+	BORDER-RIGHT: #7da7d9 1px solid; BORDER-TOP: #7da7d9 1px solid; BORDER-LEFT: #7da7d9 1px solid; BORDER-BOTTOM: #7da7d9 1px solid
+}
+.ltba TEXTAREA {
+	BORDER-RIGHT: #7da7d9 1px solid; BORDER-TOP: #7da7d9 1px solid; BORDER-LEFT: #7da7d9 1px solid; BORDER-BOTTOM: #7da7d9 1px solid
+}
+.ltbd INPUT {
+	BORDER-RIGHT: #7da7d9 1px solid; BORDER-TOP: #7da7d9 1px solid; BORDER-LEFT: #7da7d9 1px solid; BORDER-BOTTOM: #7da7d9 1px solid
+}
+.ltbd TEXTAREA {
+	BORDER-RIGHT: #666666 1px solid; BORDER-TOP: #666666 1px solid; BORDER-LEFT: #666666 1px solid; BORDER-BOTTOM: #666666 1px solid
+}
+.pbutton {
+	BORDER-RIGHT: #87ceeb 1px solid; PADDING-RIGHT: 4px; BORDER-TOP: #ccc 1px; PADDING-LEFT: 4px; FONT-SIZE: 12px; FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=#ffffff, EndColorStr=#D2E3F8); PADDING-BOTTOM: 0px; MARGIN-LEFT: 2px; BORDER-LEFT: #ccc 1px; CURSOR: hand; COLOR: black; PADDING-TOP: 2px; BORDER-BOTTOM: #87ceeb 1px solid
+}
+.button {
+	BORDER-RIGHT: #87ceeb 1px solid; PADDING-RIGHT: 4px; BORDER-TOP: #ccc 1px; PADDING-LEFT: 4px; FONT-SIZE: 12px; FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=#ffffff, EndColorStr=#D2E3F8); PADDING-BOTTOM: 0px; MARGIN-LEFT: 2px; BORDER-LEFT: #ccc 1px; CURSOR: hand; COLOR: black; PADDING-TOP: 2px; BORDER-BOTTOM: #87ceeb 1px solid
+}
+.btn2 {
+	BORDER-TOP-WIDTH: 1px; PADDING-RIGHT: 4px; PADDING-LEFT: 4px; BORDER-LEFT-WIDTH: 1px; FONT-SIZE: 12px; BORDER-BOTTOM-WIDTH: 1px; PADDING-BOTTOM: 0px; MARGIN-LEFT: 2px; PADDING-TOP: 0px; FONT-FAMILY: ËÎÌå; HEIGHT: 20px; BACKGROUND-COLOR: #ece9d8; BORDER-RIGHT-WIDTH: 1px
+}
+.btn-hov {
+	COLOR: red; BORDER-BOTTOM: #f6de80 1px solid
+}
+#pgnum {
+	FONT-WEIGHT: 800; COLOR: blue
+}
+.pg {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; BACKGROUND: #f0f7fb; FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=#ffffff, EndColorStr=#F0FFFF); PADDING-BOTTOM: 3px; PADDING-TOP: 3px; BORDER-BOTTOM: #94c6da 1px dotted; align: left
+}
+.pg TD {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; BACKGROUND: #f0f7fb; FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=#ffffff, EndColorStr=#F0FFFF); PADDING-BOTTOM: 3px; PADDING-TOP: 3px; BORDER-BOTTOM: #94c6da 1px dotted; align: left
+}
+.piframe {
+	
+}
+.itdtitlea {
+	BACKGROUND-POSITION: left 50%; PADDING-LEFT: 20px; FONT-WEIGHT: bold; FONT-SIZE: 14px; BACKGROUND-IMAGE: url(/cssframework/skin/default/images/ct_0tu1.gif); VERTICAL-ALIGN: bottom; WIDTH: 20%; COLOR: #366aa5; BORDER-BOTTOM: #94c6da 2px solid; BACKGROUND-REPEAT: no-repeat; TEXT-ALIGN: left
+}
+.itdtitlea1 {
+	BACKGROUND-POSITION: left 50%; PADDING-LEFT: 20px; FONT-WEIGHT: bold; FONT-SIZE: 14px; BACKGROUND-IMAGE: url(/cssframework/skin/default/images/ct_0tu2.gif); VERTICAL-ALIGN: bottom; WIDTH: 20%; COLOR: #366aa5; BORDER-BOTTOM: #94c6da 2px solid; BACKGROUND-REPEAT: no-repeat; TEXT-ALIGN: left
+}
+.itdtitlea2 {
+	BACKGROUND-POSITION: right 50%; PADDING-LEFT: 20px; FONT-WEIGHT: bold; FONT-SIZE: 14px; VERTICAL-ALIGN: bottom; WIDTH: 20%; COLOR: #366aa5; BORDER-BOTTOM: #94c6da 2px solid; BACKGROUND-REPEAT: no-repeat; TEXT-ALIGN: right
+}
+.itdtitleaup {
+	BACKGROUND-POSITION: left 50%; PADDING-LEFT: 20px; FONT-WEIGHT: bold; FONT-SIZE: 14px; BACKGROUND-IMAGE: url(/cssframework/skin/default/images/ct_19tu.gif); VERTICAL-ALIGN: bottom; WIDTH: 20%; COLOR: #366aa5; BORDER-BOTTOM: #94c6da 2px solid; BACKGROUND-REPEAT: no-repeat; TEXT-ALIGN: left
+}
+.itdtitleb {
+	WIDTH: 80%; BORDER-BOTTOM: #d6e6ec 2px solid
+}
+.itdcx {
+	BACKGROUND-IMAGE: url(/cssframework/skin/default/images/n_bj.gif)
+}
+.txbutton {
+	PADDING-TOP: 5px; HEIGHT: 20px
+}
+.top {
+	CLEAR: left; PADDING-LEFT: 28px; FONT-WEIGHT: bold; FONT-SIZE: 12px; VERTICAL-ALIGN: middle; WIDTH: 27%; COLOR: #5271ba; FONT-FAMILY: "ÐÂËÎÌå"
+}
+.top A:link {
+	COLOR: #5271ba; TEXT-DECORATION: none
+}
+.top A:visited {
+	COLOR: #5271ba; TEXT-DECORATION: none
+}
+.top A:hover {
+	COLOR: #f26522; TEXT-DECORATION: none
+}
+.itxe {
+	FONT-WEIGHT: bold; FONT-SIZE: 16px; VERTICAL-ALIGN: bottom; WIDTH: 20%; COLOR: #366aa5; BORDER-BOTTOM: #94c6da 2px solid; BACKGROUND-REPEAT: no-repeat; TEXT-ALIGN: center
+}
+.itxe1 {
+	FONT-SIZE: 16px; COLOR: #b252ca
+}
+.itxe2 {
+	FONT-SIZE: 12px; COLOR: #0153a5; LINE-HEIGHT: 20px
+}
+.main-title {
+	FONT-WEIGHT: 700; FONT-SIZE: 16px; PADDING-BOTTOM: 5px; WIDTH: 100%; COLOR: #2e3192; PADDING-TOP: 10px; TEXT-ALIGN: center
+}
+.group-frame {
+	PADDING-RIGHT: 5px; PADDING-LEFT: 5px; PADDING-BOTTOM: 5px; WIDTH: 100%; PADDING-TOP: 5px
+}
+.group-down {
+	BACKGROUND-POSITION: left 50%; PADDING-LEFT: 20px; FONT-WEIGHT: bold; FONT-SIZE: 14px; BACKGROUND-IMAGE: url(/cssframework/common/images/ct_0tu2.gif); VERTICAL-ALIGN: middle; WIDTH: 100%; CURSOR: hand; COLOR: #366aa5; PADDING-TOP: 6px; BORDER-BOTTOM: #94c6da 2px solid; BACKGROUND-REPEAT: no-repeat; HEIGHT: 25px; TEXT-ALIGN: left
+}
+.div_frame {
+	BORDER-RIGHT: #6699cc 1px solid; BORDER-TOP: #6699cc 1px solid; FONT-SIZE: 10px; Z-INDEX: 10002; BORDER-LEFT: #6699cc 1px solid; CURSOR: default; COLOR: #6699cc; BORDER-BOTTOM: #6699cc 1px solid; FONT-FAMILY: Verdana; POSITION: absolute; BACKGROUND-COLOR: transparent
+}
+.LabTopM {
+	BACKGROUND-POSITION: left 50%; PADDING-LEFT: 20px; FONT-WEIGHT: bold; FONT-SIZE: 14px; BACKGROUND-IMAGE: url(/cssframework/common/images/ct_0tu2.gif); VERTICAL-ALIGN: middle; WIDTH: 100%; COLOR: #366aa5; PADDING-TOP: 6px; BORDER-BOTTOM: #94c6da 2px solid; BACKGROUND-REPEAT: no-repeat; HEIGHT: 25px; TEXT-ALIGN: left
+}
+.ref {
+	COLOR: blue; BORDER-BOTTOM: #c699cc 1px dotted
+}
+#tigtag2_rightnew {
+	PADDING-LEFT: 26px; FONT-WEIGHT: bold; FONT-SIZE: 14px; BACKGROUND: url(../img/doc1.gif) no-repeat 7% 35%; FLOAT: left; WIDTH: 160px; LINE-HEIGHT: 28px; HEIGHT: 28px; TEXT-ALIGN: left
+}

@@ -1,0 +1,39 @@
+#basket {
+	
+}
+#basket_close {
+	PADDING-RIGHT: 6px; PADDING-LEFT: 12px; FONT-SIZE: 14px; Z-INDEX: 998; RIGHT: 0px; BACKGROUND: url(./img/there_nav_close.gif); PADDING-BOTTOM: 5px; WIDTH: 17px; CURSOR: pointer; COLOR: #f00; LINE-HEIGHT: 22px; PADDING-TOP: 5px; POSITION: absolute; TOP: 90px; HEIGHT: 150px! important
+}
+#basket_close IMG {
+	MARGIN: 10px 0px 6px 1px
+}
+#basket_show {
+	BORDER-RIGHT: #000 1px solid; BORDER-TOP: #000 1px solid; Z-INDEX: 999; RIGHT: 3px; FILTER: alpha(opacity=80); BORDER-LEFT: #000 1px solid; WIDTH: 155px; BORDER-BOTTOM: #000 1px solid; POSITION: absolute; TOP: 90px; moz-opacity: 0.8; opacity: 0.8
+}
+#basket_top {
+	BACKGROUND: url(./img/there_nav_show.gif); WIDTH: 155px; CURSOR: pointer; LINE-HEIGHT: 28px; BORDER-BOTTOM: #000 1px solid; HEIGHT: 30px
+}
+#basket_top IMG {
+	FLOAT: left; MARGIN: 8px 8px 0px 10px
+}
+#basket_top STRONG {
+	DISPLAY: block; FONT-SIZE: 14px; FLOAT: left; COLOR: #f00; PADDING-TOP: 2px
+}
+#basket_list {
+	BACKGROUND: #eee
+}
+#basket_list .bt {
+	MARGIN: 6px 0px 6px 20px
+}
+#basket_list .con {
+	VERTICAL-ALIGN: top; OVERFLOW: hidden; PADDING-TOP: 6px; HEIGHT: 380px
+}
+#basket_list .con .cont {
+	OVERFLOW: hidden; HEIGHT: 360px
+}
+#basket_list .cell {
+	MARGIN: 0px auto 8px; WIDTH: 120px; LINE-HEIGHT: 23px; TEXT-ALIGN: center
+}
+#basket_list .cell IMG {
+	MARGIN: 2px 0px 3px; CURSOR: pointer
+}

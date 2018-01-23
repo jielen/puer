@@ -1,0 +1,811 @@
+<!DOCTYPE html  "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>代理机构注册</title>
+<script type="text/javascript" src="../../js/jquery.js"></script>
+<script type="text/javascript" src="../../js/jquery.tools.js"></script>
+<script type="text/javascript" src="../../js/jquery.metadata.js"></script>
+<script type="text/javascript" src="../../js/jquery.validate.js"></script>
+<script type="text/javascript" src="../../js/jquery.validate.methods.js"></script>
+<script type="text/javascript" src="../../js/jquery.validate.cn.js"></script>
+<script type="text/javascript" src="../../js/jquery.livequery.js"></script>
+<script type="text/javascript" src="../../js/jquery.datepicker.js"></script>
+<script type="text/javascript" src="../../js/editor/kindeditor.js"></script>
+<script type="text/javascript" src="../../js/base.js"></script>
+<script type="text/javascript" src="../../js/admin.js"></script>
+<link href="../../css/webstyle.css" rel="stylesheet" type="text/css" />
+<link href="../../css/admin.css" rel="stylesheet" type="text/css" />
+<link href="../../css/jquery.datepicker.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+<!--
+.goods .goodsSpecificationTable tr th {
+	text-align: left;
+	padding-left: 5px;
+}
+.goods .agencyEmpTable tr th {
+	text-align: left;
+	padding-left: 5px;
+}
+-->
+</style>
+<!--[if lte IE 6]>
+	<script type="text/javascript" src="../../js/belatedPNG.js"></script>
+	<script type="text/javascript">
+		// 解决IE6透明PNG图片BUG
+		DD_belatedPNG.fix(".belatedPNG");
+	</script>
+<![endif]-->
+<script type="text/javascript">
+$().ready(function() {
+
+	var $tab = $("#tab");
+	var $goodsForm = $("#goodsForm");
+	
+	var $goodsPriceTr = $("#goodsPriceTr");
+	var $goodsCostTr = $("#goodsCostTr");
+	var $goodsMarketPriceTr = $("#goodsMarketPriceTr");
+	var $goodsProductSnTr = $("#goodsProductSnTr");
+	var $goodsWeightTr = $("#goodsWeightTr");
+	var $goodsStoreTr = $("#goodsStoreTr");
+	
+	var $isHasGoodsSpecification = $("#isHasGoodsSpecification");
+	var $goodsProductId = $("#goodsProductId");
+	var $goodsIsMarketable = $("#goodsIsMarketable");
+	
+	var $goodsPrice = $("#goodsPrice");
+	var $goodsCost = $("#goodsCost");
+	var $goodsMarketPrice = $("#goodsMarketPrice");
+	var $goodsProductSn = $("#goodsProductSn");
+	var $goodsWeight = $("#goodsWeight");
+	var $goodsWeightUnit = $("#goodsWeightUnit");
+	var $goodsStore = $("#goodsStore");
+	var $goodsStorePlace = $("input:[name='goods.storePlace']");
+	
+	var $goodsSpecificationIds = $("input[name='goodsSpecificationIds']");
+	var $goodsSpecificationPreview = $("#goodsSpecificationPreview");
+	var $addQualifyButton = $("#addQualifyButton");
+	var $goodsTypeId = $("#goodsTypeId");
+	var $addEmpButton = $("#addEmpButton");
+	var $addScoreButton = $("#addScoreButton");
+
+	// Tab效果
+	$tab.tabs(".tabContent", {
+		tabs: "input"
+	});
+	
+	// 商品图片预览滚动栏
+	$(".goodsImageArea .scrollable").scrollable({
+		speed: 600
+	});
+	
+	// 显示商品图片预览操作层
+	$(".goodsImageArea li").livequery("mouseover", function() {
+		$(this).find(".goodsImageOperate").show();
+	});
+	
+	// 隐藏商品图片预览操作层
+	$(".goodsImageArea li").livequery("mouseout", function() {
+		$(this).find(".goodsImageOperate").hide();
+	});
+	
+	// 商品图片左移
+	$(".left").livequery("click", function() {
+		var $goodsImageLi = $(this).parent().parent().parent();
+		var $goodsImagePrevLi = $goodsImageLi.prev("li");
+		if ($goodsImagePrevLi.length > 0) {
+			$goodsImagePrevLi.insertAfter($goodsImageLi);
+		}
+	});
+	
+	// 商品图片右移
+	$(".right").livequery("click", function() {
+		var $goodsImageLi = $(this).parent().parent().parent();
+		var $goodsImageNextLi = $goodsImageLi.next("li");
+		if ($goodsImageNextLi.length > 0) {
+			$goodsImageNextLi.insertBefore($goodsImageLi);
+		}
+	});
+	
+	// 商品图片删除
+	$(".delete").livequery("click", function() {
+		var $goodsImageLi = $(this).parent().parent().parent();
+		var $goodsImagePreview = $goodsImageLi.find(".goodsImagePreview");
+		var $goodsImageIds = $goodsImageLi.find("input[name='goodsImageIds']");
+		var $goodsImageFiles = $goodsImageLi.find("input[name='goodsImages']");
+		var $goodsImageParameterTypes = $goodsImageLi.find("input[name='goodsImageParameterTypes']");
+		$goodsImageIds.remove();
+		$goodsImageFiles.after('<input type="file" name="goodsImages" hidefocus="true" />');
+		$goodsImageFiles.remove();
+		$goodsImageParameterTypes.remove();
+		
+		$goodsImagePreview.html("暂无图片");
+		$goodsImagePreview.removeAttr("title");
+		if ($.browser.msie) {
+			if(window.XMLHttpRequest) {
+				$goodsImagePreview[0].style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod = 'scale', src='')";
+			}
+		}
+	});
+	
+	// 商品图片选择预览
+	var $goodsImageScrollable = $(".goodsImageArea .scrollable").scrollable();
+	var goodsImageLiHtml = '<li><div class="goodsImageBox"><div class="goodsImagePreview">暂无图片</div><div class="goodsImageOperate"><a class="left" href="javascript: void(0);" alt="左移" hidefocus="true"></a><a class="right" href="javascript: void(0);" title="右移" hidefocus="true"></a><a class="delete" href="javascript: void(0);" title="删除" hidefocus="true"></a></div><a class="goodsImageUploadButton" href="javascript: void(0);"><input type="file" name="goodsImages" hidefocus="true" /><div>上传新图片</div></a></div></li>';
+	$(".goodsImageUploadButton input").livequery("change", function() {
+		var $this = $(this);
+		var $goodsImageLi = $this.parent().parent().parent();
+		var $goodsImagePreview = $goodsImageLi.find(".goodsImagePreview");
+		var fileName = $this.val().substr($this.val().lastIndexOf("\\") + 1);
+		if (/()$/i.test($this.val()) == false) {
+			$.message({type: "warn", content: "您选择的文件格式错误!"});
+			return false;
+		}
+		$goodsImagePreview.empty();
+		$goodsImagePreview.attr("title", fileName);
+		if ($.browser.msie) {
+			if(!window.XMLHttpRequest) {
+				$goodsImagePreview.html('<img src="' + $this.val() + '" />');
+			} else {
+				$this[0].select();
+				var imgSrc = document.selection.createRange().text;
+				$goodsImagePreview[0].style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod = 'scale', src='" + imgSrc + "')";
+			}
+		} else if ($.browser.mozilla) {
+			$goodsImagePreview.html('<img src="' + $this[0].files[0].getAsDataURL() + '" />');
+		} else {
+			$goodsImagePreview.html(fileName);
+		}
+		if ($goodsImageLi.next().length == 0) {
+			$goodsImageLi.after(goodsImageLiHtml);
+			if ($goodsImageScrollable.getSize() > 5) {
+				$goodsImageScrollable.next();
+			}
+		}
+		var $goodsImageIds = $goodsImageLi.find("input[name='goodsImageIds']");
+		var $goodsImageParameterTypes = $goodsImageLi.find("input[name='goodsImageParameterTypes']");
+		var $goodsImageUploadButton = $goodsImageLi.find(".goodsImageUploadButton");
+		$goodsImageIds.remove();
+		if ($goodsImageParameterTypes.length > 0) {
+			$goodsImageParameterTypes.val("goodsImageFile");
+		} else {
+			$goodsImageUploadButton.append('<input type="hidden" name="goodsImageParameterTypes" value="goodsImageFile" />');
+		}
+	});
+	
+	var goodsSpecificationDatas = {};
+	var goodsSpecificationValueSelectedDatas = {};
+	
+	goodsSpecificationValueSelectedDatas
+	// 添加资质
+	var index = 0;
+	$addQualifyButton.click( function() {
+		var $goodsSpecificationTableTr = $("#goodsSpecificationTable tr:eq(1)").clone().removeClass("hidden");
+		var goodsSpecificationTableTrHtml = '<tr class="{\'index\': \'' + index + '\'}">' + $goodsSpecificationTableTr.html().replace(/\[(\-?)(\d+)\]/ig, "[" + index + "]") + '</tr>';
+		$("#goodsSpecificationTable tr:last").after(goodsSpecificationTableTrHtml);
+		index ++;
+	});
+	
+	// 添加机构人员
+	var empindex = 0;
+	$addEmpButton.click( function() {
+		var $goodsSpecificationTableTr = $("#agencyEmpTable tr:eq(1)").clone().removeClass("hidden");
+		var goodsSpecificationTableTrHtml = '<tr class="{\'index\': \'' + empindex + '\'}">' + $goodsSpecificationTableTr.html().replace(/\[(\-?)(\d+)\]/ig, "[" + empindex + "]") + '</tr>';
+		$("#agencyEmpTable tr:last").after(goodsSpecificationTableTrHtml);
+		empindex ++;
+	});
+
+	// 添加代理业绩
+	var scoreindex = 0;
+	$addScoreButton.click( function() {
+		var $goodsSpecificationTableTr = $("#agencyScoreTable tr:eq(1)").clone().removeClass("hidden");
+		var goodsSpecificationTableTrHtml = '<tr class="{\'index\': \'' + scoreindex + '\'}">' + $goodsSpecificationTableTr.html().replace(/\[(\-?)(\d+)\]/ig, "[" + scoreindex + "]") + '</tr>';
+		$("#agencyScoreTable tr:last").after(goodsSpecificationTableTrHtml);
+		scoreindex ++;
+	});
+		
+	// 显示规格值
+	$(".goodsSpecificationValueSelect span").live("click", function() {
+		var $this = $(this);
+		var $thisUl = $this.siblings("ul");
+		var $thisInput = $this.siblings("input");
+		$(".goodsSpecificationValueSelect ul").hide();
+		$thisUl.css({"top": + $this.position().top + 33 + "px", "left": + $this.position().left - 1 + "px"}).show();
+		
+		var index = $this.parent().parent().parent().metadata().index;
+		$thisUl.find("li").each(function() {
+			var $thisLi = $(this);
+			var goodsSpecificationValueSelectedDatasString = "";
+			$this.parent().parent().parent().find(".goodsSpecificationValueSelect input").each(function() {
+				if ($(this).attr("name") == $thisInput.attr("name")) {
+					goodsSpecificationValueSelectedDatasString += $thisLi.metadata().goodsSpecificationValueId;
+				} else {
+					goodsSpecificationValueSelectedDatasString += $(this).val();
+				}
+			});
+			var isExist = false;
+			$.each(goodsSpecificationValueSelectedDatas, function(i) {
+				if (index != i && goodsSpecificationValueSelectedDatas[i] == goodsSpecificationValueSelectedDatasString) {
+					isExist = true;
+					return false;
+				}
+			});
+			if (isExist) {
+				$thisLi.addClass("notAllowed");
+			} else {
+				$thisLi.removeClass("notAllowed");
+			}
+		});
+	});
+	
+	// 选择规格值
+	$(".goodsSpecificationValueSelect ul li").live("click", function() {
+		$this = $(this);
+		$parent = $this.parent();
+		var $thisInput = $parent.siblings("input");
+		if ($this.hasClass("notAllowed")) {
+			return false;
+		}
+		
+		var index = $this.parent().parent().parent().parent().metadata().index;
+		var goodsSpecificationValueSelectedDatasString = "";
+		$parent.parent().parent().parent().find(".goodsSpecificationValueSelect input").each(function() {
+			if ($(this).attr("name") == $thisInput.attr("name")) {
+				goodsSpecificationValueSelectedDatasString += $this.metadata().goodsSpecificationValueId;
+			} else {
+				goodsSpecificationValueSelectedDatasString += $(this).val();
+			}
+		});
+		
+		goodsSpecificationValueSelectedDatas[index] = goodsSpecificationValueSelectedDatasString;
+		
+		$parent.hide();
+		$thisInput.val($this.metadata().goodsSpecificationValueId);
+		$parent.siblings("span").addClass("goodsSpecificationValueSelected").html($this.html());
+	});
+	
+	// 删除资格
+	$(".deleteGoodsSpecification").live("click", function() {
+		var $this = $(this);
+		if (confirm("您确定要删除吗？") == true) {
+			$this.parent().parent().remove();
+			var index = $this.parent().parent().metadata().index;
+			if(goodsSpecificationValueSelectedDatas[index] != null) {
+				goodsSpecificationValueSelectedDatas[index] = null;
+			}
+		}
+	});
+	
+	// 删除机构人员
+	$(".deleteEmp").live("click", function() {
+		var $this = $(this);
+		if (confirm("您确定要删除吗？") == true) {
+			$this.parent().parent().remove();
+			var index = $this.parent().parent().metadata().index;
+			if(goodsSpecificationValueSelectedDatas[index] != null) {
+				goodsSpecificationValueSelectedDatas[index] = null;
+			}
+		}
+	});
+
+	// 删除代理业绩
+	$(".deleteScore").live("click", function() {
+		var $this = $(this);
+		if (confirm("您确定要删除吗？") == true) {
+			$this.parent().parent().remove();
+			var index = $this.parent().parent().metadata().index;
+			if(goodsSpecificationValueSelectedDatas[index] != null) {
+				goodsSpecificationValueSelectedDatas[index] = null;
+			}
+		}
+	});
+			
+	// 日期选择框
+	var $currentDatePicker;
+	var datePickerOptions = {
+        format: "Y-m-d",
+		date: new Date(),
+		calendars: 1,
+		starts: 1,
+		position: "right",
+		prev: "<<",
+		next: ">>",
+		locale: {
+			days: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"],
+			daysShort: ["周日", "周一", "周二", "周三", "周四", "周五", "周六", "周日"],
+			daysMin: ["日", "一", "二", "三", "四", "五", "六", "日"],
+			months: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+			monthsShort: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+			weekMin: ' '
+		},
+		onBeforeShow: function(){
+			$currentDatePicker = $(this);
+			var currentDate = $.trim($currentDatePicker.val());
+			if (currentDate != "") {
+				var reg = /^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2})$/;
+				if(currentDate.match(reg) != null) {
+					$currentDatePicker.DatePickerSetDate($currentDatePicker.val(), true);
+				}
+			}
+		},
+		onChange: function(formated, dates){
+			$currentDatePicker.val(formated);
+		}
+    };
+    $("input.datePicker").DatePicker(datePickerOptions);
+	
+	// 重新绑定日期选择框
+	$.bindDatePicker = function () {
+		$("input.datePicker").DatePicker(datePickerOptions);
+	}
+	
+	// 查询商品属性
+	$goodsTypeId.change( function() {
+		$(".goodsAttributeContentTr").remove();
+		var id = $("#goodsTypeId").val();
+		$.ajax({
+			url: "goods!ajaxGoodsAttribute.action",
+			dataType: "json",
+			data: {id: id},
+			async: false,
+			success: function(data) {
+				var goodsAttributeTrHtml = "";
+				$.each(data, function(i) {
+					if(data[i]["attributeType"] == "text") {
+						goodsAttributeTrHtml += '<tr class="goodsAttributeContentTr"><th>' + data[i].name + ':</th><td><input type="text" name="' + data[i].id + '"' + ((data[i].isRequired == true) ? ' class="formText {required: true}"' : ' class="formText"') + ' />' + ((data[i].isRequired == true) ? '<label class="requireField">*</label>' : '') + '</td></tr>';
+					} else if(data[i]["attributeType"] == "number") {
+						goodsAttributeTrHtml += '<tr class="goodsAttributeContentTr"><th>' + data[i].name + ':</th><td><input type="text" name="' + data[i].id + '"' + ((data[i].isRequired == true) ? ' class="formText {required: true, number: true}"' : ' class="formText {number: true}"') + ' />' + ((data[i].isRequired == true) ? '<label class="requireField">*</label>' : '') + '</td></tr>';
+					} else if(data[i]["attributeType"] == "alphaint"){
+						goodsAttributeTrHtml += '<tr class="goodsAttributeContentTr"><th>' + data[i].name + ':</th><td><input type="text" name="' + data[i].id + '"' + ((data[i].isRequired == true) ? ' class="formText {required: true, lettersonly: true}"' : ' class="formText {lettersonly: true}"') + ' />' + ((data[i].isRequired == true) ? '<label class="requireField">*</label>' : '') + '</td></tr>';
+					} else if(data[i]["attributeType"] == "select") {
+						var goodsAttributeOption = '<option value="">请选择...</option>';
+						for(var key in data[i]["attributeOptionList"]) {
+							goodsAttributeOption += ('<option value="' + data[i]["attributeOptionList"][key] + '">' + data[i]["attributeOptionList"][key] + '</option>');
+						}
+						goodsAttributeTrHtml += '<tr class="goodsAttributeContentTr"><th>' + data[i].name + ':</th><td><select name="' + data[i].id + '"' + ((data[i].isRequired == true) ? ' class="{required: true}"' : '') + '>' + goodsAttributeOption + '</select>' + ((data[i].isRequired == true) ? '<label class="requireField">*</label>' : '') + '</td></tr>';
+					} else if(data[i]["attributeType"] == "checkbox") {
+						var goodsAttributeOption = "";
+						for(var key in data[i]["attributeOptionList"]) {
+							goodsAttributeOption += '<label><input type="checkbox" name="' + data[i].id + '" value="' + data[i]["attributeOptionList"][key] + '"' + ((data[i].isRequired == true) ? ' class="{required: true, messagePosition: \'#' + data[i].id + 'MessagePosition\'}"' : '') +' />' + data[i]["attributeOptionList"][key] + '</label>&nbsp;&nbsp;';
+						}
+						goodsAttributeTrHtml += '<tr class="goodsAttributeContentTr"><th>' + data[i].name + ':</th><td>' + goodsAttributeOption + ((data[i].isRequired == true) ? '<span id="' + data[i].id + 'MessagePosition"></span><label class="requireField">*</label>' : '') + '</td></tr>';
+					} else if(data[i]["attributeType"] == "date") {
+						goodsAttributeTrHtml += '<tr class="goodsAttributeContentTr"><th>' + data[i].name + ':</th><td><input type="text" name="' + data[i].id + '"' + ((data[i].isRequired == true) ? ' class="formText datePicker {required: true, dateISO: true}"' : ' class="formText datePicker {dateISO: true}"') + ' />' + ((data[i].isRequired == true) ? '<label class="requireField">*</label>' : '') + '</td></tr>';
+					}
+				})
+				$("#goodsTypeTr").after(goodsAttributeTrHtml);
+				$.bindDatePicker();
+			}
+		});
+	});
+	
+	// 表单验证
+	$goodsForm.validate({
+		ignore: ".ignoreValidate",
+		invalidHandler: function(form, validator) {
+			$.each(validator.invalid, function(key, value){
+				$.message({type: "warn", content: value});
+				return false;
+			});
+		},
+		errorPlacement:function(error, element) {},
+		submitHandler: function(form) {
+			var isRepeated = false;
+			if ($isHasGoodsSpecification.val() == "true") {
+				$("#goodsSpecificationTable tr:gt(1)").each(function() {
+					var goodsSpecificationValueSelectedDatasString = "";
+					$(this).find(".goodsSpecificationValueSelect input").each(function() {
+						goodsSpecificationValueSelectedDatasString += $(this).val();
+					});
+					var existCount = 0;
+					$.each(goodsSpecificationValueSelectedDatas, function(i) {
+						if (goodsSpecificationValueSelectedDatas[i] == goodsSpecificationValueSelectedDatasString) {
+							existCount++;
+							if (existCount > 1) {
+								isRepeated = true;
+								return false;
+							}
+						}
+					});
+					if (existCount > 1) {
+						return false;
+					}
+				});
+				if (isRepeated) {
+					$.message({type: "warn", content: "商品规格值重复!"});
+					return false;
+				}
+			}
+			$goodsForm.find(":submit").attr("disabled", true);
+			//form.submit();
+			alert("保存成功");
+			window.close();
+		}
+	});
+
+})
+</script>
+</head>
+
+<body class="input goods">
+	<div class="bar" style="text-align:center">
+		<b>代理机构注册</b>
+	</div>
+	<div class="body">
+		<form id="goodsForm" action="goods!save.action" method="post" enctype="multipart/form-data">
+			<input type="hidden" name="id" value="" />
+			<ul id="tab" class="tab">
+				<li>
+					<input type="button" value="基本信息" hidefocus="true" />
+				</li>
+				<li>
+					<input type="button" value="机构人员" hidefocus="true" />
+				</li>
+				<li>
+					<input type="button" value="机构简介" hidefocus="true" />
+				</li>
+				<li>
+					<input type="button" value="代理业绩" hidefocus="true" />
+				</li>
+			</ul>
+			<table class="inputTable tabContent">
+				<tr>
+					<th>
+						代理机构名称:
+					</th>
+					<td>
+						<input type="text" name="goods.name" class="formText {required: true, messages: {required: '请填写代理机构名称!'}}" value="" />
+						<label class="requireField"><font color="red">*</font></label>
+					</td>
+					<th>
+						组织机构代码:
+					</th>
+					<td>
+						<input type="text" name="goods.name" class="formText {required: true, messages: {required: '请填写组织机构代码!'}}" value="" />
+						<label class="requireField"><font color="red">*</font></label>
+					</td>					
+				</tr>
+				<tr>
+					<th>
+						地域类型:
+					</th>
+					<td>
+						<select name="goods.goodsCategory.id" class="{required: true, messages: {required: '请选择地域类型!'}}">
+							<option value="">请选择...</option>
+						    <option value="0000">省内</option>
+						    <option value="9999">省外</option>
+						</select>
+						<label class="requireField"><font color="red">*</font></label>
+					</td>
+					<th>
+						机构地址:
+					</th>
+					<td>
+						<input type="text" name="goods.name" class="formText" value="" />
+					</td>					
+				</tr>
+				<tr>
+					<td colspan="4">
+						&nbsp;
+					</td>
+				</tr>
+				<tr>
+					<th>
+						机构联系人:
+					</th>
+					<td>
+						<input type="text" name="goods.name" class="formText {required: true, messages: {required: '请填写机构联系人!'}}" value="" />
+						<label class="requireField"><font color="red">*</font></label>
+					</td>
+					<th>
+						联系人电话:
+					</th>
+					<td>
+						<input type="text" name="goods.name" class="formText {required: true, messages: {required: '请填写联系人电话!'}}" value="" />
+						<label class="requireField"><font color="red">*</font></label>
+					</td>							
+				</tr>
+				<tr>
+					<th>
+						法人代表:
+					</th>
+					<td>
+						<input type="text" name="goods.name" class="formText {required: true, messages: {required: '请填写法人代表!'}}" value="" />
+						<label class="requireField"><font color="red">*</font></label>
+					</td>
+					<th>
+						法人电话:
+					</th>
+					<td>
+						<input type="text" name="goods.name" class="formText {required: true, messages: {required: '请填写法人电话!'}}" value="" />
+						<label class="requireField"><font color="red">*</font></label>
+					</td>							
+				</tr>
+				<tr>
+					<th>
+						电子邮箱:
+					</th>
+					<td>
+						<input type="text" name="goods.name" class="formText {required: true, email: true}"  value="" />
+					</td>
+					<th>
+						成立时间:
+					</th>
+					<td>
+						<input type="text" name="goods.name" class="formText datePicker" value="" />
+					</td>							
+				</tr>
+				<tr>
+					<th>
+						注册资金（万元）:
+					</th>
+					<td>
+						<input type="text" name="goods.name" class="formText {required: true, min: 0, messages: {required: '请填写注册资金!', min: '注册资金不允许小于0，单位是万元'}}"  value="" />
+					    <label class="requireField"><font color="red">*</font></label>			    
+					</td>
+					<th>
+						工商注册机关:
+					</th>
+					<td>
+						<input type="text" name="goods.name" class="formText" value="" />
+					</td>							
+				</tr>												
+				<tr>
+					<th>
+						主营范围:
+					</th>
+					<td>
+						<input type="text" name="goods.name" class="formText {required: true, messages: {required: '请填写主营范围!'}}"  value="" />
+					    <label class="requireField"><font color="red">*</font></label>				    
+					</td>
+					<th>
+						兼营范围:
+					</th>
+					<td>
+						<input type="text" name="goods.name" class="formText" value="" />
+					</td>							
+				</tr>
+				<tr>
+					<th>
+						是否实施电子化政府采购:
+					</th>
+					<td>
+						<select name="goods.goodsCategory.id" class="{required: true, messages: {required: '请选择是否实施电子化政府采购!'}}">
+							<option value="">请选择...</option>
+						    <option value="Y">是</option>
+						    <option value="N">否</option>
+						</select>
+						<label class="requireField"><font color="red">*</font></label>				    
+					</td>
+					<th>
+						是否具有供应商审查资质:
+					</th>
+					<td>
+						<select name="goods.goodsCategory.id" class="{required: true, messages: {required: '请选择是否具有供应商审查资质!'}}">
+							<option value="">请选择...</option>
+						    <option value="Y">是</option>
+						    <option value="N">否</option>
+						</select>
+						<label class="requireField"><font color="red">*</font></label>
+					</td>							
+				</tr>				
+				<tr>
+					<td colspan="4">
+						&nbsp;
+					</td>
+				</tr>
+				<tr>
+					<th>
+						上传代理机构展示图片
+					</th>
+					<td colspan="3">
+						<div class="goodsImageArea">
+							<div class="example"></div>
+							<a class="prev browse" href="javascript:void(0);" hidefocus="true"></a>
+							<div class="scrollable">
+								<ul class="items">
+									<li>
+										<div class="goodsImageBox">
+											<div class="goodsImagePreview belatedPNG">暂无图片</div>
+											<div class="goodsImageOperate">
+												<a class="left" href="javascript: void(0);" alt="左移" hidefocus="true"></a>
+												<a class="right" href="javascript: void(0);" title="右移" hidefocus="true"></a>
+												<a class="delete" href="javascript: void(0);" title="删除" hidefocus="true"></a>
+											</div>
+                                             <a class="goodsImageUploadButton" href="javascript: void(0);">
+                                                 <input type="file" name="goodsImages" hidefocus="true" />
+                                                 <div>上传新图片</div>
+                                             </a>
+										</div>
+									</li>
+								</ul>
+							</div>
+							<a class="next " href="javascript:void(0);" hidefocus="true"></a>
+							<div class="blank"></div>
+								<span class="warnInfo"><span class="icon">&nbsp;</span>系统设置每张图片的大小不能超过2m!</span>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="4">
+						&nbsp;
+					</td>
+				</tr>
+				<tr>
+					<td colspan="4">
+						<input type="button" id="addQualifyButton" class="formButton" value="添加资质" />
+					</td>
+				</tr>
+				<tr>
+					<td colspan="4">
+						<table id="goodsSpecificationTable" class="inputTable goodsSpecificationTable">
+							<tr>
+								<th>
+									<b>资质名称</b>
+								</th>
+								<th class="goodsSpecificationInsertTh">
+									<b>发证文号</b>
+								</th>
+								<th>
+									<b>发证机关名称</b>
+								</th>
+								<th>
+									<b>发证时间</b>
+								</th>
+								<th>
+									<b>资格有效期起始日期</b>
+								</th>
+								<th>
+									<b>截止日期</b>
+								</th>
+								<th>
+									<b>操作</b>
+								</th>
+							</tr>
+							<tr class="hidden {index: -1}">
+								<td>
+									<input type="text" name="goods.name" class="formText" style="width: 50px;"  />
+								</td>
+								<td>
+									<input type="text" name="goods.name" class="formText" style="width: 50px;"  />
+								</td>
+								<td>
+									<input type="text" name="goods.name" class="formText" style="width: 50px;"  />
+								</td>
+								<td>
+									<input type="text" name="goods.name2" class="formText datePicker" value="" />
+								</td>
+								<td>
+									<input type="text" name="goods.name3" class="formText datePicker" value="" />
+								</td>
+								<td>
+									<input type="text" name="goods.name4" class="formText datePicker" value="" />
+								</td>
+								<td>
+									<span class="deleteIcon deleteGoodsSpecification" title="删除">&nbsp;</span>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>								
+			</table>
+			<table class="inputTable tabContent">
+				<tr>
+					<td colspan="9">
+						<input type="button" id="addEmpButton" class="formButton" value="添加人员" />
+					</td>
+				</tr>			
+				<tr>
+					<td>
+						<table id="agencyEmpTable" class="inputTable goodsSpecificationTable">
+							<tr>
+								<th>
+									<b>姓名</b>
+								</th>
+								<th>
+									<b>专业</b>
+								</th>
+								<th>
+									<b>学历</b>
+								</th>
+								<th>
+									<b>职称</b>
+								</th>
+								<th>
+									<b>所属部门</b>
+								</th>
+								<th>
+									<b>联系电话</b>
+								</th>
+								<th>
+									<b>操作</b>
+								</th>																								
+							</tr>
+							<tr class="hidden {empindex: -1}">
+								<td>
+									<input type="text" name="goods.name2" class="formText" value="" />
+								</td>
+								<td>
+									<input type="text" name="goods.name3" class="formText" value="" />
+								</td>
+								<td>
+									<input type="text" name="goods.name4" class="formText" value="" />
+								</td>
+								<td>
+									<input type="text" name="goods.name4" class="formText" value="" />
+								</td>
+								<td>
+									<input type="text" name="goods.name4" class="formText" value="" />
+								</td>
+								<td>
+									<input type="text" name="goods.name4" class="formText" value="" />
+								</td>																								
+								<td>
+									<span class="deleteIcon deleteEmp" title="删除">&nbsp;</span>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>					
+			</table>
+			<table class="inputTable tabContent">
+				<tr>
+					<td colspan="2">
+						<textarea name="goods.introduction" id="editor" class="editor" style="width: 100%; height: 450px;"></textarea>
+					</td>
+				</tr>
+			</table>
+			<table class="inputTable tabContent">
+				<tr>
+					<td colspan="5">
+						<input type="button" id="addScoreButton" class="formButton" value="添加业绩" />
+					</td>
+				</tr>			
+				<tr>
+					<td>
+						<table id="agencyScoreTable" class="inputTable goodsSpecificationTable">
+							<tr>
+								<th>
+									<b>项目名称</b>
+								</th>
+								<th>
+									<b>发生日期</b>
+								</th>
+								<th>
+									<b>项目类型</b>
+								</th>
+								<th>
+									<b>总金额（万元）</b>
+								</th>
+								<th>
+									<b>操作</b>
+								</th>																								
+							</tr>
+							<tr class="hidden {scoreindex: -1}">
+								<td>
+									<input type="text" name="goods.name4" class="formText" value="" />
+								</td>
+								<td>
+									<input type="text" name="goods.name4" class="formText" value="" />
+								</td>
+								<td>
+									<input type="text" name="goods.name4" class="formText" value="" />
+								</td>
+								<td>
+									<input type="text" name="goods.name4" class="formText" value="" />
+								</td>																								
+								<td>
+									<span class="deleteIcon deleteScore" title="删除">&nbsp;</span>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>					
+			</table>
+			<div class="buttonArea">
+				<input type="submit" class="formButton" value="确  定" hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="button" class="formButton" onclick="window.history.back(); return false;" value="返  回" hidefocus="true" />
+			</div>
+		</form>
+	</div>
+</body>
+</html>
