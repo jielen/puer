@@ -24,7 +24,7 @@ public class LocalServiceFactory {
       context = new ClassPathXmlApplicationContext(xmls);
       SpringContext.setSpringContext(context);
       String path = SpringContext.class.getResource(".").toString();
-      PropertyConfigurator.configureAndWatch(path.substring(6, path.indexOf("/classes/") + 5) + "log4j.properties", 50);
+      PropertyConfigurator.configureAndWatch(path.substring(6, path.indexOf("/build/") + 5) + "log4j.properties", 50);
     }
 
     if (localServiceMap.get(serviceName) == null) {

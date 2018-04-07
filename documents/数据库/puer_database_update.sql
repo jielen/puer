@@ -1,4 +1,29 @@
 
+----------------20170119--------------------
+--1
+
+insert into as_option (OPT_ID, CO_CODE, COMPO_ID, TRANS_TYPE, OPT_VAL, IS_SYST_OPT)
+values ('OPT_SF_FTP_HOST', '*', '*', '*', '10.169.180.148', 'Y');
+
+insert into as_option (OPT_ID, CO_CODE, COMPO_ID, TRANS_TYPE, OPT_VAL, IS_SYST_OPT)
+values ('OPT_SF_FTP_PORT', '*', '*', '*', '21', 'Y');
+
+insert into as_option (OPT_ID, CO_CODE, COMPO_ID, TRANS_TYPE, OPT_VAL, IS_SYST_OPT)
+values ('OPT_SF_FTP_USER', '*', '*', '*', 'puersf', 'Y');
+
+insert into as_option (OPT_ID, CO_CODE, COMPO_ID, TRANS_TYPE, OPT_VAL, IS_SYST_OPT)
+values ('OPT_SF_FTP_PASSWORD', '*', '*', '*', 'puersfftp', 'Y');
+
+insert into as_option (OPT_ID, CO_CODE, COMPO_ID, TRANS_TYPE, OPT_VAL, IS_SYST_OPT)
+values ('OPT_SF_FTP_MAX_COLLECTION', '*', '*', '*', '3', 'Y');
+
+insert into as_option (OPT_ID, CO_CODE, COMPO_ID, TRANS_TYPE, OPT_VAL, IS_SYST_OPT)
+values ('OPT_SF_FTP_DIR_RECORD', '*', '*', '*', 'records', 'Y');
+
+insert into as_option (OPT_ID, CO_CODE, COMPO_ID, TRANS_TYPE, OPT_VAL, IS_SYST_OPT)
+values ('OPT_SF_FTP_USED', '*', '*', '*', 'Y', 'Y');
+
+----------------不知什么时候------------
 --1
 CREATE OR REPLACE VIEW V_SF_DOC_SEND AS 
 SELECT D.ENTRUST_ID,
