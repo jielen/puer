@@ -1459,4 +1459,29 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener,
 		
 		safeDisconnect();
 	}
+	
+	/**
+	 * 设置ftp里的上传、删除、重命名、创建文件夹按钮是否可以操作
+	 * 
+	 * @param enable
+	 */
+	public void setCommandBtnStatus(boolean enable){
+
+		if (remoteConnectionPanel.getTabCount() > 0) { 
+			for (int i = 0; i < remoteConnectionPanel.getTabCount(); i++) {
+				if (remoteConnectionPanel.getComponentAt(i) instanceof RemoteDir) {
+					RemoteDir dir=(RemoteDir) remoteConnectionPanel.getComponent(i);
+					dir.setCommandBtnStatus(enable);
+				}
+			} 
+		}
+		if(localConnectionPanel.getTabCount()>0){
+			for (int i = 0; i < localConnectionPanel.getTabCount(); i++) {
+				if (localConnectionPanel.getComponentAt(i) instanceof LocalDir) {
+					LocalDir dir=(LocalDir) localConnectionPanel.getComponent(i);
+					dir.setCommandBtnStatus(enable);
+				}
+			} 			
+		}
+	}
 }

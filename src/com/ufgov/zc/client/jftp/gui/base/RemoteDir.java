@@ -1645,4 +1645,21 @@ public class RemoteDir extends DirComponent implements ListSelectionListener,
     public void keyTyped(KeyEvent e)
     {
     }
+    
+    /**
+     * 设置ftp里的删除、重命名、创建文件夹按钮是否可以操作
+     * @param enable
+     */
+    public void setCommandBtnStatus(boolean enable){
+    	if(deleteButton!=null){
+    		deleteButton.setEnabled(enable);
+    	}
+    	if(mkdirButton!=null){
+    		mkdirButton.setEnabled(enable);
+    	}
+    	if(rnButton!=null){
+    		rnButton.setEnabled(enable);
+    	}
+    	
+    }
 }

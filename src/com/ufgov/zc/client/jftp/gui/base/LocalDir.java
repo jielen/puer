@@ -1550,4 +1550,13 @@ public class LocalDir extends DirComponent implements ListSelectionListener,
     public void keyTyped(KeyEvent e)
     {
     }
+    /**
+     * 设置ftp里的上传按钮是否可以操作
+     * @param enable
+     */
+    public void setCommandBtnStatus(boolean enable){
+    	if(uploadButton!=null){
+    		uploadButton.setEnabled(enable);
+    	}
+    }
 }
