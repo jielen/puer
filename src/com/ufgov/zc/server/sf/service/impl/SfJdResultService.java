@@ -9,6 +9,7 @@ import java.util.List;
 import com.ufgov.zc.common.sf.model.SfEntrust;
 import com.ufgov.zc.common.sf.model.SfJdResult;
 import com.ufgov.zc.common.sf.model.SfJdResultFile;
+import com.ufgov.zc.common.sf.model.SfJdResultFileStore;
 import com.ufgov.zc.common.sf.model.SfJdjg;
 import com.ufgov.zc.common.system.RequestMeta;
 import com.ufgov.zc.common.system.dto.ElementConditionDto;
@@ -76,10 +77,25 @@ public class SfJdResultService implements ISfJdResultService {
     dto.setDattr1("attacheFile");
     resultFileLst=zcEbBaseService.queryDataForList("com.ufgov.zc.server.sf.dao.SfJdResultFileMapper.selectByResultId", dto);
     rtn.setAttacheFileLst(resultFileLst==null?new ArrayList():resultFileLst);
+    rtn.setFileStore((SfJdResultFileStore) zcEbBaseService.queryObject("com.ufgov.zc.server.sf.dao.SfJdResultFileStoreMapper.selectByResultId", id));
     rtn.setDbDigest(rtn.digest());
     return rtn;
   }
 
+  public SfJdResultFileStore saveFileStoreFN(SfJdResultFileStore inData, RequestMeta requestMeta) {
+	  if(inData.getSfJdResultFileStoreId()==null){ZcSUtil su=new ZcSUtil();
+	      BigDecimal id = new BigDecimal(su.getNextVal(SfJdResultFileStore.SEQ_SF_JD_RESULT_FILE_STORE_ID));
+	      inData.setSfJdResultFileStoreId(id);	
+	      inData.setPath(inData.getPath()+id+"/");
+	      zcEbBaseService.insertObject("com.ufgov.zc.server.sf.dao.SfJdResultFileStoreMapper.insert", inData);
+	  }else{
+		  List lst=new ArrayList();
+		  lst.add(inData);
+		  zcEbBaseService.updateObjectList("com.ufgov.zc.server.sf.dao.SfJdResultFileStoreMapper.insert", lst);
+	  }
+	return inData;
+	  
+  }
   public SfJdResult saveFN(SfJdResult inData, RequestMeta requestMeta) {
     // TCJLODO Auto-generated method stub
     if (inData.getJdResultId() == null) {

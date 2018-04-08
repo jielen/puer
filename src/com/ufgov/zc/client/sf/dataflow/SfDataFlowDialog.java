@@ -75,6 +75,8 @@ public class SfDataFlowDialog extends GkBaseDialog {
   @Override
   public void closeDialog() {
 
+	  //如果打开了检验记录面板，调用他的关闭方法，主要是关闭ftp连接
+	  
     dispose();
 
   }

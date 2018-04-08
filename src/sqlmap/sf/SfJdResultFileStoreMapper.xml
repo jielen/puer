@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.ufgov.zc.server.sf.dao.SfJdResultFileStoreMapper">
+	<typeAlias alias="elementCondition" type="com.ufgov.zc.common.system.dto.ElementConditionDto" />
+  <resultMap id="BaseResultMap" class="com.ufgov.zc.common.sf.model.SfJdResultFileStore">
+    <result column="SF_JD_RESULT_FILE_STORE_ID" jdbcType="DECIMAL" property="sfJdResultFileStoreId" />
+    <result column="JD_RESULT_ID" jdbcType="DECIMAL" property="jdResultId" />
+    <result column="ENTRUST_ID" jdbcType="DECIMAL" property="entrustId" />
+    <result column="STORE_TYPE" jdbcType="VARCHAR" property="storeType" />
+    <result column="PATH" jdbcType="VARCHAR" property="path" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    SF_JD_RESULT_FILE_STORE_ID, JD_RESULT_ID, STORE_TYPE, PATH,ENTRUST_ID
+  </sql>
+  <select id="selectByPrimaryKey" parameterClass="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SF_JD_RESULT_FILE_STORE
+    where SF_JD_RESULT_FILE_STORE_ID = #sfJdResultFileStoreId:DECIMAL#
+  </select>
+  <select id="selectByResultId" parameterClass="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SF_JD_RESULT_FILE_STORE
+    where JD_RESULT_ID = #jdResultId:DECIMAL#
+  </select>
+  <select id="selectByEntrustId" parameterClass="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SF_JD_RESULT_FILE_STORE
+    where ENTRUST_ID = #entrustId:DECIMAL#
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="java.math.BigDecimal">
+    delete from SF_JD_RESULT_FILE_STORE
+    where SF_JD_RESULT_FILE_STORE_ID = #sfJdResultFileStoreId:DECIMAL#
+  </delete>
+  <insert id="insert" parameterClass="com.ufgov.zc.common.sf.model.SfJdResultFileStore">
+    insert into SF_JD_RESULT_FILE_STORE (SF_JD_RESULT_FILE_STORE_ID, JD_RESULT_ID, 
+      STORE_TYPE, PATH,ENTRUST_ID)
+    values (#sfJdResultFileStoreId:DECIMAL#, #jdResultId:DECIMAL#, 
+      #storeType:VARCHAR#, #path:VARCHAR#,#entrustId:DECIMAL#)
+  </insert> 
+  <update id="updateByPrimaryKey" parameterClass="com.ufgov.zc.common.sf.model.SfJdResultFileStore">
+    update SF_JD_RESULT_FILE_STORE
+    set JD_RESULT_ID = #jdResultId:DECIMAL#,
+      STORE_TYPE = #storeType:VARCHAR#,
+      PATH = #path:VARCHAR#,
+      ENTRUST_ID=#entrustId:DECIMAL#
+    where SF_JD_RESULT_FILE_STORE_ID = #sfJdResultFileStoreId:DECIMAL#
+  </update>
+</sqlMap>

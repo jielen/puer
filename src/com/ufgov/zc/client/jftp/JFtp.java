@@ -1214,7 +1214,9 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener,
 	// *** REFRESH MENU BAR
 	public static void updateMenuBar() {
 		// mainFrame.setJMenuBar(new AppMenuBar(this));
-		menuBar.resetFileItems();
+		if(menuBar!=null){
+			menuBar.resetFileItems();
+		}
 	}
 
 	public void internalFrameClosing(InternalFrameEvent e) {

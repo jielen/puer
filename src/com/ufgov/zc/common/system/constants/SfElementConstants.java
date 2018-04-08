@@ -75,6 +75,37 @@ public interface SfElementConstants {
    * 法医鉴定专业编号
    */
   public static final String OPT_SF_MAJOR_FA_YI_CODE = "OPT_SF_MAJOR_FA_YI_CODE";
+  
+
+  /**
+   * 是否使用ftp
+   */
+  public static final String OPT_SF_FTP_USED = "OPT_SF_FTP_USED";
+  /**
+   * ftp ip
+   * 
+   */
+  public static final String OPT_SF_FTP_HOST = "OPT_SF_FTP_HOST";
+  /**
+   * ftp 端口
+   */
+  public static final String OPT_SF_FTP_PORT = "OPT_SF_FTP_PORT";
+  /**
+   * ftp 用户
+   */
+  public static final String OPT_SF_FTP_USER = "OPT_SF_FTP_USER";
+  /**
+   * ftp 用户密码
+   */
+  public static final String OPT_SF_FTP_PASSWORD = "OPT_SF_FTP_PASSWORD";
+  /**
+   * ftp 最大连接数
+   */
+  public static final String OPT_SF_FTP_MAX_COLLECTION = "OPT_SF_FTP_MAX_COLLECTION";
+  /**
+   * ftp 中鉴定过程文件存放的根目录
+   */
+  public static final String OPT_SF_FTP_DIR_RECORD = "OPT_SF_FTP_DIR_RECORD";
 
   // word文件加密的密码
   public static final String WORD_PASSWORD = "sfjd";

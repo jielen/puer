@@ -17,6 +17,8 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -37,6 +39,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JProgressBar;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
 
 import org.apache.log4j.Logger;
@@ -44,7 +47,14 @@ import org.apache.log4j.Logger;
 
 
 
+
+
+
+
+
+
 import com.ufgov.smartclient.common.UIUtilities;
+import com.ufgov.zc.client.common.AsOptionMeta;
 import com.ufgov.zc.client.common.BillElementMeta;
 import com.ufgov.zc.client.common.LangTransMeta;
 import com.ufgov.zc.client.common.ListCursor;
@@ -85,6 +95,7 @@ import com.ufgov.zc.client.component.zc.fieldeditor.ForeignEntityFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.IntFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.TextAreaFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.TextFieldEditor;
+import com.ufgov.zc.client.jftp.JFtp;
 import com.ufgov.zc.client.sf.component.JClosableTabbedPane;
 import com.ufgov.zc.client.sf.dataflow.SfClientUtil;
 import com.ufgov.zc.client.sf.dataflow.SfDataFlowDialog;
@@ -108,6 +119,7 @@ import com.ufgov.zc.common.sf.model.SfJdRecordFileModel;
 import com.ufgov.zc.common.sf.model.SfJdReport;
 import com.ufgov.zc.common.sf.model.SfJdResult;
 import com.ufgov.zc.common.sf.model.SfJdResultFile;
+import com.ufgov.zc.common.sf.model.SfJdResultFileStore;
 import com.ufgov.zc.common.sf.model.SfJdTarget;
 import com.ufgov.zc.common.sf.model.SfJdjg;
 import com.ufgov.zc.common.sf.publish.ISfEntrustServiceDelegate;
@@ -221,6 +233,7 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 	  
 	  private JFuncToolBar subPackTableToolbar;
 	  
+	  private JFtp jftp;
 	  protected JClosableTabbedPane recordFileTabPan = new JClosableTabbedPane(JTabbedPane.BOTTOM){
 		  /**
 		 * 
@@ -513,10 +526,92 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 
 	    refreshSubTableData();
 	    
+	    refreshFileStore();
+	    
 	    updateBtnFields();
 	  }
 
-	  private void refreshData() {
+	/**
+	 * 刷新远程文件存储面板
+	 */
+	  private void refreshFileStore() {
+
+		  SfJdResult bill = (SfJdResult) listCursor.getCurrentObject();
+		  //浏览状态
+		  if(ZcSettingConstants.PAGE_STATUS_BROWSE.equals(pageStatus)){
+			  if(bill.getFileStore()==null){
+				  SfJdResultFileStore fileStore=(SfJdResultFileStore) zcEbBaseServiceDelegate.queryObject("com.ufgov.zc.server.sf.dao.SfJdResultFileStoreMapper.selectByResultId", bill.getJdResultId(), requestMeta);
+				  if(fileStore==null && bill.getEntrust()!=null && bill.getEntrust().getEntrustId()!=null){//获取可能存在的记录
+					  List<SfJdResultFileStore> lst= zcEbBaseServiceDelegate.queryDataForList("com.ufgov.zc.server.sf.dao.SfJdResultFileStoreMapper.selectByEntrustId", bill.getEntrust().getEntrustId(), requestMeta);
+					  if(lst!=null){
+						  for(int i=0;i<lst.size();i++){
+							  SfJdResultFileStore s=lst.get(i);
+							  if(s.getJdResultId()==null){
+								  fileStore=s;
+								  fileStore.setJdResultId(bill.getJdResultId());
+								  break;
+							  }
+						  }
+					  }
+				  }
+				  if(fileStore==null){
+					  fileStore=createFileStore();
+				  }
+				  bill.setFileStore(fileStore);
+			}
+		  }
+
+			final String ftpHost=AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_FTP_HOST);
+			final String ftpPort=AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_FTP_PORT);
+			final String ftpUser=AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_FTP_USER);
+			final String ftpPasswd=AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_FTP_PASSWORD);
+			final String ftpMaxcollection=AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_FTP_MAX_COLLECTION); 
+			final String path=bill.getFileStore().getPath();
+			SwingUtilities.invokeLater(new Runnable() {
+
+				@Override
+				public void run() {
+					jftp.startFtpConnection(ftpHost, Integer.parseInt(ftpPort), ftpUser, ftpPasswd, path, Integer.parseInt(ftpMaxcollection));
+				}
+				
+			});
+			
+			
+	}
+
+	private SfJdResultFileStore createFileStore() {
+		SfJdResultFileStore fileStore=new SfJdResultFileStore();
+		SfJdResult bill = (SfJdResult) listCursor.getCurrentObject();
+		fileStore.setJdResultId(bill.getJdResultId());
+		if(bill.getEntrust()!=null && bill.getEntrust().getEntrustId()!=null){
+			fileStore.setEntrustId(bill.getEntrust().getEntrustId());
+		}
+
+		Date date=requestMeta.getSysDate();
+		if(bill.getInputDate()!=null){
+			date=bill.getInputDate();
+		}
+		String dir=AsOptionMeta.getOptVal("OPT_SF_FTP_DIR_RECORD");
+		Calendar c=Calendar.getInstance();
+		c.setTime(date);
+		dir=dir+"/"+c.get(Calendar.YEAR);
+		dir=dir+"/"+(c.get(Calendar.MONTH)+1);
+		
+		if(!dir.startsWith("/")){
+			dir="/"+dir;
+		}
+		if(!dir.endsWith("/")){
+			dir=dir+"/";
+		}
+		fileStore.setPath(dir);
+		fileStore.setStoreType("ftp");
+		
+		fileStore=sfJdResultServiceDelegate.saveFileStoreFN(fileStore, requestMeta);
+		
+		return fileStore;
+	}
+
+	private void refreshData() {
 
 	    refreshMainData();
 
@@ -712,7 +807,18 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 	    setButtonStatus(bill, requestMeta, this.listCursor);
 	    //文书审批单终审后，锁定修改等操作,审批单没有终审时，不能打印
 	    SfUtil su=new SfUtil();
-	    su.lockBillWithDocAudit(toolBar.getComponents(),bill.getEntrust()); 
+	    su.lockBillWithDocAudit(toolBar.getComponents(),bill.getEntrust());  
+	    if(jftp!=null){
+	    	if(ZcSettingConstants.PAGE_STATUS_BROWSE.equals(pageStatus)){
+	    		if(SfUtil.canNew(compoId, requestMeta)){
+	    			jftp.setEnabled(true);
+	    		}else{
+	    			jftp.setEnabled(false);
+	    		}
+	    	}else{
+	    		jftp.setEnabled(true);
+	    	}
+	    }
 	  }
 
 	 
@@ -1285,6 +1391,7 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 		          currentBill.setJdr(entrust.getJdFzr());
 		          currentBill.setBrief(entrust.getBrief());
 		          currentBill.setEntrust(entrust);
+		          currentBill.setFileStore(createFileStore());
 		          setEditingObject(currentBill); 
 		          break;
 		        }
@@ -1413,6 +1520,9 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 	    p.add(createSubBillPanel(), BorderLayout.CENTER);
       mainTab.add("基本信息", p);
       mainTab.add("检验记录", recordFileTabPan);
+      if(useFtbStore()){
+    	  mainTab.add("相关检验过程文档",getFileStorePanel());
+      }
 	    workPanel.add(mainTab, BorderLayout.CENTER);
 	    this.add(workPanel, BorderLayout.CENTER);
 	    
@@ -2218,13 +2328,31 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 		    });
 
 		    attacheFileTab.setMinimumSize(new Dimension(240, 300));
-		    attacheFileTab.add("相关检验过程文档", attacheFileTable);
+		    if(useFtbStore()){
+//			    attacheFileTab.add("相关检验过程文档",getFileStorePanel());
+			    attacheFileTab.add("相关检验过程文档(旧版)", attacheFileTable);
+		    }else{
+		    	attacheFileTab.add("相关检验过程文档", attacheFileTable);
+		    }
 		    
 		    return attacheFileTab; 
 //		  return recordFileTabPan;
 	  }
 
-	  public void doExit(boolean isDelete) {
+	  private boolean useFtbStore() {
+		String y=  AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_FTP_USED);
+		if("Y".equalsIgnoreCase(y)){
+			return true;
+		}
+		return false;
+	}
+
+	private Component getFileStorePanel() {
+		jftp= new JFtp(true);		  
+		return jftp;
+	}
+
+	public void doExit(boolean isDelete) {
 	    // TCJLODO Auto-generated method stub
 
 	    if (!isDelete&&isDataChanged()) {
@@ -2241,6 +2369,9 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 
 	      }
 
+	    }
+	    if(jftp!=null){
+	    	jftp.close();
 	    }
 	    if (this.parent instanceof SfDataFlowDialog) {
 	      ((SfDataFlowDialog) parent).removeTab(this, compoId);
@@ -2273,6 +2404,7 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 	        defaultWordPane.close(false);
 	      }
 	      defaultWordPane.open(this.fileName);*/
+	      bill.setFileStore(createFileStore());
 	    }
 	  }
 

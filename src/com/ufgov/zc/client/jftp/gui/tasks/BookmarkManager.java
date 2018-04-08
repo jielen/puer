@@ -71,7 +71,9 @@ public class BookmarkManager extends JInternalFrame implements ActionListener
         else
         {
             save(Settings.bookmarks);
-            JFtp.menuBar.loadBookmarks();
+            if(JFtp.menuBar!=null){
+            	JFtp.menuBar.loadBookmarks();
+            }
             this.dispose();
         }
     }

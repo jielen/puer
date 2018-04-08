@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.ufgov.zc.common.sf.model.SfJdResult;
+import com.ufgov.zc.common.sf.model.SfJdResultFileStore;
 import com.ufgov.zc.common.system.RequestMeta;
 import com.ufgov.zc.common.system.dto.ElementConditionDto;
 
@@ -26,5 +27,6 @@ public interface ISfJdResultServiceDelegate {
   SfJdResult newCommitFN(SfJdResult qx, RequestMeta requestMeta);
 
   SfJdResult callbackFN(SfJdResult qx, RequestMeta requestMeta);
+  SfJdResultFileStore saveFileStoreFN(SfJdResultFileStore inData, RequestMeta requestMeta);
 
 }

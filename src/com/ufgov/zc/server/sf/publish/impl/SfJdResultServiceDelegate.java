@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.ufgov.zc.common.sf.model.SfJdResult;
+import com.ufgov.zc.common.sf.model.SfJdResultFileStore;
 import com.ufgov.zc.common.sf.publish.ISfJdResultServiceDelegate;
 import com.ufgov.zc.common.system.RequestMeta;
 import com.ufgov.zc.common.system.dto.ElementConditionDto;
@@ -75,5 +76,12 @@ public class SfJdResultServiceDelegate implements ISfJdResultServiceDelegate {
   public void setJdResultService(ISfJdResultService jdResultService) {
     this.jdResultService = jdResultService;
   }
+
+
+ 
+public SfJdResultFileStore saveFileStoreFN(SfJdResultFileStore inData,
+		RequestMeta requestMeta) {
+	return jdResultService.saveFileStoreFN(inData, requestMeta);
+}
 
 }

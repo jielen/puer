@@ -316,7 +316,9 @@ public class AddBookmarks extends HFrame implements ActionListener,
             out.println("");
 
             //if it worked, update the menu
-            jftp.menuBar.loadBookmarks();
+            if(jftp.menuBar!=null){
+            	jftp.menuBar.loadBookmarks();
+            }
         }
         catch(Exception e)
         {

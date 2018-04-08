@@ -106,6 +106,8 @@ public class SfJdResult extends ZcBaseBill {
   private String jdMethod;
 
   private String jdTargetName;
+  
+  private SfJdResultFileStore fileStore;
 
   /**
    * 鉴定记录文件列表,
@@ -767,6 +769,14 @@ public List getAttacheFileLst() {
 
 public void setAttacheFileLst(List attacheFileLst) {
 	this.attacheFileLst = attacheFileLst;
+}
+
+public SfJdResultFileStore getFileStore() {
+	return fileStore;
+}
+
+public void setFileStore(SfJdResultFileStore fileStore) {
+	this.fileStore = fileStore;
 }
 
 }
