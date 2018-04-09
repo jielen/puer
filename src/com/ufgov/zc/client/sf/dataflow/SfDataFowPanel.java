@@ -90,9 +90,13 @@ public class SfDataFowPanel extends JPanel {
 
   private SfEntrust entrust = null;
 
-  private JClosableTabbedPane tabPanel = new JClosableTabbedPane(JTabbedPane.BOTTOM);
+  private JClosableTabbedPane tabPanel = new JClosableTabbedPane(JTabbedPane.BOTTOM){
+	  public boolean beforeCloseTab(int tabIndex){
+		  closeEditPanel(tabIndex);
+	  return true;
+  }};
 
-  private SfDataFowPanel self = this;
+private SfDataFowPanel self = this;
 
   private GkBaseDialog parentWindow;
 
@@ -568,5 +572,19 @@ public GkBaseDialog getParentDlg() {
     if (isWordPanel(c) && c instanceof AbstractMainSubEditPanel) {
       ((AbstractMainSubEditPanel) c).refreshFilePanel();
     }
+  }
+
+
+  public JClosableTabbedPane getTabPanel() {
+	return tabPanel;
+}
+  private void closeEditPanel(int tabIndex){
+	  JComponent c = (JComponent) tabPanel.getComponentAt(tabIndex);
+	  if(c!=null){
+		  if(c instanceof SfJdRecordEditPanel ){
+			  SfJdRecordEditPanel j=(SfJdRecordEditPanel) c;
+			  j.close();
+		  }
+	  }
   }
 }

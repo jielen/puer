@@ -722,7 +722,7 @@ public class RemoteDir extends DirComponent implements ListSelectionListener,
         }
         else if(e.getActionCommand().equals("mkdir"))
         {
-            Creator c = new Creator("文件夹名称:", con,JFtp.mainFrame);
+            Creator c = new Creator("文件夹名称:", con,JFtp.statusP.jftp.getPanrentOwner());
 
             //TODO: do we need this on events? UpdateDaemon.updateRemoteDirGUI();
             //fresh();

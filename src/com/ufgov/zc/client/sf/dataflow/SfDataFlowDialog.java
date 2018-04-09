@@ -15,6 +15,7 @@ import com.ufgov.zc.client.common.ParentWindowAware;
 import com.ufgov.zc.client.common.UIConstants;
 import com.ufgov.zc.client.component.GkBaseDialog;
 import com.ufgov.zc.client.component.ui.AbstractEditListBill;
+import com.ufgov.zc.client.sf.jdresult.SfJdRecordEditPanel;
 import com.ufgov.zc.common.sf.model.SfEntrust;
 
 /**
@@ -76,11 +77,19 @@ public class SfDataFlowDialog extends GkBaseDialog {
   public void closeDialog() {
 
 	  //如果打开了检验记录面板，调用他的关闭方法，主要是关闭ftp连接
+	  closeEditPanel();
 	  
     dispose();
 
   }
-  public void refresh(BigDecimal entrustId){
+  private void closeEditPanel() {
+	  JComponent c=editPanel.getTabComponent("SF_JD_RESULT");
+	  if(c!=null && c instanceof SfJdRecordEditPanel){
+		  SfJdRecordEditPanel s=(SfJdRecordEditPanel) c;
+		  s.doExit(false);
+	  }
+}
+public void refresh(BigDecimal entrustId){
     editPanel.refresh(entrustId);
   }
   public void removeTab(JComponent component,String compoId){

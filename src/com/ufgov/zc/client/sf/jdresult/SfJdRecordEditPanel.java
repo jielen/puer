@@ -534,13 +534,36 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 	/**
 	 * 刷新远程文件存储面板
 	 */
-	  private void refreshFileStore() {
+	  public void refreshFileStore() {
 
 		  SfJdResult bill = (SfJdResult) listCursor.getCurrentObject();
+		  if(bill.getFileStore()==null){
+			  bill.setFileStore(getFileStroe());
+			  if(bill.getFileStore()==null)return;
+		  }
+
+			final String ftpHost=AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_FTP_HOST);
+			final String ftpPort=AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_FTP_PORT);
+			final String ftpUser=AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_FTP_USER);
+			final String ftpPasswd=AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_FTP_PASSWORD);
+			final String ftpMaxcollection=AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_FTP_MAX_COLLECTION); 
+			final String path=bill.getFileStore().getPath();
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					jftp.startFtpConnection(ftpHost, Integer.parseInt(ftpPort), ftpUser, ftpPasswd, path, Integer.parseInt(ftpMaxcollection));
+				}
+				
+			});
+	}
+
+	private SfJdResultFileStore getFileStroe() {
+		SfJdResult bill = (SfJdResult) listCursor.getCurrentObject();
+		  SfJdResultFileStore fileStore=null;
 		  //浏览状态
 		  if(ZcSettingConstants.PAGE_STATUS_BROWSE.equals(pageStatus)){
 			  if(bill.getFileStore()==null){
-				  SfJdResultFileStore fileStore=(SfJdResultFileStore) zcEbBaseServiceDelegate.queryObject("com.ufgov.zc.server.sf.dao.SfJdResultFileStoreMapper.selectByResultId", bill.getJdResultId(), requestMeta);
+				  fileStore=(SfJdResultFileStore) zcEbBaseServiceDelegate.queryObject("com.ufgov.zc.server.sf.dao.SfJdResultFileStoreMapper.selectByResultId", bill.getJdResultId(), requestMeta);
 				  if(fileStore==null && bill.getEntrust()!=null && bill.getEntrust().getEntrustId()!=null){//获取可能存在的记录
 					  List<SfJdResultFileStore> lst= zcEbBaseServiceDelegate.queryDataForList("com.ufgov.zc.server.sf.dao.SfJdResultFileStoreMapper.selectByEntrustId", bill.getEntrust().getEntrustId(), requestMeta);
 					  if(lst!=null){
@@ -556,27 +579,26 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 				  }
 				  if(fileStore==null){
 					  fileStore=createFileStore();
-				  }
-				  bill.setFileStore(fileStore);
+				  } 
 			}
-		  }
-
-			final String ftpHost=AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_FTP_HOST);
-			final String ftpPort=AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_FTP_PORT);
-			final String ftpUser=AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_FTP_USER);
-			final String ftpPasswd=AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_FTP_PASSWORD);
-			final String ftpMaxcollection=AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_FTP_MAX_COLLECTION); 
-			final String path=bill.getFileStore().getPath();
-			SwingUtilities.invokeLater(new Runnable() {
-
-				@Override
-				public void run() {
-					jftp.startFtpConnection(ftpHost, Integer.parseInt(ftpPort), ftpUser, ftpPasswd, path, Integer.parseInt(ftpMaxcollection));
-				}
-				
-			});
-			
-			
+		  }else if (ZcSettingConstants.PAGE_STATUS_NEW.equals(pageStatus)) {
+			  if( bill.getEntrust()!=null && bill.getEntrust().getEntrustId()!=null){//获取可能存在的记录
+				  List<SfJdResultFileStore> lst= zcEbBaseServiceDelegate.queryDataForList("com.ufgov.zc.server.sf.dao.SfJdResultFileStoreMapper.selectByEntrustId", bill.getEntrust().getEntrustId(), requestMeta);
+				  if(lst!=null){
+					  for(int i=0;i<lst.size();i++){
+						  SfJdResultFileStore s=lst.get(i);
+						  if(s.getJdResultId()==null){
+							  fileStore=s; 
+							  break;
+						  }
+					  }
+				  }
+			  }
+			  if(fileStore==null){
+				  fileStore=createFileStore();
+			  } 
+		}
+		return fileStore;
 	}
 
 	private SfJdResultFileStore createFileStore() {
@@ -587,7 +609,7 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 			fileStore.setEntrustId(bill.getEntrust().getEntrustId());
 		}
 
-		Date date=requestMeta.getSysDate();
+		Date date=SfUtil.getSysDate();
 		if(bill.getInputDate()!=null){
 			date=bill.getInputDate();
 		}
@@ -2339,7 +2361,7 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 //		  return recordFileTabPan;
 	  }
 
-	  private boolean useFtbStore() {
+	  public boolean useFtbStore() {
 		String y=  AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_FTP_USED);
 		if("Y".equalsIgnoreCase(y)){
 			return true;
@@ -2348,14 +2370,14 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 	}
 
 	private Component getFileStorePanel() {
-		jftp= new JFtp(true);		  
+		jftp= new JFtp(true,parent);		  
 		return jftp;
 	}
 
 	public void doExit(boolean isDelete) {
 	    // TCJLODO Auto-generated method stub
 
-	    if (!isDelete&&isDataChanged()) {
+	   /* if (!isDelete&&isDataChanged()) {
 
 	      int num = JOptionPane.showConfirmDialog(this, "当前页面数据已修改，是否要保存", "保存确认", 0);
 
@@ -2369,16 +2391,21 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 
 	      }
 
-	    }
-	    if(jftp!=null){
-	    	jftp.close();
-	    }
+	    }*/
+	    
+		close();
 	    if (this.parent instanceof SfDataFlowDialog) {
 	      ((SfDataFlowDialog) parent).removeTab(this, compoId);
 	    } else {
 	      this.parent.dispose();
 	    }
 	  }
+	
+	public void close(){
+		if(jftp!=null){
+	    	jftp.close();
+	    }
+	}
 
 	  protected void selectEntrust(SfEntrust entrust) {
 

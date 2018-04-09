@@ -694,7 +694,7 @@ public class LocalDir extends DirComponent implements ListSelectionListener,
         }
         else if(e.getActionCommand().equals("mkdir"))
         {
-            Creator c = new Creator("Create:", con);
+            Creator c = new Creator("Create:", con,JFtp.statusP.jftp.getPanrentOwner());
 
             //fresh();
         }

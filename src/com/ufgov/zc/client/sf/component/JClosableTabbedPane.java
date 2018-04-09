@@ -165,17 +165,17 @@ public class JClosableTabbedPane extends JTabbedPane implements MouseListener {
     Rectangle rect = ((CloseTabIcon) getIconAt(tabNumber)).getBounds();
     if (rect.contains(e.getX(), e.getY()) && closeAble) {
       //the tab is being closed  
-    	if(beforeCloseTab()){
+    	if(beforeCloseTab(tabNumber)){
     		this.removeTabAt(tabNumber);
     	}
-    	afterCloseTab();
+    	afterCloseTab(tabNumber);
     }
   }
 
-  public boolean beforeCloseTab(){
+  public boolean beforeCloseTab(int tabIndex){
 	  return true;
   }
-  public boolean afterCloseTab(){
+  public boolean afterCloseTab(int tabIndex){
 	  return true;
   }
   public void mouseEntered(MouseEvent e) {

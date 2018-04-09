@@ -91,7 +91,7 @@ public class SfJdResultService implements ISfJdResultService {
 	  }else{
 		  List lst=new ArrayList();
 		  lst.add(inData);
-		  zcEbBaseService.updateObjectList("com.ufgov.zc.server.sf.dao.SfJdResultFileStoreMapper.insert", lst);
+		  zcEbBaseService.updateObjectList("com.ufgov.zc.server.sf.dao.SfJdResultFileStoreMapper.updateByPrimaryKey", lst);
 	  }
 	return inData;
 	  
@@ -103,6 +103,9 @@ public class SfJdResultService implements ISfJdResultService {
       ZcSUtil su=new ZcSUtil();
       BigDecimal id = new BigDecimal(su.getNextVal(SfJdResult.SEQ_SF_JD_RESULT_ID));
       inData.setJdResultId(id);
+      if(inData.getFileStore()!=null){
+    	  inData.getFileStore().setJdResultId(id);
+      }
 
       boolean isDraft = false;
       String userId = requestMeta.getSvUserID();
@@ -128,7 +131,15 @@ public class SfJdResultService implements ISfJdResultService {
     } else {
       jdResultMapper.updateByPrimaryKey(inData);
     }
+    
     _saveSubLst(inData,requestMeta);
+    
+    if(inData.getFileStore()!=null){
+    	SfJdResultFileStore s=saveFileStoreFN(inData.getFileStore(), requestMeta);
+    	inData.setFileStore(s);
+    }
+    
+    inData.setDbDigest(inData.digest());
     return inData;
   }
 

@@ -23,6 +23,7 @@ import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
+import java.awt.Window;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DnDConstants;
@@ -151,6 +152,8 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener,
 
 	private JLabel noFtpLabel;
 	private JPanel noFtpPanel = new JPanel();
+	
+	private  Window owner;
 
 	// ***
 	public JFtp() {
@@ -165,8 +168,12 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener,
 	}
 
 	public JFtp(boolean mainUsed) {
+		this(mainUsed,null);
+	}
+	public JFtp(boolean mainUsed,Window owner) {
 		Log.setLogger(this);
 		this.mainUsed = mainUsed;
+		this.owner=owner;
 		init();
 	}
 
@@ -1485,5 +1492,12 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener,
 				}
 			} 			
 		}
+	}
+	
+	public  void setPanrentOwner(Window owner){
+		this.owner=owner;
+	}
+	public  Window getPanrentOwner(){
+		return owner;
 	}
 }

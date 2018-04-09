@@ -73,7 +73,12 @@ public class SfJdResultNodeBusiness implements ISfFlowNodeBusiness {
     String compoId = "SF_JD_RESULT";
     JComponent component = flowPanel.getTabComponent(compoId);
     if (component != null) {
+    	SfJdRecordEditPanel c=(SfJdRecordEditPanel) component;
       flowPanel.setSelectedTab(compoId);
+      //重新加载ftp的连接
+      if(c.useFtbStore()){
+  		c.refreshFileStore();
+      }
     } else {
       List<SfJdResult> billLst = getDataLst(entrust.getEntrustId(), meta);
       if (billLst == null || billLst.size() == 0) {
