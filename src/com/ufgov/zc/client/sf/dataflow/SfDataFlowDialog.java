@@ -86,7 +86,7 @@ public class SfDataFlowDialog extends GkBaseDialog {
 	  JComponent c=editPanel.getTabComponent("SF_JD_RESULT");
 	  if(c!=null && c instanceof SfJdRecordEditPanel){
 		  SfJdRecordEditPanel s=(SfJdRecordEditPanel) c;
-		  s.doExit(false);
+		  s.close();
 	  }
 }
 public void refresh(BigDecimal entrustId){

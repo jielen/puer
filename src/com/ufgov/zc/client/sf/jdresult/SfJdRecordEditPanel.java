@@ -556,6 +556,11 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 				
 			});
 	}
+	  public void reconnectFtp(){
+		  //先处理当前面板，置为连接失败，然后重新连接
+		  jftp.ftpConnectionFailed();
+		  refreshFileStore();
+	  }
 
 	private SfJdResultFileStore getFileStroe() {
 		SfJdResult bill = (SfJdResult) listCursor.getCurrentObject();
@@ -2405,6 +2410,7 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 		if(jftp!=null){
 	    	jftp.close();
 	    }
+		
 	}
 
 	  protected void selectEntrust(SfEntrust entrust) {

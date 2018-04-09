@@ -86,5 +86,6 @@
 	<classpathentry kind="lib" path="lib/xstream-1.3.1.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/wf2"/>
 	<classpathentry kind="lib" path="lib/FTPTransfer.jar"/>
+	<classpathentry kind="lib" path="lib/jftp_lib.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
