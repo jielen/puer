@@ -1,5 +1,5 @@
 
-----------------20170119--------------------
+----------------20180410--------------------
 --1
 
 insert into as_option (OPT_ID, CO_CODE, COMPO_ID, TRANS_TYPE, OPT_VAL, IS_SYST_OPT)

@@ -99,6 +99,12 @@ import com.ufgov.zc.client.jftp.system.logging.Log;
 import com.ufgov.zc.client.jftp.system.logging.Logger;
 import com.ufgov.zc.client.jftp.tools.RSSFeeder;
 
+/**
+ * 使用java自带的sun包里面的ftp api进行ftp处理，目前有点问题，
+ * 出现现传输一半异常的情况，未知原因，改用apache的ftpclient了
+ * @author Administrator
+ *
+ */
 public class JFtp extends JPanel implements WindowListener, ComponentListener,
 		Logger, ChangeListener, InternalFrameListener {
 	public static boolean mainUsed = false;

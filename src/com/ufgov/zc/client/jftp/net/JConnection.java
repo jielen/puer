@@ -134,8 +134,10 @@ public class JConnection implements Runnable
             localPort = s.getLocalPort();
 
             //if(time > 0) s.setSoTimeout(time);
-            out = new PrintStream(new BufferedOutputStream(s.getOutputStream(),
-                                                           Settings.bufferSize));
+            //中文乱码，导致中文文件名无法上传，所以修改成下边的utf-8格式
+//            out = new PrintStream(new BufferedOutputStream(s.getOutputStream(),Settings.bufferSize));
+            out = new PrintStream(new BufferedOutputStream(s.getOutputStream(),Settings.bufferSize),false,"UTF-8");
+            
             in = new BufferedReader(new InputStreamReader(s.getInputStream()),
                                     Settings.bufferSize);
             isOk = true;

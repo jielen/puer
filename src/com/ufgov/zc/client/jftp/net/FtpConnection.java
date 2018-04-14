@@ -1704,13 +1704,15 @@ public class FtpConnection implements BasicConnection, FtpConstants
                     }
 
                     File f = new File(path);
-
-                    if(f.exists() && (f.length() <= Integer.parseInt(size)))
+                    //下面这个有问题，因为文件的长度应该是long型的，遇到大文件会导致问题。  
+//                    if(f.exists() && (f.length() <= Integer.parseInt(size)))
+                    if(f.exists() && (f.length() <= new Long(size).longValue()))
                     {
                         Log.out("skipping resuming, file is <= filelength");
                         resume = false;
                     }
-                    else if(f.exists() && Integer.parseInt(size) > 0)
+//                    else if(f.exists() && Integer.parseInt(size) > 0)
+                    else if(f.exists() && new Long(size).longValue() > 0)
                     {
                     	if(!Settings.noUploadResumingQuestion) {
                     		if(JOptionPane.showConfirmDialog(new JLabel(), "A file smaller than the one to be uploaded already exists on the server,\n do you want to resume the upload?", "Resume upload?", JOptionPane.YES_NO_OPTION)
@@ -2293,6 +2295,72 @@ public class FtpConnection implements BasicConnection, FtpConstants
         return getActivePort();
     }
 
+
+    /**
+    * List remote directory.
+    * Note that you have to get the output using the
+    * sort*-methods.
+    *
+    * @param outfile The file to save the output to, usually Settings.ls_out
+    */
+    private void _list_back() throws IOException
+    {
+        String oldType = ""; 
+
+        try
+        {
+            //BufferedReader in = jcon.getReader();
+
+            int p = 0;
+
+            modeStream();
+
+            oldType = getTypeNow();
+            ascii();
+
+            p = negotiatePort();
+            dcon = new DataConnection(this, p, host, null, DataConnection.GET, false, true); //,null);
+
+            while(dcon.getInputStream() == null)
+            {
+            	//System.out.print("#");
+                pause(10);
+            }
+            BufferedReader input = new BufferedReader(new InputStreamReader(dcon.getInputStream()));
+            
+            jcon.send(LIST);
+           
+            String line;
+            currentListing.removeAllElements();
+            
+            while((line = input.readLine()) != null) {
+            	System.out.println("-> "+line);
+            	if(!line.trim().equals("")) { 
+            		currentListing.add(line);
+            	}
+            }
+            
+            getLine(POSITIVE); //FTP226_CLOSING_DATA_REQUEST_SUCCESSFUL);
+            input.close();
+
+            if(!oldType.equals(ASCII))
+            {
+                type(oldType);
+            }
+        }
+        catch(Exception ex)
+        {
+            Log.debug("Cannot list remote directory!");
+
+            if(!oldType.equals(ASCII))
+            {
+                type(oldType);
+            }
+
+            ex.printStackTrace();
+            throw new IOException(ex.getMessage());
+        }
+    }
     /**
     * List remote directory.
     * Note that you have to get the output using the
@@ -2323,7 +2391,7 @@ public class FtpConnection implements BasicConnection, FtpConstants
             	//System.out.print("#");
                 pause(10);
             }
-            BufferedReader input = new BufferedReader(new InputStreamReader(dcon.getInputStream()));
+            BufferedReader input = new BufferedReader(new InputStreamReader(dcon.getInputStream(),"UTF-8"));
             
             jcon.send(LIST);
            
