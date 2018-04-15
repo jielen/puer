@@ -444,7 +444,7 @@ public class WorkEnv {
     workEvn.orgPoCode = "003007";
     workEvn.token = "" + System.currentTimeMillis();
 
-    workEvn.setTransDate("2018-10-22");
+    workEvn.setTransDate("2015-10-22");
     workEvn.setEmpCode("EM-00000286");
     workEvn.setEmpName("冯希杰");
     workEvn.setSysDate(new java.util.Date());
@@ -603,7 +603,7 @@ public class WorkEnv {
 
         Map parameter = new HashMap();
         parameter.put("EMP_CODE", asEmp.getEmpCode());
-        parameter.put("ND", "2018");
+        parameter.put("ND", "2015");
         List list = baseDataServiceDelegate.queryDataForList("User.getAsEmpPosiByEmpCode", parameter, requestMeta);
 
         if (list == null || list.size() == 0) {
@@ -617,7 +617,7 @@ public class WorkEnv {
           paramete3.put("CO_CODE", po.getCoCode());
           paramete3.put("ORG_CODE", po.getOrgCode());
           paramete3.put("POSI_CODE", po.getPosiCode());
-          paramete3.put("ND", "2018");
+          paramete3.put("ND", "2015");
 
           List orglist = baseDataServiceDelegate.queryDataForList("WfCommonDraft.getOrgPosiId", paramete3, requestMeta);
           if (orglist == null || orglist.size() == 0) {
@@ -635,7 +635,7 @@ public class WorkEnv {
           workEvn.poCode = po.getPosiCode();
           workEvn.orgPoCode = org_posi_id;
           workEvn.setToken("" + System.currentTimeMillis());
-          workEvn.setTransDate("2018-06-01");
+          workEvn.setTransDate("2015-06-01");
           workEvn.setEmpCode(po.getEmpCode());
           workEvn.setEmpName(user.getUserName());
           workEvn.setWebRoot("http://127.0.0.1:7001/GB/");
