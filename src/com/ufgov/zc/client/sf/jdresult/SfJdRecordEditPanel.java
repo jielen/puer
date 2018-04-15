@@ -13,13 +13,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -40,13 +37,14 @@ import javax.swing.JPopupMenu;
 import javax.swing.JProgressBar;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
-import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
 
 import org.apache.log4j.Logger;
+ 
+
+
 
 import com.ufgov.smartclient.common.UIUtilities;
-import com.ufgov.zc.client.common.AsOptionMeta;
 import com.ufgov.zc.client.common.BillElementMeta;
 import com.ufgov.zc.client.common.LangTransMeta;
 import com.ufgov.zc.client.common.ListCursor;
@@ -87,10 +85,6 @@ import com.ufgov.zc.client.component.zc.fieldeditor.ForeignEntityFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.IntFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.TextAreaFieldEditor;
 import com.ufgov.zc.client.component.zc.fieldeditor.TextFieldEditor;
-import com.ufgov.zc.client.ftp.apache.FTPClientPanel;
-import com.ufgov.zc.client.ftp.apache.panel.ftp.FtpPanel;
-import com.ufgov.zc.client.ftp.apache.utils.FtpConfig;
-import com.ufgov.zc.client.jftp.JFtp;
 import com.ufgov.zc.client.sf.component.JClosableTabbedPane;
 import com.ufgov.zc.client.sf.dataflow.SfClientUtil;
 import com.ufgov.zc.client.sf.dataflow.SfDataFlowDialog;
@@ -108,12 +102,12 @@ import com.ufgov.zc.client.zc.ztb.activex.ExcelPane;
 import com.ufgov.zc.client.zc.ztb.activex.WordPane;
 import com.ufgov.zc.common.sf.model.SfBookmark;
 import com.ufgov.zc.common.sf.model.SfEntrust;
+import com.ufgov.zc.common.sf.model.SfJdDocAudit;
 import com.ufgov.zc.common.sf.model.SfJdPerson;
 import com.ufgov.zc.common.sf.model.SfJdRecordFileModel;
 import com.ufgov.zc.common.sf.model.SfJdReport;
 import com.ufgov.zc.common.sf.model.SfJdResult;
 import com.ufgov.zc.common.sf.model.SfJdResultFile;
-import com.ufgov.zc.common.sf.model.SfJdResultFileStore;
 import com.ufgov.zc.common.sf.model.SfJdTarget;
 import com.ufgov.zc.common.sf.model.SfJdjg;
 import com.ufgov.zc.common.sf.publish.ISfEntrustServiceDelegate;
@@ -122,6 +116,7 @@ import com.ufgov.zc.common.system.RequestMeta;
 import com.ufgov.zc.common.system.constants.SfElementConstants;
 import com.ufgov.zc.common.system.constants.ZcSettingConstants;
 import com.ufgov.zc.common.system.dto.ElementConditionDto;
+import com.ufgov.zc.common.system.model.User;
 import com.ufgov.zc.common.system.util.DigestUtil;
 import com.ufgov.zc.common.system.util.ObjectUtil;
 import com.ufgov.zc.common.system.util.Utils;
@@ -226,7 +221,6 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 	  
 	  private JFuncToolBar subPackTableToolbar;
 	  
-	  private FTPClientPanel ftpPanel;
 	  protected JClosableTabbedPane recordFileTabPan = new JClosableTabbedPane(JTabbedPane.BOTTOM){
 		  /**
 		 * 
@@ -309,7 +303,6 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 //	    addSubPane();
 
 	    refreshMainData();
-	    
 	  }
 
 	  protected boolean afterClsTab() {
@@ -520,120 +513,10 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 
 	    refreshSubTableData();
 	    
-	    refreshFileStore();
-	    
 	    updateBtnFields();
 	  }
 
-	/**
-	 * 刷新远程文件存储面板
-	 */
-	   public void refreshFileStore() {
-
-		  SfJdResult bill = (SfJdResult) listCursor.getCurrentObject();
-		  if(bill.getFileStore()==null){
-			  bill.setFileStore(getFileStroe());
-			  if(bill.getFileStore()==null)return;
-		  }
-
-			final String ftpHost=AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_FTP_HOST);
-			final String ftpPort=AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_FTP_PORT);
-			final String ftpUser=AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_FTP_USER);
-			final String ftpPasswd=AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_FTP_PASSWORD); 
-			final String path=bill.getFileStore().getPath(); 
-			
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					FtpConfig f=new FtpConfig(ftpHost, Integer.parseInt(ftpPort), ftpUser, ftpPasswd, path);
-					ftpPanel.connectToFtp(f);
-				}
-				
-			});
-	} 
-	 /* public void reconnectFtp(){
-		  //先处理当前面板，置为连接失败，然后重新连接
-		  ftpPanel.ftpConnectionFailed();
-		  refreshFileStore();
-	  }*/
-
-	private SfJdResultFileStore getFileStroe() {
-		SfJdResult bill = (SfJdResult) listCursor.getCurrentObject();
-		  SfJdResultFileStore fileStore=null;
-		  //浏览状态
-		  if(ZcSettingConstants.PAGE_STATUS_BROWSE.equals(pageStatus)){
-			  if(bill.getFileStore()==null){
-				  fileStore=(SfJdResultFileStore) zcEbBaseServiceDelegate.queryObject("com.ufgov.zc.server.sf.dao.SfJdResultFileStoreMapper.selectByResultId", bill.getJdResultId(), requestMeta);
-				  if(fileStore==null && bill.getEntrust()!=null && bill.getEntrust().getEntrustId()!=null){//获取可能存在的记录
-					  List<SfJdResultFileStore> lst= zcEbBaseServiceDelegate.queryDataForList("com.ufgov.zc.server.sf.dao.SfJdResultFileStoreMapper.selectByEntrustId", bill.getEntrust().getEntrustId(), requestMeta);
-					  if(lst!=null){
-						  for(int i=0;i<lst.size();i++){
-							  SfJdResultFileStore s=lst.get(i);
-							  if(s.getJdResultId()==null){
-								  fileStore=s;
-								  fileStore.setJdResultId(bill.getJdResultId());
-								  break;
-							  }
-						  }
-					  }
-				  }
-				  if(fileStore==null){
-					  fileStore=createFileStore();
-				  } 
-			}
-		  }else if (ZcSettingConstants.PAGE_STATUS_NEW.equals(pageStatus)) {
-			  if( bill.getEntrust()!=null && bill.getEntrust().getEntrustId()!=null){//获取可能存在的记录
-				  List<SfJdResultFileStore> lst= zcEbBaseServiceDelegate.queryDataForList("com.ufgov.zc.server.sf.dao.SfJdResultFileStoreMapper.selectByEntrustId", bill.getEntrust().getEntrustId(), requestMeta);
-				  if(lst!=null){
-					  for(int i=0;i<lst.size();i++){
-						  SfJdResultFileStore s=lst.get(i);
-						  if(s.getJdResultId()==null){
-							  fileStore=s; 
-							  break;
-						  }
-					  }
-				  }
-			  }
-			  if(fileStore==null){
-				  fileStore=createFileStore();
-			  } 
-		}
-		return fileStore;
-	}
-
-	private SfJdResultFileStore createFileStore() {
-		SfJdResultFileStore fileStore=new SfJdResultFileStore();
-		SfJdResult bill = (SfJdResult) listCursor.getCurrentObject();
-		fileStore.setJdResultId(bill.getJdResultId());
-		if(bill.getEntrust()!=null && bill.getEntrust().getEntrustId()!=null){
-			fileStore.setEntrustId(bill.getEntrust().getEntrustId());
-		}
-
-		Date date=SfUtil.getSysDate();
-		if(bill.getInputDate()!=null){
-			date=bill.getInputDate();
-		}
-		String dir=AsOptionMeta.getOptVal("OPT_SF_FTP_DIR_RECORD");
-		Calendar c=Calendar.getInstance();
-		c.setTime(date);
-		dir=dir+"/"+c.get(Calendar.YEAR);
-		dir=dir+"/"+(c.get(Calendar.MONTH)+1);
-		
-		if(!dir.startsWith("/")){
-			dir="/"+dir;
-		}
-		if(!dir.endsWith("/")){
-			dir=dir+"/";
-		}
-		fileStore.setPath(dir);
-		fileStore.setStoreType("ftp");
-		
-		fileStore=sfJdResultServiceDelegate.saveFileStoreFN(fileStore, requestMeta);
-		
-		return fileStore;
-	}
-
-	private void refreshData() {
+	  private void refreshData() {
 
 	    refreshMainData();
 
@@ -829,18 +712,7 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 	    setButtonStatus(bill, requestMeta, this.listCursor);
 	    //文书审批单终审后，锁定修改等操作,审批单没有终审时，不能打印
 	    SfUtil su=new SfUtil();
-	    su.lockBillWithDocAudit(toolBar.getComponents(),bill.getEntrust());  
-	    if(ftpPanel!=null){
-	    	if(ZcSettingConstants.PAGE_STATUS_BROWSE.equals(pageStatus)){
-	    		if(SfUtil.canNew(compoId, requestMeta)){
-	    			ftpPanel.enableUserFtpOper(true);
-	    		}else{
-	    			ftpPanel.enableUserFtpOper(false);
-	    		}
-	    	}else{
-	    		ftpPanel.enableUserFtpOper(true);
-	    	}
-	    }
+	    su.lockBillWithDocAudit(toolBar.getComponents(),bill.getEntrust()); 
 	  }
 
 	 
@@ -1413,7 +1285,6 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 		          currentBill.setJdr(entrust.getJdFzr());
 		          currentBill.setBrief(entrust.getBrief());
 		          currentBill.setEntrust(entrust);
-		          currentBill.setFileStore(createFileStore());
 		          setEditingObject(currentBill); 
 		          break;
 		        }
@@ -1542,9 +1413,6 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 	    p.add(createSubBillPanel(), BorderLayout.CENTER);
       mainTab.add("基本信息", p);
       mainTab.add("检验记录", recordFileTabPan);
-      if(useFtbStore()){
-    	  mainTab.add("相关检验过程文档",_initFileStorePanel());
-      }
 	    workPanel.add(mainTab, BorderLayout.CENTER);
 	    this.add(workPanel, BorderLayout.CENTER);
 	    
@@ -1563,9 +1431,6 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 	    initMenu();
 	    //初始化提示框
 	    intProgressDialog();
-	    
-	    //增加窗体事件监听
-	    addWindowListener();
 	  }
 	 
 
@@ -2353,35 +2218,16 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 		    });
 
 		    attacheFileTab.setMinimumSize(new Dimension(240, 300));
-		    if(useFtbStore()){
-//			    attacheFileTab.add("相关检验过程文档",getFileStorePanel());
-			    attacheFileTab.add("相关检验过程文档(旧版)", attacheFileTable);
-		    }else{
-		    	attacheFileTab.add("相关检验过程文档", attacheFileTable);
-		    }
+		    attacheFileTab.add("相关检验过程文档", attacheFileTable);
 		    
 		    return attacheFileTab; 
 //		  return recordFileTabPan;
 	  }
 
-	  public boolean useFtbStore() {
-		String y=  AsOptionMeta.getOptVal(SfElementConstants.OPT_SF_FTP_USED);
-		if("Y".equalsIgnoreCase(y)){
-			return true;
-		}
-		return false;
-	}
-
-	private Component _initFileStorePanel() {
-
-		ftpPanel= new FTPClientPanel();		  
-		return ftpPanel;
-	}
-
-	public void doExit(boolean isDelete) {
+	  public void doExit(boolean isDelete) {
 	    // TCJLODO Auto-generated method stub
 
-	   /* if (!isDelete&&isDataChanged()) {
+	    if (!isDelete&&isDataChanged()) {
 
 	      int num = JOptionPane.showConfirmDialog(this, "当前页面数据已修改，是否要保存", "保存确认", 0);
 
@@ -2395,30 +2241,13 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 
 	      }
 
-	    }*/
-	    
-		close();
+	    }
 	    if (this.parent instanceof SfDataFlowDialog) {
 	      ((SfDataFlowDialog) parent).removeTab(this, compoId);
 	    } else {
 	      this.parent.dispose();
 	    }
 	  }
-	
-	public void close(){
-//		if(ftpPanel!=null){
-//	    	ftpPanel.close();
-//	    }
-		if(recordFileTabPan.getTabCount()>0){
-			for(int i=0;i<recordFileTabPan.getTabCount();i++){
-				Component cc= recordFileTabPan.getComponent(i);
-				if(cc instanceof WordPane){
-					closeWordPanel((WordPane) cc, false);
-				}
-			}
-		}
-		
-	}
 
 	  protected void selectEntrust(SfEntrust entrust) {
 
@@ -2444,7 +2273,6 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
 	        defaultWordPane.close(false);
 	      }
 	      defaultWordPane.open(this.fileName);*/
-	      bill.setFileStore(createFileStore());
 	    }
 	  }
 
@@ -2767,24 +2595,5 @@ public class SfJdRecordEditPanel  extends AbstractMainSubEditPanel {
     			return rf;
     		}
 			
-		}
-		void addWindowListener(){
-			if(parent==null)return;
-			parent.addWindowListener(new java.awt.event.WindowAdapter() {
-				public void windowOpened(java.awt.event.WindowEvent evt) {
-					ftpPanel.formWindowOpened(evt);
-				}
-
-				public void windowIconified(final WindowEvent e) {
-					ftpPanel.setVisible(false);
-				} 
-		    
-			});
-			parent.addComponentListener(new java.awt.event.ComponentAdapter() {
-				public void componentResized(
-						java.awt.event.ComponentEvent evt) {
-					ftpPanel.formComponentResized(evt);
-				}
-			});
 		}
 	}
